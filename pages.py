@@ -33,26 +33,17 @@ class AuthPage(Page):
         return AuthForm(self.driver)
 
     @property
-    def top_menu(self):
-        return TopMenuBefore(self.driver)
-
-
-class TopMenuBefore(Component):
-    ENTER_BUTTON = '//*[@id="PH_authLink"]'
-
-    def open_form(self):
-        self.driver.find_element_by_xpath(self.ENTER_BUTTON).click()
+    def enter(self):
+        return EnterButton(self.driver)
 
 
 class AuthForm(Component):
     LOGIN = '//*[@id="ph_login"]'
     PASSWORD = '//*[@id="ph_password"]'
-    SUBMIT = '//input[@class="x-ph__button__input"]'
 
-    def load_form(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.LOGIN))
-        )
+    @property
+    def submit(self):
+        return SubmitLoginButton(self.driver)
 
     def set_login(self, login):
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
@@ -60,44 +51,37 @@ class AuthForm(Component):
     def set_password(self, pwd):
         self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
 
-    def submit(self):
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
-
 
 class HomePage(Page):
     PATH = ''
-
-    @property
-    def top_menu(self):
-        return TopMenuAfter(self.driver)
 
     @property
     def form(self):
         return UploadForm(self.driver)
 
     @property
-    def toolbar_group(self):
+    def user_name(self):
         return ToolbarGroup(self.driver)
 
     @property
-    def upload_button(self):
+    def upload(self):
         return UploadButton(self.driver)
 
-# при регистрации и в облаке TopMenu это один и тот жк компонент?
+    @property
+    def toolbar_buttons(self):
+        return ToolbarGroup(self.driver)
+
 # в какой момент разлогиниваться?
 
 
-class TopMenuAfter(Component):
+class UserName(Component):
     USERNAME = '//*[@id="PH_user-email"]'
     EXIT_BUTTON = '//*[@id="PH_logoutLink"]'
 
-    def get_username(self):
+    def get(self):
         return WebDriverWait(self.driver, 10).until(
             lambda d: d.find_element_by_xpath(self.USERNAME).text
         )
-
-    def logout(self):
-        self.driver.find_element_by_xpath(self.EXIT_BUTTON).click()
 
 
 class ToolbarGroup(Component):
@@ -142,63 +126,28 @@ class ToolbarGroup(Component):
 
 
 class UploadForm(Component):
-    FORM = '//div[@class="b-layer__container"]'
-    # Close
-    CLOSE = "//div[@class='b-layer__placeholder']/button[@data-name='close']"
-    CLOSE_CSS = '.ico.ico_layer_close.ico_layer'
-    LAYER = '//div[@class="b-layer__wrapper3"]'
-    ## Upload
-    #  Select
-    FILE_INPUT = '//input[@class="layer_upload__controls__input"]'
-    DIR_NAME = os.path.dirname(__file__) + "/files_for_upload"
-    FILE_NAME = "/test.png"
-    FILE_IN_CLOUD = '//*[@data-id="' + FILE_NAME + '"]'
-    # Drag and drop
-    DROP_ZONE = '//input[@class="drop-zone__input"]'
-    FILE_NAME_D = "/test2.png"
-    FILE_IN_CLOUD_D = '//*[@data-id="' + FILE_NAME_D + '"]'
-    
-    def load_form(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.FORM))
-        )
+    @property
+    def close(self):
+        return CloseUploadFormButton(self.driver)
 
-    def load_close(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.CLOSE))
-        )
 
-    def load_layer(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.LAYER))
-        )
-
-    def close_by_layer(self):
-        self.driver.find_element_by_xpath(self.LAYER).click()
-
-    def close_by_x(self):
-        self.driver.find_element_by_xpath(self.CLOSE).click()
-
+    @property
     def input_file(self):
-        self.driver.find_element_by_xpath(self.FILE_INPUT).send_keys(self.DIR_NAME + self.FILE_NAME)
+        return FileInput(self.driver)
 
-    def check_upload(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.FILE_IN_CLOUD))
-        )
-
-    def drop_zone(self):
-        self.driver.find_element_by_xpath(self.DROP_ZONE).send_keys(self.DIR_NAME + self.FILE_NAME_D)
-
-    def check_drop(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.FILE_IN_CLOUD_D))
-        )
+    @property
+    def drag_and_drop(self):
+        return DragAndDrop(self.driver)
 
 
 class Button(Component):
     BUTTON = ''
     CHECK_ELEMENT = ''
+
+    def go(self):
+        self.is_clickable()
+        self.do_click()
+        self.check_click()
 
     def is_clickable(self):
         return WebDriverWait(self.driver, 10).until(
@@ -214,6 +163,58 @@ class Button(Component):
         )
 
 
+class Input(Component):
+    INPUT = ''
+    FILE = ''
+    CHECK_UPLOAD = ''
+    DIR_NAME = os.path.dirname(__file__) + "/files_for_upload"
+
+    def go(self):
+        # self.is_visibility()
+        self.send_file()
+        self.check_upload()
+
+    def is_visibility(self):
+        return WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.INPUT))
+        )
+
+    def send_file(self):
+        self.driver.find_element_by_xpath(self.INPUT).send_keys(self.DIR_NAME + self.FILE)
+
+    def check_upload(self):
+        return WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, self.CHECK_UPLOAD))
+        )
+
+
+class EnterButton(Button):
+    BUTTON = '//*[@id="PH_authLink"]'
+    CHECK_ELEMENT = '//*[@id="ph_login"]'
+
+
+class SubmitLoginButton(Button):
+    BUTTON = '//span[@data-action="login"]'
+    CHECK_ELEMENT = '//span[@data-name="home"]'
+
+
 class UploadButton(Button):
     BUTTON = '//*[@data-name="upload"]/span'
     CHECK_ELEMENT = '//div[@class="b-layer__container"]'
+
+
+class CloseUploadFormButton(Button):
+    BUTTON = "//div[@class='b-layer__placeholder']/button[@data-name='close']"
+    CHECK_ELEMENT = '//span[@data-name="home"]'
+
+
+class DragAndDrop(Input):
+    INPUT = '//input[@class="drop-zone__input"]'
+    FILE = "/test2.png"
+    CHECK_UPLOAD = '//*[@data-id="' + FILE + '"]'
+
+
+class FileInput(Input):
+    INPUT = '//input[@class="layer_upload__controls__input"]'
+    FILE = "/test.png"
+    CHECK_UPLOAD = '//*[@data-id="' + FILE + '"]'
