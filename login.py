@@ -42,6 +42,11 @@ class BaseTestCase(TestCase):
         btn.do_click(self)
         btn.check_click(self)
 
+    def delete_file(self, filename):
+        self.home_page.select_file(filename)
+        self.home_page.toolbar_buttons.delete.go()
+        self.home_page.toolbar_buttons.delete_window.delete_submit.go()
+
     def init(self):
         self.home_page.upload.go()
         self.upload_form = self.home_page.form
@@ -69,10 +74,6 @@ class UploadTest(BaseTestCase):
     file1 = "test.png"
     file2 = "test2.png"
 
-    def delete_file(self, filename):
-        self.home_page.select_file(filename)
-        self.home_page.toolbar_buttons.delete.go()
-        self.home_page.toolbar_buttons.delete_window.delete_submit.go()
 
     def test_for_select(self):
         file = self.file1
@@ -87,20 +88,46 @@ class UploadTest(BaseTestCase):
         self.delete_file(file)
 
 
-# class DeleteTest(BaseTestCase): #TODO проверить есть ли что удалять
-#     def test_delete_all(self):
-#         # Подготовка
-#         buttons = self.home_page.toolbar_buttons
-#
-#         if not buttons.cloud_is_empty():
-#         # self.assertFalse(buttons.cloud_is_empty())
-#             buttons.checkbox.go()
-#             self.assertTrue(buttons.cloud_is_empty())
-#         # toolbar_group.load_page()
-#         # # Действия теста
-#         # toolbar_group.select_all()
-#         # toolbar_group.start_remove_dialog()
-#         # toolbar_group.load_dialog()
-#         # toolbar_group.remove()
-#         # # Проверка
-#         # self.assertTrue(toolbar_group.check_delete(), "Delete Fail")
+class UploadAnyFormats(BaseTestCase):
+    file_docx = "docx.docx"
+    file_pdf = "pdf.pdf"
+    file_jpg = "jpeg.jpg"
+    file_exe = "exe.exe"
+    folder = "folder"
+    file_without = "without"
+
+    def test_docx(self):
+        file = self.file_docx
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_pdf(self):
+        file = self.file_pdf
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_jpg(self):
+        file = self.file_jpg
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_exe(self):
+        file = self.file_exe
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_without_format(self):
+        file = self.file_without
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def folder(self):
+        file = self.folder
+        self.init()
+        self.upload_form.drag_and_drop.go(file)
+        self.delete_file(file)
