@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# from page_objects import *
 from pages import *
 import os
 import unittest
@@ -206,7 +205,7 @@ class UploadAnyNamesLatin(BaseTestCase):
 class UploadAnySizes(BaseTestCase):
     file_0b = '0bytes.txt'
     file_1Mb = '1Mb.jpg'
-    file_2010Mb = ''
+    file_2030Mb = 'over_2Gb.zip'
 
     def test_small(self):
         file = self.file_0b
@@ -220,8 +219,8 @@ class UploadAnySizes(BaseTestCase):
         self.upload_form.input_file.go(file)
         self.delete_file(file)
 
-    # def test_extra_large(self):
-    #     file = self.file_2010Mb
-    #     self.init()
-    #     self.upload_form.input_file.go(file)
-    #     self.delete_file(file)
+    def test_extra_large(self):
+        file = self.file_2030Mb
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)

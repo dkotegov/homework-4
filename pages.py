@@ -175,7 +175,7 @@ class Input(Component):
 
     def check_upload(self, filename):
         CHECK_UPLOAD = '//*[@data-id="/' + filename + '"]'
-        return WebDriverWait(self.driver, 10).until(
+        return WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.XPATH, CHECK_UPLOAD))
         )
 
