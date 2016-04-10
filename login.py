@@ -23,6 +23,7 @@ class BaseTestCase(TestCase):
     def setUp(self):
         self.defaultSetUp()
         self.login()
+        self.home_page = HomePage(self.driver)
 
     def login(self):
         USEREMAIL = 'selenium.panichkina'
@@ -42,9 +43,8 @@ class BaseTestCase(TestCase):
         btn.check_click(self)
 
     def init(self):
-        home_page = HomePage(self.driver)
-        home_page.upload.go()
-        self.upload_form = home_page.form
+        self.home_page.upload.go()
+        self.upload_form = self.home_page.form
 
 
 class AuthTest(BaseTestCase):
@@ -53,9 +53,7 @@ class AuthTest(BaseTestCase):
     USERNAME = USEREMAIL + USERDOMAIN
 
     def test(self):
-        # Проверка
-        home_page = HomePage(self.driver)
-        user_name = home_page.user_name.get()
+        user_name = self.home_page.user_name.get()
         self.assertEqual(self.USERNAME, user_name)
 
 
@@ -68,44 +66,41 @@ class CloseTest(BaseTestCase):
 
 
 class UploadTest(BaseTestCase):
+    file1 = "test.png"
+    file2 = "test2.png"
+
+    def delete_file(self, filename):
+        self.home_page.select_file(filename)
+        self.home_page.toolbar_buttons.delete.go()
+        self.home_page.toolbar_buttons.delete_window.delete_submit.go()
 
     def test_for_select(self):
+        file = self.file1
         self.init()
-        # Действия теста
-        self.upload_form.input_file.go()
-        # Проверка
-
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
 
     def test_for_drop(self):
+        file = self.file2
         self.init()
-        # Действия теста
-        self.upload_form.drag_and_drop.go()
-        # Проверка
+        self.upload_form.drag_and_drop.go(file)
+        self.delete_file(file)
 
 
-
-# class DeleteTest(unittest.TestCase): #TODO проверить есть ли что удалять
-#     def setUp(self):
-#         browser = os.environ.get('HW4BROWSER', 'CHROME')
-#
-#         self.driver = Remote(
-#             command_executor='http://127.0.0.1:4444/wd/hub',
-#             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-#         )
-#         login(self)
-#
-#     def tearDown(self):
-#         self.driver.quit()
-#
+# class DeleteTest(BaseTestCase): #TODO проверить есть ли что удалять
 #     def test_delete_all(self):
 #         # Подготовка
-#         home_page = HomePage(self.driver)
-#         toolbar_group = home_page.toolbar_group
-#         toolbar_group.load_page()
-#         # Действия теста
-#         toolbar_group.select_all()
-#         toolbar_group.start_remove_dialog()
-#         toolbar_group.load_dialog()
-#         toolbar_group.remove()
-#         # Проверка
-#         self.assertTrue(toolbar_group.check_delete(), "Delete Fail")
+#         buttons = self.home_page.toolbar_buttons
+#
+#         if not buttons.cloud_is_empty():
+#         # self.assertFalse(buttons.cloud_is_empty())
+#             buttons.checkbox.go()
+#             self.assertTrue(buttons.cloud_is_empty())
+#         # toolbar_group.load_page()
+#         # # Действия теста
+#         # toolbar_group.select_all()
+#         # toolbar_group.start_remove_dialog()
+#         # toolbar_group.load_dialog()
+#         # toolbar_group.remove()
+#         # # Проверка
+#         # self.assertTrue(toolbar_group.check_delete(), "Delete Fail")

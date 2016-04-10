@@ -71,6 +71,10 @@ class HomePage(Page):
     def toolbar_buttons(self):
         return ToolbarGroup(self.driver)
 
+    def select_file(self, file_name):
+        CHECKBOX = "//div[@data-id='/" + file_name + "']/div[@class='b-checkbox__checkmark']"
+        self.driver.find_element_by_xpath(CHECKBOX).click()
+
 # в какой момент разлогиниваться?
 
 
@@ -84,45 +88,34 @@ class UserName(Component):
         )
 
 
-class ToolbarGroup(Component):
-    UPLOAD_BUTTON = "(//div[@data-name='upload']])[1]"
-    UPLOAD_BUTTON1 = "(//div[@class='b-toolbar__btn'])[0]"
-    UPLOAD_BUTTON_CSS = 'i.ico_toolbar_upload'
-     # Delete all
-    SELECT_CHECKBOX = '//div[@data-name="toggleBtn"]'
+class DeleteSubmitDialog(Component):
+    @property
+    def delete_submit(self):
+        return DeleteSubmitButton(self.driver)
 
-    REMOVE_DIALOG_BUTTON = '//div[@data-name="remove"]'
-    DIALOG_WINDOW = '//div[@class="b-layer__container"]'
-    REMOVE_BUTTON = '//button[@data-name="remove"]'
+
+class ToolbarGroup(Component):
+    @property
+    def checkbox(self):
+        return SelectAllCheckbox(self.driver)
+
+    @property
+    def delete(self):
+        return DeleteButton(self.driver)
+
+    @property
+    def delete_window(self):
+        return DeleteSubmitDialog(self.driver)
+
+    LABEL_FOR_EMPTY = '//div[@class="b-datalist__empty__block"]'
+
+    def cloud_is_empty(self):
+        return EC.presence_of_element_located(self.LABEL_FOR_EMPTY)
+
+    # def select_file(self, file_name):
+    #     self.driver.find_element_by_xpath(file_name).click()
 
     HOME_BUTTON = '//span[@data-name="home"]'
-
-    def load_page(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, self.UPLOAD_BUTTON_CSS))
-        )
-
-    def open_form(self):
-        self.driver.find_element_by_css_selector(self.UPLOAD_BUTTON_CSS).click()
-
-    def select_all(self):
-        self.driver.find_element_by_xpath(self.SELECT_CHECKBOX).click()
-
-    def start_remove_dialog(self):
-        self.driver.find_element_by_xpath(self.REMOVE_DIALOG_BUTTON).click()
-
-    def load_dialog(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.DIALOG_WINDOW))
-        )
-
-    def remove(self):
-        self.driver.find_element_by_xpath(self.REMOVE_BUTTON).click()
-
-    def check_delete(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.HOME_BUTTON))
-        )
 
 
 class UploadForm(Component):
@@ -165,26 +158,25 @@ class Button(Component):
 
 class Input(Component):
     INPUT = ''
-    FILE = ''
-    CHECK_UPLOAD = ''
-    DIR_NAME = os.path.dirname(__file__) + "/files_for_upload"
+    DIR_NAME = os.path.dirname(__file__) + "/files_for_upload/"
 
-    def go(self):
+    def go(self, file_name):
         # self.is_visibility()
-        self.send_file()
-        self.check_upload()
+        self.send_file(file_name)
+        self.check_upload(file_name)
 
     def is_visibility(self):
         return WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.INPUT))
         )
 
-    def send_file(self):
-        self.driver.find_element_by_xpath(self.INPUT).send_keys(self.DIR_NAME + self.FILE)
+    def send_file(self, filename):
+        self.driver.find_element_by_xpath(self.INPUT).send_keys(self.DIR_NAME + filename)
 
-    def check_upload(self):
+    def check_upload(self, filename):
+        CHECK_UPLOAD = '//*[@data-id="/' + filename + '"]'
         return WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, self.CHECK_UPLOAD))
+            EC.visibility_of_element_located((By.XPATH, CHECK_UPLOAD))
         )
 
 
@@ -210,11 +202,22 @@ class CloseUploadFormButton(Button):
 
 class DragAndDrop(Input):
     INPUT = '//input[@class="drop-zone__input"]'
-    FILE = "/test2.png"
-    CHECK_UPLOAD = '//*[@data-id="' + FILE + '"]'
 
 
 class FileInput(Input):
     INPUT = '//input[@class="layer_upload__controls__input"]'
-    FILE = "/test.png"
-    CHECK_UPLOAD = '//*[@data-id="' + FILE + '"]'
+
+
+class SelectAllCheckbox(Button):
+    BUTTON = '//div[@data-name="toggleBtn"]'
+    CHECK_ELEMENT = '//div[@data-name="remove"]'
+
+
+class DeleteButton(Button):
+    BUTTON = '//div[@data-name="remove"]'
+    CHECK_ELEMENT = '//div[@class="b-layer__container"]'
+
+
+class DeleteSubmitButton(Button):
+    BUTTON = '//button[@data-name="remove"]'
+    CHECK_ELEMENT = '//span[@data-name="home"]'
