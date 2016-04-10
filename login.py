@@ -131,3 +131,97 @@ class UploadAnyFormats(BaseTestCase):
         self.init()
         self.upload_form.drag_and_drop.go(file)
         self.delete_file(file)
+
+
+class UploadAnyNamesCyrillic(BaseTestCase):
+    file_10simbols = 'ДЕСЯТЬЫЫЫЫ'
+    file_100simbols = 'СТОкрпрпаапрорвкрнкыеоыенонпротпртыеркеыркерапиапипаперурфкрукекуЕУКФЕПЫКПАЫИАЫПРКУКФПУФКПВ' \
+                      'АМИАИлллл'
+    file_127simbols = 'СТОДВАДЦАТЬСЕМЬкрпрпаапрорвкрнкыеоыенонпротпртыеркеыркерапиапипаперурфкрукекуЕУКФЕПЫКПАЫИАЫПР' \
+                      'КУКФПУФКПВАМИАИВЫАПВАвапавамуупппп'
+    file_255simbols = 'ДВЕСТИПЯТЬДЕСЯТПЯТЬкрпрпаапрорвкрнкыеоыенонпротпртыеркеыркерапиапипаперурфкрукекуЕУКФЕПЫКПАЫИ' \
+                      'АЫПРКУКФПУФКПВАМИАИВЫАПВАвапавамууфвыапркфцаупыкывмпеамаквампирвпеыаявпаккпквпврпкпкпуыкрпукпк' \
+                      'екраптимявчапнаоврыфеуцнугклньавтыпцФУРЦКОУЕТВАИЦФУРЕАОКЦУуекрекпппп'
+
+    def test_10(self):
+        file = self.file_10simbols
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_100(self):
+        file = self.file_100simbols
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_127(self):
+        file = self.file_127simbols
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_255(self):
+        file = self.file_255simbols
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+
+class UploadAnyNamesLatin(BaseTestCase):
+    file_10simbols = 'TENsimbols'
+    file_100simbols = 'ONEHUNDREDsimbolsrefettferffrerfergtgfdfgfdserftgvcxsedrfcxswedSDFVBDFGBVCXSAasdfdfwerfgt' \
+                      'hredwsedrdf'
+    file_127simbols = 'ONEHUNDREDTWENTYSEVENsimbolsrefettferffrerfergtgfdfgfdserftgvcxsedrfcxswedSDFVBDFGBVCXSAasdf' \
+                      'dfwerfggtggrgrgthredwsedrdffsdfggtf'
+    file_255simbols = 'TWOHUNDREDFIFTYFIVEsimbolsrefettferffrerfergtgfdfgfdserftgvcxsedrfcxswedSDFVBDFGBVCXgdvdfnkvfw' \
+                      'kdpkdpkwdpkdep;kdmdnfbjkdmnbhjkfmnbhjknskndbjkaSAasdfdfwerfggtggrgrgthredwsedrdffsdfggtffrefer' \
+                      'gtgkkoihjoklmknmqwertyrfdfgfgfdfcdfgvcrtrfdefrgtfdertgdfgdsadfgfdsd'
+
+    def test_10(self):
+        file = self.file_10simbols
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_100(self):
+        file = self.file_100simbols
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_127(self):
+        file = self.file_127simbols
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_255(self):
+        file = self.file_255simbols
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+
+class UploadAnySizes(BaseTestCase):
+    file_0b = '0bytes.txt'
+    file_1Mb = '1Mb.jpg'
+    file_2010Mb = ''
+
+    def test_small(self):
+        file = self.file_0b
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    def test_medium(self):
+        file = self.file_1Mb
+        self.init()
+        self.upload_form.input_file.go(file)
+        self.delete_file(file)
+
+    # def test_extra_large(self):
+    #     file = self.file_2010Mb
+    #     self.init()
+    #     self.upload_form.input_file.go(file)
+    #     self.delete_file(file)
