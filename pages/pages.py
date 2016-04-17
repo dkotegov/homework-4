@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from components.profile_page import *
+from components.common_blocks import *
 import urlparse
 
 
@@ -16,7 +16,16 @@ class BasePage(object):
         self.driver.get(url)
         self.driver.maximize_window()
 
+    @property
+    def main_header(self):
+        return MainHeader(self.driver)
 
+    @property
+    def nav_bar(self):
+        return NavBar(self.driver)
+
+
+"""
 class ActorProfilePage(BasePage):
     PATH = 'person/471877_sasha_grey/'
 
@@ -50,3 +59,4 @@ class ActorProfilePage(BasePage):
     @property
     def review_block(self):
         return ReviewBlock(self.driver)
+"""
