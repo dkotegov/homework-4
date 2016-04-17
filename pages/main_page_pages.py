@@ -97,3 +97,23 @@ class AdvertisingUnitPage:
     def click_link(self, selector):
         link = self.driver.find_elements_by_css_selector(selector)[0]
         link.click()
+
+class BlockHoroPage:
+    def __init__(self, driver):
+        self.driver = driver
+        self.date_block = ".p-prediction__date__text"
+        self.title = "h1.hdr__inner"
+
+    def get_date(self):
+        element = self.driver.find_elements_by_css_selector(self.date_block)[0]
+        return element.text
+
+    def get_horo_title(self):
+        element = self.driver.find_elements_by_css_selector(self.title)[0]
+        return element.text
+
+    def click_button_choice_date(self, index):
+        selector = "a.filter__item_white:nth-child(" + str(index) + ")"
+        link = self.driver.find_elements_by_css_selector(selector)[0]
+        link.click()
+

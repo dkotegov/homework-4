@@ -2,18 +2,18 @@
 
 import unittest
 import time
+import datetime
 
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
 
-from pages.headpage import HeadMailPage
-from pages.headpage import PortalMenuToolbarPage
-from pages.headpage import PortalMenuSubmenuPage
-from pages.headpage import AdvertisingUnitPage
+from pages.main_page_pages import HeadMailPage
+from pages.main_page_pages import PortalMenuToolbarPage
+from pages.main_page_pages import PortalMenuSubmenuPage
+from pages.main_page_pages import AdvertisingUnitPage
+from pages.main_page_pages import BlockHoroPage
 
 #тесты иногда падают когда что то на странице не догрузилось(чертов ajax)
 #бывает падают тесты из за защиты мэйла на подбор пароля
-
 
 def tune_driver():
     # self.driver = webdriver.Chrome('./chromedriver')
@@ -116,6 +116,46 @@ class AdvertisingUnitPageTestCase(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
+
+class BlockHoroTestCase(unittest.TestCase):
+    def setUp(self):
+        self.driver = tune_driver()
+        self.page = BlockHoroPage(self.driver)
+
+    def _test_today_date(self):
+        date = datetime.date.today()
+        months = [
+            u"Января",
+            u"Февраля",
+            u"Марта",
+            u"Апреля",
+            u"Мая",
+            u"Июня",
+            u"Июля",
+            u"Августа",
+            u"Сентября",
+            u"Октября",
+            u"Ноября",
+            u"Декабря",
+        ]
+        date_site = self.page.get_date().split("\n")
+        self.assertEquals(date.day, int(date_site[0]))
+        self.assertEquals(months[date.month - 1].upper(), date_site[1].upper())
+
+    def _test_horo_for_all(self):
+        title = u"Гороскоп для всех знаков на сегодня"
+        self.assertEquals(title, self.page.get_horo_title())
+
+    def test_choice_date(self):
+        title = u"Гороскоп для всех знаков на "
+        date = [u"вчера", u"сегодня", u"завтра", u"неделю", u"месяц", u"2016 год"]
+        for i in range(1, 6, 1):
+            self.page.click_button_choice_date(i)
+            full_title = title + date[i - 1]
+            self.assertEquals(full_title, self.page.get_horo_title())
+
+    def tearDown(self):
+        self.driver.quit()
 
 
 
