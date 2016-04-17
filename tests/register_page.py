@@ -13,6 +13,8 @@ class RegisterPage(Page):
 
 class RegisterForm(Component):
 
+    TAKEN_EMAIL_LEGIT = u'legit'
+
     TITLE = u"//div[contains(@class, 'qc-title-row')]"
 
     FIRST_NAME_INPUT = u"//*[contains(@class, 'qc-firstname-row')]/span[contains(@class, 'sig2')]/input"
@@ -29,6 +31,31 @@ class RegisterForm(Component):
     CITY_HELPER = u"//*[contains(@class, 'qc-city-row')]/span/*[contains(@class, 'geo_popup')]/span"
     CITY_ERROR = u"//*[contains(@class, 'qc-city-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'error')]"
     CITY_SUCCESS = u"//*[contains(@class, 'qc-city-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'success')]"
+
+    SEX_SUCCESS = u"//*[contains(@class, 'qc-sex-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'success')]"
+    SEX_BUTTONS = u"//input[@type='radio']"
+
+    EMAIL_INPUT = u"//*[contains(@class, 'qc-login-row')]/span[contains(@class, 'sig2')]/input"
+    EMAIL_SELECT = u"//*[contains(@class, 'qc-login-row')]/span[contains(@class, 'sig2')]/select"
+    EMAIL_ERROR = u"//*[contains(@class, 'qc-login-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'error')]"
+    EMAIL_SUCCESS = u"//*[contains(@class, 'qc-login-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'success')]"
+
+    PASS_INPUT = u"//*[contains(@class, 'qc-pass-row')]/span[contains(@class, 'sig2')]/input"
+    PASSVERIFY_INPUT = u"//*[contains(@class, 'qc-passverify-row')]/span[contains(@class, 'sig2')]/input"
+    PASSVERIFY_SUCCESS = u"//*[contains(@class, 'qc-passverify-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'success')]"
+    PASS_ERROR = u"//*[contains(@class, 'qc-pass-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'error')]"
+    PASSVERIFY_ERROR = u"//*[contains(@class, 'qc-passverify-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'error')]"
+    PASS_NOTIF = u"//*[contains(@class, 'qc-pass-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'example')]"
+    PASS_STRENGTHS = u"//*[contains(@class, 'qc-pass-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'strength')]"
+
+    PHONE_INPUT = u"//input[contains(@class, 'phone')]"
+    PHONE_REGION_SELECT = u"//select[@id='country_ver']"
+    PHONE_SUCCESS = u"//*[contains(@class, 'qc-phone-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'success')]"
+
+    NO_PHONE_LINK = u"//a[@id='noPhoneLink']"
+    EXTRA_EMAIL_INPUT = u"//div[contains(@class, 'qc-mail-row')]/span[contains(@class, 'sig2')]/input"
+    EXTRA_EMAIL_SUCCESS = u"//div[contains(@class, 'qc-mail-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'success')]"
+    EXTRA_EMAIL_ERROR = u"//div[contains(@class, 'qc-mail-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'error')]"
 
     DAY_SELECTOR = u"//*[contains(@class, 'qc-select-day')]"
     MONTH_SELECTOR = u"//*[contains(@class, 'qc-select-month')]"
@@ -89,3 +116,82 @@ class RegisterForm(Component):
 
     def get_city_success_el(self):
         return self.driver.find_element_by_xpath(self.CITY_SUCCESS)
+
+    def get_sex_buttons(self):
+        return self.driver.find_elements_by_xpath(self.SEX_BUTTONS)
+
+    def get_sex_success_el(self):
+        return self.driver.find_element_by_xpath(self.SEX_SUCCESS)
+
+    def get_email_success_el(self):
+        return self.driver.find_element_by_xpath(self.EMAIL_SUCCESS)
+
+    def get_email_error_el(self):
+        return self.driver.find_element_by_xpath(self.EMAIL_ERROR)
+
+    def get_email_input(self):
+        return self.driver.find_element_by_xpath(self.EMAIL_INPUT)
+
+    def set_email(self, email):
+        username = email.split('@')[0]
+        domain = '@{}'.format(email.split('@')[1])
+
+        email_input = self.get_email_input()
+        email_input.send_keys(username)
+
+        select = Select(self.driver.find_element_by_xpath(self.EMAIL_SELECT))
+        select.select_by_visible_text(domain)
+
+    def get_pass_input(self):
+        return self.driver.find_element_by_xpath(self.PASS_INPUT)
+
+    def get_passverify_input(self):
+        return self.driver.find_element_by_xpath(self.PASSVERIFY_INPUT)
+
+    def get_passverify_success_el(self):
+        return self.driver.find_element_by_xpath(self.PASSVERIFY_SUCCESS)
+
+    def get_passverify_error_el(self):
+        return self.driver.find_element_by_xpath(self.PASSVERIFY_ERROR)
+
+    def get_pass_error_el(self):
+        return self.driver.find_element_by_xpath(self.PASS_ERROR)
+
+    def get_pass_notif_el(self):
+        return self.driver.find_element_by_xpath(self.PASS_NOTIF)
+
+    def set_pass(self, password):
+        self.driver.find_element_by_xpath(self.PASS_INPUT).send_keys(password)
+
+    def set_passverify(self, password):
+        self.driver.find_element_by_xpath(self.PASSVERIFY_INPUT).send_keys(password)
+
+    def get_pass_strength_list(self):
+        return self.driver.find_elements_by_xpath(self.PASS_STRENGTHS)
+
+    def get_phone_success_el(self):
+        return self.driver.find_element_by_xpath(self.PHONE_SUCCESS)
+
+    def set_phone(self, phone):
+        self.driver.find_element_by_xpath(self.PHONE_INPUT).send_keys(phone)
+
+    def clear_phone_input(self):
+        self.driver.find_element_by_xpath(self.PHONE_INPUT).clear()
+
+    def get_no_phone_link(self):
+        return self.driver.find_element_by_xpath(self.NO_PHONE_LINK)
+
+    def get_extra_email_success_el(self):
+        return self.driver.find_element_by_xpath(self.EXTRA_EMAIL_SUCCESS)
+
+    def get_extra_email_error_el(self):
+        return self.driver.find_element_by_xpath(self.EXTRA_EMAIL_ERROR)
+
+    def set_extra_email(self, email):
+        self.driver.find_element_by_xpath(self.EXTRA_EMAIL_INPUT).send_keys(email)
+
+    def clear_extra_email(self):
+        self.driver.find_element_by_xpath(self.EXTRA_EMAIL_INPUT).clear()
+
+    def get_extra_email_input(self):
+        return self.driver.find_element_by_xpath(self.EXTRA_EMAIL_INPUT)
