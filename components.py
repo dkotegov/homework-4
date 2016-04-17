@@ -3,7 +3,6 @@ import os
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-import urlparse
 
 
 class Component(object):
@@ -215,7 +214,6 @@ class Input(Component):
     DIR_NAME = os.path.dirname(__file__) + "/files_for_upload/"
 
     def go(self, file_name, path=None, invisible=None):
-        # self.is_visibility()
         self.send_file(file_name)
         if None == path:
             path = ''
@@ -268,10 +266,8 @@ class SubmitLoginButton(Button):
 
 
 class UploadButton(Button):
-    # BUTTON = '//*[@data-name="upload"]/span'
     BUTTON = '//*[@id="cloud_toolbars"]//*[@data-name="upload"]/span'
     CHECK_ELEMENT = '//div[@class="layer_upload"]'
-    # CHECK_ELEMENT = '//div[@class="b-layer__container"]'
 
 
 class CloseUploadFormButton(Button):
@@ -345,9 +341,6 @@ class CreateFolderButton(Button):
     CHECK_ELEMENT = '//div[@class="layer_add"]'
 
 
-# class AddFolderButton(InputName):
-#     INPUT = '//button[@data-name="add"]'
 class AddFolderButton(Button):
     BUTTON = '//button[@data-name="add"]'
-    # CHECK_ELEMENT = '//div[@class="layer_add"]'
     CHECK_ELEMENT = '//div[@class="b-layer__root"]'

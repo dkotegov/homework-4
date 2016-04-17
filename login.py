@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from pages import *
-from components import *
 import os
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
