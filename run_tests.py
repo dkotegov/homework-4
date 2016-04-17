@@ -4,7 +4,8 @@
 import sys
 import unittest
 # from tests.example_test import ExampleTest
-from tests.test import AuthTest, MonthToolbarTest, HeaderTest, CalendarTableTest, SidebarTest
+from tests.test  import AuthTest, MonthToolbarTest, HeaderTest, CalendarTableTest, SidebarTest
+from tests.test2 import DateTest, ExtraTest, CitiesTest, CalendarTest
 
 
 if __name__ == '__main__':
