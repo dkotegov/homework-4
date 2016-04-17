@@ -4,7 +4,7 @@ from components import *
 import os
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
-import time
+
 
 class TestCase(unittest.TestCase):
     def setUp(self):
@@ -397,21 +397,6 @@ class MovementTests(CopyAndMovementBase):
 
 class RenameTests(BaseTestCase):
     base_file = 'without'
-    new_name = ['name',
-                u'имя',
-                '1234',
-                u'name%$#@!±§~`,;№',
-                u'name"*/:<>?|',
-                'name.jpg.png.js',
-                'www.ru',
-                'f',
-                'TWOHUNDREDFIFTYFIVEsymbolsertghgfdfrtgyhujhgfdrftgyhujnbvcdxswertrweyujnbvcdxertikmnbvcdxrftyuikmnbvc'
-                'dxsdertyujnbvfasgdhfdgsfddtyfgjfhdgsraestdyfjfhdgsfhfgfdjgjjtjwryhwrhrwhwrjhrhwthwtrhwrthjwrtjwthwrhwr'
-                'thjrtwjtjgjgjjyhrhrthrthrheygshdjfhthtgfghyuytrfghgf',
-                'TWOHUNDREDFIFTYSIXsymbolssffrwgethrwqetytuyrstesyryklgkjsyteasdkfhfjhgtayskflgjeryrjrstysvhmchgdtyu'
-                'jiknhgfrdertyujhrtyrtttththththrththfhgjhgghjhghnbcvbbvbdfggfdfggfdfgfdfggfggfghnhgfgfgfujhgfdertyuikm'
-                'nbgvfdswderftghjkjhgfdsdfghjgfdsasdfghgfdfghgfdfghjhgfd'
-                ]
 
     def setUp(self):
         super(RenameTests, self).setUp()
@@ -428,44 +413,66 @@ class RenameTests(BaseTestCase):
         rename_window.set_name(file_name)
         rename_window.rename.go()
 
-    def base_test_positive(self, index):
-        file_name = self.new_name[index]
+    def test_all_latin(self):
+        file_name = 'name'
         self.rename(file_name)
         self.home_page.check_file_located(file_name)
         self.home_page.check_file_not_located(self.base_file)
 
-    def base_test_negative(self, index):
-        file_name = self.new_name[index]
+    def test_all_cyrillic(self):
+        file_name = u'имя'
+        self.rename(file_name)
+        self.home_page.check_file_located(file_name)
+        self.home_page.check_file_not_located(self.base_file)
+
+    def test_all_number(self):
+        file_name = '1234'
+        self.rename(file_name)
+        self.home_page.check_file_located(file_name)
+        self.home_page.check_file_not_located(self.base_file)
+
+    def test_with_acceptable_symbols(self):
+        file_name = u'name%$#@!±§~`,;№'
+        self.rename(file_name)
+        self.home_page.check_file_located(file_name)
+        self.home_page.check_file_not_located(self.base_file)
+
+    def test_with_unacceptable_symbols(self):
+        file_name = u'name"*/:<>?|'
         self.rename(file_name)
         self.home_page.check_file_not_located(file_name)
         self.home_page.check_file_located(self.base_file)
 
-    def test_all_latin(self):
-        self.base_test_positive(0)
-
-    def test_all_cyrillic(self):
-        self.base_test_positive(1)
-
-    def test_all_number(self):
-        self.base_test_positive(2)
-
-    def test_with_acceptable_symbols(self):
-        self.base_test_positive(3)
-
-    def test_with_unacceptable_symbols(self):
-        self.base_test_negative(4)
-
     def test_with_extensions(self):
-        self.base_test_positive(5)
+        file_name = 'name.jpg.png.js'
+        self.rename(file_name)
+        self.home_page.check_file_located(file_name)
+        self.home_page.check_file_not_located(self.base_file)
 
     def test_with_www_and_ru(self):
-        self.base_test_positive(6)
+        file_name = 'www.ru'
+        self.rename(file_name)
+        self.home_page.check_file_located(file_name)
+        self.home_page.check_file_not_located(self.base_file)
 
     def test_with_one_symbol(self):
-        self.base_test_positive(7)
+        file_name = 'f'
+        self.rename(file_name)
+        self.home_page.check_file_located(file_name)
+        self.home_page.check_file_not_located(self.base_file)
 
     def test_with_255_latin(self):
-        self.base_test_positive(8)
+        file_name = 'TWOHUNDREDFIFTYFIVEsymbolsertghgfdfrtgyhujhgfdrftgyhujnbvcdxswertrweyujnbvcdxertikmnbvcdxrftyuikmnbvc' \
+                    'dxsdertyujnbvfasgdhfdgsfddtyfgjfhdgsraestdyfjfhdgsfhfgfdjgjjtjwryhwrhrwhwrjhrhwthwtrhwrthjwrtjwthwrhwr' \
+                    'thjrtwjtjgjgjjyhrhrthrthrheygshdjfhthtgfghyuytrfghgf'
+        self.rename(file_name)
+        self.home_page.check_file_located(file_name)
+        self.home_page.check_file_not_located(self.base_file)
 
     def test_with_256_latin(self):
-        self.base_test_negative(9)
+        file_name = 'TWOHUNDREDFIFTYSIXsymbolssffrwgethrwqetytuyrstesyryklgkjsyteasdkfhfjhgtayskflgjeryrjrstysvhmchgdtyu' \
+                    'jiknhgfrdertyujhrtyrtttththththrththfhgjhgghjhghnbcvbbvbdfggfdfggfdfgfdfggfggfghnhgfgfgfujhgfdertyuikm' \
+                    'nbgvfdswderftghjkjhgfdsdfghjgfdsasdfghgfdfghgfdfghjhgfd'
+        self.rename(file_name)
+        self.home_page.check_file_not_located(file_name)
+        self.home_page.check_file_located(self.base_file)

@@ -24,7 +24,6 @@ class Page(object):
     def check_file_located(self, filename):
         CHECK_ELEMENT = '//*[@data-id="/' + self.PATH_TO_FILE + filename + '"]'
         self.open()
-        print CHECK_ELEMENT
         return WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.XPATH, CHECK_ELEMENT))
         )
@@ -32,7 +31,6 @@ class Page(object):
     def check_file_not_located(self, filename):
         CHECK_ELEMENT = '//*[@data-id="/' + self.PATH_TO_FILE + filename + '"]'
         self.open()
-        print CHECK_ELEMENT
         return WebDriverWait(self.driver, 30).until(
             EC.invisibility_of_element_located((By.XPATH, CHECK_ELEMENT))
         )

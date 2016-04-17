@@ -234,14 +234,12 @@ class Input(Component):
 
     def check_file_located(self, filename, path):
         CHECK_UPLOAD = '//*[@data-id="/' + path + filename + '"]'
-        print CHECK_UPLOAD
         return WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.XPATH, CHECK_UPLOAD))
         )
 
     def check_file_not_located(self, filename, path):
         CHECK_UPLOAD = '//*[@data-id="/' + path + filename + '"]'
-        print CHECK_UPLOAD
         return WebDriverWait(self.driver, 30).until(
             EC.invisibility_of_element_located((By.XPATH, CHECK_UPLOAD))
         )
