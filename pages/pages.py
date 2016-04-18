@@ -27,6 +27,10 @@ class BasePage(object):
     def nav_bar(self):
         return NavBar(self.driver)
 
+    @property
+    def footer(self):
+        return Footer(self.driver)
+
 
 class FavoritesPage(object):
     BASE_URL = 'https://afisha.mail.ru/'
