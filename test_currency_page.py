@@ -109,4 +109,10 @@ class TestCurrencyPage(BaseTestCase):
 
     def test_converter(self):
         self.page.open()
-        # self.page.currency_converter.set_first_input()
+        usd_rate = self.page.cb.get_usd()
+        eur_rate = self.page.cb.get_eur()
+        sum = 1000
+        wanted_sum_eur = float(sum)*eur_rate
+        wanted_sum_usd = float(sum)*usd_rate
+        self.assertEquals(round(wanted_sum_eur, 1), self.page.currency_converter.convert_eur_to_rub(sum))
+        self.assertEquals(round(wanted_sum_usd, 1), self.page.currency_converter.convert_usd_to_rub(sum))

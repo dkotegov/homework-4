@@ -104,6 +104,14 @@ class MiddleBlock(object):
 class CurrencyConverter(object):
     FIRST_INPUT = './/div[@class="b-calc"]/form/div[1]/div[1]/input[2]'
     SECOND_INPUT = './/div[@class="b-calc"]/form/div[3]/div[1]/input[2]'
+    FIRST_CURRENCY = './/div[@class="b-calc"]/form/div[1]/div[2]/div/a[@class="c-text-select__link js-link"]'
+    SECOND_CURRENCY = './/div[@class="b-calc"]/form/div[3]/div[2]/div/a[@class="c-text-select__link js-link"]'
+    USD_1 = './/div[@class="b-calc"]/form/div[1]//div[@class="c-text-select__dropdown__list__item js-currency_item"][@data-code="USD"]/a'
+    EUR_1 = './/div[@class="b-calc"]/form/div[1]//div[@class="c-text-select__dropdown__list__item js-currency_item"][@data-code="EUR"]/a'
+    RUB_1 = './/div[@class="b-calc"]/form/div[1]//div[@class="c-text-select__dropdown__list__item js-currency_item"][@data-code="RUB"]/a'
+    USD_2 = './/div[@class="b-calc"]/form/div[3]//div[@class="c-text-select__dropdown__list__item js-currency_item"][@data-code="USD"]/a'
+    EUR_2 = './/div[@class="b-calc"]/form/div[3]//div[@class="c-text-select__dropdown__list__item js-currency_item"][@data-code="EUR"]/a'
+    RUB_2 = './/div[@class="b-calc"]/form/div[3]//div[@class="c-text-select__dropdown__list__item js-currency_item"][@data-code="RUB"]/a'
 
     def __init__(self, driver):
         self.driver = driver
@@ -122,8 +130,60 @@ class CurrencyConverter(object):
         self.driver.find_element_by_xpath(self.SECOND_INPUT).clear()
         self.driver.find_element_by_xpath(self.SECOND_INPUT).send_keys(str(value))
 
+    def get_first_input(self):
+        return self.driver.find_element_by_xpath(self.FIRST_INPUT).get_attribute("value").replace(' ', '')
+
+    def get_second_input(self):
+        return self.driver.find_element_by_xpath(self.SECOND_INPUT).get_attribute("value").replace(' ', '')
+
     def set_first_currency(self, value):
-        pass
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, self.FIRST_CURRENCY))
+        )
+        select = self.driver.find_element_by_xpath(self.FIRST_CURRENCY)
+        select.click()
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, value))
+        )
+        currency = self.driver.find_element_by_xpath(value)
+        currency.click()
+
+    def set_second_currency(self, value):
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, self.SECOND_CURRENCY))
+        )
+        select = self.driver.find_element_by_xpath(self.SECOND_CURRENCY)
+        select.click()
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, value))
+        )
+        currency = self.driver.find_element_by_xpath(value)
+        currency.click()
+
+    def convert_rub_to_eur(self, sum):
+        self.set_first_currency(self.RUB_1)
+        self.set_second_currency(self.EUR_2)
+        self.set_first_input(sum)
+        return float(self.get_second_input())
+
+    def convert_rub_to_eur_inverse(self, sum):
+        self.set_first_currency(self.EUR_1)
+        self.set_second_currency(self.RUB_2)
+        self.set_second_input(sum)
+        return float(self.get_first_input())
+
+    def convert_usd_to_rub(self, sum):
+        self.set_first_currency(self.USD_1)
+        self.set_second_currency(self.RUB_2)
+        self.set_first_input(sum)
+        return float(self.get_second_input())
+
+    def convert_eur_to_rub(self, sum):
+        self.set_first_currency(self.EUR_1)
+        self.set_second_currency(self.RUB_2)
+        self.set_first_input(sum)
+        return float(self.get_second_input())
+
 
 
 
