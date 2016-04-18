@@ -144,9 +144,7 @@ class UploadAnyNamesCyrillic(BaseTestCase):
                       'АМИАИлллл'
     file_127symbols = 'СТОДВАДЦАТЬСЕМЬкрпрпаапрорвкрнкыеоыенонпротпртыеркеыркерапиапипаперурфкрукекуЕУКФЕПЫКПАЫИАЫПР' \
                       'КУКФПУФКПВАМИАИВЫАПВАвапавамуупппп'
-    file_255symbols = 'ДВЕСТИПЯТЬДЕСЯТПЯТЬкрпрпаапрорвкрнкыеоыенонпротпртыеркеыркерапиапипаперурфкрукекуЕУКФЕПЫКПАЫИ' \
-                      'АЫПРКУКФПУФКПВАМИАИВЫАПВАвапавамууфвыапркфцаупыкывмпеамаквампирвпеыаявпаккпквпврпкпкпуыкрпукпк' \
-                      'екраптимявчапнаоврыфеуцнугклньавтыпцФУРЦКОУЕТВАИЦФУРЕАОКЦУуекрекпппп'
+
 
     def setUp(self):
         super(UploadAnyNamesCyrillic, self).setUp()
@@ -164,10 +162,10 @@ class UploadAnyNamesCyrillic(BaseTestCase):
         file = self.file_127symbols
         self.upload_form.input_file.go(file)
 
-    def pest_255(self):
-        file = self.file_255symbols
-        self.REMOVED_NOTHING = True
-        self.upload_form.input_file.go(file, invisible=True)
+    # def pest_255(self):
+    #     file = self.file_255symbols
+    #     self.REMOVED_NOTHING = True
+    #     self.upload_form.input_file.go(file, invisible=True)
 
 
 class UploadAnyNamesLatin(BaseTestCase):
