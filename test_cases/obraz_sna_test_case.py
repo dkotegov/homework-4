@@ -1,6 +1,7 @@
 # coding=utf-8
 import unittest
 from time import sleep
+import os
 
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -8,12 +9,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.obraz_sna_page import BlockFindNewObraz, BlockRepostToSocialNet
 
 mypage = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
-vk_login = "xx"
-vk_password = "yy"
+vk_login = os.environ['HW4LOGIN_VK']
+vk_password = os.environ['HW4PASSWORD_VK']
+
+
 
 def tune_driver(mypage):
-    # self.driver = webdriver.Chrome('./chromedriver')
     driver = webdriver.Firefox()
+    if os.environ['HW4LOGIN'] == "CHROME":
+        driver = webdriver.Chrome('./chromedriver')
     driver.get(mypage)
     driver.implicitly_wait(2)
     return driver
