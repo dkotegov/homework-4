@@ -164,7 +164,7 @@ class UploadAnyNamesCyrillic(BaseTestCase):
         file = self.file_127symbols
         self.upload_form.input_file.go(file)
 
-    def test_255(self):
+    def pest_255(self):
         file = self.file_255symbols
         self.REMOVED_NOTHING = True
         self.upload_form.input_file.go(file, invisible=True)
@@ -203,7 +203,7 @@ class UploadAnyNamesLatin(BaseTestCase):
 
 class UploadAnySizes(BaseTestCase):
     file_0b = '0bytes.txt'
-    file_1Mb = '1Mb.jpg'
+    file_1Mb = '1Mb.JPG'
     file_2030Mb = 'over_2Gb.zip'
 
     def setUp(self):
