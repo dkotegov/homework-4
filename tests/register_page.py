@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from page import Page
 from component import Component
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class RegisterPage(Page):
@@ -130,7 +131,8 @@ class RegisterForm(Component):
         return self.driver.find_element_by_xpath(self.SEX_SUCCESS)
 
     def get_email_success_el(self):
-        return self.driver.find_element_by_xpath(self.EMAIL_SUCCESS)
+        wait = WebDriverWait(self.driver, 5)
+        return wait.until(EC.visibility_of(self.driver.find_element_by_xpath(self.EMAIL_SUCCESS)))
 
     def get_email_error_el(self):
         return self.driver.find_element_by_xpath(self.EMAIL_ERROR)
@@ -176,7 +178,8 @@ class RegisterForm(Component):
         return self.driver.find_elements_by_xpath(self.PASS_STRENGTHS)
 
     def get_phone_success_el(self):
-        return self.driver.find_element_by_xpath(self.PHONE_SUCCESS)
+        wait = WebDriverWait(self.driver, 5)
+        return wait.until(EC.visibility_of(self.driver.find_element_by_xpath(self.PHONE_SUCCESS)))
 
     def set_phone(self, phone):
         self.driver.find_element_by_xpath(self.PHONE_INPUT).send_keys(phone)
