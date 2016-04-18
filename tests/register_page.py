@@ -25,6 +25,7 @@ class RegisterForm(Component):
     LAST_NAME_ERROR = u"//*[contains(@class, 'qc-lastname-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'error')]"
 
     BIRTHDATE_ERROR = u"//*[contains(@class, 'qc-birthday-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'error')]"
+    BIRTHDATE_ERROR_TEXT = u"//*[contains(@class, 'qc-birthday-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'error')]/span"
     BIRTHDATE_SUCCESS = u"//*[contains(@class, 'qc-birthday-row')]/span[contains(@class, 'sig3')]/span[contains(@class, 'success')]"
 
     CITY_INPUT = u"//*[contains(@class, 'qc-city-row')]/span[contains(@class, 'sig2')]/input"
@@ -102,6 +103,9 @@ class RegisterForm(Component):
     def get_birthdate_error_el(self):
         return self.driver.find_element_by_xpath(self.BIRTHDATE_ERROR)
 
+    def get_birthdate_error_text(self):
+        return self.driver.find_element_by_xpath(self.BIRTHDATE_ERROR_TEXT).text
+
     def get_city_input(self):
         return self.driver.find_element_by_xpath(self.CITY_INPUT)
 
@@ -111,8 +115,10 @@ class RegisterForm(Component):
     def get_city_error_el(self):
         return self.driver.find_element_by_xpath(self.CITY_ERROR)
 
-    def get_city_helper_el(self):
-        return self.driver.find_element_by_xpath(self.CITY_HELPER)
+    def get_city_auto_variant(self):
+        helper = self.driver.find_element_by_xpath(self.CITY_HELPER)
+        city = helper.find_element_by_tag_name('div')
+        return city
 
     def get_city_success_el(self):
         return self.driver.find_element_by_xpath(self.CITY_SUCCESS)

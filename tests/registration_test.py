@@ -18,172 +18,137 @@ class RegistrationTest(unittest.TestCase):
         )
 
         self.register_page = RegisterPage(self.driver)
+        self.register_page.open()
+        self.form = self.register_page.get_form()
 
     def test_first_name_element(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.assertTrue(self.form.check_exists_by_xpath(self.form.FIRST_NAME_INPUT))
+        self.driver.find_element_by_xpath(self.form.FIRST_NAME_INPUT).click()
 
-        self.assertTrue(form.check_exists_by_xpath(form.FIRST_NAME_INPUT))
-        self.driver.find_element_by_xpath(form.FIRST_NAME_INPUT).click()
-
-        notification = form.get_first_name_notif()
+        notification = self.form.get_first_name_notif()
         self.assertTrue(notification.is_displayed())
 
-        form.unfocus()
+        self.form.unfocus()
 
-        error = form.get_first_name_error()
+        error = self.form.get_first_name_error()
         self.assertTrue(error.is_displayed())
 
     def test_last_name_element(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.assertTrue(self.form.check_exists_by_xpath(self.form.LAST_NAME_INPUT))
+        self.driver.find_element_by_xpath(self.form.LAST_NAME_INPUT).click()
 
-        self.assertTrue(form.check_exists_by_xpath(form.LAST_NAME_INPUT))
-        self.driver.find_element_by_xpath(form.LAST_NAME_INPUT).click()
-
-        notification = form.get_last_name_notif()
+        notification = self.form.get_last_name_notif()
         self.assertTrue(notification.is_displayed())
 
-        form.unfocus()
+        self.form.unfocus()
 
-        error = form.get_last_name_error()
+        error = self.form.get_last_name_error()
         self.assertTrue(error.is_displayed())
 
     def test_birth_date_right_date(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.select_day('11')
+        self.form.select_month('Март')
+        self.form.select_year('1999')
+        self.form.unfocus()
 
-        form.select_day('11')
-        form.select_month('Март')
-        form.select_year('1999')
-        form.unfocus()
-
-        birthdate_success = form.get_birthdate_success_el()
+        birthdate_success = self.form.get_birthdate_success_el()
         self.assertTrue(birthdate_success.is_displayed())
 
     def test_birth_date_wrong_date(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.select_day('30')
+        self.form.select_month('Февраль')
+        self.form.select_year('1999')
+        self.form.unfocus()
 
-        form.select_day('30')
-        form.select_month('Февраль')
-        form.select_year('1999')
-        form.unfocus()
-
-        birthdate_success = form.get_birthdate_success_el()
-        birthdate_error = form.get_birthdate_error_el()
+        birthdate_success = self.form.get_birthdate_success_el()
+        birthdate_error = self.form.get_birthdate_error_el()
+        error_text = self.form.get_birthdate_error_text()
 
         self.assertFalse(birthdate_success.is_displayed())
         self.assertTrue(birthdate_error.is_displayed())
+        self.assertEqual(error_text, u'Неверная дата')
 
     def test_birth_date_required_field(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.select_day('30')
+        self.form.unfocus()
 
-        form.select_day('30')
-        form.unfocus()
+        birthdate_error = self.form.get_birthdate_error_el()
+        error_text = self.form.get_birthdate_error_text()
 
-        birthdate_error = form.get_birthdate_error_el()
         self.assertTrue(birthdate_error.is_displayed())
+        self.assertEqual(error_text, u'Укажите дату рождения полностью')
 
     def test_city_only_from_list(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.set_city(u'Гейсити')
+        self.form.unfocus()
 
-        form.set_city(u'Гейсити')
-        form.unfocus()
-
-        city_error_el = form.get_city_error_el()
+        city_error_el = self.form.get_city_error_el()
         self.assertTrue(city_error_el.is_displayed())
 
     def test_city_autocompletion(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.set_city(u'Москва')
+        self.assertTrue(self.form.check_exists_by_xpath(self.form.CITY_HELPER))
 
-        form.set_city(u'Москва')
-        self.assertTrue(form.check_exists_by_xpath(form.CITY_HELPER))
-
-        helper = form.get_city_helper_el()
-        city = helper.find_element_by_tag_name('div')
+        city = self.form.get_city_auto_variant()
         city.click()
 
-        city_success_el = form.get_city_success_el()
+        city_success_el = self.form.get_city_success_el()
         self.assertTrue(city_success_el.is_displayed())
 
     def test_sex_choices(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
-
-        buttons = form.get_sex_buttons()
+        buttons = self.form.get_sex_buttons()
         button1 = buttons.pop()
         button1.click()
 
-        sex_choice_success = form.get_sex_success_el()
+        sex_choice_success = self.form.get_sex_success_el()
         self.assertTrue(sex_choice_success.is_displayed())
 
     def test_email_required_field(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
-
-        email_input = form.get_email_input()
+        email_input = self.form.get_email_input()
         email_input.click()
-        form.unfocus()
+        self.form.unfocus()
 
-        email_error_el = form.get_email_error_el()
+        email_error_el = self.form.get_email_error_el()
         self.assertTrue(email_error_el.is_displayed())
 
     def test_email_input(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.set_email(self.EMAIL)
 
-        form.set_email(self.EMAIL)
-
-        email_success_el = form.get_email_success_el()
+        email_success_el = self.form.get_email_success_el()
         self.assertTrue(email_success_el.is_displayed())
 
     def test_password_notif_and_required_field(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
-
-        pass_input = form.get_pass_input()
+        pass_input = self.form.get_pass_input()
         pass_input.click()
 
-        pass_notif = form.get_pass_notif_el()
+        pass_notif = self.form.get_pass_notif_el()
         self.assertTrue(pass_notif.is_displayed())
 
-        form.unfocus()
+        self.form.unfocus()
 
-        pass_error = form.get_pass_error_el()
+        pass_error = self.form.get_pass_error_el()
         self.assertTrue(pass_error.is_displayed())
 
     def test_password_match(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.set_pass(self.PASSWORD)
+        self.form.set_passverify(self.PASSWORD)
+        self.form.unfocus()
 
-        form.set_pass(self.PASSWORD)
-        form.set_passverify(self.PASSWORD)
-        form.unfocus()
-
-        success_el = form.get_passverify_success_el()
+        success_el = self.form.get_passverify_success_el()
         self.assertTrue(success_el.is_displayed())
 
     def test_password_not_match(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
 
-        form.set_pass(self.PASSWORD)
-        form.set_passverify('BROKEN{}'.format(self.PASSWORD))
-        form.unfocus()
+        self.form.set_pass(self.PASSWORD)
+        self.form.set_passverify('BROKEN{}'.format(self.PASSWORD))
+        self.form.unfocus()
 
-        error_el = form.get_passverify_error_el()
+        error_el = self.form.get_passverify_error_el()
         self.assertTrue(error_el.is_displayed())
 
     def test_password_strength_appears(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
-
-        form.set_pass(self.PASSWORD)
-        strengths = form.get_pass_strength_list()
+        self.form.set_pass(self.PASSWORD)
+        strengths = self.form.get_pass_strength_list()
 
         appeared = False
         for el in strengths:
@@ -194,35 +159,29 @@ class RegistrationTest(unittest.TestCase):
         self.assertTrue(appeared)
 
     def test_phone_input_succeeds(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.clear_phone_input()
+        self.form.set_phone(self.PHONE)
 
-        form.clear_phone_input()
-        form.set_phone(self.PHONE)
-
-        success_el = form.get_phone_success_el()
+        success_el = self.form.get_phone_success_el()
         self.assertTrue(success_el.is_displayed())
 
     def test_extra_email(self):
-        self.register_page.open()
-        form = self.register_page.get_form()
+        self.form.get_no_phone_link().click()
 
-        form.get_no_phone_link().click()
-
-        extra_input = form.get_extra_email_input()
+        extra_input = self.form.get_extra_email_input()
         self.assertTrue(extra_input.is_displayed())
 
-        form.set_extra_email('kek')
-        form.unfocus()
+        self.form.set_extra_email('kek')
+        self.form.unfocus()
 
-        error_el = form.get_extra_email_error_el()
+        error_el = self.form.get_extra_email_error_el()
         self.assertTrue(error_el.is_displayed())
 
-        form.clear_extra_email()
-        form.set_extra_email('kek@gmail.com')
-        form.unfocus()
+        self.form.clear_extra_email()
+        self.form.set_extra_email('test@sashqua.com')
+        self.form.unfocus()
 
-        success_el = form.get_extra_email_success_el()
+        success_el = self.form.get_extra_email_success_el()
         self.assertTrue(success_el.is_displayed())
 
     def tearDown(self):
