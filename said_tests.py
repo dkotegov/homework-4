@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 import urlparse
 
+import time
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -59,28 +60,19 @@ class Component(object):
 
 class SubComponent(object):
     XPATH = ''
-    TITLE = ''
 
     def __init__(self, driver, xpath):
         self.driver = driver
         self.XPATH = xpath
 
-    def open_in_new_tab(self):
+    def open_in_curr_tab(self):
         element = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.XPATH)
         )
         element.click()
-        # ActionChains(self.driver).key_down(Keys.COMMAND).click(element).key_up(
-        #     Keys.COMMAND).perform()
-        # self.driver.switch_to_window(self.driver.window_handles[1])
-        # self.TITLE = self.driver.title
-
-    def close(self, window):
-        self.driver.close()
-        self.driver.switch_to_window(window)
 
     def get_title(self):
-        return self.TITLE
+        return self.driver.title
 
 
 class FormComponent(object):
@@ -160,72 +152,65 @@ class EuroCupsPage(Page):
         return SuperCup(self.driver)
 
     @property
-    def searchFrom(self):
+    def search_from(self):
         return SearchForm(self.driver)
 
 
-def test_component(self, league):
-    news = league.news
-    news.open_in_new_tab()
-    self.assertEqual(league.NEWS_TITLE, news.get_title())
-    news.close(self.originalWindow)
-
-    team = league.team
-    team.open_in_new_tab()
-    self.assertEqual(league.TEAM_TITLE, team.get_title())
-    team.close(self.originalWindow)
-
-    if isinstance(league, SuperCup) is False:
-        table = league.table
-        table.open_in_new_tab()
-        self.assertEqual(league.TABLE_TITLE, table.get_title())
-        table.close(self.originalWindow)
-
-    calendar = league.calendar
-    calendar.open_in_new_tab()
-    self.assertEqual(league.CALENDAR_TITLE, calendar.get_title())
-    calendar.close(self.originalWindow)
-
-    statistics = league.statistics
-    statistics.open_in_new_tab()
-    self.assertEqual(league.STATISTICS_TITLE, statistics.get_title())
-    statistics.close(self.originalWindow)
-
-
-class ExampleTest(unittest.TestCase):
+class EuroCupsPageTest(unittest.TestCase):
     NEWS_TITLE = u'Лига Европы - Еврокубки - Футбол - все новости на тему Лига Европы сезона 2016 - Спорт Mail.Ru'
 
     def setUp(self):
-        # browser = os.environ.get('HW4BROWSER', 'CHROME')
+        browser = os.environ.get('HW4BROWSER', 'CHROME')
         self.driver = webdriver.Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=DesiredCapabilities.CHROME
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
     def tearDown(self):
         self.driver.quit()
 
-    def test(self):
-        euroCupsPage = EuroCupsPage(self.driver)
-        euroCupsPage.open()
-        self.originalWindow = self.driver.current_window_handle
+    def component_test(self, league):
+        league.click()
+        news = league.news
+        news.open_in_curr_tab()
+        self.assertEqual(league.NEWS_TITLE, news.get_title())
+        self.test_page.open()
+        league.click()
 
-        euroLeague = euroCupsPage.europe_league
-        euroLeague.click()
-        euroLeague.news.open_in_new_tab()
-        # europeLeague = euroCupsPage.super_cup
-        # europeLeague.click()
-        # test_component(self, europeLeague)
-        #
-        # europeLeague = euroCupsPage.europe_league
-        # europeLeague.click()
-        # test_component(self, europeLeague)
-        #
-        # europeLeague = euroCupsPage.chempion_league
-        # europeLeague.click()
-        # test_component(self, europeLeague)
-        #
-        # searchForm = euroCupsPage.searchFrom
-        # searchForm.set_text('Cristiano Ronaldo')
-        # searchForm.submit()
-        # self.assertNotIn(u'По вашему запросу ничего не найдено.', self.driver.page_source)
+        team = league.team
+        team.open_in_curr_tab()
+        self.assertEqual(league.TEAM_TITLE, team.get_title())
+        self.test_page.open()
+        league.click()
+
+        if isinstance(league, SuperCup) is False:
+            table = league.table
+            table.open_in_curr_tab()
+            self.assertEqual(league.TABLE_TITLE, table.get_title())
+            self.test_page.open()
+            league.click()
+
+        calendar = league.calendar
+        calendar.open_in_curr_tab()
+        self.assertEqual(league.CALENDAR_TITLE, calendar.get_title())
+        self.test_page.open()
+        league.click()
+
+        statistics = league.statistics
+        statistics.open_in_curr_tab()
+        self.assertEqual(league.STATISTICS_TITLE, statistics.get_title())
+        self.test_page.open()
+        league.click()
+
+    def test(self):
+        self.test_page = EuroCupsPage(self.driver)
+        self.test_page.open()
+
+        self.component_test(self.test_page.super_cup)
+        self.component_test(self.test_page.europe_league)
+        self.component_test(self.test_page.chempion_league)
+
+        search_form = self.test_page.search_from
+        search_form.set_text('Cristiano Ronaldo')
+        search_form.submit()
+        self.assertNotIn(u'По вашему запросу ничего не найдено.', self.driver.page_source)
