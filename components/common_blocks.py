@@ -6,6 +6,7 @@ from components.component import *
 # TODO: changing button 'Забытые актрисы', '100 фильмов для киноманов'
 # TODO: search field
 # TODO: test hover?
+# TODO: ad block test
 
 
 class MainHeader(Component):
@@ -13,6 +14,18 @@ class MainHeader(Component):
     RECOMMENDED_URL = BASE_URL + 'user/recommended/'
     RATINGS_URL = BASE_URL + 'user/ratings/cinema/'
     FAVORITES_URL = BASE_URL + 'user/favorites/'
+
+    TEST_USER_LOGIN = 'valeriy-test'
+    TEST_USER_DOMAIN = '@mail.ru'
+    TEST_USER_PASSWORD = 'passw0rd'
+
+    LOGIN_BUTTON = '//a[contains(text(),"Вход")]'
+    LOGIN_INPUT = '//input[@id="ph_login"]'
+    # DOMAIN_INPUT = '//select[@name="Domain"]/option[@value="@bk.ru"]'
+    # DOMAIN_INPUT = '//select[@name="Domain"]'
+    PASSWORD_INPUT = '//input[@id="ph_password"]'
+    LOGIN_SUBMIT_BUTTON = '//span[@class="js-control js-control-login x-ph__button x-ph__button_action"]'
+    # LOGIN_SUBMIT_BUTTON = '//span[contains(text(),"Войти")]'
 
     LOGO_BUTTON = '//img[@class="pm-logo__link__pic"]'
     RECOMMENDED_BUTTON = '//span[contains(text(),"Рекомендации")]'
@@ -30,6 +43,14 @@ class MainHeader(Component):
 
     def click_favorites(self):
         self.click(self.FAVORITES_BUTTON)
+
+    def login(self):
+        if self.driver.find_element_by_xpath(self.LOGIN_BUTTON):
+            self.click(self.LOGIN_BUTTON)
+            self.send_keys(self.LOGIN_INPUT, self.TEST_USER_LOGIN)
+            self.send_keys(self.PASSWORD_INPUT, self.TEST_USER_PASSWORD)
+            self.click(self.LOGIN_SUBMIT_BUTTON)
+            # self.click(self.LOGO_BUTTON)
 
 
 class NavBar(Component):
@@ -156,14 +177,17 @@ class NavBar(Component):
 
     def click_cinema_awards(self):
         self.hover(self.CINEMA_BUTTON)
+        self.driver.implicitly_wait(1)
         self.click(self.CINEMA_DROPDOWN['AWARDS'])
 
     def click_cinema_places(self):
         self.hover(self.CINEMA_BUTTON)
+        self.driver.implicitly_wait(1)
         self.click(self.CINEMA_DROPDOWN['PLACES'])
 
     def click_cinema_articles(self):
         self.hover(self.CINEMA_BUTTON)
+        self.driver.implicitly_wait(1)
         self.click(self.CINEMA_DROPDOWN['ARTICLES'])
 
     # series dropdown buttons
