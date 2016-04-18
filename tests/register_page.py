@@ -3,6 +3,7 @@ from page import Page
 from component import Component
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 
 class RegisterPage(Page):
@@ -117,9 +118,9 @@ class RegisterForm(Component):
         return self.driver.find_element_by_xpath(self.CITY_ERROR)
 
     def get_city_auto_variant(self):
-        helper = self.driver.find_element_by_xpath(self.CITY_HELPER)
-        city = helper.find_element_by_tag_name('div')
-        return city
+        wait = WebDriverWait(self.driver, 5)
+        helper = wait.until(EC.presence_of_element_located((By.XPATH, self.CITY_HELPER)))
+        return wait.until(EC.visibility_of(helper.find_element_by_tag_name('div')))
 
     def get_city_success_el(self):
         return self.driver.find_element_by_xpath(self.CITY_SUCCESS)
