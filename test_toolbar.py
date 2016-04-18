@@ -2,15 +2,15 @@
 import datetime
 import unittest
 from selenium.webdriver import Remote, DesiredCapabilities
-from page import CurrencyPage
 import os
+
+from toolbar_page import Toolbar
+
 
 class ToolbarTestCase(unittest.TestCase):
     OK = 200
 
     def setUp(self):
-        # self.driver = webdriver.Firefox()
-        # self.addCleanup(self.driver.quit)
         browser = os.environ.get('TTHA2BROWSER', 'CHROME')
 
         self.driver = Remote(
