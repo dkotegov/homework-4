@@ -212,26 +212,48 @@ class CalendarTable(Component):
 
 	def submit(self):
 		self.driver.find_elements_by_xpath("//*[contains(text(), 'Сохранить')]")[1].click()
+		self.driver.execute_script("document.location.href = document.location.href.split('?')[0]")
 		# time.sleep(5)	
 
 	def check_event(self, title):
-		timeout = 10
+		timeout = 20
 		counter = 0
 
+		# fucking awesome code:
 		# because ajax-query: visible - true, clickable - not true => Zzzz 
 		while True:
 			try:
 				self.driver.find_elements_by_xpath("//*[contains(text(), '" + title + "')]")[0].click()
-				if self.check_edit_btn():
-					return True
+				_timeout = 20
+				_counter = 0
+				while True:
+					if self.check_event_info():
+						break
+					else:
+						_counter += 1
+						time.sleep(0.5)
+
+					if _counter == _timeout:
+						return False
+
+				return True
 			except WebDriverException, e:
+				pass
+			except IndexError, e:
 				pass
 			
 			counter += 1
-			time.sleep(1)
+			time.sleep(0.5)
 			
 			if counter == timeout:
 				return False
+
+
+	def check_event_info(self):
+		if len(self.driver.find_elements_by_class_name("event-info__summary")) == 0:
+			return False
+		else:
+			return True
 	
 	def check_edit_btn(self):
 		if len(self.driver.find_elements_by_xpath("//*[contains(text(), 'Редактировать')]")) == 0:
@@ -249,6 +271,7 @@ class CalendarTable(Component):
 	def del_event(self):
 		self.driver.find_elements_by_xpath("//*[contains(text(), 'Удалить')]")[0].click()
 		self.driver.find_elements_by_xpath("//*[contains(text(), 'Да')]")[0].click()
+		time.sleep(1)	# ajax here
 
 	def click_edit(self):
 		self.driver.find_elements_by_xpath("//*[contains(text(), 'Редактировать')]")[0].click()
@@ -429,6 +452,7 @@ class CalendarTableTest(BaseClassTest):
 		super(CalendarTableTest, self).setUp()
 		self.calendar_page = month_calendar(self.driver)
 
+
 	def test_add_event(self):
 		table = self.calendar_page.calendar_table
 
@@ -446,6 +470,7 @@ class CalendarTableTest(BaseClassTest):
 
 		table.del_event()
 
+
 	def test_add_event_with_extra_options(self):
 		table = self.calendar_page.calendar_table
 
@@ -460,6 +485,7 @@ class CalendarTableTest(BaseClassTest):
 		table.check_description(self.DESCRIPTION)
 
 		table.del_event()
+
 
 	def test_edit_event(self):
 		table = self.calendar_page.calendar_table
