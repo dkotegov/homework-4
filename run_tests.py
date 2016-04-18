@@ -5,10 +5,11 @@ import unittest
 from tests.common_blocks_test import *
 from tests.favorites_page_test import *
 from tests.awards_page_test import *
+from tests.profile_page_test import *
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(AwardsPageTestCase)
+        unittest.makeSuite(ProfilePageTestCase)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
