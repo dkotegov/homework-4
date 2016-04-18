@@ -145,7 +145,6 @@ class UploadAnyNamesCyrillic(BaseTestCase):
     file_127symbols = 'СТОДВАДЦАТЬСЕМЬкрпрпаапрорвкрнкыеоыенонпротпртыеркеыркерапиапипаперурфкрукекуЕУКФЕПЫКПАЫИАЫПР' \
                       'КУКФПУФКПВАМИАИВЫАПВАвапавамуупппп'
 
-
     def setUp(self):
         super(UploadAnyNamesCyrillic, self).setUp()
         self.init()

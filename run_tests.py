@@ -15,7 +15,6 @@ if __name__ == '__main__':
         elif check_list == 'OLEG':
                 test_set = test_set2
 
-        suite = unittest.TestSuite((unittest.makeSuite(
-                UploadAnySizes)))
+        suite = unittest.TestSuite((test_set))
         result = unittest.TextTestRunner().run(suite)
         sys.exit(not result.wasSuccessful())
