@@ -24,7 +24,6 @@ class BaseTestCase(unittest.TestCase):
 
 
 class CommonBlocksTestCase(BaseTestCase):
-    """
     def test_main_header(self):
         self.page.main_header.click_logo()
         self.assertEqual(self.driver.current_url, self.page.main_header.BASE_URL)
@@ -133,7 +132,7 @@ class CommonBlocksTestCase(BaseTestCase):
 
         self.page.nav_bar.click_stars_selections()
         self.assertEqual(self.driver.current_url, self.page.nav_bar.STARS_DROPDOWN_URLS['SELECTIONS'])
-"""
+
     def test_footer(self):
         # 1st column
         self.page.footer.click_cinema()

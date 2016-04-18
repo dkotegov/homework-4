@@ -3,11 +3,6 @@
 from components.component import *
 
 
-# TODO: changing button 'Забытые актрисы', '100 фильмов для киноманов'
-# TODO: search field
-# TODO: ad block test
-
-
 class MainHeader(Component):
     BASE_URL = 'https://afisha.mail.ru/'
     RECOMMENDED_URL = BASE_URL + 'user/recommended/'
