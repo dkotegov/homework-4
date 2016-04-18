@@ -60,7 +60,7 @@ class NavBar(Component):
     CINEMA_URL = BASE_URL + 'msk/cinema/'
     SERIES_URL = BASE_URL + 'msk/series/'
     TVSHOW_URL = BASE_URL + 'msk/tvshow/'
-    TV_URL = BASE_URL + 'moskva/'
+    TV_URL = 'https://tv.mail.ru/moskva/'
     STARS_URL = BASE_URL + 'stars/'
 
     CINEMA_DROPDOWN = {'KINOAFISHA': '//span[contains(text(),"Киноафиша")]',
@@ -264,7 +264,7 @@ class Footer(Component):
     KINOAFISHA = '//a[@class="footer__menu__list__item__link" and contains(text(),"Киноафиша")]'
     CINEMA_ONLINE = '//a[@class="footer__menu__list__item__link" and contains(text(),"Фильмы онлайн")]'
     CINEMA_TOP = '//a[@class="footer__menu__list__item__link" and contains(text(),"Лучшие фильмы")]'
-    SOON = '//a[@class="footer__menu__list__item__link" and contains(text(),"Календарь кинопремьер")]'
+    SOON = '//a[@href="https://afisha.mail.ru/cinema/soon/#soon" and contains(text(),"Календарь кинопремьер")]'
     CINEMA_SELECTIONS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Подборки")]'
     AWARDS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Премии")]'
     PLACES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Кинотеатры")]'
@@ -289,10 +289,10 @@ class Footer(Component):
         self.click(self.CINEMA_SELECTIONS)
 
     def click_awards(self):
-        self.click(self.CINEMA)
+        self.click(self.AWARDS)
 
     def click_places(self):
-        self.click(self.AWARDS)
+        self.click(self.PLACES)
 
     def click_cinema_articles(self):
         self.click(self.CINEMA_ARTICLES)
@@ -301,9 +301,9 @@ class Footer(Component):
     SERIES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Сериалы")]'
     SERIES_TOP = '//a[@class="footer__menu__list__item__link" and contains(text(),"Лучшие сериалы")]'
     SERIES_ONLINE = '//a[@class="footer__menu__list__item__link" and contains(text(),"Сериалы онлайн")]'
-    SERIES_SELECTIONS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Подборки")]'
+    SERIES_SELECTIONS = '//a[@href="https://afisha.mail.ru/series/selections/" and contains(text(),"Подборки")]'
     SERIES_ALL = '//a[@class="footer__menu__list__item__link" and contains(text(),"Все сериалы")]'
-    SERIES_ARTICLES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Новости")]'
+    SERIES_ARTICLES = '//a[@href="https://afisha.mail.ru/msk/series/articles/" and contains(text(),"Новости")]'
 
     def click_series(self):
         self.click(self.SERIES)
@@ -328,7 +328,7 @@ class Footer(Component):
     TVSHOW_TOP = '//a[@class="footer__menu__list__item__link" and contains(text(),"Лучшие телешоу")]'
     TVSHOW_TOP_ONLINE = '//a[@class="footer__menu__list__item__link" and contains(text(),"Телешоу онлайн")]'
     TVSHOW_TOP_ALL = '//a[@class="footer__menu__list__item__link" and contains(text(),"Все телешоу")]'
-    TVSHOW_TOP_ARTICLES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Новости")]'
+    TVSHOW_TOP_ARTICLES = '//a[@href="https://afisha.mail.ru/msk/tvshow/articles/" and contains(text(),"Новости")]'
 
     def click_tvshow(self):
         self.click(self.TVSHOW)
@@ -409,7 +409,7 @@ class Footer(Component):
     SERIES_ONLINE_URL = BASE_URL + 'series/online/'
     SERIES_SELECTIONS_URL = BASE_URL + 'series/selections/'
     SERIES_ALL_URL = BASE_URL + 'series/all/'
-    SERIES_ARTICLES_URL = BASE_URL + 'series/articles/'
+    SERIES_ARTICLES_URL = BASE_URL + 'msk/series/articles/'
 
     # 3rd column
     TVSHOW_URL = BASE_URL + 'msk/tvshow/'
@@ -419,12 +419,13 @@ class Footer(Component):
     TVSHOW_TOP_ARTICLES_URL = BASE_URL + 'msk/tvshow/articles/'
 
     # 4th column
-    TV_URL = 'https://tv.mail.ru/'
-    TV_CENTRAL_URL = TV_URL + 'region/central/'
-    TV_LOCAL_URL = TV_URL + 'region/local/'
-    TV_SPORT_URL = TV_URL + 'region/sport/'
-    TV_MOVIES_SERIES_URL = TV_URL + 'region/movies_series/'
-    TV_NEWS_URL = TV_URL + 'region/news/'
+    TV_BASE_URL = 'https://tv.mail.ru/'
+    TV_URL = 'https://tv.mail.ru/moskva/'
+    TV_CENTRAL_URL = TV_BASE_URL + 'moskva/central/'
+    TV_LOCAL_URL = TV_BASE_URL + 'region/local/'
+    TV_SPORT_URL = TV_BASE_URL + 'region/sport/'
+    TV_MOVIES_SERIES_URL = TV_BASE_URL + 'region/movies_series/'
+    TV_NEWS_URL = TV_BASE_URL + 'region/news/'
 
     # 5th column
     STARS_URL = BASE_URL + 'stars/'

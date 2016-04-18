@@ -34,16 +34,18 @@ class ProfileBlock(Component):
     FILM_REZH_URL = AFISHA_URL + 'person/447638_steven_soderbergh/'
     FILM_ROLE_URL = AFISHA_URL +'person/502619_chris_santos/'
 
-    ALL_FILMS_BTN = '//span[contains(text(),"Саша Грэй: все фильмы и сериалы")]'
+    # ALL_FILMS_BTN = '//span[@class="link__text" and contains(text(),"Саша Грэй: все фильмы и сериалы")]'
+    ALL_FILMS_BTN = '//a[@href="/person/471877_sasha_grey/movies/" and @class="link link_underline link_icon"]'
     ALL_FILMS_URL = AFISHA_URL + 'person/471877_sasha_grey/movies/'
 
     ARTICLE_BTN = '//a[contains(text(),"Саша Грэй показала «Открытые окна» в Москве")]'
     ARTICLE_URL = AFISHA_URL + 'cinema/articles/44183/'
 
-    BORN_TODAY_BTN = '//span[contains(text(),"Сегодня родились")]'
+    BORN_TODAY_BTN = '//span[contains(text(),"Сегодня родились") and @class="hdr__inner"]'
     BORN_TODAY_URL = AFISHA_URL + 'person/birthday/'
 
-    STAR_NEWS = '//span[contains(text(),"Новости о звездах")]'
+    # STAR_NEWS = '//span[contains(text(),"Новости о звездах")]'
+    STAR_NEWS = '//a[@href="/msk/stars/articles/" and @class="hdr__text"]'
     ALL_STAR_NEWS = '//span[contains(text(),"Все новости о звездах")]'
     STAR_NEWS_URL = AFISHA_URL + 'msk/stars/articles/'
 

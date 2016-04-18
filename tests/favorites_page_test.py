@@ -44,6 +44,7 @@ class FavoritesPageTestCase(BaseTestCase):
         page.fav_block.click_choose_series_button()
         self.assertEqual(self.driver.current_url, page.fav_block.CHOOSE_SERIES_BUTTON_URL)
     """
+
     def test_add_film(self):
         page = FavoritesPage(self.driver)
         base_page = BasePage(self.driver)
@@ -61,7 +62,6 @@ class FavoritesPageTestCase(BaseTestCase):
         # self.assertEqual(self.driver.current_url, page.fav_block.FILMS_BUTTON_URL)
 
         page.fav_block.add_or_remove_film()
-
         # assert
 
     def test_film_block(self):

@@ -9,7 +9,9 @@ from tests.profile_page_test import *
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(ProfilePageTestCase)
+        # unittest.makeSuite(ProfilePageTestCase) # OK
+        # unittest.makeSuite(AwardsPageTestCase) # OK
+        unittest.makeSuite(CommonBlocksTestCase)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
