@@ -17,14 +17,14 @@ from pages.main_page_pages import LunisolarForecastPage
 from pages.main_page_pages import SubscriptionUnitPage
 from pages.main_page_pages import LadyUnitPage
 
-LOGIN = 'Login'
-PASSWORD = 'Password'
+LOGIN = 'myLogin'
+PASSWORD = 'myPassword'
 
 def tune_driver():
     # self.driver = webdriver.Chrome('./chromedriver')
     driver = webdriver.Firefox()
     driver.get("https://horo.mail.ru/")
-    driver.implicitly_wait(50)
+    driver.implicitly_wait(10)
     return driver
 
 def _get_zodiac_sign_by_date(month, day):
