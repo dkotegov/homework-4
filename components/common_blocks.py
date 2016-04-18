@@ -5,7 +5,6 @@ from components.component import *
 
 # TODO: changing button 'Забытые актрисы', '100 фильмов для киноманов'
 # TODO: search field
-# TODO: test hover?
 # TODO: ad block test
 
 
@@ -21,11 +20,8 @@ class MainHeader(Component):
 
     LOGIN_BUTTON = '//a[contains(text(),"Вход")]'
     LOGIN_INPUT = '//input[@id="ph_login"]'
-    # DOMAIN_INPUT = '//select[@name="Domain"]/option[@value="@bk.ru"]'
-    # DOMAIN_INPUT = '//select[@name="Domain"]'
     PASSWORD_INPUT = '//input[@id="ph_password"]'
     LOGIN_SUBMIT_BUTTON = '//span[@class="js-control js-control-login x-ph__button x-ph__button_action"]'
-    # LOGIN_SUBMIT_BUTTON = '//span[contains(text(),"Войти")]'
 
     LOGO_BUTTON = '//img[@class="pm-logo__link__pic"]'
     RECOMMENDED_BUTTON = '//span[contains(text(),"Рекомендации")]'
@@ -50,7 +46,6 @@ class MainHeader(Component):
             self.send_keys(self.LOGIN_INPUT, self.TEST_USER_LOGIN)
             self.send_keys(self.PASSWORD_INPUT, self.TEST_USER_PASSWORD)
             self.click(self.LOGIN_SUBMIT_BUTTON)
-            # self.click(self.LOGO_BUTTON)
 
 
 class NavBar(Component):
@@ -261,3 +256,179 @@ class NavBar(Component):
     def click_stars_selections(self):
         self.hover(self.STARS_BUTTON)
         self.click(self.STARS_DROPDOWN['SELECTIONS'])
+
+
+class Footer(Component):
+    # 1st column
+    CINEMA = '//a[@class="footer__menu__list__item__link" and contains(text(),"Фильмы")]'
+    KINOAFISHA = '//a[@class="footer__menu__list__item__link" and contains(text(),"Киноафиша")]'
+    CINEMA_ONLINE = '//a[@class="footer__menu__list__item__link" and contains(text(),"Фильмы онлайн")]'
+    CINEMA_TOP = '//a[@class="footer__menu__list__item__link" and contains(text(),"Лучшие фильмы")]'
+    SOON = '//a[@class="footer__menu__list__item__link" and contains(text(),"Календарь кинопремьер")]'
+    CINEMA_SELECTIONS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Подборки")]'
+    AWARDS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Премии")]'
+    PLACES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Кинотеатры")]'
+    CINEMA_ARTICLES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Новости")]'
+
+    def click_cinema(self):
+        self.click(self.CINEMA)
+
+    def click_kinoafisha(self):
+        self.click(self.KINOAFISHA)
+
+    def click_cinema_online(self):
+        self.click(self.CINEMA_ONLINE)
+
+    def click_cinema_top(self):
+        self.click(self.CINEMA_TOP)
+
+    def click_soon(self):
+        self.click(self.SOON)
+
+    def click_cinema_selections(self):
+        self.click(self.CINEMA_SELECTIONS)
+
+    def click_awards(self):
+        self.click(self.CINEMA)
+
+    def click_places(self):
+        self.click(self.AWARDS)
+
+    def click_cinema_articles(self):
+        self.click(self.CINEMA_ARTICLES)
+
+    # 2nd column
+    SERIES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Сериалы")]'
+    SERIES_TOP = '//a[@class="footer__menu__list__item__link" and contains(text(),"Лучшие сериалы")]'
+    SERIES_ONLINE = '//a[@class="footer__menu__list__item__link" and contains(text(),"Сериалы онлайн")]'
+    SERIES_SELECTIONS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Подборки")]'
+    SERIES_ALL = '//a[@class="footer__menu__list__item__link" and contains(text(),"Все сериалы")]'
+    SERIES_ARTICLES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Новости")]'
+
+    def click_series(self):
+        self.click(self.SERIES)
+
+    def click_series_top(self):
+        self.click(self.SERIES_TOP)
+
+    def click_series_online(self):
+        self.click(self.SERIES_ONLINE)
+
+    def click_series_selections(self):
+        self.click(self.SERIES_SELECTIONS)
+
+    def click_series_all(self):
+        self.click(self.SERIES_ALL)
+
+    def click_series_articles(self):
+        self.click(self.SERIES_ARTICLES)
+
+    # 3rd column
+    TVSHOW = '//a[@class="footer__menu__list__item__link" and contains(text(),"Телешоу")]'
+    TVSHOW_TOP = '//a[@class="footer__menu__list__item__link" and contains(text(),"Лучшие телешоу")]'
+    TVSHOW_TOP_ONLINE = '//a[@class="footer__menu__list__item__link" and contains(text(),"Телешоу онлайн")]'
+    TVSHOW_TOP_ALL = '//a[@class="footer__menu__list__item__link" and contains(text(),"Все телешоу")]'
+    TVSHOW_TOP_ARTICLES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Новости")]'
+
+    def click_tvshow(self):
+        self.click(self.TVSHOW)
+
+    def click_tvshow_top(self):
+        self.click(self.TVSHOW_TOP)
+
+    def click_tvshow_top_online(self):
+        self.click(self.TVSHOW_TOP_ONLINE)
+
+    def click_tvshow_top_all(self):
+        self.click(self.TVSHOW_TOP_ALL)
+
+    def click_tvshow_top_articles(self):
+        self.click(self.TVSHOW_TOP_ARTICLES)
+
+    # 4th column
+    TV = '//a[@class="footer__menu__list__item__link" and contains(text(),"Телепрограмма")]'
+    TV_CENTRAL = '//a[@class="footer__menu__list__item__link" and contains(text(),"Центральные")]'
+    TV_LOCAL = '//a[@class="footer__menu__list__item__link" and contains(text(),"Местные")]'
+    TV_SPORT = '//a[@class="footer__menu__list__item__link" and contains(text(),"Спортивные")]'
+    TV_MOVIES_SERIES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Фильмы и Сериалы")]'
+    TV_NEWS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Новостные")]'
+
+    def click_tv(self):
+        self.click(self.TV)
+
+    def click_tv_central(self):
+        self.click(self.TV_CENTRAL)
+
+    def click_tv_local(self):
+        self.click(self.TV_LOCAL)
+
+    def click_tv_sport(self):
+        self.click(self.TV_SPORT)
+
+    def click_tv_movies_series(self):
+        self.click(self.TV_MOVIES_SERIES)
+
+    def click_tv_news(self):
+        self.click(self.TV_NEWS)
+
+    # 5th column
+    STARS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Звёзды")]'
+    STAR_ARTICLES = '//a[@class="footer__menu__list__item__link" and contains(text(),"Новости")]'
+    STAR_BIRTHDAY = '//a[@class="footer__menu__list__item__link" and contains(text(),"Сегодня родились")]'
+    STAR_SELECTIONS = '//a[@class="footer__menu__list__item__link" and contains(text(),"Рейтинги")]'
+
+    def click_stars(self):
+        self.click(self.STARS)
+
+    def click_star_articles(self):
+        self.click(self.STAR_ARTICLES)
+
+    def click_star_birthday(self):
+        self.click(self.STAR_BIRTHDAY)
+
+    def click_star_selections(self):
+        self.click(self.STAR_SELECTIONS)
+
+
+    BASE_URL = 'https://afisha.mail.ru/'
+
+    # 1st column
+    CINEMA_URL = BASE_URL + 'msk/cinema/'
+    KINOAFISHA_URL = BASE_URL + 'msk/cinema/kinoafisha/'
+    CINEMA_ONLINE_URL = BASE_URL + 'cinema/online/'
+    CINEMA_TOP_URL = BASE_URL + 'cinema/top/'
+    SOON_URL = BASE_URL + 'cinema/soon/#soon'
+    CINEMA_SELECTIONS_URL = BASE_URL + 'cinema/selections/'
+    AWARDS_URL = BASE_URL + 'awards/'
+    PLACES_URL = BASE_URL + 'msk/cinema/places/'
+    CINEMA_ARTICLES_URL = BASE_URL + 'msk/cinema/articles/'
+
+    # 2nd column
+    SERIES_URL = BASE_URL + 'msk/series/'
+    SERIES_TOP_URL = BASE_URL + 'series/top/'
+    SERIES_ONLINE_URL = BASE_URL + 'series/online/'
+    SERIES_SELECTIONS_URL = BASE_URL + 'series/selections/'
+    SERIES_ALL_URL = BASE_URL + 'series/all/'
+    SERIES_ARTICLES_URL = BASE_URL + 'series/articles/'
+
+    # 3rd column
+    TVSHOW_URL = BASE_URL + 'msk/tvshow/'
+    TVSHOW_TOP_URL = BASE_URL + 'tvshow/top/'
+    TVSHOW_TOP_ONLINE_URL = BASE_URL + 'tvshow/online/'
+    TVSHOW_TOP_ALL_URL = BASE_URL + 'tvshow/all/'
+    TVSHOW_TOP_ARTICLES_URL = BASE_URL + 'msk/tvshow/articles/'
+
+    # 4th column
+    TV_URL = 'https://tv.mail.ru/'
+    TV_CENTRAL_URL = TV_URL + 'region/central/'
+    TV_LOCAL_URL = TV_URL + 'region/local/'
+    TV_SPORT_URL = TV_URL + 'region/sport/'
+    TV_MOVIES_SERIES_URL = TV_URL + 'region/movies_series/'
+    TV_NEWS_URL = TV_URL + 'region/news/'
+
+    # 5th column
+    STARS_URL = BASE_URL + 'stars/'
+    STAR_ARTICLES_URL = BASE_URL + 'msk/stars/articles/'
+    STAR_BIRTHDAY_URL = BASE_URL + 'person/birthday/'
+    STAR_SELECTIONS_URL = BASE_URL + 'stars/selections/'
+
