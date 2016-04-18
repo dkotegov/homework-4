@@ -225,3 +225,45 @@ class SubscriptionUnitPage:
     def go_group_ok(self):
         link = self.driver.find_elements_by_css_selector(self.ok_link_selector)[0]
         link.click()
+
+    def click_button_subscription_horo(self):
+        button = self.driver.find_elements_by_css_selector(".cell_right > button:nth-child(1)")[0]
+        button.click()
+
+    def get_status_subscription_horo(self):
+        element = self.driver.find_elements_by_css_selector("span.button__inner:nth-child(2) > div:nth-child(1)")[0]
+
+        if element.value_of_css_property("display") == "none":
+            return False
+        return True
+
+class LadyUnitPage:
+    def __init__(self, driver):
+        self.driver = driver
+        self.images = lambda index : "div.grid__item:nth-child(" + str(index) + ") > div:nth-child(1) > a:nth-child(1) > div:nth-child(1) > span:nth-child(1)"
+
+        self.images_slider = lambda index : "div.slider__item:nth-child(" + str(index + 2) + ")"
+
+    def get_scale_image(self, index):
+        element = self.driver.find_elements_by_css_selector(self.images(index))[0]
+        return element.value_of_css_property("transform")
+
+    def move_to_image(self, index):
+        image = self.driver.find_elements_by_css_selector(self.images(index))[0]
+        action = webdriver.ActionChains(self.driver)
+        action.move_to_element(image).perform()
+
+    def click_slider_left(self):
+        slader_left_button = self.driver.find_elements_by_css_selector("div.control:nth-child(1)")[0]
+        slader_left_button.click()
+
+    def click_slider_right(self):
+        slader_right_button = self.driver.find_elements_by_css_selector("div.control:nth-child(2)")[0]
+        slader_right_button.click()
+
+    def get_transform(self, index):
+        element = self.driver.find_elements_by_css_selector(self.images_slider(index))[0]
+        return element.value_of_css_property("transform")
+
+
+

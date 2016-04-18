@@ -15,19 +15,17 @@ from pages.main_page_pages import ZodiacSignPage
 from pages.main_page_pages import SearchDreamPage
 from pages.main_page_pages import LunisolarForecastPage
 from pages.main_page_pages import SubscriptionUnitPage
+from pages.main_page_pages import LadyUnitPage
 
-#тесты иногда падают когда что то на странице не догрузилось(чертов ajax)
-#бывает падают тесты из за защиты мэйла на подбор пароля
-
-#авторизация больше не работает - поменялся DOM + почему то элементы ввода больше заселектить нельзя
+LOGIN = 'myLogin'
+PASSWORD = 'myPassword'
 
 def tune_driver():
     # self.driver = webdriver.Chrome('./chromedriver')
     driver = webdriver.Firefox()
     driver.get("https://horo.mail.ru/")
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
     return driver
-
 
 def _get_zodiac_sign_by_date(month, day):
     if (month == 3 and 21 <= day <= 31) or (month == 4 and 1 <= day <= 20):
@@ -110,7 +108,7 @@ class HeadMailPageTestCase(unittest.TestCase):
     def tearDown(self):
         pass #self.driver.quit()
 
-    def _test_links_head(self):
+    def test_links_head(self):
         urls = ["https://mail.ru","https://e.mail.ru","https://my.mail.ru",
                 "http://ok.ru","https://games.mail.ru","http://love.mail.ru",
                 "https://news.mail.ru","http://go.mail.ru"]
@@ -120,25 +118,17 @@ class HeadMailPageTestCase(unittest.TestCase):
             self.assertIn(urls[i], self.driver.current_url)
             self.driver.back()
 
-    def _test_link_registration(self):
+    def test_link_registration(self):
         self.page.click_link_registration()
         self.assertIn("https://e.mail.ru", self.driver.current_url)
 
-    def _test_login_incorrect(self):
-        self.page.login(login="ErrorError", password="ErrorError")
-        #только вчера эта функциональность работала совсем по другому
-        text_login_incorrect = u"Неверное имя пользователя или пароль. Проверьте правильность введенных данных."
-        text_color_login_incorrect = "rgba(234, 0, 0, 1)"
-
-        #if "https://e.mail.ru" not in self.driver.current_url:#при частом вводе некоректных данных кидает на другую страницу
-        #    self.assertEquals(self.page.get_text_login_incorrect(),text_login_incorrect)
-        #    self.assertEquals(self.page.get_color_text_login_incorrect(),text_color_login_incorrect)
-
+    def test_login_incorrect(self):
+        self.page.login(login="ERROR", password="ERROR")
         self.assertIn("https://account.mail.ru/user/login", self.driver.current_url)
 
-    def _test_login_correct(self):
-        login = "myLogin@list.ru"
-        password = "myPassword"
+    def test_login_correct(self):
+        login = LOGIN
+        password = PASSWORD
         self.page.login(login, password)
 
         self.assertEquals(self.page.get_email_user_login_correct(), login.lower())
@@ -165,7 +155,6 @@ class PortalMenuToolbarPageTestCase(unittest.TestCase):
         time.sleep(10)
         self.assertEquals(self.page.get_background_color_link(), u'rgba(20, 127, 203, 1)')
 
-#дальше работу ссылок не проверяю
 
 class PortalMenuSubmenuPageTestCase(unittest.TestCase):
     def setUp(self):
@@ -232,7 +221,7 @@ class BlockHoroTestCase(unittest.TestCase):
 
     def test_zodiac_sign(self):
         head_mail_page = HeadMailPage(self.driver)
-        head_mail_page.login("MyLogin@mail.ru", "helloworld")
+        head_mail_page.login(LOGIN, PASSWORD)
 
         date_birth = self.page.get_date_birth().split(" ")
         day = int(date_birth[0])
@@ -311,29 +300,64 @@ class SubscriptionUnitTestCase(unittest.TestCase):
         self.url_facebook = "https://www.facebook.com/lady.mail.ru?ref=bookmarks"
         self.url_ok = "http://ok.ru/ladymailru"
 
-    def _test_go_group_vk(self):
+    def test_go_group_vk(self):
         self.page.go_group_vk()
         self.driver.switch_to_window(self.driver.window_handles[1])
         self.assertEqual(self.driver.current_url, self.url_vk)
         self.driver.close()
         self.driver.switch_to_window(self.driver.window_handles[0])
 
-    def _test_go_group_facebook(self):
+    def test_go_group_facebook(self):
         self.page.go_group_facebook()
         self.driver.switch_to_window(self.driver.window_handles[1])
         self.assertEqual(self.driver.current_url, self.url_facebook)
         self.driver.close()
         self.driver.switch_to_window(self.driver.window_handles[0])
 
-    def _test_go_group_ok(self):
+    def test_go_group_ok(self):
         self.page.go_group_ok()
         self.driver.switch_to_window(self.driver.window_handles[1])
         self.assertEqual(self.driver.current_url, self.url_ok)
         self.driver.close()
         self.driver.switch_to_window(self.driver.window_handles[0])
 
+    def test_subscription_horo(self):
+        head_mail_page = HeadMailPage(self.driver)
+        head_mail_page.login(LOGIN, PASSWORD)
+
+        self.assertFalse(self.page.get_status_subscription_horo())
+        self.page.click_button_subscription_horo()
+        self.assertTrue(self.page.get_status_subscription_horo())
+
     def tearDown(self):
         self.driver.quit()
 
 
-#print x.decode('unicode-escape')
+class LadyUnitTestCase(unittest.TestCase):
+    def setUp(self):
+        self.driver = tune_driver()
+        self.page = LadyUnitPage(self.driver)
+
+    def test_scale_image(self):
+        for index in range(1,6):
+            self.assertEquals(self.page.get_scale_image(index), u'none')
+            self.page.move_to_image(index)
+            time.sleep(3)
+            self.assertEquals(self.page.get_scale_image(index), u'matrix(1.02, 0, 0, 1.02, 0, 0)')
+        self.driver.get_window_size()
+
+    def test_slider(self):
+        left = self.page.get_transform(1)
+        center = self.page.get_transform(2)
+        right = self.page.get_transform(3)
+        self.page.click_slider_left()
+
+        self.assertEquals(self.page.get_transform(1), right)
+        self.assertEquals(self.page.get_transform(3), center)
+        self.assertEquals(self.page.get_transform(2), left)
+
+        self.page.click_slider_right()
+
+        self.assertEquals(self.page.get_transform(1), left)
+        self.assertEquals(self.page.get_transform(3), right)
+        self.assertEquals(self.page.get_transform(2), center)
