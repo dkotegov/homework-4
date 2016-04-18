@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os, unittest, urlparse, settings
+import os, unittest, urlparse
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
@@ -30,7 +30,7 @@ class BaseTestCase(unittest.TestCase):
         browser = os.environ.get('HW4BROWSER', 'CHROME')
 
         self.driver = Remote(
-            command_executor="http://127.0.0.1:" + str(settings.GRID_PORT) + "/wd/hub",
+            command_executor="http://127.0.0.1:4444/wd/hub",
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
         

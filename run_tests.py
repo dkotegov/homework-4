@@ -6,10 +6,16 @@ import unittest
 # from tests.example_test import ExampleTest
 from tests.test  import AuthTest, MonthToolbarTest, HeaderTest, CalendarTableTest, SidebarTest
 from tests.test2 import DateTest, ExtraTest, CitiesTest, CalendarTest
+from tests.testWeekPage import Tests
 
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
+        unittest.makeSuite(Tests),
+        unittest.makeSuite(DateTest),
+        unittest.makeSuite(ExtraTest),
+        unittest.makeSuite(CitiesTest),
+        unittest.makeSuite(CalendarTest),
         unittest.makeSuite(AuthTest),
         unittest.makeSuite(MonthToolbarTest),
         unittest.makeSuite(HeaderTest),
