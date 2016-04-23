@@ -7,20 +7,11 @@ from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.obraz_sna_page import BlockFindNewObraz, BlockRepostToSocialNet
+from test_cases.main_page_test_case import tune_driver
 
 mypage = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
 vk_login = os.environ['HW4LOGIN_VK']
 vk_password = os.environ['HW4PASSWORD_VK']
-
-
-
-def tune_driver(mypage):
-    driver = webdriver.Firefox()
-    if os.environ['HW4LOGIN'] == "CHROME":
-        driver = webdriver.Chrome('./chromedriver')
-    driver.get(mypage)
-    driver.implicitly_wait(2)
-    return driver
 
 
 class BlockFindNewObrazTestCase(unittest.TestCase):

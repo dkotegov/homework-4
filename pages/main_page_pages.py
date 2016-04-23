@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
+_MAX_WAIT_TIME = 100
 
 class HeadMailPage:
     def __init__(self, driver):
@@ -9,7 +12,9 @@ class HeadMailPage:
 
     def login(self, login, password):
         self.driver.find_element_by_id("PH_authLink").click()
-        self.driver.switch_to_frame(self.driver.find_elements_by_css_selector(".ag-popup__frame__layout__iframe")[0])
+        method = lambda x :self.driver.find_elements_by_css_selector(".ag-popup__frame__layout__iframe")
+        frame = WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
+        self.driver.switch_to_frame(frame[0])
 
         input_email = self.driver.find_elements_by_css_selector(".b-email__name > input:nth-child(1)")[0]
         input_email.send_keys(login)
@@ -45,7 +50,7 @@ class HeadMailPage:
 class PortalMenuToolbarPage:
     def __init__(self, driver):
         self.driver = driver
-        self.link = ".js-link.pm-toolbar__button__inner.pm-toolbar__button__inner_noicon"
+        self.link = ".pm-toolbar__button__inner"#поменял
         self.logo = ".pm-logo__link"
 
     def move_to_link(self):
@@ -80,7 +85,6 @@ class PortalMenuSubmenuPage:
         opacity = dropdown.value_of_css_property("opacity")
         visibility = dropdown.value_of_css_property("visibility")
         display = dropdown.value_of_css_property("display")
-        print opacity,visibility,display
 
         if opacity == "1" and visibility == "visible" and display == "block":
             return True
@@ -92,14 +96,11 @@ class PortalMenuSubmenuPage:
 class AdvertisingUnitPage:
     def __init__(self, driver):
         self.driver = driver
-        self.links = ["div.cols__column_medium_percent-50:nth-child(1) > :nth-child(1)",
+        self.links = [".item_small",
                       "div.cols__column_medium_percent-50:nth-child(2) > :nth-child(1)",
-                      "td.yap-layout__item:nth-child(1) > yatag:nth-child(1) > yatag:nth-child(1) > yatag:nth-child(2) > yatag:nth-child(1) > yatag:nth-child(1) > a:nth-child(1)",
-                      "td.yap-layout__item:nth-child(2) > yatag:nth-child(1) > yatag:nth-child(1) > yatag:nth-child(2) > yatag:nth-child(1) > yatag:nth-child(1) > a:nth-child(1)",
-                      "td.yap-layout__item:nth-child(3) > yatag:nth-child(1) > yatag:nth-child(1) > yatag:nth-child(2) > yatag:nth-child(1) > yatag:nth-child(1) > a:nth-child(1)"]
-
-        self.advertising_close_button = ".yap-layout_type_wide > yatag:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > yatag:nth-child(1) > yatag:nth-child(1) > yatag:nth-child(3) > yatag:nth-child(1) > yatag:nth-child(1)"
-        self.advertising = ".yap-layout_type_wide > yatag:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > yatag:nth-child(1) > yatag:nth-child(1)"
+                      ".yap-title-block__text"]
+        self.advertising_close_button = ".yap-adtune__button"
+        self.advertising = ".yap-layout__inner"
 
     def click_link(self, selector):
         link = self.driver.find_elements_by_css_selector(selector)[0]
@@ -116,13 +117,15 @@ class AdvertisingUnitPage:
         self.driver.switch_to_window(self.driver.window_handles[0])
 
     def get_baner_text(self):
-        element = self.driver.find_elements_by_css_selector(".yap-layout__item_abused > yatag:nth-child(1) > yatag:nth-child(2) > yatag:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1)")[0]
+        element = self.driver.find_elements_by_css_selector(".yap-adtune-message__text")[0]
         return element.text
 
     def move_to_advertising(self):
         advertising = self.driver.find_elements_by_css_selector(self.advertising)[0]
         action = webdriver.ActionChains(self.driver)
         action.move_to_element(advertising).perform()
+        button = self.driver.find_elements_by_class_name("yap-layout__adtune")[0]
+        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(EC.visibility_of(button))
 
 
 class BlockHoroPage:
@@ -175,13 +178,11 @@ class ZodiacSignPage:
     def click_all_horo(self):
         self.driver.find_elements_by_css_selector(".button_top")[0].click()
 
-    def move_to_image_sing_zodiac(self):
-        pass
 
 class SearchDreamPage:
     def __init__(self, driver):
         self.driver = driver
-        self.searchInput = ".p-formitem_subwidth > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > input:nth-child(1)"
+        self.searchInput = ".input__field[name=q]"
         self.searchButton = "button.margin_left_10"
         self.alphabet = lambda index: ".wrapper_nat > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > a:nth-child(" + str(index) + ") > span:nth-child(1)"
 
@@ -230,12 +231,12 @@ class SubscriptionUnitPage:
         button = self.driver.find_elements_by_css_selector(".cell_right > button:nth-child(1)")[0]
         button.click()
 
-    def get_status_subscription_horo(self):
+    def is_subscription_horo(self):
         element = self.driver.find_elements_by_css_selector("span.button__inner:nth-child(2) > div:nth-child(1)")[0]
 
         if element.value_of_css_property("display") == "none":
-            return False
-        return True
+            return True
+        return False
 
 class LadyUnitPage:
     def __init__(self, driver):
