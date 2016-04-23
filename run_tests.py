@@ -19,8 +19,8 @@ if __name__ == '__main__':
         # unittest.makeSuite(AuthTest),
         # unittest.makeSuite(MonthToolbarTest),
         # unittest.makeSuite(HeaderTest),
-        unittest.makeSuite(CalendarTableTest),
-        # unittest.makeSuite(SidebarTest),
+        # unittest.makeSuite(CalendarTableTest),
+        unittest.makeSuite(SidebarTest),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

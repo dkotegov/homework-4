@@ -9,7 +9,7 @@ import datetime, time
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException, WebDriverException
+from selenium.common.exceptions import NoSuchElementException, WebDriverException, StaleElementReferenceException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
@@ -215,24 +215,22 @@ class CalendarTable(Component):
 
 	def submit(self):
 		self.driver.find_elements_by_xpath("//*[contains(text(), 'Сохранить')]")[1].click()
-		# self.driver.execute_script("document.location.href = document.location.href.split('?')[0]")
-		# time.sleep(5)	
+		self.driver.execute_script("document.location.href = document.location.href.split('?')[0]")
 
 	def check_event(self, title):
 		xpath = "//*[contains(text(), '" + title + "')]"
 
 		wait = WebDriverWait(self.driver, 10)
 		elem = wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
-		print 'elem'
+		# print 'elem'
+		# print type(elem), elem
 		elem.click()
-		print 'elem.click'
+		# print 'elem.click'
 
 		test_class = "popover-body"
 		WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_class_name(test_class).text
         )
-
-		print 'check_event'
 
 	def check_event_info(self):
 		return len(self.driver.find_elements_by_class_name("event-info__summary")) != 0
@@ -242,11 +240,9 @@ class CalendarTable(Component):
 		
 	def check_title(self, title):
 		self.driver.find_elements_by_xpath("//*[contains(text(), '" + title + "')]")[0].text
-		print 'check_title'
 	
 	def check_friend_name(self):
 		friend_name = self.driver.find_element_by_css_selector('.attendees-list__item.attendees-list__item_needs-action').text
-		print 'check_friend_name'
 		return friend_name
 
 	def del_event(self):
@@ -267,14 +263,18 @@ class Sidebar(Component):
 		self.driver.find_elements_by_css_selector('.textbox-control__input.textbox_default__input')[0].send_keys(Keys.RETURN)
 
 	def del_task(self, text):
-		elem = self.driver.find_elements_by_xpath("//*[contains(text(), '" + text + "')]")[0]
-		elem.click()
+		if self.check_task(text):
+			try:
+				elem = self.driver.find_elements_by_xpath("//*[contains(text(), '" + text + "')]")[0]
+				elem.click()
+			except IndexError, e:
+				pass
 
 	def check_task(self, text):
 		try:
 			val = self.driver.find_elements_by_xpath("//*[contains(text(), '" + text + "')]")[0].value_of_css_property('text-decoration')
 			return val != 'line-through'
-		except IndexError, e:
+		except IndexError, StaleElementReferenceException:
 			return False
 		
 
@@ -295,12 +295,10 @@ class Sidebar(Component):
 		self.driver.find_elements_by_xpath('//*[contains(text(), "Да")]')[0].click()
 
 	def extra_options_cancel(self):
-		self.hover()
 		self.driver.find_elements_by_xpath('//*[@title="Дополнительные параметры задачи"]')[0].click()
 		self.driver.find_elements_by_xpath('//*[contains(text(), "Отмена")]')[0].click()
 
 	def extra_options_save(self):
-		self.hover()
 		self.driver.find_elements_by_xpath('//*[@title="Дополнительные параметры задачи"]')[0].click()
 		self.driver.find_elements_by_xpath('//*[contains(text(), "Сохранить")]')[0].click()
 
@@ -377,8 +375,6 @@ class HeaderTest(BaseClassTest):
 		self.calendar_page = month_calendar(self.driver)
 
 
-
-
 	def test_navigation(self):
 		header = self.calendar_page.navigation_header
 		
@@ -391,14 +387,6 @@ class HeaderTest(BaseClassTest):
 		header.prev_week()
 		today = header.check_today()
 		self.assertEqual(True, today)
-		# today = datetime.date.today()
-		# next_month = MONTHS[datetime.datetime(today.year, today.month+1, 1).strftime("%B")]
-		# self.assertEqual(next_month, month_name)
-
-		# # Test true week
-		# month_name = calendar_toolbar.get_month_name()
-		# true_month_name = MONTHS[datetime.datetime.now().strftime("%B")]
-		# self.assertEqual(true_month_name, month_name)
 
 
 	def test_preferences(self):
@@ -426,58 +414,57 @@ class CalendarTableTest(BaseClassTest):
 		super(CalendarTableTest, self).setUp()
 		self.calendar_page = month_calendar(self.driver)
 
+	def tearDown(self):
+		self.table.del_event()
+		super(CalendarTableTest, self).tearDown()
+
 
 	def test_add_event(self):
-		table = self.calendar_page.calendar_table
+		self.table = self.calendar_page.calendar_table
 
-		table.open_new_event()
-		table.set_title(self.TITLE)
-		table.add_friend(self.FRIEND_EMAIL)
-		table.submit()
+		self.table.open_new_event()
+		self.table.set_title(self.TITLE)
+		self.table.add_friend(self.FRIEND_EMAIL)
+		self.table.submit()
 
-		table.check_event(self.TITLE)
-		table.check_title(self.TITLE)
+		self.table.check_event(self.TITLE)
+		self.table.check_title(self.TITLE)
 
-		check_friend_name = table.check_friend_name()
+		check_friend_name = self.table.check_friend_name()
 		self.assertEqual(self.FRIEND_NAME, check_friend_name)
 
-		table.del_event()
+
+	def test_add_event_with_extra_options(self):
+		self.table = self.calendar_page.calendar_table
+
+		self.table.open_new_event()
+		self.table.set_title(self.TITLE)
+		self.table.extra_options(self.DESCRIPTION)
+		self.table.submit()
+
+		# Like assert
+		self.table.check_event(self.TITLE)
+		self.table.check_title(self.TITLE)
+		self.table.check_description(self.DESCRIPTION)
 
 
-	# def test_add_event_with_extra_options(self):
-	# 	table = self.calendar_page.calendar_table
+	def test_edit_event(self):
+		self.table = self.calendar_page.calendar_table
 
-	# 	table.open_new_event()
-	# 	table.set_title(self.TITLE)
-	# 	table.extra_options(self.DESCRIPTION)
-	# 	table.submit()
+		self.table.open_new_event()
+		self.table.set_title(self.TITLE)
+		self.table.add_friend(self.FRIEND_EMAIL)
+		self.table.submit()
 
-	# 	# Like assert
-	# 	table.check_event(self.TITLE)
-	# 	table.check_title(self.TITLE)
-	# 	table.check_description(self.DESCRIPTION)
+		self.table.check_event(self.TITLE)
+		self.table.click_edit()
+		self.table.set_title(self.NEW_TITLE)
+		self.table.submit()
 
-	# 	table.del_event()
+		# Like assert
+		self.table.check_event(self.NEW_TITLE)
+		self.table.check_title(self.NEW_TITLE)
 
-
-	# def test_edit_event(self):
-	# 	table = self.calendar_page.calendar_table
-
-	# 	table.open_new_event()
-	# 	table.set_title(self.TITLE)
-	# 	table.add_friend(self.FRIEND_EMAIL)
-	# 	table.submit()
-
-	# 	table.check_event(self.TITLE)
-	# 	table.click_edit()
-	# 	table.set_title(self.NEW_TITLE)
-	# 	table.submit()
-
-	# 	# Like assert
-	# 	table.check_event(self.NEW_TITLE)
-	# 	table.check_title(self.NEW_TITLE)
-
-	# 	table.del_event()
 
 
 class SidebarTest(BaseClassTest):
@@ -486,56 +473,60 @@ class SidebarTest(BaseClassTest):
 	def setUp(self):
 		super(SidebarTest, self).setUp()
 		self.calendar_page = month_calendar(self.driver)
+
+	def tearDown(self):
+		self.sidebar.del_task(self.TEXT)
+		super(SidebarTest, self).tearDown()
 	
-	# def test_task(self):
-	# 	sidebar = self.calendar_page.sidebar
+	def test_task(self):
+		self.sidebar = self.calendar_page.sidebar
 
-	# 	sidebar.add_task(self.TEXT)
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(True, check_task)
+		self.sidebar.add_task(self.TEXT)
+		check_task = self.sidebar.check_task(self.TEXT)
+		self.assertEqual(True, check_task)
 
-	# 	sidebar.del_task(self.TEXT)
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(False, check_task)
-
-	# def test_edit_task(self):
-	# 	sidebar = self.calendar_page.sidebar
-
-	# 	sidebar.add_task(self.TEXT)
-		
-	# 	sidebar.edit_task()
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(True, check_task)
-
-	# 	sidebar.del_task(self.TEXT)
-
-	# def test_del_button_task(self):
-	# 	sidebar = self.calendar_page.sidebar
-
-	# 	sidebar.add_task(self.TEXT)
-		
-	# 	sidebar.del_button_task()
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(False, check_task)
-
-	def test_cancel_button_task(self):
-		sidebar = self.calendar_page.sidebar
-
-		sidebar.set_task_name(self.TEXT)
-		
-		sidebar.extra_options_cancel()
-		check_task = sidebar.check_task(self.TEXT)
+		self.sidebar.del_task(self.TEXT)
+		check_task = self.sidebar.check_task(self.TEXT)
 		self.assertEqual(False, check_task)
 
-	# def test_save_button_task(self):
-	# 	sidebar = self.calendar_page.sidebar
+	def test_edit_task(self):
+		self.sidebar = self.calendar_page.sidebar
 
-	# 	sidebar.set_task_name(self.TEXT)
+		self.sidebar.add_task(self.TEXT)
 		
-	# 	sidebar.extra_options_save()
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(True, check_task)
+		self.sidebar.edit_task()
+		check_task = self.sidebar.check_task(self.TEXT)
+		self.assertEqual(True, check_task)
 
-	# 	sidebar.del_task(self.TEXT)
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(False, check_task)
+		# self.sidebar.del_task(self.TEXT)
+
+	def test_del_button_task(self):
+		self.sidebar = self.calendar_page.sidebar
+
+		self.sidebar.add_task(self.TEXT)
+		
+		self.sidebar.del_button_task()
+		check_task = self.sidebar.check_task(self.TEXT)
+		self.assertEqual(False, check_task)
+
+	def test_cancel_button_task(self):
+		self.sidebar = self.calendar_page.sidebar
+
+		self.sidebar.set_task_name(self.TEXT)
+		
+		self.sidebar.extra_options_cancel()
+		check_task = self.sidebar.check_task(self.TEXT)
+		self.assertEqual(False, check_task)
+
+	def test_save_button_task(self):
+		self.sidebar = self.calendar_page.sidebar
+
+		self.sidebar.set_task_name(self.TEXT)
+		
+		self.sidebar.extra_options_save()
+		check_task = self.sidebar.check_task(self.TEXT)
+		self.assertEqual(True, check_task)
+
+		self.sidebar.del_task(self.TEXT)
+		check_task = self.sidebar.check_task(self.TEXT)
+		self.assertEqual(False, check_task)
