@@ -444,40 +444,40 @@ class CalendarTableTest(BaseClassTest):
 		table.del_event()
 
 
-	# def test_add_event_with_extra_options(self):
-	# 	table = self.calendar_page.calendar_table
+	def test_add_event_with_extra_options(self):
+		table = self.calendar_page.calendar_table
 
-	# 	table.open_new_event()
-	# 	table.set_title(self.TITLE)
-	# 	table.extra_options(self.DESCRIPTION)
-	# 	table.submit()
+		table.open_new_event()
+		table.set_title(self.TITLE)
+		table.extra_options(self.DESCRIPTION)
+		table.submit()
 
-	# 	# Like assert
-	# 	table.check_event(self.TITLE)
-	# 	table.check_title(self.TITLE)
-	# 	table.check_description(self.DESCRIPTION)
+		# Like assert
+		table.check_event(self.TITLE)
+		table.check_title(self.TITLE)
+		table.check_description(self.DESCRIPTION)
 
-	# 	table.del_event()
+		table.del_event()
 
 
-	# def test_edit_event(self):
-	# 	table = self.calendar_page.calendar_table
+	def test_edit_event(self):
+		table = self.calendar_page.calendar_table
 
-	# 	table.open_new_event()
-	# 	table.set_title(self.TITLE)
-	# 	table.add_friend(self.FRIEND_EMAIL)
-	# 	table.submit()
+		table.open_new_event()
+		table.set_title(self.TITLE)
+		table.add_friend(self.FRIEND_EMAIL)
+		table.submit()
 
-	# 	table.check_event(self.TITLE)
-	# 	table.click_edit()
-	# 	table.set_title(self.NEW_TITLE)
-	# 	table.submit()
+		table.check_event(self.TITLE)
+		table.click_edit()
+		table.set_title(self.NEW_TITLE)
+		table.submit()
 
-	# 	# Like assert
-	# 	table.check_event(self.NEW_TITLE)
-	# 	table.check_title(self.NEW_TITLE)
+		# Like assert
+		table.check_event(self.NEW_TITLE)
+		table.check_title(self.NEW_TITLE)
 
-	# 	table.del_event()
+		table.del_event()
 
 
 class SidebarTest(BaseClassTest):
@@ -487,36 +487,36 @@ class SidebarTest(BaseClassTest):
 		super(SidebarTest, self).setUp()
 		self.calendar_page = month_calendar(self.driver)
 	
-	# def test_task(self):
-	# 	sidebar = self.calendar_page.sidebar
+	def test_task(self):
+		sidebar = self.calendar_page.sidebar
 
-	# 	sidebar.add_task(self.TEXT)
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(True, check_task)
+		sidebar.add_task(self.TEXT)
+		check_task = sidebar.check_task(self.TEXT)
+		self.assertEqual(True, check_task)
 
-	# 	sidebar.del_task(self.TEXT)
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(False, check_task)
+		sidebar.del_task(self.TEXT)
+		check_task = sidebar.check_task(self.TEXT)
+		self.assertEqual(False, check_task)
 
-	# def test_edit_task(self):
-	# 	sidebar = self.calendar_page.sidebar
+	def test_edit_task(self):
+		sidebar = self.calendar_page.sidebar
 
-	# 	sidebar.add_task(self.TEXT)
+		sidebar.add_task(self.TEXT)
 		
-	# 	sidebar.edit_task()
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(True, check_task)
+		sidebar.edit_task()
+		check_task = sidebar.check_task(self.TEXT)
+		self.assertEqual(True, check_task)
 
-	# 	sidebar.del_task(self.TEXT)
+		sidebar.del_task(self.TEXT)
 
-	# def test_del_button_task(self):
-	# 	sidebar = self.calendar_page.sidebar
+	def test_del_button_task(self):
+		sidebar = self.calendar_page.sidebar
 
-	# 	sidebar.add_task(self.TEXT)
+		sidebar.add_task(self.TEXT)
 		
-	# 	sidebar.del_button_task()
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(False, check_task)
+		sidebar.del_button_task()
+		check_task = sidebar.check_task(self.TEXT)
+		self.assertEqual(False, check_task)
 
 	def test_cancel_button_task(self):
 		sidebar = self.calendar_page.sidebar
@@ -527,15 +527,15 @@ class SidebarTest(BaseClassTest):
 		check_task = sidebar.check_task(self.TEXT)
 		self.assertEqual(False, check_task)
 
-	# def test_save_button_task(self):
-	# 	sidebar = self.calendar_page.sidebar
+	def test_save_button_task(self):
+		sidebar = self.calendar_page.sidebar
 
-	# 	sidebar.set_task_name(self.TEXT)
+		sidebar.set_task_name(self.TEXT)
 		
-	# 	sidebar.extra_options_save()
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(True, check_task)
+		sidebar.extra_options_save()
+		check_task = sidebar.check_task(self.TEXT)
+		self.assertEqual(True, check_task)
 
-	# 	sidebar.del_task(self.TEXT)
-	# 	check_task = sidebar.check_task(self.TEXT)
-	# 	self.assertEqual(False, check_task)
+		sidebar.del_task(self.TEXT)
+		check_task = sidebar.check_task(self.TEXT)
+		self.assertEqual(False, check_task)
