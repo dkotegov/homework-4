@@ -1,15 +1,17 @@
 # coding=utf-8
 import unittest
+import os
 from selenium import webdriver
 from pages.obraz_sna_page import BlockFindNewObraz, BlockRepostToSocialNet
 
 mypage = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
-vk_login = "79532695315"
-vk_password = "VlAdImIr1954"
+vk_login = os.environ['HW4LOGIN_VK']
+vk_password = os.environ['HW4PASSWORD_VK']
 
 def tune_driver(mypage):
-    # self.driver = webdriver.Chrome('./chromedriver')
     driver = webdriver.Firefox()
+    if os.environ['HW4LOGIN'] == "CHROME":
+        driver = webdriver.Chrome('./chromedriver')
     driver.get(mypage)
     driver.implicitly_wait(3)
     return driver

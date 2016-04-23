@@ -3,6 +3,7 @@
 import unittest
 import time
 import datetime
+import os
 
 from selenium import webdriver
 
@@ -17,12 +18,13 @@ from pages.main_page_pages import LunisolarForecastPage
 from pages.main_page_pages import SubscriptionUnitPage
 from pages.main_page_pages import LadyUnitPage
 
-LOGIN = 'myLogin'
-PASSWORD = 'myPassword'
+LOGIN = os.environ['HW4LOGIN']
+PASSWORD = os.environ['HW4PASSWORD']
 
 def tune_driver():
-    # self.driver = webdriver.Chrome('./chromedriver')
     driver = webdriver.Firefox()
+    if os.environ['HW4LOGIN'] == "CHROME":
+        driver = webdriver.Chrome('./chromedriver')
     driver.get("https://horo.mail.ru/")
     driver.implicitly_wait(10)
     return driver
