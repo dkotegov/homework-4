@@ -5,6 +5,7 @@ from selenium import webdriver
 from pages.obraz_sna_page import BlockFindNewObraz, BlockRepostToSocialNet
 
 mypage = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
+
 vk_login = os.environ['HW4LOGIN_VK']
 vk_password = os.environ['HW4PASSWORD_VK']
 
