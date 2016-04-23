@@ -12,7 +12,16 @@ from test_cases.main_page_test_case import tune_driver
 mypage = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
 vk_login = os.environ['HW4LOGIN_VK']
 vk_password = os.environ['HW4PASSWORD_VK']
+BROWSER = os.environ['HW4BROWSER']
 
+def tune_driver(page):
+    if BROWSER == "CHROME":
+        driver = webdriver.Chrome('./chromedriver')
+    else:
+        driver = webdriver.Firefox()
+    driver.get(page)
+    driver.implicitly_wait(0)
+    return driver
 
 class BlockFindNewObrazTestCase(unittest.TestCase):
     def setUp(self):
