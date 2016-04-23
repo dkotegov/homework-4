@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import os
 import unittest
 import urlparse
 
-from selenium import webdriver
 from selenium.common.exceptions import ElementNotVisibleException
+from selenium.webdriver import DesiredCapabilities, Remote
 
 
 class Page(object):
@@ -110,14 +111,17 @@ class ChareBlock(Component):
 
 class RealtyTestCase(unittest.TestCase):
     def setUp(self):
-        self.browser = webdriver.Firefox()
-        # self.addCleanup(self.browser.quit)
+        self.browser = os.environ.get('HW4BROWSER', 'CHROME')
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, self.browser).copy()
+        )
 
     def tearDown(self):
-        self.browser.quit()
+        self.driver.quit()
 
     def testPageTitle(self):
-        offer_page = PageOffer(self.browser)
+        offer_page = PageOffer(self.driver)
         offer_page.open()
         slider = offer_page.slider
         slider.open_slider()
@@ -128,7 +132,7 @@ class RealtyTestCase(unittest.TestCase):
         
         self.assertEqual(slider.get_page_num(), slider.get_page_num_from_browser())
         # проверяем наличие всех кнопок для соц.сетей
-        chare_block = ChareBlock(self.browser)
+        chare_block = ChareBlock(self.driver)
         chare_block.click_all_btn()
 
         # проверка, что у первого элемента нет перехода назад
