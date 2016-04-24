@@ -101,13 +101,65 @@ class Preferences(Page):
 class side_bar(Component):
     OPEN_BUTTON = '//div[@class="preferences__button button button_color_dark"]'
     PREF_OPEN = '//div[@class="preferences preferences_open"]'
+    CHECK_CALENDARS = '//span[text()="Календари"]'
+    CHECK_TODO = '//span[text()="Дела"]'
+    CHECK_WEEKNUMBER = '//span[text()="Нижний календарь"]'
+    CALENDARS_OPEN = '//div[@class="preferences preferences_open"]'
+    CALENDARS_CLOSE = '//div[@class="sidebar sidebar_left sidebar_collapsed"]'
+    TODO_OPEN = '//div[@class="sidebar sidebar_right sidebar_right_expanded"]'
+    TODO_CLOSE = '//div[@class="sidebar sidebar_right sidebar_right_collapsed"]'
+    FLATCAL_OPEN = '//canvas[@class="flat-calendar__canvas"]'
 
     def test_click(self):
         self.driver.find_element_by_xpath(self.OPEN_BUTTON).click()
 
+    def click_calend(self):
+        self.driver.find_element_by_xpath(self.CHECK_CALENDARS).click()
+
+    def click_todo(self):
+        self.driver.find_element_by_xpath(self.CHECK_TODO).click()
+
+    def click_flatcal(self):
+        self.driver.find_element_by_xpath(self.CHECK_WEEKNUMBER).click()
+
     def test_open(self):
         try:
             self.driver.find_element_by_xpath(self.PREF_OPEN)
+            return True
+        except NoSuchElementException:
+            return False
+
+    def check_cal_open(self):
+        try:
+            self.driver.find_element_by_xpath(self.CALENDARS_OPEN)
+            return True
+        except NoSuchElementException:
+            return False
+
+    def check_cal_close(self):
+        try:
+            self.driver.find_element_by_xpath(self.CALENDARS_CLOSE)
+            return True
+        except NoSuchElementException:
+            return False
+
+    def check_todo_open(self):
+        try:
+            self.driver.find_element_by_xpath(self.TODO_OPEN)
+            return True
+        except NoSuchElementException:
+            return False
+
+    def check_todo_close(self):
+        try:
+            self.driver.find_element_by_xpath(self.TODO_CLOSE)
+            return True
+        except NoSuchElementException:
+            return False
+
+    def check_flatcal_open(self):
+        try:
+            self.driver.find_element_by_xpath(self.FLATCAL_OPEN)
             return True
         except NoSuchElementException:
             return False
@@ -159,5 +211,25 @@ class Tests(unittest.TestCase):
         bar.test_click()
         self.assertEqual(True, bar.test_open())
 
+        bar.click_calend()
+        self.assertEqual(True, bar.check_cal_close())
+
+        bar.click_calend()
+        self.assertEqual(True, bar.check_cal_open())
+
+        bar.click_todo()
+        self.assertEqual(True, bar.check_todo_close())
+
+        bar.click_todo()
+        self.assertEqual(True, bar.check_todo_open())
+
+        bar.click_flatcal()
+        self.assertEqual(False, bar.check_flatcal_open())
+
+        bar.click_flatcal()
+        self.assertEqual(True, bar.check_flatcal_open())
+
         bar.test_click()
         self.assertEqual(False, bar.test_open())
+
+
