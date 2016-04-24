@@ -67,9 +67,13 @@ class PageOffer(SalePage):
 
 
 class FavouritesPage(Page):
-    PATH = '/favorites/'
+    PATH = 'https://pro.realty.mail.ru/favorites/'
     LINK = '//span[@bem-id="235"]'
     DROPDOWN_CLASS = '//span[@bem-id="247"]'#/span[@class="pm-toolbar__dropdown__item__text"]'
+
+    def open(self):
+        self.driver.get(self.PATH)
+        self.driver.maximize_window()
 
     @property
     def offer(self):
@@ -98,6 +102,7 @@ class AuthPage(Page):
     def form(self):
         return AuthForm(self.driver)
 
+
 class AuthForm(Component):
     LOGIN = '//input[@name="Login"]'
     PASSWORD = '//input[@name="Password"]'
@@ -115,7 +120,6 @@ class AuthForm(Component):
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
-
 
 
 class Slider(Component):

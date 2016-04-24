@@ -36,6 +36,6 @@ class FavouritesTestCase(unittest.TestCase):
         favorites_page = FavouritesPage(self.driver)
         offer_page.open(self.OFFER_NUM)
         favorites_page.open()
-
+        favorites_page.get_count()
         #offer_page.add_to_favourites()
 
