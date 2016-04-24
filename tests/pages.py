@@ -68,8 +68,8 @@ class PageOffer(SalePage):
 
 class FavouritesPage(Page):
     PATH = 'https://pro.realty.mail.ru/favorites/'
-    LINK = '//span[@bem-id="235"]'
-    DROPDOWN_CLASS = '//span[@bem-id="247"]'#/span[@class="pm-toolbar__dropdown__item__text"]'
+    LINK = '//span[@bem-id="234"]'
+    DROPDOWN_CLASS = '//span[@bem-id="247"]/a/span'#/span[@class="pm-toolbar__dropdown__item__text"]'
 
     def open(self):
         self.driver.get(self.PATH)
@@ -88,10 +88,11 @@ class FavouritesPage(Page):
         #self.driver.mouseOver(self.DROPDOWN_CLASS)
         #hover = ActionChains(self.driver).move_to_element(hover_link)
         text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
+
         #hover.perform()
         #text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
 
-        #print text.text
+        print text.text
         return 1
 
 
