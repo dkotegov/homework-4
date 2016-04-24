@@ -232,6 +232,11 @@ class CalendarTable(Component):
 		self.driver.find_elements_by_xpath("//*[contains(text(), 'Сохранить')]")[1].click()
 		self.driver.execute_script("document.location.href = document.location.href.split('?')[0]")
 
+	def submit_week(self):
+		self.driver.find_elements_by_xpath("//*[contains(text(), 'Сохранить')]")[1].click()
+		self.driver.find_elements_by_xpath("//*[contains(text(), 'Сохранить')]")[1].click()	#Потому что по непонятной причине он промахивается первым нажатием
+		self.driver.execute_script("document.location.href = document.location.href.split('?')[0]")
+
 	def check_event(self, title):
 		xpath = "//*[contains(text(), '" + title + "')]"
 
