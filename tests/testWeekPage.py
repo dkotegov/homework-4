@@ -42,52 +42,52 @@ class Tests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_week(self):
-        calendar_page = CalendarPage(self.driver)
-        calendar_page.open()
-
-        calendar_toolbar = calendar_page.toolbar
-        calendar_toolbar.choise_week()
-
-        week_number = calendar_toolbar.get_week_number()
-
-        true_week_number = datetime.datetime.now().strftime("%W")
-
-        self.assertEqual(true_week_number, week_number)
-
-    def test_navigation(self):
-        calendar_page = CalendarPage(self.driver)
-        header = calendar_page.navigation_header
-
-        # Test next week
-        header.next_week()
-        calendar_toolbar = calendar_page.toolbar
-        time.sleep(1)
-        week_number = int(calendar_toolbar.get_week_number())
-        true_week_number = int(datetime.datetime.now().strftime("%W")) + 1
-        self.assertEqual(true_week_number, week_number)
-
-        # Test true week
-        header.prev_week()
-        calendar_toolbar = calendar_page.toolbar
-        time.sleep(1)
-        week_number = calendar_toolbar.get_week_number()
-        true_week_number = datetime.datetime.now().strftime("%W")
-        self.assertEqual(true_week_number, week_number)
-
-    def test_preferences(self):
-        calendar_page = CalendarPage(self.driver)
-        preferences = calendar_page.navigation_header_preferences
-
-        # Open preferences
-        preferences.open()
-        check_open = preferences.check_open()
-        self.assertEqual(True, check_open)
-
-        # Close preferences
-        preferences.close()
-        check_close = preferences.check_open()
-        self.assertEqual(False, check_close)
+    # def test_week(self):
+    #     calendar_page = CalendarPage(self.driver)
+    #     calendar_page.open()
+    #
+    #     calendar_toolbar = calendar_page.toolbar
+    #     calendar_toolbar.choise_week()
+    #
+    #     week_number = calendar_toolbar.get_week_number()
+    #
+    #     true_week_number = datetime.datetime.now().strftime("%W")
+    #
+    #     self.assertEqual(true_week_number, week_number)
+    #
+    # def test_navigation(self):
+    #     calendar_page = CalendarPage(self.driver)
+    #     header = calendar_page.navigation_header
+    #
+    #     # Test next week
+    #     header.next_week()
+    #     calendar_toolbar = calendar_page.toolbar
+    #     time.sleep(1)
+    #     week_number = int(calendar_toolbar.get_week_number())
+    #     true_week_number = int(datetime.datetime.now().strftime("%W")) + 1
+    #     self.assertEqual(true_week_number, week_number)
+    #
+    #     # Test true week
+    #     header.prev_week()
+    #     calendar_toolbar = calendar_page.toolbar
+    #     time.sleep(1)
+    #     week_number = calendar_toolbar.get_week_number()
+    #     true_week_number = datetime.datetime.now().strftime("%W")
+    #     self.assertEqual(true_week_number, week_number)
+    #
+    # def test_preferences(self):
+    #     calendar_page = CalendarPage(self.driver)
+    #     preferences = calendar_page.navigation_header_preferences
+    #
+    #     # Open preferences
+    #     preferences.open()
+    #     check_open = preferences.check_open()
+    #     self.assertEqual(True, check_open)
+    #
+    #     # Close preferences
+    #     preferences.close()
+    #     check_close = preferences.check_open()
+    #     self.assertEqual(False, check_close)
 
     TITLE = 'PYTHON DYE'
     NEW_TITLE = 'PYTHON BURN IN HELL'
@@ -102,7 +102,7 @@ class Tests(unittest.TestCase):
         table.open_new_event_week()
         table.set_title(self.TITLE)
         table.add_friend(self.FRIEND_EMAIL)
-        table.submit()
+        table.submit_week()
 
         table.check_event(self.TITLE)
         table.check_title(self.TITLE)
@@ -135,7 +135,7 @@ class Tests(unittest.TestCase):
         table.open_new_event_week()
         table.set_title(self.TITLE)
         table.add_friend(self.FRIEND_EMAIL)
-        table.submit()
+        table.submit_week()
 
         table.check_event(self.TITLE)
         table.click_edit()
@@ -145,3 +145,4 @@ class Tests(unittest.TestCase):
         # Like assert
         table.check_event(self.NEW_TITLE)
         table.check_title(self.NEW_TITLE)
+        table.del_event()
