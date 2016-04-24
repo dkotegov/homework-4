@@ -13,7 +13,6 @@ class FavouritesTestCase(unittest.TestCase):
 
     def setUp(self):
         self.browser = os.environ.get('HW4BROWSER', 'CHROME')
-        print self.USERPASSWORD
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, self.browser).copy()
@@ -36,6 +35,10 @@ class FavouritesTestCase(unittest.TestCase):
         favorites_page = FavouritesPage(self.driver)
         offer_page.open(self.OFFER_NUM)
         favorites_page.open()
-        favorites_page.get_count()
-        #offer_page.add_to_favourites()
-
+        count = favorites_page.get_count()
+        offer_page.open(self.OFFER_NUM)
+        offer_page.add_to_favourites()
+        favorites_page.open()
+        new_count = favorites_page.get_count()
+        print count
+        print new_count

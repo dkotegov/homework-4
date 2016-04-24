@@ -80,20 +80,13 @@ class FavouritesPage(Page):
         return PageOffer(self.driver)
 
     def get_count(self):
-        #count = self.driver.find_element_by_xpath(self.LINK)
         hover_link = self.driver.find_element_by_xpath(self.LINK)
         hover_link.click()
-
-        #action = Actions(self.driver)
-        #self.driver.mouseOver(self.DROPDOWN_CLASS)
-        #hover = ActionChains(self.driver).move_to_element(hover_link)
         text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
 
-        #hover.perform()
-        #text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
-
-        print text.text
-        return 1
+        s = text.text
+        a = s.split('(')
+        return a[1][:len(a[1])-1]
 
 
 class AuthPage(Page):
