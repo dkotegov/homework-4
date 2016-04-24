@@ -16,6 +16,7 @@ from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
 from selenium.webdriver.common.by import By
 
 '''
+export HW4BROWSER=CHROME
 export HW4BROWSER=FIREFOX
 export HW4LOGIN=HW4LOGIN_CALENDAR
 export HW4PASSWORD=HW4PASSWORD_CALENDAR
@@ -103,7 +104,7 @@ class CalendarPage(Page):
 
 	@property
 	def sidebar(self):
-	    return Sidebar(self.driver)
+		return Sidebar(self.driver)
 	
 
 
@@ -199,7 +200,7 @@ class CalendarTable(Component):
 		self.driver.find_element_by_class_name(self.TODAY).click()
 
 	def set_title(self, title):
-		title_elem = self.driver.find_elements_by_css_selector('.textbox-control__input.textbox_default__input')[1]
+		title_elem = self.driver.find_element_by_css_selector('.textbox_default__input:not([name="summary"])')
 		title_elem.send_keys(title)
 
 	def add_friend(self, friend_email):
@@ -229,8 +230,8 @@ class CalendarTable(Component):
 
 		test_class = "popover-body"
 		WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_class_name(test_class).text
-        )
+			lambda d: d.find_element_by_class_name(test_class).text
+		)
 
 	def check_event_info(self):
 		return len(self.driver.find_elements_by_class_name("event-info__summary")) != 0
@@ -270,13 +271,13 @@ class Sidebar(Component):
 			except IndexError, e:
 				pass
 
+	# If line-through -> True
 	def check_task(self, text):
 		try:
 			val = self.driver.find_elements_by_xpath("//*[contains(text(), '" + text + "')]")[0].value_of_css_property('text-decoration')
 			return val != 'line-through'
-		except IndexError, StaleElementReferenceException:
+		except Exception, e:
 			return False
-		
 
 	def hover(self):
 		class_name = "group__button"
@@ -285,12 +286,15 @@ class Sidebar(Component):
 
 	def edit_task(self):
 		self.hover()
-		self.driver.find_elements_by_xpath('//*[@title="Редактировать задачу"]')[0].click()
+		self.driver.find_element_by_class_name('group__button').click()
+		# self.driver.find_elements_by_xpath('//*[@title="Редактировать задачу"]')[0].click()
 		self.driver.find_elements_by_xpath("//*[contains(text(), 'Сохранить')]")[1].click()
 
 	def del_button_task(self):
 		self.hover()
-		self.driver.find_elements_by_xpath('//*[@title="Редактировать задачу"]')[0].click()
+		self.driver.implicitly_wait(10)
+		self.driver.find_element_by_class_name('group__button').click()
+		# self.driver.find_elements_by_xpath('//*[@title="Редактировать задачу"]')[0].click()
 		self.driver.find_elements_by_xpath('//*[@title="Удалить задачу"]')[0].click()
 		self.driver.find_elements_by_xpath('//*[contains(text(), "Да")]')[0].click()
 
@@ -498,7 +502,7 @@ class SidebarTest(BaseClassTest):
 		check_task = self.sidebar.check_task(self.TEXT)
 		self.assertEqual(True, check_task)
 
-		# self.sidebar.del_task(self.TEXT)
+		self.sidebar.del_task(self.TEXT)
 
 	def test_del_button_task(self):
 		self.sidebar = self.calendar_page.sidebar
