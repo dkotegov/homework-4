@@ -35,10 +35,9 @@ class FavouritesTestCase(unittest.TestCase):
         favorites_page = FavouritesPage(self.driver)
         offer_page.open(self.OFFER_NUM)
         favorites_page.open()
-        count = favorites_page.get_count()
+        favorites_page.clear_list()
         offer_page.open(self.OFFER_NUM)
         offer_page.add_to_favourites()
         favorites_page.open()
         new_count = favorites_page.get_count()
-        print count
-        print new_count
+        self.assertEqual(new_count, 1)

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import urlparse
 
-from selenium.webdriver import ActionChains
-
 
 class Page(object):
     BASE_URL = 'http://msk.realty.mail.ru/'
@@ -30,17 +28,9 @@ class SalePage(Page):
         return PageOffer(self.driver)
 
 
-# class NewBuildingsPage(Page):
-#     PATH = '/sale/newbuilding/'
-#
-#     @property
-#     def first_offer(self):
-#         return PageOffer(self.driver)
-
-
 class PageOffer(SalePage):
     CLASS_TITLE = 'p-instance__title'
-    ADD_BTN = '//div[@data-module="Favorites"]'#//div[text()="В избранное"]'
+    ADD_BTN = '//div[@data-module="Favorites"]'
     OFFER_ID = ''
 
     def open(self, offer_num=1):
@@ -69,7 +59,8 @@ class PageOffer(SalePage):
 class FavouritesPage(Page):
     PATH = 'https://pro.realty.mail.ru/favorites/'
     LINK = '//span[@bem-id="234"]'
-    DROPDOWN_CLASS = '//span[@bem-id="247"]/a/span'#/span[@class="pm-toolbar__dropdown__item__text"]'
+    DROPDOWN_CLASS = '//span[@bem-id="247"]/a/span'
+    DELETE_BTN = '//a[@title="Удалить"]'
 
     def open(self):
         self.driver.get(self.PATH)
@@ -86,7 +77,12 @@ class FavouritesPage(Page):
 
         s = text.text
         a = s.split('(')
-        return a[1][:len(a[1])-1]
+        return int(a[1][:len(a[1])-1])
+
+    def clear_list(self):
+        btns = self.driver.find_elements_by_xpath(self.DELETE_BTN)
+        for btn in btns:
+            btn.click()
 
 
 class AuthPage(Page):
