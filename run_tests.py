@@ -14,7 +14,5 @@ suite = unittest.TestSuite()
 suite.addTests(loader.loadTestsFromModule(main_page_test_case))
 suite.addTests(loader.loadTestsFromModule(obraz_sna_test_case))
 
-i = 0
-while i < 15:
-    unittest.TextTestRunner().run(suite)
-    i += 1
+unittest.TextTestRunner().run(suite)
+

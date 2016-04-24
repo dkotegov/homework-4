@@ -135,7 +135,7 @@ class BlockHoroPage:
 
     def get_date_birth(self):
         element  = self.driver.find_elements_by_css_selector(self.date_birth)[0]
-        return element[0].text
+        return element.text
 
     def click_button_choice_date(self, index):
         selector = ".filter__item_underlined"
