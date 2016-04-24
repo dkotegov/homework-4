@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import urlparse
 
 
@@ -39,6 +40,33 @@ class PageOffer(SalePage):
     @property
     def slider(self):
         return Slider(self.driver)
+
+
+class AuthPage(Page):
+    PATH = ''
+
+    @property
+    def form(self):
+        return AuthForm(self.driver)
+
+
+class AuthForm(Component):
+    LOGIN = '//input[@name="Login"]'
+    PASSWORD = '//input[@name="Password"]'
+    SUBMIT = '//input[@value="Войти"]'
+    LOGIN_BUTTON = '//a[text()="Вход"]'
+
+    def open_form(self):
+        self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
+
+    def set_login(self, login):
+        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
+
+    def set_password(self, pwd):
+        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
+
+    def submit(self):
+        self.driver.find_element_by_xpath(self.SUBMIT).click()
 
 
 class Slider(Component):
@@ -89,6 +117,21 @@ class Slider(Component):
     def get_max_page_num(self):
         max_num = self.driver.find_element_by_class_name(self.TOTAL_NUM)
         return int(max_num.text)
+
+    @property
+    def banner(self):
+        return Banner(self.driver)
+
+    @property
+    def chare_block(self):
+        return ChareBlock(self.driver)
+
+
+class Banner(Component):
+    CLASS = 'js-popup_banner'
+
+    def find(self):
+        self.driver.find_element_by_class_name(self.CLASS)
 
 
 class ChareBlock(Component):

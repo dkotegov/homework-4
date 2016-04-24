@@ -8,7 +8,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from tests.pages import PageOffer, ChareBlock
 
 
-class RealtyTestCase(unittest.TestCase):
+class SliderTestCase(unittest.TestCase):
     def setUp(self):
         self.browser = os.environ.get('HW4BROWSER', 'CHROME')
         self.driver = Remote(
@@ -19,11 +19,12 @@ class RealtyTestCase(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def testPageTitle(self):
+    def testSlider(self):
         offer_page = PageOffer(self.driver)
         offer_page.open()
         slider = offer_page.slider
         slider.open_slider()
+
         slider.click_next()
         slider.click_next(1)
         slider.click_prev()
@@ -31,8 +32,10 @@ class RealtyTestCase(unittest.TestCase):
         
         self.assertEqual(slider.get_page_num(), slider.get_page_num_from_browser())
         # проверяем наличие всех кнопок для соц.сетей
-        chare_block = ChareBlock(self.driver)
+        chare_block = slider.chare_block
         chare_block.click_all_btn()
+        banner = slider.banner
+        banner.find()
 
         # проверка, что у первого элемента нет перехода назад
         with self.assertRaises(ElementNotVisibleException):
