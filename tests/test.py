@@ -27,7 +27,7 @@ MONTHS = {
 	'February': u'февраль',
 	'March': u'март',
 	'April': u'апрель',
-	'May': u'май',	
+	'May': u'май',
 	'June': u'июнь',
 	'July': u'июль',
 	'August': u'август',
@@ -105,8 +105,6 @@ class CalendarPage(Page):
 	@property
 	def sidebar(self):
 		return Sidebar(self.driver)
-	
-
 
 
 
@@ -139,7 +137,7 @@ class PortalHeadline(Component):
 	def get_username(self):
 		return WebDriverWait(self.driver, 30, 0.1).until(
 			lambda d: d.find_element_by_id(self.USERNAME).text
-		)  
+		)
 
 
 class CalendarToolbar(Component):
@@ -154,6 +152,18 @@ class CalendarToolbar(Component):
 			lambda d: d.find_element_by_class_name(self.MONTH_CLASS_NAME).text.split(',')[0].lower()	# because format like 'Month, year' e.g. 'Апрель, 2016'
 		)
 
+	NAME_W = 'week'
+	WEEK_NUMBER = 'week__caption-text_week-number'
+
+	def choise_week(self):
+		self.driver.find_element_by_name(self.NAME_W).click()
+
+	def get_week_number(self):
+		self.driver.execute_script( "document.getElementsByClassName('"+self.WEEK_NUMBER+"')[0].style.display = 'block';")
+		return WebDriverWait(self.driver, 60, 0.1).until(
+			lambda d: d.find_element_by_class_name(self.WEEK_NUMBER).text
+		)
+
 
 class NavigationHeaderToolbar(Component):
 	NEXT = 'grid-next'
@@ -161,7 +171,7 @@ class NavigationHeaderToolbar(Component):
 	TODAY = 'month-day_today'
 
 	def next_week(self):
-		self.driver.find_element_by_class_name(self.NEXT).click() 
+		self.driver.find_element_by_class_name(self.NEXT).click()
 
 	def prev_week(self):
 		self.driver.find_element_by_class_name(self.PREV).click()
@@ -195,6 +205,10 @@ class NavigationHeaderPreferences(Component):
 
 class CalendarTable(Component):
 	TODAY = 'month-day_today'
+	TODAY_W = 'week__grid__day_today'
+
+	def open_new_event_week(self):
+		self.driver.find_element_by_class_name(self.TODAY_W).click()
 	
 	def open_new_event(self):
 		self.driver.find_element_by_class_name(self.TODAY).click()
@@ -235,13 +249,13 @@ class CalendarTable(Component):
 
 	def check_event_info(self):
 		return len(self.driver.find_elements_by_class_name("event-info__summary")) != 0
-	
+
 	def check_edit_btn(self):
 		return len(self.driver.find_elements_by_xpath("//*[contains(text(), 'Редактировать')]")) != 0
-		
+
 	def check_title(self, title):
 		self.driver.find_elements_by_xpath("//*[contains(text(), '" + title + "')]")[0].text
-	
+
 	def check_friend_name(self):
 		friend_name = self.driver.find_element_by_css_selector('.attendees-list__item.attendees-list__item_needs-action').text
 		return friend_name
@@ -306,7 +320,6 @@ class Sidebar(Component):
 		self.driver.find_elements_by_xpath('//*[@title="Дополнительные параметры задачи"]')[0].click()
 		self.driver.find_elements_by_xpath('//*[contains(text(), "Сохранить")]')[0].click()
 
-		
 
 # ============================================ Tests =========================================
 
@@ -381,7 +394,7 @@ class HeaderTest(BaseClassTest):
 
 	def test_navigation(self):
 		header = self.calendar_page.navigation_header
-		
+
 		# Test next week
 		header.next_week()
 		today = header.check_today()
