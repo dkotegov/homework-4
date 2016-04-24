@@ -1,5 +1,6 @@
 # coding=utf-8
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class BlockFindNewObraz:
@@ -11,8 +12,8 @@ class BlockFindNewObraz:
         return message.text
 
     def message_is_success(self, msg, obraz):
-        return msg.find(obraz + u" найдено") != -1 or (msg.find(u" / Толкование образа") != -1 and msg.find(obraz) != -1)
-
+        return msg.find(obraz + u" найдено") != -1 or (
+            msg.find(u" / Толкование образа") != -1 and msg.find(obraz) != -1)
 
     def message_is_no_success(self, msg):
         return msg.find(u"не найдено") != -1
@@ -45,6 +46,7 @@ class BlockFindNewObraz:
 
         self.driver.find_element_by_name("clb11934144").click()
 
+
 class BlockRepostToSocialNet:
     def __init__(self, driver, mypage):
         self.driver = driver
@@ -63,6 +65,8 @@ class BlockRepostToSocialNet:
 
         self.driver.switch_to_window(window_after)
 
+        # ждем загрузки элемента autosize_helpers, который ниже чем скрипты, которые вешаются на кнопку post_button
+        WebDriverWait(self.driver, 3).until(lambda x: x.find_element_by_id('autosize_helpers'))
         self.driver.find_element_by_id("post_button").click()
 
         self.driver.switch_to_window(window_before)
@@ -78,6 +82,8 @@ class BlockRepostToSocialNet:
         inputPass.send_keys(password)
 
         self.driver.find_element_by_id("quick_login_button").click()
+        WebDriverWait(self.driver, 3) \
+            .until(lambda x: x.find_element_by_id('feed_summary_wrap'))
 
     def postToVkWithAuth(self, login, password):
         self.driver.find_element_by_class_name("share_vk").click()
@@ -95,6 +101,3 @@ class BlockRepostToSocialNet:
             btn.click()
         except NoSuchElementException:
             pass
-
-
-
