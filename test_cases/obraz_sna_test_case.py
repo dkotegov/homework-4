@@ -20,7 +20,7 @@ def tune_driver(page):
     else:
         driver = webdriver.Firefox()
     driver.get(page)
-    driver.implicitly_wait(0)
+    driver.implicitly_wait(60)
     return driver
 
 class BlockFindNewObrazTestCase(unittest.TestCase):

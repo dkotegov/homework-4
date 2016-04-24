@@ -6,7 +6,6 @@ import os
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from pages.main_page_pages import HeadMailPage
 from pages.main_page_pages import PortalMenuToolbarPage
@@ -31,7 +30,7 @@ def tune_driver():
     else:
         driver = webdriver.Firefox()
     driver.get("https://horo.mail.ru/")
-    driver.implicitly_wait(0)
+    driver.implicitly_wait(60)
     return driver
 
 def _get_zodiac_sign_by_date(month, day):
@@ -154,9 +153,9 @@ class PortalMenuToolbarPageTestCase(unittest.TestCase):
         self.assertIn("https://lady.mail.ru/", self.driver.current_url)
 
     def test_move_to_link(self):
-        initial_color = u'rgba(0, 0, 0, 0)'
+        initial_color = u'transparent'
         if BROWSER == "CHROME":
-            initial_color = u'transparent'
+            initial_color = u'rgba(0, 0, 0, 0)'
         self.assertEquals(self.page.get_background_color_link(), initial_color)
         self.page.move_to_link()
         method = lambda x: self.page.get_background_color_link() == u'rgba(20, 127, 203, 1)'
@@ -205,7 +204,7 @@ class AdvertisingUnitPageTestCase(unittest.TestCase):
         WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
 
     def tearDown(self):
-        self.driver.quit()
+       self.driver.quit()
 
 
 class BlockHoroTestCase(unittest.TestCase):
@@ -226,9 +225,9 @@ class BlockHoroTestCase(unittest.TestCase):
     def test_choice_date(self):
         title = u"Гороскоп для всех знаков на "
         date = [u"вчера", u"сегодня", u"завтра", u"неделю", u"месяц", u"2016 год"]
-        for i in range(1, 6, 1):
+        for i in range(6):
             self.page.click_button_choice_date(i)
-            full_title = title + date[i - 1]
+            full_title = title + date[i]
             self.assertEquals(full_title, self.page.get_horo_title())
 
     def test_zodiac_sign(self):
@@ -281,7 +280,7 @@ class SearchDreamTestCase(unittest.TestCase):
     def test_search_alphabet(self):
         for character_index in range(29):
             character = _alphabet[character_index]
-            self.page.search_by_alphabet(character_index + 1)
+            self.page.search_by_alphabet(character_index)
             self.assertIn("https://horo.mail.ru/sonnik/" + character + "/", self.driver.current_url)
             self.driver.back()
 
@@ -356,12 +355,11 @@ class LadyUnitTestCase(unittest.TestCase):
         self.page = LadyUnitPage(self.driver)
 
     def test_scale_image(self):
-        for index in range(1, 4):
+        for index in range(4):
             self.assertEquals(self.page.get_scale_image(index), u'none')
             self.page.move_to_image(index)
             method = lambda x: self.page.get_scale_image(index) == u'matrix(1.02, 0, 0, 1.02, 0, 0)'
-            WebDriverWait(self.driver, 10).until(method)
-        self.driver.get_window_size()
+            WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
 
     def test_slider(self):
         left = self.page.get_transform(1)
