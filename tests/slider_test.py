@@ -9,6 +9,8 @@ from tests.pages import PageOffer, ChareBlock
 
 
 class SliderTestCase(unittest.TestCase):
+    NUM_OFFER = 2
+
     def setUp(self):
         self.browser = os.environ.get('HW4BROWSER', 'CHROME')
         self.driver = Remote(
@@ -21,7 +23,7 @@ class SliderTestCase(unittest.TestCase):
 
     def testSlider(self):
         offer_page = PageOffer(self.driver)
-        offer_page.open()
+        offer_page.open(self.NUM_OFFER)
         slider = offer_page.slider
         slider.open_slider()
 

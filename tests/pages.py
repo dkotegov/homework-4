@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import urlparse
 
+from selenium.webdriver import ActionChains
+
 
 class Page(object):
     BASE_URL = 'http://msk.realty.mail.ru/'
@@ -24,22 +26,69 @@ class SalePage(Page):
     PATH = '/sale/living/'
 
     @property
-    def first_offer(self):
+    def offer(self):
         return PageOffer(self.driver)
+
+
+# class NewBuildingsPage(Page):
+#     PATH = '/sale/newbuilding/'
+#
+#     @property
+#     def first_offer(self):
+#         return PageOffer(self.driver)
 
 
 class PageOffer(SalePage):
     CLASS_TITLE = 'p-instance__title'
+    ADD_BTN = '//div[@data-module="Favorites"]'#//div[text()="В избранное"]'
+    OFFER_ID = ''
 
-    def open(self):
+    def open(self, offer_num=1):
         super(PageOffer, self).open()
         title_links = self.driver.find_elements_by_class_name(self.CLASS_TITLE)
-        link = title_links[2].get_attribute('href')
+        link = title_links[offer_num].get_attribute('href')
         self.driver.get(link)
 
     @property
     def slider(self):
         return Slider(self.driver)
+
+    def add_to_favourites(self):
+        button = self.driver.find_element_by_xpath(self.ADD_BTN)
+        self.set_offer_id()
+        button.click()
+
+    def set_offer_id(self):
+        button = self.driver.find_element_by_xpath(self.ADD_BTN)
+        self.OFFER_ID = button.get_attribute('data-uid')
+
+    def get_offer_id(self):
+        return self.OFFER_ID
+
+
+class FavouritesPage(Page):
+    PATH = '/favorites/'
+    LINK = '//span[@bem-id="235"]'
+    DROPDOWN_CLASS = '//span[@bem-id="247"]'#/span[@class="pm-toolbar__dropdown__item__text"]'
+
+    @property
+    def offer(self):
+        return PageOffer(self.driver)
+
+    def get_count(self):
+        #count = self.driver.find_element_by_xpath(self.LINK)
+        hover_link = self.driver.find_element_by_xpath(self.LINK)
+        hover_link.click()
+
+        #action = Actions(self.driver)
+        #self.driver.mouseOver(self.DROPDOWN_CLASS)
+        #hover = ActionChains(self.driver).move_to_element(hover_link)
+        text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
+        #hover.perform()
+        #text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
+
+        #print text.text
+        return 1
 
 
 class AuthPage(Page):
@@ -48,7 +97,6 @@ class AuthPage(Page):
     @property
     def form(self):
         return AuthForm(self.driver)
-
 
 class AuthForm(Component):
     LOGIN = '//input[@name="Login"]'
@@ -67,6 +115,7 @@ class AuthForm(Component):
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
+
 
 
 class Slider(Component):

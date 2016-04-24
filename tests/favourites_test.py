@@ -3,15 +3,17 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from tests.pages import AuthPage
+from tests.pages import AuthPage, PageOffer, FavouritesPage
 
 
-class ProfileEditTestCase(unittest.TestCase):
-    USEREMAIL = 'smirnova.a.yu@mail.ru'
+class FavouritesTestCase(unittest.TestCase):
+    USEREMAIL = 'smirnova-a-yu'
     USERPASSWORD = os.environ.get('HW4PASSWORD')
+    OFFER_NUM = 2
 
     def setUp(self):
         self.browser = os.environ.get('HW4BROWSER', 'CHROME')
+        print self.USERPASSWORD
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, self.browser).copy()
@@ -29,4 +31,11 @@ class ProfileEditTestCase(unittest.TestCase):
         auth_form.set_login(self.USEREMAIL)
         auth_form.set_password(self.USERPASSWORD)
         auth_form.submit()
-        pass
+
+        offer_page = PageOffer(self.driver)
+        favorites_page = FavouritesPage(self.driver)
+        offer_page.open(self.OFFER_NUM)
+        favorites_page.open()
+
+        #offer_page.add_to_favourites()
+
