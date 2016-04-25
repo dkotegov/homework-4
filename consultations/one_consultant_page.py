@@ -34,7 +34,7 @@ class OneConsultantPage(Page):
         self.element = self._wait_for_element(**{By.CSS_SELECTOR: self.PROFILE_SELECTOR})
 
 
-class ConsultantsPageTest(unittest.TestCase):
+class OneConsultantPageTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('TTHA2BROWSER', 'CHROME')
         self.driver = Remote(
