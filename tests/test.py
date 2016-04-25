@@ -242,10 +242,7 @@ class CalendarTable(Component):
 
 		wait = WebDriverWait(self.driver, 10)
 		elem = wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
-		# print 'elem'
-		# print type(elem), elem
 		elem.click()
-		# print 'elem.click'
 
 		test_class = "popover-body"
 		WebDriverWait(self.driver, 30, 0.1).until(
@@ -306,14 +303,12 @@ class Sidebar(Component):
 	def edit_task(self):
 		self.hover()
 		self.driver.find_element_by_class_name('group__button').click()
-		# self.driver.find_elements_by_xpath('//*[@title="Редактировать задачу"]')[0].click()
 		self.driver.find_elements_by_xpath("//*[contains(text(), 'Сохранить')]")[1].click()
 
 	def del_button_task(self):
 		self.hover()
 		self.driver.implicitly_wait(10)
 		self.driver.find_element_by_class_name('group__button').click()
-		# self.driver.find_elements_by_xpath('//*[@title="Редактировать задачу"]')[0].click()
 		self.driver.find_elements_by_xpath('//*[@title="Удалить задачу"]')[0].click()
 		self.driver.find_elements_by_xpath('//*[contains(text(), "Да")]')[0].click()
 
