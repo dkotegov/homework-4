@@ -25,7 +25,6 @@ def has_class(element, class_name):
 
 def save_window(f): 
     def wrapper(self, *args, **kwargs):
-        #current_window_handler = self.driver.current_window_handle
         result = f(self, *args, **kwargs) 
         self.driver.back()
         return result
@@ -60,10 +59,12 @@ class LoginForm(Component):
     SUBMIT = '.btn_form'
     
     def set_login(self, login):
-        self.driver.find_element_by_name(self.LOGIN).send_keys(login) 
+        login_element = self._wait_for_element(**{By.NAME: self.LOGIN})
+        login_element.send_keys(login) 
         
     def set_password(self):
-        self.driver.find_element_by_name(self.PASSWORD).send_keys(os.environ.get('HW4PASSWORD', '')) #12345A
+        password_element = self._wait_for_element(**{By.NAME: self.PASSWORD})
+        password_element.send_keys(os.environ.get('HW4PASSWORD', '')) #12345A
         
     def submit(self):
         self.driver.find_element_by_css_selector(self.SUBMIT).click()
@@ -73,8 +74,12 @@ class Page(Common):
     PATH = ''
     OPEN_FORM_BUTTON = 'a.button'
     LOGIN_IFRAME_CLASS = 'iframe.ag-popup__frame__layout__iframe'
+    LOGIN_LINK_ID = 'PH_authLink'
     USERNAME = 'test.test.tp@mail.ru'
-    
+
+    def trigger_login(self):
+        self._wait_for_element(**{By.ID: self.LOGIN_LINK_ID}).click()
+           
     def __init__(self, driver, **kwargs):
         self.driver = driver
 
@@ -92,14 +97,17 @@ class Page(Common):
         login_form.set_password()
         login_form.submit()
         
-    def open_form(self):
-        self.driver.find_element_by_css_selector(self.OPEN_FORM_BUTTON).click()
+    def try_login(self):
         try:
             iframe = self._wait_for_element(**{By.CSS_SELECTOR: self.LOGIN_IFRAME_CLASS})
             self.driver.switch_to_frame(iframe)
             self._login()
         except TimeoutException:
             pass
+                
+    def open_form(self):
+        self.driver.find_element_by_css_selector(self.OPEN_FORM_BUTTON).click()
+        self.try_login()
             
     def is_consult_form_opened(self):
         return self._wait_for_element(**{By.CSS_SELECTOR: '.js-form_ask'})
@@ -116,8 +124,6 @@ class Plate(Component):
         return not not element.text
         
     def has_working_link(self, link):
-        #href = link.get_attribute('href')
-        #url = urlparse.urlparse(self.driver.current_url)
         r = requests.get(link.get_attribute('href'))
         
         if r.status_code // 100 not in [2, 3]:
@@ -164,20 +170,19 @@ class QuestionPlate(Plate):
 # valid plates
 class QuestionsList(Component):
     NEXT_PAGE_SELECTOR = '.paging__link_nav_next'
-    #PAGE_NUMBER = 'span.paging__link'
-    #ACTIVE_PAGE_CLASS = 'paging__link_active'
     
+    def __init__(self, *args, **kwargs):
+        self.QuestionPlate = kwargs.get('plate_class', QuestionPlate)
+        _del_key_safe(kwargs, 'plate_class')
+        super(QuestionsList, self).__init__(*args, **kwargs)
+        
     def check_plates(self):
         element = self.driver.find_element_by_css_selector('div.entry')
-        if not QuestionPlate(element, self.driver).check_fields(): return False
+        if not self.QuestionPlate(element, self.driver).check_fields(): return False
         return True
         
     def go_to_next_page(self):
         self._wait_for_element(**{By.CSS_SELECTOR: self.NEXT_PAGE_SELECTOR}).click()
-        
-    #def has_next_page(self):
-    #    page_element = self.driver.find_elements_by_css_selector(self.PAGE_NUMBER)[-1]
-    #    return not has_class(page_element, self.ACTIVE_PAGE_CLASS)
     
     @save_window
     def is_valid(self):
@@ -239,7 +244,7 @@ class AskConsultantForm(Component):
     
     @property
     def DEFAULT_AGE(self):
-        return relativedelta.relativedelta(datetime.now(), datetime(*BIRTHDAY_TUPLE)).years
+        return relativedelta.relativedelta(datetime.now(), datetime(*self.BIRTHDAY_TUPLE)).years
 
     def set_title(self, title):
         self.driver.find_element_by_name(self.TITLE).send_keys(title)
@@ -281,7 +286,9 @@ class AskConsultantForm(Component):
         return selector.find_element_by_css_selector('.js-select__selected__option').text == consultant
         
     def check_preset_age(self):
-        return self.driver.find_element_by_name(self.AGE).get_attribute('value') == self.DEFAULT_AGE
+        print self.DEFAULT_AGE
+        print self._wait_for_element(**{By.NAME: self.AGE}).get_attribute('value')
+        return int(self._wait_for_element(**{By.NAME: self.AGE}).get_attribute('value')) == self.DEFAULT_AGE
         
     def check_preset_gender(self):
         for gender_radiobutton in self.driver.find_elements_by_name(self.GENDER):

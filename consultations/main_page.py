@@ -3,9 +3,8 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from common import Page, Plate, QuestionsList, Slider, save_window
 
-from selenium import webdriver #TODO: remove
+from common import Page, Plate, QuestionsList, Slider
 
 class RubricPlate(Plate):
     INNER_FIELDS = [ 
@@ -29,29 +28,35 @@ class MainPage(Page):
 class MainPageTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('TTHA2BROWSER', 'CHROME')
-        #self.driver = Remote(
-        #    command_executor='http://127.0.0.1:4444/wd/hub',
-        #    desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        #)
-        self.driver = webdriver.Firefox()
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
         self.page = MainPage(self.driver)
         self.page.open()
         
     def tearDown(self):
         self.driver.quit()
 
-    def test_slider(self):
-        self.assertTrue(Slider(self.driver).is_valid())
-    
-    def _test_rubrics(self):
+    def test_slider_plate(self):
+        self.assertTrue(Slider(self.driver).check_plates())
+
+    def test_slider_nav(self):
+        self.assertTrue(Slider(self.driver).check_next_slides_group())
+            
+    def test_rubrics(self):
         rubric = self.page.get_rubric()
         self.assertTrue(RubricPlate(rubric, self.driver).check_fields())
         
-    def _test_question_list(self):
-        self.assertTrue(QuestionsList(self.driver).is_valid())       
-  
-    @save_window
-    def _test_open_consult_form(self):
+    def test_question_list_plate_fields(self):
+        self.assertTrue(QuestionsList(self.driver).check_plates())       
+
+    def test_question_list_nav(self):
+        question_list = QuestionsList(self.driver)
+        question_list.go_to_next_page()
+        self.assertTrue(question_list.check_plates())
+          
+    def test_open_consult_form(self):
         self.page.open_form()
         self.assertTrue(self.page.is_consult_form_opened())
         

@@ -3,7 +3,7 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from common import Page, Plate, QuestionsList, Slider, save_window
+from common import Page, Plate, QuestionsList, Slider
  
 class ConsultantsPage(Page):
     PATH = 'all/profit/'
@@ -25,7 +25,7 @@ class ConsultantsPage(Page):
         return self.driver.find_elements_by_css_selector(self.CONSULTANT_SELECTOR)
      
     def get_current_tab_text(self):
-        return self.driver.find_elements_by_css_selector(self.TAB_TEXT_SELECTOR).text
+        return self.driver.find_element_by_css_selector(self.TAB_TEXT_SELECTOR).text
 
 class ConsultantsPageTest(unittest.TestCase):
     RUBRIC = u'Кардиология'
@@ -43,17 +43,14 @@ class ConsultantsPageTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    @save_window
     def test_select_rubric(self):
         self.page.select_rubric(self.RUBRIC)
         self.assertGreater(self.driver.current_url.find(self.RUBRIC_URL), -1)
         
-    @save_window
     def test_select_sort_type(self):      
         self.page.select_friendly_sort()
         self.assertEqual(self.page.get_current_tab_text(), self.page.FRIENDLY)
         
-    @save_window
     def test_open_consult_form(self):
         self.page.open_form()
         self.assertTrue(self.page.is_consult_form_opened())

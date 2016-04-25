@@ -2,8 +2,10 @@
 import os
 import unittest
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver import DesiredCapabilities, Remote
 from common import Page, Plate, QuestionsList, save_window
-
+ 
 class ConsultantPlate(Plate):
     INNER_FIELDS = [ 
         {   #image
@@ -23,11 +25,13 @@ class ConsultantPlate(Plate):
 class OneConsultantPage(Page):
     PATH = 'list/consultant/808/'
     PROFILE_SELECTOR = '.profile-card'
-    BREADCRUMBS_TITLE = u'Все консультанты - Кардиология - Здоровье Mail.Ru'
+    BREADCRUMBS_TITLE = u'Специалисты'
     
     def __init__(self, *args, **kwargs):
         super(OneConsultantPage, self).__init__(*args, **kwargs)
-        self.element = self.driver.find_element_by_css_selector(self.PROFILE_SELECTOR)
+        
+    def set_element(self):
+        self.element = self._wait_for_element(**{By.CSS_SELECTOR: self.PROFILE_SELECTOR})
 
 
 class ConsultantsPageTest(unittest.TestCase):
@@ -39,24 +43,21 @@ class ConsultantsPageTest(unittest.TestCase):
         )
         self.page = OneConsultantPage(self.driver)
         self.page.open()
+        self.page.set_element()
         
     def tearDown(self):
         self.driver.quit()
 
-    @save_window
     def test_info(self):
         self.assertTrue(ConsultantPlate(self.page.element, self.driver).check_fields())
         
-    @save_window
     def test_question_list(self):
         self.assertTrue(QuestionsList(self.driver).is_valid()) 
          
-    @save_window
     def test_breadcrumbs(self):
         self.page.get_breadcrumbs().click()
         self.assertEqual(self.page.get_title(), self.page.BREADCRUMBS_TITLE)
         
-    @save_window
     def test_open_consult_form(self):
         self.page.open_form()
         self.assertTrue(self.page.is_consult_form_opened())

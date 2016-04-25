@@ -1,26 +1,30 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+
 import os
 import unittest
+from time import sleep
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver import DesiredCapabilities, Remote
-from common import Page, QuestionsList, Slider, save_window
-        
+from common import Page, QuestionsList, Slider, AskConsultantForm
+       
 class AskPage(Page):
-    PATH = 'consultation/ask/'
-    RESULT_CLASS = 'column, column_small_10, column_medium_12, column_large_13'
+    PATH = 'ask/'
+    RESULT_CLASS = '.columns .column_small_10'
     
     def __init__(self, *args, **kwargs):
         super(AskPage, self).__init__(*args, **kwargs)
         self.form = AskConsultantForm(self.driver)
         
     def get_result(self):
-        return self._wait_for_element(**{By.CLASS_NAME: self.RESULT_CLASS}).text
+        return self._wait_for_element(**{By.CSS_SELECTOR: self.RESULT_CLASS}).text
 
     
 class AskPageTest(unittest.TestCase):
     TITLE = u'Мучает бессонница'
     DESCRIPTION = u'Добрый день! Уже месяц мучает бессонница по утрам.' + \
-            'Просыпаюсь в 4-5 утра и не могу заснуть больше, жутко не высыпаюсь. Подскажите, пожалуйста, как с этим бороться?'
+            u'Просыпаюсь в 4-5 утра и не могу заснуть больше, жутко не высыпаюсь. Подскажите, пожалуйста, как с этим бороться?'
     RUBRIC = u'Расстройства сна'
     CONSULTANT = u'Бузунов Роман Вячеславович'
     
@@ -38,6 +42,8 @@ class AskPageTest(unittest.TestCase):
         )
         self.page = AskPage(self.driver)
         self.page.open()
+        self.page.trigger_login()
+        self.page.try_login()
         
     def tearDown(self):
         self.driver.quit()
@@ -47,14 +53,13 @@ class AskPageTest(unittest.TestCase):
         
     def test_preset_gender(self):
         self.assertTrue(self.form.check_preset_gender()) 
-    
-    @save_window    
+       
     def test_submit_form(self):
         self.form.set_title(self.TITLE)
         self.form.set_description(self.DESCRIPTION)
         self.form.select_rubric(self.RUBRIC)
         self.form.select_consultant(self.CONSULTANT)
-        self.submit()
+        self.form.submit()
         self.assertEqual(self.page.get_result(), self.RESULT)
         
  
