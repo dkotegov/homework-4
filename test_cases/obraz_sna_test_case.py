@@ -1,9 +1,9 @@
 # coding=utf-8
 import unittest
 import os
+
 from selenium import webdriver
 from pages.obraz_sna_page import BlockFindNewObraz, BlockRepostToSocialNet
-from test_cases.main_page_test_case import tune_driver
 
 mypage = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
 
@@ -20,6 +20,7 @@ def tune_driver(page):
     driver.get(page)
     driver.implicitly_wait(0)
     return driver
+
 
 class BlockFindNewObrazTestCase(unittest.TestCase):
     def setUp(self):
