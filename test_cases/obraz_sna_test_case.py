@@ -12,7 +12,6 @@ VK_LOGIN = os.environ['HW4LOGIN_VK']
 VK_PASSWORD = os.environ['HW4PASSWORD_VK']
 BROWSER = os.environ['HW4BROWSER']
 
-
 def tune_driver():
     if BROWSER == "CHROME":
         driver = webdriver.Chrome('./chromedriver')

@@ -4,8 +4,7 @@ import unittest
 import datetime
 import os
 
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
+from helpers import tune_driver
 
 from pages.main_page_pages import HeadMailPage
 from pages.main_page_pages import PortalMenuToolbarPage
@@ -18,20 +17,11 @@ from pages.main_page_pages import LunisolarForecastPage
 from pages.main_page_pages import SubscriptionUnitPage
 from pages.main_page_pages import LadyUnitPage
 
-
 LOGIN = os.environ['HW4LOGIN']
 PASSWORD = os.environ['HW4PASSWORD']
-BROWSER = os.environ['HW4BROWSER']
-_MAX_WAIT_TIME = 100
 
-def tune_driver():
-    if BROWSER == "CHROME":
-        driver = webdriver.Chrome('./chromedriver')
-    else:
-        driver = webdriver.Firefox()
-    driver.get("https://horo.mail.ru/")
-    driver.implicitly_wait(60)
-    return driver
+page = "https://horo.mail.ru/"
+
 
 def _get_zodiac_sign_by_date(month, day):
     if (month == 3 and 21 <= day <= 31) or (month == 4 and 1 <= day <= 20):
@@ -108,17 +98,13 @@ _alphabet = (
 
 class HeadMailPageTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = HeadMailPage(self.driver)
 
     def test_links_head(self):
-        urls = ["https://mail.ru","https://e.mail.ru","https://my.mail.ru",
-                "http://ok.ru","https://games.mail.ru","http://love.mail.ru",
-                "https://news.mail.ru","http://go.mail.ru"]
-
-        for i in range(len(urls)):
-            self.page.click_link(i)
-            self.assertIn(urls[i], self.driver.current_url)
+        for url in self.page.urls:
+            self.page.click_link(url)
+            self.assertIn(url, self.driver.current_url)
             self.driver.back()
 
     def test_link_registration(self):
@@ -128,16 +114,12 @@ class HeadMailPageTestCase(unittest.TestCase):
     def test_login_incorrect(self):
         self.page.login(login="ERROR", password="ERROR")
         self.assertIn("https://account.mail.ru/user/login", self.driver.current_url)
-
+        text_error = u"Неверное имя пользователя или пароль. Проверьте правильность введенных данных."
+        self.assertEquals(self.page.get_text_error_login(), text_error)
 
     def test_login_correct(self):
-        login = LOGIN
-        password = PASSWORD
-        self.page.login(login, password)
-
-        self.assertEquals(self.page.get_email_user_login_correct(), login.lower())
-
-        self.page.logout()
+        self.page.login(LOGIN, PASSWORD)
+        self.assertEquals(self.page.get_email_user_login_correct(), LOGIN.lower())
 
     def tearDown(self):
         self.driver.quit()
@@ -145,35 +127,26 @@ class HeadMailPageTestCase(unittest.TestCase):
 
 class PortalMenuToolbarPageTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = PortalMenuToolbarPage(self.driver)
 
     def test_click_logo(self):
         self.page.click_logo()
         self.assertIn("https://lady.mail.ru/", self.driver.current_url)
 
-    def test_move_to_link(self):
-        initial_color = u'transparent'
-        if BROWSER == "CHROME":
-            initial_color = u'rgba(0, 0, 0, 0)'
-        self.assertEquals(self.page.get_background_color_link(), initial_color)
-        self.page.move_to_link()
-        method = lambda x: self.page.get_background_color_link() == u'rgba(20, 127, 203, 1)'
-        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
-
     def tearDown(self):
         self.driver.quit()
 
 class PortalMenuSubmenuPageTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = PortalMenuSubmenuPage(self.driver)
 
     def test_dropdown_move_to_show(self):
         self.assertFalse(self.page.dropdown_is_open())
         self.page.move_to_link()
-        method = lambda x: self.page.dropdown_is_open()
-        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
+        self.page.wait_show_dropdown()
+        self.assertTrue(self.page.dropdown_is_open())
 
     def tearDown(self):
         self.driver.quit()
@@ -181,27 +154,23 @@ class PortalMenuSubmenuPageTestCase(unittest.TestCase):
 
 class AdvertisingUnitPageTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = AdvertisingUnitPage(self.driver)
 
     def test_click_all_links(self):
         last_url = self.driver.current_url
-
         for selector in self.page.links:
-            self.page.click_link(selector)
-            method = lambda x: len(self.driver.window_handles) == 2
-            WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
-            self.driver.switch_to_window(self.driver.window_handles[1])
+            self.page.open_advertising(selector)
             self.assertNotEquals(last_url, self.driver.current_url)
-            self.driver.close()
-            self.driver.switch_to_window(self.driver.window_handles[0])
+            self.page.close_advertising()
 
     def test_hide_advertising(self):
         self.page.move_to_advertising()
         self.page.hide_advertising()
+
         text = u"Спасибо. Объявление скрыто."
-        method = lambda x: self.page.get_baner_text() == text
-        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
+        self.assertEquals(self.page.get_baner_text(), text)
+
 
     def tearDown(self):
        self.driver.quit()
@@ -209,14 +178,19 @@ class AdvertisingUnitPageTestCase(unittest.TestCase):
 
 class BlockHoroTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = BlockHoroPage(self.driver)
 
     def test_today_date(self):
         date = datetime.date.today()
         date_site = self.page.get_date().split("\n")
-        self.assertEquals(date.day, int(date_site[0]))
-        self.assertEquals(_months[date.month - 1].upper(), date_site[1].upper())
+        day_site = int(date_site[0])
+        month_site = date_site[1].upper()
+
+        month_current = _months[date.month - 1].upper()
+
+        self.assertEquals(date.day, day_site)
+        self.assertEquals(month_current, month_site)
 
     def test_horo_for_all(self):
         title = u"Гороскоп для всех знаков на сегодня"
@@ -238,17 +212,15 @@ class BlockHoroTestCase(unittest.TestCase):
         day = int(date_birth[0])
         month = _months.index(date_birth[1]) + 1
 
-        zodiac_sign = self.page.get_horo_title().split(" ")[-1]
-        self.assertEquals(zodiac_sign,_get_zodiac_sign_by_date(month,day))
-
-        head_mail_page.logout()
+        zodiac_sing = self.page.get_zodiac_sign()
+        self.assertEquals(zodiac_sing, _get_zodiac_sign_by_date(month,day))
 
     def tearDown(self):
         self.driver.quit()
 
 class ZodiacSignTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = ZodiacSignPage(self.driver)
 
     def test_select_date(self):
@@ -259,7 +231,7 @@ class ZodiacSignTestCase(unittest.TestCase):
         self.page.click_all_horo()
 
         block_horo_page = BlockHoroPage(self.driver)
-        zodiac_sing = block_horo_page.get_horo_title().split(" ")[-1]
+        zodiac_sing = block_horo_page.get_zodiac_sign()
 
         self.assertEquals(zodiac_sing, _get_zodiac_sign_by_date(month,day))
 
@@ -268,7 +240,7 @@ class ZodiacSignTestCase(unittest.TestCase):
 
 class SearchDreamTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = SearchDreamPage(self.driver)
 
     def test_search_dream(self):
@@ -290,60 +262,52 @@ class SearchDreamTestCase(unittest.TestCase):
 
 class LunisolarForecastTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = LunisolarForecastPage(self.driver)
 
     def test_check_date(self):
         date = datetime.date.today()
         date_site = self.page.get_date().split("\n")
-        self.assertEquals(date.day, int(date_site[0]))
-        self.assertEquals(_months[date.month - 1].upper(), date_site[1].upper())
+        day_site = int(date_site[0])
+        month_site = date_site[1].upper()
+
+        month_current = _months[date.month - 1].upper()
+
+        self.assertEquals(date.day, day_site)
+        self.assertEquals(month_current, month_site)
 
     def tearDown(self):
         self.driver.quit()
 
 class SubscriptionUnitTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = SubscriptionUnitPage(self.driver)
         self.url_vk = "https://vk.com/ladymailru"
         self.url_facebook = "https://www.facebook.com/lady.mail.ru?ref=bookmarks"
         self.url_ok = "http://ok.ru/ladymailru"
 
-    def assert_group_url(self, url):
-        method = lambda x: len(self.driver.window_handles) == 2
-        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
-        self.driver.switch_to_window(self.driver.window_handles[1])
-        self.assertEqual(self.driver.current_url, url)
-        self.driver.close()
-        self.driver.switch_to_window(self.driver.window_handles[0])
-
     def test_go_group_vk(self):
         self.page.go_group_vk()
-        self.assert_group_url(self.url_vk)
+        self.assertEqual(self.driver.current_url, self.url_vk)
 
     def test_go_group_facebook(self):
         self.page.go_group_facebook()
-        self.assert_group_url(self.url_facebook)
+        self.assertEqual(self.driver.current_url, self.url_facebook)
 
     def test_go_group_ok(self):
         self.page.go_group_ok()
-        self.assert_group_url(self.url_ok)
+        self.assertEqual(self.driver.current_url, self.url_ok)
 
     def test_subscription_horo(self):
         head_mail_page = HeadMailPage(self.driver)
         head_mail_page.login(LOGIN, PASSWORD)
 
         if self.page.is_subscription_horo():
-            self.page.click_button_subscription_horo()
-            WebDriverWait(self.driver, _MAX_WAIT_TIME).until(lambda x: not self.page.is_subscription_horo())
+            self.page.unsubscribe_horo()
 
-        self.page.click_button_subscription_horo()
-        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(lambda x: self.page.is_subscription_horo())
-        self.page.click_button_subscription_horo()
-
-        head_mail_page.logout()
-
+        self.page.subscribe_horo()
+        self.assertTrue(self.page.is_subscription_horo())
 
     def tearDown(self):
         self.driver.quit()
@@ -351,31 +315,30 @@ class SubscriptionUnitTestCase(unittest.TestCase):
 
 class LadyUnitTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver()
+        self.driver = tune_driver(page)
         self.page = LadyUnitPage(self.driver)
 
     def test_scale_image(self):
         for index in range(4):
             self.assertEquals(self.page.get_scale_image(index), u'none')
             self.page.move_to_image(index)
-            method = lambda x: self.page.get_scale_image(index) == u'matrix(1.02, 0, 0, 1.02, 0, 0)'
-            WebDriverWait(self.driver, _MAX_WAIT_TIME).until(method)
+            self.assertEquals(self.page.get_scale_image(index), u'matrix(1.02, 0, 0, 1.02, 0, 0)')
 
     def test_slider(self):
-        left = self.page.get_transform(1)
-        center = self.page.get_transform(2)
-        right = self.page.get_transform(3)
+        left = self.page.get_transform(0)
+        center = self.page.get_transform(1)
+        right = self.page.get_transform(2)
         self.page.click_slider_left()
 
-        self.assertEquals(self.page.get_transform(1), right)
-        self.assertEquals(self.page.get_transform(3), center)
-        self.assertEquals(self.page.get_transform(2), left)
+        self.assertEquals(self.page.get_transform(0), right)
+        self.assertEquals(self.page.get_transform(2), center)
+        self.assertEquals(self.page.get_transform(1), left)
 
         self.page.click_slider_right()
 
-        self.assertEquals(self.page.get_transform(1), left)
-        self.assertEquals(self.page.get_transform(3), right)
-        self.assertEquals(self.page.get_transform(2), center)
+        self.assertEquals(self.page.get_transform(0), left)
+        self.assertEquals(self.page.get_transform(2), right)
+        self.assertEquals(self.page.get_transform(1), center)
 
     def tearDown(self):
         self.driver.quit()
