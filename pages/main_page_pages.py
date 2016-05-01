@@ -262,9 +262,8 @@ class SubscriptionUnitPage:
     def is_subscription_horo(self):
         element = self.driver.find_element_by_css_selector(".cell_right .button__text")
 
-        if element.value_of_css_property("display") == "none":
-            return True
-        return False
+        return element.value_of_css_property("display") == "none"
+
 
 class LadyUnitPage:
     def __init__(self, driver):
