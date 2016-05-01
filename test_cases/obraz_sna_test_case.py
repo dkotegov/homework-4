@@ -84,7 +84,7 @@ class RepostBlockTestCase(unittest.TestCase):
     #
     #     self.page.share()
     #     self.vk_page.auth(VK_LOGIN, VK_PASSWORD)
-    #     self.page.post()
+    #     self.vk_page.post()
     #
     #     self.page.open()
     #
@@ -100,7 +100,7 @@ class RepostBlockTestCase(unittest.TestCase):
         before = self.page.get_count_reposts()
 
         self.page.share()
-        self.page.post()
+        self.vk_page.post()
 
         self.page.open()
 

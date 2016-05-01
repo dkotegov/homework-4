@@ -46,15 +46,3 @@ class RepostBlock:
         self.driver.find_element_by_class_name("share_vk").click()
         window_after = self.driver.window_handles[1]
         self.driver.switch_to_window(window_after)
-
-    def post(self):
-        # событие не успевает повесится на кнопку post_button
-        sleep(1)
-        # по хорошему нужно так:
-        # кликать, если событие не произошло, кликать еще раз
-        # или  повесить wait на событие, после которого кнопка точно будет готова
-
-        self.driver.find_element_by_id("post_button").click()
-
-        window_before = self.driver.window_handles[0]
-        self.driver.switch_to_window(window_before)
