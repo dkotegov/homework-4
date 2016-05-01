@@ -3,70 +3,109 @@ import unittest
 import os
 
 from selenium import webdriver
-from pages.obraz_sna_page import BlockFindNewObraz, BlockRepostToSocialNet
+from pages.obraz_sna_page import BlockFindNewObraz, RepostBlock
+from pages.vk_page import VKPage
 
-mypage = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
+PAGE = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
 
-vk_login = os.environ['HW4LOGIN_VK']
-vk_password = os.environ['HW4PASSWORD_VK']
+VK_LOGIN = os.environ['HW4LOGIN_VK']
+VK_PASSWORD = os.environ['HW4PASSWORD_VK']
 BROWSER = os.environ['HW4BROWSER']
 
 
-def tune_driver(page):
+def tune_driver():
     if BROWSER == "CHROME":
         driver = webdriver.Chrome('./chromedriver')
     else:
         driver = webdriver.Firefox()
-    driver.get(page)
-    driver.implicitly_wait(60)
+
+    driver.implicitly_wait(3)
     return driver
 
 
 class BlockFindNewObrazTestCase(unittest.TestCase):
+    @staticmethod
+    def _message_is_success(msg, obraz):
+        return msg.find(u" / Толкование образа") != -1 and msg.find(obraz) != -1
+
+    @staticmethod
+    def _message_is_success_search(msg, obraz):
+        return msg.find(obraz + u" найдено") != -1
+
+    @staticmethod
+    def _message_is_not_success_search(msg):
+        return msg.find(u"не найдено") != -1
+
     def setUp(self):
-        self.driver = tune_driver(mypage)
-        self.block = BlockFindNewObraz(self.driver)
+        self.driver = tune_driver()
+        self.page = BlockFindNewObraz(self.driver, PAGE)
 
     def tearDown(self):
         self.driver.quit()
 
-    def testExistingObraz(self):
-        obrazs = [u"Кот", u"Собака"]
+    def test_existing_obraz(self):
+        self.page.open()
 
-        for i in range(len(obrazs)):
-            self.block.find(obrazs[i])
-            msg = self.block.get_message_success()
-            self.assertTrue(self.block.message_is_success(msg, obrazs[i]))
+        obraz = u"Кот"
+        self.page.find(obraz)
+        msg = self.page.get_text_header_article()
+        self.assertTrue(self._message_is_success(msg, obraz))
 
-    def testNoExistingObraz(self):
+    def test_existing_obraz_search(self):
+        self.page.open()
+
+        obraz = u"собака"
+        self.page.find(obraz)
+        msg = self.page.get_text_header_search()
+        self.assertTrue(self._message_is_success_search(msg, obraz))
+
+    def test_no_existing_obraz(self):
+        self.page.open()
+
         obraz = u"Котопёс"
-        self.block.find(obraz)
-        msg = self.block.get_message_no_success()
-        self.assertTrue(self.block.message_is_no_success(msg))
+        self.page.find(obraz)
+        msg = self.page.get_text_article()
+        self.assertTrue(self._message_is_not_success_search(msg))
 
 
-class BlockRepostToSocialNetTestCase(unittest.TestCase):
+class RepostBlockTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = tune_driver(mypage)
-        self.block = BlockRepostToSocialNet(self.driver, mypage)
+        self.driver = tune_driver()
+        self.page = RepostBlock(self.driver, PAGE)
+        self.vk_page = VKPage(self.driver)
 
     def tearDown(self):
         self.driver.quit()
 
-    # на странице баг, авторизация не проходит из-за длинного урла (> 2000 апи вк не разрешает)
-    # def testShareToVkNotYetAuth(self):
-    #     before = self.block.getCountReposts()
-    #     self.block.postToVkWithAuth(vk_login, vk_password)
-    #     after = self.block.getCountReposts()
-    #     self.assertEqual(before + 1, after)
+    ## на странице баг, авторизация не проходит из-за длинного урла (> 2000 апи вк не разрешает)
+    # def test_vk_repost_with_auth(self):
+    #     self.page.open()
+    #
+    #     before = self.page.get_count_reposts()
+    #
+    #     self.page.share()
+    #     self.vk_page.auth(VK_LOGIN, VK_PASSWORD)
+    #     self.page.post()
+    #
+    #     self.page.open()
+    #
+    #     after = self.page.get_count_reposts()
+    #     self.assertEqual(after, before + 1)
 
-    def testShareToVkAlreadyAuth(self):
-        self.block.authVK(vk_login, vk_password)
-        self.driver.get(mypage)
+    def test_vk_repost(self):
+        self.vk_page.open()
+        self.vk_page.auth(VK_LOGIN, VK_PASSWORD)
 
-        before = self.block.getCountReposts()
-        self.block.postToVkAlreadyAuth()
-        after = self.block.getCountReposts()
-        self.assertEqual(before + 1, after)
+        self.page.open()
+
+        before = self.page.get_count_reposts()
+
+        self.page.share()
+        self.page.post()
+
+        self.page.open()
+
+        after = self.page.get_count_reposts()
+        self.assertEqual(after, before + 1)
 
 
