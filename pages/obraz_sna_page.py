@@ -1,6 +1,4 @@
 # coding=utf-8
-from time import sleep
-
 from selenium.common.exceptions import NoSuchElementException
 
 
