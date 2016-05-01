@@ -1,25 +1,14 @@
 # coding=utf-8
 import unittest
 import os
-from selenium import webdriver
 from pages.obraz_sna_page import BlockFindNewObraz, BlockRepostToSocialNet
-from test_cases.main_page_test_case import tune_driver
+from helpers import tune_driver
 
 mypage = "https://horo.mail.ru/sonnik/nostradamus/edinorog/"
 
 vk_login = os.environ['HW4LOGIN_VK']
 vk_password = os.environ['HW4PASSWORD_VK']
 BROWSER = os.environ['HW4BROWSER']
-
-
-def tune_driver(page):
-    if BROWSER == "CHROME":
-        driver = webdriver.Chrome('./chromedriver')
-    else:
-        driver = webdriver.Firefox()
-    driver.get(page)
-    driver.implicitly_wait(60)
-    return driver
 
 class BlockFindNewObrazTestCase(unittest.TestCase):
     def setUp(self):
