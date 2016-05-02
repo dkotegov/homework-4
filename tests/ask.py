@@ -3,7 +3,7 @@ import os
 import unittest
 
 from selenium.webdriver import Remote, DesiredCapabilities
-
+from user import USER_DOMAIN,USER_LOGIN,USER_PASSWORD
 from pages.Question import *
 
 
@@ -25,9 +25,9 @@ class AskQuestionTests(BaseTest):
         self.ask_page.open()
         self.ask_page.open_login_frame()
         t = self.ask_page.auth_form()
-        t.set_login("zzz-zzzz-90")
-        t.set_domain("list.ru")
-        t.set_password("Qwerty12")
+        t.set_login(USER_LOGIN)
+        t.set_domain(USER_DOMAIN)
+        t.set_password(USER_PASSWORD)
         t.login()
         self.ask_page.close_login_frame()
 

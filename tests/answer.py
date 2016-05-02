@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pages.AnswerQuestion import OtvetPageQuestion
 from tests.ask import BaseTest
-
+from user import USER_PASSWORD,USER_DOMAIN,USER_LOGIN
 
 class AnswerQuestionTests(BaseTest):
 
@@ -11,9 +11,9 @@ class AnswerQuestionTests(BaseTest):
         self.answer_page.open()
         self.answer_page.open_login_frame()
         t = self.answer_page.auth_form()
-        t.set_login("zzz-zzzz-90")
-        t.set_domain("list.ru")
-        t.set_password("Qwerty12")
+        t.set_login(USER_LOGIN)
+        t.set_domain(USER_DOMAIN)
+        t.set_password(USER_PASSWORD)
         t.login()
         self.answer_page.close_login_frame()
         self.answer_page.open_question()
