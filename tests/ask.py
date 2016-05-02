@@ -39,14 +39,12 @@ class AskQuestionTests(BaseTest):
         ask.set_category()
         ask.set_subcategory()
         ask.submit()
-        self.driver.implicitly_wait(1)
         self.assertEqual(u"Невозможно опубликовать слишком длинный текст", self.ask_page.error_poput())
 
     def test_form_no_categories_selected(self):
         ask = self.ask_page.ask_form()
         ask.set_question_title("test")
         ask.submit()
-        self.driver.implicitly_wait(1)
         self.assertEqual(u"Просьба более подробно и грамотно сформулировать тему вопроса.", self.ask_page.error_poput())
 
     def test_no_sub_ctegory(self):
@@ -54,7 +52,6 @@ class AskQuestionTests(BaseTest):
         ask.set_question_title("test")
         ask.set_category()
         ask.submit()
-        self.driver.implicitly_wait(1)
         self.assertEqual(u"Просьба более подробно и грамотно сформулировать тему вопроса.", self.ask_page.error_poput())
 
     def test_title_empty(self):
@@ -62,17 +59,12 @@ class AskQuestionTests(BaseTest):
         ask.set_category()
         ask.set_subcategory()
         ask.submit()
-        self.driver.implicitly_wait(1)
         self.assertEqual(u"Невозможно опубликовать пустой текст",
                          self.ask_page.error_poput())
 
     def test_form_add_picture(self):
         ask = self.ask_page.ask_form()
-        ask.set_text(u"вопрос тест")
-        ask.set_question_title(u"Что? Где? Когда? selenium test")
         ask.add_picture("/home/ivan/test/QA/selenium/homework-4/grumpy.png")
-        ask.set_category()
-        ask.set_subcategory()
         self.assertTrue(ask.is_picture_setted())
 
 

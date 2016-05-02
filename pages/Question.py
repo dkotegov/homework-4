@@ -42,7 +42,9 @@ class AskForm(Element):
 
     def add_picture(self, path):
         self.form.find_element_by_class_name(self.ASK_UPLOAD_PHOTO_BUTTON_CLASS).click()
+        self.driver.implicitly_wait(2)
         self.driver.find_element_by_name(self.ASK_UPLOAD_PHOTO_NAME).send_keys(path)
+        self.driver.implicitly_wait(2)
 
     def submit(self):
         el = self.driver.find_element_by_class_name(self.SUBMIT_CLASS)
@@ -50,6 +52,7 @@ class AskForm(Element):
         actions.move_to_element(el)
         actions.click(el)
         actions.perform()
+        self.driver.implicitly_wait(1)
 
     def is_picture_setted(self):
         self.form = self.driver.find_element_by_class_name("ask-form")
