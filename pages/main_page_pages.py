@@ -207,6 +207,10 @@ class SearchDreamPage:
     def search_by_alphabet(self, index):
         alphabet = self.driver.find_elements_by_css_selector(self.alphabet)[index]
         alphabet.click()
+        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(
+            lambda x: x.current_url.find("https://horo.mail.ru/sonnik/") != -1
+        )
+
 
 
 class LunisolarForecastPage:

@@ -322,7 +322,7 @@ class LadyUnitTestCase(unittest.TestCase):
         for index in range(4):
             self.assertEquals(self.page.get_scale_image(index), u'none')
             self.page.move_to_image(index)
-            self.assertEquals(self.page.get_scale_image(index), u'matrix(1.02, 0, 0, 1.02, 0, 0)')
+            self.assertRegexpMatches(self.page.get_scale_image(index), ur'(1.02, 0, 0, 1.02, 0, 0)')
 
     def test_slider(self):
         left = self.page.get_transform(0)
