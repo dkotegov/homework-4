@@ -4,12 +4,12 @@ import os
 
 BROWSER = os.environ['HW4BROWSER']
 
-def tune_driver(page):
+def tune_driver(page=None):
     driver = webdriver.Remote(
         command_executor='http://127.0.0.1:4444/wd/hub',
         desired_capabilities=getattr(DesiredCapabilities, BROWSER).copy()
     )
-
-    driver.get(page)
+    if page is not None:
+        driver.get(page)
     driver.implicitly_wait(60)
     return driver
