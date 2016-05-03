@@ -51,36 +51,6 @@ class OtvetPageQuestion(Page):
         return AnswerForm(self.driver)
 
 
-# class AnswerToQuestion(Element):
-#     ANSWER_CLASS = "answer"
-#     LIKES_CLASS = "action--mark"
-#     DISLIKES_CLASS = "action--unmark"
-#     COMMENT_FORM_CLASS = "action--show-comment-form"
-#     COMMENTS_CLASS = "a--comments"
-#     def __init__(self, driver):
-#         super(AnswerToQuestion, self).__init__(driver)
-#         self.answer = self.driver.find_element_by_class_name(self.ANSWER_CLASS)
-#
-#     def like(self):
-#         self.answer.find_element_by_class_name(self.LIKES_CLASS).click()
-#
-#     def dislike(self):
-#         self.answer.find_element_by_class_name(self.DISLIKES_CLASS).click()
-#
-#     def is_liked(self):
-#         return self.answer.find_element_by_class_name(self.DISLIKES_CLASS) is not None
-#
-#     def is_unliked(self):
-#         return self.answer.find_element_by_class_name(self.LIKES_CLASS) is not None
-#
-#     def enable_comment(self):
-#         self.answer.find_element_by_class_name(self.COMMENT_FORM_CLASS).click()
-#
-#     def comment_form(self):
-#         comments = self.driver.find_element_by_class_name(self.COMMENTS_CLASS)
-#         return AnswerForm(comments)
-
-
 class AnswerForm(Element):
     FORM_CLASS = "form-form"
     TEXT_AREA_CLASS = "form--text"
