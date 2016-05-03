@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 import requests
 from urlparse import urljoin
 
-class MedicamentPage(Page):
+class DrugPage(Page):
     def __init__(self, driver, drugs_name):
         Page.__init__(self, driver)
         self.PATH = urljoin(self.BASE_URL, '/drug/')
