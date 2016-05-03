@@ -7,7 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 import requests
 
-class DrugssPage(Page):
+
+class DrugsPage(Page):
     PATH = '/drug/'
 
     @property
@@ -21,6 +22,7 @@ class DrugssPage(Page):
     @property
     def catalog(self):
         return Catalog(self.driver)
+
 
 class SearchForm(Component):
     INPUT_FIELD = "input.input__field.js-suggest__input"
@@ -51,6 +53,7 @@ class SearchForm(Component):
         items = self.items()
         return [self.get_name(item) for item in items]
 
+
 class LeadersOfSells(Component):
     ITEMS = "div.entry.entry_medicament.margin_bottom_30"
     NAME = "div.entry__name"
@@ -63,15 +66,18 @@ class LeadersOfSells(Component):
         return el.find_element_by_css_selector(self.NAME).text.split(',')[0]
 
     def go_to_drugs_page(self, title):
-        WebDriverWait(self.driver, self.TIMEOUT).until(expected_conditions.element_to_be_clickable((By.LINK_TEXT, title)))
+        WebDriverWait(self.driver, self.TIMEOUT).until(
+            expected_conditions.element_to_be_clickable((By.LINK_TEXT, title)))
         self.driver.find_element_by_link_text(title).click()
 
     def get_all(self):
         items = self.items()
         return [self.get_name(item) for item in items]
 
+
 class Catalog(Component):
     LINK = 'a.catalog__item'
+
     def check_link(self, link):
         return requests.get(link).status_code == 200
 

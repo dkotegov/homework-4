@@ -2,7 +2,7 @@
 __author__ = 'alla'
 import os
 import unittest
-from drugs.pages.drugs_page import DrugssPage
+from drugs.pages.drugs_page import DrugsPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
@@ -15,7 +15,7 @@ class CatalogTest(unittest.TestCase):
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
-        self.page = DrugssPage(self.driver)
+        self.page = DrugsPage(self.driver)
         self.page.open()
         self.catalog = self.page.catalog
 
