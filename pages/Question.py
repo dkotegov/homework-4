@@ -15,7 +15,6 @@ class AskForm(Element):
     ASK_AREA_TEXT_NAME = "text"
     ASK_UPLOAD_PHOTO_BUTTON_CLASS = "action--upload-photo"
     ASK_UPLOAD_PHOTO_NAME = "file"
-    # SUBMIT = "//button[@class='ask-btn-submit']"
     SUBMIT_CLASS = "ask-btn-submit"
     OPTION_VALUE = "//option[@value='2013']"
     OPTION_SUB_CATEGORY_VALUE = "//option[@value='1331']"
