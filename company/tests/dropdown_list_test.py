@@ -37,7 +37,6 @@ class CompanySearchTest(unittest.TestCase):
         self.page.dropdown_list.open_dropdown_list()
         self.dropdown_list.select_metro_station(metro_station)
 
-
     def tearDown(self):
         self.page.close()
         self.driver.quit()
