@@ -6,7 +6,7 @@ from company.pages.one_company_page import CompanyPage
 from selenium.webdriver import DesiredCapabilities, Remote
 
 
-class CompanySearchTest(unittest.TestCase):
+class PaginatorTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('HW4BROWSER', 'CHROME')
 
