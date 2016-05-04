@@ -6,7 +6,7 @@ from company.pages.companies_page import CompaniesPage
 from selenium.webdriver import DesiredCapabilities, Remote
 
 
-class CompanySearchTest(unittest.TestCase):
+class CompanyListTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('HW4BROWSER', 'CHROME')
 
