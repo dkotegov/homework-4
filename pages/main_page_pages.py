@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 _MAX_WAIT_TIME = 100
 
@@ -195,7 +196,7 @@ class SearchDreamPage:
         self.driver = driver
         self.searchInput = ".input__field[name=q]"
         self.searchButton = "button.margin_left_10"
-        self.alphabet = ".cols__column_small_percent-50 .filter__text"
+        self.alphabet = ".cols__column_small_percent-50 .filter__item"
 
     def search_by_text(self, dream):
         search_input = self.driver.find_element_by_css_selector(self.searchInput)
@@ -205,12 +206,14 @@ class SearchDreamPage:
         button.click()
 
     def search_by_alphabet(self, index):
+        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, self.alphabet))
+        )
         alphabet = self.driver.find_elements_by_css_selector(self.alphabet)[index]
         alphabet.click()
         WebDriverWait(self.driver, _MAX_WAIT_TIME).until(
             lambda x: x.current_url.find("https://horo.mail.ru/sonnik/") != -1
         )
-
 
 
 class LunisolarForecastPage:
