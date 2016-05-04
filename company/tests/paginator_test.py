@@ -2,7 +2,7 @@
 __author__ = 'niggor'
 import os
 import unittest
-from company.pages.one_company_page import CompanyPage
+from company.pages.list_company_page import CompanyPage
 from selenium.webdriver import DesiredCapabilities, Remote
 
 
