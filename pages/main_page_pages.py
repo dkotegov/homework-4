@@ -196,7 +196,7 @@ class SearchDreamPage:
         self.driver = driver
         self.searchInput = ".input__field[name=q]"
         self.searchButton = "button.margin_left_10"
-        self.alphabet = ".cols__column_small_percent-50 .filter__item"
+        self.alphabet = ".block_bg_secondary .cols__column_small_percent-50 .filter__item"
 
     def search_by_text(self, dream):
         search_input = self.driver.find_element_by_css_selector(self.searchInput)
@@ -205,16 +205,15 @@ class SearchDreamPage:
         button = self.driver.find_element_by_css_selector(self.searchButton)
         button.click()
 
-    def search_by_alphabet(self, index):
-        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, self.alphabet))
-        )
+    def wait_element_to_be_clickable(self, index):
         alphabet = self.driver.find_elements_by_css_selector(self.alphabet)[index]
         alphabet.click()
-        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(
-            lambda x: x.current_url.find("https://horo.mail.ru/sonnik/") != -1
-        )
+        return self.driver.current_url.find("https://horo.mail.ru/sonnik/") != -1
 
+    def search_by_alphabet(self, index):
+        WebDriverWait(self.driver, _MAX_WAIT_TIME).until(
+            lambda x: self.wait_element_to_be_clickable(index)
+        )
 
 class LunisolarForecastPage:
     def __init__(self, driver):
