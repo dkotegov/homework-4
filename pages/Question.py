@@ -1,7 +1,9 @@
 from selenium.webdriver import ActionChains
 
 from pages.Common import Page, Element
-
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.wait import WebDriverWait
 
 class OtvetPageAsk(Page):
     PATH = "ask"
@@ -20,6 +22,7 @@ class AskForm(Element):
     OPTION_SUB_CATEGORY_VALUE = "//option[@value='1331']"
     SELECT_CATEGORY_ID = "ask-categories"
     SELECT_SUBCATEGORY_ID = "ask-sub-category"
+    IMG_ADDED_CLASS = "media-preview-item"
 
     def __init__(self, driver):
         super(AskForm, self).__init__(driver)
@@ -42,6 +45,8 @@ class AskForm(Element):
     def add_picture(self, path):
         self.form.find_element_by_class_name(self.ASK_UPLOAD_PHOTO_BUTTON_CLASS).click()
         self.driver.find_element_by_name(self.ASK_UPLOAD_PHOTO_NAME).send_keys(path)
+        WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.CLASS_NAME,self.IMG_ADDED_CLASS)))
+
 
     def submit(self):
         el = self.driver.find_element_by_class_name(self.SUBMIT_CLASS)

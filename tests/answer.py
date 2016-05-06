@@ -17,12 +17,10 @@ class AnswerQuestionTests(BaseTest):
         t.login()
         self.answer_page.close_login_frame()
         self.answer_page.open_question()
-        self.driver.implicitly_wait(3)
 
     def test_empty_text(self):
         form = self.answer_page.answer_form()
         form.submit()
-        self.driver.implicitly_wait(2)
         self.assertEqual(u'Невозможно опубликовать пустой текст',self.answer_page.error_poput())
 
     def test_text_limit_exceed_check(self):

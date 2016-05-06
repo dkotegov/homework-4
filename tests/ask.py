@@ -10,7 +10,7 @@ from pages.Question import OtvetPageAsk
 class BaseTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('HW4BROWSER', 'CHROME')
-        self.driver = Remote(command_executor='http://192.168.57.1:4444/wd/hub',
+        self.driver = Remote(command_executor='http://172.20.10.2:4444/wd/hub',
                              desired_capabilities=getattr(DesiredCapabilities, browser))
 
     def tearDown(self):
@@ -30,7 +30,6 @@ class AskQuestionTests(BaseTest):
         t.set_password(USER_PASSWORD)
         t.login()
         self.ask_page.close_login_frame()
-        self.driver.implicitly_wait(3)
 
     def test_form_create_exceed_character_limit(self):
         ask = self.ask_page.ask_form()

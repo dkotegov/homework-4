@@ -1,11 +1,14 @@
 import urlparse
-
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.wait import WebDriverWait
 
 class Page(object):
     BASE_URL = "https://otvet.mail.ru/"
     PATH = ""
     QUESTIONS_CLASS = "q--li--text"
-
+    POPUP_CLASS = "popup--content "
+    FORM_CLASS = "form-form"
     def __init__(self, driver):
         self.driver = driver
 
@@ -25,9 +28,11 @@ class Page(object):
 
     def open_question(self):
         self.driver.find_element_by_class_name(self.QUESTIONS_CLASS).click()
+        WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.CLASS_NAME, self.FORM_CLASS)))
 
     def error_poput(self):
-        return self.driver.find_element_by_class_name("popup--content ").text
+        WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.CLASS_NAME,self.POPUP_CLASS)))
+        return self.driver.find_element_by_class_name(self.POPUP_CLASS).text
 
 
 class Element(object):
