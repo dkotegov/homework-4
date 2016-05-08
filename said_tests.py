@@ -1,26 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 import unittest
-import urlparse
 
-import time
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
-
-class Page(object):
-    BASE_URL = 'http://sport.mail.ru/'
-    PATH = ''
-
-    def __init__(self, driver):
-        self.driver = driver
-
-    def open(self):
-        url = urlparse.urljoin(self.BASE_URL, self.PATH)
-        self.driver.get(url)
-        self.driver.maximize_window()
+from PageObject import Page
 
 
 class Component(object):
