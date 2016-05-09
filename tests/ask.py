@@ -10,7 +10,7 @@ from pages.Question import OtvetPageAsk
 class BaseTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('HW4BROWSER', 'CHROME')
-        self.driver = Remote(command_executor='http://172.20.10.2:4444/wd/hub',
+        self.driver = Remote(command_executor='http://localhost:4444/wd/hub',
                              desired_capabilities=getattr(DesiredCapabilities, browser))
 
     def tearDown(self):
