@@ -1,9 +1,11 @@
+
 # -*- coding: utf-8 -*-
 
 import os
 
 import unittest
 import urlparse
+from selenium.webdriver.support.ui import Select
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
@@ -67,7 +69,7 @@ class Component(object):
 class PictureDay(Page):
 
     PATH = ''
-    BASE_URL = 'http://news.mail.ru/'
+    BASE_URL = 'https://news.mail.ru/'
 
     @property
     def main_news(self):
@@ -85,12 +87,21 @@ class PictureDay(Page):
 class MainPage(Page):
 
     PATH = ''
-    BASE_URL = 'http://mail.ru/'  
+    BASE_URL = 'https://mail.ru/'  
 
     @property
     def feed_back(self):
         return LoginMail(self.driver)   
-    
+
+class OtvetPage(Page):
+
+    PATH = ''
+    BASE_URL = 'https://otvet.mail.ru'
+
+    @property
+    def mail_ask(self):
+        return Ask(self.driver)  
+   
 class MainNews(Component):
     BIG = '//div[@data-new-item-clb="clb14642789"]//td[@class="daynews__main"]//a'
     BIG_URL = ''
@@ -154,5 +165,47 @@ class LoginMail(Component):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
 
+class Ask(Component):
+    FRAME = "//body[1]/div[4]/div[1]//iframe"
+    ASK = "clb3917180"
+    LOGIN = '//input[@name="Username"]'
+    PASSWORD = '//input[@name="Password"]'
+    SUBMIT = '//button[@data-name="submit"]'
+    QUESTION_AREA = "qtext"
+    PUBLIC = "button"
+    THEME = "cid"
+    SUBTHEME = "subcid"
 
 
+
+    def clickAsk(self):
+        self.driver.find_element_by_name(self.ASK).click()
+
+    def iframe_select(self):
+        self.driver.switch_to.frame(self.driver.find_element_by_xpath(self.FRAME))
+
+    def iframe_unselect(self):
+        self.driver.switch_to_default_content()
+
+    def set_login(self, login):
+        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
+
+    def set_password(self, pwd):
+        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
+
+    def click_submit(self):
+        self.driver.find_element_by_xpath(self.SUBMIT).click()
+
+    def set_question(self, text):
+        self.driver.find_element_by_name(self.QUESTION_AREA).send_keys(text)
+
+    def click_public(self):
+        self.driver.find_elements_by_tag_name(self.PUBLIC)[1].click()  
+
+    def click_cid(self):
+         select = Select(self.driver.find_element_by_name(self.THEME))
+         select.select_by_value("3")              
+        
+    def click_subcid(self):
+         select = Select(self.driver.find_element_by_name(self.SUBTHEME))
+         select.select_by_value("1335")   
