@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os, unittest, urlparse
+import os, unittest, urlparse, time
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
@@ -226,21 +226,20 @@ class CitiesForm(Component):
     def choose_suggestion(self, name):
         try:
             elems = self.driver.find_elements_by_class_name('x-pm-region-select__suggest__item')
-            for elem in elems:
-                if name == elem.get_attribute('data-suggest'):
-                    elem.click()
-                    return elem
-            return None
+            return next((x for x in elems if x.get_attribute('data-suggest') == name), None)
         except StaleElementReferenceException as e:
             return self.choose_suggestion(name)
 
     def move_to_end_of_suggestions(self):
+        end_time = int(time.time()) + 10
         while True:
             elem = self.driver.find_elements_by_class_name('x-pm-region-select__suggest__item')[-1]
             ActionChains(self.driver).move_to_element(elem).perform()
             new_elem = self.driver.find_elements_by_class_name('x-pm-region-select__suggest__item')[-1]
             if elem == new_elem:
                 break
+            elif int(time.time()) > end_time:
+                raise StaleElementReferenceException() 
 
     def go_back(self):
         self.driver.find_elements_by_xpath("//*[contains(text(), 'Вернуться')]")[1].click()
@@ -249,13 +248,10 @@ class CitiesForm(Component):
         self.driver.find_elements_by_xpath("//*[contains(text(), 'Сохранить')]")[1].click()
 
 class ImportForm(Component):
-    YA_LOGIN = "dbwqudqwdqwbudqw@yandex.ru"
-    YA_PASS = "https://passport.yandex.ru/registration/mail?from=mail&origin=home_v14_ru&retpath=https%3A%2F%2Fmail.yandex.ru"
-
     def import_yandex(self):
         self.driver.find_elements_by_xpath("//*[contains(text(), 'Яндекс.Календарь')]")[0].click()
-        self.driver.find_elements_by_name('login')[0].send_keys(self.YA_LOGIN)
-        self.driver.find_elements_by_name('password')[0].send_keys(self.YA_PASS)
+        self.driver.find_elements_by_name('login')[0].send_keys("dbwqudqwdqwbudqw@yandex.ru")
+        self.driver.find_elements_by_name('password')[0].send_keys("https://passport.yandex.ru/registration/mail?from=mail&origin=home_v14_ru&retpath=https%3A%2F%2Fmail.yandex.ru")
         self.driver.find_elements_by_xpath("//*[contains(text(), 'Импортировать')]")[1].click()
 
         WebDriverWait(self.driver, 10).until(
@@ -270,7 +266,7 @@ class ExtraTest(BaseTestCase):
         main_page.more_button.move_to()
         main_page.settings_button.click()
 
-        self.assertTrue(CommonPage.PATH in main_page.driver.current_url)
+        self.assertIn(CommonPage.PATH, main_page.driver.current_url)
 
 class DateTest(BaseTestCase):
     def test_save(self):
@@ -353,7 +349,7 @@ class CitiesTest(BaseTestCase):
         cities_form.go_back()
 
         main_page = MainPage(self.driver)
-        self.assertTrue(CommonPage.PATH in main_page.driver.current_url)
+        self.assertIn(CommonPage.PATH, main_page.driver.current_url)
 
 class CalendarTest(BaseTestCase):
     def test_yandex_calendar(self):
