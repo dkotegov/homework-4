@@ -147,8 +147,14 @@ class LoginMail(Component):
     LOGIN = '//input[@name="Login"]'
     PASSWORD = '//input[@name="Password"]'
     SUBMIT = "//div[@class='mailbox__auth']//input[@id='mailbox__auth__button']"
+    LOGIN_S = "seleniumov"
+    LOGIN_WRONG = "seleniumofff_lol"
 
     INBOX_URL = "https://e.mail.ru/messages/inbox/?back=1"
+    EMPTY_PSWD_URL = "https://e.mail.ru/login?email=" + LOGIN_S + "@mail.ru&fail=1"
+    WRONG_LOGIN_URL = "https://e.mail.ru/login?email=" + LOGIN_WRONG + "@mail.ru&fail=1"
+    WRONG_PSWD_URL = "https://e.mail.ru/login?email=" + LOGIN_S + "@mail.ru&fail=1"
+    EMPTY_ALL_URL = "https://e.mail.ru/login?fail=1"
 
 
     def open_form(self):
@@ -163,7 +169,9 @@ class LoginMail(Component):
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
-
+        
+    def click_logout(self):
+        self.driver.find_element_by_id("PH_logoutLink").click()
 
 class Ask(Component):
     FRAME = "//body[1]/div[4]/div[1]//iframe"
@@ -171,10 +179,12 @@ class Ask(Component):
     LOGIN = '//input[@name="Username"]'
     PASSWORD = '//input[@name="Password"]'
     SUBMIT = '//button[@data-name="submit"]'
-    QUESTION_AREA = "qtext"
+    QUESTION_AREA = "//textarea[@id='ask-text']"
     PUBLIC = "button"
     THEME = "cid"
     SUBTHEME = "subcid"
+    ERROR = "popup--content"
+    GOOD_LOG_URL = "https://otvet.mail.ru/?login=1"
 
 
 
@@ -182,7 +192,8 @@ class Ask(Component):
         self.driver.find_element_by_name(self.ASK).click()
 
     def iframe_select(self):
-        self.driver.switch_to.frame(self.driver.find_element_by_xpath(self.FRAME))
+        f = self.driver.find_elements_by_tag_name("iframe")
+        self.driver.switch_to.frame(f[0])
 
     def iframe_unselect(self):
         self.driver.switch_to_default_content()
@@ -197,7 +208,7 @@ class Ask(Component):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
     def set_question(self, text):
-        self.driver.find_element_by_name(self.QUESTION_AREA).send_keys(text)
+        self.driver.find_element_by_xpath(self.QUESTION_AREA).send_keys(text)
 
     def click_public(self):
         self.driver.find_elements_by_tag_name(self.PUBLIC)[1].click()  
@@ -208,4 +219,10 @@ class Ask(Component):
         
     def click_subcid(self):
          select = Select(self.driver.find_element_by_name(self.SUBTHEME))
-         select.select_by_value("1335")   
+         select.select_by_value("1335")
+
+    def get_error_text(self):
+        return self.driver.find_element_by_class_name(self.ERROR).text
+ 
+    def click_logout(self):
+        self.driver.find_element_by_id("PH_logoutLink").click()
