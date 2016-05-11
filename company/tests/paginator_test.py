@@ -25,14 +25,16 @@ class PaginatorTest(unittest.TestCase):
         self.assertTrue(self.paginator.paging_prev())
         self.assertEquals((current_page), self.paginator.get_current_page())
 
-    def test_arrow_prev_first_page(self):
+    #нельзя перейти с первой страницы назад
+    def test_first_page_go_back(self):
         self.assertFalse(self.paginator.paging_prev())
 
-    def test_arrow_next_last_page(self):
+    #нельзя перейти вперед с последней страницы
+    def test_last_page_go_next(self):
         self.paginator.go_to_page(self.paginator.get_last_page())
         self.assertFalse(self.paginator.paging_next())
 
-    def test_paging(self):
+    def test_list_of_page_numbers(self):
         self.assertTrue(self.paginator.go_to_page(2))
         self.assertTrue(self.paginator.go_to_page(5))
         self.assertFalse(self.paginator.go_to_page(25))
