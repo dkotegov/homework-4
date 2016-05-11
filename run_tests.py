@@ -26,18 +26,18 @@ from company.tests.make_appointment_test import MakeAppointmentTest
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite((
-        #unittest.makeSuite(CounterTest),
-        #unittest.makeSuite(LinksTest),
-        #unittest.makeSuite(AnalogsTest),
-        #unittest.makeSuite(CatalogTest),
-        #unittest.makeSuite(MedicamentsTestLeadersOfSellsTest),
-        #unittest.makeSuite(DrugsSearchTest),
+        unittest.makeSuite(CounterTest),
+        unittest.makeSuite(LinksTest),
+        unittest.makeSuite(AnalogsTest),
+        unittest.makeSuite(CatalogTest),
+        unittest.makeSuite(MedicamentsTestLeadersOfSellsTest),
+        unittest.makeSuite(DrugsSearchTest),
 
-        #unittest.makeSuite(CompanyListTest),
-        #unittest.makeSuite(CompanySearchTest),
-        #unittest.makeSuite(DropdownListTest),
-        #unittest.makeSuite(PaginatorTest),
-        #unittest.makeSuite(MakeAppointmentTest),
+        unittest.makeSuite(CompanyListTest),
+        unittest.makeSuite(CompanySearchTest),
+        unittest.makeSuite(DropdownListTest),
+        unittest.makeSuite(PaginatorTest),
+        unittest.makeSuite(MakeAppointmentTest),
 
         unittest.makeSuite(MainPageTest),
         unittest.makeSuite(ConsultantsPageTest),
