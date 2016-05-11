@@ -23,7 +23,6 @@ def week_calendar(driver):
 
 
 
-
 class Tests(unittest.TestCase):
     USEREMAIL = os.environ['HW4LOGIN']
     PASSWORD = os.environ['HW4PASSWORD']
@@ -38,8 +37,13 @@ class Tests(unittest.TestCase):
         )
 
         auth(self.driver)
+        calendar_page = CalendarPage(self.driver)
+        self.table = calendar_page.calendar_table
+
+        self.table.open_new_event_week()
 
     def tearDown(self):
+        self.table.del_event()
         self.driver.quit()
 
     TITLE = 'PYTHON DYE'
@@ -49,53 +53,41 @@ class Tests(unittest.TestCase):
     DESCRIPTION = 'I HATE PYTHON'
 
     def test_add_event(self):
-        calendar_page = CalendarPage(self.driver)
-        table = calendar_page.calendar_table
 
-        table.open_new_event_week()
-        table.set_title(self.TITLE)
-        table.add_friend(self.FRIEND_EMAIL)
-        table.submit_week()
+        self.table.set_title(self.TITLE)
+        self.table.add_friend(self.FRIEND_EMAIL)
+        self.table.submit_week()
 
-        table.check_event(self.TITLE)
-        table.check_title(self.TITLE)
+        self.table.check_event(self.TITLE)
+        self.table.check_title(self.TITLE)
 
-        check_friend_name = table.check_friend_name()
+        check_friend_name = self.table.check_friend_name()
         self.assertEqual(self.FRIEND_NAME, check_friend_name)
 
-        table.del_event()
+
 
     def test_add_event_with_extra_options(self):
-        calendar_page = CalendarPage(self.driver)
-        table = calendar_page.calendar_table
 
-        table.open_new_event_week()
-        table.set_title(self.TITLE)
-        table.extra_options(self.DESCRIPTION)
-        table.submit()
+        self.table.set_title(self.TITLE)
+        self.table.extra_options(self.DESCRIPTION)
+        self.table.submit()
 
         # Like assert
-        table.check_event(self.TITLE)
-        table.check_title(self.TITLE)
-        table.check_description(self.DESCRIPTION)
-
-        table.del_event()
+        self.table.check_event(self.TITLE)
+        self.table.check_title(self.TITLE)
+        self.table.check_description(self.DESCRIPTION)
 
     def test_edit_event(self):
-        calendar_page = CalendarPage(self.driver)
-        table = calendar_page.calendar_table
 
-        table.open_new_event_week()
-        table.set_title(self.TITLE)
-        table.add_friend(self.FRIEND_EMAIL)
-        table.submit_week()
+        self.table.set_title(self.TITLE)
+        self.table.add_friend(self.FRIEND_EMAIL)
+        self.table.submit_week()
 
-        table.check_event(self.TITLE)
-        table.click_edit()
-        table.set_title(self.NEW_TITLE)
-        table.submit()
+        self.table.check_event(self.TITLE)
+        self.table.click_edit()
+        self.table.set_title(self.NEW_TITLE)
+        self.table.submit()
 
         # Like assert
-        table.check_event(self.NEW_TITLE)
-        table.check_title(self.NEW_TITLE)
-        table.del_event()
+        self.table.check_event(self.NEW_TITLE)
+        self.table.check_title(self.NEW_TITLE)
