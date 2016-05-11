@@ -177,34 +177,3 @@ class ToolbarTestCase(unittest.TestCase):
         )
         self.assertEqual(ERROR, mail_ask.get_error_text())
 
-    def test_ask_correct(self):
-
-        URL = "https://otvet.mail.ru/question/"
-
-        QUEST = u'Почему в Технопарке так интересно?'
-
-        pictureday = OtvetPage(self.driver)
-        pictureday.open()
-
-        mail_ask = pictureday.mail_ask
-
-        mail_ask.clickAsk()
-
-        mail_ask.iframe_select()
-        mail_ask.set_login("seleniumov")
-        mail_ask.set_password("123456qwerty")
-        mail_ask.click_submit()
-
-        mail_ask.clickAsk() 
-
-        self.driver.switch_to_default_content()
-        mail_ask.set_question(QUEST)
-        mail_ask.click_cid()
-        mail_ask.click_subcid()
-        mail_ask.click_public()
-
-        element = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "actions"))
-        )
-
-        self.assertIn(URL, self.driver.current_url) 
