@@ -6,7 +6,10 @@ import os
 
 from toolbar_page import Toolbar
 from picture_day import PictureDay, MainPage, OtvetPage
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver import Remote, DesiredCapabilities
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 class ToolbarTestCase(unittest.TestCase):
     OK = 200
@@ -87,7 +90,7 @@ class ToolbarTestCase(unittest.TestCase):
         mail_login.set_login(LOGIN)
         mail_login.set_password(PASSWORD)
         mail_login.submit()
-        self.assertEqual(mail_login.WRONG_LOGIN_URL, mail_login.get_url())
+        self.assertIn(mail_login.WRONG_LOGIN_URL, mail_login.get_url())
 
     def test_mail_login_wrong_password(self):
 
@@ -104,8 +107,7 @@ class ToolbarTestCase(unittest.TestCase):
         mail_login.submit()
         self.assertEqual(mail_login.WRONG_PSWD_URL, mail_login.get_url())     
 
-   	def test_mail_login_empty_pswd(self):
-
+    def test_mail_login_empty_pswd(self):
         LOGIN = "seleniumov"
         PASSWORD = ""
 
@@ -179,7 +181,7 @@ class ToolbarTestCase(unittest.TestCase):
 
         URL = "https://otvet.mail.ru/question/"
 
-        QUEST = u'Почему в Норвегии хорошо живут?'
+        QUEST = u'Почему в Технопарке так интересно?'
 
         pictureday = OtvetPage(self.driver)
         pictureday.open()
