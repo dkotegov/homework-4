@@ -2,14 +2,18 @@
 import datetime
 import unittest
 from selenium.webdriver import Remote, DesiredCapabilities
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from page import CurrencyPage
 import os
+import time
+from selenium.webdriver.support.ui import WebDriverWait
 
-from picture_day import PictureDay
-
+from picture_day import PictureDay, MainPage, OtvetPage
 
 class DayTest(unittest.TestCase):
 
+    OK = 200
 
     def setUp(self):
         browser = os.environ.get('TTHA2BROWSER', 'CHROME')
@@ -23,9 +27,9 @@ class DayTest(unittest.TestCase):
         self.driver.quit()
 
 
-    def test_main_news_1(self):
+
+    def test_main_news(self):
         
-        OK = 200
         pictureday = PictureDay(self.driver)
         pictureday.open()
 
@@ -33,33 +37,10 @@ class DayTest(unittest.TestCase):
 
         main_news.clickBigSquare()
         self.assertEqual(main_news.BIG_URL, main_news.get_url())
-        self.assertEqual(main_news.get_status(main_news.BIG_URL), OK)        
+        self.assertEqual(main_news.get_status(main_news.BIG_URL), self.OK)        
 
-    def test_main_news_2(self):
 
-        OK = 200
-        pictureday = PictureDay(self.driver) 
-        pictureday.open()
-
-        main_news = pictureday.main_news
-
-        main_news.clickSecondSquare()
-        self.assertEqual(main_news.SECOND_URL, main_news.get_url())
-        self.assertEqual(main_news.get_status(main_news.SECOND_URL), OK)
-
-    def test_main_news_3(self):
-        OK = 200
-        pictureday = PictureDay(self.driver) 
-        pictureday.open()
-
-        main_news = pictureday.main_news
-
-        main_news.clickSmallLinks()
-        self.assertEqual(main_news.SMALL_URL, main_news.get_url())
-        self.assertEqual(main_news.get_status(main_news.SMALL_URL), OK)
-
-    def test_moscow_news_1(self):
-        OK = 200
+    def test_moscow_news_header(self):
 
         pictureday = PictureDay(self.driver)
         pictureday.open()
@@ -68,11 +49,10 @@ class DayTest(unittest.TestCase):
 
         moscow_news.HEADER_URL = moscow_news.clickHeader(moscow_news.HEADER, moscow_news.HEADER_URL)
         self.assertEqual(moscow_news.HEADER_URL, moscow_news.get_url())        
-        self.assertEqual(moscow_news.get_status(moscow_news.HEADER_URL), OK)
+        self.assertEqual(moscow_news.get_status(moscow_news.HEADER_URL), self.OK)
 
 
-    def test_moscow_news_2(self):
-        OK = 200
+    def test_moscow_news_body(self):
 
         pictureday = PictureDay(self.driver)
         pictureday.open()
@@ -81,11 +61,9 @@ class DayTest(unittest.TestCase):
 
         moscow_news.BODY_URL = moscow_news.clickBody(moscow_news.BODY, moscow_news.BODY_URL)
         self.assertEqual(moscow_news.BODY_URL, moscow_news.get_url())        
-        self.assertEqual(moscow_news.get_status(moscow_news.BODY_URL), OK)    
+        self.assertEqual(moscow_news.get_status(moscow_news.BODY_URL), self.OK)    
 
-    def test_moscow_news_3(self):
-
-        OK = 200
+    def test_moscow_news_small_link(self):
 
         pictureday = PictureDay(self.driver)
         pictureday.open()
@@ -94,202 +72,183 @@ class DayTest(unittest.TestCase):
 
         moscow_news.SMALL_URL = moscow_news.clickSmall(moscow_news.SMALL, moscow_news.SMALL_URL)
         self.assertEqual(moscow_news.SMALL_URL, moscow_news.get_url())        
-        self.assertEqual(moscow_news.get_status(moscow_news.SMALL_URL), OK)                
+        self.assertEqual(moscow_news.get_status(moscow_news.SMALL_URL), self.OK)                
 
-    def test_politics_1(self):
-        OK = 200
 
-        pictureday = PictureDay(self.driver)
+    def test_mail_login_OK(self):
+
+        LOGIN = "seleniumov"
+        PASSWORD = "123456qwerty"
+        
+        pictureday = MainPage(self.driver)
         pictureday.open()
 
-        politics = pictureday.politics
+        mail_login = pictureday.feed_back
 
-        politics.HEADER_URL = politics.clickHeader(politics.HEADER, politics.HEADER_URL)
-        self.assertEqual(politics.HEADER_URL, politics.get_url())        
-        self.assertEqual(politics.get_status(politics.HEADER_URL), OK)
+        mail_login.set_login(LOGIN)
+        mail_login.set_password(PASSWORD)
+        mail_login.submit()
+        self.assertEqual(mail_login.INBOX_URL, mail_login.get_url())
 
 
-    def test_politics_2(self):
-        OK = 200
+    def test_mail_logout_OK(self):
+        LOGIN = "seleniumov"
+        PASSWORD = "123456qwerty"
 
-        pictureday = PictureDay(self.driver)
+        URL = "https://mail.ru/?from=logout" 
+        
+        pictureday = MainPage(self.driver)
         pictureday.open()
 
-        politics = pictureday.politics
+        mail_login = pictureday.feed_back
 
-        politics.BODY_URL = politics.clickBody(politics.BODY, politics.BODY_URL)
-        self.assertEqual(politics.BODY_URL, politics.get_url())        
-        self.assertEqual(politics.get_status(politics.BODY_URL), OK)    
+        mail_login.set_login(LOGIN)
+        mail_login.set_password(PASSWORD)
+        mail_login.submit()
 
-    def test_politics_3(self):
+        mail_login.click_logout()
+        self.assertEqual(URL, mail_login.get_url())
 
-        OK = 200
+      
 
-        pictureday = PictureDay(self.driver)
+    def test_mail_login_empty_login(self):
+
+        LOGIN = ""
+        PASSWORD = "123456qwerty"
+
+        pictureday = MainPage(self.driver)
         pictureday.open()
 
-        politics = pictureday.politics
+        mail_login = pictureday.feed_back
 
-        politics.SMALL_URL = politics.clickSmall(politics.SMALL, politics.SMALL_URL)
-        self.assertEqual(politics.SMALL_URL, politics.get_url())        
-        self.assertEqual(politics.get_status(politics.SMALL_URL), OK)    
+        mail_login.set_login(LOGIN)
+        mail_login.set_password(PASSWORD)
+        mail_login.submit() 
 
-    def test_economics_1(self):
-        OK = 200
+        self.assertEqual(mail_login.EMPTY_ALL_URL, mail_login.get_url())
 
-        pictureday = PictureDay(self.driver)
+
+
+    def test_ask_good_login(self):
+
+        URL = "https://otvet.mail.ru/?login=1"
+        
+        pictureday = OtvetPage(self.driver)
         pictureday.open()
 
-        economics = pictureday.economics
+        mail_ask = pictureday.mail_ask
 
-        economics.HEADER_URL = economics.clickHeader(economics.HEADER, economics.HEADER_URL)
-        self.assertEqual(economics.HEADER_URL, economics.get_url())        
-        self.assertEqual(economics.get_status(economics.HEADER_URL), OK)
+        mail_ask.clickAsk()
+
+        mail_ask.iframe_select()
+        mail_ask.set_login("seleniumov")
+        mail_ask.set_password("123456qwerty")
+        mail_ask.click_submit()
+
+        self.assertEqual(mail_ask.GOOD_LOG_URL, mail_ask.get_url())        
 
 
-    def test_economics_2(self):
-        OK = 200
+    def test_empty_body(self):
 
-        pictureday = PictureDay(self.driver)
+        URL = "https://otvet.mail.ru/question/"
+        ERROR = u'Невозможно опубликовать пустой текст'
+
+        QUEST = u''
+
+        
+        pictureday = OtvetPage(self.driver)
         pictureday.open()
 
-        economics = pictureday.economics
+        mail_ask = pictureday.mail_ask
 
-        economics.BODY_URL = economics.clickBody(economics.BODY, economics.BODY_URL)
-        self.assertEqual(economics.BODY_URL, economics.get_url())        
-        self.assertEqual(economics.get_status(economics.BODY_URL), OK)    
+        mail_ask.clickAsk()
 
-    def test_economics_3(self):
+        mail_ask.iframe_select()
+        mail_ask.set_login("seleniumov")
+        mail_ask.set_password("123456qwerty")
+        mail_ask.click_submit()
 
-        OK = 200
+        mail_ask.clickAsk() 
+        self.driver.switch_to_default_content()
+        a = self.driver.find_elements_by_tag_name("button")
 
-        pictureday = PictureDay(self.driver)
+        element = WebDriverWait(self.driver, 20).until(
+            EC.visibility_of_element_located((By.XPATH, "//button[@class='btn btn-orange ask-btn-submit']"))
+        )
+        
+        mail_ask.click_public()
+        element = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "popup--content"))
+        )
+        self.assertEqual(ERROR, mail_ask.get_error_text())
+
+
+    def test_ask_long_question(self):
+
+        URL = "https://otvet.mail.ru/question/"
+        ERROR = u'Невозможно опубликовать слишком длинный текст'
+
+        QUEST = u'ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ ФФФФФФФФФФФ'
+
+        
+        pictureday = OtvetPage(self.driver)
         pictureday.open()
 
-        economics = pictureday.economics
+        mail_ask = pictureday.mail_ask
 
-        economics.SMALL_URL = economics.clickSmall(economics.SMALL, economics.SMALL_URL)
-        self.assertEqual(economics.SMALL_URL, economics.get_url())        
-        self.assertEqual(economics.get_status(economics.SMALL_URL), OK)   
+        mail_ask.clickAsk()
 
-    def test_society_1(self):
-        OK = 200
+        mail_ask.iframe_select()
+        mail_ask.set_login("seleniumov")
+        mail_ask.set_password("123456qwerty")
+        mail_ask.click_submit()
 
-        pictureday = PictureDay(self.driver)
+        mail_ask.clickAsk() 
+        self.driver.switch_to_default_content()
+        element = WebDriverWait(self.driver, 20).until(
+            EC.visibility_of_element_located((By.XPATH, "//textarea[@id='ask-text']"))
+        )
+        mail_ask.set_question(QUEST)
+
+        element = WebDriverWait(self.driver, 20).until(
+            EC.visibility_of_element_located((By.XPATH, "//button[@class='btn btn-orange ask-btn-submit']"))
+        )
+        
+        mail_ask.click_public()
+        element = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "popup--content"))
+        )
+        self.assertEqual(ERROR, mail_ask.get_error_text())
+
+
+    def test_dublicat_(self):
+        URL = "https://otvet.mail.ru/question/"
+
+        ERROR = u'Невозможно опубликовать копию недавнего вопроса'
+
+        QUEST = u'Почему так всё хорошо?'
+
+        pictureday = OtvetPage(self.driver)
         pictureday.open()
 
-        society = pictureday.society
+        mail_ask = pictureday.mail_ask
 
-        society.HEADER_URL = society.clickHeader(society.HEADER, society.HEADER_URL)
-        self.assertEqual(society.HEADER_URL, society.get_url())        
-        self.assertEqual(society.get_status(society.HEADER_URL), OK)
+        mail_ask.clickAsk()
 
+        mail_ask.iframe_select()
+        mail_ask.set_login("seleniumov")
+        mail_ask.set_password("123456qwerty")
+        mail_ask.click_submit()
 
-    def test_society_2(self):
-        OK = 200
+        mail_ask.clickAsk() 
 
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
+        self.driver.switch_to_default_content()
+        mail_ask.set_question(QUEST)
+        mail_ask.click_cid()
+        mail_ask.click_subcid()
+        mail_ask.click_public()
 
-        society = pictureday.society
-
-        society.BODY_URL = society.clickBody(society.BODY, society.BODY_URL)
-        self.assertEqual(society.BODY_URL, society.get_url())        
-        self.assertEqual(society.get_status(society.BODY_URL), OK)    
-
-    def test_society_3(self):
-
-        OK = 200
-
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
-
-        society = pictureday.society
-
-        society.SMALL_URL = society.clickSmall(society.SMALL, society.SMALL_URL)
-        self.assertEqual(society.SMALL_URL, society.get_url())        
-        self.assertEqual(society.get_status(society.SMALL_URL), OK)   
-
-    def test_events_1(self):
-        OK = 200
-
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
-
-        events = pictureday.events
-
-        events.HEADER_URL = events.clickHeader(events.HEADER, events.HEADER_URL)
-        self.assertEqual(events.HEADER_URL, events.get_url())        
-        self.assertEqual(events.get_status(events.HEADER_URL), OK)
-
-
-    def test_events_2(self):
-        OK = 200
-
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
-
-        events = pictureday.events
-
-        events.BODY_URL = events.clickBody(events.BODY, events.BODY_URL)
-        self.assertEqual(events.BODY_URL, events.get_url())        
-        self.assertEqual(events.get_status(events.BODY_URL), OK)    
-
-    def test_events_3(self):
-
-        OK = 200
-
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
-
-        events = pictureday.events
-
-        events.SMALL_URL = events.clickSmall(events.SMALL, events.SMALL_URL)
-        self.assertEqual(events.SMALL_URL, events.get_url())        
-        self.assertEqual(events.get_status(events.SMALL_URL), OK)   
-
-
-    def test_helps_1(self):
-        OK = 200
-
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
-
-        helps = pictureday.helps
-
-        helps.CARD_ONE_URL = helps.clickCard(helps.CARD_ONE, helps.CARD_ONE_URL)
-        self.assertEqual(helps.CARD_ONE_URL, helps.get_url())      
-        self.assertEqual(helps.get_status(helps.CARD_ONE_URL), OK)
-
-    def test_helps_2(self):
-        OK = 200
-
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
-
-        helps = pictureday.helps        
-        helps.CARD_TWO_URL = helps.clickCard(helps.CARD_TWO, helps.CARD_TWO_URL)
-        self.assertEqual(helps.CARD_TWO_URL, helps.get_url())      
-        self.assertEqual(helps.get_status(helps.CARD_TWO_URL), OK)
-
-    def test_helps_3(self):
-        OK = 200
-
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
-
-        helps = pictureday.helps
-        helps.CARD_THREE_URL = helps.clickCard(helps.CARD_THREE, helps.CARD_THREE_URL)
-        self.assertEqual(helps.CARD_THREE_URL, helps.get_url())      
-        self.assertEqual(helps.get_status(helps.CARD_THREE_URL), OK)
-
-    def test_helps_4(self):
-        OK = 200
-
-        pictureday = PictureDay(self.driver)
-        pictureday.open()
-
-        helps = pictureday.helps
-        helps.CARD_FOUR_URL = helps.clickCard(helps.CARD_FOUR, helps.CARD_FOUR_URL)
-        self.assertEqual(helps.CARD_FOUR_URL, helps.get_url())      
-        self.assertEqual(helps.get_status(helps.CARD_FOUR_URL), OK)
+        element = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "popup--content"))
+        )
+        self.assertEqual(ERROR, mail_ask.get_error_text())

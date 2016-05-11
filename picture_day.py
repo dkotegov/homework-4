@@ -1,12 +1,16 @@
+
 # -*- coding: utf-8 -*-
 
 import os
 
 import unittest
 import urlparse
+from selenium.webdriver.support.ui import Select
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 import requests
 
@@ -37,9 +41,6 @@ class Component(object):
     def time_out(self, driver):
         self.driver.set_page_load_timeout(20)
 
-    def click_header(self, header):
-        self.driver.find_element_by_xpath(header).click()
-
     def get_href(self, path):
         href = self.driver.find_element_by_xpath(path).get_attribute('href') 
         return href
@@ -64,15 +65,11 @@ class Component(object):
         self.driver.find_element_by_xpath(card).click()
         return card_url
 
-    def clickPhoto(self, photo, photo_url):
-        photo_url = self.driver.find_element_by_xpath(photo).get_attribute('href')
-        self.driver.find_element_by_xpath(photo).click()
-        return photo_url
 
 class PictureDay(Page):
 
     PATH = ''
-    BASE_URL = 'http://news.mail.ru/'
+    BASE_URL = 'https://news.mail.ru/'
 
     @property
     def main_news(self):
@@ -81,66 +78,30 @@ class PictureDay(Page):
     @property
     def moscow_news(self):
         return MoscowNews(self.driver)
-    
-    @property
-    def politics(self):
-        return Politics(self.driver)
-
-    @property
-    def economics(self):
-        return Economics(self.driver)
-
-    @property
-    def society(self):
-        return Society(self.driver)
-
-    @property
-    def events(self):
-        return Events(self.driver)
 
     @property
     def helps(self):
         return Helps(self.driver)
+    
+    
+class MainPage(Page):
+
+    PATH = ''
+    BASE_URL = 'https://mail.ru/'  
 
     @property
-    def photo(self):
-        return Photo(self.driver)
-    
-    @property
-    def health(self):
-        return Health(self.driver)
-    
-    @property
-    def auto(self):
-        return Auto(self.driver)
-    
-    @property
-    def lady(self):
-        return Lady(self.driver)
+    def feed_back(self):
+        return LoginMail(self.driver)   
+
+class OtvetPage(Page):
+
+    PATH = ''
+    BASE_URL = 'https://otvet.mail.ru'
 
     @property
-    def cinema(self):
-        return Cinema(self.driver)
-
-    @property
-    def children(self):
-        return Children(self.driver)
-
-    @property
-    def hitech(self):
-        return HiTech(self.driver)
-    
-    @property
-    def blockleft(self):
-        return BlockLeft(self.driver)
-
-    @property
-    def blockright(self):
-        return BlockRight(self.driver)
-    
-    
-    
-    
+    def mail_ask(self):
+        return Ask(self.driver)  
+   
 class MainNews(Component):
     BIG = '//div[@data-new-item-clb="clb14642789"]//td[@class="daynews__main"]//a'
     BIG_URL = ''
@@ -168,43 +129,6 @@ class MoscowNews(Component):
     BODY_URL = ''
     SMALL = '//div[@name="clb20268373"]/div[2]//li/a'
     SMALL_URL = ''
-    
-
-
-class Politics(Component):
-    HEADER = '//div[@name="clb20268392"]/div/div[1]//a[@class="hdr__text"]'
-    HEADER_URL = ''
-    BODY = '//div[@name="clb20268392"]/div/div[1]//a[@class="hdr__text"]'
-    BODY_URL = ''
-    SMALL = '//div[@name="clb20268392"]/div/div[1]//ul/li[1]/a'
-    SMALL_URL = ''
-
-
-
-class Economics(Component):
-    HEADER = '//div[@name="clb20268392"]/div/div[2]//a[@class="hdr__text"]'
-    HEADER_URL = ''
-    BODY = '//div[@name="clb20268392"]/div/div[2]//a[@class="hdr__text"]'
-    BODY_URL = ''
-    SMALL = '//div[@name="clb20268392"]/div/div[2]//ul/li[1]/a'
-    SMALL_URL = ''
-
-
-class Society(Component):
-    HEADER = '//div[@name="clb20268392"]/div/div[3]//a[@class="hdr__text"]'
-    HEADER_URL = ''
-    BODY = '//div[@name="clb20268392"]/div/div[3]//a[@class="hdr__text"]'
-    BODY_URL = ''
-    SMALL = '//div[@name="clb20268392"]/div/div[4]//ul/li[1]/a'
-    SMALL_URL = ''
-
-class Events(Component):
-    HEADER = '//div[@name="clb20268392"]/div/div[4]//a[@class="hdr__text"]'
-    HEADER_URL = ''
-    BODY = '//div[@name="clb20268392"]/div/div[4]//a[@class="hdr__text"]'
-    BODY_URL = ''
-    SMALL = '//div[@name="clb20268392"]/div/div[4]//ul/li[1]/a'
-    SMALL_URL = ''
 
 
 class Helps(Component):
@@ -218,91 +142,87 @@ class Helps(Component):
     CARD_FOUR = '//div[@name="clb20268418"]//tbody/tr/td[4]//a'
     CARD_FOUR_URL = ''
 
-class Photo(Component):
 
-    PHOTO_ONE = '//div[@name="clb20268379"]/div[2]/div/div[1]//a'
-    PHOTO_ONE_URL = ''
-    PHOTO_TWO = '//div[@name="clb20268379"]/div[2]/div/div[2]//a'
-    PHOTO_TWO_URL = ''
-    PHOTO_THREE = '//div[@name="clb20268379"]/div[2]/div/div[3]//a'
-    PHOTO_THREE_URL = ''
+class LoginMail(Component):
+    LOGIN = '//input[@name="Login"]'
+    PASSWORD = '//input[@name="Password"]'
+    SUBMIT = "//div[@class='mailbox__auth']//input[@id='mailbox__auth__button']"
+    LOGIN_S = "seleniumov"
+    LOGIN_WRONG = "seleniumofff_lol"
 
-class Health(Component):
-
-    HEADER = '//a[@name="clb16368045"]'
-    HEADER_URL = ''
-    BODY = '//div[@class="layout"]/div[@data-counter-id="20268428"]/div[1]/div[1]/div[1]//span[2]/a'
-    BODY_URL = ''
-    SMALL = ''
-    SMALL_URL = ''
+    INBOX_URL = "https://e.mail.ru/messages/inbox/?back=1"
+    EMPTY_PSWD_URL = "https://e.mail.ru/login?email=" + LOGIN_S + "@mail.ru&fail=1"
+    WRONG_LOGIN_URL = "https://e.mail.ru/login?email=" + LOGIN_WRONG + "@mail.ru&fail=1"
+    WRONG_PSWD_URL = "https://e.mail.ru/login?email=" + LOGIN_S + "@mail.ru&fail=1"
+    EMPTY_ALL_URL = "https://e.mail.ru/login?fail=1"
 
 
-
-class Auto(Component):
-
-    HEADER = '//a[@name="clb8034587"]'
-    HEADER_URL = ''
-    BODY = '//div[@class="layout"]/div[@data-counter-id="20268428"]/div[1]/div[1]/div[2]//span[2]/a'
-    BODY_URL = ''
-    SMALL = ''
-    SMALL_URL = ''
+    def open_form(self):
+        self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
 
 
+    def set_login(self, login):
+        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
-class Lady(Component):
+    def set_password(self, pwd):
+        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
 
-    HEADER = '//a[@name="clb12824613"]'
-    HEADER_URL = ''
-    BODY = '//div[@class="layout"]/div[@data-counter-id="20268428"]/div[1]/div[1]/div[3]//span[2]/a'
-    BODY_URL = ''
-    SMALL = ''
-    SMALL_URL = ''
+    def submit(self):
+        self.driver.find_element_by_xpath(self.SUBMIT).click()
+        
+    def click_logout(self):
+        self.driver.find_element_by_id("PH_logoutLink").click()
 
-
-
-class Cinema(Component):
-
-    HEADER = '//a[@name="clb6284802"]'
-    HEADER_URL = ''
-    BODY = '//div[@class="layout"]/div[@data-counter-id="20268428"]/div[1]/div[1]/div[4]//span[2]/a'
-    BODY_URL = ''
-    SMALL = ''
-    SMALL_URL = ''
+class Ask(Component):
+    FRAME = "//body[1]/div[4]/div[1]//iframe"
+    ASK = "clb3917180"
+    LOGIN = '//input[@name="Username"]'
+    PASSWORD = '//input[@name="Password"]'
+    SUBMIT = '//button[@data-name="submit"]'
+    QUESTION_AREA = "//textarea[@id='ask-text']"
+    PUBLIC = "button"
+    THEME = "cid"
+    SUBTHEME = "subcid"
+    ERROR = "popup--content"
+    GOOD_LOG_URL = "https://otvet.mail.ru/?login=1"
 
 
 
-class Children(Component):
-    HEADER = '//a[@name="n180877646"]'
-    HEADER_URL = ''
-    BODY = '//div[@class="layout"]/div[@data-counter-id="20268428"]/div[1]/div[1]/div[6]//span[2]/a'
-    BODY_URL = ''
-    SMALL = ''
-    SMALL_URL = ''
+    def clickAsk(self):
+        self.driver.find_element_by_name(self.ASK).click()
 
+    def iframe_select(self):
+        f = self.driver.find_elements_by_tag_name("iframe")
+        self.driver.switch_to.frame(f[0])
 
-class HiTech(Component):
+    def iframe_unselect(self):
+        self.driver.switch_to_default_content()
 
-    HEADER = '//a[@name="clb13570528"]'
-    HEADER_URL = ''
-    BODY = '//div[@class="layout"]/div[@data-counter-id="20268428"]/div[1]/div[1]/div[7]//span[2]/a'
-    BODY_URL = ''
-    SMALL = ''
-    SMALL_URL = ''
+    def set_login(self, login):
+        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
+    def set_password(self, pwd):
+        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
 
+    def click_submit(self):
+        self.driver.find_element_by_xpath(self.SUBMIT).click()
 
-class BlockLeft(Component):
+    def set_question(self, text):
+        self.driver.find_element_by_xpath(self.QUESTION_AREA).send_keys(text)
 
-    HEADER = '//a[@name="clb19839801"]'
-    HEADER_URL = ''
-    BODY = '//div[@class="layout"]/div[@data-counter-id="20268428"]/div[1]/div[1]/div[5]//span[2]/a'
-    BODY_URL = ''
+    def click_public(self):
+        self.driver.find_elements_by_tag_name(self.PUBLIC)[1].click()  
 
+    def click_cid(self):
+         select = Select(self.driver.find_element_by_name(self.THEME))
+         select.select_by_value("3")              
+        
+    def click_subcid(self):
+         select = Select(self.driver.find_element_by_name(self.SUBTHEME))
+         select.select_by_value("1335")
 
-
-class BlockRight(Component):
-
-    HEADER = '//div[@class="layout"]/div[@name="clb20268429"]/div[1]/div[2]/div[4]//a[@class="hdr__text"]'
-    HEADER_URL = ''
-    BODY = '//div[@class="layout"]/div[@data-counter-id="20268428"]/div[1]/div[1]/div[8]//span[2]/a'
-    BODY_URL = ''
+    def get_error_text(self):
+        return self.driver.find_element_by_class_name(self.ERROR).text
+ 
+    def click_logout(self):
+        self.driver.find_element_by_id("PH_logoutLink").click()
