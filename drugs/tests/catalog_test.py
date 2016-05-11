@@ -35,5 +35,5 @@ class CatalogTest(unittest.TestCase):
         self.assertEquals(text, self.page.get_title())
 
     def tearDown(self):
-        self.page.close()
+        #self.page.close()
         self.driver.quit()

@@ -32,6 +32,6 @@ class CompanySearchTest(unittest.TestCase):
         self.assertEqual(0, len(self.search.found_companies()))
 
     def tearDown(self):
-        self.page.close()
+      #  self.page.close()
         self.driver.quit()
 

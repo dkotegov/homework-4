@@ -75,5 +75,5 @@ class CounterTest(unittest.TestCase):
             self.counter.to_order()
 
     def tearDown(self):
-        self.page.close()
+        #self.page.close()
         self.driver.quit()

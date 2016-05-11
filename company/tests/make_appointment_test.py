@@ -24,5 +24,5 @@ class MakeAppointmentTest(unittest.TestCase):
         self.assertEquals(u'Запись к врачу', self.page.make_an_appointment.get_title())
 
     def tearDown(self):
-        self.page.close()
+       # self.page.close()
         self.driver.quit()

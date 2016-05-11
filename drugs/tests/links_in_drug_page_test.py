@@ -34,5 +34,5 @@ class LinksTest(unittest.TestCase):
             self.assertTrue(self.page.social_networks.check_link(link))
 
     def tearDown(self):
-        self.page.close()
+        #self.page.close()
         self.driver.quit()

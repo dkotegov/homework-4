@@ -28,5 +28,5 @@ class AnalogsTest(unittest.TestCase):
             self.driver.back()
 
     def tearDown(self):
-        self.page.close()
+       # self.page.close()
         self.driver.quit()

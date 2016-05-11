@@ -39,5 +39,5 @@ class DrugsSearchTest(unittest.TestCase):
         self.assertEquals(None, self.search_form.items())
 
     def tearDown(self):
-        self.page.close()
+        #self.page.close()
         self.driver.quit()

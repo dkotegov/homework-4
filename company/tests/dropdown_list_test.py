@@ -38,6 +38,6 @@ class DropdownListTest(unittest.TestCase):
         self.dropdown_list.select_metro_station(metro_station)
 
     def tearDown(self):
-        self.page.close()
+      #  self.page.close()
         self.driver.quit()
 
