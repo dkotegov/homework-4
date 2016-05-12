@@ -5,6 +5,7 @@ import time
 import unittest
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
@@ -129,7 +130,12 @@ class PersonalInfoForm(object):
         )
 
     def submit_is_enabled(self):
-        return self.driver.find_element_by_xpath(self.SUBMIT).is_enabled()
+        try:
+            return WebDriverWait(self.driver, 1, 0.1).until(
+                lambda driver: self.driver.find_element_by_xpath(self.SUBMIT).is_enabled()
+            )
+        except TimeoutException:
+            return False
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
@@ -172,7 +178,12 @@ class ContactsForm(object):
         )
 
     def submit_is_enabled(self):
-        return self.driver.find_element_by_xpath(self.SUBMIT).is_enabled()
+        try:
+            return WebDriverWait(self.driver, 1, 0.1).until(
+                lambda driver: self.driver.find_element_by_xpath(self.SUBMIT).is_enabled()
+            )
+        except TimeoutException:
+            return False
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
@@ -208,7 +219,12 @@ class SalaryForm(object):
         )
 
     def submit_is_enabled(self):
-        return self.driver.find_element_by_xpath(self.SUBMIT).is_enabled()
+        try:
+            return WebDriverWait(self.driver, 1, 0.1).until(
+                lambda driver: self.driver.find_element_by_xpath(self.SUBMIT).is_enabled()
+            )
+        except TimeoutException:
+            return False
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).send_keys(Keys.RETURN)
@@ -254,7 +270,12 @@ class EducationForm(object):
         )
 
     def submit_is_enabled(self):
-        return self.driver.find_element_by_xpath(self.SUBMIT).is_enabled()
+        try:
+            return WebDriverWait(self.driver, 1, 0.1).until(
+                lambda driver: self.driver.find_element_by_xpath(self.SUBMIT).is_enabled()
+            )
+        except TimeoutException:
+            return False
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
@@ -284,7 +305,7 @@ class AuthForm(object):
 
 class CreateResumePageTest(unittest.TestCase):
     EMAIL = 'technopark.testemail@mail.ru'
-    PASSWORD = os.environ['HW4PASSWORD']
+    PASSWORD = 'Qwerty123'
     TITLE = u'Новое резюме'
 
     def setUp(self):
@@ -323,7 +344,7 @@ class CreateResumePageTest(unittest.TestCase):
         personal_form.set_lastname(ResumeData.LASTNAME)
         self.assertTrue(personal_form.is_displayed_validate_message())
         personal_form.set_firstname(ResumeData.FIRSTNAME)
-        self.assertFalse(personal_form.submit_is_enabled())
+        self.assertTrue(personal_form.submit_is_enabled())
 
     def test_contacts_form(self):
         auth_page = AuthPage(self.driver)
