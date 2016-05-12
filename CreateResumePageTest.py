@@ -71,10 +71,9 @@ class EducationPage(Page):
 class PersonalInfoForm(object):
     LASTNAME = '//input[@name="lastName.string"]'
     FIRSTNAME = '//input[@name="firstName.string"]'
-    DAY_SELECT = '//select[@data-qa="resume__birthday__day-select"]'
-    MONTH_SELECT = '//select[@data-qa="resume__birthday__month-select"]'
-    YEAR_SELECT = '//select[@data-qa="resume__birthday__year-select"]'
-    OPTION = '//option[text()="{}"]'
+    DAY_SELECT = '//select[@data-qa="resume__birthday__day-select"]/option[text()="{}"]'
+    MONTH_SELECT = '//select[@data-qa="resume__birthday__month-select"]/option[text()="{}"]'
+    YEAR_SELECT = '//select[@data-qa="resume__birthday__year-select"]/option[text()="{}"]'
     MALE = '//input[@value="male"]'
     FEMALE = '//input[@value="female"]'
     TOWN = '//input[@data-qa="suggestCity"]'
@@ -99,17 +98,14 @@ class PersonalInfoForm(object):
         self.clear_firstname()
         self.driver.find_element_by_xpath(self.FIRSTNAME).send_keys(firstname)
 
-    def day_select_open(self):
-        self.driver.find_element_by_xpath(self.DAY_SELECT).click()
+    def day_select(self, option_text):
+        self.driver.find_element_by_xpath(self.DAY_SELECT.format(option_text)).click()
 
-    def month_select_open(self):
-        self.driver.find_element_by_xpath(self.MONTH_SELECT).click()
+    def month_select(self, option_text):
+        self.driver.find_element_by_xpath(self.MONTH_SELECT.format(option_text)).click()
 
-    def year_select_open(self):
-        self.driver.find_element_by_xpath(self.YEAR_SELECT).click()
-
-    def opened_select_set_option(self, option_text):
-        self.driver.find_element_by_xpath(self.OPTION.format(option_text)).click()
+    def year_select(self, option_text):
+        self.driver.find_element_by_xpath(self.YEAR_SELECT.format(option_text)).click()
 
     def select_male(self):
         self.driver.find_element_by_xpath(self.MALE).click()
@@ -234,8 +230,7 @@ class EducationForm(object):
     INSTITUTION_NAME = '//input[@name="primaryEducation.name"]'
     FACULTY = '//input[@name="primaryEducation.organization"]'
     SPECIALITY = '//input[@name="primaryEducation.result"]'
-    EDUCATION_YEAR_SELECTOR = '//select[@name="primaryEducation.year"]'
-    OPTION = '//option[@value="{}"]'
+    EDUCATION_YEAR_SELECTOR = '//select[@name="primaryEducation.year"]/option[@value="{}"]'
     VALIDATE_MESSAGE = '//span[text()="Длина превышена на {} символов"]'
     COUNT_INVALID_SYMBOL = 0
     SUBMIT = '//input[@value="Сохранить"]'
@@ -255,11 +250,8 @@ class EducationForm(object):
         self.driver.find_element_by_xpath(self.SPECIALITY).clear()
         self.driver.find_element_by_xpath(self.SPECIALITY).send_keys(name)
 
-    def education_select_open(self):
-        self.driver.find_element_by_xpath(self.EDUCATION_YEAR_SELECTOR).click()
-
-    def opened_select_set_option(self, option_text):
-        self.driver.find_element_by_xpath(self.OPTION.format(option_text)).click()
+    def education_select(self, option_text):
+        self.driver.find_element_by_xpath(self.EDUCATION_YEAR_SELECTOR.format(option_text)).click()
 
     def set_count_invalid_symbol(self, count):
         self.COUNT_INVALID_SYMBOL = count
@@ -305,7 +297,7 @@ class AuthForm(object):
 
 class CreateResumePageTest(unittest.TestCase):
     EMAIL = 'technopark.testemail@mail.ru'
-    PASSWORD = 'Qwerty123'
+    PASSWORD = os.environ['HW4PASSWORD']
     TITLE = u'Новое резюме'
 
     def setUp(self):
@@ -426,8 +418,7 @@ class CreateResumePageTest(unittest.TestCase):
         self.assertTrue(education_form.is_displayed_validate_message())
         education_form.set_faculty_name(ResumeData.FACULTY)
         education_form.set_speciality_name(ResumeData.SPECIALITY)
-        education_form.education_select_open()
-        education_form.opened_select_set_option(ResumeData.EDUCATION_YEAR)
+        education_form.education_select(ResumeData.EDUCATION_YEAR)
         self.assertTrue(education_form.submit_is_enabled())
 
     def test_valid_create_resume(self):
@@ -448,12 +439,9 @@ class CreateResumePageTest(unittest.TestCase):
         personal_form = personal_page.personal_form
         personal_form.set_firstname(ResumeData.FIRSTNAME)
         personal_form.set_lastname(ResumeData.LASTNAME)
-        personal_form.day_select_open()
-        personal_form.opened_select_set_option(ResumeData.DAY)
-        personal_form.month_select_open()
-        personal_form.opened_select_set_option(ResumeData.MONTH)
-        personal_form.year_select_open()
-        personal_form.opened_select_set_option(ResumeData.YEAR)
+        personal_form.day_select(ResumeData.DAY)
+        personal_form.month_select(ResumeData.MONTH)
+        personal_form.year_select(ResumeData.YEAR)
         personal_form.select_male()
         self.assertTrue(personal_form.submit_is_enabled())
         personal_form.submit()
@@ -486,8 +474,7 @@ class CreateResumePageTest(unittest.TestCase):
         education_form.set_institut_name(ResumeData.INSTITUTION_NAME)
         education_form.set_faculty_name(ResumeData.FACULTY)
         education_form.set_speciality_name(ResumeData.SPECIALITY)
-        education_form.education_select_open()
-        education_form.opened_select_set_option(ResumeData.EDUCATION_YEAR)
+        education_form.education_select(ResumeData.EDUCATION_YEAR)
         self.assertTrue(education_form.submit_is_enabled())
         education_form.submit()
         self.assertEqual(ResumeData.OBJECTIVE, self.driver.title)
