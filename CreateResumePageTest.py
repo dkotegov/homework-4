@@ -44,6 +44,16 @@ class PersonalPage(Page):
         return PersonalInfoForm(self.driver)
 
 
+class ResumePage(Page):
+    PATH = 'applicant/resumes'
+    DELETE_BUTTON = '//button[text()="Удалить"]'
+
+    def delete_resume(self):
+        self.driver.find_element_by_xpath(self.DELETE_BUTTON).click()
+        alert = self.driver.switch_to_alert()
+        alert.accept()
+
+
 class SalaryPage(Page):
     PATH = 'applicant/resumes/edit/position?resume='
     OPEN_BUTTON = '//a[text()="Желаемая должность и зарплата "]'
@@ -364,7 +374,6 @@ class CreateResumePageTest(unittest.TestCase):
         contacts_form.set_phone_city(ResumeData.PHONE_CITY)
         self.assertTrue(contacts_form.is_displayed_validate_phone())
         contacts_form.set_phone_number(ResumeData.PHONE_NUMBER)
-        time.sleep(1)
         self.assertTrue(contacts_form.submit_is_enabled())
 
     def test_salary_form(self):
@@ -478,3 +487,9 @@ class CreateResumePageTest(unittest.TestCase):
         self.assertTrue(education_form.submit_is_enabled())
         education_form.submit()
         self.assertEqual(ResumeData.OBJECTIVE, self.driver.title)
+
+        resume_page = ResumePage(self.driver)
+        resume_page.open()
+        resume_page.delete_resume()
+        self.driver.refresh()
+
