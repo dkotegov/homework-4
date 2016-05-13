@@ -9,12 +9,14 @@ class Page(object):
     QUESTIONS_CLASS = "q--li--text"
     POPUP_CLASS = "popup--content "
     FORM_CLASS = "form-form"
+
     def __init__(self, driver):
         self.driver = driver
 
     def open(self):
         url = urlparse.urljoin(self.BASE_URL, self.PATH)
         self.driver.get(url)
+        self.driver.maximize_window()
 
     def open_login_frame(self):
         self.driver.find_element_by_id("PH_authLink").click()
