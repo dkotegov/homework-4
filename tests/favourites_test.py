@@ -19,10 +19,6 @@ class FavouritesTestCase(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, self.browser).copy()
         )
 
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
         auth_form = auth_page.form
@@ -31,30 +27,60 @@ class FavouritesTestCase(unittest.TestCase):
         auth_form.set_password(self.USERPASSWORD)
         auth_form.submit()
 
+    def tearDown(self):
+        self.driver.quit()
+
+    def testAdd(self):
         # основная проверка добавления в избранное
+        offer_page = PageOffer(self.driver)
+        favorites_page = FavouritesPage(self.driver)
+        favorites_page.open()
+        count = favorites_page.get_count()
+        offer_page.open(self.OFFER_NUM)
+        offer_page.add_to_favourites()
+        favorites_page.open()
+        new_count = favorites_page.get_count()
+        self.assertEqual(new_count, count + 1)
+
+    def testNewFavourItem(self):
+        # проверка нахождения в избранном добавленного объявления
         offer_page = PageOffer(self.driver)
         favorites_page = FavouritesPage(self.driver)
         offer_page.open(self.OFFER_NUM)
         offer_page.add_to_favourites()
         favorites_page.open()
+        count = favorites_page.get_count()
 
-        new_count = favorites_page.get_count()
-        self.assertEqual(new_count, 1)
+        for i in range(0, count):
+            f_item = FavouriteItem(self.driver)
+            f_item.open(i)
+            check_page = PageOffer(self.driver)
+            check_page.set_offer_id()
+            if check_page.get_offer_id() == offer_page.get_offer_id():
+                break
+        self.assertEqual(offer_page.get_offer_id(), check_page.get_offer_id())
+    
+    def testTwoClickAdd(self):
+        # проверяем, что при повторном нажатии на кнопку "в избранное", элемент удалится
+        offer_page = PageOffer(self.driver)
+        offer_page.open(self.OFFER_NUM)
+        offer_page.add_to_favourites()
+        favorites_page = FavouritesPage(self.driver)
+        favorites_page.open()
+        count = favorites_page.get_count()
 
-        # проверка нахождения в избранном добавленного объявления
         f_item = FavouriteItem(self.driver)
         f_item.open()
         check_page = PageOffer(self.driver)
-        check_page.set_offer_id()
-        self.assertEqual(offer_page.get_offer_id(), check_page.get_offer_id())
-
-        # проверяем, что при повторном нажатии на кнопку "в избранное", элемент удалится
         check_page.add_to_favourites()
         favorites_page.open()
         new_count = favorites_page.get_count()
-        self.assertEqual(new_count, 0)
+        self.assertEqual(new_count, count - 1)
 
+    def testDelete(self):
         # проверка удаления избранного из страницы избранное
+        offer_page = PageOffer(self.driver)
+        favorites_page = FavouritesPage(self.driver)
         offer_page.open(self.OFFER_NUM)
         offer_page.add_to_favourites()
         favorites_page.open()

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import urlparse
 
+from selenium.webdriver import ActionChains
+
 
 class Page(object):
     BASE_URL = 'http://msk.realty.mail.ru/'
@@ -72,6 +74,7 @@ class FavouritesPage(Page):
         return PageOffer(self.driver)
 
     def get_count(self):
+
         hover_link = self.driver.find_element_by_xpath(self.LINK)
         hover_link.click()
         self.driver.implicitly_wait(5)
@@ -94,6 +97,16 @@ class FavouriteItem(FavouritesPage):
         title_links = self.driver.find_elements_by_class_name(self.CLASS_TITLE)
         link = title_links[offer_num].get_attribute('href')
         self.driver.get(link)
+
+class FavouriteItem(FavouritesPage):
+    CLASS_TITLE = 'offers_list__content__address'
+
+    def open(self, offer_num=0):
+        super(FavouriteItem, self).open()
+        title_links = self.driver.find_elements_by_class_name(self.CLASS_TITLE)
+        link = title_links[offer_num].get_attribute('href')
+        self.driver.get(link)
+
 
 class AuthPage(Page):
     PATH = ''
