@@ -65,8 +65,7 @@ class FavouritesPage(Page):
     DELETE_BTN = '//a[@title="Удалить"]'
 
     def open(self):
-        self.driver.implicitly_wait(5)
-        self.driver.get(self.PATH)
+        self.driver.get(self.PATH)      # здесь PATH строится не на основе базового, поэтому метод open переопределяем
         self.driver.maximize_window()
 
     @property
@@ -89,14 +88,6 @@ class FavouritesPage(Page):
         for btn in btns:
             btn.click()
 
-class FavouriteItem(FavouritesPage):
-    CLASS_TITLE = 'offers_list__content__address'
-
-    def open(self, offer_num=0):
-        super(FavouriteItem, self).open()
-        title_links = self.driver.find_elements_by_class_name(self.CLASS_TITLE)
-        link = title_links[offer_num].get_attribute('href')
-        self.driver.get(link)
 
 class FavouriteItem(FavouritesPage):
     CLASS_TITLE = 'offers_list__content__address'
@@ -154,12 +145,10 @@ class Slider(Component):
 
     def __init__(self, driver):
         super(Slider, self).__init__(driver)
-        self.page_num = 0
 
     def open_slider(self):
         slider = self.driver.find_element_by_class_name(self.OPEN_CLASS)
         slider.click()
-        self.page_num = 1
 
     def close_slider(self, by_area=0):
         if by_area:
@@ -169,29 +158,22 @@ class Slider(Component):
         else:
             btn_close = self.driver.find_element_by_class_name(self.CLOSE_CLASS)
             btn_close.click()
-        self.page_num = 0
 
     def click_next(self, method=0):
         btn_next = self.driver.find_element_by_class_name(self.ICON_NEXT)
         if method:
             btn_next = self.driver.find_element_by_class_name(self.BOX_NEXT)
         btn_next.click()
-        self.page_num += 1
 
     def click_prev(self, method=0):
         btn_prev = self.driver.find_element_by_class_name(self.ICON_PREV)
         if method:
             btn_prev = self.driver.find_element_by_class_name(self.BOX_PREV)
         btn_prev.click()
-        self.page_num -= 1
 
     def go_to_slide(self, slide_num=0):
         imgs = self.driver.find_elements_by_xpath(self.PREVIEW_IMG)
         imgs[slide_num].click()
-        self.page_num = slide_num + 1
-
-    def get_page_num(self):
-        return self.page_num
 
     def get_page_num_from_browser(self):
         current_num = self.driver.find_element_by_xpath(self.CURRENT_NUM)
