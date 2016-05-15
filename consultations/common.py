@@ -35,7 +35,7 @@ class Common(object):
     
     #possible args: [by], timeout
     def _wait_for_element(self, **kwargs): #throws TimeoutException
-        DEFAULT_WAIT_TIMEOUT = 100
+        DEFAULT_WAIT_TIMEOUT = 10
         timeout = kwargs.get('timeout', DEFAULT_WAIT_TIMEOUT) 
         _del_key_safe(kwargs, 'timeout')
         key = kwargs.keys()[0]
@@ -64,7 +64,7 @@ class LoginForm(Component):
         
     def set_password(self):
         password_element = self._wait_for_element(**{By.NAME: self.PASSWORD})
-        password_element.send_keys(os.environ.get('HW4PASSWORD', '')) #12345A
+        password_element.send_keys(os.environ.get('HW4PASSWORD', ''))
         
     def submit(self):
         self.driver.find_element_by_css_selector(self.SUBMIT).click()
@@ -115,18 +115,19 @@ class Page(Common):
 
 #check presence of necessary fields
 class Plate(Component):
-        
+    OK_CODES = [200, 301, 302, 304]
+    
     def __init__(self, element, *args, **kwargs):
         super(Plate, self).__init__(*args, **kwargs)
         self.element = element
         
     def has_text(self, element):
-        return not not element.text
+        return hasattr(element, 'text') and element.text
         
     def has_working_link(self, link):
         r = requests.get(link.get_attribute('href'))
         
-        if r.status_code // 100 not in [2, 3]:
+        if r.status_code not in self.OK_CODES:
             return False
         return True
         
@@ -286,8 +287,6 @@ class AskConsultantForm(Component):
         return selector.find_element_by_css_selector('.js-select__selected__option').text == consultant
         
     def check_preset_age(self):
-        print self.DEFAULT_AGE
-        print self._wait_for_element(**{By.NAME: self.AGE}).get_attribute('value')
         return int(self._wait_for_element(**{By.NAME: self.AGE}).get_attribute('value')) == self.DEFAULT_AGE
         
     def check_preset_gender(self):
