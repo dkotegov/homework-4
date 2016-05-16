@@ -59,7 +59,7 @@ class FavouritesTestCase(unittest.TestCase):
             if check_page.get_offer_id() == offer_page.get_offer_id():
                 break
         self.assertEqual(offer_page.get_offer_id(), check_page.get_offer_id())
-    
+
     def testTwoClickAdd(self):
         # проверяем, что при повторном нажатии на кнопку "в избранное", элемент удалится
         offer_page = PageOffer(self.driver)
