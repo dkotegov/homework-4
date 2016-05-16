@@ -54,6 +54,7 @@ class AuthFormFrame(Element):
 
     def __init__(self, driver):
         super(AuthFormFrame, self).__init__(driver)
+        WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "login")))
         self.form = self.driver.find_element_by_name("login")
 
     def set_login(self, login):

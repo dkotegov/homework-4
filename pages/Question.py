@@ -26,6 +26,7 @@ class AskForm(Element):
 
     def __init__(self, driver):
         super(AskForm, self).__init__(driver)
+        WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.CLASS_NAME, "ask-form")))
         self.form = self.driver.find_element_by_class_name("ask-form")
 
     def set_question_title(self, qtext):
@@ -45,7 +46,7 @@ class AskForm(Element):
     def add_picture(self, path):
         self.form.find_element_by_class_name(self.ASK_UPLOAD_PHOTO_BUTTON_CLASS).click()
         self.driver.find_element_by_name(self.ASK_UPLOAD_PHOTO_NAME).send_keys(path)
-        WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.CLASS_NAME,self.IMG_ADDED_CLASS)))
+        WebDriverWait(self.form, 10).until(ec.presence_of_element_located((By.CLASS_NAME, self.IMG_ADDED_CLASS)))
 
 
     def submit(self):
@@ -57,7 +58,7 @@ class AskForm(Element):
 
     def is_picture_setted(self):
         self.form = self.driver.find_element_by_class_name("ask-form")
-        return self.form.find_element_by_tag_name("img") is not None
+        return self.form.find_element_by_class_name(self.IMG_ADDED_CLASS) is not None
 
     def is_symbol_extra_enabled(self):
         return self.form.find_element_by_class_name("count-symbol-extra") is not None

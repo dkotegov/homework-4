@@ -6,6 +6,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.Common import Page, Element
 
+def move_element(driver,elem):
+    actions = ActionChains(driver)
+    actions.move_to_element(elem)
+    actions.perform()
 
 class OtvetPageQuestion(Page):
     QUESTION_CLASS = "question"
@@ -15,13 +19,18 @@ class OtvetPageQuestion(Page):
     UNSUBSCRIBE_XPATH = "//button[@title='Отписаться']"
 
     def like(self):
-        self.driver.find_element_by_class_name(self.QUESTION_CLASS).find_element_by_class_name(self.LIKES_CLASS).click()
+        el = self.driver.find_element_by_class_name(self.QUESTION_CLASS).find_element_by_class_name(self.LIKES_CLASS)
+        move_element(self.driver,el)
+        el.click()
         WebDriverWait(self.driver, 10)\
             .until(expected_conditions.presence_of_element_located((By.CLASS_NAME, self.DISLIKES_CLASS)))
 
 
+
     def dislike(self):
-        self.driver.find_element_by_class_name(self.QUESTION_CLASS).find_element_by_class_name(self.DISLIKES_CLASS).click()
+        el = self.driver.find_element_by_class_name(self.QUESTION_CLASS).find_element_by_class_name(self.DISLIKES_CLASS)
+        move_element(self.driver, el)
+        el.click()
         WebDriverWait(self.driver, 10) \
             .until(expected_conditions.presence_of_element_located((By.CLASS_NAME, self.LIKES_CLASS)))
 
@@ -32,14 +41,19 @@ class OtvetPageQuestion(Page):
         return self.driver.find_element_by_class_name(self.QUESTION_CLASS).find_element_by_class_name(self.LIKES_CLASS) is not None
 
     def subscribe(self):
-        self.driver.find_element_by_xpath(self.SUBSCRIBE_XPATH).click()
+        el = self.driver.find_element_by_xpath(self.SUBSCRIBE_XPATH)
+        move_element(self.driver, el)
+        el.click()
         WebDriverWait(self.driver, 10) \
             .until(expected_conditions.presence_of_element_located((By.XPATH, self.UNSUBSCRIBE_XPATH)))
 
     def unsubscribe(self):
-        self.driver.find_element_by_xpath(self.UNSUBSCRIBE_XPATH).click()
+        el = self.driver.find_element_by_xpath(self.UNSUBSCRIBE_XPATH)
+        move_element(self.driver, el)
+        el.click()
         WebDriverWait(self.driver, 10) \
             .until(expected_conditions.presence_of_element_located((By.XPATH, self.SUBSCRIBE_XPATH)))
+
 
     def is_subscribed(self):
         return self.driver.find_element_by_xpath(self.UNSUBSCRIBE_XPATH) is not None
@@ -67,14 +81,17 @@ class AnswerForm(Element):
         actions.perform()
 
     def set_text(self, text):
-        self.form.find_element_by_class_name(self.TEXT_AREA_CLASS).send_keys(text)
+        el = self.form.find_element_by_class_name(self.TEXT_AREA_CLASS)
+        actions = ActionChains(self.driver)
+        actions.move_to_element(el)
+        actions.perform()
+        el.send_keys(text)
+
 
     def submit(self):
         el = self.form.find_element_by_class_name(self.SUBMIT_CLASS)
-        actions = ActionChains(self.driver)
-        actions.move_to_element(el)
-        actions.click(el)
-        actions.perform()
+        move_element(self.driver, el)
+        el.click()
 
     def count_symbols_value(self):
         return self.form.find_element_by_class_name(self.COUNT_SYMBOLS_CLASS).text
