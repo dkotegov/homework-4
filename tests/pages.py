@@ -75,17 +75,13 @@ class FavouritesPage(Page):
     def get_count(self):
 
         hover_link = self.driver.find_element_by_xpath(self.LINK)
-        print hover_link
         self.driver.implicitly_wait(40)
         hover_link.click()
         self.driver.implicitly_wait(5)
         text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
-        print text
         self.driver.implicitly_wait(30)
         dropdown_text = text.text
-        print dropdown_text
         a = dropdown_text.split('(')
-        print a
         return int(a[1][:len(a[1])-1])
 
     def clear_list(self):

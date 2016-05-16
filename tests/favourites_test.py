@@ -13,7 +13,7 @@ class FavouritesTestCase(unittest.TestCase):
     OFFER_NUM = 2
 
     def setUp(self):
-        self.browser = os.environ.get('HW4BROWSER', 'CHROME')
+        self.browser = os.environ.get('HW4BROWSER', 'FIREFOX')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, self.browser).copy()
