@@ -48,6 +48,7 @@ class RegionSelectionForm(Component):
 
 class FilterForm(Component):
     MODEL = '//input[@class="input__data__value"]'
+    
 
 
 class ExampleTest(unittest.TestCase):
