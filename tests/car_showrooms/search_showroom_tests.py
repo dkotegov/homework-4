@@ -19,20 +19,27 @@ class SearchForm(Component):
 
 class RegionSelectionForm(Component):
     TITLE = '//div[text()="Выбор региона"]'
-    COUNTRY = '//span[text()="{}"]'
+    COUNTRY = u'//span[@class="tab__pin__text" and text()="{}"]'
     REGION_INPUT = '//input[@placeholder="Введите название города или региона"]'
-    SUBMIT = '//span[text()="Выбрать"]'
+    SUBMIT_BUTTON = '//span[@class="button__text" and text()="Выбрать"]'
     OPEN_FORM_BUTTON = '//span[contains(@class, "js-geo_name")]'
     FOUNDED_REGIONS = '//div[@class="input__box input__box_dropdown"]/div/div[@data-val]'
+    CANCEL_BUTTON = '//span[@class="button__text" and text()="Отменить"]'
 
     def open_form(self):
         self.driver.find_element_by_xpath(self.OPEN_FORM_BUTTON).click()
         WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.XPATH, self.TITLE))
         )
+        WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.XPATH, self.REGION_INPUT))
+        )
 
     def set_country(self, country):
         self.driver.find_element_by_xpath(self.COUNTRY.format(country)).click()
+        WebDriverWait(self.driver, 30).until(
+            lambda d: regions_search_done(d)
+        )
 
     def set_region(self, region):
         self.driver.find_element_by_xpath(self.REGION_INPUT).send_keys(region)
@@ -42,14 +49,20 @@ class RegionSelectionForm(Component):
 
     def get_founded_regions(self):
         founded_elements = self.driver.find_elements_by_xpath(self.FOUNDED_REGIONS)
-        return [e.text for e in founded_elements]
+        return {e: e.text for e in founded_elements}
 
     def submit(self):
-        self.driver.find_element_by_xpath(self.FOUNDED_REGIONS).click()
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
+        self.select_first_region()
+        self.driver.find_element_by_xpath(self.SUBMIT_BUTTON).click()
         WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.XPATH, self.OPEN_FORM_BUTTON))
         )
+
+    def select_first_region(self):
+        self.driver.find_element_by_xpath(self.FOUNDED_REGIONS).click()
+
+    def cancel(self):
+        self.driver.find_element_by_xpath(self.CANCEL_BUTTON).click()
 
 
 def regions_search_done(driver):
@@ -84,10 +97,30 @@ class SearchFormTest(unittest.TestCase):
         for query in test_queries:
             region_selection_form.open_form()
             region_selection_form.set_region(query)
-            regions_list = region_selection_form.get_founded_regions()
+            regions_list = region_selection_form.get_founded_regions().values()
             for region in regions_list:
                 self.assertTrue(query in region or query.title() in region,
                                 u"Element {} not satisfies searching query".format(region))
 
             self.driver.refresh()
+
+    def test_cancel_region_selection(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        search_form = page.search_form
+        region_selection_form = search_form.region_selection_form
+        region_selection_form.open_form()
+
+        test_region = u"Санкт-Петербург"
+
+        region_selection_form.set_region(test_region)
+        region_selection_form.submit()
+
+        region_selection_form.open_form()
+        region_selection_form.set_region(u"Москва")
+        region_selection_form.select_first_region()
+        region_selection_form.cancel()
+
+        self.assertEqual(test_region, self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text)
 
