@@ -3,12 +3,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from tests.car_showrooms.pages import ShowroomPage
-
-
-class Component(object):
-    def __init__(self, driver):
-        self.driver = driver
+from tests.car_showrooms.pages import ShowroomPage, Component
 
 
 class SpecialOffersList(Component):
