@@ -6,10 +6,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.Common import Page, Element
 
+
 def move_element(driver,elem):
     actions = ActionChains(driver)
     actions.move_to_element(elem)
     actions.perform()
+
 
 class OtvetPageQuestion(Page):
     QUESTION_CLASS = "question"
@@ -19,8 +21,10 @@ class OtvetPageQuestion(Page):
     UNSUBSCRIBE_XPATH = "//button[@title='Отписаться']"
 
     def like(self):
+        WebDriverWait(self.driver, 10) \
+            .until(expected_conditions.presence_of_element_located((By.CLASS_NAME, self.LIKES_CLASS)))
         el = self.driver.find_element_by_class_name(self.QUESTION_CLASS).find_element_by_class_name(self.LIKES_CLASS)
-        move_element(self.driver,el)
+        move_element(self.driver, el)
         el.click()
         WebDriverWait(self.driver, 10)\
             .until(expected_conditions.presence_of_element_located((By.CLASS_NAME, self.DISLIKES_CLASS)))
@@ -54,7 +58,6 @@ class OtvetPageQuestion(Page):
         WebDriverWait(self.driver, 10) \
             .until(expected_conditions.presence_of_element_located((By.XPATH, self.SUBSCRIBE_XPATH)))
 
-
     def is_subscribed(self):
         return self.driver.find_element_by_xpath(self.UNSUBSCRIBE_XPATH) is not None
 
@@ -66,7 +69,7 @@ class OtvetPageQuestion(Page):
 
 
 class AnswerForm(Element):
-    FORM_CLASS = "form-form"
+    FORM_CLASS = "form--padding"
     TEXT_AREA_CLASS = "form--text"
     IMAGE_ADD_CLASS = "action--upload-photo"
     SUBMIT_CLASS = "action--save"
@@ -75,21 +78,20 @@ class AnswerForm(Element):
 
     def __init__(self, driver):
         super(AnswerForm, self).__init__(driver)
+        WebDriverWait(self.driver, 10) \
+            .until(expected_conditions.presence_of_element_located((By.CLASS_NAME, self.FORM_CLASS)))
         self.form = self.driver.find_element_by_class_name(self.FORM_CLASS)
-        actions = ActionChains(self.driver)
-        actions.move_to_element(self.form)
-        actions.perform()
+        move_element(self.driver, self.form)
 
     def set_text(self, text):
         el = self.form.find_element_by_class_name(self.TEXT_AREA_CLASS)
-        actions = ActionChains(self.driver)
-        actions.move_to_element(el)
-        actions.perform()
+        move_element(self.driver, el)
         el.send_keys(text)
-
 
     def submit(self):
         el = self.form.find_element_by_class_name(self.SUBMIT_CLASS)
+        WebDriverWait(self.driver, 10) \
+            .until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, self.SUBMIT_CLASS)))
         move_element(self.driver, el)
         el.click()
 

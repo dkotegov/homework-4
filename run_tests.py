@@ -9,7 +9,7 @@ from tests.ask import AskQuestionTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(AnswerQuestionTests),
+      unittest.makeSuite(AnswerQuestionTests),
         unittest.makeSuite(AskQuestionTests),
 
     ))

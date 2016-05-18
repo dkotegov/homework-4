@@ -16,7 +16,7 @@ class AnswerQuestionTests(BaseTest):
         t.set_password(USER_PASSWORD)
         t.login()
         self.answer_page.close_login_frame()
-        self.answer_page.open_question()
+        self.driver.get("https://otvet.mail.ru/question/190510628")
 
     def test_empty_text(self):
         form = self.answer_page.answer_form()

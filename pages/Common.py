@@ -1,7 +1,10 @@
 import urlparse
+
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
+
 
 class Page(object):
     BASE_URL = "https://otvet.mail.ru/"
@@ -33,8 +36,13 @@ class Page(object):
         WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.CLASS_NAME, self.FORM_CLASS)))
 
     def error_poput(self):
+
         WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.CLASS_NAME,self.POPUP_CLASS)))
-        return self.driver.find_element_by_class_name(self.POPUP_CLASS).text
+        el = self.driver.find_element_by_class_name(self.POPUP_CLASS)
+        actions = ActionChains(self.driver)
+        actions.move_to_element(el)
+        actions.perform()
+        return el.text
 
 
 class Element(object):

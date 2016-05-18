@@ -45,9 +45,9 @@ class AskForm(Element):
 
     def add_picture(self, path):
         self.form.find_element_by_class_name(self.ASK_UPLOAD_PHOTO_BUTTON_CLASS).click()
+        WebDriverWait(self.driver, 20).until(ec.presence_of_element_located((By.NAME, self.ASK_UPLOAD_PHOTO_NAME)))
         self.driver.find_element_by_name(self.ASK_UPLOAD_PHOTO_NAME).send_keys(path)
-        WebDriverWait(self.form, 10).until(ec.presence_of_element_located((By.CLASS_NAME, self.IMG_ADDED_CLASS)))
-
+        WebDriverWait(self.driver, 20).until(ec.presence_of_element_located((By.CLASS_NAME, self.IMG_ADDED_CLASS)))
 
     def submit(self):
         el = self.driver.find_element_by_class_name(self.SUBMIT_CLASS)
