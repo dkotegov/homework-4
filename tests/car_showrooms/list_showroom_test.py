@@ -94,6 +94,10 @@ class ShowroomListTest(unittest.TestCase):
 
         addresses = showroom_list.get_items_addresses()
         phones = showroom_list.get_items_phones()
+
+        self.assertEqual(len(addresses), showroom_list.get_items_count())
+        self.assertEqual(len(phones), showroom_list.get_items_count())
+
         for i in range(0, 5):
             if i == 0:
                 index = 0
