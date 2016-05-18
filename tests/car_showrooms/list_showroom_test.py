@@ -17,6 +17,8 @@ class ShowroomList(Component):
     __ITEM_PAGE_TITLE = 'span.bread__curr'
     __ITEM_ADDRESS = 'div.dealer-card__adress'
     __ITEM_PHONE = 'div.dealer-card__phone'
+    __PAGINATOR_CURRENT_PARAM = "a.pager__pin.pager__pin_perpage.pager__pin_on"
+    __PAGINATOR_PARAM = "a.pager__pin.pager__pin_perpage"
 
     def open_first_item(self):
         item_title = self.driver.find_element_by_css_selector(self.__ITEM_TITLE)
@@ -34,7 +36,16 @@ class ShowroomList(Component):
         return self.driver.find_element_by_css_selector(self.__ITEM_PHONE).text
 
     def get_items_count(self):
-        return self.driver.find_elements_by_css_selector(self.__ITEM_TITLE).text
+        return len(self.driver.find_elements_by_css_selector(self.__ITEM_TITLE))
+
+    def set_pagination_count_params(self, count):
+        for param in self.driver.find_elements_by_css_selector(self.__PAGINATOR_PARAM):
+            if int(param.text) == count:
+                param.click()
+                return
+
+    def get_pagination_count_current_param(self):
+        return int(self.driver.find_element_by_css_selector(self.__PAGINATOR_CURRENT_PARAM).text)
 
 
 class ShowroomListTest(unittest.TestCase):
@@ -65,3 +76,16 @@ class ShowroomListTest(unittest.TestCase):
         showroom_list = page.showroom_list
         self.assertIsNotNone(showroom_list.get_item_address())
         self.assertIsNotNone(showroom_list.get_item_phone())
+
+    def test_pagination(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        showroom_list = page.showroom_list
+        self.assertEqual(showroom_list.get_items_count(), showroom_list.get_pagination_count_current_param())
+        count_param = 40
+        showroom_list.set_pagination_count_params(count_param)
+        self.assertEqual(showroom_list.get_items_count(), count_param)
+        count_param = 100
+        showroom_list.set_pagination_count_params(count_param)
+        self.assertEqual(showroom_list.get_items_count(), count_param)
