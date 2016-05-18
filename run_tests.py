@@ -2,5 +2,8 @@
 
 import unittest
 
+from tests import DetiTest
+
 if __name__ == '__main__':
-    pass
+    suite = unittest.TestSuite(unittest.makeSuite(DetiTest))
+    unittest.main()
