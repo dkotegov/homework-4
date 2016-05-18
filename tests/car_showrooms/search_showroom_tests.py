@@ -74,7 +74,7 @@ def regions_search_done(driver):
         return False
 
 
-class SearchFormTest(unittest.TestCase):
+class RegionSelectFormTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('TTHA2BROWSER', 'CHROME')
 
@@ -101,8 +101,22 @@ class SearchFormTest(unittest.TestCase):
             for region in regions_list:
                 self.assertTrue(query in region or query.title() in region,
                                 u"Element {} not satisfies searching query".format(region))
-
             self.driver.refresh()
+
+    def test_region_selection(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        search_form = page.search_form
+        region_selection_form = search_form.region_selection_form
+
+        new_region = u"Вязники"
+
+        region_selection_form.open_form()
+        region_selection_form.set_region(new_region)
+        region_selection_form.submit()
+
+        self.assertEqual(new_region, self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text)
 
     def test_cancel_region_selection(self):
         page = ShowroomPage(self.driver)
@@ -110,17 +124,12 @@ class SearchFormTest(unittest.TestCase):
 
         search_form = page.search_form
         region_selection_form = search_form.region_selection_form
-        region_selection_form.open_form()
 
-        test_region = u"Санкт-Петербург"
-
-        region_selection_form.set_region(test_region)
-        region_selection_form.submit()
+        current_region = self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text
 
         region_selection_form.open_form()
-        region_selection_form.set_region(u"Москва")
+        region_selection_form.set_region(u"Санкт-Петербург")
         region_selection_form.select_first_region()
         region_selection_form.cancel()
 
-        self.assertEqual(test_region, self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text)
-
+        self.assertEqual(current_region, self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text)
