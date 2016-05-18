@@ -14,9 +14,9 @@ class ShowroomPage(object):
         self.driver.maximize_window()
 
     @property
-    def regions_selection_form(self):
-        from tests.car_showrooms.search_showroom_tests import RegionSelectionForm
-        return RegionSelectionForm(self.driver)
+    def search_form(self):
+        from tests.car_showrooms.search_showroom_tests import SearchForm
+        return SearchForm(self.driver)
 
     @property
     def showroom_list(self):

@@ -1,10 +1,9 @@
 import os
-import time
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from tests.car_showrooms.pages import ShowroomPage
+from tests.car_showrooms.pages.pages import ShowroomPage
 
 
 class Component(object):
