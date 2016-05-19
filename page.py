@@ -435,10 +435,35 @@ class BabyName(Component):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_VIKTORIYA).click()
 
 
-
-
 class Footer(Component):
-    pass
+    PLANING = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="/planning/"]'
+    PREGNANCY = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="/pregnancy/"]'
+    BIRTH = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="/childbirth/"]'
+    OVUL = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="/ovul/"]'
+    CONSULT = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="https://health.mail.ru/consultation/"]'
+
+    NEWBORN = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/baby/newborn/"]'
+    MONTHS_1_6 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/baby/1-6/"]'
+    MONTHS_7_12 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/baby/7-12/"]'
+    YEARS_1_3 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/baby/1-3/"]'
+    YEARS_3_7 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/child/"]'
+    DETI_OLDER = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/teenager/"]'
+    FAMILY = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/family/"]'
+    CONSULT_2 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="https://health.mail.ru/consultation/"]'
+    RECEIPT = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/recipes/"]'
+
+    NEWS = '//table[@class="b-foot-nav__list"]/tbody/tr/td[3]/ul/li[@href="/news/"]'
+    ARTICLES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[3]/ul/li[@href="/articles/"]'
+    TALES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[3]/ul/li[@href="/birthstories/"]'
+
+    FORUM = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/forum/"]'
+    COMMUNITY = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/community/"]'
+    KIDS_COMMUNITY = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/community/"]'
+    LINES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/lines/"]'
+    RULES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/forum/rules/"]'
+
+    BIRTHING_CENTER = '//table[@class="b-foot-nav__list"]/tbody/tr/td[5]/ul/li[@href="/birthing_center/"]'
+    CHOSING_NAMES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[5]/ul/li[@href="/names/"]'
 
 
 class Basement(Component):
