@@ -73,16 +73,23 @@ class FavouritesPage(Page):
         return PageOffer(self.driver)
 
     def get_count(self):
+        for i in range(0, 1000):
+            try:
+                hover_link = self.driver.find_element_by_xpath(self.LINK)
+                break
+            except Exception:
+                self.driver.implicitly_wait(1000)
 
-        hover_link = self.driver.find_element_by_xpath(self.LINK)
-        self.driver.implicitly_wait(40)
+        self.driver.implicitly_wait(100)
         hover_link.click()
-        self.driver.implicitly_wait(5)
-        text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
-        self.driver.implicitly_wait(30)
-        dropdown_text = text.text
-        a = dropdown_text.split('(')
-        return int(a[1][:len(a[1])-1])
+        for i in range(0, 1000):
+            self.driver.implicitly_wait(1000)
+            text = self.driver.find_element_by_xpath(self.DROPDOWN_CLASS)
+            import re
+            result = re.search('(\d)+', unicode(text.text))
+            if result:
+                return int(result.group(1))
+        raise Exception()
 
     def clear_list(self):
         btns = self.driver.find_elements_by_xpath(self.DELETE_BTN)
@@ -181,8 +188,12 @@ class Slider(Component):
         return int(current_num.get_attribute("innerText"))
 
     def get_max_page_num(self):
-        max_num = self.driver.find_element_by_class_name(self.TOTAL_NUM)
-        return int(max_num.text)
+        for i in range(0, 1000):
+            max_num = self.driver.find_element_by_class_name(self.TOTAL_NUM)
+            if max_num.text:
+                return int(max_num.text)
+            self.driver.implicitly_wait(1000)
+        raise Exception()
 
     @property
     def banner(self):
@@ -200,13 +211,24 @@ class Banner(Component):
         self.driver.find_element_by_class_name(self.CLASS)
 
 
-class ChareBlock(Component):
-    BUTTONS_CLASSES = ['share_vk', 'share_fb', 'share_ok', 'share_my', 'share_tw']
-
-    def click_btn(self, btn_class):
-        btn = self.driver.find_element_by_class_name(btn_class)
-        btn.click()
-
-    def click_all_btn(self):
-        for class_btn in self.BUTTONS_CLASSES:
-            self.click_btn(class_btn)
+# class ChareBlock(Component):
+#     BUTTONS_CLASSES = ['share_vk', 'share_fb', 'share_ok', 'share_my', 'share_tw']
+#     IMAGE = 'viewbox__total'
+#
+#     def click_btn(self, btn_class):
+#         for i in range(0, 1000):
+#             try:
+#                 actions = ActionChains(self.driver)
+#                 actions.move_to_element(self.IMAGE).perform()
+#                 self.driver.implicitly_wait(2000)
+#                 btn = self.driver.find_element_by_class_name(btn_class)
+#                 btn.click()
+#                 break
+#             except Exception:
+#                 self.driver.implicitly_wait(1000)
+#         raise Exception()
+#
+#
+#     def click_all_btn(self):
+#         for class_btn in self.BUTTONS_CLASSES:
+#             self.click_btn(class_btn)

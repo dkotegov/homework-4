@@ -26,6 +26,9 @@ class FavouritesTestCase(unittest.TestCase):
         auth_form.set_login(self.USEREMAIL)
         auth_form.set_password(self.USERPASSWORD)
         auth_form.submit()
+        favorites_page = FavouritesPage(self.driver)
+        favorites_page.open()
+        favorites_page.clear_list()
 
     def tearDown(self):
         self.driver.quit()

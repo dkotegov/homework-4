@@ -49,7 +49,8 @@ class SliderTestCase(unittest.TestCase):
 
         self.assertEqual(1, slider.get_page_num_from_browser())
         all_photos_num = slider.get_max_page_num()
-        slider.go_to_slide(all_photos_num - 1)
+        for i in range(1, all_photos_num):
+            slider.click_next()
         self.assertEqual(all_photos_num, slider.get_page_num_from_browser())
 
     def testSliderClose(self):
@@ -59,34 +60,14 @@ class SliderTestCase(unittest.TestCase):
         # закрытие по кнопке в левом верхнем углу
         slider.close_slider()
         with self.assertRaises(ElementNotVisibleException):
-            slider.go_to_slide(0)
+            slider.close_slider()
 
         # проверка закрытия слайдера при нажати на затемненную площадь вокруг фото
         slider.open_slider()
         slider.close_slider(1)
         with self.assertRaises(ElementNotVisibleException):
-            slider.go_to_slide(0)
+            slider.close_slider()
 
-    def testSliderPreview(self):
-        slider = self.getSlider()
-        slider.open_slider()
-
-        # проверяем, что можно перейти на интересующий слайд с помощью картинок-превью
-        slider.go_to_slide(0)
-        self.assertEqual(slider.get_page_num_from_browser(), 1)
-        all_photos_num = slider.get_max_page_num()
-        slider.go_to_slide(all_photos_num - 1)
-        self.assertEqual(all_photos_num, slider.get_page_num_from_browser())
-
-    def testSliderShare(self):
-        slider = self.getSlider()
-        slider.open_slider()
-
-        # проверяем наличие всех кнопок для соц.сетей
-        chare_block = slider.chare_block
-        chare_block.click_all_btn()
-        banner = slider.banner
-        banner.find()
 
     def getSlider(self):
         offer_page = PageOffer(self.driver)
