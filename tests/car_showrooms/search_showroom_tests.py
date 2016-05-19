@@ -17,6 +17,7 @@ class SearchForm(Component):
     MODEL_DROPDOWN_ITEM_BY_NAME = '//div[@data-optidx and contains(@class, "js-select__options__item input__data__value_in-group") and text()="{}"]'
     STATION_DROPDOWN = '//div[contains(@class, "selt-subway_id")]/div/div/div[contains(@class, "js-select__selected__option")]'
     STATION_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "subway")]'
+    STATION_DROPDOWN_ITEM_BY_NAME = u'//div[@data-optidx and contains(@class, "subway") and text()="{}"]'
     CHECKBOX_SHOWROOM_IS_OFFICIAL = '//span[@class="input-flag__text" and text()="Официальный дилер"]'
     SUBMIT = '//span[text()="Найти"]'
 
@@ -52,6 +53,9 @@ class SearchForm(Component):
             self.driver.execute_script("return arguments[0].scrollIntoView();", station)
             stations.append(station.text)
         return stations
+
+    def station_dropdown_item_select(self, station):
+        self.driver.find_element_by_xpath(self.STATION_DROPDOWN_ITEM_BY_NAME.format(station)).click()
 
     def is_official_checkbox_click(self):
         self.driver.find_element_by_xpath(self.CHECKBOX_SHOWROOM_IS_OFFICIAL).click()
@@ -282,6 +286,28 @@ class SelectStationTest(unittest.TestCase):
 
         for key in test_data_set.keys():
             self.assertTrue(test_data_set[key], u"{} station is not in dropdown list".format(key))
+
+    def test_filter(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        test_station = u"Аннино"
+
+        search_form = page.search_form
+        region_selection_form = search_form.region_selection_form
+        region_selection_form.open_form()
+        region_selection_form.set_region(u"Москва")
+        region_selection_form.submit()
+
+        search_form.station_dropdown_drop()
+        search_form.station_dropdown_item_select(test_station)
+        search_form.submit()
+
+        showroom_list = page.showroom_list
+        dealers_stations = showroom_list.get_items_metro_stations()
+
+        for station in dealers_stations:
+            self.assertEqual(test_station, station, "Station filter not working...")
 
 
 class IsOfficialCheckboxTest(unittest.TestCase):

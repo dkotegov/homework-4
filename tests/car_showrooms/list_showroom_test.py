@@ -14,6 +14,7 @@ class ShowroomList(Component):
     __PAGINATOR_CURRENT_PARAM = "a.pager__pin.pager__pin_perpage.pager__pin_on"
     __PAGINATOR_PARAM = "a.pager__pin.pager__pin_perpage"
     __DEALER_MODEL_ICON = '//img[@alt="{0}" and @title="{0}" and @class="dealer-card__aside__item"]'
+    __DEALER_CARD_METRO_STATION = '//span[@class="dealer-card__metro__item"]'
 
     def get_item_titles(self):
         item_titles = []
@@ -62,6 +63,9 @@ class ShowroomList(Component):
 
     def get_items_official_dealers_by_model(self, model):
         return len(self.driver.find_elements_by_xpath(self.__DEALER_MODEL_ICON.format(model)))
+
+    def get_items_metro_stations(self):
+        return [item.text for item in self.driver.find_elements_by_xpath(self.__DEALER_CARD_METRO_STATION)]
 
 
 class ShowroomListTest(unittest.TestCase):
