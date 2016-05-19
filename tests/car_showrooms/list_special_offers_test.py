@@ -13,6 +13,9 @@ class SpecialOffersList(Component):
     __ITEM_PRICE = 'span.offer-mini__price__box'
 
     def get_item_titles(self):
+        return [item.text for item in self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)]
+
+    def get_item_titles_with_page_titles(self):
         item_titles = []
         item_pages_title = []
         for i in range(0, 3):
@@ -66,7 +69,7 @@ class SpecialOffersListTest(unittest.TestCase):
         page.open()
 
         special_offers_list = page.special_offers_list
-        item_titles, item_page_title = special_offers_list.get_item_titles()
+        item_titles, item_page_title = special_offers_list.get_item_titles_with_page_titles()
         for i in range(0, len(item_titles)):
             self.assertTrue(item_page_title[i].startswith(item_titles[i]))
 

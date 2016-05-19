@@ -230,6 +230,23 @@ class SelectCarModelTest(unittest.TestCase):
         for key in test_data_set.keys():
             self.assertTrue(test_data_set[key], u"{} model is not in dropdown list".format(key))
 
+    def test_filter(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        test_model = "Audi"
+
+        search_form = page.search_form
+        search_form.model_dropdown_drop()
+        search_form.model_dropdown_item_select(test_model)
+        search_form.submit()
+
+        list_special_offers = page.special_offers_list
+        offers_models = list_special_offers.get_item_titles()
+
+        for model in offers_models:
+            self.assertTrue(test_model in model, "Model filter not working...")
+
 
 class SelectStationTest(unittest.TestCase):
     def setUp(self):

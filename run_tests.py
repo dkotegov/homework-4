@@ -9,7 +9,7 @@ from tests.car_showrooms.search_showroom_tests import *
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(IsOfficialCheckboxTest),
+        unittest.makeSuite(SelectCarModelTest),
     ))
     result = unittest.TextTestRunner().run(suite)
 
