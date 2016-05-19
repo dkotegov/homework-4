@@ -64,8 +64,11 @@ class RegionSelectionForm(Component):
         )
 
     def get_founded_regions(self):
-        founded_elements = self.driver.find_elements_by_xpath(self.FOUNDED_REGIONS)
-        return {e: e.text for e in founded_elements}
+        regions = []
+        for region in self.driver.find_elements_by_xpath(self.FOUNDED_REGIONS):
+            self.driver.execute_script("return arguments[0].scrollIntoView();", region)
+            regions.append(region.text)
+        return regions
 
     def submit(self):
         self.select_first_region()
@@ -149,6 +152,26 @@ class RegionSelectFormTest(unittest.TestCase):
         region_selection_form.cancel()
 
         self.assertEqual(current_region, self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text)
+
+    def test_search_cities_by_country(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        search_form = page.search_form
+        region_selection_form = search_form.region_selection_form
+        region_selection_form.open_form()
+
+        test_data_set = {u'Россия': (u'Москва', u'Санкт-Петербург', u'Волгоград', u'Андреевка', u'Ярославль'),
+                         u'Беларусь': (u'Минск', u'Береза', u'Белоозерск', u'Шклов'),
+                         u'Казахстан': (u'Алга', u'Иргиз', u'Сарань', u'Шаян'),
+                         u'Украина': (u'Киев', u'Богуслав', u'Мариуполь', u'Хотин'),
+                         u'Молдова': (u'Атаки', u'Кагул', u'Бричаны', u'Яловены')}
+
+        for country in test_data_set.keys():
+            region_selection_form.set_country(country)
+            founded_regions = region_selection_form.get_founded_regions()
+            for city in test_data_set[country]:
+                self.assertIn(city, founded_regions)
 
 
 class SelectCarModelTest(unittest.TestCase):
