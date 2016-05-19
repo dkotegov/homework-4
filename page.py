@@ -166,11 +166,275 @@ class NavMenu(Component):
                    '__item_round-r b-nav__weeks__item_cap"]' \
                    '/a[@href="/teenager/"]'
 
-    pass
+    def click_family(self):
+        self.driver.find_element_by_xpath(self.FAMILY).click()
+
+    def click_planing(self):
+        self.driver.find_element_by_xpath(self.PLANNING).click()
+
+    def click_planing_day_ovulation(self):
+        self.driver.find_element_by_xpath(self.PLANNING_DAY_OVULATION).click()
+
+    def click_pregnancy(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY).click()
+
+    def click_pregnancy_1(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_1).click()
+
+    def click_pregnancy_2(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_2).click()
+
+    def click_pregnancy_3(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_3).click()
+
+    def click_pregnancy_4(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_4).click()
+
+    def click_pregnancy_5(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_5).click()
+
+    def click_pregnancy_6(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_6).click()
+
+    def click_pregnancy_7(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_7).click()
+
+    def click_pregnancy_8(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_8).click()
+
+    def click_pregnancy_9(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_9).click()
+
+    def click_pregnancy_10(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_10).click()
+
+    def click_pregnancy_11(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_11).click()
+
+    def click_pregnancy_12(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_12).click()
+
+    def click_pregnancy_13(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_13).click()
+
+    def click_pregnancy_14(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_14).click()
+
+    def click_pregnancy_15(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_15).click()
+
+    def click_pregnancy_16(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_16).click()
+
+    def click_pregnancy_17(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_17).click()
+
+    def click_pregnancy_18(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_18).click()
+
+    def click_pregnancy_19(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_19).click()
+
+    def click_pregnancy_20(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_20).click()
+
+    def click_pregnancy_21(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_21).click()
+
+    def click_pregnancy_22(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_22).click()
+
+    def click_pregnancy_23(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_23).click()
+
+    def click_pregnancy_24(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_24).click()
+
+    def click_pregnancy_25(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_25).click()
+
+    def click_pregnancy_26(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_26).click()
+
+    def click_pregnancy_27(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_27).click()
+
+    def click_pregnancy_28(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_28).click()
+
+    def click_pregnancy_29(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_29).click()
+
+    def click_pregnancy_30(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_30).click()
+
+    def click_pregnancy_31(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_31).click()
+
+    def click_pregnancy_32(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_32).click()
+
+    def click_pregnancy_33(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_33).click()
+
+    def click_pregnancy_34(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_34).click()
+
+    def click_pregnancy_35(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_35).click()
+
+    def click_pregnancy_36(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_36).click()
+
+    def click_pregnancy_37(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_37).click()
+
+    def click_pregnancy_38(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_38).click()
+
+    def click_pregnancy_39(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_39).click()
+
+    def click_pregnancy_40(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_40).click()
+
+    def click_pregnancy_41(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_41).click()
+
+    def click_pregnancy_42(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY_42).click()
+
+    def click_birth(self):
+        self.driver.find_element_by_xpath(self.BIRTH).click()
+
+    def click_kids(self):
+        self.driver.find_element_by_xpath(self.KIDS).click()
+
+    def click_kids_0(self):
+        self.driver.find_element_by_xpath(self.KIDS_0).click()
+
+    def click_kids_1_6(self):
+        self.driver.find_element_by_xpath(self.KIDS_1_6).click()
+
+    def click_kids_7_12(self):
+        self.driver.find_element_by_xpath(self.KIDS_7_12).click()
+
+    def click_kids_1_3(self):
+        self.driver.find_element_by_xpath(self.KIDS_1_3_YEARS).click()
+
+    def click_kids_3_7(self):
+        self.driver.find_element_by_xpath(self.KIDS_3_7_YEARS).click()
+
+    def click_kids_7(self):
+        self.driver.find_element_by_xpath(self.KIDS_7_YEARS).click()
 
 
 class BabyName(Component):
-    pass
+    SEARCH_INPUT = '//input[@id="id_title"]'
+    SEARCH_SELECT = '//select[@id="id_origin"]'
+    SEARCH_SELECT_OPTION = '//select[@id="id_origin"]/option'
+    SEARCH_INPUT_GENDER_M = '//input[@id="id_gender_0"]'
+    SEARCH_INPUT_GENDER_F = '//input[@id="id_gender_1"]'
+    SEARCH_BUTTON = '//a[@class="pin-button pin-button_orange js-names-search-btn"]'
+    CALENDAR_NAMES = '//a[@href="/names/namedays/"]'
+    CALENDAR_NAMES_JAN = '//a[@href="/names/all/nameday/january/"]'
+    CALENDAR_NAMES_FEB = '//a[@href="/names/all/nameday/february/"]'
+    CALENDAR_NAMES_MAR = '//a[@href="/names/all/nameday/march/"]'
+    CALENDAR_NAMES_APR = '//a[@href="/names/all/nameday/april/"]'
+    CALENDAR_NAMES_MAY = '//a[@href="/names/all/nameday/may/"]'
+    CALENDAR_NAMES_JUN = '//a[@href="/names/all/nameday/june/"]'
+    CALENDAR_NAMES_JUL = '//a[@href="/names/all/nameday/july/"]'
+    CALENDAR_NAMES_AUG = '//a[@href="/names/all/nameday/august/"]'
+    CALENDAR_NAMES_SEP = '//a[@href="/names/all/nameday/september/"]'
+    CALENDAR_NAMES_OCT = '//a[@href="/names/all/nameday/october/"]'
+    CALENDAR_NAMES_NOV = '//a[@href="/names/all/nameday/november/"]'
+    CALENDAR_NAMES_DEC = '//a[@href="/names/all/nameday/december/"]'
+    NAMES_FOR_KUN = '//a[@href="/names/male/"]'
+    NAMES_FOR_KUN_MAXIM = '//a[@href="/names/maksim/"]'
+    NAMES_FOR_KUN_ARTYOM = '//a[@href="/names/artyom/"]'
+    NAMES_FOR_KUN_ALEKSANDR = '//a[@href="/names/aleksandr/"]'
+    NAMES_FOR_CHAN = '//a[@href="/names/female/"]'
+    NAMES_FOR_CHAN_NASTYA = '//a[@href="/names/anastasiya/"]'
+    NAMES_FOR_CHAN_DARYA = '//a[@href="/names/darya/"]'
+    NAMES_FOR_CHAN_VIKTORIYA = '//a[@href="/names/viktoriya/"]'
+
+    def search_name(self, name, origin='---------', gender='M'):
+        elem = self.driver.find_element_by_xpath(self.SEARCH_INPUT)
+        elem.send_keys(name)
+        if origin != '---------':
+            option = self.driver.find_element_by_xpath(self.SEARCH_SELECT_OPTION)
+            for opt in option:
+                if opt.text == origin:
+                    opt.click()
+        if gender != 'M':
+            gen = self.driver.find_element_by_xpath(self.SEARCH_INPUT_GENDER_F)
+            gen.click()
+        self.driver.find_element_by_xpath(self.SEARCH_BUTTON).click()
+
+    def click_calendar_names(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES).click()
+
+    def click_calendar_names_jan(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JAN).click()
+
+    def click_calendar_names_feb(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_FEB).click()
+
+    def click_calendar_names_mar(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_MAR).click()
+
+    def click_calendar_names_apr(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_APR).click()
+
+    def click_calendar_names_may(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_MAY).click()
+
+    def click_calendar_names_jun(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JUN).click()
+
+    def click_calendar_names_jul(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JUL).click()
+
+    def click_calendar_names_aug(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_AUG).click()
+
+    def click_calendar_names_sep(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_SEP).click()
+
+    def click_calendar_names_oct(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_OCT).click()
+
+    def click_calendar_names_nov(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_NOV).click()
+
+    def click_calendar_names_dec(self):
+        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_DEC).click()
+
+    def click_names_for_kun(self):
+        self.driver.find_element_by_xpath(self.NAMES_FOR_KUN).click()
+
+    def click_name_for_kun_maxim(self):
+        self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_MAXIM).click()
+
+    def click_name_for_kun_artyom(self):
+        self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_ARTYOM).click()
+
+    def click_name_for_kun_aleksandr(self):
+        self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_ALEKSANDR).click()
+
+    def click_names_for_chan(self):
+        self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN).click()
+
+    def click_names_for_chan_anastasia(self):
+        self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_NASTYA).click()
+
+    def click_names_for_chan_darya(self):
+        self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_DARYA).click()
+
+    def click_names_for_chan_viktoria(self):
+        self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_VIKTORIYA).click()
+
+
 
 
 class Footer(Component):
