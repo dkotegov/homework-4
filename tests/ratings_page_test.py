@@ -22,24 +22,27 @@ class BaseTestCase(unittest.TestCase):
 
 
 class RatingsPageTestCase(BaseTestCase):
-    def test_awards_block(self):
+
+    def test_click_import_rating(self):
         page = RatingsPage(self.driver)
         page.open()
-
         page.ratings_block.click_import_rating()
         self.assertEqual(self.driver.current_url, page.ratings_block.IMPORT_RATING_URL)
-        page.open()
 
+    def test_click_choose_film(self):
+        page = RatingsPage(self.driver)
+        page.open()
         page.ratings_block.click_choose_film()
         self.assertEqual(self.driver.current_url, page.ratings_block.CHOOSE_FILM_URL)
-        page.open()
 
+    def test_click_choose_series(self):
+        page = RatingsPage(self.driver)
+        page.open()
         page.ratings_block.click_choose_series()
         self.assertEqual(self.driver.current_url, page.ratings_block.CHOOSE_SERIES_URL)
-        page.open()
 
+    def test_click_choose_tvshow(self):
+        page = RatingsPage(self.driver)
+        page.open()
         page.ratings_block.click_choose_tvshow()
         self.assertEqual(self.driver.current_url, page.ratings_block.CHOOSE_TVSHOW_URL)
-        page.open()
-
-

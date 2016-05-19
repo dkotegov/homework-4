@@ -3,7 +3,7 @@ import os
 
 from selenium.webdriver import Remote, DesiredCapabilities
 
-from pages.pages import *
+from pages.pages import ProfilePage
 import unittest
 
 
@@ -37,18 +37,6 @@ class ProfilePageTestCase(BaseTestCase):
 
         page.profile_block.click_news()
         self.assertEqual(self.driver.current_url, page.profile_block.NEWS_URL)
-
-    def test_middle_block(self):
-        page = ProfilePage(self.driver)
-        page.open()
-
-        page.profile_block.click_fishes()
-        # self.assertEqual(self.driver.current_url, page.profile_block.FISHES_URL) # _blank
-        page.open()
-
-        page.profile_block.click_wiki()
-        # self.assertEqual(self.driver.current_url, page.profile_block.WIKI_URL) # _blank
-        page.open()
 
     def test_film_block(self):
         page = ProfilePage(self.driver)
@@ -97,6 +85,3 @@ class ProfilePageTestCase(BaseTestCase):
         page.profile_block.click_all_star_news()
         self.assertEqual(self.driver.current_url, page.profile_block.STAR_NEWS_URL)
         page.open()
-
-
-
