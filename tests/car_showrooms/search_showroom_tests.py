@@ -16,6 +16,8 @@ class SearchForm(Component):
     MODEL_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "js-select__options__item input__data__value_in-group")]'
     STATION_DROPDOWN = '//div[contains(@class, "selt-subway_id")]/div/div/div[contains(@class, "js-select__selected__option")]'
     STATION_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "subway")]'
+    CHECKBOX_SHOWROOM_IS_OFFICIAL = '//span[@class="input-flag__text" and text()="Официальный дилер"]'
+    SUBMIT = '//span[text()="Найти"]'
 
     @property
     def region_selection_form(self):
@@ -46,6 +48,12 @@ class SearchForm(Component):
             self.driver.execute_script("return arguments[0].scrollIntoView();", station)
             stations.append(station.text)
         return stations
+
+    def is_official_checkbox_click(self):
+        self.driver.find_element_by_xpath(self.CHECKBOX_SHOWROOM_IS_OFFICIAL).click()
+
+    def submit(self):
+        self.driver.find_element_by_xpath(self.SUBMIT).click()
 
 
 class RegionSelectionForm(Component):
@@ -253,3 +261,26 @@ class SelectStationTest(unittest.TestCase):
 
         for key in test_data_set.keys():
             self.assertTrue(test_data_set[key], u"{} station is not in dropdown list".format(key))
+
+
+class IsOfficialCheckboxTest(unittest.TestCase):
+    def setUp(self):
+        browser = os.environ.get('TTHA2BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+
+    def tearDown(self):
+        self.driver.quit()
+
+    def test_filter(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        search_form = page.search_form
+        search_form.is_official_checkbox_click()
+        search_form.submit()
+
+        showroom_list = page.showroom_list
