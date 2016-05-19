@@ -23,6 +23,16 @@ class ShowroomPage(object):
         from tests.car_showrooms.list_showroom_test import ShowroomList
         return ShowroomList(self.driver)
 
+    @property
+    def special_offers_list(self):
+        from tests.car_showrooms.list_special_offers_test import SpecialOffersList
+        return SpecialOffersList(self.driver)
+
+    @property
+    def add_showroom_form(self):
+        from tests.car_showrooms.add_showroom_test import AddShowroomForm
+        return AddShowroomForm(self.driver)
+
 
 class Component(object):
     def __init__(self, driver):
