@@ -139,7 +139,7 @@ class RegionSelectFormTest(unittest.TestCase):
         for query in test_queries:
             region_selection_form.open_form()
             region_selection_form.set_region(query)
-            regions_list = region_selection_form.get_founded_regions().values()
+            regions_list = region_selection_form.get_founded_regions()
             for region in regions_list:
                 self.assertTrue(query in region or query.title() in region,
                                 u"Element {} not satisfies searching query".format(region))

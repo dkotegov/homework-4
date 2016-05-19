@@ -3,7 +3,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from tests.car_showrooms.pages import ShowroomPage, Component
+from tests.car_showrooms.pages.pages import ShowroomPage, Component
 
 
 class ShowroomList(Component):

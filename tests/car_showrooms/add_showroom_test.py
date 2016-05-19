@@ -3,13 +3,12 @@
 import os
 import unittest
 
-import time
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from tests.car_showrooms.pages import ShowroomPage, Component
+from tests.car_showrooms.pages.pages import ShowroomPage, Component
 
 
 class AddShowroomForm(Component):
@@ -155,6 +154,4 @@ class AddShowroomFormTest(unittest.TestCase):
         for invalid_email in invalid_emails[1:]:
             add_showroom_form.set_email(invalid_email)
             add_showroom_form.submit()
-
-            time.sleep(2)
             self.assertFalse(add_showroom_form.is_email_valid())
