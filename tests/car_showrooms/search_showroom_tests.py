@@ -14,6 +14,8 @@ from tests.car_showrooms.pages.pages import Component, ShowroomPage
 class SearchForm(Component):
     MODEL_DROPDOWN = '//div[contains(@class, "selt-firm_id")]/div/div/div[contains(@class, "js-select__selected__option")]'
     MODEL_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "js-select__options__item input__data__value_in-group")]'
+    STATION_DROPDOWN = '//div[contains(@class, "selt-subway_id")]/div/div/div[contains(@class, "js-select__selected__option")]'
+    STATION_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "subway")]'
 
     @property
     def region_selection_form(self):
@@ -31,6 +33,19 @@ class SearchForm(Component):
             self.driver.execute_script("return arguments[0].scrollIntoView();", model)
             models.append(model.text)
         return models
+
+    def station_dropdown_drop(self):
+        self.driver.find_element_by_xpath(self.STATION_DROPDOWN).click()
+        WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.XPATH, self.STATION_DROPDOWN_ITEMS))
+        )
+
+    def station_dropdown_items(self):
+        stations = []
+        for station in self.driver.find_elements_by_xpath(self.STATION_DROPDOWN_ITEMS):
+            self.driver.execute_script("return arguments[0].scrollIntoView();", station)
+            stations.append(station.text)
+        return stations
 
 
 class RegionSelectionForm(Component):
@@ -203,3 +218,38 @@ class SelectCarModelTest(unittest.TestCase):
         for key in test_data_set.keys():
             self.assertTrue(test_data_set[key], u"{} model is not in dropdown list".format(key))
 
+
+class SelectStationTest(unittest.TestCase):
+    def setUp(self):
+        browser = os.environ.get('TTHA2BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+
+    def tearDown(self):
+        self.driver.quit()
+
+    def test_dropdown_showing(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        search_form = page.search_form
+        region_selection_form = search_form.region_selection_form
+
+        region_selection_form.open_form()
+        region_selection_form.set_region(u"Москва")
+        region_selection_form.submit()
+
+        search_form.station_dropdown_drop()
+
+        test_data_set = {u"Выхино": False, u"Тропарёво": False, u"Братиславская": False, u"Авиамоторная": False}
+
+        dropdown_items = search_form.station_dropdown_items()
+        for item in dropdown_items:
+            if item in test_data_set.keys():
+                test_data_set[item] = True
+
+        for key in test_data_set.keys():
+            self.assertTrue(test_data_set[key], u"{} station is not in dropdown list".format(key))
