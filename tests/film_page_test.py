@@ -5,14 +5,16 @@ from selenium.webdriver import Remote, DesiredCapabilities
 
 from pages.pages import *
 import unittest
-from selenium import webdriver
 
-
-# TODO: недавние страницы, футер
 
 class BaseTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        browser = os.environ.get('HW4BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
 
     def tearDown(self):
         self.driver.quit()
@@ -26,33 +28,31 @@ class FilmPageTestCase(BaseTestCase):
         page.open()
         page.film_block.login()
         result = page.film_block.rate_film()
-        self.assertEqual(result, True)
+        self.assertTrue(result)
         page.film_block.logout()
 
         # rate film not logged
         result = page.film_block.rate_film()
-        self.assertEqual(result, False)
+        self.assertFalse(result)
 
         page.open()
         # add film to watch list logged
         page.film_block.login()
         result = page.film_block.add_to_watch_list()
-        self.assertEqual(result, True)
-        page.film_block.add_to_watch_list() # second adding removes film from watch list
+        self.assertTrue(result)
+        page.film_block.add_to_watch_list()  # second adding removes film from watch list
         page.film_block.logout()
 
         # add film to watch list not logged
         result = page.film_block.add_to_watch_list()
-        self.assertEqual(result, False)
+        self.assertFalse(result)
 
         # rate review logged
         page.open()
         page.film_block.login()
         result = page.film_block.like_review()
-        self.assertEqual(result, True)
+        self.assertTrue(result)
         page.refresh()
         result = page.film_block.dislike_review()
-        self.assertEqual(result, True)
+        self.assertTrue(result)
         page.film_block.logout()
-
-
