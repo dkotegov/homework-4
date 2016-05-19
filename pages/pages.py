@@ -5,6 +5,7 @@ from components.favorites_page import *
 from components.awards_page import *
 from components.profile_page import *
 from components.ratings_page import *
+from components.film_page import *
 import urlparse
 
 
@@ -100,3 +101,22 @@ class RatingsPage(object):
     def ratings_block(self):
         return RatingsBlock(self.driver)
 
+
+class FilmPage(object):
+    BASE_URL = 'https://afisha.mail.ru/'
+    PATH = 'cinema/movies/722376_serbskij_film/'
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    def open(self):
+        url = urlparse.urljoin(self.BASE_URL, self.PATH)
+        self.driver.get(url)
+        self.driver.maximize_window()
+
+    def refresh(self):
+        self.driver.refresh()
+
+    @property
+    def film_block(self):
+        return FilmBlock(self.driver)

@@ -17,7 +17,6 @@ class Component(object):
         hover.perform()
         return element.click()
 
-
     def send_keys(self, item, keys):
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.element_to_be_clickable((By.XPATH, item)))
@@ -28,4 +27,3 @@ class Component(object):
         link = self.driver.find_element_by_xpath(item)
         hover = ActionChains(self.driver).move_to_element(link)
         hover.perform()
-

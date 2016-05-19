@@ -5,6 +5,7 @@ import unittest
 from tests.common_blocks_test import *
 from tests.favorites_page_test import *
 from tests.awards_page_test import *
+from tests.film_page_test import FilmPageTestCase
 from tests.profile_page_test import *
 from tests.ratings_page_test import *
 
@@ -15,6 +16,8 @@ if __name__ == '__main__':
         unittest.makeSuite(CommonBlocksTestCase),
         unittest.makeSuite(FavoritesPageTestCase),
         unittest.makeSuite(RatingsPageTestCase),
+        unittest.makeSuite(FilmPageTestCase),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
+
