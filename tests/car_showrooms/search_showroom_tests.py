@@ -12,9 +12,25 @@ from tests.car_showrooms.pages.pages import Component, ShowroomPage
 
 
 class SearchForm(Component):
+    MODEL_DROPDOWN = '//div[contains(@class, "selt-firm_id")]/div/div/div[contains(@class, "js-select__selected__option")]'
+    MODEL_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "js-select__options__item input__data__value_in-group")]'
+
     @property
     def region_selection_form(self):
         return RegionSelectionForm(self.driver)
+
+    def model_dropdown_drop(self):
+        self.driver.find_element_by_xpath(self.MODEL_DROPDOWN).click()
+        WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.XPATH, self.MODEL_DROPDOWN_ITEMS))
+        )
+
+    def model_dropdown_items(self):
+        models = []
+        for model in self.driver.find_elements_by_xpath(self.MODEL_DROPDOWN_ITEMS):
+            self.driver.execute_script("return arguments[0].scrollIntoView();", model)
+            models.append(model.text)
+        return models
 
 
 class RegionSelectionForm(Component):
@@ -133,3 +149,34 @@ class RegionSelectFormTest(unittest.TestCase):
         region_selection_form.cancel()
 
         self.assertEqual(current_region, self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text)
+
+
+class SelectCarModelTest(unittest.TestCase):
+    def setUp(self):
+        browser = os.environ.get('TTHA2BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+
+    def tearDown(self):
+        self.driver.quit()
+
+    def test_dropdown_showing(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        search_form = page.search_form
+        search_form.model_dropdown_drop()
+
+        test_data_set = {u"Audi": False, u"Tesla": False, u"Opel": False}
+
+        dropdown_items = search_form.model_dropdown_items()
+        for item in dropdown_items:
+            if item in test_data_set.keys():
+                test_data_set[item] = True
+
+        for key in test_data_set.keys():
+            self.assertTrue(test_data_set[key], u"{} model is not in dropdown list".format(key))
+

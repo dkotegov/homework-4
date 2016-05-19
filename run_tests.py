@@ -4,11 +4,11 @@ import sys
 import unittest
 
 from tests.car_showrooms.list_showroom_test import ShowroomListTest
-from tests.car_showrooms.search_showroom_tests import RegionSelectFormTest
+from tests.car_showrooms.search_showroom_tests import *
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(RegionSelectFormTest),
+        unittest.makeSuite(SelectCarModelTest),
     ))
     result = unittest.TextTestRunner().run(suite)
 
