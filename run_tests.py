@@ -9,44 +9,49 @@ from tests.car_showrooms.search_showroom_tests import *
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(RegionSelectFormTest),
+        unittest.makeSuite(IsOfficialCheckboxTest),
     ))
     result = unittest.TextTestRunner().run(suite)
 
-    if result.wasSuccessful():
-        suite = unittest.TestSuite((
-            unittest.makeSuite(SelectCarModelTest),
-        ))
-        result = unittest.TextTestRunner().run(suite)
-
-    if result.wasSuccessful():
-        suite = unittest.TestSuite((
-            unittest.makeSuite(SelectStationTest),
-        ))
-        result = unittest.TextTestRunner().run(suite)
-
-    if result.wasSuccessful():
-        suite = unittest.TestSuite((
-            unittest.makeSuite(IsOfficialCheckboxTest),
-        ))
-        result = unittest.TextTestRunner().run(suite)
-
-    if result.wasSuccessful():
-        suite = unittest.TestSuite((
-            unittest.makeSuite(ShowroomListTest),
-        ))
-        result = unittest.TextTestRunner().run(suite)
-
-    if result.wasSuccessful():
-        suite = unittest.TestSuite((
-            unittest.makeSuite(SpecialOffersListTest),
-        ))
-        result = unittest.TextTestRunner().run(suite)
-
-    if result.wasSuccessful():
-        suite = unittest.TestSuite((
-            unittest.makeSuite(AddShowroomFormTest),
-        ))
-        result = unittest.TextTestRunner().run(suite)
+    # suite = unittest.TestSuite((
+    #     unittest.makeSuite(RegionSelectFormTest),
+    # ))
+    # result = unittest.TextTestRunner().run(suite)
+    #
+    # if result.wasSuccessful():
+    #     suite = unittest.TestSuite((
+    #         unittest.makeSuite(SelectCarModelTest),
+    #     ))
+    #     result = unittest.TextTestRunner().run(suite)
+    #
+    # if result.wasSuccessful():
+    #     suite = unittest.TestSuite((
+    #         unittest.makeSuite(SelectStationTest),
+    #     ))
+    #     result = unittest.TextTestRunner().run(suite)
+    #
+    # if result.wasSuccessful():
+    #     suite = unittest.TestSuite((
+    #         unittest.makeSuite(IsOfficialCheckboxTest),
+    #     ))
+    #     result = unittest.TextTestRunner().run(suite)
+    #
+    # if result.wasSuccessful():
+    #     suite = unittest.TestSuite((
+    #         unittest.makeSuite(ShowroomListTest),
+    #     ))
+    #     result = unittest.TextTestRunner().run(suite)
+    #
+    # if result.wasSuccessful():
+    #     suite = unittest.TestSuite((
+    #         unittest.makeSuite(SpecialOffersListTest),
+    #     ))
+    #     result = unittest.TextTestRunner().run(suite)
+    #
+    # if result.wasSuccessful():
+    #     suite = unittest.TestSuite((
+    #         unittest.makeSuite(AddShowroomFormTest),
+    #     ))
+    #     result = unittest.TextTestRunner().run(suite)
 
     sys.exit(not result.wasSuccessful())

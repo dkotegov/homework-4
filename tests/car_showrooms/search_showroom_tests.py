@@ -14,6 +14,7 @@ from tests.car_showrooms.pages.pages import Component, ShowroomPage
 class SearchForm(Component):
     MODEL_DROPDOWN = '//div[contains(@class, "selt-firm_id")]/div/div/div[contains(@class, "js-select__selected__option")]'
     MODEL_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "js-select__options__item input__data__value_in-group")]'
+    MODEL_DROPDOWN_ITEM_BY_NAME = '//div[@data-optidx and contains(@class, "js-select__options__item input__data__value_in-group") and text()="{}"]'
     STATION_DROPDOWN = '//div[contains(@class, "selt-subway_id")]/div/div/div[contains(@class, "js-select__selected__option")]'
     STATION_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "subway")]'
     CHECKBOX_SHOWROOM_IS_OFFICIAL = '//span[@class="input-flag__text" and text()="Официальный дилер"]'
@@ -35,6 +36,9 @@ class SearchForm(Component):
             self.driver.execute_script("return arguments[0].scrollIntoView();", model)
             models.append(model.text)
         return models
+
+    def model_dropdown_item_select(self, model):
+        self.driver.find_element_by_xpath(self.MODEL_DROPDOWN_ITEM_BY_NAME.format(model)).click()
 
     def station_dropdown_drop(self):
         self.driver.find_element_by_xpath(self.STATION_DROPDOWN).click()
@@ -279,8 +283,15 @@ class IsOfficialCheckboxTest(unittest.TestCase):
         page = ShowroomPage(self.driver)
         page.open()
 
+        test_model = "Audi"
+
         search_form = page.search_form
+        search_form.model_dropdown_drop()
+        search_form.model_dropdown_item_select(test_model)
         search_form.is_official_checkbox_click()
         search_form.submit()
 
         showroom_list = page.showroom_list
+        items_count = showroom_list.get_items_count()
+        official_dealers_count = showroom_list.get_items_official_dealers_by_model(test_model)
+        self.assertEqual(official_dealers_count, items_count, "These dealers are not all official")

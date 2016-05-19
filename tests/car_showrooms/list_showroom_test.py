@@ -13,6 +13,7 @@ class ShowroomList(Component):
     __ITEM_PHONE = 'div.dealer-card__phone'
     __PAGINATOR_CURRENT_PARAM = "a.pager__pin.pager__pin_perpage.pager__pin_on"
     __PAGINATOR_PARAM = "a.pager__pin.pager__pin_perpage"
+    __DEALER_MODEL_ICON = '//img[@alt="{0}" and @title="{0}" and @class="dealer-card__aside__item"]'
 
     def get_item_titles(self):
         item_titles = []
@@ -58,6 +59,9 @@ class ShowroomList(Component):
 
     def get_pagination_count_current_param(self):
         return int(self.driver.find_element_by_css_selector(self.__PAGINATOR_CURRENT_PARAM).text)
+
+    def get_items_official_dealers_by_model(self, model):
+        return len(self.driver.find_elements_by_xpath(self.__DEALER_MODEL_ICON.format(model)))
 
 
 class ShowroomListTest(unittest.TestCase):
