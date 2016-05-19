@@ -53,6 +53,12 @@ class Component(object):
     def __init__(self, driver):
         self.driver = driver
 
+    def get_url(self):
+        return self.driver.current_url
+
+    def get_title(self):
+        return self.driver.title
+
 
 class TopMenu(Component):
     LOGO = '//div[@class="pm-logo pm-logo_press"]/a[@class="pm-logo__link"]'
@@ -72,6 +78,8 @@ class TopMenu(Component):
 
     def click_logo(self):
         self.driver.find_element_by_xpath(self.LOGO).click()
+        title = self.driver.title
+        return title
 
     def click_forum(self):
         self.driver.find_element_by_xpath(self.FORUM).click()
