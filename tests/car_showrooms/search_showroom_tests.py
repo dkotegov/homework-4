@@ -36,10 +36,12 @@ class SearchForm(Component):
         for model in self.driver.find_elements_by_xpath(self.MODEL_DROPDOWN_ITEMS):
             self.driver.execute_script("return arguments[0].scrollIntoView();", model)
             models.append(model.text)
-        return models
+        return list(models)
 
     def model_dropdown_item_select(self, model):
-        self.driver.find_element_by_xpath(self.MODEL_DROPDOWN_ITEM_BY_NAME.format(model)).click()
+        item = self.driver.find_element_by_xpath(self.MODEL_DROPDOWN_ITEM_BY_NAME.format(model))
+        self.driver.execute_script("return arguments[0].scrollIntoView();", item)
+        item.click()
 
     def station_dropdown_drop(self):
         self.driver.find_element_by_xpath(self.STATION_DROPDOWN).click()
@@ -52,10 +54,12 @@ class SearchForm(Component):
         for station in self.driver.find_elements_by_xpath(self.STATION_DROPDOWN_ITEMS):
             self.driver.execute_script("return arguments[0].scrollIntoView();", station)
             stations.append(station.text)
-        return stations
+        return list(stations)
 
     def station_dropdown_item_select(self, station):
-        self.driver.find_element_by_xpath(self.STATION_DROPDOWN_ITEM_BY_NAME.format(station)).click()
+        item = self.driver.find_element_by_xpath(self.STATION_DROPDOWN_ITEM_BY_NAME.format(station))
+        self.driver.execute_script("return arguments[0].scrollIntoView();", item)
+        item.click()
 
     def is_official_checkbox_click(self):
         self.driver.find_element_by_xpath(self.CHECKBOX_SHOWROOM_IS_OFFICIAL).click()
@@ -99,7 +103,7 @@ class RegionSelectionForm(Component):
         for region in self.driver.find_elements_by_xpath(self.FOUNDED_REGIONS):
             self.driver.execute_script("return arguments[0].scrollIntoView();", region)
             regions.append(region.text)
-        return regions
+        return list(regions)
 
     def submit(self):
         self.select_first_region()
@@ -114,11 +118,14 @@ class RegionSelectionForm(Component):
     def cancel(self):
         self.driver.find_element_by_xpath(self.CANCEL_BUTTON).click()
 
+    def current_region(self):
+        return self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text
+
 
 def regions_search_done(driver):
     try:
         founded_elements = driver.find_elements_by_xpath(RegionSelectionForm.FOUNDED_REGIONS)
-        var = [e.text for e in founded_elements]
+        var = list(e.text for e in founded_elements)
         return True
     except StaleElementReferenceException:
         return False
@@ -151,7 +158,7 @@ class RegionSelectFormTest(unittest.TestCase):
             for region in regions_list:
                 self.assertTrue(query in region or query.title() in region,
                                 u"Element {} not satisfies searching query".format(region))
-            self.driver.refresh()
+            page.open()
 
     def test_region_selection(self):
         page = ShowroomPage(self.driver)
@@ -166,7 +173,7 @@ class RegionSelectFormTest(unittest.TestCase):
         region_selection_form.set_region(new_region)
         region_selection_form.submit()
 
-        self.assertEqual(new_region, self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text)
+        self.assertEqual(new_region, region_selection_form.current_region())
 
     def test_cancel_region_selection(self):
         page = ShowroomPage(self.driver)
@@ -175,14 +182,14 @@ class RegionSelectFormTest(unittest.TestCase):
         search_form = page.search_form
         region_selection_form = search_form.region_selection_form
 
-        current_region = self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text
+        current_region = region_selection_form.current_region()
 
         region_selection_form.open_form()
         region_selection_form.set_region(u"Санкт-Петербург")
         region_selection_form.select_first_region()
         region_selection_form.cancel()
 
-        self.assertEqual(current_region, self.driver.find_element_by_xpath(RegionSelectionForm.OPEN_FORM_BUTTON).text)
+        self.assertEqual(current_region, region_selection_form.current_region())
 
     def test_search_cities_by_country(self):
         page = ShowroomPage(self.driver)
@@ -192,11 +199,13 @@ class RegionSelectFormTest(unittest.TestCase):
         region_selection_form = search_form.region_selection_form
         region_selection_form.open_form()
 
-        test_data_set = {u'Россия': (u'Москва', u'Санкт-Петербург', u'Волгоград', u'Андреевка', u'Ярославль'),
-                         u'Беларусь': (u'Минск', u'Береза', u'Белоозерск', u'Шклов'),
-                         u'Казахстан': (u'Алга', u'Иргиз', u'Сарань', u'Шаян'),
-                         u'Украина': (u'Киев', u'Богуслав', u'Мариуполь', u'Хотин'),
-                         u'Молдова': (u'Атаки', u'Кагул', u'Бричаны', u'Яловены')}
+        test_data_set = {
+            # u'Россия': (u'Москва', u'Санкт-Петербург', u'Волгоград', u'Андреевка', u'Ярославль'), VERY SLOW BECAUSE VERY BIG
+            u'Беларусь': (u'Минск', u'Береза', u'Белоозерск', u'Шклов'),
+            u'Казахстан': (u'Алга', u'Иргиз', u'Сарань', u'Шаян'),
+            u'Украина': (u'Киев', u'Богуслав', u'Мариуполь', u'Хотин'),
+            u'Молдова': (u'Атаки', u'Кагул', u'Бричаны', u'Яловены')
+        }
 
         for country in test_data_set.keys():
             region_selection_form.set_country(country)
@@ -224,32 +233,32 @@ class SelectCarModelTest(unittest.TestCase):
         search_form = page.search_form
         search_form.model_dropdown_drop()
 
-        test_data_set = {u"Audi": False, u"Tesla": False, u"Opel": False}
+        test_data_set = (u"Audi", u"Tesla", u"Opel", u"УАЗ")
 
         dropdown_items = search_form.model_dropdown_items()
-        for item in dropdown_items:
-            if item in test_data_set.keys():
-                test_data_set[item] = True
 
-        for key in test_data_set.keys():
-            self.assertTrue(test_data_set[key], u"{} model is not in dropdown list".format(key))
+        for data in test_data_set:
+            self.assertIn(data, dropdown_items, u"{} model is not in dropdown list".format(data))
 
     def test_filter(self):
         page = ShowroomPage(self.driver)
         page.open()
 
-        test_model = "Audi"
+        test_models = ("Audi", "BMW", "Toyota")
 
-        search_form = page.search_form
-        search_form.model_dropdown_drop()
-        search_form.model_dropdown_item_select(test_model)
-        search_form.submit()
+        for test_model in test_models:
+            search_form = page.search_form
+            search_form.model_dropdown_drop()
+            search_form.model_dropdown_item_select(test_model)
+            search_form.submit()
 
-        list_special_offers = page.special_offers_list
-        offers_models = list_special_offers.get_item_titles()
+            list_special_offers = page.special_offers_list
+            offers_models = list_special_offers.get_item_titles()
 
-        for model in offers_models:
-            self.assertTrue(test_model in model, "Model filter not working...")
+            for model in offers_models:
+                self.assertTrue(test_model in model, "Model filter not working...")
+
+            page.open()
 
 
 class SelectStationTest(unittest.TestCase):
@@ -277,21 +286,18 @@ class SelectStationTest(unittest.TestCase):
 
         search_form.station_dropdown_drop()
 
-        test_data_set = {u"Выхино": False, u"Тропарёво": False, u"Братиславская": False, u"Авиамоторная": False}
+        test_data_set = (u"Выхино", u"Тропарёво", u"Братиславская", u"Авиамоторная")
 
         dropdown_items = search_form.station_dropdown_items()
-        for item in dropdown_items:
-            if item in test_data_set.keys():
-                test_data_set[item] = True
 
-        for key in test_data_set.keys():
-            self.assertTrue(test_data_set[key], u"{} station is not in dropdown list".format(key))
+        for data in test_data_set:
+            self.assertIn(data, dropdown_items, u"{} station is not in dropdown list".format(data))
 
     def test_filter(self):
         page = ShowroomPage(self.driver)
         page.open()
 
-        test_station = u"Аннино"
+        test_stations = (u"Аннино", u"Отрадное", u"Чертановская")
 
         search_form = page.search_form
         region_selection_form = search_form.region_selection_form
@@ -299,15 +305,18 @@ class SelectStationTest(unittest.TestCase):
         region_selection_form.set_region(u"Москва")
         region_selection_form.submit()
 
-        search_form.station_dropdown_drop()
-        search_form.station_dropdown_item_select(test_station)
-        search_form.submit()
+        for test_station in test_stations:
+            search_form.station_dropdown_drop()
+            search_form.station_dropdown_item_select(test_station)
+            search_form.submit()
 
-        showroom_list = page.showroom_list
-        dealers_stations = showroom_list.get_items_metro_stations()
+            showroom_list = page.showroom_list
+            dealers_stations = showroom_list.get_items_metro_stations()
 
-        for station in dealers_stations:
-            self.assertEqual(test_station, station, "Station filter not working...")
+            for station in dealers_stations:
+                self.assertEqual(test_station, station, "Station filter not working...")
+
+            page.open()
 
 
 class IsOfficialCheckboxTest(unittest.TestCase):
@@ -326,15 +335,19 @@ class IsOfficialCheckboxTest(unittest.TestCase):
         page = ShowroomPage(self.driver)
         page.open()
 
-        test_model = "Audi"
+        test_models = ("Audi", "BMW", "Toyota")
 
         search_form = page.search_form
-        search_form.model_dropdown_drop()
-        search_form.model_dropdown_item_select(test_model)
-        search_form.is_official_checkbox_click()
-        search_form.submit()
 
-        showroom_list = page.showroom_list
-        items_count = showroom_list.get_items_count()
-        official_dealers_count = showroom_list.get_items_official_dealers_by_model(test_model)
-        self.assertEqual(official_dealers_count, items_count, "These dealers are not all official")
+        for test_model in test_models:
+            search_form.model_dropdown_drop()
+            search_form.model_dropdown_item_select(test_model)
+            search_form.is_official_checkbox_click()
+            search_form.submit()
+
+            showroom_list = page.showroom_list
+            items_count = showroom_list.get_items_count()
+            official_dealers_count = showroom_list.get_items_official_dealers_by_model(test_model)
+            self.assertEqual(official_dealers_count, items_count, "These dealers are not all official")
+
+            page.open()
