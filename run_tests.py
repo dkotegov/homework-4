@@ -12,11 +12,11 @@ from tests.birth_page_test import *
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         unittest.makeSuite(BirthPageTestCase),
-        # unittest.makeSuite(ProfilePageTestCase),
-        # unittest.makeSuite(AwardsPageTestCase),
-        # unittest.makeSuite(CommonBlocksTestCase),
-        # unittest.makeSuite(FavoritesPageTestCase),
-        # unittest.makeSuite(RatingsPageTestCase),
+        unittest.makeSuite(ProfilePageTestCase),
+        unittest.makeSuite(AwardsPageTestCase),
+        unittest.makeSuite(CommonBlocksTestCase),
+        unittest.makeSuite(FavoritesPageTestCase),
+        unittest.makeSuite(RatingsPageTestCase),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
