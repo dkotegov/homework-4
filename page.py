@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
 
 
 class Page(object):
@@ -61,9 +62,10 @@ class Component(object):
 
 
 class TopMenu(Component):
-    LOGO = '//div[@class="pm-logo pm-logo_press"]/a[@class="pm-logo__link"]'
-    FORUM = '//a[@title="Форум"]'
-    CONSULT = '//a[@title="Консультации"]'
+    LOGO = '//a[@class="pm-logo__link"]'
+    FORUM = '//a[@title="Форум"][1]'
+    CONSULT = '//a[@title="Консультации"][1]'
+    CONSULT_URL = 'https://health.mail.ru/consultation/'
     NAMES = '//a[@title="Имена"]'
     RECEIPT = '//a[@title="Рецепты"]'
     CALENDAR = '//a[@title="Календарь развития"]'
@@ -76,40 +78,63 @@ class TopMenu(Component):
                     'search__button__input  pm-toolbar__search__button__' \
                     'input_expandable pm-toolbar__search__button__input_not-adaptive""]'
 
+    TITLE = ''
+    SEARCH_URL = ''
+
+    BASE_TITLE = u'Выбираем имя ребенку - Справочник имен - Дети Mail.Ru'
+    LOGO_TITLE = u'Все о беременности, рождении ребенка, развитии и воспитании детей - детский портал - Дети Mail.Ru'
+    FORUM_TITLE = u'Форум - Дети Mail.Ru'
+    CONSULT_TITLE = u'Консультации врачей онлайн - консультации по интернет, горячая линия на Здоровье Mail.Ru'
+    NAMES_TITLE = u'Выбираем имя ребенку - Справочник имен - Дети Mail.Ru'
+    RECEIPT_TITLE = u'Рецепты для детей - Дети Mail.Ru'
+    CALENDAR_TITLE = u'Развитие ребенка до 1 месяца, статьи на тему, этапы развития детей - Дети Mail.Ru'
+    ROD_DOM_TITLE = u'Родильные дома - Учреждения - Дети Mail.Ru'
+    ALL_ABOUT_TITLE = u'Анатомия грудного вскармливания: что, как и почему?'
+    SEARCH_TITLE = u'Поиск - Дети Mail.Ru'
+
     def click_logo(self):
         self.driver.find_element_by_xpath(self.LOGO).click()
-        title = self.driver.title
-        return title
+        self.TITLE = self.driver.title
 
     def click_forum(self):
         self.driver.find_element_by_xpath(self.FORUM).click()
+        self.TITLE = self.driver.title
 
     def click_consult(self):
         self.driver.find_element_by_xpath(self.CONSULT).click()
+        self.TITLE = self.driver.title
 
     def click_names(self):
         self.driver.find_element_by_xpath(self.NAMES).click()
+        self.TITLE = self.driver.title
 
     def click_receipt(self):
         self.driver.find_element_by_xpath(self.RECEIPT).click()
+        self.TITLE = self.driver.title
 
     def click_calendar(self):
         self.driver.find_element_by_xpath(self.CALENDAR).click()
+        self.TITLE = self.driver.title
 
     def click_rod_dom(self):
         self.driver.find_element_by_xpath(self.ROD_DOM).click()
+        self.TITLE = self.driver.title
 
     def click_all_about(self):
         self.driver.find_element_by_xpath(self.ALL_ABOUT).click()
+        self.TITLE = self.driver.title
 
     def click_mom_and_baby(self):
         self.driver.find_element_by_xpath(self.MOM_AND_BABY).click()
+        self.TITLE = self.driver.title
 
     def search(self, query):
         self.driver.find_element_by_xpath(self.SEARCH_ICON).click()
         query_input = self.driver.find_element_by_xpath(self.SEARCH_INPUT)
         query_input.send_keys(query)
         query_input.send_keys(Keys.RETURN)
+        self.SEARCH_URL = self.driver.current_url
+        self.TITLE = self.driver.title
 
 
 class NavMenu(Component):
@@ -174,167 +199,234 @@ class NavMenu(Component):
                    '__item_round-r b-nav__weeks__item_cap"]' \
                    '/a[@href="/teenager/"]'
 
+    TITLE = ''
+
+    FAMILY_TITLE = u'Статьи для всей семьи - Дети Mail.Ru'
+    PLANNING_TITLE = u'Календарь планирования беременности - все о планировании беременности на Дети Mail.Ru'
+    OVUL_TITLE = u'Календарь овуляции - бесплатный онлайн-калькулятор - женский календарь - Дети Mail.Ru'
+    PREGNANCY_TITLE = u'Календарь беременности - все о беременности - Дети Mail.Ru'
+    PREGNANCY_1_TITLE = u'1 неделя беременности - что происходит, симптомы, ощущения, признаки - Дети Mail.Ru'
+    PREGNANCY_2_TITLE = u'2 неделя беременности - ощущения, признаки, что происходит на второй неделе - Дети Mail.Ru'
+    PREGNANCY_3_TITLE = u'3 неделя беременности - ощущения в животе, рекомендации, что происходит - Дети Mail.Ru'
+    BIRTH_TITLE = u'Рассчитать дату родов по последней менструации - Дети Mail.Ru'
+    KIDS_TITLE = u'Развитие ребенка до 1 месяца, статьи на тему, этапы развития детей - Дети Mail.Ru'
+    KIDS_TITLE_0 = KIDS_TITLE
+
     def click_family(self):
         self.driver.find_element_by_xpath(self.FAMILY).click()
+        self.TITLE = self.driver.title
 
     def click_planing(self):
         self.driver.find_element_by_xpath(self.PLANNING).click()
+        self.TITLE = self.driver.title
 
     def click_planing_day_ovulation(self):
         self.driver.find_element_by_xpath(self.PLANNING_DAY_OVULATION).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy(self):
         self.driver.find_element_by_xpath(self.PREGNANCY).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_1(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_1).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_2(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_2).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_3(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_3).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_4(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_4).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_5(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_5).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_6(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_6).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_7(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_7).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_8(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_8).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_9(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_9).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_10(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_10).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_11(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_11).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_12(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_12).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_13(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_13).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_14(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_14).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_15(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_15).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_16(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_16).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_17(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_17).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_18(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_18).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_19(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_19).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_20(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_20).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_21(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_21).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_22(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_22).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_23(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_23).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_24(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_24).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_25(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_25).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_26(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_26).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_27(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_27).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_28(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_28).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_29(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_29).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_30(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_30).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_31(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_31).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_32(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_32).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_33(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_33).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_34(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_34).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_35(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_35).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_36(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_36).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_37(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_37).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_38(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_38).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_39(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_39).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_40(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_40).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_41(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_41).click()
+        self.TITLE = self.driver.title
 
     def click_pregnancy_42(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_42).click()
+        self.TITLE = self.driver.title
 
     def click_birth(self):
         self.driver.find_element_by_xpath(self.BIRTH).click()
+        self.TITLE = self.driver.title
 
     def click_kids(self):
         self.driver.find_element_by_xpath(self.KIDS).click()
+        self.TITLE = self.driver.title
 
     def click_kids_0(self):
         self.driver.find_element_by_xpath(self.KIDS_0).click()
+        self.TITLE = self.driver.title
 
     def click_kids_1_6(self):
         self.driver.find_element_by_xpath(self.KIDS_1_6).click()
+        self.TITLE = self.driver.title
 
     def click_kids_7_12(self):
         self.driver.find_element_by_xpath(self.KIDS_7_12).click()
+        self.TITLE = self.driver.title
 
     def click_kids_1_3(self):
         self.driver.find_element_by_xpath(self.KIDS_1_3_YEARS).click()
+        self.TITLE = self.driver.title
 
     def click_kids_3_7(self):
         self.driver.find_element_by_xpath(self.KIDS_3_7_YEARS).click()
+        self.TITLE = self.driver.title
 
     def click_kids_7(self):
         self.driver.find_element_by_xpath(self.KIDS_7_YEARS).click()
+        self.TITLE = self.driver.title
 
 
 class BabyName(Component):
@@ -366,81 +458,116 @@ class BabyName(Component):
     NAMES_FOR_CHAN_DARYA = '//a[@href="/names/darya/"]'
     NAMES_FOR_CHAN_VIKTORIYA = '//a[@href="/names/viktoriya/"]'
 
+    TITLE = ''
+
+    NAMES_FOR_KUN_TITLE = u'Имена для мальчика - Выбираем имя ребенку - Дети Mail.Ru'
+    NAMES_FOR_CHAN_TITLE = u'Имена для девочки - Выбираем имя ребенку - Дети Mail.Ru'
+    ARABIAN_NAME_FOR_KUN_TITLE = u'Арабское имя для мальчика - Выбираем имя ребенку - Дети Mail.Ru'
+    CALENDAR_NAMES_TITLE = u'Имена по святцам для мальчиков и девочек - по месяцам - Дети Mail.Ru'
+    CALENDAR_NAMES_JAN_TITLE = u'Имена по святцам - Январь - для мальчиков и девочек - Дети Mail.Ru'
+    CALENDAR_NAMES_FEB_TITLE = u'Имена по святцам - Февраль - для мальчиков и девочек - Дети Mail.Ru'
+    CALENDAR_NAMES_MAR_TITLE = u'Имена по святцам - Март - для мальчиков и девочек - Дети Mail.Ru'
+    MAXIM_TITLE = u'Значение и происхождение имени Максим - отзывы об именах для мальчика - Дети Mail.Ru'
+    ARTYOM_TITLE = u'Значение и происхождение имени Артём - отзывы об именах для мальчика - Дети Mail.Ru'
+
+    NAMES_FOR_KUN_URL = 'https://deti.mail.ru/names/male/'
+    NAMES_FOR_CHAN_URL = 'https://deti.mail.ru/names/female/'
+
     def search_name(self, name, origin='---------', gender='M'):
         elem = self.driver.find_element_by_xpath(self.SEARCH_INPUT)
         elem.send_keys(name)
         if origin != '---------':
-            option = self.driver.find_element_by_xpath(self.SEARCH_SELECT_OPTION)
-            for opt in option:
-                if opt.text == origin:
-                    opt.click()
+            select = Select(self.driver.find_element_by_xpath(self.SEARCH_SELECT))
+            select.select_by_visible_text(origin)
         if gender != 'M':
             gen = self.driver.find_element_by_xpath(self.SEARCH_INPUT_GENDER_F)
             gen.click()
         self.driver.find_element_by_xpath(self.SEARCH_BUTTON).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_jan(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JAN).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_feb(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_FEB).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_mar(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_MAR).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_apr(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_APR).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_may(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_MAY).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_jun(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JUN).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_jul(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JUL).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_aug(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_AUG).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_sep(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_SEP).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_oct(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_OCT).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_nov(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_NOV).click()
+        self.TITLE = self.driver.title
 
     def click_calendar_names_dec(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_DEC).click()
+        self.TITLE = self.driver.title
 
     def click_names_for_kun(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_KUN).click()
+        self.TITLE = self.driver.title
 
     def click_name_for_kun_maxim(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_MAXIM).click()
+        self.TITLE = self.driver.title
 
     def click_name_for_kun_artyom(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_ARTYOM).click()
+        self.TITLE = self.driver.title
 
     def click_name_for_kun_aleksandr(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_ALEKSANDR).click()
+        self.TITLE = self.driver.title
 
     def click_names_for_chan(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN).click()
+        self.TITLE = self.driver.title
 
     def click_names_for_chan_anastasia(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_NASTYA).click()
+        self.TITLE = self.driver.title
 
     def click_names_for_chan_darya(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_DARYA).click()
+        self.TITLE = self.driver.title
 
     def click_names_for_chan_viktoria(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_VIKTORIYA).click()
+        self.TITLE = self.driver.title
 
 
 class Footer(Component):
