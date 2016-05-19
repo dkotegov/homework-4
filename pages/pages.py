@@ -5,6 +5,7 @@ from components.favorites_page import *
 from components.awards_page import *
 from components.profile_page import *
 from components.ratings_page import *
+from components.birth_page import *
 import urlparse
 
 
@@ -100,3 +101,14 @@ class RatingsPage(object):
     def ratings_block(self):
         return RatingsBlock(self.driver)
 
+
+class BirthPage(BasePage):
+    PATH = 'person/birthday/'
+
+    @property
+    def header_block(self):
+        return BirthHeaderBlock(self.driver)
+
+    @property
+    def user_list_block(self):
+        return BirthListBlock(self.driver)
