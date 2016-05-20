@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-import unittest
-
 import time
-from random import randint
+import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.common.by import By
@@ -35,7 +33,7 @@ class AddShowroomForm(Component):
     def open_form(self):
         self.driver.find_element_by_css_selector(self.__OPEN_BUTTON).click()
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 5).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, self.__FORM_TITLE))
         )
 
@@ -120,7 +118,7 @@ class AddShowroomForm(Component):
         self.driver.find_element_by_xpath(self.__SUBMIT_BUTTON).click()
 
     def is_correct_submit(self):
-        WebDriverWait(self.driver, 30).until(
+        WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located((By.XPATH, self.__SUBMIT_OK_TITLE))
         )
         return True
@@ -172,22 +170,22 @@ class AddShowroomFormTest(unittest.TestCase):
             add_showroom_form.submit()
             self.assertFalse(add_showroom_form.is_phone_valid())
 
-    # def test_invalid_email(self):
-    #     invalid_emails = [u'test', u'13256', u' ', u'']
-    #
-    #     page = ShowroomPage(self.driver)
-    #     page.open()
-    #
-    #     add_showroom_form = page.add_showroom_form
-    #     add_showroom_form.open_form()
-    #
-    #     add_showroom_form.set_required_fields('test', '9091111111', invalid_emails[0], 'name', 'address', '9091111111')
-    #     add_showroom_form.submit()
-    #     self.assertFalse(add_showroom_form.is_email_valid(), 'email = "' + invalid_emails[0] + '"')
-    #     for invalid_email in invalid_emails[1:]:
-    #         add_showroom_form.set_email(invalid_email)
-    #         add_showroom_form.submit()
-    #         self.assertFalse(add_showroom_form.is_email_valid(), 'email = "' + invalid_email + '"')
+    def test_invalid_email(self):
+        invalid_emails = [u'test', u'13256', u' ', u'']
+
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        add_showroom_form = page.add_showroom_form
+        add_showroom_form.open_form()
+
+        add_showroom_form.set_required_fields('test', '9091111111', invalid_emails[0], 'name', 'address', '9091111111')
+        add_showroom_form.submit()
+        self.assertFalse(add_showroom_form.is_email_valid(), 'email = "' + invalid_emails[0] + '"')
+        for invalid_email in invalid_emails[1:]:
+            add_showroom_form.set_email(invalid_email)
+            add_showroom_form.submit()
+            self.assertFalse(add_showroom_form.is_email_valid(), 'email = "' + invalid_email + '"')
 
     def test_valid_showroom_phone(self):
         page = ShowroomPage(self.driver)
@@ -228,29 +226,31 @@ class AddShowroomFormTest(unittest.TestCase):
             add_showroom_form.submit()
             self.assertFalse(add_showroom_form.is_showroom_site_valid())
 
-    # def test_invalid_showroom_email(self):
-    #     invalid_emails = [u'test', u'123456789', u' ']
-    #
-    #     page = ShowroomPage(self.driver)
-    #     page.open()
-    #
-    #     add_showroom_form = page.add_showroom_form
-    #     add_showroom_form.open_form()
-    #
-    #     add_showroom_form.set_required_fields('test', '9091111111', 'email@mail.ru', 'name', 'address', '9091111111')
-    #     for invalid_email in invalid_emails[1:]:
-    #         add_showroom_form.set_showroom_email(invalid_email)
-    #         add_showroom_form.submit()
-    #         self.assertFalse(add_showroom_form.is_showroom_email_valid(), 'email = "' + invalid_email + '"')
+    def test_invalid_showroom_email(self):
+        invalid_emails = [u'test', u'123456789', u' ']
 
-    # def test_correct_submit(self):
-    #     page = ShowroomPage(self.driver)
-    #     page.open()
-    #
-    #     add_showroom_form = page.add_showroom_form
-    #     add_showroom_form.open_form()
-    #
-    #     add_showroom_form.set_required_fields(u'Иванов Иван Иванович', u'9091111111', u'test@mail.ru',
-    #                                           u'Showroom' + unicode(randint(1, 100000)), u'Адрес', u'9091111111')
-    #     add_showroom_form.submit()
-    #     self.assertTrue(add_showroom_form.is_correct_submit())
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        add_showroom_form = page.add_showroom_form
+        add_showroom_form.open_form()
+
+        add_showroom_form.set_required_fields('test', '9091111111', 'email@mail.ru', 'name', 'address', '9091111111')
+        for invalid_email in invalid_emails[1:]:
+            add_showroom_form.set_showroom_email(invalid_email)
+            add_showroom_form.submit()
+            self.assertFalse(add_showroom_form.is_showroom_email_valid(), 'email = "' + invalid_email + '"')
+
+    def test_correct_submit(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+    
+        add_showroom_form = page.add_showroom_form
+        add_showroom_form.open_form()
+
+        current_time_in_millis = int(round(time.time() * 1000))
+        add_showroom_form.set_required_fields(u'Иванов Иван Иванович', u'9091111111',
+                                              u'test' + unicode(current_time_in_millis) + u'@mail.ru',
+                                              u'Showroom' + unicode(current_time_in_millis), u'Адрес', u'9091111111')
+        add_showroom_form.submit()
+        self.assertTrue(add_showroom_form.is_correct_submit())
