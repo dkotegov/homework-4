@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from components.component import *
+from components.component import Component
 
 
 class MainHeader(Component):
@@ -36,11 +36,10 @@ class MainHeader(Component):
         self.click(self.FAVORITES_BUTTON)
 
     def login(self):
-        if self.driver.find_element_by_xpath(self.LOGIN_BUTTON):
-            self.click(self.LOGIN_BUTTON)
-            self.send_keys(self.LOGIN_INPUT, self.TEST_USER_LOGIN)
-            self.send_keys(self.PASSWORD_INPUT, self.TEST_USER_PASSWORD)
-            self.click(self.LOGIN_SUBMIT_BUTTON)
+        self.click(self.LOGIN_BUTTON)
+        self.send_keys(self.LOGIN_INPUT, self.TEST_USER_LOGIN)
+        self.send_keys(self.PASSWORD_INPUT, self.TEST_USER_PASSWORD)
+        self.click(self.LOGIN_SUBMIT_BUTTON)
 
 
 class NavBar(Component):
@@ -424,7 +423,6 @@ class Footer(Component):
 
     # 5th column
     STARS_URL = BASE_URL + 'stars/'
-    STAR_ARTICLES_URL = BASE_URL + 'msk/stars/articles/'
+    STAR_ARTICLES_URL = BASE_URL + 'msk/articles/'
     STAR_BIRTHDAY_URL = BASE_URL + 'person/birthday/'
     STAR_SELECTIONS_URL = BASE_URL + 'stars/selections/'
-

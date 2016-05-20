@@ -3,7 +3,7 @@ import os
 
 from selenium.webdriver import Remote, DesiredCapabilities
 
-from pages.pages import *
+from pages.pages import FilmPage
 import unittest
 
 
@@ -16,48 +16,41 @@ class BaseTestCase(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
+        self.page = FilmPage(self.driver)
+        self.page.open()
+
     def tearDown(self):
         self.driver.quit()
 
 
 class FilmPageTestCase(BaseTestCase):
     def test_rate_film_not_logged(self):
-        page = FilmPage(self.driver)
-        page.open()
-        result = page.film_block.rate_film()
+        result = self.page.film_block.rate_film()
         self.assertFalse(result)
 
     def test_add_film_not_logged(self):
-        page = FilmPage(self.driver)
-        page.open()
-        result = page.film_block.add_to_watch_list()
+        result = self.page.film_block.add_to_watch_list()
         self.assertFalse(result)
 
     def test_add_film_logged(self):
-        page = FilmPage(self.driver)
-        page.open()
-        page.film_block.login()
-        result = page.film_block.add_to_watch_list()
+        self.page.film_block.login()
+        result = self.page.film_block.add_to_watch_list()
         self.assertTrue(result)
-        page.film_block.add_to_watch_list() 
-        page.film_block.logout()
+        self.page.film_block.add_to_watch_list()
+        self.page.film_block.logout()
 
     def test_rate_film_logged(self):
-        page = FilmPage(self.driver)
-        page.open()
-        page.film_block.login()
-        result = page.film_block.rate_film()
+        self.page.film_block.login()
+        result = self.page.film_block.rate_film()
         self.assertTrue(result)
-        page.film_block.logout()
+        self.page.film_block.logout()
 
 
     def test_like_review(self):
-        page = FilmPage(self.driver)
-        page.open()
-        page.film_block.login()
-        result = page.film_block.like_review()
+        self.page.film_block.login()
+        result = self.page.film_block.like_review()
         self.assertTrue(result)
-        page.refresh()
-        result = page.film_block.dislike_review()
+        self.page.refresh()
+        result = self.page.film_block.dislike_review()
         self.assertTrue(result)
-        page.film_block.logout()
+        self.page.film_block.logout()

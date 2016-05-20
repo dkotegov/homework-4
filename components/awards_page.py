@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from components.component import *
+from components.component import Component
 
 
 class AwardsBlock(Component):

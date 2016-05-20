@@ -17,71 +17,62 @@ class BaseTestCase(unittest.TestCase):
                 desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
+        self.page = ProfilePage(self.driver)
+        self.page.open()
+
     def tearDown(self):
         self.driver.quit()
 
 
 class ProfilePageTestCase(BaseTestCase):
-    def test_upper_block(self):
-        page = ProfilePage(self.driver)
-        page.open()
+    def test_click_about(self):
+        self.page.profile_block.click_about()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.ABOUT_URL)
 
-        page.profile_block.click_about()
-        self.assertEqual(self.driver.current_url, page.profile_block.ABOUT_URL)
+    def test_click_bio(self):
+        self.page.profile_block.click_bio()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.BIO_URL)
 
-        page.profile_block.click_bio()
-        self.assertEqual(self.driver.current_url, page.profile_block.BIO_URL)
+    def test_click_films(self):
+        self.page.profile_block.click_films()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.FILMS_URL)
 
-        page.profile_block.click_films()
-        self.assertEqual(self.driver.current_url, page.profile_block.FILMS_URL)
+    def test_click_news(self):
+        self.page.profile_block.click_news()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.NEWS_URL)
 
-        page.profile_block.click_news()
-        self.assertEqual(self.driver.current_url, page.profile_block.NEWS_URL)
+    def test_click_title(self):
+        self.page.profile_block.click_title()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.FILM_TITLE_URL)
 
-    def test_film_block(self):
-        page = ProfilePage(self.driver)
-        page.open()
+    def test_click_year(self):
+        self.page.profile_block.click_year()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.FILM_YEAR_URL)
 
-        page.profile_block.click_title()
-        self.assertEqual(self.driver.current_url, page.profile_block.FILM_TITLE_URL)
-        page.open()
+    def test_click_country(self):
+        self.page.profile_block.click_country()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.FILM_COUNTRY_URL)
 
-        page.profile_block.click_year()
-        self.assertEqual(self.driver.current_url, page.profile_block.FILM_YEAR_URL)
-        page.open()
+    def test_click_rezh(self):
+        self.page.profile_block.click_rezh()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.FILM_REZH_URL)
 
-        page.profile_block.click_country()
-        self.assertEqual(self.driver.current_url, page.profile_block.FILM_COUNTRY_URL)
-        page.open()
+    def test_click_role(self):
+        self.page.profile_block.click_role()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.FILM_ROLE_URL)
 
-        page.profile_block.click_rezh()
-        self.assertEqual(self.driver.current_url, page.profile_block.FILM_REZH_URL)
-        page.open()
+    def test_click_all_films(self):
+        self.page.profile_block.click_all_films()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.ALL_FILMS_URL)
 
-        page.profile_block.click_role()
-        self.assertEqual(self.driver.current_url, page.profile_block.FILM_ROLE_URL)
-        page.open()
+    def test_click_article(self):
+        self.page.profile_block.click_article()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.ARTICLE_URL)
 
-    def test_lower_block(self):
-        page = ProfilePage(self.driver)
-        page.open()
+    def test_click_born_today(self):
+        self.page.profile_block.click_born_today()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.BORN_TODAY_URL)
 
-        page.profile_block.click_all_films()
-        self.assertEqual(self.driver.current_url, page.profile_block.ALL_FILMS_URL)
-        page.open()
-
-        page.profile_block.click_article()
-        self.assertEqual(self.driver.current_url, page.profile_block.ARTICLE_URL)
-        page.open()
-
-        page.profile_block.click_born_today()
-        self.assertEqual(self.driver.current_url, page.profile_block.BORN_TODAY_URL)
-        page.open()
-
-        page.profile_block.click_star_news()
-        self.assertEqual(self.driver.current_url, page.profile_block.STAR_NEWS_URL)
-        page.open()
-
-        page.profile_block.click_all_star_news()
-        self.assertEqual(self.driver.current_url, page.profile_block.STAR_NEWS_URL)
-        page.open()
+    def test_click_star_news(self):
+        self.page.profile_block.click_star_news()
+        self.assertEqual(self.driver.current_url, self.page.profile_block.STAR_NEWS_URL)

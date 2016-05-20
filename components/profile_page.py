@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from components.component import *
+from components.component import Component
 
 
 class ProfileBlock(Component):
@@ -35,7 +35,7 @@ class ProfileBlock(Component):
     FILM_ROLE_URL = AFISHA_URL +'person/502619_chris_santos/'
 
     # ALL_FILMS_BTN = '//span[@class="link__text" and contains(text(),"Саша Грэй: все фильмы и сериалы")]'
-    ALL_FILMS_BTN = '//a[@href="/person/471877_sasha_grey/movies/" and @class="link link_underline link_icon"]'
+    ALL_FILMS_BTN = '//a[@href="/person/471877_sasha_grey/movies/"]'
     ALL_FILMS_URL = AFISHA_URL + 'person/471877_sasha_grey/movies/'
 
     ARTICLE_BTN = '//a[contains(text(),"Саша Грэй показала «Открытые окна» в Москве")]'

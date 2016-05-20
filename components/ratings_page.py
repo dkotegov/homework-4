@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from components.component import *
+from components.component import Component
 
 
 class RatingsBlock(Component):
@@ -26,4 +26,3 @@ class RatingsBlock(Component):
 
     def click_choose_tvshow(self):
         self.click(self.CHOOSE_TVSHOW)
-

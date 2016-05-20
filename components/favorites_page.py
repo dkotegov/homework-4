@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from components.component import *
+from components.component import Component
 
 
 class FavoritesBlock(Component):
@@ -89,6 +89,3 @@ class FavoritesBlock(Component):
 
     def click_film_remove(self):
         self.click(self.REMOVE_BUTTON)
-
-
-

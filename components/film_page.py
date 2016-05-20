@@ -2,7 +2,7 @@
 import time
 from selenium.common.exceptions import NoSuchElementException
 
-from components.component import *
+from components.component import Component
 
 
 def add_value(initial, value):
