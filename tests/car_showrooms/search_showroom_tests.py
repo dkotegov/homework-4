@@ -335,22 +335,16 @@ class IsOfficialCheckboxTest(unittest.TestCase):
         page = ShowroomPage(self.driver)
         page.open()
 
-        test_models = ("Audi", "BMW", "Toyota")
-
         search_form = page.search_form
+        search_form.is_official_checkbox_click()
+        search_form.submit()
 
-        for test_model in test_models:
-            search_form.model_dropdown_drop()
-            search_form.model_dropdown_item_select(test_model)
-            search_form.is_official_checkbox_click()
-            search_form.submit()
+        showroom_list = page.showroom_list
+        items_count = showroom_list.get_items_count()
+        official_dealers_count = len(showroom_list.get_items_official_dealers())
+        self.assertEqual(official_dealers_count, items_count, "These dealers are not all official")
 
-            showroom_list = page.showroom_list
-            items_count = showroom_list.get_items_count()
-            official_dealers_count = showroom_list.get_items_official_dealers_by_model(test_model)
-            self.assertEqual(official_dealers_count, items_count, "These dealers are not all official")
-
-            page.open()
+        page.open()
 
 
 class SearchFormTest(unittest.TestCase):
@@ -391,6 +385,24 @@ class SearchFormTest(unittest.TestCase):
     def test_filter_model_and_is_official_dealer(self):
         page = ShowroomPage(self.driver)
         page.open()
+
+        test_models = ("Audi", "BMW", "Toyota")
+
+        search_form = page.search_form
+
+        for test_model in test_models:
+            search_form.model_dropdown_drop()
+            search_form.model_dropdown_item_select(test_model)
+            search_form.is_official_checkbox_click()
+            search_form.submit()
+
+            showroom_list = page.showroom_list
+            items_count = showroom_list.get_items_count()
+            official_dealers_count = len(showroom_list.get_items_official_dealers_by_model(test_model))
+            self.assertEqual(official_dealers_count, items_count, "These dealers are not all official. "
+                                                                  "Filter combination: model and is official not works")
+
+            page.open()
 
     def test_filter_model_and_station_and_is_official_dealer(self):
         page = ShowroomPage(self.driver)

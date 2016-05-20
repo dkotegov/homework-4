@@ -7,13 +7,15 @@ from tests.car_showrooms.pages.pages import ShowroomPage, Component
 
 
 class ShowroomList(Component):
+    __ITEM = '//div[contains(@class, "dealer-card_lst") or contains(@class, "dealer-card clear")]'
     __ITEM_TITLE = 'div.dealer-card__title a'
     __ITEM_PAGE_TITLE = 'span.bread__curr'
     __ITEM_ADDRESS = 'div.dealer-card__adress'
     __ITEM_PHONE = 'div.dealer-card__phone'
     __PAGINATOR_CURRENT_PARAM = "a.pager__pin.pager__pin_perpage.pager__pin_on"
     __PAGINATOR_PARAM = "a.pager__pin.pager__pin_perpage"
-    __DEALER_MODEL_ICON = '//img[@alt="{0}" and @title="{0}" and @class="dealer-card__aside__item"]'
+    __DEALER_MODEL_ICON = '//img[@alt and @title and @class="dealer-card__aside__item"]'
+    __DEALER_MODEL_ICON_FOR_MODEL_FORMAT = '//img[@alt="{0}" and @title="{0}" and @class="dealer-card__aside__item"]'
     __DEALER_CARD_METRO_STATION = '//span[@class="dealer-card__metro__item"]'
     __EMPTY_LIST_MESSAGE = '//div[@class="empty"]'
 
@@ -63,7 +65,7 @@ class ShowroomList(Component):
         return int(self.driver.find_element_by_css_selector(self.__PAGINATOR_CURRENT_PARAM).text)
 
     def get_items_official_dealers_by_model(self, model):
-        return len(self.driver.find_elements_by_xpath(self.__DEALER_MODEL_ICON.format(model)))
+        return self.driver.find_elements_by_xpath(self.__DEALER_MODEL_ICON_FOR_MODEL_FORMAT.format(model))
 
     def get_items_metro_stations(self):
         return [item.text for item in self.driver.find_elements_by_xpath(self.__DEALER_CARD_METRO_STATION)]
@@ -74,6 +76,22 @@ class ShowroomList(Component):
             return True
         except Exception:
             return False
+
+    def get_items_official_dealers(self):
+        official_items = []
+        items = self.driver.find_elements_by_xpath(self.__ITEM)
+        for item in items:
+            dealer_model_icons = []
+            try:
+                dealer_model_icons = item.find_elements_by_xpath(self.__DEALER_MODEL_ICON)
+            except Exception:
+                pass
+
+            if len(dealer_model_icons) > 0:
+                official_items.append(item)
+
+        return official_items
+
 
 
 
