@@ -18,13 +18,11 @@ class SpecialOffersList(Component):
     def get_item_titles_with_page_titles(self):
         item_titles = []
         item_pages_title = []
-        for i in range(0, 3):
-            if i == 0:
-                item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[0]
-            elif i == 1:
-                item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[self.get_items_count()/2]
-            elif i == 2:
-                item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[self.get_items_count() - 1]
+
+        items_count = self.get_items_count()
+        items_ids = [0, items_count/2, items_count - 1]
+        for item_id in items_ids:
+            item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[item_id]
 
             item_titles.append(item.text)
             item.click()
@@ -85,16 +83,11 @@ class SpecialOffersListTest(unittest.TestCase):
         self.assertEqual(len(years), special_offers_list.get_items_count())
         self.assertEqual(len(prices), special_offers_list.get_items_count())
 
-        for i in range(0, 3):
-            if i == 0:
-                index = 0
-            elif i == 1:
-                index = special_offers_list.get_items_count()/2
-            elif i == 2:
-                index = special_offers_list.get_items_count() - 1
-
-            year = years[index]
+        items_count = special_offers_list.get_items_count()
+        items_ids = [0, items_count/2, items_count - 1]
+        for item_id in items_ids:
+            year = years[item_id]
             self.assertIsNotNone(year)
 
-            price = prices[index]
+            price = prices[item_id]
             self.assertIsNotNone(price)
