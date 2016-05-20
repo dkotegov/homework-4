@@ -10,25 +10,25 @@ from tests.car_showrooms.search_showroom_tests import *
 if __name__ == '__main__':
     results = []
 
-    # suite = unittest.TestSuite((
-    #     unittest.makeSuite(RegionSelectFormTest),
-    # ))
-    # results.append(unittest.TextTestRunner().run(suite))
-    #
-    # suite = unittest.TestSuite((
-    #     unittest.makeSuite(SelectCarModelTest),
-    # ))
-    # results.append(unittest.TextTestRunner().run(suite))
-    #
-    # suite = unittest.TestSuite((
-    #     unittest.makeSuite(SelectStationTest),
-    # ))
-    # results.append(unittest.TextTestRunner().run(suite))
-    #
-    # suite = unittest.TestSuite((
-    #     unittest.makeSuite(IsOfficialCheckboxTest),
-    # ))
-    # results.append(unittest.TextTestRunner().run(suite))
+    suite = unittest.TestSuite((
+        unittest.makeSuite(RegionSelectFormTest),
+    ))
+    results.append(unittest.TextTestRunner().run(suite))
+
+    suite = unittest.TestSuite((
+        unittest.makeSuite(SelectCarModelTest),
+    ))
+    results.append(unittest.TextTestRunner().run(suite))
+
+    suite = unittest.TestSuite((
+        unittest.makeSuite(SelectStationTest),
+    ))
+    results.append(unittest.TextTestRunner().run(suite))
+
+    suite = unittest.TestSuite((
+        unittest.makeSuite(IsOfficialCheckboxTest),
+    ))
+    results.append(unittest.TextTestRunner().run(suite))
 
     suite = unittest.TestSuite((
         unittest.makeSuite(ShowroomListTest),
