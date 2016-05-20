@@ -17,13 +17,11 @@ class ShowroomList(Component):
     def get_item_titles(self):
         item_titles = []
         item_pages_title = []
-        for i in range(0, 3):
-            if i == 0:
-                item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[0]
-            elif i == 1:
-                item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[self.get_items_count()/2]
-            elif i == 2:
-                item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[self.get_items_count() - 1]
+
+        items_count = self.get_items_count()
+        items_ids = [0, items_count/2, items_count - 1]
+        for item_id in items_ids:
+            item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[item_id]
 
             item_titles.append(item.text)
             item.click()
@@ -93,33 +91,23 @@ class ShowroomListTest(unittest.TestCase):
         self.assertEqual(len(addresses), showroom_list.get_items_count())
         self.assertEqual(len(phones), showroom_list.get_items_count())
 
-        for i in range(0, 5):
-            if i == 0:
-                index = 0
-            elif i == 1:
-                index = showroom_list.get_items_count()/2 - 4
-            elif i == 2:
-                index = showroom_list.get_items_count()/2
-            elif i == 3:
-                index = showroom_list.get_items_count()/2 + 4
-            elif i == 4:
-                index = showroom_list.get_items_count() - 1
-
-            address = addresses[index]
+        items_count = showroom_list.get_items_count()
+        items_ids = [0, items_count/2 - 4, items_count/2, items_count/2 + 4, items_count - 1]
+        for item_id in items_ids:
+            address = addresses[item_id]
             self.assertIsNotNone(address)
 
-            phone = phones[index]
+            phone = phones[item_id]
             self.assertIsNotNone(phone)
 
     def test_pagination(self):
         page = ShowroomPage(self.driver)
         page.open()
 
+        count_params = [20, 40, 100]
         showroom_list = page.showroom_list
         self.assertEqual(showroom_list.get_items_count(), showroom_list.get_pagination_count_current_param())
-        count_param = 40
-        showroom_list.set_pagination_count_params(count_param)
-        self.assertEqual(showroom_list.get_items_count(), count_param)
-        count_param = 100
-        showroom_list.set_pagination_count_params(count_param)
-        self.assertEqual(showroom_list.get_items_count(), count_param)
+
+        for count_param in count_params:
+            showroom_list.set_pagination_count_params(count_param)
+            self.assertEqual(showroom_list.get_items_count(), count_param)
