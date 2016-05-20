@@ -300,11 +300,6 @@ class SelectStationTest(unittest.TestCase):
         page.open()
 
         search_form = page.search_form
-        region_selection_form = search_form.region_selection_form
-
-        region_selection_form.open_form()
-        region_selection_form.set_region(u"Москва")
-        region_selection_form.submit()
 
         search_form.station_dropdown_drop()
 
@@ -322,10 +317,6 @@ class SelectStationTest(unittest.TestCase):
         test_stations = (u"Аннино", u"Отрадное", u"Чертановская")
 
         search_form = page.search_form
-        region_selection_form = search_form.region_selection_form
-        region_selection_form.open_form()
-        region_selection_form.set_region(u"Москва")
-        region_selection_form.submit()
 
         for test_station in test_stations:
             search_form.station_dropdown_drop()

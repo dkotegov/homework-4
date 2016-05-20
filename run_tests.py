@@ -8,7 +8,7 @@ from tests.car_showrooms.list_special_offers_test import SpecialOffersListTest
 from tests.car_showrooms.search_showroom_tests import *
 
 if __name__ == '__main__':
-    # os.environ["TTHA2BROWSER"] = "FIREFOX"
+    os.environ["TTHA2BROWSER"] = "FIREFOX"
 
     results = []
 
@@ -55,4 +55,5 @@ if __name__ == '__main__':
     for result in results:
         if not result.wasSuccessful():
             sys.exit(result.wasSuccessful())
+
     sys.exit(0)

@@ -2,7 +2,7 @@ import urlparse
 
 
 class ShowroomPage(object):
-    BASE_URL = 'https://cars.mail.ru/dealers/'
+    BASE_URL = 'https://cars.mail.ru/dealers/msk'
     PATH = ''
 
     def __init__(self, driver):
