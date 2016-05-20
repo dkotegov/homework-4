@@ -351,3 +351,47 @@ class IsOfficialCheckboxTest(unittest.TestCase):
             self.assertEqual(official_dealers_count, items_count, "These dealers are not all official")
 
             page.open()
+
+
+class SearchFormTest(unittest.TestCase):
+    def setUp(self):
+        browser = os.environ.get('TTHA2BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+
+    def tearDown(self):
+        self.driver.quit()
+
+    def test_filter_station_and_is_official_dealer(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+        test_data_set = (u"Отрадное", u"Водный стадион", u"Беговая", u"Рижская", u"Кантемировская")
+
+        search_form = page.search_form
+
+        for station in test_data_set:
+            search_form.station_dropdown_drop()
+            search_form.station_dropdown_item_select(station)
+            search_form.is_official_checkbox_click()
+            search_form.submit()
+
+            showroom_list = page.showroom_list
+            dealers_metro_stations = showroom_list.get_items_metro_stations()
+
+            for dealer_station in dealers_metro_stations:
+                if not showroom_list.is_list_empty():
+                    self.assertEqual(station, dealer_station, "Filter combination: station and is official not works")
+
+            page.open()
+
+    def test_filter_model_and_is_official_dealer(self):
+        page = ShowroomPage(self.driver)
+        page.open()
+
+    def test_filter_model_and_station_and_is_official_dealer(self):
+        page = ShowroomPage(self.driver)
+        page.open()

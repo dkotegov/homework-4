@@ -34,6 +34,12 @@ if __name__ == '__main__':
 
     if result.wasSuccessful():
         suite = unittest.TestSuite((
+            unittest.makeSuite(SearchFormTest),
+        ))
+        result = unittest.TextTestRunner().run(suite)
+
+    if result.wasSuccessful():
+        suite = unittest.TestSuite((
             unittest.makeSuite(ShowroomListTest),
         ))
         result = unittest.TextTestRunner().run(suite)

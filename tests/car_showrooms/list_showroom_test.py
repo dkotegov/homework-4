@@ -15,6 +15,7 @@ class ShowroomList(Component):
     __PAGINATOR_PARAM = "a.pager__pin.pager__pin_perpage"
     __DEALER_MODEL_ICON = '//img[@alt="{0}" and @title="{0}" and @class="dealer-card__aside__item"]'
     __DEALER_CARD_METRO_STATION = '//span[@class="dealer-card__metro__item"]'
+    __EMPTY_LIST_MESSAGE = '//div[@class="empty"]'
 
     def get_item_titles(self):
         item_titles = []
@@ -66,6 +67,14 @@ class ShowroomList(Component):
 
     def get_items_metro_stations(self):
         return [item.text for item in self.driver.find_elements_by_xpath(self.__DEALER_CARD_METRO_STATION)]
+
+    def is_list_empty(self):
+        try:
+            empty_message = self.driver.find_elements_by_xpath(self.__EMPTY_LIST_MESSAGE)
+            return True
+        except Exception:
+            return False
+
 
 
 class ShowroomListTest(unittest.TestCase):
