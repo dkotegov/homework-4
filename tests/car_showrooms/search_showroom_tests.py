@@ -3,7 +3,7 @@ import os
 import unittest
 
 from selenium.common.exceptions import StaleElementReferenceException
-from selenium.webdriver import DesiredCapabilities, Remote
+from selenium.webdriver import DesiredCapabilities, Remote, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -19,7 +19,9 @@ class SearchForm(Component):
     STATION_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "subway")]'
     STATION_DROPDOWN_ITEM_BY_NAME = u'//div[@data-optidx and contains(@class, "subway") and text()="{}"]'
     CHECKBOX_SHOWROOM_IS_OFFICIAL = '//span[@class="input-flag__text" and text()="Официальный дилер"]'
-    SUBMIT = '//span[text()="Найти"]'
+    SUBMIT = '//span[text()="Найти"]/../..'
+    TOOLTIP = '//div[@class="tooltip js-tooltip tooltip_left tooltip_lower"]'
+    FORM = '//form[@id="search_dealers_form"]'
 
     @property
     def region_selection_form(self):
@@ -42,6 +44,7 @@ class SearchForm(Component):
         item = self.driver.find_element_by_xpath(self.MODEL_DROPDOWN_ITEM_BY_NAME.format(model))
         self.driver.execute_script("return arguments[0].scrollIntoView();", item)
         item.click()
+        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.MODEL_DROPDOWN)).perform()
 
     def station_dropdown_drop(self):
         self.driver.find_element_by_xpath(self.STATION_DROPDOWN).click()
@@ -60,12 +63,31 @@ class SearchForm(Component):
         item = self.driver.find_element_by_xpath(self.STATION_DROPDOWN_ITEM_BY_NAME.format(station))
         self.driver.execute_script("return arguments[0].scrollIntoView();", item)
         item.click()
+        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.MODEL_DROPDOWN)).perform()
 
     def is_official_checkbox_click(self):
         self.driver.find_element_by_xpath(self.CHECKBOX_SHOWROOM_IS_OFFICIAL).click()
+        WebDriverWait(self.driver, 30).until(
+            lambda d: wait_for_is_official_checkbox_apply(d)
+        )
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
+
+
+def wait_for_is_official_checkbox_apply(driver):
+        submit_button = driver.find_element_by_xpath(SearchForm.SUBMIT)
+        button_href = submit_button.get_attribute("href")
+
+        form = driver.find_element_by_xpath(SearchForm.FORM)
+        form_href = form.get_attribute("href")
+        if form_href is None:
+            return False
+
+        if "is_official=on" in button_href and "is_official=on" in form_href:
+            return True
+        else:
+            return False
 
 
 class RegionSelectionForm(Component):
@@ -399,11 +421,46 @@ class SearchFormTest(unittest.TestCase):
             showroom_list = page.showroom_list
             items_count = showroom_list.get_items_count()
             official_dealers_count = len(showroom_list.get_items_official_dealers_by_model(test_model))
-            self.assertEqual(official_dealers_count, items_count, "These dealers are not all official. "
-                                                                  "Filter combination: model and is official not works")
+            self.assertEqual(official_dealers_count, items_count, "These dealers are not all official for model {}. "
+                                                                  "Filter combination: model and is official not works".format(test_model))
 
             page.open()
 
     def test_filter_model_and_station_and_is_official_dealer(self):
         page = ShowroomPage(self.driver)
         page.open()
+
+        test_models = ("Audi", "Toyota", "Volvo")
+        test_stations = (u"Молодежная", u"Строгино", u"Рижская")
+
+        search_form = page.search_form
+
+        for station in test_stations:
+            for model in test_models:
+                search_form.model_dropdown_drop()
+                search_form.model_dropdown_item_select(model)
+                search_form.station_dropdown_drop()
+                search_form.station_dropdown_item_select(station)
+                search_form.is_official_checkbox_click()
+                search_form.submit()
+
+                showroom_list = page.showroom_list
+                if not showroom_list.is_list_empty():
+                    items_count = showroom_list.get_items_count()
+                    official_model_dealers_count = len(showroom_list.get_items_official_dealers_by_model(model))
+                    self.assertEqual(official_model_dealers_count, items_count, "These dealers are not all official for model {}. "
+                                                                  "Filter combination: model and station and is official not works".format(model))
+
+                    dealers_metro_stations = showroom_list.get_items_metro_stations()
+                    for dealer_station in dealers_metro_stations:
+                        if not showroom_list.is_list_empty():
+                            self.assertEqual(station, dealer_station, "These dealers are not all at station {}. "
+                                                                      "Filter combination: model and station and is official not works".format(station))
+
+                    items_count = showroom_list.get_items_count()
+                    official_dealers_count = len(showroom_list.get_items_official_dealers())
+                    self.assertEqual(official_dealers_count, items_count, "These dealers are not all official"
+                                                                          "Filter combination: model and station and is official not works")
+
+                page.open()
+

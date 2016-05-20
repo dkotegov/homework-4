@@ -53,7 +53,7 @@ class ShowroomList(Component):
         return phones
 
     def get_items_count(self):
-        return len(self.driver.find_elements_by_css_selector(self.__ITEM_TITLE))
+        return len(self.driver.find_elements_by_xpath(self.__ITEM))
 
     def set_pagination_count_params(self, count):
         for param in self.driver.find_elements_by_css_selector(self.__PAGINATOR_PARAM):
@@ -91,8 +91,6 @@ class ShowroomList(Component):
                 official_items.append(item)
 
         return official_items
-
-
 
 
 class ShowroomListTest(unittest.TestCase):
