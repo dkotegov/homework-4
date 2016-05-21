@@ -64,7 +64,7 @@ class AskQuestionTests(BaseTest):
 
     def test_form_add_picture(self):
         ask = self.ask_page.ask_form()
-        ask.add_picture("/home/ivan/test/QA/selenium/homework-4/grumpy.png")
+        ask.add_picture("/home/ivan/test/QA/selenium/homework-4/tests/grumpy.png")
         self.assertTrue(ask.is_picture_setted())
 
 
