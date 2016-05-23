@@ -2,9 +2,6 @@
 
 import urlparse
 
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 
@@ -94,39 +91,30 @@ class TopMenu(Component):
 
     def click_logo(self):
         self.driver.find_element_by_xpath(self.LOGO).click()
-        self.TITLE = self.driver.title
 
     def click_forum(self):
         self.driver.find_element_by_xpath(self.FORUM).click()
-        self.TITLE = self.driver.title
 
     def click_consult(self):
         self.driver.find_element_by_xpath(self.CONSULT).click()
-        self.TITLE = self.driver.title
 
     def click_names(self):
         self.driver.find_element_by_xpath(self.NAMES).click()
-        self.TITLE = self.driver.title
 
     def click_receipt(self):
         self.driver.find_element_by_xpath(self.RECEIPT).click()
-        self.TITLE = self.driver.title
 
     def click_calendar(self):
         self.driver.find_element_by_xpath(self.CALENDAR).click()
-        self.TITLE = self.driver.title
 
     def click_rod_dom(self):
         self.driver.find_element_by_xpath(self.ROD_DOM).click()
-        self.TITLE = self.driver.title
 
     def click_all_about(self):
         self.driver.find_element_by_xpath(self.ALL_ABOUT).click()
-        self.TITLE = self.driver.title
 
     def click_mom_and_baby(self):
         self.driver.find_element_by_xpath(self.MOM_AND_BABY).click()
-        self.TITLE = self.driver.title
 
     def search(self, query):
         self.driver.find_element_by_xpath(self.SEARCH_ICON).click()
@@ -134,7 +122,6 @@ class TopMenu(Component):
         query_input.send_keys(query)
         query_input.send_keys(Keys.RETURN)
         self.SEARCH_URL = self.driver.current_url
-        self.TITLE = self.driver.title
 
 
 class NavMenu(Component):
@@ -144,60 +131,8 @@ class NavMenu(Component):
                              '/div[@class="b-nav__item__links"]/a'
     PREGNANCY = '//li[@class="b-nav__item b-nav__item_green b-nav__item_preg"]/a[@class="b-nav__item__title"]'
     PREGNANCY_1 = '//a[@title="1 неделя беременности"]'
-    PREGNANCY_2 = '//a[@title="2 неделя беременности"]'
-    PREGNANCY_3 = '//a[@title="3 неделя беременности"]'
-    PREGNANCY_4 = '//a[@title="4 неделя беременности"]'
-    PREGNANCY_5 = '//a[@title="5 неделя беременности"]'
-    PREGNANCY_6 = '//a[@title="6 неделя беременности"]'
-    PREGNANCY_7 = '//a[@title="7 неделя беременности"]'
-    PREGNANCY_8 = '//a[@title="8 неделя беременности"]'
-    PREGNANCY_9 = '//a[@title="9 неделя беременности"]'
-    PREGNANCY_10 = '//a[@title="10 неделя беременности"]'
-    PREGNANCY_11 = '//a[@title="11 неделя беременности"]'
-    PREGNANCY_12 = '//a[@title="12 неделя беременности"]'
-    PREGNANCY_13 = '//a[@title="13 неделя беременности"]'
-    PREGNANCY_14 = '//a[@title="14 неделя беременности"]'
-    PREGNANCY_15 = '//a[@title="15 неделя беременности"]'
-    PREGNANCY_16 = '//a[@title="16 неделя беременности"]'
-    PREGNANCY_17 = '//a[@title="17 неделя беременности"]'
-    PREGNANCY_18 = '//a[@title="18 неделя беременности"]'
-    PREGNANCY_19 = '//a[@title="19 неделя беременности"]'
-    PREGNANCY_20 = '//a[@title="20 неделя беременности"]'
-    PREGNANCY_21 = '//a[@title="21 неделя беременности"]'
-    PREGNANCY_22 = '//a[@title="22 неделя беременности"]'
-    PREGNANCY_23 = '//a[@title="23 неделя беременности"]'
-    PREGNANCY_24 = '//a[@title="24 неделя беременности"]'
-    PREGNANCY_25 = '//a[@title="25 неделя беременности"]'
-    PREGNANCY_26 = '//a[@title="26 неделя беременности"]'
-    PREGNANCY_27 = '//a[@title="27 неделя беременности"]'
-    PREGNANCY_28 = '//a[@title="28 неделя беременности"]'
-    PREGNANCY_29 = '//a[@title="29 неделя беременности"]'
-    PREGNANCY_30 = '//a[@title="30 неделя беременности"]'
-    PREGNANCY_31 = '//a[@title="31 неделя беременности"]'
-    PREGNANCY_32 = '//a[@title="32 неделя беременности"]'
-    PREGNANCY_33 = '//a[@title="33 неделя беременности"]'
-    PREGNANCY_34 = '//a[@title="34 неделя беременности"]'
-    PREGNANCY_35 = '//a[@title="35 неделя беременности"]'
-    PREGNANCY_36 = '//a[@title="36 неделя беременности"]'
-    PREGNANCY_37 = '//a[@title="37 неделя беременности"]'
-    PREGNANCY_38 = '//a[@title="38 неделя беременности"]'
-    PREGNANCY_39 = '//a[@title="39 неделя беременности"]'
-    PREGNANCY_40 = '//a[@title="40 неделя беременности"]'
-    PREGNANCY_41 = '//a[@title="41 неделя беременности"]'
-    PREGNANCY_42 = '//a[@title="42 неделя беременности"]'
     BIRTH = '//li[@class="b-nav__item b-nav__item_yellow b-nav__item_birth"]/a[@class="b-nav__item__title"]'
     KIDS = '//li[@class="b-nav__item b-nav__item_orange b-nav__item_kids "]/a[@class="b-nav__item__title"]'
-    KIDS_0 = '//li[@class="b-nav__weeks__item b-nav__weeks__item_round b-nav__weeks__item_round-l ' \
-             'b-nav__weeks__item_cap"]/a[@href="/baby/newborn/"]'
-    KIDS_1_6 = '//li[@class="b-nav__weeks__item"]/a[@href="/baby/1-6/"]'
-    KIDS_7_12 = '//li[@class="b-nav__weeks__item b-nav__weeks__item_round b-nav__weeks__item_round-r"]' \
-                '/a[@href="/baby/7-12/"]'
-    KIDS_1_3_YEARS = '//li[@class="b-nav__weeks__item b-nav__weeks__item_round b-nav__weeks__item_round-l"]' \
-                     '/a[@href="/baby/1-3/"]'
-    KIDS_3_7_YEARS = '//li[@class="b-nav__weeks__item"]/a[@href="/child/"]'
-    KIDS_7_YEARS = '//li[@class="b-nav__weeks__item b-nav__weeks__item_round b-nav__weeks' \
-                   '__item_round-r b-nav__weeks__item_cap"]' \
-                   '/a[@href="/teenager/"]'
 
     TITLE = ''
 
@@ -206,227 +141,29 @@ class NavMenu(Component):
     OVUL_TITLE = u'Календарь овуляции - бесплатный онлайн-калькулятор - женский календарь - Дети Mail.Ru'
     PREGNANCY_TITLE = u'Календарь беременности - все о беременности - Дети Mail.Ru'
     PREGNANCY_1_TITLE = u'1 неделя беременности - что происходит, симптомы, ощущения, признаки - Дети Mail.Ru'
-    PREGNANCY_2_TITLE = u'2 неделя беременности - ощущения, признаки, что происходит на второй неделе - Дети Mail.Ru'
-    PREGNANCY_3_TITLE = u'3 неделя беременности - ощущения в животе, рекомендации, что происходит - Дети Mail.Ru'
     BIRTH_TITLE = u'Рассчитать дату родов по последней менструации - Дети Mail.Ru'
     KIDS_TITLE = u'Развитие ребенка до 1 месяца, статьи на тему, этапы развития детей - Дети Mail.Ru'
-    KIDS_TITLE_0 = KIDS_TITLE
 
     def click_family(self):
         self.driver.find_element_by_xpath(self.FAMILY).click()
-        self.TITLE = self.driver.title
 
     def click_planing(self):
         self.driver.find_element_by_xpath(self.PLANNING).click()
-        self.TITLE = self.driver.title
 
     def click_planing_day_ovulation(self):
         self.driver.find_element_by_xpath(self.PLANNING_DAY_OVULATION).click()
-        self.TITLE = self.driver.title
 
     def click_pregnancy(self):
         self.driver.find_element_by_xpath(self.PREGNANCY).click()
-        self.TITLE = self.driver.title
 
     def click_pregnancy_1(self):
         self.driver.find_element_by_xpath(self.PREGNANCY_1).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_2(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_2).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_3(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_3).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_4(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_4).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_5(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_5).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_6(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_6).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_7(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_7).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_8(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_8).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_9(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_9).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_10(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_10).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_11(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_11).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_12(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_12).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_13(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_13).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_14(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_14).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_15(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_15).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_16(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_16).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_17(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_17).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_18(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_18).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_19(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_19).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_20(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_20).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_21(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_21).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_22(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_22).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_23(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_23).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_24(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_24).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_25(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_25).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_26(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_26).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_27(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_27).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_28(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_28).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_29(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_29).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_30(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_30).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_31(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_31).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_32(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_32).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_33(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_33).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_34(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_34).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_35(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_35).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_36(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_36).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_37(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_37).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_38(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_38).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_39(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_39).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_40(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_40).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_41(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_41).click()
-        self.TITLE = self.driver.title
-
-    def click_pregnancy_42(self):
-        self.driver.find_element_by_xpath(self.PREGNANCY_42).click()
-        self.TITLE = self.driver.title
 
     def click_birth(self):
         self.driver.find_element_by_xpath(self.BIRTH).click()
-        self.TITLE = self.driver.title
 
     def click_kids(self):
         self.driver.find_element_by_xpath(self.KIDS).click()
-        self.TITLE = self.driver.title
-
-    def click_kids_0(self):
-        self.driver.find_element_by_xpath(self.KIDS_0).click()
-        self.TITLE = self.driver.title
-
-    def click_kids_1_6(self):
-        self.driver.find_element_by_xpath(self.KIDS_1_6).click()
-        self.TITLE = self.driver.title
-
-    def click_kids_7_12(self):
-        self.driver.find_element_by_xpath(self.KIDS_7_12).click()
-        self.TITLE = self.driver.title
-
-    def click_kids_1_3(self):
-        self.driver.find_element_by_xpath(self.KIDS_1_3_YEARS).click()
-        self.TITLE = self.driver.title
-
-    def click_kids_3_7(self):
-        self.driver.find_element_by_xpath(self.KIDS_3_7_YEARS).click()
-        self.TITLE = self.driver.title
-
-    def click_kids_7(self):
-        self.driver.find_element_by_xpath(self.KIDS_7_YEARS).click()
-        self.TITLE = self.driver.title
 
 
 class BabyName(Component):
@@ -438,25 +175,10 @@ class BabyName(Component):
     SEARCH_BUTTON = '//a[@class="pin-button pin-button_orange js-names-search-btn"]'
     CALENDAR_NAMES = '//a[@href="/names/namedays/"]'
     CALENDAR_NAMES_JAN = '//a[@href="/names/all/nameday/january/"]'
-    CALENDAR_NAMES_FEB = '//a[@href="/names/all/nameday/february/"]'
-    CALENDAR_NAMES_MAR = '//a[@href="/names/all/nameday/march/"]'
-    CALENDAR_NAMES_APR = '//a[@href="/names/all/nameday/april/"]'
-    CALENDAR_NAMES_MAY = '//a[@href="/names/all/nameday/may/"]'
-    CALENDAR_NAMES_JUN = '//a[@href="/names/all/nameday/june/"]'
-    CALENDAR_NAMES_JUL = '//a[@href="/names/all/nameday/july/"]'
-    CALENDAR_NAMES_AUG = '//a[@href="/names/all/nameday/august/"]'
-    CALENDAR_NAMES_SEP = '//a[@href="/names/all/nameday/september/"]'
-    CALENDAR_NAMES_OCT = '//a[@href="/names/all/nameday/october/"]'
-    CALENDAR_NAMES_NOV = '//a[@href="/names/all/nameday/november/"]'
-    CALENDAR_NAMES_DEC = '//a[@href="/names/all/nameday/december/"]'
     NAMES_FOR_KUN = '//a[@href="/names/male/"]'
     NAMES_FOR_KUN_MAXIM = '//a[@href="/names/maksim/"]'
-    NAMES_FOR_KUN_ARTYOM = '//a[@href="/names/artyom/"]'
-    NAMES_FOR_KUN_ALEKSANDR = '//a[@href="/names/aleksandr/"]'
     NAMES_FOR_CHAN = '//a[@href="/names/female/"]'
     NAMES_FOR_CHAN_NASTYA = '//a[@href="/names/anastasiya/"]'
-    NAMES_FOR_CHAN_DARYA = '//a[@href="/names/darya/"]'
-    NAMES_FOR_CHAN_VIKTORIYA = '//a[@href="/names/viktoriya/"]'
 
     TITLE = ''
 
@@ -465,8 +187,6 @@ class BabyName(Component):
     ARABIAN_NAME_FOR_KUN_TITLE = u'Арабское имя для мальчика - Выбираем имя ребенку - Дети Mail.Ru'
     CALENDAR_NAMES_TITLE = u'Имена по святцам для мальчиков и девочек - по месяцам - Дети Mail.Ru'
     CALENDAR_NAMES_JAN_TITLE = u'Имена по святцам - Январь - для мальчиков и девочек - Дети Mail.Ru'
-    CALENDAR_NAMES_FEB_TITLE = u'Имена по святцам - Февраль - для мальчиков и девочек - Дети Mail.Ru'
-    CALENDAR_NAMES_MAR_TITLE = u'Имена по святцам - Март - для мальчиков и девочек - Дети Mail.Ru'
     MAXIM_TITLE = u'Значение и происхождение имени Максим - отзывы об именах для мальчика - Дети Mail.Ru'
     ARTYOM_TITLE = u'Значение и происхождение имени Артём - отзывы об именах для мальчика - Дети Mail.Ru'
 
@@ -483,59 +203,12 @@ class BabyName(Component):
             gen = self.driver.find_element_by_xpath(self.SEARCH_INPUT_GENDER_F)
             gen.click()
         self.driver.find_element_by_xpath(self.SEARCH_BUTTON).click()
-        self.TITLE = self.driver.title
 
     def click_calendar_names(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES).click()
-        self.TITLE = self.driver.title
 
     def click_calendar_names_jan(self):
         self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JAN).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_feb(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_FEB).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_mar(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_MAR).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_apr(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_APR).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_may(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_MAY).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_jun(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JUN).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_jul(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_JUL).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_aug(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_AUG).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_sep(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_SEP).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_oct(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_OCT).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_nov(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_NOV).click()
-        self.TITLE = self.driver.title
-
-    def click_calendar_names_dec(self):
-        self.driver.find_element_by_xpath(self.CALENDAR_NAMES_DEC).click()
-        self.TITLE = self.driver.title
 
     def click_names_for_kun(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_KUN).click()
@@ -545,28 +218,12 @@ class BabyName(Component):
         self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_MAXIM).click()
         self.TITLE = self.driver.title
 
-    def click_name_for_kun_artyom(self):
-        self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_ARTYOM).click()
-        self.TITLE = self.driver.title
-
-    def click_name_for_kun_aleksandr(self):
-        self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_ALEKSANDR).click()
-        self.TITLE = self.driver.title
-
     def click_names_for_chan(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN).click()
         self.TITLE = self.driver.title
 
     def click_names_for_chan_anastasia(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_NASTYA).click()
-        self.TITLE = self.driver.title
-
-    def click_names_for_chan_darya(self):
-        self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_DARYA).click()
-        self.TITLE = self.driver.title
-
-    def click_names_for_chan_viktoria(self):
-        self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_VIKTORIYA).click()
         self.TITLE = self.driver.title
 
 
