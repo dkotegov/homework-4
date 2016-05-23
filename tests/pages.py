@@ -200,15 +200,16 @@ class Slider(Component):
         imgs[slide_num].click()
 
     def get_page_num_from_browser(self):
-        current_num = self.driver.find_element_by_xpath(self.CURRENT_NUM)
+        current_num = WebDriverWait(self.driver, 7000, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.CURRENT_NUM))
         return int(current_num.get_attribute("innerText"))
 
     def get_max_page_num(self):
         for i in range(0, 1000):
-            max_num = self.driver.find_element_by_class_name(self.TOTAL_NUM)
+            max_num = WebDriverWait(self.driver, 7000, 0.1).until(
+                lambda d: d.find_element_by_class_name(self.TOTAL_NUM))
             if max_num.text:
                 return int(max_num.text)
-            self.driver.implicitly_wait(1000)
         raise Exception()
 
     @property
