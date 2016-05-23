@@ -28,7 +28,9 @@ class FavouritesTestCase(unittest.TestCase):
         auth_form.submit()
         favorites_page = FavouritesPage(self.driver)
         favorites_page.open()
-        favorites_page.clear_list()
+        count = favorites_page.link.get_count()
+        if count >= 1:
+            favorites_page.clear_list()
 
     def tearDown(self):
         self.driver.quit()
@@ -38,11 +40,12 @@ class FavouritesTestCase(unittest.TestCase):
         offer_page = PageOffer(self.driver)
         favorites_page = FavouritesPage(self.driver)
         favorites_page.open()
-        count = favorites_page.get_count()
+        count = favorites_page.link.get_count()
+
         offer_page.open(self.OFFER_NUM)
         offer_page.add_to_favourites()
         favorites_page.open()
-        new_count = favorites_page.get_count()
+        new_count = favorites_page.link.get_count()
         self.assertEqual(new_count, count + 1)
 
     def testNewFavourItem(self):
@@ -52,7 +55,7 @@ class FavouritesTestCase(unittest.TestCase):
         offer_page.open(self.OFFER_NUM)
         offer_page.add_to_favourites()
         favorites_page.open()
-        count = favorites_page.get_count()
+        count = favorites_page.link.get_count()
 
         for i in range(0, count):
             f_item = FavouriteItem(self.driver)
@@ -70,14 +73,14 @@ class FavouritesTestCase(unittest.TestCase):
         offer_page.add_to_favourites()
         favorites_page = FavouritesPage(self.driver)
         favorites_page.open()
-        count = favorites_page.get_count()
+        count = favorites_page.link.get_count()
 
         f_item = FavouriteItem(self.driver)
         f_item.open()
         check_page = PageOffer(self.driver)
         check_page.add_to_favourites()
         favorites_page.open()
-        new_count = favorites_page.get_count()
+        new_count = favorites_page.link.get_count()
         self.assertEqual(new_count, count - 1)
 
     def testDelete(self):
@@ -89,5 +92,5 @@ class FavouritesTestCase(unittest.TestCase):
         favorites_page.open()
         favorites_page.clear_list()
         favorites_page.open()   # обновим страницу
-        count = favorites_page.get_count()
+        count = favorites_page.link.get_count()
         self.assertEqual(count, 0)
