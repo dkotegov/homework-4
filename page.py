@@ -38,14 +38,6 @@ class NamesPage(Page):
     def footer(self):
         return Footer(self.driver)
 
-    @property
-    def basement(self):
-        return Basement(self.driver)
-
-    @property
-    def right_col(self):
-        return RightColumn(self.driver)
-
 
 class Component(object):
     def __init__(self, driver):
@@ -61,21 +53,16 @@ class Component(object):
 class TopMenu(Component):
     LOGO = '//a[@class="pm-logo__link"]'
     FORUM = '//a[@title="Форум"][1]'
-    CONSULT = '//a[@title="Консультации"][1]'
-    CONSULT_URL = 'https://health.mail.ru/consultation/'
     NAMES = '//a[@title="Имена"]'
     RECEIPT = '//a[@title="Рецепты"]'
     CALENDAR = '//a[@title="Календарь развития"]'
     ROD_DOM = '//a[@title="Роддома"]'
-    ALL_ABOUT = '//a[@title="Все о вашей груди"]'  # (⁄ ⁄•⁄ω⁄•⁄ ⁄)
-    MOM_AND_BABY = '//a[@title="Мама и малыш"]'
     SEARCH_ICON = '//span[@class="js-link pm-toolbar__button__inner  pm-toolbar__button__inner_notext"]'
     SEARCH_INPUT = '//input[@name="q"]'
     SEARCH_SUBMIT = '//button[@class="class="js-submit-button pm-toolbar__' \
                     'search__button__input  pm-toolbar__search__button__' \
                     'input_expandable pm-toolbar__search__button__input_not-adaptive""]'
 
-    TITLE = ''
     SEARCH_URL = ''
 
     BASE_TITLE = u'Выбираем имя ребенку - Справочник имен - Дети Mail.Ru'
@@ -95,9 +82,6 @@ class TopMenu(Component):
     def click_forum(self):
         self.driver.find_element_by_xpath(self.FORUM).click()
 
-    def click_consult(self):
-        self.driver.find_element_by_xpath(self.CONSULT).click()
-
     def click_names(self):
         self.driver.find_element_by_xpath(self.NAMES).click()
 
@@ -110,12 +94,6 @@ class TopMenu(Component):
     def click_rod_dom(self):
         self.driver.find_element_by_xpath(self.ROD_DOM).click()
 
-    def click_all_about(self):
-        self.driver.find_element_by_xpath(self.ALL_ABOUT).click()
-
-    def click_mom_and_baby(self):
-        self.driver.find_element_by_xpath(self.MOM_AND_BABY).click()
-
     def search(self, query):
         self.driver.find_element_by_xpath(self.SEARCH_ICON).click()
         query_input = self.driver.find_element_by_xpath(self.SEARCH_INPUT)
@@ -125,16 +103,13 @@ class TopMenu(Component):
 
 
 class NavMenu(Component):
-    FAMILY = '//li[@class="b-nav__item b-nav__item_red b-nav__item_family"]/a[@class="b-nav__item__title"]'
-    PLANNING = '//li[@class="b-nav__item b-nav__item_blue b-nav__item_plan"]/a[@class="b-nav__item__title"]'
-    PLANNING_DAY_OVULATION = '//li[@class="b-nav__item b-nav__item_blue b-nav__item_plan"]' \
-                             '/div[@class="b-nav__item__links"]/a'
-    PREGNANCY = '//li[@class="b-nav__item b-nav__item_green b-nav__item_preg"]/a[@class="b-nav__item__title"]'
-    PREGNANCY_1 = '//a[@title="1 неделя беременности"]'
-    BIRTH = '//li[@class="b-nav__item b-nav__item_yellow b-nav__item_birth"]/a[@class="b-nav__item__title"]'
-    KIDS = '//li[@class="b-nav__item b-nav__item_orange b-nav__item_kids "]/a[@class="b-nav__item__title"]'
-
-    TITLE = ''
+    FAMILY = '//a[@href="/family/" and @class="b-nav__item__title"]'
+    PLANNING = '//a[@href="/planning/" and @class="b-nav__item__title"]'
+    PLANNING_DAY_OVULATION = '//a[@href="/ovul/" and @class="b-nav__item__link "]'
+    PREGNANCY = '//a[@href="/pregnancy/" and @class="b-nav__item__title"]'
+    PREGNANCY_1 = '//a[@href="/pregnancy/week-1/" and @class="b-nav__weeks__link js-tooltip-pin "]'
+    BIRTH = '//a[@href="/childbirth/" and @class="b-nav__item__title"]'
+    KIDS = '//a[@href="/baby/newborn/" and @class="b-nav__item__title"]'
 
     FAMILY_TITLE = u'Статьи для всей семьи - Дети Mail.Ru'
     PLANNING_TITLE = u'Календарь планирования беременности - все о планировании беременности на Дети Mail.Ru'
@@ -180,26 +155,23 @@ class BabyName(Component):
     NAMES_FOR_CHAN = '//a[@href="/names/female/"]'
     NAMES_FOR_CHAN_NASTYA = '//a[@href="/names/anastasiya/"]'
 
-    TITLE = ''
-
     NAMES_FOR_KUN_TITLE = u'Имена для мальчика - Выбираем имя ребенку - Дети Mail.Ru'
     NAMES_FOR_CHAN_TITLE = u'Имена для девочки - Выбираем имя ребенку - Дети Mail.Ru'
     ARABIAN_NAME_FOR_KUN_TITLE = u'Арабское имя для мальчика - Выбираем имя ребенку - Дети Mail.Ru'
     CALENDAR_NAMES_TITLE = u'Имена по святцам для мальчиков и девочек - по месяцам - Дети Mail.Ru'
     CALENDAR_NAMES_JAN_TITLE = u'Имена по святцам - Январь - для мальчиков и девочек - Дети Mail.Ru'
     MAXIM_TITLE = u'Значение и происхождение имени Максим - отзывы об именах для мальчика - Дети Mail.Ru'
-    ARTYOM_TITLE = u'Значение и происхождение имени Артём - отзывы об именах для мальчика - Дети Mail.Ru'
 
     NAMES_FOR_KUN_URL = 'https://deti.mail.ru/names/male/'
     NAMES_FOR_CHAN_URL = 'https://deti.mail.ru/names/female/'
 
-    def search_name(self, name, origin='---------', gender='M'):
+    def search_name(self, name, origin=None, gender=None):
         elem = self.driver.find_element_by_xpath(self.SEARCH_INPUT)
         elem.send_keys(name)
-        if origin != '---------':
+        if origin:
             select = Select(self.driver.find_element_by_xpath(self.SEARCH_SELECT))
             select.select_by_visible_text(origin)
-        if gender != 'M':
+        if gender:
             gen = self.driver.find_element_by_xpath(self.SEARCH_INPUT_GENDER_F)
             gen.click()
         self.driver.find_element_by_xpath(self.SEARCH_BUTTON).click()
@@ -212,55 +184,55 @@ class BabyName(Component):
 
     def click_names_for_kun(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_KUN).click()
-        self.TITLE = self.driver.title
 
     def click_name_for_kun_maxim(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_KUN_MAXIM).click()
-        self.TITLE = self.driver.title
 
     def click_names_for_chan(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN).click()
-        self.TITLE = self.driver.title
 
     def click_names_for_chan_anastasia(self):
         self.driver.find_element_by_xpath(self.NAMES_FOR_CHAN_NASTYA).click()
-        self.TITLE = self.driver.title
 
 
 class Footer(Component):
-    PLANING = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="/planning/"]'
-    PREGNANCY = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="/pregnancy/"]'
-    BIRTH = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="/childbirth/"]'
-    OVUL = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="/ovul/"]'
-    CONSULT = '//table[@class="b-foot-nav__list"]/tbody/tr/td[1]/ul/li[@href="https://health.mail.ru/consultation/"]'
+    PLANNING = '//a[@href="/planning/" and @name="clb1682426"]'
+    PREGNANCY = '//a[@href="/pregnancy/" and @name="clb1682426"]'
 
-    NEWBORN = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/baby/newborn/"]'
-    MONTHS_1_6 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/baby/1-6/"]'
-    MONTHS_7_12 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/baby/7-12/"]'
-    YEARS_1_3 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/baby/1-3/"]'
-    YEARS_3_7 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/child/"]'
-    DETI_OLDER = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/teenager/"]'
-    FAMILY = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/family/"]'
-    CONSULT_2 = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="https://health.mail.ru/consultation/"]'
-    RECEIPT = '//table[@class="b-foot-nav__list"]/tbody/tr/td[2]/ul/li[@href="/recipes/"]'
+    NEWBORN = '//a[@href="/baby/newborn/" and @name="clb1682426"]'
+    FAMILY = '//a[@href="/family/" and @name="clb1682426"]'
 
-    NEWS = '//table[@class="b-foot-nav__list"]/tbody/tr/td[3]/ul/li[@href="/news/"]'
-    ARTICLES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[3]/ul/li[@href="/articles/"]'
-    TALES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[3]/ul/li[@href="/birthstories/"]'
+    FORUM = '//a[@href="/forum/" and @name="clb1682426"]'
+    COMMUNITY = '//a[@href="/community/" and @name="clb1682426"]'
 
-    FORUM = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/forum/"]'
-    COMMUNITY = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/community/"]'
-    KIDS_COMMUNITY = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/community/"]'
-    LINES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/lines/"]'
-    RULES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[4]/ul/li[@href="/forum/rules/"]'
+    BIRTHING_CENTER = '//a[@href="/birthing_center/" and @name="clb1682426"]'
+    CHOSING_NAMES = '//a[@href="/names/" and @name="clb1682426"]'
 
-    BIRTHING_CENTER = '//table[@class="b-foot-nav__list"]/tbody/tr/td[5]/ul/li[@href="/birthing_center/"]'
-    CHOSING_NAMES = '//table[@class="b-foot-nav__list"]/tbody/tr/td[5]/ul/li[@href="/names/"]'
+    FAMILY_TITLE = u'Статьи для всей семьи - Дети Mail.Ru'
+    PLANNING_TITLE = u'Календарь планирования беременности - все о планировании беременности на Дети Mail.Ru'
+    PREGNANCY_TITLE = u'Календарь беременности - все о беременности - Дети Mail.Ru'
+    FORUM_TITLE = u'Форум - Дети Mail.Ru'
+    COMMUNITY_TITLE = u'Наше сообщество - Дети Mail.Ru'
+    BIRTHING_CENTER_TITLE = u'Родильные дома - Учреждения - Дети Mail.Ru'
+    CHOSING_NAMES_TITLE = u'Выбираем имя ребенку - Справочник имен - Дети Mail.Ru'
 
+    def click_planing(self):
+        self.driver.find_element_by_xpath(self.PLANNING).click()
 
-class Basement(Component):
-    pass
+    def click_pregnancy(self):
+        self.driver.find_element_by_xpath(self.PREGNANCY).click()
 
+    def click_family(self):
+        self.driver.find_element_by_xpath(self.FAMILY).click()
 
-class RightColumn(Component):
-    pass
+    def click_forum(self):
+        self.driver.find_element_by_xpath(self.FORUM).click()
+
+    def click_community(self):
+        self.driver.find_element_by_xpath(self.COMMUNITY).click()
+
+    def click_birthing_center(self):
+        self.driver.find_element_by_xpath(self.BIRTHING_CENTER).click()
+
+    def click_choosing_names(self):
+        self.driver.find_element_by_xpath(self.CHOSING_NAMES).click()

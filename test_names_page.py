@@ -140,11 +140,6 @@ class NamesTest(unittest.TestCase):
         nav.click_kids()
         self.assertEquals(nav.get_title(), nav.KIDS_TITLE)
 
-        nav = names_page.nav
-
-        nav.click_kids_0()
-        self.assertEquals(nav.get_title(), nav.KIDS_TITLE_0)
-
     def test_baby_name_search_with_empty_query(self):
         url = 'https://deti.mail.ru/names/male/'
 
@@ -178,17 +173,6 @@ class NamesTest(unittest.TestCase):
         gender = 'F'
         baby_name.search_name(query, gender=gender)
         self.assertEquals(baby_name.get_title(), baby_name.NAMES_FOR_CHAN_TITLE)
-
-    def test_baby_name_search_with_gender_male(self):
-        names_page = NamesPage(self.driver)
-        names_page.open()
-
-        baby_name = names_page.baby_name
-
-        query = self.test_str
-        gender = 'M'
-        baby_name.search_name(query, gender=gender)
-        self.assertEquals(baby_name.get_title(), baby_name.NAMES_FOR_KUN_TITLE)
 
     def test_baby_name_search_with_option(self):
         names_page = NamesPage(self.driver)
@@ -237,15 +221,6 @@ class NamesTest(unittest.TestCase):
         baby_name.click_name_for_kun_maxim()
         self.assertEquals(baby_name.get_title(), baby_name.MAXIM_TITLE)
 
-    def test_baby_name_for_boy_artyom(self):
-        names_page = NamesPage(self.driver)
-        names_page.open()
-
-        baby_name = names_page.baby_name
-
-        baby_name.click_name_for_kun_artyom()
-        self.assertEquals(baby_name.get_title(), baby_name.ARTYOM_TITLE)
-
     def test_baby_name_for_girl(self):
         names_page = NamesPage(self.driver)
         names_page.open()
@@ -254,3 +229,66 @@ class NamesTest(unittest.TestCase):
 
         baby_name.click_names_for_chan()
         self.assertEquals(baby_name.get_title(), baby_name.NAMES_FOR_CHAN_TITLE)
+
+    def test_footer_planning(self):
+        names_page = NamesPage(self.driver)
+        names_page.open()
+
+        footer = names_page.footer
+
+        footer.click_planing()
+        self.assertEquals(footer.get_title(), footer.PLANNING_TITLE)
+
+    def test_footer_pregnancy(self):
+        names_page = NamesPage(self.driver)
+        names_page.open()
+
+        footer = names_page.footer
+
+        footer.click_pregnancy()
+        self.assertEquals(footer.get_title(), footer.PREGNANCY_TITLE)
+
+    def test_footer_family(self):
+        names_page = NamesPage(self.driver)
+        names_page.open()
+
+        footer = names_page.footer
+
+        footer.click_family()
+        self.assertEquals(footer.get_title(), footer.FAMILY_TITLE)
+
+    def test_footer_forum(self):
+        names_page = NamesPage(self.driver)
+        names_page.open()
+
+        footer = names_page.footer
+
+        footer.click_forum()
+        self.assertEquals(footer.get_title(), footer.FORUM_TITLE)
+
+    def test_footer_community(self):
+        names_page = NamesPage(self.driver)
+        names_page.open()
+
+        footer = names_page.footer
+
+        footer.click_community()
+        self.assertEquals(footer.get_title(), footer.COMMUNITY_TITLE)
+
+    def test_footer_birthing_center(self):
+        names_page = NamesPage(self.driver)
+        names_page.open()
+
+        footer = names_page.footer
+
+        footer.click_birthing_center()
+        self.assertEquals(footer.get_title(), footer.BIRTHING_CENTER_TITLE)
+
+    def test_footer_choosing_names(self):
+        names_page = NamesPage(self.driver)
+        names_page.open()
+
+        footer = names_page.footer
+
+        footer.click_choosing_names()
+        self.assertEquals(footer.get_title(), footer.CHOSING_NAMES_TITLE)
