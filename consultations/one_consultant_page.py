@@ -4,6 +4,7 @@ import unittest
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver import DesiredCapabilities, Remote
+
 from common import Page, Plate, QuestionsList, save_window
  
 class ConsultantPlate(Plate):
@@ -23,7 +24,7 @@ class ConsultantPlate(Plate):
     ]
     
 class OneConsultantPage(Page):
-    PATH = 'list/consultant/808/'
+    PATH = 'list/consultant/449/'
     PROFILE_SELECTOR = '.profile-card'
     BREADCRUMBS_TITLE = u'Специалисты'
     
@@ -48,13 +49,13 @@ class OneConsultantPageTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_info(self):
+    def _test_info(self):
         self.assertTrue(ConsultantPlate(self.page.element, self.driver).check_fields())
         
-    def test_question_list(self):
+    def _test_question_list(self):
         self.assertTrue(QuestionsList(self.driver).is_valid()) 
          
-    def test_breadcrumbs(self):
+    def _test_breadcrumbs(self):
         self.page.get_breadcrumbs().click()
         self.assertEqual(self.page.get_title(), self.page.BREADCRUMBS_TITLE)
         
