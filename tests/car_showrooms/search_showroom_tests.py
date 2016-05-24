@@ -128,12 +128,10 @@ class SelectCarModelTest(unittest.TestCase):
             search_form.model_dropdown_item_select(test_model)
             search_form.submit()
 
-            list_special_offers = page.special_offers_list
-            offers_models = list_special_offers.get_item_titles()
+            list_showroom = page.showroom_list
+            page_title = list_showroom.get_page_title()
 
-            for model in offers_models:
-                self.assertTrue(test_model in model, "Model filter not working...")
-
+            self.assertIn(test_model, page_title, "Model filter not working...")
             page.open()
 
 

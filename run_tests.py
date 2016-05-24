@@ -8,7 +8,6 @@ from tests.car_showrooms.list_special_offers_test import SpecialOffersListTest
 from tests.car_showrooms.search_showroom_tests import *
 
 if __name__ == '__main__':
-    os.environ["TTHA2BROWSER"] = "FIREFOX"
 
     suite = unittest.TestSuite((
         unittest.makeSuite(RegionSelectFormTest),

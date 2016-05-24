@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -124,6 +124,7 @@ class AddShowroomForm(Component):
 
 
 class ShowroomList(Component):
+    __PAGE_TITLE = '//h1[@class="page__title"]'
     __ITEM = '//div[contains(@class, "dealer-card_lst") or contains(@class, "dealer-card clear")]'
     __ITEM_TITLE = 'div.dealer-card__title a'
     __ITEM_PAGE_TITLE = 'span.bread__curr'
@@ -189,7 +190,7 @@ class ShowroomList(Component):
         try:
             empty_message = self.driver.find_elements_by_xpath(self.__EMPTY_LIST_MESSAGE)
             return True
-        except Exception:
+        except NoSuchElementException:
             return False
 
     def get_items_official_dealers(self):
@@ -199,13 +200,16 @@ class ShowroomList(Component):
             dealer_model_icons = []
             try:
                 dealer_model_icons = item.find_elements_by_xpath(self.__DEALER_MODEL_ICON)
-            except Exception:
+            except NoSuchElementException:
                 pass
 
             if len(dealer_model_icons) > 0:
                 official_items.append(item)
 
-        return official_items
+        return
+
+    def get_page_title(self):
+        return self.driver.find_element_by_xpath(self.__PAGE_TITLE).text
 
 
 class SpecialOffersList(Component):
