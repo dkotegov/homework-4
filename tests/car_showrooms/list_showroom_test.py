@@ -3,92 +3,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from tests.car_showrooms.pages.pages import ShowroomPage, Component
-
-
-class ShowroomList(Component):
-    __ITEM = '//div[contains(@class, "dealer-card_lst") or contains(@class, "dealer-card clear")]'
-    __ITEM_TITLE = 'div.dealer-card__title a'
-    __ITEM_PAGE_TITLE = 'span.bread__curr'
-    __ITEM_ADDRESS = 'div.dealer-card__adress'
-    __ITEM_PHONE = 'div.dealer-card__phone'
-    __PAGINATOR_CURRENT_PARAM = "a.pager__pin.pager__pin_perpage.pager__pin_on"
-    __PAGINATOR_PARAM = "a.pager__pin.pager__pin_perpage"
-    __DEALER_MODEL_ICON = '//img[@alt and @title and @class="dealer-card__aside__item"]'
-    __DEALER_MODEL_ICON_FOR_MODEL_FORMAT = '//img[@alt="{0}" and @title="{0}" and @class="dealer-card__aside__item"]'
-    __DEALER_CARD_METRO_STATION = '//span[@class="dealer-card__metro__item"]'
-    __EMPTY_LIST_MESSAGE = '//div[@class="empty"]'
-
-    def get_item_titles(self):
-        item_titles = []
-        item_pages_title = []
-
-        items_count = self.get_items_count()
-        items_ids = [0, items_count/2, items_count - 1]
-        for item_id in items_ids:
-            item = self.driver.find_elements_by_css_selector(self.__ITEM_TITLE)[item_id]
-
-            item_titles.append(item.text)
-            item.click()
-            item_pages_title.append(self.get_item_page_title())
-            self.driver.back()
-
-        return item_titles, item_pages_title
-
-    def get_item_page_title(self):
-        return self.driver.find_element_by_css_selector(self.__ITEM_PAGE_TITLE).text
-
-    def get_items_addresses(self):
-        addresses = []
-        for address in self.driver.find_elements_by_css_selector(self.__ITEM_ADDRESS):
-            addresses.append(address.text)
-        return addresses
-
-    def get_items_phones(self):
-        phones = []
-        for phone in self.driver.find_elements_by_css_selector(self.__ITEM_PHONE):
-            phones.append(phone.text)
-        return phones
-
-    def get_items_count(self):
-        return len(self.driver.find_elements_by_xpath(self.__ITEM))
-
-    def set_pagination_count_params(self, count):
-        for param in self.driver.find_elements_by_css_selector(self.__PAGINATOR_PARAM):
-            if int(param.text) == count:
-                param.click()
-                return
-
-    def get_pagination_count_current_param(self):
-        return int(self.driver.find_element_by_css_selector(self.__PAGINATOR_CURRENT_PARAM).text)
-
-    def get_items_official_dealers_by_model(self, model):
-        return self.driver.find_elements_by_xpath(self.__DEALER_MODEL_ICON_FOR_MODEL_FORMAT.format(model))
-
-    def get_items_metro_stations(self):
-        return [item.text for item in self.driver.find_elements_by_xpath(self.__DEALER_CARD_METRO_STATION)]
-
-    def is_list_empty(self):
-        try:
-            empty_message = self.driver.find_elements_by_xpath(self.__EMPTY_LIST_MESSAGE)
-            return True
-        except Exception:
-            return False
-
-    def get_items_official_dealers(self):
-        official_items = []
-        items = self.driver.find_elements_by_xpath(self.__ITEM)
-        for item in items:
-            dealer_model_icons = []
-            try:
-                dealer_model_icons = item.find_elements_by_xpath(self.__DEALER_MODEL_ICON)
-            except Exception:
-                pass
-
-            if len(dealer_model_icons) > 0:
-                official_items.append(item)
-
-        return official_items
+from tests.car_showrooms.pages.pages import ShowroomPage
 
 
 class ShowroomListTest(unittest.TestCase):
@@ -125,7 +40,7 @@ class ShowroomListTest(unittest.TestCase):
         self.assertEqual(len(phones), showroom_list.get_items_count())
 
         items_count = showroom_list.get_items_count()
-        items_ids = [0, items_count/2 - 4, items_count/2, items_count/2 + 4, items_count - 1]
+        items_ids = [0, items_count / 2 - 4, items_count / 2, items_count / 2 + 4, items_count - 1]
         for item_id in items_ids:
             address = addresses[item_id]
             self.assertIsNotNone(address)
