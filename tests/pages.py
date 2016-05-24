@@ -73,43 +73,14 @@ class FavouritesPage(Page):
     def offer(self):
         return PageOffer(self.driver)
 
-    @property
-    def link(self):
-        return FavouriteLink(self.driver)
+    def get_count(self):
+        btns = self.driver.find_elements_by_xpath(self.DELETE_BTN)
+        return len(btns)
 
     def clear_list(self):
         btns = self.driver.find_elements_by_xpath(self.DELETE_BTN)
         for btn in btns:
             btn.click()
-
-
-
-class FavouriteLink(Component):
-    LINK = '//span[@bem-id="234"]'
-    DROPDOWN = '//span[@bem-id="247"]/a/span'
-
-    def get_link(self):
-        return WebDriverWait(self.driver, 7000, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.LINK)
-        )
-
-    def get_dropdown_text(self):
-        return WebDriverWait(self.driver, 7000, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.DROPDOWN)
-        )
-
-    def get_count(self):
-        for i in range(0, 1000):
-            hover_link = self.get_link()
-            hover_link.click()
-            text = self.get_dropdown_text()
-            # print text.text
-            import re
-            result = re.search('(\d)+', unicode(text.text))
-            if result:
-                return int(result.group(1))
-        raise Exception()
-
 
 
 class FavouriteItem(FavouritesPage):
@@ -205,11 +176,10 @@ class Slider(Component):
         return int(current_num.get_attribute("innerText"))
 
     def get_max_page_num(self):
-        for i in range(0, 1000):
-            max_num = WebDriverWait(self.driver, 7000, 0.1).until(
-                lambda d: d.find_element_by_class_name(self.TOTAL_NUM))
-            if max_num.text:
-                return int(max_num.text)
+        max_num = WebDriverWait(self.driver, 7000, 0.1).until(
+            lambda d: d.find_element_by_class_name(self.TOTAL_NUM))
+        if max_num.text:
+            return int(max_num.text)
         raise Exception()
 
     @property

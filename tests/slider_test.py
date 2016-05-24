@@ -68,7 +68,6 @@ class SliderTestCase(unittest.TestCase):
         with self.assertRaises(ElementNotVisibleException):
             slider.close_slider()
 
-
     def getSlider(self):
         offer_page = PageOffer(self.driver)
         offer_page.open(self.OFFER_NUM)
