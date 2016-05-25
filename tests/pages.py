@@ -113,7 +113,7 @@ class AuthForm(Component):
         self.driver.switch_to.frame(self.driver.find_element_by_xpath(self.FORM_FRAME))
 
     def set_login(self, login):
-        input = WebDriverWait(self.driver, 7000, 0.1).until(
+        input = WebDriverWait(self.driver, 20, 0.1).until(
             lambda d: d.find_element_by_xpath(self.LOGIN)
         )
         input.send_keys(login)
@@ -171,16 +171,14 @@ class Slider(Component):
         imgs[slide_num].click()
 
     def get_page_num_from_browser(self):
-        current_num = WebDriverWait(self.driver, 7000, 0.1).until(
+        current_num = WebDriverWait(self.driver, 20, 0.1).until(
             lambda d: d.find_element_by_xpath(self.CURRENT_NUM))
         return int(current_num.get_attribute("innerText"))
 
     def get_max_page_num(self):
-        max_num = WebDriverWait(self.driver, 7000, 0.1).until(
+        max_num = WebDriverWait(self.driver, 20, 0.1).until(
             lambda d: d.find_element_by_class_name(self.TOTAL_NUM))
-        if max_num.text:
-            return int(max_num.text)
-        raise Exception()
+        return int(max_num.get_attribute("innerText"))
 
     @property
     def banner(self):
