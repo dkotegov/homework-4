@@ -52,6 +52,9 @@ class Analog(Component):
         return result
 
     def go_to_drugs_page(self, title):
+        WebDriverWait(self.driver, self.TIMEOUT).until(
+            expected_conditions.element_to_be_clickable((By.LINK_TEXT, title))
+        )
         self.driver.find_element_by_link_text(title).click()
 
     def result_drag(self):

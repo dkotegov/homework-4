@@ -39,8 +39,7 @@ class PaginatorTest(unittest.TestCase):
     def test_list_of_page_numbers(self):
         page_number = 2
         self.assertTrue(self.paginator.go_to_page(page_number))
-        non_existent_page_number = 5
-        self.assertTrue(self.paginator.go_to_page(page_number))
+        non_existent_page_number = 25
         self.assertFalse(self.paginator.go_to_page(non_existent_page_number))
 
     def tearDown(self):
