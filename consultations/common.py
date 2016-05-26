@@ -35,7 +35,7 @@ class Common(object):
     
     #possible args: [by], timeout
     def _wait_for_element(self, **kwargs): #throws TimeoutException
-        DEFAULT_WAIT_TIMEOUT = 10
+        DEFAULT_WAIT_TIMEOUT = 30
         timeout = kwargs.get('timeout', DEFAULT_WAIT_TIMEOUT) 
         _del_key_safe(kwargs, 'timeout')
         key = kwargs.keys()[0]
@@ -144,10 +144,21 @@ class Plate(Component):
         return (self.get_title().find(title) != -1)
 
         
+    def wait_for_stale_element(self, selector):
+        ATTEMPTS_MAX = 2
+        attempts = 0;
+        while(attempts < ATTEMPTS_MAX):
+            try:
+                return self.driver.find_element_by_css_selector(selector)
+            except :
+                pass
+            attempts += 1
+       
     def check_fields(self):
         for selector in self.INNER_FIELDS:
-            element = self.driver.find_element_by_css_selector(selector.get('css_selector'))
-            if not getattr(self, selector.get('check_function'))(element):
+            element = self.wait_for_stale_element(selector.get('css_selector'))
+            #self.driver.find_element_by_css_selector(selector.get('css_selector'))
+            if element and not getattr(self, selector.get('check_function'))(element):
                return False
         return True
  
