@@ -7,6 +7,7 @@ import unittest
 from selenium.webdriver.common.by import By
 from selenium.webdriver import DesiredCapabilities, Remote
 
+
 from common import Page, QuestionsList, Slider, AskConsultantForm
        
 class AskPage(Page):
@@ -51,10 +52,10 @@ class AskPageTest(unittest.TestCase):
     def _test_preset_age(self):
         self.assertTrue(self.form.check_preset_age())
         
-    def _test_preset_gender(self):
+    def test_preset_gender(self):
         self.assertTrue(self.form.check_preset_gender()) 
        
-    def test_submit_form(self):
+    def _test_submit_form(self):
         self.form.set_title(self.TITLE)
         self.form.set_description(self.DESCRIPTION)
         self.form.select_rubric(self.RUBRIC)

@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 
 def _del_key_safe(dict_, key):
     try:
@@ -150,7 +150,7 @@ class Plate(Component):
         while(attempts < ATTEMPTS_MAX):
             try:
                 return self.driver.find_element_by_css_selector(selector)
-            except :
+            except StaleElementReferenceException:
                 pass
             attempts += 1
        
@@ -259,48 +259,49 @@ class AskConsultantForm(Component):
         return relativedelta.relativedelta(datetime.now(), datetime(*self.BIRTHDAY_TUPLE)).years
 
     def set_title(self, title):
-        self.driver.find_element_by_name(self.TITLE).send_keys(title)
+        self._wait_for_element(**{By.NAME: self.TITLE}).send_keys(title)
 
     def set_description(self, description):
-        self.driver.find_element_by_name(self.DESCRIPTION).send_keys(description)
+        self._wait_for_element(**{By.NAME: self.DESCRIPTION}).send_keys(description)
 
     def select_rubric(self, rubric):
-        selector = self.driver.find_element_by_name(self.RUBRIC)
+        selector = self._wait_for_element(**{By.NAME: self.RUBRIC})
         for option in selector.find_elements_by_tag_name('option'):
             if option.text == rubric:
                 option.click()
                 break
                 
     def select_consultant(self, consultant):
-        selector = self.driver.find_element_by_name(self.CONSULTANT)
+        selector = self._wait_for_element(**{By.NAME: self.CONSULTANT})
         for option in selector.find_elements_by_tag_name('option'):
             if option.text == consultant:
                 option.click()
                 break
                         
     def select_gender(self, gender): #female or male
-        for gender_radiobutton in self.driver.find_elements_by_name(self.GENDER):
+        for gender_radiobutton in self._wait_for_element(**{By.NAME: self.GENDER}):
             if gender_radiobutton.get_attribute('value') == gender:
                 gender_radiobutton.click()
         
     def set_age(self, age):
-        self.driver.find_element_by_name(self.AGE).send_keys(age)
+        self._wait_for_element(**{By.NAME: self.AGE}).send_keys(age)
         
     def change_anonymous(self):
-        self.driver.find_element_by_name(self.ANONYMOUS).click()
+        self._wait_for_element(**{By.NAME: self.ANONYMOUS}).click()
         
     def check_preselect_category(self, category):
-        selector = self.driver.find_element_by_name(self.RUBRIC)
+        selector = self._wait_for_element(**{By.NAME: self.RUBRIC})
         return selector.find_element_by_css_selector('.js-select__selected__option').text == category
         
     def check_preselect_doctor(self, doctor):
-        selector = self.driver.find_element_by_name(self.CONSULTANT)
+        selector = self._wait_for_element(**{By.NAME: self.CONSULTANT})
         return selector.find_element_by_css_selector('.js-select__selected__option').text == consultant
         
     def check_preset_age(self):
         return int(self._wait_for_element(**{By.NAME: self.AGE}).get_attribute('value')) == self.DEFAULT_AGE
         
     def check_preset_gender(self):
+        self._wait_for_element(**{By.NAME: self.GENDER})
         for gender_radiobutton in self.driver.find_elements_by_name(self.GENDER):
             if gender_radiobutton.get_attribute('value') == self.DEFAULT_GENDER and gender_radiobutton.is_selected():
                 return True

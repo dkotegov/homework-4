@@ -9,7 +9,7 @@ class QuestionPlateRubric(Plate):
     INNER_FIELDS = [ 
         {   #title
             'css_selector': 'div.entry__name a.entry__link',
-            'check_function': 'has_link_with_title'
+            'check_function': 'has_working_link'
         },
         {   #descrption
             'css_selector': '.entry__description',

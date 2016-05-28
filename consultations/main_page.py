@@ -10,7 +10,7 @@ class RubricPlate(Plate):
     INNER_FIELDS = [ 
         {   #link
             'css_selector': '.list__title',
-            'check_function': 'has_link_with_title'
+            'check_function': 'has_working_link'
         },
         {   #title
             'css_selector': '.list__title',
