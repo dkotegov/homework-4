@@ -4,6 +4,11 @@ import urlparse
 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+import time
+
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class Page(object):
@@ -39,6 +44,14 @@ class NamesPage(Page):
         return Footer(self.driver)
 
 
+class CalcPage(Page):
+    PATH = 'baby/bir/'
+
+    @property
+    def calc(self):
+        return Calc(self.driver)
+
+
 class Component(object):
     def __init__(self, driver):
         self.driver = driver
@@ -48,6 +61,78 @@ class Component(object):
 
     def get_title(self):
         return self.driver.title
+
+
+class Calc(Component):
+    CALC_INPUT_RADIO_1 = '//input[@type="radio" and @class="benefit__vacancy__item__input"][1]'
+    CALC_SELECT = '//select[@name="job_practice"]'
+    CALC_SELECT_OPTION = '//select[@id="job_practice"]/option'
+    CALC_INPUT_FIRST_DAY_HOLIDAY = '//input[@name="first_date"]'
+    CALC_INPUT_LAST_DAY_HOLIDAY = '//input[@name="last_date"]'
+    CALC_INPUT_AREA_RATE = '//input[@name="area_rate"]'
+    CALC_INPUT_STAVKA = '//input[@name="form-0-rate"]'
+    CALC_INPUT_FIRST_SALARY = '//input[@name="form-0-first_year_salary"]'
+    CALC_INPUT_SECOND_SALARY = '//input[@name="form-0-second_year_salary"]'
+    CALC_BUTTON = '//button[@class="pin-button pin-button_oval pin-button_yellow js-calculators-bir-submit"]'
+    CALC_DELTA_DAYS = '//span[@class="js-calculators-bir-duration"]'
+
+    FIRST_SALARY = None
+    SECOND_SALARY = None
+    AREA_RATE = 1
+    STAVKA = 1
+    FIRST_DAY_HOLIDAY = None
+    LAST_DAY_HOLIDAY = None
+    OPTION = None
+
+    DELTA = ""
+
+    def set_first_salary(self, salary):
+        self.FIRST_SALARY = salary
+        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_FIRST_SALARY)
+        elem.clear()
+        elem.send_keys(self.FIRST_SALARY)
+
+    def set_second_salary(self, salary):
+        self.SECOND_SALARY = salary
+        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_SECOND_SALARY)
+        elem.clear()
+        elem.send_keys(self.SECOND_SALARY)
+
+    def set_area_rate(self, rate):
+        self.AREA_RATE = rate
+        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_AREA_RATE)
+        elem.clear()
+        elem.send_keys(self.AREA_RATE)
+
+    def set_stavka(self, stavka):
+        self.STAVKA = stavka
+        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_STAVKA)
+        elem.clear()
+        elem.send_keys(self.STAVKA)
+
+    def set_first_day_holiday(self, day):
+        self.FIRST_DAY_HOLIDAY = day
+        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_FIRST_DAY_HOLIDAY)
+        elem.clear()
+        elem.send_keys(self.FIRST_DAY_HOLIDAY)
+
+    def set_last_day_holiday(self, day):
+        self.LAST_DAY_HOLIDAY = day
+        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_LAST_DAY_HOLIDAY)
+        elem.clear()
+        elem.send_keys(self.LAST_DAY_HOLIDAY)
+
+    def set_experience(self, exp):
+        self.OPTION = exp
+
+    def get_delta_days(self):
+        self.DELTA = self.driver.find_element_by_xpath(self.CALC_DELTA_DAYS).text
+
+    def click_calculate(self):
+        if self.OPTION:
+            select = Select(self.driver.find_element_by_xpath(self.CALC_SELECT_OPTION))
+            select.select_by_visible_text(self.OPTION)
+        self.driver.find_element_by_xpath(self.CALC_BUTTON).click()
 
 
 class TopMenu(Component):
