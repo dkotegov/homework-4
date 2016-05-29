@@ -31,7 +31,7 @@ class FavoritesBlock(Component):
     SORT_NAME_URL = BASE_URL + 'user/favorites/cinema/?order=name#list'
 
     FILM_TITLE = '//a[contains(text(),"1+1")]'
-    FILM_IMG = '//div[@class="pm-itemevent__pic"]'
+    FILM_IMG = '//img[@class="itemevent__pic__img fadeborder"]'
     FILM_CITY = '//a[contains(text(),"Франция")]'
     FILM_YEAR = '//a[contains(text(),"2011")]'
     DRAMA_BUTTON = '//a[contains(text(),"драма")]'

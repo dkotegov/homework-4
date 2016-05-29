@@ -17,8 +17,8 @@ class BaseTestCase(unittest.TestCase):
                 desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-        page = RatingsPage(self.driver)
-        page.open()
+        self.page = RatingsPage(self.driver)
+        self.page.open()
 
     def tearDown(self):
         self.driver.quit()
@@ -26,17 +26,17 @@ class BaseTestCase(unittest.TestCase):
 
 class RatingsPageTestCase(BaseTestCase):
     def test_click_import_rating(self):
-        page.ratings_block.click_import_rating()
-        self.assertEqual(self.driver.current_url, page.ratings_block.IMPORT_RATING_URL)
+        self.page.ratings_block.click_import_rating()
+        self.assertEqual(self.driver.current_url, self.page.ratings_block.IMPORT_RATING_URL)
 
     def test_click_choose_film(self):
-        page.ratings_block.click_choose_film()
-        self.assertEqual(self.driver.current_url, page.ratings_block.CHOOSE_FILM_URL)
+        self.page.ratings_block.click_choose_film()
+        self.assertEqual(self.driver.current_url, self.page.ratings_block.CHOOSE_FILM_URL)
 
     def test_click_choose_series(self):
-        page.ratings_block.click_choose_series()
-        self.assertEqual(self.driver.current_url, page.ratings_block.CHOOSE_SERIES_URL)
+        self.page.ratings_block.click_choose_series()
+        self.assertEqual(self.driver.current_url, self.page.ratings_block.CHOOSE_SERIES_URL)
 
     def test_click_choose_tvshow(self):
-        page.ratings_block.click_choose_tvshow()
-        self.assertEqual(self.driver.current_url, page.ratings_block.CHOOSE_TVSHOW_URL)
+        self.page.ratings_block.click_choose_tvshow()
+        self.assertEqual(self.driver.current_url, self.page.ratings_block.CHOOSE_TVSHOW_URL)

@@ -8,15 +8,14 @@ from pages.pages import BirthPage
 import unittest
 import urlparse
 
+MONTHS = [u'Декабрь', u'Январь', u'Февраль', u'Март', u'Апрель', u'Май', u'Июнь', u'Июль',
+          u'Август', u'Сентябрь', u'Октябрь', u'Ноябрь', u'Декабрь', u'Январь', 'Февраль']
 
-MONTHS = [ u'Декабрь', u'Январь', u'Февраль', u'Март', u'Апрель', u'Май', u'Июнь', u'Июль',
-           u'Август', u'Сентябрь', u'Октябрь', u'Ноябрь', u'Декабрь', u'Январь', 'Февраль']
+TRUE_MONTHS = [u'декабря', u'января', u'февраля', u'марта', u'апреля', u'мая', u'июня', u'июля',
+               u'августа', u'сентября', u'октября', u'Ноября', u'декабря', u'января', 'февраля']
 
-TRUE_MONTHS = [ u'декабря', u'января', u'февраля', u'марта', u'апреля', u'мая', u'июня', u'июля',
-           u'августа', u'сентября', u'октября', u'Ноября', u'декабря', u'января', 'февраля']
 
 class BaseTestCase(unittest.TestCase):
-
     def setUp(self):
         browser = os.environ.get('HW4BROWSER', 'CHROME')
 
@@ -30,7 +29,6 @@ class BaseTestCase(unittest.TestCase):
 
 
 class BirthPageTestCase(BaseTestCase):
-
     def test_initial_url(self):
         page = BirthPage(self.driver)
         page.open()
@@ -73,17 +71,6 @@ class BirthPageTestCase(BaseTestCase):
         page.header_block.click_calendar_dropdown_button()
         page.header_block.click_previous_month_button()
         self.assertEqual(page.header_block.today_month, MONTHS[datetime.date.today().month - 1])
-
-    def test_set_day(self):
-        page = BirthPage(self.driver)
-        page.open()
-        day = random.randint(1, 9)
-        month = datetime.date.today().month
-        page.header_block.click_calendar_dropdown_button()
-        page.header_block.click_day(day, month)
-        page.header_block.click_calendar_dropdown_button()
-        page.header_block.click_calendar_dropdown_button()
-        self.assertTrue(page.header_block.day_is_active(day, month))
 
     def test_set_month(self):
         page = BirthPage(self.driver)

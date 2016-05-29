@@ -37,10 +37,6 @@ class ProfilePageTestCase(BaseTestCase):
         self.page.profile_block.click_films()
         self.assertEqual(self.driver.current_url, self.page.profile_block.FILMS_URL)
 
-    def test_click_news(self):
-        self.page.profile_block.click_news()
-        self.assertEqual(self.driver.current_url, self.page.profile_block.NEWS_URL)
-
     def test_click_title(self):
         self.page.profile_block.click_title()
         self.assertEqual(self.driver.current_url, self.page.profile_block.FILM_TITLE_URL)

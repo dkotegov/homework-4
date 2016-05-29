@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from components.component import Component
 
+
 class BirthHeaderBlock(Component):
     CALENDAR = 'dropdown_calendar'
     DROPDOWN_BOX = 'dropdown__box'
@@ -39,6 +40,7 @@ class BirthHeaderBlock(Component):
     def day_is_active(self, day, month):
         href = self.driver.find_element_by_xpath(self.CALENDAR_DAY_SELECTOR.format(month, day))
         return href.find_element_by_xpath(self.PARENT_NODE).get_attribute(self.CLASS_ATTR) == self.ACTIVE_CALENDAR_DAY
+
 
 class BirthListBlock(Component):
     USER_IMAGE_HREF = 'itemperson__img'

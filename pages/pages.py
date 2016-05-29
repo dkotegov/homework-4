@@ -27,6 +27,10 @@ class BasePage(object):
         return MainHeader(self.driver)
 
     @property
+    def fav_block(self):
+        return FavoritesBlock(self.driver)
+
+    @property
     def nav_bar(self):
         return NavBar(self.driver)
 

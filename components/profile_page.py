@@ -7,7 +7,6 @@ class ProfileBlock(Component):
     ABOUT_BTN = '//span[contains(text(),"О персоне") and @class="link__text"]'
     BIO_BTN = '//span[contains(text(),"Биография") and @class="link__text"]'
     FILMS_BTN = '//span[contains(text(),"Фильмы") and @class="link__text"]'
-    NEWS_BTN = '//span[contains(text(),"Новости") and @class="link__text"]'
 
     BASE_URL = 'https://afisha.mail.ru/person/471877_sasha_grey/'
     ABOUT_URL = BASE_URL + '#about'
@@ -57,9 +56,6 @@ class ProfileBlock(Component):
 
     def click_films(self):
         self.click(self.FILMS_BTN)
-
-    def click_news(self):
-        self.click(self.NEWS_BTN)
 
     def click_fishes(self):
         self.click(self.FISHES_BTN)

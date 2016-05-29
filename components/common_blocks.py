@@ -11,12 +11,11 @@ class MainHeader(Component):
 
     TEST_USER_LOGIN = 'valeriy-test'
     TEST_USER_DOMAIN = '@mail.ru'
-    TEST_USER_PASSWORD = 'passw0rd'
 
     LOGIN_BUTTON = '//a[contains(text(),"Вход")]'
-    LOGIN_INPUT = '//input[@id="ph_login"]'
-    PASSWORD_INPUT = '//input[@id="ph_password"]'
-    LOGIN_SUBMIT_BUTTON = '//span[@class="js-control js-control-login x-ph__button x-ph__button_action"]'
+    LOGIN_INPUT = '//input[@name="Username"]'
+    PASSWORD_INPUT = '//input[@name="Password"]'
+    LOGIN_SUBMIT_BUTTON = '//span[@class="btn__text" and contains(text(), "Войти")]'
 
     LOGO_BUTTON = '//img[@class="pm-logo__link__pic"]'
     RECOMMENDED_BUTTON = '//span[contains(text(),"Рекомендации")]'
@@ -37,9 +36,11 @@ class MainHeader(Component):
 
     def login(self):
         self.click(self.LOGIN_BUTTON)
+        self.driver.switch_to.frame(self.driver.find_element_by_class_name("ag-popup__frame__layout__iframe"))
         self.send_keys(self.LOGIN_INPUT, self.TEST_USER_LOGIN)
         self.send_keys(self.PASSWORD_INPUT, self.TEST_USER_PASSWORD)
         self.click(self.LOGIN_SUBMIT_BUTTON)
+        self.driver.switch_to.default_content()
 
 
 class NavBar(Component):
@@ -97,35 +98,35 @@ class NavBar(Component):
                        'ARTICLES': '//span[contains(text(),"Новости")]',
                        }
 
-    TVSHOW_DROPDOWN_URLS= {'TOP': BASE_URL + 'tvshow/top/',
-                           'ONLINE': BASE_URL + 'tvshow/online/',
-                           'ALL': BASE_URL + 'tvshow/all/',
-                           'ARTICLES': BASE_URL + 'msk/tvshow/articles/',
-                           }
+    TVSHOW_DROPDOWN_URLS = {'TOP': BASE_URL + 'tvshow/top/',
+                            'ONLINE': BASE_URL + 'tvshow/online/',
+                            'ALL': BASE_URL + 'tvshow/all/',
+                            'ARTICLES': BASE_URL + 'msk/tvshow/articles/',
+                            }
 
     TV_DROPDOWN = {'CENTRAL': '//span[contains(text(),"Центральные")]',
-                           'LOCAL': '//span[contains(text(),"Местные")]',
-                           'SPORT': '//span[contains(text(),"Спортивные")]',
-                           'MOVIES_SERIES': '//span[contains(text(),"Фильмы и Сериалы")]',
-                           'NEWS': '//span[contains(text(),"Новостные")]',
-                          }
+                   'LOCAL': '//span[contains(text(),"Местные")]',
+                   'SPORT': '//span[contains(text(),"Спортивные")]',
+                   'MOVIES_SERIES': '//span[contains(text(),"Фильмы и Сериалы")]',
+                   'NEWS': '//span[contains(text(),"Новостные")]',
+                   }
 
     TV_DROPDOWN_URLS = {'CENTRAL': TV_BASE_URL + 'moskva/central/',
-                                'LOCAL': TV_BASE_URL + 'moskva/local/',
-                                'SPORT': TV_BASE_URL + 'moskva/sport/',
-                                'MOVIES_SERIES': TV_BASE_URL + 'moskva/movies_series/',
-                                'NEWS': TV_BASE_URL + 'moskva/news/',
-                               }
+                        'LOCAL': TV_BASE_URL + 'moskva/local/',
+                        'SPORT': TV_BASE_URL + 'moskva/sport/',
+                        'MOVIES_SERIES': TV_BASE_URL + 'moskva/movies_series/',
+                        'NEWS': TV_BASE_URL + 'moskva/news/',
+                        }
 
     STARS_DROPDOWN = {'ARTICLES': '//span[contains(text(),"Новости")]',
                       'BIRTHDAY': '//span[contains(text(),"Сегодня родились")]',
                       'SELECTIONS': '//span[contains(text(),"Рейтинги")]',
-                     }
+                      }
 
     STARS_DROPDOWN_URLS = {'ARTICLES': BASE_URL + 'msk/stars/articles/',
                            'BIRTHDAY': BASE_URL + 'person/birthday/',
                            'SELECTIONS': BASE_URL + 'stars/selections/',
-                          }
+                           }
 
     # nav bar buttons
     def click_cinema(self):
@@ -383,7 +384,6 @@ class Footer(Component):
     def click_star_selections(self):
         self.click(self.STAR_SELECTIONS)
 
-
     BASE_URL = 'https://afisha.mail.ru/'
 
     # 1st column
@@ -423,6 +423,6 @@ class Footer(Component):
 
     # 5th column
     STARS_URL = BASE_URL + 'stars/'
-    STAR_ARTICLES_URL = BASE_URL + 'msk/articles/'
+    STAR_ARTICLES_URL = BASE_URL + 'msk/cinema/articles/'
     STAR_BIRTHDAY_URL = BASE_URL + 'person/birthday/'
     STAR_SELECTIONS_URL = BASE_URL + 'stars/selections/'

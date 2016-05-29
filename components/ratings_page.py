@@ -4,16 +4,16 @@ from components.component import Component
 
 
 class RatingsBlock(Component):
-    IMPORT_RATING = '//a[@class="button__text" and contains(text(),"Загрузить оценки")]'
-    CHOOSE_FILM = '//a[@class="button__text" and contains(text(),"Выбрать фильмы")]'
-    CHOOSE_SERIES = '//a[@class="button__text" and contains(text(),"Выбрать сериалы")]'
-    CHOOSE_TVSHOW = '//a[@class="button__text" and contains(text(),"Выбрать телешоу")]'
+    IMPORT_RATING = '//span[@class="button__text" and contains(text(),"Загрузить оценки")]'
+    CHOOSE_FILM = '//div[@class="button__text" and contains(text(),"Выбрать фильмы")]'
+    CHOOSE_SERIES = '//div[@class="button__text" and contains(text(),"Выбрать сериалы")]'
+    CHOOSE_TVSHOW = '//div[@class="button__text" and contains(text(),"Выбрать телешоу")]'
 
     BASE_URL = 'https://afisha.mail.ru'
-    IMPORT_RATING_URL = BASE_URL + 'user/ratings/import/'
-    CHOOSE_FILM_URL = BASE_URL + 'cinema/online/'
-    CHOOSE_SERIES_URL = BASE_URL + 'series/online/'
-    CHOOSE_TVSHOW_URL = BASE_URL + 'tvshow/online/'
+    IMPORT_RATING_URL = BASE_URL + '/user/ratings/import/'
+    CHOOSE_FILM_URL = BASE_URL + '/cinema/online/'
+    CHOOSE_SERIES_URL = BASE_URL + '/series/online/'
+    CHOOSE_TVSHOW_URL = BASE_URL + '/tvshow/online/'
 
     def click_import_rating(self):
         self.click(self.IMPORT_RATING)
