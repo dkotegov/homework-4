@@ -55,16 +55,6 @@ class FilmBlock(Component):
         element = self.driver.find_element_by_xpath(self.ADD_BUTTON_PARENT).find_elements_by_css_selector("*")[0]
         return element.get_attribute('class') == self.ADDED_STATE_CLASS
 
-    def rate_review(self, button, action):
-        current_rating = self.driver.find_element_by_xpath(self.REVIEW_RATING_ITEM).find_element_by_class_name(
-                self.REVIEW_RATING_VALUE_CLASS).text[1:]
-        self.click(button)
-        self.driver.refresh()
-        after_rating = self.driver.find_element_by_xpath(self.REVIEW_RATING_ITEM).find_element_by_class_name(
-                self.REVIEW_RATING_VALUE_CLASS).text[1:]
-        return int(after_rating) == action(int(current_rating), 1) or int(after_rating) == action(int(current_rating),
-                                                                                                  2)
-
     def like_review(self):
         current_rating = self.driver.find_element_by_xpath(self.REVIEW_RATING_ITEM).find_element_by_class_name(
                 self.REVIEW_RATING_VALUE_CLASS).text[1:]
