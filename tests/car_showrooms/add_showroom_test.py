@@ -64,13 +64,14 @@ class AddShowroomFormTest(unittest.TestCase):
         add_showroom_form = page.add_showroom_form
         add_showroom_form.open_form()
 
-        add_showroom_form.set_required_fields('test', '9091111111', invalid_emails[0], 'name', 'address', '9091111111')
+        add_showroom_form.set_required_fields('test', '9091111111', invalid_emails[0], 'name',
+                                              'address', '9091111111', 'http://site.ru')
         add_showroom_form.submit()
-        self.assertFalse(add_showroom_form.is_email_valid(), 'email = "' + invalid_emails[0] + '"')
+        self.assertTrue(add_showroom_form.is_email_invalid(), 'email = "' + invalid_emails[0] + '"')
         for invalid_email in invalid_emails[1:]:
             add_showroom_form.set_email(invalid_email)
             add_showroom_form.submit()
-            self.assertFalse(add_showroom_form.is_email_valid(), 'email = "' + invalid_email + '"')
+            self.assertTrue(add_showroom_form.is_email_invalid(), 'email = "' + invalid_email + '"')
 
     def test_valid_showroom_phone(self):
         page = ShowroomPage(self.driver)
@@ -120,11 +121,12 @@ class AddShowroomFormTest(unittest.TestCase):
         add_showroom_form = page.add_showroom_form
         add_showroom_form.open_form()
 
-        add_showroom_form.set_required_fields('test', '9091111111', 'email@mail.ru', 'name', 'address', '9091111111')
-        for invalid_email in invalid_emails[1:]:
+        add_showroom_form.set_required_fields('test', '9091111111', 'email@mail.ru', 'name',
+                                              'address', '9091111111', 'http://site.ru')
+        for invalid_email in invalid_emails:
             add_showroom_form.set_showroom_email(invalid_email)
             add_showroom_form.submit()
-            self.assertFalse(add_showroom_form.is_showroom_email_valid(), 'email = "' + invalid_email + '"')
+            self.assertTrue(add_showroom_form.is_showroom_email_invalid(), 'email = "' + invalid_email + '"')
 
     def test_correct_submit(self):
         page = ShowroomPage(self.driver)
@@ -136,6 +138,7 @@ class AddShowroomFormTest(unittest.TestCase):
         current_time_in_millis = int(round(time.time() * 1000))
         add_showroom_form.set_required_fields(u'Иванов Иван Иванович', u'9091111111',
                                               u'test' + unicode(current_time_in_millis) + u'@mail.ru',
-                                              u'Showroom' + unicode(current_time_in_millis), u'Адрес', u'9091111111')
+                                              u'Showroom' + unicode(current_time_in_millis),
+                                              u'Адрес', u'9091111111', 'http://site.ru')
         add_showroom_form.submit()
         self.assertTrue(add_showroom_form.is_correct_submit())

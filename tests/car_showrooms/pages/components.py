@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException, TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -19,13 +19,22 @@ class AddShowroomForm(Component):
     __FIO_EDIT = 'manager_fio'
     __PHONE_EDIT = '//input[@name="manager_phone"]/..' \
                    '//input[@class="input__data__value js-phone__number js-phone__part"]'
+    __PHONE_CONTAINER = '//div[contains(@class, "form__fieldset__item ' \
+                        'form__fieldset__item_phone js-module js-field_cont")]'
     __EMAIL_EDIT = 'manager_email'
+    __EMAIL_CONTAINER = '(//div[contains(@class, "input input_text js-field_cont input_required")])[2]'
+    __EMAIL_INVALID_CONTAINER = '//div[contains(@class, "input input_text js-field_cont input_required invalid")]'
     __NAME_EDIT = 'name'
     __ADDRESS_EDIT = 'address_salon'
     __SHOWROOM_PHONE1_EDIT = '//input[@name="phone1"]/..' \
                              '//input[@class="input__data__value js-phone__number js-phone__part"]'
+    __SHOWROOM_PHONE1_CONTAINER = '(//div[contains(@class, "form__fieldset__item ' \
+                                  'form__fieldset__item_phone clear js-module js-field_cont")])[1]'
     __SHOWROOM_EMAIL_EDIT = 'email_salon'
+    __SHOWROOM_EMAIL_CONTAINER = '(//div[contains(@class, "input input_text js-field_cont")])[7]'
+    __SHOWROOM_EMAIL_INVALID_CONTAINER = '//div[contains(@class, "input input_text js-field_cont invalid")]'
     __SHOWROOM_SITE_EDIT = 'url_salon'
+    __SHOWROOM_SITE_CONTAINER = '(//div[contains(@class, "input input_text js-field_cont")])[6]'
     __SUBMIT_BUTTON = '//span[@class="button__text" and text()="Отправить заявку"]'
     __SUBMIT_OK_TITLE = '//div[@class="box__title" and text()="Ваша заявка отправлена"]'
 
@@ -36,13 +45,14 @@ class AddShowroomForm(Component):
             EC.presence_of_element_located((By.CSS_SELECTOR, self.__FORM_TITLE))
         )
 
-    def set_required_fields(self, fio, phone, email, name, address, showroom_phone):
+    def set_required_fields(self, fio, phone, email, name, address, showroom_phone, site):
         self.set_fio(fio)
         self.set_phone(phone)
         self.set_email(email)
         self.set_name(name)
         self.set_address(address)
         self.set_showroom_phone(showroom_phone)
+        self.set_showroom_site(site)
 
     def get_title(self):
         return self.driver.find_element_by_css_selector(self.__FORM_TITLE).text
@@ -61,7 +71,7 @@ class AddShowroomForm(Component):
         phone_edit.send_keys(phone)
 
     def is_phone_valid(self):
-        parent = self.__get_phone_edit_element().find_element_by_xpath('../../../../..')
+        parent = self.driver.find_element_by_xpath(self.__PHONE_CONTAINER)
         return 'invalid' not in parent.get_attribute('class')
 
     def set_email(self, email):
@@ -70,8 +80,18 @@ class AddShowroomForm(Component):
         email_edit.send_keys(email)
 
     def is_email_valid(self):
-        parent = self.driver.find_element_by_name(self.__EMAIL_EDIT).find_element_by_xpath('../../..')
+        parent = self.driver.find_element_by_xpath(self.__EMAIL_CONTAINER)
         return 'invalid' not in parent.get_attribute('class')
+
+    def is_email_invalid(self):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, self.__EMAIL_INVALID_CONTAINER))
+            )
+
+            return True
+        except TimeoutException:
+            return False
 
     def set_name(self, name):
         name_edit = self.driver.find_element_by_name(self.__NAME_EDIT)
@@ -92,7 +112,7 @@ class AddShowroomForm(Component):
         phone_edit.send_keys(phone)
 
     def is_showroom_phone_valid(self):
-        parent = self.__get_showroom_phone_edit_element().find_element_by_xpath('../../../../..')
+        parent = self.driver.find_element_by_xpath(self.__SHOWROOM_PHONE1_CONTAINER)
         return 'invalid' not in parent.get_attribute('class')
 
     def set_showroom_email(self, email):
@@ -101,8 +121,18 @@ class AddShowroomForm(Component):
         email_edit.send_keys(email)
 
     def is_showroom_email_valid(self):
-        parent = self.driver.find_element_by_name(self.__SHOWROOM_EMAIL_EDIT).find_element_by_xpath('../../..')
+        parent = self.driver.find_element_by_xpath(self.__SHOWROOM_EMAIL_CONTAINER)
         return 'invalid' not in parent.get_attribute('class')
+
+    def is_showroom_email_invalid(self):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, self.__SHOWROOM_EMAIL_INVALID_CONTAINER))
+            )
+
+            return True
+        except TimeoutException:
+            return False
 
     def set_showroom_site(self, site):
         site_edit = self.driver.find_element_by_name(self.__SHOWROOM_SITE_EDIT)
@@ -110,7 +140,7 @@ class AddShowroomForm(Component):
         site_edit.send_keys(site)
 
     def is_showroom_site_valid(self):
-        parent = self.driver.find_element_by_name(self.__SHOWROOM_SITE_EDIT).find_element_by_xpath('../../..')
+        parent = self.driver.find_element_by_xpath(self.__SHOWROOM_SITE_CONTAINER)
         return 'invalid' not in parent.get_attribute('class')
 
     def submit(self):
