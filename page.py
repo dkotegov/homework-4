@@ -66,14 +66,16 @@ class Component(object):
 class Calc(Component):
     CALC_INPUT_RADIO_1 = '//input[@type="radio" and @class="benefit__vacancy__item__input"][1]'
     CALC_SELECT = '//select[@name="job_practice"]'
-    CALC_SELECT_OPTION = '//select[@id="job_practice"]/option'
+    CALC_SELECT_OPTION = '//option[@value="<6"] | //option[@value=">6"]'
     CALC_INPUT_FIRST_DAY_HOLIDAY = '//input[@name="first_date"]'
     CALC_INPUT_LAST_DAY_HOLIDAY = '//input[@name="last_date"]'
-    CALC_INPUT_AREA_RATE = '//input[@name="area_rate"]'
-    CALC_INPUT_STAVKA = '//input[@name="form-0-rate"]'
-    CALC_INPUT_FIRST_SALARY = '//input[@name="form-0-first_year_salary"]'
-    CALC_INPUT_SECOND_SALARY = '//input[@name="form-0-second_year_salary"]'
-    CALC_BUTTON = '//button[@class="pin-button pin-button_oval pin-button_yellow js-calculators-bir-submit"]'
+    CALC_INPUT_AREA_RATE = "//input[contains(@class, 'benefit__form__fieldset__item__input-l') and " \
+                           "contains(@class, 'js-area_rate')]"
+    CALC_INPUT_STAVKA = "//input[contains(@name, 'form-0-rate')]"
+    CALC_INPUT_FIRST_SALARY = "//input[contains(@name, 'form-0-first_year_salary')]"
+    CALC_INPUT_SECOND_SALARY = "//input[contains(@name, 'form-0-second_year_salary')]"
+    CALC_BUTTON = "//button[contains(@class, 'pin-button') and contains(@class, 'pin-button_oval') and " \
+                  "contains(@class, 'pin-button_yellow') and contains(@class, 'js-calculators-bir-submit')]"
     CALC_DELTA_DAYS = '//span[@class="js-calculators-bir-duration"]'
 
     FIRST_SALARY = None
@@ -88,13 +90,13 @@ class Calc(Component):
 
     def set_first_salary(self, salary):
         self.FIRST_SALARY = salary
-        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_FIRST_SALARY)
+        elem = self.driver.find_elements_by_xpath(self.CALC_INPUT_FIRST_SALARY)[1]
         elem.clear()
         elem.send_keys(self.FIRST_SALARY)
 
     def set_second_salary(self, salary):
         self.SECOND_SALARY = salary
-        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_SECOND_SALARY)
+        elem = self.driver.find_elements_by_xpath(self.CALC_INPUT_SECOND_SALARY)[1]
         elem.clear()
         elem.send_keys(self.SECOND_SALARY)
 
@@ -106,7 +108,7 @@ class Calc(Component):
 
     def set_stavka(self, stavka):
         self.STAVKA = stavka
-        elem = self.driver.find_element_by_xpath(self.CALC_INPUT_STAVKA)
+        elem = self.driver.find_elements_by_xpath(self.CALC_INPUT_STAVKA)[1]
         elem.clear()
         elem.send_keys(self.STAVKA)
 
@@ -124,14 +126,14 @@ class Calc(Component):
 
     def set_experience(self, exp):
         self.OPTION = exp
+        select = Select(self.driver.find_element_by_xpath(self.CALC_SELECT))
+        select.select_by_visible_text(self.OPTION)
 
     def get_delta_days(self):
         self.DELTA = self.driver.find_element_by_xpath(self.CALC_DELTA_DAYS).text
+        return self.DELTA
 
     def click_calculate(self):
-        if self.OPTION:
-            select = Select(self.driver.find_element_by_xpath(self.CALC_SELECT_OPTION))
-            select.select_by_visible_text(self.OPTION)
         self.driver.find_element_by_xpath(self.CALC_BUTTON).click()
 
 
@@ -200,7 +202,7 @@ class NavMenu(Component):
     PLANNING_TITLE = u'Календарь планирования беременности - все о планировании беременности на Дети Mail.Ru'
     OVUL_TITLE = u'Календарь овуляции - бесплатный онлайн-калькулятор - женский календарь - Дети Mail.Ru'
     PREGNANCY_TITLE = u'Календарь беременности - все о беременности - Дети Mail.Ru'
-    PREGNANCY_1_TITLE = u'1 неделя беременности - что происходит, симптомы, ощущения, признаки - Дети Mail.Ru'
+    PREGNANCY_1_TITLE = u'1 неделя беременности – что происходит, симптомы, ощущения, признаки - Дети Mail.Ru'
     BIRTH_TITLE = u'Рассчитать дату родов по последней менструации - Дети Mail.Ru'
     KIDS_TITLE = u'Развитие ребенка до 1 месяца, статьи на тему, этапы развития детей - Дети Mail.Ru'
 
