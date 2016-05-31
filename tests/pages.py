@@ -78,9 +78,12 @@ class FavouritesPage(Page):
         return len(btns)
 
     def clear_list(self):
-        btns = self.driver.find_elements_by_xpath(self.DELETE_BTN)
-        for btn in btns:
-            btn.click()
+        while self.driver.find_elements_by_xpath(self.DELETE_BTN):
+            f_item = FavouriteItem(self.driver)
+            f_item.open()
+            check_page = PageOffer(self.driver)
+            check_page.add_to_favourites()
+            self.open()
 
 
 class FavouriteItem(FavouritesPage):

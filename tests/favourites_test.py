@@ -77,6 +77,8 @@ class FavouritesTestCase(unittest.TestCase):
         check_page.add_to_favourites()
         favorites_page.open()
         new_count = favorites_page.get_count()
+        # import pdb
+        # pdb.set_trace()
         self.assertEqual(new_count, count - 1)
 
     def testDelete(self):
