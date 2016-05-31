@@ -35,7 +35,7 @@ class Common(object):
     
     #possible args: [by], timeout
     def _wait_for_element(self, **kwargs): #throws TimeoutException
-        DEFAULT_WAIT_TIMEOUT = 30
+        DEFAULT_WAIT_TIMEOUT = 150
         timeout = kwargs.get('timeout', DEFAULT_WAIT_TIMEOUT) 
         _del_key_safe(kwargs, 'timeout')
         key = kwargs.keys()[0]
@@ -173,11 +173,11 @@ class QuestionPlate(Plate):
     INNER_FIELDS = [ 
         {   #rubric
             'css_selector': '.entry__info-link',
-            'check_function': 'has_link_with_title'
+            'check_function': 'has_working_link'
         },
         {   #title
             'css_selector': 'div.entry__name a.entry__link',
-            'check_function': 'has_link_with_title'
+            'check_function': 'has_working_link'
         },
         {   #descrption
             'css_selector': '.entry__description',
