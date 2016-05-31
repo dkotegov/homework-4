@@ -4,7 +4,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from common import Page, Plate, QuestionsList, Slider
- 
+
 class ConsultantsPage(Page):
     PATH = 'all/profit/'
     CONSULTANT_SELECTOR = '.entry_consultant'
@@ -45,10 +45,12 @@ class ConsultantsPageTest(unittest.TestCase):
 
     def test_select_rubric(self):
         self.page.select_rubric(self.RUBRIC)
+        self.page.wait_for_another_page()
         self.assertGreater(self.driver.current_url.find(self.RUBRIC_URL), -1)
         
     def test_select_sort_type(self):      
         self.page.select_friendly_sort()
+        self.page.wait_for_another_page()
         self.assertEqual(self.page.get_current_tab_text(), self.page.FRIENDLY)
         
     def test_open_consult_form(self):

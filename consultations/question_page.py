@@ -5,6 +5,9 @@ import unittest
 from selenium.webdriver.common.by import By
 from selenium.webdriver import DesiredCapabilities, Remote
 from common import Page, QuestionsList, Slider, save_window
+
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
      
 class QuestionPage(Page):
     PATH = '1909637/'
@@ -14,7 +17,10 @@ class QuestionPage(Page):
     VOTE_USER_SCORE = '.stars__label'
     
     def get_consultant_link(self):
-       return self.driver.find_element_by_css_selector(self.CONSULTANT_LINK)
+        WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, self.CONSULTANT_LINK))
+        )
+        return self.driver.find_element_by_css_selector(self.CONSULTANT_LINK)
       
        
     def _get_vote_div(self, vote_type):
@@ -57,6 +63,7 @@ class QuestionPageTest(unittest.TestCase):
         self.page.try_login()
         text = self.page.get_consultant_link().text
         self.page.get_consultant_link().click()
+        self.page.wait_for_another_page()
         self.assertGreater(self.page.get_title().find(text), -1)
     
     def test_open_consult_form(self):

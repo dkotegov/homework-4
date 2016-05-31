@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchElementException
 
 def _del_key_safe(dict_, key):
     try:
@@ -35,12 +35,15 @@ class Common(object):
     
     #possible args: [by], timeout
     def _wait_for_element(self, **kwargs): #throws TimeoutException
-        DEFAULT_WAIT_TIMEOUT = 30
+        DEFAULT_WAIT_TIMEOUT = 150
         timeout = kwargs.get('timeout', DEFAULT_WAIT_TIMEOUT) 
         _del_key_safe(kwargs, 'timeout')
         key = kwargs.keys()[0]
-        return WebDriverWait(self.driver, timeout).until(
-                EC.presence_of_element_located((key, kwargs.get(key))))
+        #return WebDriverWait(self.driver, timeout).until(
+        #       EC.presence_of_element_located((key, kwargs.get(key))))
+        WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located((key, kwargs.get(key))))
+        return self.driver.find_element(key, kwargs.get(key))
         
     def get_title(self):
         return self._wait_for_element(**{By.CSS_SELECTOR: self.PAGE_TITLE_SELECTOR}).text
@@ -48,7 +51,11 @@ class Common(object):
     def go_to_iframe(self):
        iframe = self._wait_for_element(**{By.TAG_NAME: 'iframe'})
        self.driver.switch_to_frame(iframe)
- 
+
+    def wait_for_another_page(self):
+        old_page = self.driver.find_element_by_tag_name('html')
+        WebDriverWait(self.driver, 15).until(EC.staleness_of(old_page))
+
 class Component(Common):
     def __init__(self, driver):
         self.driver = driver
@@ -166,11 +173,11 @@ class QuestionPlate(Plate):
     INNER_FIELDS = [ 
         {   #rubric
             'css_selector': '.entry__info-link',
-            'check_function': 'has_link_with_title'
+            'check_function': 'has_working_link'
         },
         {   #title
             'css_selector': 'div.entry__name a.entry__link',
-            'check_function': 'has_link_with_title'
+            'check_function': 'has_working_link'
         },
         {   #descrption
             'css_selector': '.entry__description',
