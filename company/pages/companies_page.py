@@ -53,7 +53,7 @@ class CompanyList(Component):
         return [i.text for i in list]
 
     def go_to_company_page(self, query):
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 50).until(
             expected_conditions.element_to_be_clickable((By.LINK_TEXT, query))
         )
         self.driver.find_element_by_link_text(query).click()
@@ -64,7 +64,7 @@ class MakeAnAppointment(Component):
     TITLE = 'div.page-info__title'
 
     def submit(self):
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 50).until(
             expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, self.BUTTON))
         )
         self.driver.find_element_by_css_selector(self.BUTTON).click()

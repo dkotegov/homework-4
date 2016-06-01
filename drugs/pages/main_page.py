@@ -14,7 +14,7 @@ class Page:
     PASSWORD_NAME = 'Password'
     LOGIN_BUTTON = '//button[@data-uniqid="toolkit-4"]'
     TITLE = 'h1.page-info__title'
-    PAGE_TIMEOUT = 30
+    PAGE_TIMEOUT = 50
 
     def __init__(self, driver):
         self.driver = driver
@@ -31,7 +31,7 @@ class Page:
 
     def login(self):
         self.open_form()
-        self.driver.switch_to.frame(self.driver.find_element_by_tag_name("iframe"))
+        self.driver.switch_to.frame(self.driver.find_element_by_css_selector("iframe.ag-popup__frame__layout__iframe"))
         self.set_login()
         self.set_password()
         self.submit()
@@ -56,7 +56,7 @@ class Page:
         return self.driver.find_element_by_css_selector(self.TITLE).text
 
 class Component(object):
-    TIMEOUT = 10
+    TIMEOUT = 50
     def __init__(self, driver):
         self.driver = driver
 

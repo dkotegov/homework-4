@@ -29,7 +29,7 @@ class SearchForm(Component):
     SUBMIT_BUTTON = 'button.button.button_color_project'
     ITEMS = 'div.entry.entry_medicament.margin_bottom_20'
     NAME = 'div.entry__name'
-    SEARCH_TIMEOUT = 10
+    SEARCH_TIMEOUT = 50
 
     def input(self, text):
         self.driver.find_element_by_css_selector(self.INPUT_FIELD).send_keys(text)
