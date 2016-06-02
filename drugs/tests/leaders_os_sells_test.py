@@ -21,7 +21,7 @@ class MedicamentsTestLeadersOfSellsTest(unittest.TestCase):
         drags_names = self.drugs.get_all()
         for name in drags_names:
             self.drugs.go_to_drugs_page(name)
-            self.page.wait_for_another_page()
+            #self.page.wait_for_another_page()
             self.assertEquals(name, self.page.get_title())
             self.driver.back()
 

@@ -21,14 +21,14 @@ class CompanySearchTest(unittest.TestCase):
         query = u'Аптека'
         self.search.input(query)
         self.search.submit()
-        self.page.wait_for_another_page()
+        #self.page.wait_for_another_page()
         self.assertNotEqual(0, len(self.search.found_companies()))
 
     def test_search_non_existent(self):
         query = u'aaaaaaaaaaaa'
         self.search.input(query)
         self.search.submit()
-        self.page.wait_for_another_page()
+        #self.page.wait_for_another_page()
         self.assertEqual(0, len(self.search.found_companies()))
 
     def tearDown(self):

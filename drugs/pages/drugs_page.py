@@ -86,4 +86,7 @@ class Catalog(Component):
         return [item.get_attribute('href') for item in items]
 
     def to_link(self, text):
+        WebDriverWait(self.driver, 30).until(
+            expected_conditions.presence_of_element_located((By.LINK_TEXT, text))
+        )
         self.driver.find_element_by_link_text(text).click()

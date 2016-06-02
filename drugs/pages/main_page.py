@@ -3,6 +3,8 @@ __author__ = 'alla'
 from selenium.webdriver.support.ui import WebDriverWait
 from urlparse import urljoin
 from selenium.webdriver.support.expected_conditions import staleness_of
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.by import By
 
 from drugs.auth import TEST_USER_PASSWORD, TEST_USERNAME
 
@@ -53,6 +55,9 @@ class Page:
         self.driver.close()
 
     def get_title(self):
+        WebDriverWait(self.driver, 30).until(
+            expected_conditions.presence_of_element_located((By.CSS_SELECTOR, self.TITLE))
+        )
         return self.driver.find_element_by_css_selector(self.TITLE).text
 
 class Component(object):

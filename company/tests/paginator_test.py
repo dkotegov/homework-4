@@ -21,10 +21,10 @@ class PaginatorTest(unittest.TestCase):
     def test_arrows(self):
         current_page = self.paginator.get_current_page()
         self.assertTrue(self.paginator.paging_next())
-        self.page.wait_for_another_page()
+        #self.page.wait_for_another_page()
         self.assertEquals((current_page + 1), self.paginator.get_current_page())
         self.assertTrue(self.paginator.paging_prev())
-        self.page.wait_for_another_page()
+        #self.page.wait_for_another_page()
         self.assertEquals((current_page), self.paginator.get_current_page())
 
     #нельзя перейти с первой страницы назад

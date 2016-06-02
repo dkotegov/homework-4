@@ -26,12 +26,12 @@ class CatalogTest(unittest.TestCase):
     def test_check_redirect(self):
         text = u"Витамины"
         self.catalog.to_link(text)
-        self.page.wait_for_another_page()
+        #self.page.wait_for_another_page()
         self.assertEquals(text, self.page.get_title())
         self.driver.back()
         text = u"Миорелаксанты"
         self.catalog.to_link(text)
-        self.page.wait_for_another_page()
+        #self.page.wait_for_another_page()
         self.assertEquals(text, self.page.get_title())
 
     def tearDown(self):

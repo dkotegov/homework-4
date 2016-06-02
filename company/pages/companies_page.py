@@ -35,6 +35,9 @@ class Search(Component):
         self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()
 
     def found_companies(self):
+        WebDriverWait(self.driver, 30).until(
+            expected_conditions.presence_of_all_elements_located((By.CSS_SELECTOR, 'h1.page-info__title'))
+        )
         return self.driver.find_elements_by_css_selector(self.FOUND_COMPANY)
 
 
@@ -70,4 +73,7 @@ class MakeAnAppointment(Component):
         self.driver.find_element_by_css_selector(self.BUTTON).click()
 
     def get_title(self):
+        WebDriverWait(self.driver, 50).until(
+            expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, self.TITLE))
+        )
         return self.driver.find_element_by_css_selector(self.TITLE).text

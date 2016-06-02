@@ -23,7 +23,7 @@ class AnalogsTest(unittest.TestCase):
         drags_names = self.page.analogs.get_names()
         for name in drags_names:
             self.page.analogs.go_to_drugs_page(name)
-            self.page.wait_for_another_page()
+            #self.page.wait_for_another_page()
             self.assertEquals(name.split(',')[0], self.page.analogs.result_drag())
             self.driver.back()
 

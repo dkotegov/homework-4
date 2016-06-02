@@ -58,6 +58,9 @@ class Analog(Component):
         self.driver.find_element_by_link_text(title).click()
 
     def result_drag(self):
+        WebDriverWait(self.driver, 30).until(
+            expected_conditions.presence_of_element_located((By.XPATH, self.TITLE))
+        )
         result = self.driver.find_element_by_xpath(self.TITLE)
         return result.text
 
@@ -100,6 +103,9 @@ class Counter(Component):
         self.driver.find_element_by_xpath(self.ORDER_BUTTON).click()
 
     def get_counter_value(self):
+        WebDriverWait(self.driver, self.TIMEOUT).until(
+            expected_conditions.element_to_be_clickable((By.XPATH, self.BUY_COUNT))
+        )
         return self.driver.find_element_by_xpath(self.BUY_COUNT).get_attribute('value')
 
     def increment(self):
@@ -128,5 +134,8 @@ class Counter(Component):
         self.driver.find_element_by_xpath(self.DO_ORDER_BUTTON).click()
 
     def result_type(self):
+        WebDriverWait(self.driver, 50).until(
+            expected_conditions.element_to_be_clickable((By.XPATH, self.RESULT_TYPE))
+        )
         type = self.driver.find_element_by_xpath(self.RESULT_TYPE).text
         return type

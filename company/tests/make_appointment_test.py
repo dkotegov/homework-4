@@ -20,7 +20,7 @@ class MakeAppointmentTest(unittest.TestCase):
 
     def test_make_an_appointment(self):
         self.page.make_an_appointment.submit()
-        self.page.wait_for_another_page()
+        #self.page.wait_for_another_page()
         self.assertEquals(u'Запись к врачу', self.page.make_an_appointment.get_title())
 
     def tearDown(self):

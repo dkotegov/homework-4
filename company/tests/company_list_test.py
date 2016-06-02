@@ -26,7 +26,7 @@ class CompanyListTest(unittest.TestCase):
         companies = self.list.get_all_companies()
         for i in companies:
             self.list.go_to_company_page(i)
-            self.page.wait_for_another_page()
+            #self.page.wait_for_another_page()
             expected_title = i + u" в Москве"
             self.assertEquals(expected_title, self.page.get_title())
             self.driver.back()
