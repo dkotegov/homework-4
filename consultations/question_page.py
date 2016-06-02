@@ -63,7 +63,6 @@ class QuestionPageTest(unittest.TestCase):
         self.page.try_login()
         text = self.page.get_consultant_link().text
         self.page.get_consultant_link().click()
-        self.page.wait_for_another_page()
         self.assertGreater(self.page.get_title().find(text), -1)
     
     def test_open_consult_form(self):

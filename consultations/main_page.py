@@ -54,7 +54,6 @@ class MainPageTest(unittest.TestCase):
     def test_question_list_nav(self):
         question_list = QuestionsList(self.driver)
         question_list.go_to_next_page()
-        self.page.wait_for_another_page()
         self.assertTrue(question_list.check_plates())
           
     def test_open_consult_form(self):
