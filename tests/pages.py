@@ -3,7 +3,7 @@ import urlparse
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
-
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 class Page(object):
     BASE_URL = 'http://msk.realty.mail.ru/'
@@ -34,6 +34,7 @@ class SalePage(Page):
 class PageOffer(SalePage):
     CLASS_TITLE = 'p-instance__title'
     ADD_BTN = '//div[@data-module="Favorites"]'
+    ICON = '//div[@data-module="Favorites"]//i[@class="icon_color_project"]'
     OFFER_ID = ''
 
     def open(self, offer_num=0):
@@ -50,6 +51,13 @@ class PageOffer(SalePage):
         button = self.driver.find_element_by_xpath(self.ADD_BTN)
         self.set_offer_id()
         button.click()
+        try:
+            icon = WebDriverWait(self.driver, 2, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.ICON)
+            )
+        except TimeoutException:
+            pass
+
 
     def set_offer_id(self):
         button = self.driver.find_element_by_xpath(self.ADD_BTN)
@@ -176,12 +184,18 @@ class Slider(Component):
     def get_page_num_from_browser(self):
         current_num = WebDriverWait(self.driver, 20, 0.1).until(
             lambda d: d.find_element_by_xpath(self.CURRENT_NUM))
-        return int(current_num.get_attribute("innerText"))
+        size = current_num.get_attribute("innerText")
+        if not size:
+            size = current_num.text
+        return int(size)
 
     def get_max_page_num(self):
         max_num = WebDriverWait(self.driver, 20, 0.1).until(
             lambda d: d.find_element_by_class_name(self.TOTAL_NUM))
-        return int(max_num.get_attribute("innerText"))
+        size = max_num.get_attribute("innerText")
+        if not size:
+            size = max_num.text
+        return int(size)
 
     @property
     def banner(self):

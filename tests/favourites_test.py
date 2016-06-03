@@ -66,19 +66,17 @@ class FavouritesTestCase(unittest.TestCase):
         # проверяем, что при повторном нажатии на кнопку "в избранное", элемент удалится
         offer_page = PageOffer(self.driver)
         offer_page.open(self.OFFER_NUM)
+        # добавляем в избранное
         offer_page.add_to_favourites()
         favorites_page = FavouritesPage(self.driver)
         favorites_page.open()
         count = favorites_page.get_count()
-
         f_item = FavouriteItem(self.driver)
         f_item.open()
         check_page = PageOffer(self.driver)
         check_page.add_to_favourites()
         favorites_page.open()
         new_count = favorites_page.get_count()
-        # import pdb
-        # pdb.set_trace()
         self.assertEqual(new_count, count - 1)
 
     def testDelete(self):
