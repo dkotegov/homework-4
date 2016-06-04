@@ -236,7 +236,7 @@ class ShowroomList(Component):
             if len(dealer_model_icons) > 0:
                 official_items.append(item)
 
-        return
+        return official_items
 
     def get_page_title(self):
         return self.driver.find_element_by_xpath(self.__PAGE_TITLE).text
@@ -350,6 +350,7 @@ def regions_search_done(driver):
 
 
 class SearchForm(Component):
+    LOGO = '//img[@class="pm-logo__link__pic"]'
     MODEL_DROPDOWN = '//div[contains(@class, "selt-firm_id")]/div/div/div[contains(@class, "js-select__selected__option")]'
     MODEL_DROPDOWN_ITEMS = '//div[@data-optidx and contains(@class, "js-select__options__item input__data__value_in-group")]'
     MODEL_DROPDOWN_ITEM_BY_NAME = '//div[@data-optidx and contains(@class, "js-select__options__item input__data__value_in-group") and text()="{}"]'
@@ -382,7 +383,7 @@ class SearchForm(Component):
         item = self.driver.find_element_by_xpath(self.MODEL_DROPDOWN_ITEM_BY_NAME.format(model))
         self.driver.execute_script("return arguments[0].scrollIntoView();", item)
         item.click()
-        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.MODEL_DROPDOWN)).perform()
+        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.LOGO)).perform()
 
     def station_dropdown_drop(self):
         self.driver.find_element_by_xpath(self.STATION_DROPDOWN).click()
@@ -401,7 +402,7 @@ class SearchForm(Component):
         item = self.driver.find_element_by_xpath(self.STATION_DROPDOWN_ITEM_BY_NAME.format(station))
         self.driver.execute_script("return arguments[0].scrollIntoView();", item)
         item.click()
-        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.MODEL_DROPDOWN)).perform()
+        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.LOGO)).perform()
 
     def is_official_checkbox_click(self):
         self.driver.find_element_by_xpath(self.CHECKBOX_SHOWROOM_IS_OFFICIAL).click()

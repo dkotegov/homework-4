@@ -228,7 +228,7 @@ class SearchFormTest(unittest.TestCase):
         page = ShowroomPage(self.driver)
         page.open()
 
-        test_data_set = (u"Отрадное", u"Водный стадион", u"Беговая", u"Рижская", u"Кантемировская")
+        test_data_set = (u"Отрадное", u"Беговая", u"Рижская", u"Кантемировская")
 
         search_form = page.search_form
 
@@ -251,7 +251,7 @@ class SearchFormTest(unittest.TestCase):
         page = ShowroomPage(self.driver)
         page.open()
 
-        test_models = ("Audi", "BMW", "Toyota")
+        test_models = ("Audi", "Kia", "Infiniti")
 
         search_form = page.search_form
 
