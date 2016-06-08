@@ -384,6 +384,7 @@ class SearchForm(Component):
         self.driver.execute_script("return arguments[0].scrollIntoView();", item)
         item.click()
         ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.LOGO)).perform()
+        self.driver.execute_script("$(document.elementFromPoint(0, 0)).click();")
 
     def station_dropdown_drop(self):
         self.driver.find_element_by_xpath(self.STATION_DROPDOWN).click()
@@ -403,12 +404,14 @@ class SearchForm(Component):
         self.driver.execute_script("return arguments[0].scrollIntoView();", item)
         item.click()
         ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.LOGO)).perform()
+        self.driver.execute_script("$(document.elementFromPoint(0, 0)).click();")
 
     def is_official_checkbox_click(self):
         self.driver.find_element_by_xpath(self.CHECKBOX_SHOWROOM_IS_OFFICIAL).click()
         WebDriverWait(self.driver, 30).until(
             lambda d: wait_for_is_official_checkbox_apply(d)
         )
+        self.driver.execute_script("$(document.elementFromPoint(0, 0)).click();")
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
