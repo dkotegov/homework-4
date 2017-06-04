@@ -42,6 +42,7 @@ class AuthPage(Page):
     def form(self):
         return AuthForm(self.driver)
 
+
 class PeoplePage(Page):
     PATH = '/people/'
     NAVIGATION_MENU = '//select[contains(@class,"people-navigator-groups")]'
@@ -87,7 +88,6 @@ class PeoplePage(Page):
         except NoSuchElementException:
             return False
         return True
-
 
     def search(self, text):
         search_field = self.driver.find_element_by_xpath(self.SEARCH_FIELD)
@@ -178,6 +178,7 @@ class Paginator(Component):
 
 class Statistic(Component):
     STATISTIC = '//div[@class="block-content"]/ul/li[text()="TEXT: "]/strong'
+
     def __getitem__(self, key):
         return int(self.driver.find_element_by_xpath(
             self.STATISTIC.replace('TEXT', key)).text)
@@ -339,7 +340,7 @@ class PeopleTest(unittest.TestCase):
         paginator = page.paginator
         paginator.to_last()
         total = paginator.visible_pages[-2] * count_per_page + \
-                len(page.people_list)
+            len(page.people_list)
         self.assertEqual(total, page.statistic['Студент'])
 
     def test_not_exists(self):
