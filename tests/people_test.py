@@ -238,7 +238,6 @@ class PeopleTest(unittest.TestCase):
         auth_page.open()
         auth_form = auth_page.form
         auth_form.open_form()
-        sleep(3)
         auth_form.set_login(self.USEREMAIL)
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
@@ -335,6 +334,7 @@ class PeopleTest(unittest.TestCase):
     def test_count_in_group(self):
         page = PeoplePage(self.driver)
         page.open()
+        sleep(1)
         page.navigation_group = 'Студент'
         count_per_page = len(page.people_list)
         paginator = page.paginator
