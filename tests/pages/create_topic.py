@@ -1,26 +1,30 @@
 # coding=utf-8
 import re
 
-from selenium.webdriver.common.alert import Alert
-
-from base import *
-from tests.elements.create_topic import *
+from base import BasePage
+from tests.elements.create_topic import CreateTopicPage as CreateTopicPageElements, CreatePollBlock
 
 
 class CreateTopicPage(BasePage):
     url = 'http://ftest.tech-mail.ru/blog/topic/create/'
 
+    def __init__(self, driver):
+        self.driver = driver
+        self.create_topic_elements = CreateTopicPageElements(driver)
+        super(BasePage, self).__init__()
+
+
     def choose_blog(self, blog_title):
-        BlogSelect(self.driver).wait_for_visible().get().click()
-        BlogTitle(self.driver, blog_title).wait_for_presence().get().click()
+        self.create_topic_elements.block_select().wait_for_visible().get().click()
+        self.create_topic_elements.block_title(blog_title).wait_for_presence().get().click()
         return self
 
     def set_title(self, topic_title):
-        TopicTitleInput(self.driver).wait_for_visible().get().send_keys(topic_title)
+        self.create_topic_elements.topic_title_input().wait_for_visible().get().send_keys(topic_title)
         return self
 
     def add_text(self, text, modifier=None):
-        topic_text_area = TopicTextArea(self.driver).wait_for_visible().get()
+        topic_text_area = self.create_topic_elements.topic_text_area().wait_for_visible().get()
 
         old_value = self.get_value()
 
@@ -42,83 +46,84 @@ class CreateTopicPage(BasePage):
         return self
 
     def create(self):
-        CreateButton(self.driver).wait_for_visible().get().click()
-        TopicCreatedNotice(self.driver).wait_for_presence()
+        self.create_topic_elements.create_button().wait_for_visible().get().click()
+        self.create_topic_elements.topic_created_notice().wait_for_presence()
 
         url = self.driver.current_url
         match = re.search('topic/view/(\d+)/', url)
         return match.group(1)
 
     def click_create_button(self):
-        CreateButton(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.create_button().wait_for_visible().get().click()
         return self
 
     def check_error_notice(self):
-        TopicErrorNotice(self.driver).wait_for_presence()
+        self.create_topic_elements.topic_error_notice().wait_for_presence()
 
     def add_h4(self):
-        H4Font(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.h4_font_button().wait_for_visible().get().click()
 
     def add_h5(self):
-        H5Font(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.h5_font_button().wait_for_visible().get().click()
 
     def add_h6(self):
-        H6Font(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.h6_font_button().wait_for_visible().get().click()
 
     def add_bold(self):
-        BoldFont(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.bold_font_button().wait_for_visible().get().click()
 
     def add_italic(self):
-        ItalicFont(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.italic_font_button().wait_for_visible().get().click()
 
     def add_underline(self):
-        UnderlineFont(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.underline_font_button().wait_for_visible().get().click()
 
     def add_stroke(self):
-        StrokeFont(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.stroke_font_button().wait_for_visible().get().click()
 
     def add_quote(self):
-        QuoteFont(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.quote_font_button().wait_for_visible().get().click()
 
     def add_code(self):
-        EditorCodeFont(self.driver).wait_for_visible().get().click()
-        InsertCodeButton(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.editor_code_font_button().wait_for_visible().get().click()
+        self.create_topic_elements.insert_code_button().wait_for_visible().get().click()
 
     def add_ul(self):
-        UlList(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.ul_list_button().wait_for_visible().get().click()
 
     def add_ol(self):
-        OlList(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.ol_list_button().wait_for_visible().get().click()
 
     def add_link(self):
-        LinkButton(self.driver).wait_for_visible().get().click()
-        LinkInput(self.driver).wait_for_visible().get().send_keys('#')
-        LinkConfirmButton(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.link_button().wait_for_visible().get().click()
+        self.create_topic_elements.link_input().wait_for_visible().get().send_keys('#')
+        self.create_topic_elements.link_confirm_button().wait_for_visible().get().click()
 
     def add_picture(self, address):
-        PictureButton(self.driver).wait_for_visible().get().click()
-        PicureFromInternet(self.driver).wait_for_visible().get().click()
-        PictureInputAddress(self.driver).wait_for_visible().get().clear()
-        PictureInputAddress(self.driver).wait_for_visible().get().send_keys(address)
-        PictureCreateButton(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.picture_button().wait_for_visible().get().click()
+        self.create_topic_elements.picture_from_internet_button().wait_for_visible().get().click()
+        self.create_topic_elements.picture_address_input().wait_for_visible().get().clear()
+        self.create_topic_elements.picture_address_input().wait_for_visible().get().send_keys(address)
+        self.create_topic_elements.picture_create_button().wait_for_visible().get().click()
         return self
 
     def add_video(self, address):
-        VideoButton(self.driver).wait_for_visible().get().click()
-        alert = Alert.wait_for_alert(self.driver)
+        self.create_topic_elements.video_button().wait_for_visible().get().click()
+        self.create_topic_elements.wait_for_alert()
+        alert = self.driver.switch_to_alert()
         alert.send_keys(address)
         alert.accept()
         return self
 
     def disable_comments(self):
-        DisableCommentButton(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.disable_comment_button().wait_for_visible().get().click()
         return self
 
     def get_value(self):
-        return TopicTextArea(self.driver).wait_for_visible().get_value()
+        return self.create_topic_elements.topic_text_area().wait_for_visible().get_value()
 
     def add_poll(self, header, first_answer, second_answer):
-        AddPollButton(self.driver).wait_for_visible().get().click()
+        self.create_topic_elements.add_poll_button().wait_for_visible().get().click()
         create_poll_block = CreatePollBlock(self.driver).wait_for_visible()
         create_poll_block.get_header_input().send_keys(header)
         create_poll_block.get_answer_input(0).send_keys(first_answer)

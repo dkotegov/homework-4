@@ -4,11 +4,11 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from pages.auth import *
-from pages.create_topic import *
-from pages.main import *
-from pages.remove_topic import *
-from pages.show_topic import *
+from pages.auth import AuthPage
+from pages.create_topic import CreateTopicPage
+from pages.main import MainPage
+from pages.remove_topic import RemoveTopicPage
+from pages.show_topic import ShowTopicPage
 
 
 class TopicsTest(unittest.TestCase):
@@ -47,14 +47,11 @@ class TopicsTest(unittest.TestCase):
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
-        try:
-            auth_page = AuthPage(self.driver)
-            auth_page.sign_in(self.USEREMAIL, self.PASSWORD)
-            main_page = MainPage(self.driver)
-            self.assertEqual(self.USERNAME, main_page.get_username(), "Usernames are not the same")
-        except Exception as e:
-            self.driver.quit()
-            raise
+        auth_page = AuthPage(self.driver)
+        auth_page.sign_in(self.USEREMAIL, self.PASSWORD)
+        main_page = MainPage(self.driver)
+        self.assertEqual(self.USERNAME, main_page.get_username(), "Usernames are not the same")
+
 
     def tearDown(self):
         if self.created_topic is not None:

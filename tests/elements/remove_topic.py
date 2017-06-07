@@ -1,12 +1,14 @@
 # coding=utf-8
 from selenium.webdriver.common.by import By
 
-from base import *
+from base import BaseElement
 
+class RemoveButtons(BaseElement):
 
-class SubmitRemoveButton(BaseElement):
-    locator = (By.XPATH, "//input[@name='submit']")
+    def submit_remove_button(self):
+        self.locator = (By.XPATH, "//input[@name='submit']")
+        return self
 
-
-class CancelRemoveButton(BaseElement):
-    locator = (By.XPATH, "//button[@name='cancel']")
+    def cancel_remove_button(self):
+        self.locator = (By.XPATH, "//button[@name='cancel']")
+        return self

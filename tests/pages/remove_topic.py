@@ -1,6 +1,6 @@
 # coding=utf-8
-from base import *
-from tests.elements.remove_topic import *
+from base import BasePage
+from tests.elements.remove_topic import RemoveButtons
 
 
 class RemoveTopicPage(BasePage):
@@ -9,7 +9,7 @@ class RemoveTopicPage(BasePage):
         super(RemoveTopicPage, self).__init__(driver)
 
     def submit_remove(self):
-        SubmitRemoveButton(self.driver).wait_for_visible().get().click()
+        RemoveButtons(self.driver).submit_remove_button().wait_for_visible().get().click()
 
     def cancel_remove(self):
-        CancelRemoveButton(self.driver).wait_for_visible().get().click()
+        RemoveButtons(self.driver).cancel_remove_button().wait_for_visible().get().click()

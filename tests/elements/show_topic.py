@@ -1,115 +1,128 @@
 # coding=utf-8
 from selenium.webdriver.common.by import By
 
-from base import *
+from base import BaseElement
 
 
-class TopicTitle(BaseElement):
-    locator = (By.XPATH, "//h1[contains(@class, 'topic-title')]")
+class ShowTopic(BaseElement):
+    def topic_title(self):
+        self.locator = (By.XPATH, "//h1[contains(@class, 'topic-title')]")
+        return self
 
+    def topic_blog(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-info')]")
+        return self
 
-class TopicBlog(BaseElement):
-    locator = (By.XPATH, "//div[contains(@class, 'topic-info')]")
+    def delete_topic_button(self):
+        self.locator = (By.XPATH, "//a[contains(@class, 'actions-delete')")
+        return self
 
-
-class DeleteTopicButton(BaseElement):
-    locator = (By.XPATH, "//a[contains(@class, 'actions-delete')")
-
-
-class TopicAddCommentButton(BaseElement):
-    locator = (By.XPATH, "//a[contains(@class, 'comment-add-link')]")
+    def topic_add_comment_buton(self):
+        self.locator = (By.XPATH, "//a[contains(@class, 'comment-add-link')]")
+        return self
 
 
 class TopicContent(BaseElement):
     locator = (By.XPATH, "//div[contains(@class, 'topic-content')]")
 
-    class HeaderH4(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/h4")
+    def h4_header(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/h4")
+        return self
 
-    class HeaderH5(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/h5")
+    def h5_header(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/h5")
+        return self
 
-    class HeaderH6(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/h6")
+    def h6_header(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/h6")
+        return self
 
-    class StrongContent(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/strong")
+    def strong_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/strong")
+        return self
 
-    class ItalicContent(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/em")
+    def italic_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/em")
+        return self
 
-    class StrokeContent(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/s")
+    def stroke_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/s")
+        return self
 
-    class UnderlineContent(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/u")
+    def underline_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/u")
+        return self
 
-    class UnorderedListContent(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/ul")
+    def unordered_list_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/ul")
+        return self
 
-    class OrderedListContent(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/ol")
+    def ordered_list_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/ol")
+        return self
 
-    class BlockquoteContent(BaseElement):
-        locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/blockquote")
+    def blockqoute_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/blockquote")
+        return self
 
-    class CodeContent(BaseElement):
-        locator = (
+    def code_content(self):
+        self.locator = (
             By.XPATH, "//div[contains(@class, 'topic-content')]//code[not(contains(@class,'hljs-line-numbers'))]")
+        return self
 
-    class LinkContent(BaseElement):
-        locator = (
-            By.XPATH, "//div[contains(@class, 'topic-content')]/a")
+    def link_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/a")
+        return self
 
-    class EmbedVideoContent(BaseElement):
-        locator = (
-            By.XPATH, "//div[contains(@class, 'topic-content')]/iframe")
+    def embed_video_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/iframe")
+        return self
 
-    class ImageContent(BaseElement):
-        locator = (
-            By.XPATH, "//div[contains(@class, 'topic-content')]/img")
+    def image_content(self):
+        self.locator = (By.XPATH, "//div[contains(@class, 'topic-content')]/img")
+        return self
 
     def get_link(self):
-        return self.LinkContent(self.driver).wait_for_visible().get().text
+        return self.link_content().wait_for_visible().get().text
 
     def get_embed_video(self):
-        return self.EmbedVideoContent(self.driver).wait_for_visible().get().get_attribute('src')
+        return self.embed_video_content().wait_for_visible().get().get_attribute('src')
 
     def get_image(self):
-        return self.ImageContent(self.driver).wait_for_visible().get().get_attribute('src')
+        return self.image_content().wait_for_visible().get().get_attribute('src')
 
     def get_h4(self):
-        return self.HeaderH4(self.driver).wait_for_visible().get().text
+        return self.h4_header().wait_for_visible().get().text
 
     def get_h5(self):
-        return self.HeaderH5(self.driver).wait_for_visible().get().text
+        return self.h5_header().wait_for_visible().get().text
 
     def get_h6(self):
-        return self.HeaderH6(self.driver).wait_for_visible().get().text
+        return self.h6_header().wait_for_visible().get().text
 
     def get_strong(self):
-        return self.StrongContent(self.driver).wait_for_visible().get().text
+        return self.strong_content().wait_for_visible().get().text
 
     def get_italic(self):
-        return self.ItalicContent(self.driver).wait_for_visible().get().text
+        return self.italic_content().wait_for_visible().get().text
 
     def get_stroke(self):
-        return self.StrokeContent(self.driver).wait_for_visible().get().text
+        return self.stroke_content().wait_for_visible().get().text
 
     def get_underline(self):
-        return self.UnderlineContent(self.driver).wait_for_visible().get().text
+        return self.underline_content().wait_for_visible().get().text
 
     def get_unordered_list(self):
-        return self.UnorderedListContent(self.driver).wait_for_visible().get().text
+        return self.unordered_list_content().wait_for_visible().get().text
 
     def get_ordered_list(self):
-        return self.OrderedListContent(self.driver).wait_for_visible().get().text
+        return self.ordered_list_content().wait_for_visible().get().text
 
     def get_blockquote(self):
-        return self.BlockquoteContent(self.driver).wait_for_visible().get().text
+        return self.blockqoute_content().wait_for_visible().get().text
 
     def get_code(self):
-        return self.CodeContent(self.driver).wait_for_visible().get().text
+        return self.code_content().wait_for_visible().get().text
 
 
 class TopicPoll(BaseElement):

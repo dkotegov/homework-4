@@ -4,124 +4,123 @@ from selenium.webdriver.common.by import By
 from base import *
 
 
-class BlogSelect(BaseElement):
-    locator = (By.XPATH, "//a[@class='chzn-single']")
+class CreateTopicPage(BaseElement):
 
+    def block_select(self):
+        self.locator = (By.XPATH, "//a[@class='chzn-single']")
+        return self
 
-class BlogTitle(BaseElement):
-    locator = None
-
-    def __init__(self, driver, title):
+    def block_title(self, title):
         self.locator = (By.XPATH, "//li[text()='{}']".format(title))
-        super(BlogTitle, self).__init__(driver)
+        return self
 
+    def topic_title_input(self):
+        self.locator = (By.XPATH, "//input[@id='id_title']")
+        return self
 
-class TopicTitleInput(BaseElement):
-    locator = (By.XPATH, "//input[@id='id_title']")
+    def topic_text_area(self):
+        self.locator = (By.XPATH, "//textarea[@id='id_text']")
+        return self
 
+    def h4_font_button(self):
+        self.locator = (By.XPATH, "//a[@title='H4']")
+        return self
 
-class TopicTextArea(BaseElement):
-    locator = (By.XPATH, "//textarea[@id='id_text']")
+    def h5_font_button(self):
+        self.locator = (By.XPATH, "//a[@title='H5']")
+        return self
 
+    def h6_font_button(self):
+        self.locator = (By.XPATH, "//a[@title='H6']")
+        return self
 
-class H4Font(BaseElement):
-    locator = (By.XPATH, "//a[@title='H4']")
+    def bold_font_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-bold')]/a")
+        return self
 
+    def italic_font_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-italic')]/a")
+        return self
 
-class H5Font(BaseElement):
-    locator = (By.XPATH, "//a[@title='H5']")
+    def stroke_font_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-stroke')]/a")
+        return self
 
+    def underline_font_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-underline')]/a")
+        return self
 
-class H6Font(BaseElement):
-    locator = (By.XPATH, "//a[@title='H6']")
+    def quote_font_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-quote')]/a")
+        return self
 
+    def editor_code_font_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-code')]/a")
+        return self
 
-class BoldFont(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-bold')]/a")
+    def insert_code_button(self):
+        self.locator = (By.XPATH, "//form[@id='code-language-list']/button[contains(@class, 'button-primary')]")
+        return self
 
+    def ol_list_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-ol')]/a")
+        return self
 
-class ItalicFont(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-italic')]/a")
+    def ul_list_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-ul')]/a")
+        return self
 
+    def picture_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-picture')]/a")
+        return self
 
-class StrokeFont(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-stroke')]/a")
+    def picture_from_internet_button(self):
+        self.locator = (By.XPATH, "//li[@class='js-block-upload-img-item']/a")
+        return self
 
+    def picture_address_input(self):
+        self.locator = (By.XPATH, "//input[@id='img_url']")
+        return self
 
-class UnderlineFont(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-underline')]/a")
+    def picture_create_button(self):
+        self.locator = (By.XPATH, "//button[@id='submit-image-upload-link']")
+        return self
 
+    def video_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-video')]/a")
+        return self
 
-class QuoteFont(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-quote')]/a")
+    def link_button(self):
+        self.locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-link')]/a")
+        return self
 
+    def link_input(self):
+        self.locator = (By.XPATH, "//input[@id='form-link']")
+        return self
 
-class EditorCodeFont(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-code')]/a")
+    def link_confirm_button(self):
+        self.locator = (By.XPATH, "//form[@id='block_upload_link']/button[contains(@class, 'button-primary')]")
+        return self
 
+    def add_poll_button(self):
+        self.locator = (By.XPATH, "//input[@name='add_poll']")
+        return self
 
-class InsertCodeButton(BaseElement):
-    locator = (By.XPATH, "//form[@id='code-language-list']/button[contains(@class, 'button-primary')]")
+    def disable_comment_button(self):
+        self.locator = (By.XPATH, "//input[@name='forbid_comment']")
+        return self
 
+    def create_button(self):
+        self.locator = (By.XPATH, "//button[contains(text(),'Создать')]")
+        return self
 
-class OlList(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-ol')]/a")
+    def topic_created_notice(self):
+        self.locator = (By.XPATH, "//li[contains(text(), 'Топик успешно создан')]")
+        return self
 
-
-class UlList(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-ul')]/a")
-
-
-class PictureButton(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-picture')]/a")
-
-
-class PicureFromInternet(BaseElement):
-    locator = (By.XPATH, "//li[@class='js-block-upload-img-item']/a")
-
-
-class PictureInputAddress(BaseElement):
-    locator = (By.XPATH, "//input[@id='img_url']")
-
-
-class PictureCreateButton(BaseElement):
-    locator = (By.XPATH, "//button[@id='submit-image-upload-link']")
-
-
-class VideoButton(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-video')]/a")
-
-
-class LinkButton(BaseElement):
-    locator = (By.XPATH, "//div[@id='container']//li[contains(@class,'editor-link')]/a")
-
-
-class LinkInput(BaseElement):
-    locator = (By.XPATH, "//input[@id='form-link']")
-
-
-class LinkConfirmButton(BaseElement):
-    locator = (By.XPATH, "//form[@id='block_upload_link']/button[contains(@class, 'button-primary')]")
-
-
-class AddPollButton(BaseElement):
-    locator = (By.XPATH, "//input[@name='add_poll']")
-
-
-class DisableCommentButton(BaseElement):
-    locator = (By.XPATH, "//input[@name='forbid_comment']")
-
-
-class CreateButton(BaseElement):
-    locator = (By.XPATH, "//button[contains(text(),'Создать')]")
-
-
-class TopicCreatedNotice(BaseElement):
-    locator = (By.XPATH, "//li[contains(text(), 'Топик успешно создан')]")
-
-
-class TopicErrorNotice(BaseElement):
-    locator = (By.XPATH, "//li[contains(text(), 'Это поле обязательно для заполнения.')]")
+    def topic_error_notice(self):
+        self.locator = (By.XPATH, "//li[contains(text(), 'Это поле обязательно для заполнения.')]")
+        return self
 
 
 class CreatePollBlock(BaseElement):

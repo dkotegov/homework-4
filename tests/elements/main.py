@@ -1,7 +1,7 @@
 # coding=utf-8
 from selenium.webdriver.common.by import By
 
-from base import *
+from base import BaseElement
 
 
 class UserDropdown(BaseElement):

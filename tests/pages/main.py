@@ -1,6 +1,6 @@
 # coding=utf-8
-from base import *
-from tests.elements.main import *
+from base import BasePage
+from tests.elements.main import UserDropdown
 
 
 class MainPage(BasePage):

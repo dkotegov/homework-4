@@ -23,6 +23,20 @@ class BaseElement(object):
         )
         return self
 
+    def wait_for_clickable(self):
+        self.element = WebDriverWait(self.driver, self.DEFAULT_WAIT_TIME, 0.1).until(
+            EC.element_to_be_clickable(self.locator)
+        )
+        return self
+
+
+    def wait_for_alert(self):
+        self.element = WebDriverWait(self.driver, self.DEFAULT_WAIT_TIME, 0.1).until(
+            EC.alert_is_present()
+        )
+        return self
+
+
     def is_existed(self):
         try:
             self.driver.find_element(self.locator)

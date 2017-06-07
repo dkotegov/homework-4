@@ -1,6 +1,6 @@
 # coding=utf-8
-from base import *
-from tests.elements.show_topic import *
+from base import BasePage
+from tests.elements.show_topic import ShowTopic, TopicContent, TopicPoll
 
 
 class ShowTopicPage(BasePage):
@@ -9,10 +9,10 @@ class ShowTopicPage(BasePage):
         super(ShowTopicPage, self).__init__(driver)
 
     def get_topic_title(self):
-        return TopicTitle(self.driver).wait_for_visible().get().text
+        return ShowTopic(self.driver).topic_title().wait_for_visible().get().text
 
     def get_topic_blog_name(self):
-        return TopicBlog(self.driver).wait_for_visible().get().text
+        return ShowTopic(self.driver).topic_blog().wait_for_visible().get().text
 
     def get_topic_content_el(self):
         return TopicContent(self.driver).wait_for_visible()
@@ -24,4 +24,4 @@ class ShowTopicPage(BasePage):
         return TopicPoll(self.driver).get_answers().wait_for_visible().get_answers()
 
     def check_if_add_comment_button_is_not_exists(self):
-        return TopicAddCommentButton(self.driver).is_existed() is False
+        return ShowTopic(self.driver).topic_add_comment_buton().is_existed() is False
