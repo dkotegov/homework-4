@@ -13,11 +13,10 @@ import time
 
 
 class Test(unittest.TestCase):
-    USERNAME = u'Евфросиния Зерминова'
-    USEREMAIL = 'evfrosiniya.z@gmail.com.local'
-    PASSWORD = '20091995'
+    USEREMAIL = os.environ['USEREMAIL']
+    PASSWORD = os.environ['PASSWORD']
 
-    MESSAGE_TEXT = u'Привет! Тебе сообщение)!2222'
+    MESSAGE_TEXT = u'Привет! Тебе сообщение)'
     EMPTY_MESSAGE_TEXT = ' \n \t\t   '
     STYLE = 'display: block'
     ERROR_TYPE = u'Пожалуйста, выберите изображение (jpg/gif/png).'
@@ -43,7 +42,6 @@ class Test(unittest.TestCase):
         auth_form.submit()
 
         user_name = auth_page.top_menu.get_username()
-        self.assertEqual(self.USERNAME, user_name)
 
         create_page = CreatePage(self.driver)
         create_page.open()
