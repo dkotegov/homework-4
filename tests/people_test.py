@@ -3,7 +3,6 @@
 import os
 import re
 import itertools
-from time import sleep
 
 import unittest
 import urlparse
@@ -15,6 +14,12 @@ from selenium.webdriver.support.ui import Select
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+
+
+def wait_ajax(driver):
+    WebDriverWait(driver, 30, 0.1).until(
+        lambda d: d.execute_script('return jQuery.active == 0')
+    )
 
 
 class Page(object):
@@ -79,7 +84,7 @@ class PeoplePage(Page):
     def navigation_group(self, group):
         self.driver.find_element_by_xpath(
             self.NAVIGATION_ENTRY.replace('TEXT', group)).click()
-        sleep(1)
+        wait_ajax(self.driver)
 
     @property
     def error(self):
@@ -92,9 +97,9 @@ class PeoplePage(Page):
     def search(self, text):
         search_field = self.driver.find_element_by_xpath(self.SEARCH_FIELD)
         search_field.send_keys(text)
-        sleep(1)
+        wait_ajax(self.driver)
         search_field.send_keys(Keys.RETURN)
-        sleep(1)
+        wait_ajax(self.driver)
 
 
 class Man(Component):
@@ -115,7 +120,8 @@ class Man(Component):
     def login(self):
         href = urlparse.unquote(self.driver.find_element_by_xpath(
             self.__add_index(self.LOGIN)).get_attribute('href'))
-        return re.findall(r'/([^/]+)/$', href)[0]
+        return href
+        # return re.findall(r'/([^/]+)/$', href)[0]
 
     @property
     def name(self):
@@ -143,6 +149,7 @@ class Paginator(Component):
     FIRST = '//div[@class="pagination"]/ul/li/a[text()="первая"]'
     LAST = '//div[@class="pagination"]/ul/li/a[text()="последняя"]'
     PAGES = '//div[@class="pagination"]/ul/li'
+    ACTIVE_PAGE = PAGES + '[contains[@class="active"]/span[@text=IND]]'
 
     @property
     def exists(self):
@@ -153,19 +160,14 @@ class Paginator(Component):
         return True
 
     def to_first(self):
-        try:
-            self.driver.find_element_by_xpath(self.FIRST).click()
-            sleep(1)
-        except NoSuchElementException:
-            pass
+        el = self.driver.find_element_by_xpath(self.FIRST)
+        adr = el.get_attribute('href')
+        self.driver.get(adr)
 
     def to_last(self):
-        self.driver.find_element_by_xpath(self.LAST).click()
-        try:
-            self.driver.find_element_by_xpath(self.LAST).click()
-            sleep(1)
-        except NoSuchElementException:
-            pass
+        el = self.driver.find_element_by_xpath(self.LAST)
+        adr = el.get_attribute('href')
+        self.driver.get(adr)
 
     @property
     def visible_pages(self):
@@ -334,7 +336,7 @@ class PeopleTest(unittest.TestCase):
     def test_count_in_group(self):
         page = PeoplePage(self.driver)
         page.open()
-        sleep(1)
+        wait_ajax(self.driver)
         page.navigation_group = 'Студент'
         count_per_page = len(page.people_list)
         paginator = page.paginator
@@ -342,6 +344,19 @@ class PeopleTest(unittest.TestCase):
         total = paginator.visible_pages[-2] * count_per_page + \
             len(page.people_list)
         self.assertEqual(total, page.statistic['Студент'])
+
+    @unittest.expectedFailure
+    def test_count_in_group_invalid(self):
+        page = PeoplePage(self.driver)
+        page.open()
+        wait_ajax(self.driver)
+        page.navigation_group = 'Зарегистрированный'
+        count_per_page = len(page.people_list)
+        paginator = page.paginator
+        paginator.to_last()
+        total = paginator.visible_pages[-2] * count_per_page + \
+            len(page.people_list)
+        self.assertEqual(total, page.statistic['Зарегистрированный'])
 
     def test_not_exists(self):
         page = PeoplePage(self.driver, page=9999)
