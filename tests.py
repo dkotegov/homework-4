@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 
 import os
-
 import unittest
-import urlparse
+
+from datetime import datetime, time
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support.ui import WebDriverWait
-from extentions import *
-from elements import *
-import time
+
+from elements.AuthPage import AuthPage
+from elements.CreatePage import CreatePage
+from elements.MessageForm import MessageForm
+from elements.UserForm import UserForm
+from elements.DialogForm import DialogForm
+
 
 
 class Test(unittest.TestCase):
@@ -22,7 +25,7 @@ class Test(unittest.TestCase):
     ERROR_TYPE = u'Пожалуйста, выберите изображение (jpg/gif/png).'
     ERROR_SIZE = u'Размер изображения не должен превышать 20 Мб.'
     BIG_IMG_PATH = '/Zebras.jpg'
-    NOT_IMG_PATH = '/extentions.py'
+    NOT_IMG_PATH = '/basic.py'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -51,7 +54,6 @@ class Test(unittest.TestCase):
         message_form = MessageForm(self.driver)
         message_form.set_message_text(self.MESSAGE_TEXT)
         message_form.message_send()
-        self.driver.refresh()
         last_message_text = message_form.get_last_message_text()
         self.assertEqual(self.MESSAGE_TEXT, last_message_text)
 
@@ -59,9 +61,8 @@ class Test(unittest.TestCase):
         message_form = MessageForm(self.driver)
         message_form.set_message_text(self.EMPTY_MESSAGE_TEXT)
         message_form.message_send()
-        time.sleep(1)
         messagebox_text = message_form.get_textarea_value()
-        self.assertFalse(messagebox_text == '')
+        self.assertNotEqual(messagebox_text, u'')
 
     def test_go_to_the_dialogues(self):
         message_form = MessageForm(self.driver)
@@ -82,9 +83,8 @@ class Test(unittest.TestCase):
         message_form = MessageForm(self.driver)
         message_form.set_message_text(self.MESSAGE_TEXT)
         message_form.message_send()
-        self.driver.refresh()
         last_message_time = message_form.get_last_message_time()
-        self.assertEqual(now_time(), str(last_message_time))
+        self.assertEqual(datetime.strftime(datetime.now(), '%H:%M:%S'), str(last_message_time))
 
     def test_avatar(self):
         self.driver.back()

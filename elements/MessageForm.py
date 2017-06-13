@@ -1,67 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import os
-
-import urlparse
-
+from Component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 
-class Page(object):
-    BASE_URL = 'http://ftest.tech-mail.ru/'
-    PATH = ''
 
-    def __init__(self, driver):
-        self.driver = driver
-
-    def open(self):
-        url = urlparse.urljoin(self.BASE_URL, self.PATH)
-        self.driver.get(url)
-        self.driver.maximize_window()
-
-class AuthPage(Page):
-    PATH = ''
-
-    @property
-    def form(self):
-        return AuthForm(self.driver)
-
-    @property
-    def top_menu(self):
-        return TopMenu(self.driver)
-
-
-class Component(object):
-    def __init__(self, driver):
-        self.driver = driver
-
-
-class AuthForm(Component):
-    LOGIN = '//input[@name="login"]'
-    PASSWORD = '//input[@name="password"]'
-    SUBMIT = '//span[text()="Войти"]'
-    LOGIN_BUTTON = '//a[text()="Вход для участников"]'
-
-    def open_form(self):
-        self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
-
-    def set_login(self, login):
-        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
-
-    def set_password(self, pwd):
-        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
-
-    def submit(self):
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
-
-
-class TopMenu(Component):
-    USERNAME = '//a[@class="username"]'
-
-    def get_username(self):
-        return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.USERNAME).text
-        )
-
+def wait_ajax(driver):
+    WebDriverWait(driver, 30, 0.1).until(
+        lambda d: d.execute_script('return jQuery.active == 0')
+    )
 
 class MessageForm(Component):
     NEW_MESSAGE_TEXT = '//textarea[@class="messages__msg-text markitup-editor markItUpEditor"]'
@@ -78,6 +25,8 @@ class MessageForm(Component):
     ERROR = '//*[@id="block_upload_img_content_pc"]/p[1]'
     CHOOSE_IMG = '//*[@id="img_file"]'
 
+
+
     def set_message_text(self, new_message_text):
         message = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.NEW_MESSAGE_TEXT)
@@ -89,6 +38,7 @@ class MessageForm(Component):
             lambda d: d.find_element_by_xpath(self.SEND_BUTTON)
         )
         button.click()
+        wait_ajax(self.driver)
 
     def get_last_message_text(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
@@ -177,40 +127,3 @@ class MessageForm(Component):
             lambda d: d.find_element_by_xpath(self.CHOOSE_IMG)
         )
         file.send_keys(os.getcwd() + path)
-
-class DialogForm(Component):
-    DIALOGS_AVATAR = '(//img[@class="talk__user-image"])[1]'
-
-    def get_dialogs_avatar_src(self):
-        return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.DIALOGS_AVATAR).get_attribute("src")
-        )
-
-    def go_to_user_page(self):
-        link = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.DIALOGS_AVATAR)
-        )
-        link.click()
-
-
-class UserForm(Component):
-    USERNAME = '//h1[@class="profile__full-name"]'
-    AVATAR = '//img[@class="profile__photo"]'
-
-    def user_name(self):
-        return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.USERNAME).text
-        )
-
-    def get_avatar_src(self):
-        return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.AVATAR).get_attribute("src")
-        )
-
-
-class CreatePage(Page):
-    PATH = '/talk/'
-    MESSAGE = '//td[@class="cell-title talk__message"]'
-
-    def message_open(self):
-        self.driver.find_element_by_xpath(self.MESSAGE).click()
