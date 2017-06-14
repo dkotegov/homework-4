@@ -45,11 +45,20 @@ class Model(object):
     def getSaveSettingsButton(self):
         return self.getElementByPath((By.XPATH, "//button[@name='submit_profile_edit']"))
 
+    def getSaveAdditionalButton(self):
+        return self.getElementByPath((By.XPATH, "//button[@type='submit']"))
+
     def getNoteInput(self):
         return self.getAreaByPath((By.XPATH, "//div[@id='usernote-form']"))
 
     def getAboutInput(self):
         return self.getElementByPath((By.XPATH, "//textarea[@id='profile_about']"))
+
+    def getPhoneNumberInput(self):
+        return self.getElementByPath((By.XPATH, "//input[@id='phone_number']"))
+
+    def getOKInput(self):
+        return self.getElementByPath((By.XPATH, "//input[@id='id_odnoklassniki']"))
 
     def getCabinet(self):
         return self.getElementByPath((By.XPATH, "//div[@class='profile']"))

@@ -29,6 +29,13 @@ class Page(object):
         except TimeoutException:
             return False
 
+    def checkContainerPresence(self, element, text):
+        try:
+            element.find_element(By.XPATH, "//span[text()='%s']" % text)
+            return True
+        except TimeoutException:
+            return False
+
 
 class MainPage(Page):
     login = os.environ.get("TP_LOGIN")
@@ -51,8 +58,7 @@ class CabinetPage(Page):
         self.driver = driver
         self.model = Model(self.driver)
         self.driver.get('http://ftest.tech-mail.ru/profile/k.korolev')
-        #self.driver.get('file:///home/metalray33/testing/homework-4/%D0%93%D0%BB%D0%B0%D0%B2%D0%BD%D0%BE%D0%B5%20-%20%D0%A2%D0%B5%D1%85%D0%BD%D0%BE%D0%BF%D0%B0%D1%80%D0%BA@Mail.ru.html')
-    
+      
     def addNote(self, text):
         addButton = self.model.getAddButton()
         addButton.click()
@@ -69,9 +75,6 @@ class CabinetPage(Page):
         noteInput = self.model.getNoteInput()
         return noteInput.text
 
-    def isNewAbout(self, text):
-        return self.checkPresence((By.XPATH, "//p[text()='%s']" % text))
-
     def logOut(self):
         dropdown = self.model.getUserDropdown()
         dropdown.click()
@@ -79,6 +82,15 @@ class CabinetPage(Page):
 
         self.driver.find_element(By.XPATH, "//li/a[text()='Выход']").click()
         self.waitUntilLoaded()
+
+    def isNewAbout(self, text):
+        return self.checkPresence((By.XPATH, "//p[text()='%s']" % text))
+
+    def isNewNumber(self, text):
+        return self.checkPresence((By.XPATH, "//a[@href='tel:%s']" % text))
+
+    def isNewAccount(self, text):
+        return self.checkPresence((By.XPATH, "//a[@href='http://ok.ru/profile/%s']" % text))
 
     def isExit(self):
         return self.checkPresence((By.XPATH, "//a[text()='Вход для участников']"))
@@ -105,6 +117,15 @@ class SettingsPage(Page):
         saveButton.click()
         self.waitUntilLoaded()
 
+    def changePhoneNumber(self, phoneNumber):
+        phoneNumberInput = self.model.getPhoneNumberInput()
+        phoneNumberInput.clear()
+        phoneNumberInput.send_keys(phoneNumber)
+
+        saveButton = self.model.getSaveSettingsButton()
+        saveButton.click()
+        self.waitUntilLoaded()
+
     def isOpened(self):
         try:
             self.model.getSettings()
@@ -124,3 +145,18 @@ class MessagePage(Page):
         except TimeoutException:
             return False
         return True
+
+class AdditionalPage(Page):
+    def __init__(self, driver):
+        self.driver = driver
+        self.model = Model(self.driver)
+        self.driver.get('http://ftest.tech-mail.ru/settings/additional_info')
+
+    def changeOKAccount(self, account):
+        OKInput = self.model.getOKInput()
+        OKInput.clear()
+        OKInput.send_keys(account)
+
+        saveButton = self.model.getSaveAdditionalButton()
+        saveButton.click()
+        self.waitUntilLoaded()

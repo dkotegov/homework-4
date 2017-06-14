@@ -7,7 +7,7 @@ import string
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from page import MainPage, SettingsPage, MessagePage, CabinetPage
+from page import MainPage, SettingsPage, MessagePage, CabinetPage, AdditionalPage
 import os
 
 #test_calendar_scroll
@@ -34,16 +34,32 @@ class TestSchedule(unittest.TestCase):
         main_page = MainPage(self.browser)
         main_page.auth()
 
+    def test_change_additional_info(self):
+        additionalPage = AdditionalPage(self.browser)
+        account = "".join( [random.choice(string.letters[:26]) for i in xrange(15)] )
+        additionalPage.changeOKAccount(account)
+
+        cabinetPage = CabinetPage(self.browser)
+        self.assertTrue(cabinetPage.isNewAccount(account))
+
+    def test_change_phone(self):
+        settingsPage = SettingsPage(self.browser)
+        phoneNumber = "".join( [str(random.choice([1, 2, 3, 4, 5])) for i in xrange(11)] )
+        phoneNumber = "+" + phoneNumber
+        settingsPage.changePhoneNumber(phoneNumber)
+
+        cabinetPage = CabinetPage(self.browser)
+        self.assertTrue(cabinetPage.isNewNumber(phoneNumber))
+
     def test_change_about(self):
         settingsPage = SettingsPage(self.browser)
-        text = "Some simle text about me"
         text = "".join( [random.choice(string.letters[:26]) for i in xrange(15)] )
         settingsPage.changeAbout(text)
 
         cabinetPage = CabinetPage(self.browser)
         self.assertTrue(cabinetPage.isNewAbout(text))
 
-    """def test_add_notes(self):
+    def test_add_notes(self):
         cabinetPage = CabinetPage(self.browser)
         text = "".join( [random.choice(string.letters[:26]) for i in xrange(15)] )
         cabinetPage.addNote(text)
@@ -68,7 +84,7 @@ class TestSchedule(unittest.TestCase):
     # Проверка открытия экрана сообщений
     def test_open_messages(self):
         messagePage = MessagePage(self.browser)
-        self.assertTrue(messagePage.isOpened())"""
+        self.assertTrue(messagePage.isOpened())
 
     def tearDown(self):
         self.browser.quit()
