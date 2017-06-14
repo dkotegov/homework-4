@@ -70,7 +70,7 @@ class CabinetPage(Page):
         return noteInput.text
 
     def isNewAbout(self, text):
-        return self.checkPresence((By.XPATH, "//a[text()='%s']" % text))
+        return self.checkPresence((By.XPATH, "//p[text()='%s']" % text))
 
     def logOut(self):
         dropdown = self.model.getUserDropdown()
@@ -98,9 +98,10 @@ class SettingsPage(Page):
 
     def changeAbout(self, text):
         aboutInput = self.model.getAboutInput()
+        aboutInput.clear()
         aboutInput.send_keys(text)
 
-        saveButton = self.model.getSaveButton()
+        saveButton = self.model.getSaveSettingsButton()
         saveButton.click()
         self.waitUntilLoaded()
 

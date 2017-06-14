@@ -42,11 +42,14 @@ class Model(object):
     def getSaveButton(self):
         return self.getElementByPath((By.XPATH, "//button[text()='Сохранить']"))
 
+    def getSaveSettingsButton(self):
+        return self.getElementByPath((By.XPATH, "//button[@name='submit_profile_edit']"))
+
     def getNoteInput(self):
         return self.getAreaByPath((By.XPATH, "//div[@id='usernote-form']"))
 
     def getAboutInput(self):
-        return self.getAreaByPath((By.XPATH, "//div[@id='profile_about']"))
+        return self.getElementByPath((By.XPATH, "//textarea[@id='profile_about']"))
 
     def getCabinet(self):
         return self.getElementByPath((By.XPATH, "//div[@class='profile']"))

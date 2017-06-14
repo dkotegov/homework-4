@@ -1,11 +1,13 @@
 # coding=utf-8
 from selenium import webdriver
 import unittest
+import random
+import string
 
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from page import MainPage, SchedulePage, SettingsPage, MessagePage, CabinetPage
+from page import MainPage, SettingsPage, MessagePage, CabinetPage
 import os
 
 #test_calendar_scroll
@@ -34,11 +36,12 @@ class TestSchedule(unittest.TestCase):
 
     def test_change_about(self):
         settingsPage = SettingsPage(self.browser)
+        text = "Some simle text about me"
         text = "".join( [random.choice(string.letters[:26]) for i in xrange(15)] )
         settingsPage.changeAbout(text)
 
         cabinetPage = CabinetPage(self.browser)
-        self.assertTrue(cabinetPage.isNewAbout())
+        self.assertTrue(cabinetPage.isNewAbout(text))
 
     """def test_add_notes(self):
         cabinetPage = CabinetPage(self.browser)
