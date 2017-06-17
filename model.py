@@ -13,19 +13,22 @@ class Model(object):
         )
 
     def getDropdownByPath(self, path):
-        element = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(path)
-        )
+        element = self.getElementByPath(path)
         return element.find_element_by_class_name('nav-pills_dropdown__active__title')
 
+    def getUserByPath(self, path):
+        element = self.getElementByPath(path)
+        return element.find_element_by_class_name('username')
+
     def getAreaByPath(self, path):
-        element = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(path)
-        )
+        element = self.getElementByPath(path)
         return element.find_element_by_class_name('input-text')
 
     def getPeriodSwitcher(self):
         return self.getElementByPath((By.XPATH, "//li/a[text()='Весь семестр']"))
+
+    def getUser(self):
+        return self.getUserByPath((By.XPATH, "//div[@class='dropdown-user']"))
 
     def getSheduleTable(self):
         return self.getElementByPath((By.XPATH, "//table[@class='schedule-timetable']"))
@@ -36,11 +39,27 @@ class Model(object):
     def getMessages(self):
         return self.getElementByPath((By.XPATH, "//table[@class='table table-talk']"))
 
+    def getLastMessage(self, text):
+        return self.getElementByPath((By.XPATH, "//p[text()='%s']" % text))
+
     def getAddButton(self):
         return self.getElementByPath((By.XPATH, "//a[text()='Написать заметку']"))
 
+    def getDelete(self):
+        try:
+            element = self.getElementByPath((By.XPATH, "//a[@id='usernote-button-delete']"))
+        except TimeoutException:
+            return None
+        return element
+
+    def getMessageButton(self):
+        return self.getElementByPath((By.XPATH, "//a[@class='button button-primary new-direct-message']"))
+
     def getSaveButton(self):
         return self.getElementByPath((By.XPATH, "//button[text()='Сохранить']"))
+
+    def getSendButton(self):
+        return self.getElementByPath((By.XPATH, "//button[@type='submit']"))
 
     def getSaveSettingsButton(self):
         return self.getElementByPath((By.XPATH, "//button[@name='submit_profile_edit']"))
@@ -51,8 +70,14 @@ class Model(object):
     def getNoteInput(self):
         return self.getAreaByPath((By.XPATH, "//div[@id='usernote-form']"))
 
+    def getNote(self):
+        return self.getElementByPath((By.XPATH, "//p[@id='usernote-note-text']"))
+
     def getAboutInput(self):
         return self.getElementByPath((By.XPATH, "//textarea[@id='profile_about']"))
+
+    def getMessageInput(self):
+        return self.getElementByPath((By.XPATH, "//textarea[@id='message_text']"))
 
     def getPhoneNumberInput(self):
         return self.getElementByPath((By.XPATH, "//input[@id='phone_number']"))

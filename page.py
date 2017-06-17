@@ -1,6 +1,5 @@
 # coding=utf-8
 import os
-import time
 
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import DesiredCapabilities
@@ -17,29 +16,21 @@ class Page(object):
         self.driver = driver
         self.model = Model(self.driver)
 
-    def waitUntilLoaded(self):
+    def waitAjax(self):
         AjaxLoader().waitToDisappear(self.driver)
 
-    def checkPresence(self, locator):
+    def checkExist(self, path):
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located(locator)
+                EC.presence_of_element_located(path)
             )
             return True
         except TimeoutException:
             return False
 
-    def checkContainerPresence(self, element, text):
-        try:
-            element.find_element(By.XPATH, "//span[text()='%s']" % text)
-            return True
-        except TimeoutException:
-            return False
-
-
 class MainPage(Page):
     login = os.environ.get("TP_LOGIN")
-    password = os.environ.get("PASSWORD")
+    password = os.environ.get("TP_PASSWORD")
 
     def __init__(self, driver):
         self.driver = driver
@@ -51,49 +42,75 @@ class MainPage(Page):
         self.driver.find_element(By.XPATH, "//input[@name='login']").send_keys(self.login)
         self.driver.find_element(By.XPATH, "//input[@name='password']").send_keys(self.password)
         self.driver.find_element(By.XPATH, "//span[text()='Войти']").click()
-        self.checkPresence((By.XPATH, "//div[@class='dropdown-user']"))
+        self.checkExist((By.XPATH, "//div[@class='dropdown-user']"))
+
+    def getUserName(self):
+        user = self.model.getUser()
+        return user.get_attribute('href')
 
 class CabinetPage(Page):
-    def __init__(self, driver):
+    def __init__(self, driver, name):
         self.driver = driver
         self.model = Model(self.driver)
-        self.driver.get('http://ftest.tech-mail.ru/profile/k.korolev')
+        self.driver.get(name)
+
+    def deleteNote(self):
+        note = self.model.getNote()
+        print note
+        if note.text != "":
+            delete = self.model.getDelete()
+            if (delete != None):
+                delete.click()
+        self.waitAjax()
       
     def addNote(self, text):
         addButton = self.model.getAddButton()
         addButton.click()
-        self.waitUntilLoaded()
+        self.waitAjax()
 
         noteInput = self.model.getNoteInput()
         noteInput.send_keys(text)
 
         saveButton = self.model.getSaveButton()
         saveButton.click()
-        self.waitUntilLoaded()
+        self.waitAjax()
 
     def getNote(self):
-        noteInput = self.model.getNoteInput()
-        return noteInput.text
+        note = self.model.getNoteInput()
+        # При self.model.getNote() отдает AssertionError хотя строки одинаковые 
+        return note.text
 
     def logOut(self):
         dropdown = self.model.getUserDropdown()
         dropdown.click()
-        self.waitUntilLoaded()
+        self.waitAjax()
 
         self.driver.find_element(By.XPATH, "//li/a[text()='Выход']").click()
-        self.waitUntilLoaded()
+        self.waitAjax()
+
+    def sendMessage(self, text):
+        messageButton = self.model.getMessageButton()
+        messageButton.click()
+        self.waitAjax()
+
+        messageInput = self.model.getMessageInput()
+        messageInput.send_keys(text)
+
+        sendButton = self.model.getSendButton()
+        sendButton.click()
+        self.waitAjax()
 
     def isNewAbout(self, text):
-        return self.checkPresence((By.XPATH, "//p[text()='%s']" % text))
+        return self.checkExist((By.XPATH, "//p[text()='%s']" % text))
 
     def isNewNumber(self, text):
-        return self.checkPresence((By.XPATH, "//a[@href='tel:%s']" % text))
+        return self.checkExist((By.XPATH, "//a[@href='tel:%s']" % text))
 
     def isNewAccount(self, text):
-        return self.checkPresence((By.XPATH, "//a[@href='http://ok.ru/profile/%s']" % text))
+        return self.checkExist((By.XPATH, "//a[@href='http://ok.ru/profile/%s']" % text))
 
     def isExit(self):
-        return self.checkPresence((By.XPATH, "//a[text()='Вход для участников']"))
+        return self.checkExist((By.XPATH, "//a[text()='Вход для участников']"))
 
     def isOpened(self):
         try:
@@ -115,7 +132,7 @@ class SettingsPage(Page):
 
         saveButton = self.model.getSaveSettingsButton()
         saveButton.click()
-        self.waitUntilLoaded()
+        self.waitAjax()
 
     def changePhoneNumber(self, phoneNumber):
         phoneNumberInput = self.model.getPhoneNumberInput()
@@ -124,7 +141,7 @@ class SettingsPage(Page):
 
         saveButton = self.model.getSaveSettingsButton()
         saveButton.click()
-        self.waitUntilLoaded()
+        self.waitAjax()
 
     def isOpened(self):
         try:
@@ -138,6 +155,9 @@ class MessagePage(Page):
         self.driver = driver
         self.model = Model(self.driver)
         self.driver.get('http://ftest.tech-mail.ru/talk/')
+
+    def checkMessage(self, text):
+        return self.checkExist((By.XPATH, "//*[contains(text(), '%s')]" % text))
 
     def isOpened(self):
         try:
@@ -159,4 +179,4 @@ class AdditionalPage(Page):
 
         saveButton = self.model.getSaveAdditionalButton()
         saveButton.click()
-        self.waitUntilLoaded()
+        self.waitAjax()
