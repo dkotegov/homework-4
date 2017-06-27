@@ -25,6 +25,7 @@ class Component(object):
     def __init__(self, driver):
         self.driver = driver
 
+
 class AuthForm(Component):
     LOGIN = '//input[@name="login"]'
     PASSWORD = '//input[@name="password"]'
@@ -64,6 +65,7 @@ class AuthPage(Page):
     def top_menu(self):
         return TopMenu(self.driver)
 
+
 class BugReportPage(Page):
     PATH = 'bugreport/list/all/park/'
 
@@ -73,36 +75,75 @@ class BugReportPage(Page):
 
     @property
     def articles(self):
-        return {}
+        return Articles(self.driver)
 
 
 class SearchForm(Component):
-    QUERY_TEXT = "//form[@class='seach-item seach-item-abs']//input[@class='input-text']"
-    SUBMIT = "//form[@class='seach-item seach-item-abs']//input[@class='input-submit']"
+    QUERY_TEXT = '//div[@class="search-input-wrapper"]/input[@class="input-text" and @name="query"]'
+    SUBMIT = '//div[@class="search-input-wrapper"]/input[@class="input-submit"]'
 
     def set_query_text(self, query_text):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.QUERY_TEXT)
+        )
         self.driver.find_element_by_xpath(self.QUERY_TEXT).send_keys(query_text)
 
+
     def submit(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SUBMIT)
+        )
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
+class Paginator(Component):
+    def next(self):
+        {}
+
+    def prev(self):
+        {}
+
+    def first(self):
+        {}
+    
+    def last(self):
+        {}
+
+class Articles(Component):
+    ARTICLE = '//article[@class="topic topic-type-topic js-topic"]'
+
+    def get_articles_count(self):
+        return len(self.driver.get_elements_by_xpath())
+
+    def get_article(self, article_number):
+        return Article(self.driver, article_number)
+
+            
 
 class Article(Component):
-    TOPIC_TITLE_TEXT = '//div[@class="topic-title"]/a'
-    TOPIC_INFO_SOURCE_TEXT =  '//div[@class="topic-info"]/a[1]'
-    TOPIC_INFO_STATUS_TEXT = '//div[@class="topic-info"]/a[2]'
+    def __init__(self, driver, articleNumber):
+        super(Article, self).__init__(driver)
+        self.TOPIC_TITLE_TEXT = '(//h1[@class="topic-title"])[%d]/a' % articleNumber
+        self.TOPIC_INFO_SOURCE_TEXT =  '(//div[@class="topic-info"])[%d]/p[1]' % articleNumber
+        self.TOPIC_INFO_STATUS_TEXT = '(//div[@class="topic-info"])[%d]/p[2]' % articleNumber
+        self.TOPIC_AUTHOR = '(//li[@class="topic-info-author"])[%d]/p/a' % articleNumber
 
-    def get_topic_title_text(self):
+    def get_article_title_text(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.TOPIC_TITLE_TEXT).text
         )
 
-    def get_topic_info_source_text(self):
+    def get_article_info_source_text(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.TOPIC_INFO_SOURCE_TEXT).text
         )
 
-    def get_topic_info_status_text(self):
+    def get_article_info_status_text(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.TOPIC_INFO_STATUS_TEXT).text
         )
+
+    def get_article_author(self):
+        return WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.TOPIC_AUTHOR).text
+        ) 
+
