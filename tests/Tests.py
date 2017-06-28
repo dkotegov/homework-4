@@ -8,7 +8,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 
 class MyTest(unittest.TestCase):
-   USEREMAIL = 'dvpitakov@gmail.com.local'
+   USEREMAIL = os.environ['LOGIN']
    PASSWORD = os.environ['PASSWORD']
    USERNAME = u'Дмитрий Питаков'
    TEXT_FOR_SEARCH = u'Дмитрий Питаков'
@@ -29,9 +29,8 @@ class MyTest(unittest.TestCase):
       auth_form.set_login(self.USEREMAIL)
       auth_form.set_password(self.PASSWORD)
       auth_form.submit()
-      user_name = auth_page.top_menu.get_username()
-      self.assertEqual(self.USERNAME, user_name)
-      
+      self.user_name = auth_page.top_menu.get_username()
+    
       self.bugReportPage = BugReportPage(self.driver)
       self.bugReportPage.open()
 
