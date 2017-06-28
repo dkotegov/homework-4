@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from tests.auth_page import authenticate
+from utils import Page, Component, Test, wait_for_element_load
+from selenium.webdriver.common.by import By
 
-from utils import Page, Component
 
 class EventListPage(Page):
-    PATH = '/blog/view/33/'
+    PATH = 'blog/view/33/'
 
     @property
     def event(self):
@@ -12,7 +14,7 @@ class EventListPage(Page):
 class Event(Component):
     HEADER_PATH = '//h1[@class="topic-title"]/a'
     SUBHEADER_PATH = '//a[@class="topic-blog"]'
-    SUBMIT_BUTTON_PATH = '//button[@class="button"]'
+    SUBMIT_BUTTON_PATH = '//button[text()="Регистрация закрыта"]'
 
     def open_event(self):
         self._wait_for_xpath(self.HEADER_PATH)
@@ -33,3 +35,11 @@ class Event(Component):
     def get_button_color(self):
         self._wait_for_xpath(self.SUBMIT_BUTTON_PATH)
         return self.driver.find_element_by_xpath(self.SUBMIT_BUTTON_PATH).value_of_css_property('background-color')
+
+class EventListTest(Test):
+
+    def test(self):
+        authenticate(self.driver)
+        self.event_list_page = EventListPage(self.driver)
+        self.event_list_page.open()
+        wait_for_element_load(self.driver, (By.XPATH, '//h2[@class="page-header"][text()="Мероприятия"]'))

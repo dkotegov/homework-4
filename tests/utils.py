@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-import contextlib
+import os
+import unittest
 import urlparse
+from abc import abstractmethod, ABCMeta
 
-from selenium.webdriver.support.expected_conditions import staleness_of
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver import DesiredCapabilities, Remote
 
 
 class Page(object):
@@ -20,12 +22,36 @@ class Page(object):
         self.driver.get(url)
         self.driver.maximize_window()
 
+    @classmethod
+    def get_url(cls):
+        return cls.BASE_URL + cls.PATH
+
+
 class Component(object):
     def __init__(self, driver):
         self.driver = driver
 
     def _wait_for_xpath(self, xpath):
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+
+
+class Test(unittest.TestCase):
+    __metaclass__ = ABCMeta
+
+    def setUp(self):
+        browser = os.environ.get('BROWSER', 'FIREFOX')
+        print browser
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+
+    def tearDown(self):
+        self.driver.quit()
+
+    @abstractmethod
+    def test(self):
+        pass
 
 def wait_for_element_load(driver, element, timeout=30):
     WebDriverWait(driver, timeout).until(EC.presence_of_element_located(element))
