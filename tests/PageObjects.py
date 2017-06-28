@@ -10,6 +10,7 @@ import re
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 class Page(object):
     BASE_URL = 'http://ftest.tech-mail.ru/'
@@ -22,6 +23,13 @@ class Page(object):
         url = urlparse.urljoin(self.BASE_URL, self.PATH)
         self.driver.get(url)
         self.driver.maximize_window()
+
+    #def scroll_down(self):
+    #    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")   
+
+    #def scroll_position(self):
+    #    return self.driver.execute_script("return window.pageYOffset;")
+
 
 
 class Component(object):
@@ -84,6 +92,53 @@ class BugReportPage(Page):
     def statusSelect(self):
         return StatusSelect(self.driver)
 
+    @property
+    def obratnaya_svaz_form(self):
+        return ObratnayaSvazForm(self.driver)
+
+    @property
+    def obratnaya_svaz_button(self):
+        return ObratnayaSvazButton(self.driver)
+
+    @property
+    def scroll_up_button(self):
+        return ScrollUpButton(self.driver)
+
+class ScrollUpButton(Component):
+    BUTTON_XPATH = '//*[@class="toolbar-scrollup"]/a'
+
+
+    def is_displayed(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+             EC.presence_of_element_located((By.XPATH, self.BUTTON_XPATH))
+        )
+        return self.driver.find_element_by_id('toolbar_scrollup').is_displayed()
+
+    def click(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+             EC.element_to_be_clickable((By.XPATH, self.BUTTON_XPATH))
+        )
+        return self.driver.find_element_by_xpath(self.BUTTON_XPATH).click()
+
+
+class ObratnayaSvazForm(Component):
+    STATUS = '//div[@class="popup popup-warning"]'
+
+    def is_displayed(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+             EC.presence_of_element_located((By.XPATH, self.STATUS))
+        )
+        return self.driver.find_element_by_xpath(self.STATUS).is_displayed()
+
+
+class ObratnayaSvazButton(Component):
+    BUTTON = '//div[@class="bug-report bug-report-trigger"]'
+
+    def click(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.BUTTON)
+        )
+        self.driver.find_element_by_xpath(self.BUTTON).click()
 
 class CommentsPage(Page):
     COMMENTS_NUMBER_THAT_PRESENTED_FOR_USER_IN_TEXT_FORM = '//*[@id="count-comments"]'
@@ -101,7 +156,7 @@ class CommentsPage(Page):
         return Comments(self.driver)
 
     @property
-    def get_number_comments_presented_for_user(self):
+    def number_comments_presented_for_user(self):
         return int(WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.COMMENTS_NUMBER_THAT_PRESENTED_FOR_USER_IN_TEXT_FORM).text
         )) 

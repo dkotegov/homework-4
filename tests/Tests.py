@@ -38,6 +38,11 @@ class MyTest(unittest.TestCase):
    def tearDown(self):
       self.driver.quit()
 
+   def test_obratnaya_svaz_button_rabotaiet(self):
+      self.assertFalse(self.bugReportPage.obratnaya_svaz_form.is_displayed())
+      self.bugReportPage.obratnaya_svaz_button.click()
+      self.assertTrue(self.bugReportPage.obratnaya_svaz_form.is_displayed())
+
    def test_comment_number_on_page_with_articles(self):
       articles = self.bugReportPage.articles
       count = articles.get_articles_count()
@@ -55,7 +60,7 @@ class MyTest(unittest.TestCase):
       article_id = articles.get_article(article_number).get_id()
       commentsPage = CommentsPage(self.driver, article_id)
       commentsPage.open()
-      self.assertEqual(commentsPage.get_number_comments_presented_for_user, commentsPage.comments.count_comments())
+      self.assertEqual(commentsPage.number_comments_presented_for_user, commentsPage.comments.count_comments())
 
    def test_status_select(self):
       statuses = [u'Новая', u'Открыта', u'В работе', u'Ожидание', u'Закрыта', u'Отклонена']
@@ -105,5 +110,12 @@ class MyTest(unittest.TestCase):
           article.click_on_link()
           commentsPage = CommentsPage(self.driver, article_id)
           self.assertEqual(self.driver.current_url, commentsPage.BASE_URL + commentsPage.PATH + "#comments")
+
+   #def test_toolbar_scrollup(self):
+   #   self.assertFalse(self.bugReportPage.scroll_up_button.is_displayed())
+   #   self.bugReportPage.scroll_down()
+   #   self.assertTrue(self.bugReportPage.scroll_up_button.is_displayed())
+   #   self.bugReportPage.scroll_up_button.click()
+   #   self.assertEqual(self.bugReportPage.scroll_position(), 0)
      
    
