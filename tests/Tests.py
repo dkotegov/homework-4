@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-
+import random
 import unittest
 from PageObjects import *
 
@@ -21,58 +21,99 @@ class MyTest(unittest.TestCase):
          desired_capabilities = DesiredCapabilities.CHROME
       )
 
+      auth_page = AuthPage(self.driver)
+      auth_page.open()
+
+      auth_form = auth_page.form
+      auth_form.open_form()
+      auth_form.set_login(self.USEREMAIL)
+      auth_form.set_password(self.PASSWORD)
+      auth_form.submit()
+      user_name = auth_page.top_menu.get_username()
+      self.assertEqual(self.USERNAME, user_name)
+
    def tearDown(self):
       self.driver.quit()
 
-   def test_article(self):
-      auth_page = AuthPage(self.driver)
-      auth_page.open()
-
-      auth_form = auth_page.form
-      auth_form.open_form()
-      auth_form.set_login(self.USEREMAIL)
-      auth_form.set_password(self.PASSWORD)
-      auth_form.submit()
-      user_name = auth_page.top_menu.get_username()
-      self.assertEqual(self.USERNAME, user_name)
-
+   def test_comment_number_on_page_with_articles(self):
       bugReportPage = BugReportPage(self.driver)
       bugReportPage.open()
+      articles = bugReportPage.articles
+      count = articles.get_articles_count()
+      article_number = random.randint(1, count)
+      article_id = articles.get_article(article_number).get_id()
+      articles_comments_count = articles.get_article(article_number).get_comments_count()
+      commentsPage = CommentsPage(self.driver, article_id)
+      commentsPage.open()
+      self.assertEqual(commentsPage.comments.count_comments(), articles_comments_count)
 
-      article = bugReportPage.article(1)
-      print(article.get_topic_title_text())
-      print(article.get_topic_info_source_text())
-      print(article.get_topic_info_status_text())
-      print(article.get_topic_author())
-
-
-   #считывает автора новейшего поста запоминает id поста
-   #вбивает в поиск фамилию и имая автора
-   #ищет пост с тем же id
-   def test_search(self):
-      auth_page = AuthPage(self.driver)
-      auth_page.open()
-
-      auth_form = auth_page.form
-      auth_form.open_form()
-      auth_form.set_login(self.USEREMAIL)
-      auth_form.set_password(self.PASSWORD)
-      auth_form.submit()
-      user_name = auth_page.top_menu.get_username()
-      self.assertEqual(self.USERNAME, user_name)
-
+   def test_comment_number_on_article_page(self):
       bugReportPage = BugReportPage(self.driver)
       bugReportPage.open()
+      articles = bugReportPage.articles
+      count = articles.get_articles_count()
+      article_number = random.randint(1, count)
+      article_id = articles.get_article(article_number).get_id()
+      commentsPage = CommentsPage(self.driver, article_id)
+      commentsPage.open()
+      self.assertEqual(commentsPage.get_number_comments_presented_for_user, commentsPage.comments.count_comments())
 
-      topic_title = article.get_topic_title_text()
-      topic_source = article.get_topic_info_source_text()
-      topic_status = article.get_topic_info_status_text()
-      topic_author = article.get_topic_author()
+   def test_status_select(self):
+      statuses = [u'Новая', u'Открыта', u'В работе', u'Ожидание', u'Закрыта', u'Отклонена']
+      status_number = random.randint(0, len(statuses) - 1)
+      bugReportPage = BugReportPage(self.driver)
+      bugReportPage.open()
+      bugReportPage.statusSelect.set_status(statuses[status_number])
+      articles = bugReportPage.articles
+      count = articles.get_articles_count()
+      if(count != 0):
+        article_number = random.randint(1, count)
+        article_status = articles.get_article(article_number).get_article_info_status_text()
+        self.assertEqual(u'Статус: ' + statuses[status_number], article_status)
+     
+   def test_search_by_author(self):
+      bugReportPage = BugReportPage(self.driver)
+      bugReportPage.open()
+      bugReportPage.search.set_query_text(self.USERNAME)
+      bugReportPage.search.submit()
+      articles = bugReportPage.articles
+      count = articles.get_articles_count()
+      if(count != 0):
+        article_author = articles.get_article(random.randint(1, count)).get_article_author()
+        bf = article_author.split(' ')
+        article_author = bf[1] + ' ' + bf[0]
+        self.assertEqual(article_author, self.USERNAME)
 
-      searchForm = bugReportPage.search
-      searchForm.set_query_text(topic_author)
-      seatchForm.submit()
+   def test_make_comment(self):
+      text = 'test ' + str(random.randint(1, 1000000))
+      bugReportPage = BugReportPage(self.driver)
+      bugReportPage.open()
+      articles = bugReportPage.articles
+      count = articles.get_articles_count()
+      if(count != 0):
+        article_number = random.randint(1, count)
+        article_id = articles.get_article(article_number).get_id()
+        commentsPage = CommentsPage(self.driver, article_id)
+        commentsPage.open()
+        commentsCount = commentsPage.comments.count_comments()
+        commentForm = commentsPage.comment_form
+        commentForm.show_comment_form()
+        commentForm.set_text(text)
+        commentForm.submit()
+        commentsPage = CommentsPage(self.driver, article_id)
+        commentsPage.open()
+        self.assertEqual(commentsCount + 1, commentsPage.comments.count_comments())
 
-      
-      
-        
+   def test_link_to_bugreports_comments(self):
+       bugReportPage = BugReportPage(self.driver)
+       bugReportPage.open()
+       articles = bugReportPage.articles
+       count = articles.get_articles_count()
+       if(count != 0):
+        article_number = random.randint(1, count)
+        article_id = articles.get_article(article_number).get_id()
+        articles.get_article(article_number).click_on_link()
+        commentsPage = CommentsPage(self.driver, article_id)
+        self.assertEqual(self.driver.current_url, commentsPage.BASE_URL + commentsPage.PATH + "#comments")
+     
+   
