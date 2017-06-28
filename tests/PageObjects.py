@@ -4,6 +4,7 @@ import os
 
 import unittest
 import urlparse
+import random
 import re
 
 from selenium.webdriver import DesiredCapabilities, Remote
@@ -167,6 +168,12 @@ class Articles(Component):
 
     def get_articles_count(self):
         return len(self.driver.find_elements_by_xpath(self.ARTICLE))
+
+    def get_random_article(self):
+        count = self.get_articles_count()
+        if (count == 0): 
+            return None
+        return Article(self.driver, random.randint(1, count))
 
     def get_article(self, article_number):
         return Article(self.driver, article_number)
