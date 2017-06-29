@@ -14,9 +14,8 @@ from pages.wiki import WikiPage
 
 
 class GitTest(unittest.TestCase):
-    USERNAME = unicode('testfortp', 'utf-8')
-    USEREMAIL = unicode('testfortp', 'utf-8')
-    PASSWORD = unicode('12345testfortp', 'utf-8')
+    USERNAME = unicode(os.environ['USERNAME'], 'utf-8')
+    PASSWORD = unicode(os.environ['PASSWORD'], 'utf-8')
     REPONAME = 'testrepo'
     NEW_REPONAME = 'testreponew'
     REPO_GITIGNORE = 'gitignorerepo'
@@ -42,7 +41,7 @@ class GitTest(unittest.TestCase):
             desired_capabilities=capabilities
         )
         auth_page = AuthPage(self.driver)
-        auth_page.sign_in(self.USEREMAIL, self.PASSWORD)
+        auth_page.sign_in(self.USERNAME, self.PASSWORD)
         main_page = MainPage(self.driver)
 
     def tearDown(self):
