@@ -46,6 +46,5 @@ class Test3(CreatePageTest):
         topic_options.add_poll()
         old_number = topic_options.count_answers()
         topic_options.add_poll_answer()
-        raw_input()
         new_number = topic_options.count_answers()
-        self.assertTrue(new_number > old_number, 'Poll additional answer doesn\'t appear')
+        self.assertTrue(new_number - old_number == 1, 'Poll additional answer doesn\'t appear')

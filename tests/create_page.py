@@ -26,7 +26,7 @@ class TopicOptions(Component):
     ADD_POLL_PATH = '//input[@name="add_poll"]'
     POLL_OPTIONS_PATH = '//div[@class="poll-create"]'
     ADD_POLL_ANSWER_PATH = '//a[text()="Добавить вариант"]'
-    POLL_ANSWER_PATH = '//input[starts-with(@id, "form") and contains(@id, "answer")]'
+    POLL_ANSWER_PATH = '//input[@type="text" and starts-with(@name, "form-") and contains(@name, "answer")]'
 
     def add_poll(self):
         self._wait_for_xpath(self.ADD_POLL_PATH)

@@ -2,19 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="caa4cc71-4ab8-4297-a4a5-3bf359ebe535" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/create_page.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/create_page_tests.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/event_list_page_tests.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test1.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test2.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test3.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test4.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geckodriver" afterPath="$PROJECT_DIR$/geckodriver" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run_tests.py" afterPath="$PROJECT_DIR$/run_tests.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/auth_page.py" afterPath="$PROJECT_DIR$/tests/auth_page.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/event_list.py" afterPath="$PROJECT_DIR$/tests/event_list.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/utils.py" afterPath="$PROJECT_DIR$/tests/utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/create_page.py" afterPath="$PROJECT_DIR$/tests/create_page.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/create_page_tests.py" afterPath="$PROJECT_DIR$/tests/create_page_tests.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -79,8 +69,8 @@
       <file leaf-file-name="create_page_tests.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/create_page_tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="47" column="33" lean-forward="false" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+            <state relative-caret-position="499">
+              <caret line="49" column="52" lean-forward="false" selection-start-line="49" selection-start-column="52" selection-end-line="49" selection-end-column="52" />
               <folding>
                 <element signature="e#24#67#0" expanded="true" />
               </folding>
@@ -91,8 +81,8 @@
       <file leaf-file-name="create_page.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/create_page.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="36" column="87" lean-forward="true" selection-start-line="36" selection-start-column="87" selection-end-line="36" selection-end-column="87" />
+            <state relative-caret-position="465">
+              <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -137,8 +127,8 @@
         <option value="$PROJECT_DIR$/tests/event_list.py" />
         <option value="$PROJECT_DIR$/tests/event_list_page_tests.py" />
         <option value="$PROJECT_DIR$/run_tests.py" />
-        <option value="$PROJECT_DIR$/tests/create_page.py" />
         <option value="$PROJECT_DIR$/tests/create_page_tests.py" />
+        <option value="$PROJECT_DIR$/tests/create_page.py" />
       </list>
     </option>
   </component>
@@ -708,16 +698,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/event_list_page_tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="64" column="6" lean-forward="false" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
-          <folding>
-            <element signature="e#25#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run_tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -725,16 +705,6 @@
           <folding>
             <element signature="e#48#63#0" expanded="true" />
             <marker date="1498830026661" expanded="false" signature="48:74" ph="import ..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/create_page_tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="47" column="33" lean-forward="false" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
-          <folding>
-            <element signature="e#24#67#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -749,10 +719,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/event_list_page_tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="64" column="6" lean-forward="false" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
+          <folding>
+            <element signature="e#25#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/create_page_tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="499">
+          <caret line="49" column="52" lean-forward="false" selection-start-line="49" selection-start-column="52" selection-end-line="49" selection-end-column="52" />
+          <folding>
+            <element signature="e#24#67#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/create_page.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="36" column="87" lean-forward="true" selection-start-line="36" selection-start-column="87" selection-end-line="36" selection-end-column="87" />
+        <state relative-caret-position="465">
+          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding />
         </state>
       </provider>
