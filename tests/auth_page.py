@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-
 import os
-from utils import *
+
+from selenium.webdriver.common.by import By
+
+from tests.utils import wait_for_element_load
+from utils import Page, Component
 
 class AuthPage(Page):
     PATH = ''
@@ -36,6 +39,7 @@ class AuthForm(Component):
     def submit(self):
         self._wait_for_xpath(self.SUBMIT)
         self.driver.find_element_by_xpath(self.SUBMIT).click()
+
 
 def authenticate(driver):
     EMAIL = os.environ['LOGIN']

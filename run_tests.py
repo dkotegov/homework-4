@@ -4,13 +4,23 @@
 import unittest
 import sys
 
-from tests.test1 import Test1
-from tests.test2 import Test2
-from tests.test3 import Test3
-from tests.test4 import Test4
+from tests import event_list_page_tests as elp
+from tests import create_page_tests as cp
 
 if __name__ == '__main__':
-    tests = [Test1, Test2, Test3, Test4]
+    tests = [
+        # elp.Test1,
+        # elp.Test2,
+        # elp.Test3,
+        # elp.Test4,
+        # elp.Test5,
+        # elp.Test6,
+        # cp.Test1,
+        # cp.Test2,
+        cp.Test3,
+    ]
+    print tests
+
     tests = map(unittest.makeSuite, tests)
     suite = unittest.TestSuite(tests)
     result = unittest.TextTestRunner().run(suite)

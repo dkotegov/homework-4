@@ -4,10 +4,10 @@ import unittest
 import urlparse
 from abc import abstractmethod, ABCMeta
 
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium.webdriver import DesiredCapabilities, Remote
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class Page(object):
@@ -52,6 +52,7 @@ class Test(unittest.TestCase):
     @abstractmethod
     def test(self):
         pass
+
 
 def wait_for_element_load(driver, element, timeout=30):
     WebDriverWait(driver, timeout).until(EC.presence_of_element_located(element))
