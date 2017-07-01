@@ -11,6 +11,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 class Page(object):
     BASE_URL = 'http://ftest.tech-mail.ru/'
@@ -24,11 +25,11 @@ class Page(object):
         self.driver.get(url)
         self.driver.maximize_window()
 
-    #def scroll_down(self):
-    #    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")   
+    def scroll_down(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")   
 
-    #def scroll_position(self):
-    #    return self.driver.execute_script("return window.pageYOffset;")
+    def scroll_position(self):
+        return self.driver.execute_script("return window.pageYOffset;")
 
 
 
@@ -61,8 +62,8 @@ class TopMenu(Component):
 
     def get_username(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.USERNAME).text
-        )
+            lambda d: d.find_element_by_xpath(self.USERNAME)
+        ).text
 
 
 class AuthPage(Page):
@@ -104,31 +105,37 @@ class BugReportPage(Page):
     def scroll_up_button(self):
         return ScrollUpButton(self.driver)
 
+
 class ScrollUpButton(Component):
     BUTTON_XPATH = '//*[@class="toolbar-scrollup"]/a'
-
+    DISPLAYED_BUTTON_XPATH = '//*[@class="toolbar-scrollup" and @style="display: block;"]/a'
 
     def is_displayed(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
+        return WebDriverWait(self.driver, 30, 0.1).until(
              EC.presence_of_element_located((By.XPATH, self.BUTTON_XPATH))
-        )
-        return self.driver.find_element_by_id('toolbar_scrollup').is_displayed()
+        ).is_displayed()
+
+    def is_displayed_with_wait(self):
+        try:
+            return WebDriverWait(self.driver, 3, 0.1).until(
+             EC.presence_of_element_located((By.XPATH, self.DISPLAYED_BUTTON_XPATH))
+            ).is_displayed()
+        except TimeoutException:
+            return False       
 
     def click(self):
         WebDriverWait(self.driver, 30, 0.1).until(
              EC.element_to_be_clickable((By.XPATH, self.BUTTON_XPATH))
-        )
-        return self.driver.find_element_by_xpath(self.BUTTON_XPATH).click()
+        ).click()
 
 
 class ObratnayaSvazForm(Component):
     STATUS = '//div[@class="popup popup-warning"]'
 
     def is_displayed(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
+        return WebDriverWait(self.driver, 30, 0.1).until(
              EC.presence_of_element_located((By.XPATH, self.STATUS))
-        )
-        return self.driver.find_element_by_xpath(self.STATUS).is_displayed()
+        ).is_displayed()
 
 
 class ObratnayaSvazButton(Component):
@@ -137,8 +144,7 @@ class ObratnayaSvazButton(Component):
     def click(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.BUTTON)
-        )
-        self.driver.find_element_by_xpath(self.BUTTON).click()
+        ).click()
 
 class CommentsPage(Page):
     COMMENTS_NUMBER_THAT_PRESENTED_FOR_USER_IN_TEXT_FORM = '//*[@id="count-comments"]'
@@ -170,20 +176,17 @@ class CommentForm(Component):
     def set_text(self, text):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.TEXTAREA)
-        )
-        self.driver.find_element_by_xpath(self.TEXTAREA).send_keys(text)
+        ).send_keys(text)
 
     def show_comment_form(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.COMMENT_ADD_LINK)
-        )
-        self.driver.find_element_by_xpath(self.COMMENT_ADD_LINK).click()
+        ).click()
 
     def submit(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT_BUTTON)
-        )
-        self.driver.find_element_by_xpath(self.SUBMIT_BUTTON).click()
+        ).click()
 
 class StatusSelect(Component):
     Statuses = {
@@ -207,15 +210,13 @@ class SearchForm(Component):
     def set_query_text(self, query_text):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.QUERY_TEXT)
-        )
-        self.driver.find_element_by_xpath(self.QUERY_TEXT).send_keys(query_text)
+        ).send_keys(query_text)
 
 
     def submit(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT)
-        )
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
+        ).click()
 
 
 class Articles(Component):
@@ -226,7 +227,7 @@ class Articles(Component):
 
     def get_random_article(self):
         count = self.get_articles_count()
-        if (count == 0): 
+        if not count: 
             return None
         return Article(self.driver, random.randint(1, count))
 
@@ -236,12 +237,19 @@ class Articles(Component):
 
 class Comments(Component):
     COMMENT = '//div[@class="comment-content "]'
+    COMMENT_FOR_DELETE = '//a[@class="comment-delete link-dotted comment-deletable"]'
+
  
     def count_comments(self):
         return len(self.driver.find_elements_by_xpath(self.COMMENT))
 
     def get_comment(self, comment_number):
         return Comment(self.driver, comment_number)
+    
+    def delete_comment(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.COMMENT_FOR_DELETE)
+        ).click()
             
 class Comment(Component):
     def __init__(self, driver, articleNumber):
@@ -272,7 +280,6 @@ class Comment(Component):
         return WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.TOPIC_AUTHOR).text
         )
-
 
 class Article(Component):
     def __init__(self, driver, articleNumber):
