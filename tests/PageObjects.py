@@ -314,8 +314,7 @@ class Article(Component):
     def click_on_link(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.COMMENTS_COUNT)
-        )
-        self.driver.find_element_by_xpath(self.COMMENTS_COUNT).click()
+        ).click()
 
     def get_id(self):
         return int(re.match(r'\[id=(\d+)\]', self.get_article_title_text()).group(1))
