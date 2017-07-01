@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import re
-from event_list import EventListPage, BlogMenu
-from tests.create_page import CreatePage
-from tests.utils import Test, wait_for_element_load
-from tests.auth_page import authenticate
+
+from selenium.common.exceptions import InvalidElementStateException
 from selenium.webdriver.common.by import By
+
+from tests.event_list_page.event_list_page import EventListPage
+from tests.auth import authenticate
+from tests.create_page.create_page import CreatePage
+from tests.utils import Test, wait_for_element_load
 
 
 class EventListTest(Test):
@@ -35,7 +38,10 @@ class Test2(EventListTest):
         super(Test2, self).test()
         event = self.event_list_page.event
         old_text = event.get_button_text()
-        event.participate()
+        try:
+            event.participate()
+        except InvalidElementStateException:
+            pass
         new_text = event.get_button_text()
         self.assertEqual(old_text, new_text, 'Registration button text changed')
 
@@ -47,7 +53,10 @@ class Test3(EventListTest):
         super(Test3, self).test()
         event = self.event_list_page.event
         old_color = event.get_button_color()
-        event.participate()
+        try:
+            event.participate()
+        except InvalidElementStateException:
+            pass
         new_color = event.get_button_color()
         self.assertEqual(old_color, new_color, 'Registration button color changed')
 

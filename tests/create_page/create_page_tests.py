@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.common.by import By
 
-from tests.auth_page import authenticate
-from tests.create_page import CreatePage
+from tests.auth import authenticate
+from tests.create_page.create_page import CreatePage
 from tests.utils import Test, wait_for_element_load
 
 

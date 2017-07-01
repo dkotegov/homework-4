@@ -32,7 +32,12 @@ class Component(object):
         self.driver = driver
 
     def _wait_for_xpath(self, xpath):
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.presence_of_element_located((By.XPATH, xpath)), str(self.__class__) + ': ' + xpath)
+
+    def _clicker(self, xpath):
+        self._wait_for_xpath(xpath)
+        self.driver.find_element_by_xpath(xpath).click()
 
 
 class Test(unittest.TestCase):

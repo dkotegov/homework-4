@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from utils import Page, Component
+from tests.utils import Page, Component
 
 
 class EventListPage(Page):
@@ -35,20 +35,16 @@ class Event(Component):
     READ_FURTHER_PATH = '//a[@title="Читать дальше"]'
 
     def open_event(self):
-        self._wait_for_xpath(self.HEADER_PATH)
-        self.driver.find_element_by_xpath(self.HEADER_PATH).click()
+        self._clicker(self.HEADER_PATH)
 
     def open_blog(self):
-        self._wait_for_xpath(self.SUBHEADER_PATH)
-        self.driver.find_element_by_xpath(self.SUBHEADER_PATH).click()
+        self._clicker(self.SUBHEADER_PATH)
 
     def participate(self):
-        self._wait_for_xpath(self.SUBMIT_BUTTON_PATH)
-        self.driver.find_element_by_xpath(self.SUBMIT_BUTTON_PATH).click()
+        self._clicker(self.SUBMIT_BUTTON_PATH)
 
     def read_further(self):
-        self._wait_for_xpath(self.READ_FURTHER_PATH)
-        self.driver.find_element_by_xpath(self.READ_FURTHER_PATH).click()
+        self._clicker(self.READ_FURTHER_PATH)
 
     def get_button_text(self):
         self._wait_for_xpath(self.SUBMIT_BUTTON_PATH)

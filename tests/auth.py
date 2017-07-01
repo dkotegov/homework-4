@@ -3,8 +3,7 @@ import os
 
 from selenium.webdriver.common.by import By
 
-from tests.utils import wait_for_element_load
-from utils import Page, Component
+from tests.utils import wait_for_element_load, Page, Component
 
 class AuthPage(Page):
     PATH = ''
@@ -14,6 +13,7 @@ class AuthPage(Page):
         return AuthForm(self.driver)
 
 class AuthForm(Component):
+    LOGIN_POPUP = '//div[@id="popup-login"]'
     LOGIN = '//input[@name="login"]'
     PASSWORD = '//input[@name="password"]'
     SUBMIT = '//span[text()="Войти"]'
@@ -25,7 +25,7 @@ class AuthForm(Component):
 
     def set_login(self, login):
         self._wait_for_xpath(self.LOGIN)
-        self._wait_for_xpath(self.SUBMIT)
+        self._wait_for_xpath(self.LOGIN_POPUP)
         self.driver.find_element_by_xpath(self.LOGIN).click()
         self.driver.find_element_by_xpath(self.LOGIN).clear()
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)

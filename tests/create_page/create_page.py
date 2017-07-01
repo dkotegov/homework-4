@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from utils import Page, Component
+from tests.utils import Page, Component
 
 class CreatePage(Page):
     PATH = 'blog/33/topic/create/'
@@ -29,18 +29,15 @@ class TopicOptions(Component):
     POLL_ANSWER_PATH = '//input[@type="text" and starts-with(@name, "form-") and contains(@name, "answer")]'
 
     def add_poll(self):
-        self._wait_for_xpath(self.ADD_POLL_PATH)
-        self.driver.find_element_by_xpath(self.ADD_POLL_PATH).click()
+        self._clicker(self.ADD_POLL_PATH)
 
     def is_poll_visible(self):
         self._wait_for_xpath(self.POLL_OPTIONS_PATH)
         return self.driver.find_element_by_xpath(self.POLL_OPTIONS_PATH).is_displayed()
 
     def add_poll_answer(self):
-        self._wait_for_xpath(self.ADD_POLL_ANSWER_PATH)
-        self.driver.find_element_by_xpath(self.ADD_POLL_ANSWER_PATH).click()
+        self._clicker(self.ADD_POLL_ANSWER_PATH)
 
     def count_answers(self):
         answers = self.driver.find_elements_by_xpath(self.POLL_ANSWER_PATH)
-        print len(answers), answers
         return len(answers)
