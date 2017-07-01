@@ -238,7 +238,6 @@ class Articles(Component):
 class Comments(Component):
     COMMENT = '//div[@class="comment-content "]'
     COMMENT_FOR_DELETE = '//a[@class="comment-delete link-dotted comment-deletable"]'
-
  
     def count_comments(self):
         return len(self.driver.find_elements_by_xpath(self.COMMENT))
@@ -250,6 +249,8 @@ class Comments(Component):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.COMMENT_FOR_DELETE)
         ).click()
+        alertDialog = self.driver.switch_to_alert();
+        alertDialog.accept()
             
 class Comment(Component):
     def __init__(self, driver, articleNumber):

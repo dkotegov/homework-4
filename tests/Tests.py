@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
-import random
 import unittest
-from PageObjects import *
+
+from PageObjects import AuthPage, BugReportPage, CommentsPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 
-class MyTest(unittest.TestCase):
+class MyTest(unittest.TestCase): 
    USEREMAIL = os.environ['LOGIN']
    PASSWORD = os.environ['PASSWORD']
    USERNAME = u'Питаков Дмитрий'
@@ -52,10 +52,8 @@ class MyTest(unittest.TestCase):
 
    def test_comment_number_on_article_page(self): 
       articles = self.bugReportPage.articles
-      count = articles.get_articles_count()
-      article_number = random.randint(1, count)
-      article_id = articles.get_article(article_number).get_id()
-      commentsPage = CommentsPage(self.driver, article_id)
+      self.assertNotEqual(articles.get_articles_count(), 0)
+      commentsPage = CommentsPage(self.driver, articles.get_article(1).get_id())
       commentsPage.open()
       self.assertEqual(commentsPage.number_comments_presented_for_user, commentsPage.comments.count_comments())
 
@@ -74,11 +72,11 @@ class MyTest(unittest.TestCase):
       articles = self.bugReportPage.articles
       count = articles.get_articles_count()
       self.assertGreater(count, 0)
-      article_author = articles.get_article(random.randint(1, count)).get_article_author()
+      article_author = articles.get_article(1).get_article_author()
       self.assertEqual(article_author, self.USERNAME)
 
    def test_make_comment(self):
-      text = 'test ' + str(random.randint(1, 1000000))
+      text = 'test '
       articles = self.bugReportPage.articles
       self.assertNotEqual(articles.get_articles_count(), 0)
       article_id = articles.get_article(1).get_id()
@@ -96,8 +94,8 @@ class MyTest(unittest.TestCase):
 
    def test_link_to_bugreports_comments(self):
        articles = self.bugReportPage.articles
-       article = articles.get_random_article()
-       self.assertNotEqual(article, None) 
+       article = articles.get_article(1)
+       self.assertIsNotNone(article) 
        article_id = article.get_id()
        article.click_on_link()
        commentsPage = CommentsPage(self.driver, article_id)
