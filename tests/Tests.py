@@ -60,16 +60,14 @@ class MyTest(unittest.TestCase):
       self.assertEqual(commentsPage.number_comments_presented_for_user, commentsPage.comments.count_comments())
 
    def test_status_select(self):
-      statuses = [u'Новая', u'Открыта', u'В работе', u'Ожидание', u'Закрыта', u'Отклонена']
-      status_number = random.randint(0, len(statuses) - 1)
-      self.bugReportPage.statusSelect.set_status(statuses[status_number])
+      status = u'Новая'
+      self.bugReportPage.statusSelect.set_status(status)
       articles = self.bugReportPage.articles
       count = articles.get_articles_count()
       self.assertNotEqual(count, 0)
-      article_number = random.randint(1, count)
-      article_status = articles.get_article(article_number).get_article_info_status_text()
-      self.assertEqual(u'Статус: ' + statuses[status_number], article_status)
-     
+      article_status = articles.get_article(1).get_article_info_status_text()
+      self.assertEqual(u'Статус: ' + status, article_status)
+
    def test_search_by_author(self): 
       self.bugReportPage.search.set_query_text(self.USERNAME)
       self.bugReportPage.search.submit()
@@ -82,10 +80,8 @@ class MyTest(unittest.TestCase):
    def test_make_comment(self):
       text = 'test ' + str(random.randint(1, 1000000))
       articles = self.bugReportPage.articles
-      count = articles.get_articles_count()
-      self.assertNotEqual(count, 0)
-      article_number = random.randint(1, count)
-      article_id = articles.get_article(article_number).get_id()
+      self.assertNotEqual(articles.get_articles_count(), 0)
+      article_id = articles.get_article(1).get_id()
       commentsPage = CommentsPage(self.driver, article_id)
       commentsPage.open()
       commentsCount = commentsPage.comments.count_comments()
