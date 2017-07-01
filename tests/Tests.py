@@ -43,7 +43,7 @@ class MyTest(unittest.TestCase):
 
    def test_comment_number_on_page_with_articles(self):
       articles = self.bugReportPage.articles
-      self.assertNotEqual(articles.get_articles_count(), 0)
+      self.assertGreater(articles.get_articles_count(), 0)
       article_id = articles.get_article(1).get_id()
       articles_comments_count = articles.get_article(1).get_comments_count()
       commentsPage = CommentsPage(self.driver, article_id)
@@ -52,7 +52,7 @@ class MyTest(unittest.TestCase):
 
    def test_comment_number_on_article_page(self): 
       articles = self.bugReportPage.articles
-      self.assertNotEqual(articles.get_articles_count(), 0)
+      self.assertGreater(articles.get_articles_count(), 0)
       commentsPage = CommentsPage(self.driver, articles.get_article(1).get_id())
       commentsPage.open()
       self.assertEqual(commentsPage.number_comments_presented_for_user, commentsPage.comments.count_comments())
@@ -62,7 +62,7 @@ class MyTest(unittest.TestCase):
       self.bugReportPage.statusSelect.set_status(status)
       articles = self.bugReportPage.articles
       count = articles.get_articles_count()
-      self.assertNotEqual(count, 0)
+      self.assertGreater(count, 0)
       article_status = articles.get_article(1).get_article_info_status_text()
       self.assertEqual(u'Статус: ' + status, article_status)
 
@@ -78,7 +78,7 @@ class MyTest(unittest.TestCase):
    def test_make_comment(self):
       text = 'test '
       articles = self.bugReportPage.articles
-      self.assertNotEqual(articles.get_articles_count(), 0)
+      self.assertGreater(articles.get_articles_count(), 0)
       article_id = articles.get_article(1).get_id()
       commentsPage = CommentsPage(self.driver, article_id)
       commentsPage.open()
