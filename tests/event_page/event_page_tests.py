@@ -9,6 +9,7 @@ from tests.utils import Test, wait_for_element_load
 
 class EventPageTests(Test):
     ALERT_TEXT = u'Вы действительно хотите перейти к другому комментарию?'
+    SOME_TEXT = 'some text'
 
     def setUp(self):
         super(EventPageTests, self).setUp()
@@ -76,8 +77,14 @@ class EventPageTests(Test):
         '''Click add comment twice'''
         comments_block = self.event_page.comments_block
         comments_block.add_comment()
+        comments_block.type_to_textarea(self.SOME_TEXT)
         comments_block.add_comment()
         self.assertTrue(self.event_page.is_alert_shown(), 'Alert not shown - adding a comment twice')
         self.assertEqual(self.event_page.get_alert_text(),
                          self.ALERT_TEXT,
                          'Alert text is wrong - adding a comment twice')
+        self.event_page.confirm_alert()
+        self.assertEqual(comments_block.get_text_from_textarea(), '',
+                         'Text in textarea haven\'t disappear - adding a comment twice')
+
+

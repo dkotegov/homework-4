@@ -39,6 +39,10 @@ class EventPage(Page):
             return self.driver.switch_to.alert.text
         return None
 
+    def confirm_alert(self):
+        if self.is_alert_shown():
+            self.driver.switch_to.alert.accept()
+
 
 class ParticipationBlock(Component):
     SUBMIT_BUTTON_PATH = '//button[text()="Регистрация закрыта"]'
@@ -107,3 +111,9 @@ class CommentsBlock(Component):
     def is_textarea_visible(self):
         self._wait_for_xpath(self.TEXTAREA_PATH)
         return self.driver.find_element_by_xpath(self.TEXTAREA_PATH).is_displayed()
+
+    def type_to_textarea(self, text):
+        self.driver.find_element_by_xpath(self.TEXTAREA_PATH).send_keys(text)
+
+    def get_text_from_textarea(self):
+        return self.driver.find_element_by_xpath(self.TEXTAREA_PATH).text
