@@ -36,9 +36,8 @@ class EventListTests(Test):
         try:
             event.participate()
         except InvalidElementStateException:
-            self.driver.execute_script('var xpath="' + event.SUBMIT_BUTTON_PATH + '";' +
-                                       'document.evaluate(xpath, document, null, \
-                                       XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
+            self.driver.execute_script('var xpath=\'' + event.SUBMIT_BUTTON_PATH + '\';' +
+                                       'document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
         new_text = event.get_button_text()
         self.assertEqual(old_text, new_text, 'Registration button text changed')
 
@@ -49,9 +48,8 @@ class EventListTests(Test):
         try:
             event.participate()
         except InvalidElementStateException:
-            self.driver.execute_script('var xpath="' + event.SUBMIT_BUTTON_PATH + '";' +
-                                       'document.evaluate(xpath, document, null, \
-                                       XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
+            self.driver.execute_script('var xpath=\'' + event.SUBMIT_BUTTON_PATH + '\';' +
+                                       'document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
         new_color = event.get_button_color()
         self.assertEqual(old_color, new_color, 'Registration button color changed')
 

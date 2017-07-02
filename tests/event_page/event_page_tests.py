@@ -24,9 +24,8 @@ class EventPageTests(Test):
         try:
             participation_block.participate()
         except InvalidElementStateException:
-            self.driver.execute_script('var xpath="' + participation_block.SUBMIT_BUTTON_PATH + '";' +
-                                       'document.evaluate(xpath, document, null, \
-                                       XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
+            self.driver.execute_script('var xpath=\'' + participation_block.SUBMIT_BUTTON_PATH + '\';' +
+                                       'document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
         new_text = participation_block.get_button_text()
         self.assertEqual(old_text, new_text, 'Text of participation button has changed')
 
@@ -37,9 +36,8 @@ class EventPageTests(Test):
         try:
             participation_block.participate()
         except InvalidElementStateException:
-            self.driver.execute_script('var xpath="' + participation_block.SUBMIT_BUTTON_PATH + '";' +
-                                       'document.evaluate(xpath, document, null, \
-                                       XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
+            self.driver.execute_script('var xpath=\'' + participation_block.SUBMIT_BUTTON_PATH + '\';' +
+                                       'document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
         new_color = participation_block.get_button_color()
         self.assertEqual(old_color, new_color, 'Color of participation button has changed')
 
