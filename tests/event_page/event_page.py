@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -25,6 +25,10 @@ class EventPage(Page):
     @property
     def comments_block(self):
         return CommentsBlock(self.driver)
+
+    @property
+    def topic_actions_block(self):
+        return TopicActionsBlock(self.driver)
 
     def is_alert_shown(self):
         try:
@@ -75,6 +79,9 @@ class TopicFooter(Component):
     def vote_down(self):
         self._clicker(self.VOTE_DOWN_BUTTON_PATH)
 
+    def vote_zero(self):
+        self._clicker(self.VOTE_INDIFFERENT_PATH)
+
     def get_voted_class(self):
         class_list = self.driver.find_element_by_xpath(self.VOTE_CONTAINER_PATH).get_attribute('class')
         return class_list
@@ -86,7 +93,8 @@ class TopicFooter(Component):
 
 
 class Notification(Component):
-    NOTIFICATION_PATH = '//div[@class="n-box n-error"]/div'
+    NOTIFICATION_PATH = '//div[@class="n-box"]/div'
+    CONTAINER_PATH = '//div[@id="notifier"]'
 
     def is_being_shown(self):
         try:
@@ -99,6 +107,10 @@ class Notification(Component):
         if self.is_being_shown():
             return self.driver.find_element_by_xpath(self.NOTIFICATION_PATH).text
         return None
+
+    def is_notification_present(self):
+        self._wait_for_xpath(self.CONTAINER_PATH)
+        return self.driver.find_element_by_xpath(self.CONTAINER_PATH).text != ''
 
 
 class CommentsBlock(Component):
@@ -117,3 +129,15 @@ class CommentsBlock(Component):
 
     def get_text_from_textarea(self):
         return self.driver.find_element_by_xpath(self.TEXTAREA_PATH).text
+
+class TopicActionsBlock(Component):
+    DELETE_LINK_PATH = '//a[@class="actions-delete"]'
+    DELETE_BUTTON_CONFIRM = '//input[@value="Удалить"]'
+
+    def delete_topic(self):
+        self._wait_for_xpath(self.DELETE_LINK_PATH)
+        self.driver.find_element_by_xpath(self.DELETE_LINK_PATH).click()
+        confirm_button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.DELETE_BUTTON_CONFIRM)
+        )
+        confirm_button.click()

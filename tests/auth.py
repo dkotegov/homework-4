@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
+from tests.event_page.event_page import Notification
 from tests.utils import wait_for_element_load, Page, Component
 
 class AuthPage(Page):
@@ -40,10 +44,21 @@ class AuthForm(Component):
         self._wait_for_xpath(self.SUBMIT)
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
+class LogoutInterface(Component):
+    MENU = '//div[@id="dropdown-user-trigger"]'
+    LOGOUT = '//a[@class="logout"]'
 
-def authenticate(driver):
-    EMAIL = os.environ['LOGIN']
-    PASSWORD = os.environ['PASSWORD']
+    def logout(self):
+        wait = WebDriverWait(self.driver, 5)
+        wait.until(expected_conditions.element_to_be_clickable((By.XPATH, self.MENU)))
+        self.driver.find_element_by_xpath(self.MENU).click()
+        wait.until(expected_conditions.element_to_be_clickable((By.XPATH, self.LOGOUT)))
+        self.driver.find_element_by_xpath(self.LOGOUT).click()
+
+
+def authenticate(driver, another=False):
+    EMAIL = os.environ['LOGIN' if not another else 'LOGIN2']
+    PASSWORD = os.environ['PASSWORD' if not another else 'PASSWORD2']
 
     auth_page = AuthPage(driver)
     auth_page.open()
@@ -53,3 +68,7 @@ def authenticate(driver):
     auth_form.set_password(PASSWORD)
     auth_form.submit()
     wait_for_element_load(driver, (By.XPATH, '//a[text()="Блоги "]'))
+
+def logout(driver):
+    logout_interface = LogoutInterface(driver)
+    logout_interface.logout()
