@@ -32,12 +32,16 @@ class EventPage(Page):
         except TimeoutException:
             return False
         else:
-            self.driver.switch_to.alert.accept()
             return True
+
+    def get_alert_text(self):
+        if self.is_alert_shown():
+            return self.driver.switch_to.alert.text
+        return None
 
 
 class ParticipationBlock(Component):
-    SUBMIT_BUTTON_PATH = '//button[@class="button"]'
+    SUBMIT_BUTTON_PATH = '//button[text()="Регистрация закрыта"]'
 
     def participate(self):
         self._clicker(self.SUBMIT_BUTTON_PATH)
@@ -83,10 +87,9 @@ class Notification(Component):
     def is_being_shown(self):
         try:
             self._wait_for_xpath(self.NOTIFICATION_PATH)
+            return True
         except TimeoutException:
             return False
-        else:
-            return True
 
     def get_text(self):
         if self.is_being_shown():

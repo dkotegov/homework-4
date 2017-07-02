@@ -2,7 +2,6 @@
 import os
 import unittest
 import urlparse
-from abc import abstractmethod, ABCMeta
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.common.by import By
@@ -41,11 +40,9 @@ class Component(object):
 
 
 class Test(unittest.TestCase):
-    __metaclass__ = ABCMeta
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'FIREFOX')
-        print browser
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
@@ -53,10 +50,6 @@ class Test(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-
-    @abstractmethod
-    def test(self):
-        pass
 
 
 def wait_for_element_load(driver, element, timeout=30):

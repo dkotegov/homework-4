@@ -2,92 +2,86 @@
 
 import re
 
-from selenium.common.exceptions import InvalidElementStateException
+from selenium.common.exceptions import InvalidElementStateException, TimeoutException
 from selenium.webdriver.common.by import By
 
 from tests.event_list_page.event_list_page import EventListPage
 from tests.auth import authenticate
 from tests.create_page.create_page import CreatePage
+from tests.event_page.event_page import EventPage
 from tests.utils import Test, wait_for_element_load
 
 
-class EventListTest(Test):
+class EventListTests(Test):
 
-    def test(self):
+    def setUp(self):
+        super(EventListTests, self).setUp()
         authenticate(self.driver)
         self.event_list_page = EventListPage(self.driver)
         self.event_list_page.open()
         wait_for_element_load(self.driver, (By.XPATH, EventListPage.UNIQUE))
 
-class Test1(EventListTest):
-    '''Check if header redirects to event page'''
-
-    def test(self):
-        super(Test1, self).test()
+    def test_header_link(self):
+        '''Check if header redirects to event page'''
         event = self.event_list_page.event
         event.open_event()
         is_url_correct = re.match(r'^http://ftest\.tech-mail\.ru/blog/topic/view/[0-9]+/$',
                                   self.driver.current_url) is not None
         self.assertTrue(is_url_correct, 'Header doesn\'t redirect to event page')
 
-
-class Test2(EventListTest):
-    '''Check if registration button doesn't change its text on click when registration is closed'''
-
-    def test(self):
-        super(Test2, self).test()
+    def test_registration_closed_button_text(self):
+        '''Check if registration button doesn't change its text on click when registration is closed'''
         event = self.event_list_page.event
         old_text = event.get_button_text()
         try:
             event.participate()
         except InvalidElementStateException:
-            pass
+            self.driver.execute_script('var xpath="' + event.SUBMIT_BUTTON_PATH + '";' +
+                                       'document.evaluate(xpath, document, null, \
+                                       XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
         new_text = event.get_button_text()
         self.assertEqual(old_text, new_text, 'Registration button text changed')
 
-
-class Test3(EventListTest):
-    '''Check if registration button doesn't change its color on click when registration is closed'''
-
-    def test(self):
-        super(Test3, self).test()
+    def test_registration_closed_button_color(self):
+        '''Check if registration button doesn't change its color on click when registration is closed'''
         event = self.event_list_page.event
         old_color = event.get_button_color()
         try:
             event.participate()
         except InvalidElementStateException:
-            pass
+            self.driver.execute_script('var xpath="' + event.SUBMIT_BUTTON_PATH + '";' +
+                                       'document.evaluate(xpath, document, null, \
+                                       XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()')
         new_color = event.get_button_color()
         self.assertEqual(old_color, new_color, 'Registration button color changed')
 
-
-class Test4(EventListTest):
-    '''Check if subheader redirects to event list'''
-
-    def test(self):
-        super(Test4, self).test()
+    def test_subheader_link(self):
+        '''Check if subheader redirects to event list'''
         event = self.event_list_page.event
         event.open_blog()
-        self.assertEqual(self.driver.current_url, EventListPage.get_url(), 'Subheader link is incorrect')
+        try:
+            wait_for_element_load(self.driver, (By.XPATH, EventListPage.UNIQUE))
+        except TimeoutException:
+            self.fail('Subheader link is incorrect')
 
-
-class Test5(EventListTest):
-    '''Check if Читать дальше redirects to event page'''
-
-    def test(self):
-        super(Test5, self).test()
+    def test_read_further_link(self):
+        '''Check if Читать дальше redirects to event page'''
         event = self.event_list_page.event
         event.read_further()
-        is_url_correct = re.match(r'^http://ftest\.tech-mail\.ru/blog/topic/view/[0-9]+/#cut$',
-                                  self.driver.current_url) is not None
-        self.assertTrue(is_url_correct, 'Read further url incorrect')
+        try:
+            wait_for_element_load(self.driver, (By.XPATH, EventPage.UNIQUE))
+        except TimeoutException:
+            self.fail('Read further link is incorrect')
+        finally:
+            self.assertRegexpMatches(self.driver.current_url,
+                                 r'^http://ftest\.tech-mail\.ru/blog/topic/view/[0-9]+/#cut$',
+                                 'Read further link doesn\'t scroll')
 
-
-class Test6(EventListTest):
-    '''Check if Создать топик redirects to create topic page'''
-
-    def test(self):
-        super(Test6, self).test()
+    def test_create_topic_link(self):
+        '''Check if Создать топик redirects to create topic page'''
         blog_menu = self.event_list_page.blog_menu
         blog_menu.create()
-        self.assertEqual(self.driver.current_url, CreatePage.get_url(), 'Create page url is incorrect')
+        try:
+            wait_for_element_load(self.driver, (By.XPATH, CreatePage.UNIQUE))
+        except TimeoutException:
+            self.fail('Create topic link is incorrect')

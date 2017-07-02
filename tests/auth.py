@@ -53,4 +53,3 @@ def authenticate(driver):
     auth_form.set_password(PASSWORD)
     auth_form.submit()
     wait_for_element_load(driver, (By.XPATH, '//a[text()="Блоги "]'))
-    print 'authenticated!'
