@@ -93,7 +93,7 @@ class TopicFooter(Component):
 
 
 class Notification(Component):
-    NOTIFICATION_PATH = '//div[@class="n-box"]/div'
+    NOTIFICATION_PATH = '//div[contains(@class, "n-box")]/p'
     CONTAINER_PATH = '//div[@id="notifier"]'
 
     def is_being_shown(self):
@@ -104,7 +104,7 @@ class Notification(Component):
             return False
 
     def get_text(self):
-        if self.is_being_shown():
+        if self.is_notification_present():
             return self.driver.find_element_by_xpath(self.NOTIFICATION_PATH).text
         return None
 

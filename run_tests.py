@@ -10,9 +10,9 @@ from tests.event_page.event_page_tests import EventPageTests, VoteTests
 
 if __name__ == '__main__':
     tests_classes = [
-        # EventListTests,
-        # CreatePageTests,
-        # EventPageTests,
+        EventListTests,
+        CreatePageTests,
+        EventPageTests,
         VoteTests,
     ]
     suites = []

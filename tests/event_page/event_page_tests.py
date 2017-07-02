@@ -76,6 +76,7 @@ class EventPageTests(Test):
 class VoteTests(Test):
     TOPIC_TITLE = 'title'
     TOPIC_TEXT = 'text'
+    OUT_OF_TIME = u'Время истекло'
 
     def _create_topic(self):
         create_page = CreatePage(self.driver)
@@ -147,12 +148,20 @@ class VoteTests(Test):
         self.assertNotIn('voted-down', voted_class, 'Voted class contains wrong value')
         self.assertNotIn('voted-up', voted_class, 'Voted class contains wrong value')
 
-    # def test_vote_up_twice(self):
-    #     '''Vote second time'''
-    #     topic_footer = self.event_page.topic_footer
-    #     if topic_footer.are_all_vote_buttons_visible():
-    #         topic_footer.vote_down()
-    #     topic_footer.vote_up()
-    #     self.assertFalse(topic_footer.are_all_vote_buttons_visible(),
-    #                      'Vote twice: All vote buttons visible after voting')
+    def test_vote_up_twice(self):
+        '''Vote second time'''
+        self._test_vote('+')
+        self.event_page.topic_footer.vote_up()
+        notification = self.event_page.notification
+        WebDriverWait(self.driver, 10).until(lambda d: notification.is_notification_present())
+        self.assertEqual(notification.get_text(), self.OUT_OF_TIME, 'Vote twice: notification wrong text')
+        WebDriverWait(self.driver, 10).until(lambda d: not notification.is_notification_present())
 
+    def test_vote_down_twice(self):
+        '''Vote second time'''
+        self._test_vote('-')
+        self.event_page.topic_footer.vote_up()
+        notification = self.event_page.notification
+        WebDriverWait(self.driver, 10).until(lambda d: notification.is_notification_present())
+        self.assertEqual(notification.get_text(), self.OUT_OF_TIME, 'Vote twice: notification wrong text')
+        WebDriverWait(self.driver, 10).until(lambda d: not notification.is_notification_present())
