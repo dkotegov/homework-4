@@ -25,9 +25,15 @@ class EventListTests(Test):
         '''Check if header redirects to event page'''
         event = self.event_list_page.event
         event.open_event()
-        is_url_correct = re.match(r'^http://ftest\.tech-mail\.ru/blog/topic/view/[0-9]+/$',
-                                  self.driver.current_url) is not None
-        self.assertTrue(is_url_correct, 'Header doesn\'t redirect to event page')
+
+        try:
+            wait_for_element_load(self.driver, (By.XPATH, EventPage.UNIQUE))
+        except TimeoutException:
+            self.fail('Read further link is incorrect')
+        finally:
+            self.assertRegexpMatches(self.driver.current_url,
+                                     r'^http://ftest\.tech-mail\.ru/blog/topic/view/[0-9]+/',
+                                     'Header doesn\'t redirect to event page')
 
     def test_registration_closed_button_text(self):
         '''Check if registration button doesn't change its text on click when registration is closed'''
