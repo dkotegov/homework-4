@@ -26,6 +26,10 @@ class Page(object):
     def get_url(cls):
         return cls.BASE_URL + cls.PATH
 
+    @property
+    def header(self):
+        return Header(self.driver)
+
 
 class Component(object):
     def __init__(self, driver):
@@ -33,11 +37,19 @@ class Component(object):
 
     def _wait_for_xpath(self, xpath):
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.presence_of_element_located((By.XPATH, xpath)), str(self.__class__) + ': ' + xpath)
+        return wait.until(EC.presence_of_element_located((By.XPATH, xpath)), str(self.__class__) + ': ' + xpath)
 
     def _clicker(self, xpath):
-        self._wait_for_xpath(xpath)
-        self.driver.find_element_by_xpath(xpath).click()
+        self._wait_for_xpath(xpath).click()
+
+
+class Header(Component):
+    HEADER_PATH = '//h2[@class="page-header"]'
+
+    def get_header_text(self):
+        return self._wait_for_xpath(self.HEADER_PATH).text
+
+
 
 
 class Test(unittest.TestCase):

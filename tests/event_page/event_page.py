@@ -109,8 +109,7 @@ class Notification(Component):
         return None
 
     def is_notification_present(self):
-        self._wait_for_xpath(self.CONTAINER_PATH)
-        return self.driver.find_element_by_xpath(self.CONTAINER_PATH).text != ''
+        return self._wait_for_xpath(self.CONTAINER_PATH).text != ''
 
 
 class CommentsBlock(Component):
@@ -121,8 +120,7 @@ class CommentsBlock(Component):
         self._clicker(self.ADD_COMMENT_PATH)
 
     def is_textarea_visible(self):
-        self._wait_for_xpath(self.TEXTAREA_PATH)
-        return self.driver.find_element_by_xpath(self.TEXTAREA_PATH).is_displayed()
+        return self._wait_for_xpath(self.TEXTAREA_PATH).is_displayed()
 
     def type_to_textarea(self, text):
         self.driver.find_element_by_xpath(self.TEXTAREA_PATH).send_keys(text)
@@ -135,8 +133,7 @@ class TopicActionsBlock(Component):
     DELETE_BUTTON_CONFIRM = '//input[@value="Удалить"]'
 
     def delete_topic(self):
-        self._wait_for_xpath(self.DELETE_LINK_PATH)
-        self.driver.find_element_by_xpath(self.DELETE_LINK_PATH).click()
+        self._clicker(self.DELETE_LINK_PATH)
         confirm_button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.DELETE_BUTTON_CONFIRM)
         )

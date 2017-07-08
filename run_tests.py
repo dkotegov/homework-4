@@ -11,9 +11,9 @@ from tests.event_page.event_page_tests import EventPageTests, VoteTests
 if __name__ == '__main__':
     tests_classes = [
         EventListTests,
-        CreatePageTests,
-        EventPageTests,
-        VoteTests,
+        # CreatePageTests,
+        # EventPageTests,
+        # VoteTests,
     ]
     suites = []
     test_loader = unittest.TestLoader()

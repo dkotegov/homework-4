@@ -24,25 +24,23 @@ class AuthForm(Component):
     LOGIN_BUTTON = '//a[text()="Вход для участников"]'
 
     def open_form(self):
-        self._wait_for_xpath(self.LOGIN_BUTTON)
-        self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
+        self._wait_for_xpath(self.LOGIN_BUTTON).click()
 
     def set_login(self, login):
-        self._wait_for_xpath(self.LOGIN)
         self._wait_for_xpath(self.LOGIN_POPUP)
-        self.driver.find_element_by_xpath(self.LOGIN).click()
-        self.driver.find_element_by_xpath(self.LOGIN).clear()
-        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
+        login_field = self._wait_for_xpath(self.LOGIN)
+        login_field.click()
+        login_field.clear()
+        login_field.send_keys(login)
 
     def set_password(self, pwd):
-        self._wait_for_xpath(self.PASSWORD)
-        self.driver.find_element_by_xpath(self.PASSWORD).click()
-        self.driver.find_element_by_xpath(self.PASSWORD).clear()
-        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
+        password_field = self._wait_for_xpath(self.PASSWORD)
+        password_field.click()
+        password_field.clear()
+        password_field.send_keys(pwd)
 
     def submit(self):
-        self._wait_for_xpath(self.SUBMIT)
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
+        self._wait_for_xpath(self.SUBMIT).click()
 
 class LogoutInterface(Component):
     MENU = '//div[@id="dropdown-user-trigger"]'
@@ -50,10 +48,10 @@ class LogoutInterface(Component):
 
     def logout(self):
         wait = WebDriverWait(self.driver, 5)
-        wait.until(expected_conditions.element_to_be_clickable((By.XPATH, self.MENU)))
-        self.driver.find_element_by_xpath(self.MENU).click()
-        wait.until(expected_conditions.element_to_be_clickable((By.XPATH, self.LOGOUT)))
-        self.driver.find_element_by_xpath(self.LOGOUT).click()
+        menu = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, self.MENU)))
+        menu.click()
+        logout_button = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, self.LOGOUT)))
+        logout_button.click()
 
 
 def authenticate(driver, another=False):
