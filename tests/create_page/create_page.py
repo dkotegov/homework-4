@@ -31,6 +31,9 @@ class TopicOptions(Component):
     SHORT_TEXT = '//textarea[@name="text_short"]'
     MAIN_TEXT = '//textarea[@id="id_text"]'
     CREATE_BUTTON = '//button[contains(text(),"Создать")]'
+    SHOW_PREVIEW = '//button[@id="submit_preview"]'
+    PREVIEWED_TITLE = '//h1[@class="topic-title"]/span'
+    PREVIEWED_TEXT = '//div[@class="topic-content text"]'
 
     def add_poll(self):
         self._clicker(self.ADD_POLL_PATH)
@@ -56,3 +59,12 @@ class TopicOptions(Component):
 
     def submit(self):
         self.driver.find_element_by_xpath(self.CREATE_BUTTON).click()
+
+    def show_preview(self):
+        self.driver.find_element_by_xpath(self.SHOW_PREVIEW).click()
+
+    def get_previewed_header(self):
+        return self._wait_for_xpath(self.PREVIEWED_TITLE).text
+
+    def get_previewed_text(self):
+        return self._wait_for_xpath(self.PREVIEWED_TEXT).text

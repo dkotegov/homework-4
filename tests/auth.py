@@ -70,3 +70,11 @@ def authenticate(driver, another=False):
 def logout(driver):
     logout_interface = LogoutInterface(driver)
     logout_interface.logout()
+
+def switch_to_user1(driver):
+    logout(driver)
+    authenticate(driver)
+
+def switch_to_user2(driver):
+    logout(driver)
+    authenticate(driver, another=True)

@@ -6,14 +6,15 @@ import unittest
 
 from tests.event_list_page.event_list_page_tests import EventListTests
 from tests.create_page.create_page_tests import CreatePageTests
-from tests.event_page.event_page_tests import EventPageTests, VoteTests
+from tests.event_page.event_page_tests import EventPageTests, VoteTests, CommentTests
 
 if __name__ == '__main__':
     tests_classes = [
         EventListTests,
-        # CreatePageTests,
-        # EventPageTests,
-        # VoteTests,
+        CreatePageTests,
+        EventPageTests,
+        VoteTests,
+        CommentTests,
     ]
     suites = []
     test_loader = unittest.TestLoader()

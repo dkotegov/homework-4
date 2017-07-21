@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -33,10 +34,9 @@ class EventPage(Page):
     def is_alert_shown(self):
         try:
             WebDriverWait(self.driver, 3).until(EC.alert_is_present(), 'Timed out waiting alert')
+            return True
         except TimeoutException:
             return False
-        else:
-            return True
 
     def get_alert_text(self):
         if self.is_alert_shown():
@@ -61,6 +61,9 @@ class ParticipationBlock(Component):
     def get_button_color(self):
         self._wait_for_xpath(self.SUBMIT_BUTTON_PATH)
         return self.driver.find_element_by_xpath(self.SUBMIT_BUTTON_PATH).value_of_css_property('background-color')
+
+    def is_button_clickable(self):
+        return self._wait_for_xpath(self.SUBMIT_BUTTON_PATH).is_enabled()
 
 
 class TopicFooter(Component):
@@ -113,8 +116,12 @@ class Notification(Component):
 
 
 class CommentsBlock(Component):
-    ADD_COMMENT_PATH = '//a[text()="Оставить комментарий"]'
+    ADD_COMMENT_PATH = u'//a[text()="Оставить комментарий"]'
     TEXTAREA_PATH = '//textarea[@id="id_text"]'
+    SUBMIT_COMMENT_PATH = u'//button[text()="добавить"]'
+    COMMENT_PATH = '//div[@class="comment-rendered"]'
+    COMMENT_CONTAINER_PATH = '//div[@class="comment-content "]'
+    DELETE_COMMENT_PATH = '//a[@class="comment-delete link-dotted comment-deletable"]'
 
     def add_comment(self):
         self._clicker(self.ADD_COMMENT_PATH)
@@ -127,6 +134,30 @@ class CommentsBlock(Component):
 
     def get_text_from_textarea(self):
         return self.driver.find_element_by_xpath(self.TEXTAREA_PATH).text
+
+    def submit_comment(self):
+        self._clicker(self.SUBMIT_COMMENT_PATH)
+        WebDriverWait(self.driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, self.COMMENT_PATH))
+        )
+
+    def get_comment_text(self):
+        return self._wait_for_xpath(self.COMMENT_PATH).text.strip()
+
+    def get_comment_container_text(self):
+        return self._wait_for_xpath(self.COMMENT_CONTAINER_PATH).text.strip()
+
+    def delete_comment(self):
+        self._clicker(self.DELETE_COMMENT_PATH)
+        WebDriverWait(self.driver, 3).until(EC.alert_is_present(), 'Deleting comment: alert didn\'t appear')
+        alert = self.driver.switch_to.alert
+        alert.accept()
+        WebDriverWait(self.driver, 10).until(
+            lambda d: Notification(d).is_notification_present()
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda d: not Notification(d).is_notification_present()
+        )
 
 class TopicActionsBlock(Component):
     DELETE_LINK_PATH = '//a[@class="actions-delete"]'
