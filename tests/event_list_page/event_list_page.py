@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from tests.utils import Page, Component
+from tests.utils import Page, Component, Header
 
 
 class EventListPage(Page):
@@ -59,5 +59,3 @@ class Event(Component):
 
     def get_button_color(self):
         return self._wait_for_xpath(self.SUBMIT_BUTTON_PATH).value_of_css_property('background-color')
-
-

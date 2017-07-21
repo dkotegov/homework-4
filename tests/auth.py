@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
-from tests.event_page.event_page import Notification
-from tests.utils import wait_for_element_load, Page, Component
+from tests.utils import wait_for_element_load, Page, Component, Test
+
 
 class AuthPage(Page):
     PATH = ''
@@ -52,6 +51,13 @@ class LogoutInterface(Component):
         menu.click()
         logout_button = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, self.LOGOUT)))
         logout_button.click()
+
+
+class TestWithAuth(Test):
+
+    def setUp(self, another=False):
+        super(TestWithAuth, self).setUp()
+        authenticate(self.driver, another=another)
 
 
 def authenticate(driver, another=False):

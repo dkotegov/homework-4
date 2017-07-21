@@ -1,43 +1,42 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.common.by import By
 
-from tests.auth import authenticate, logout
+from tests.auth import TestWithAuth
 from tests.create_page.create_page import CreatePage
-from tests.utils import Test, wait_for_element_load
+from tests.utils import wait_for_element_load
 
 
-class CreatePageTests(Test):
+class CreatePageTests(TestWithAuth):
     BLOG_DESCRIPTION = u'Выберите блог'
     TOPIC_TITLE = u'Qwerty123'
     TOPIC_TEXT = u'Qwwwwwwerty'
 
     def setUp(self):
         super(CreatePageTests, self).setUp()
-        authenticate(self.driver)
         self.create_page = CreatePage(self.driver)
         self.create_page.open()
         wait_for_element_load(self.driver, (By.XPATH, CreatePage.UNIQUE))
 
     def test_blog_description(self):
-        '''Check the blog description'''
+        """Check the blog description"""
 
         blog_description_column = self.create_page.blog_description_column
         description = blog_description_column.get_blog_description()
         self.assertEqual(description, self.BLOG_DESCRIPTION, 'Blog description on create page is incorrect')
 
-    def add_poll(self):
+    def _add_poll(self):
         self.create_page.topic_options.add_poll()
 
     def test_poll_options_appear(self):
-        '''Check if poll options appear'''
+        """Check if poll options appear"""
 
-        self.add_poll()
+        self._add_poll()
         self.assertTrue(self.create_page.topic_options.is_poll_visible(), 'Poll adding: poll options invisible')
 
     def test_add_poll_answer(self):
-        '''Check if answer can be added to poll'''
+        """Check if answer can be added to poll"""
 
-        self.add_poll()
+        self._add_poll()
         to = self.create_page.topic_options
         old_number = to.count_answers()
         to.add_poll_answer()
@@ -46,7 +45,7 @@ class CreatePageTests(Test):
         self.assertEqual(difference, 1, 'Poll additional answer doesn\'t appear')
 
     def test_preview(self):
-        '''Check the topic header in preview'''
+        """Check the topic header in preview"""
 
         to = self.create_page.topic_options
         to.set_title(self.TOPIC_TITLE)

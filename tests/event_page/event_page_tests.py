@@ -2,13 +2,25 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-from tests.auth import authenticate, switch_to_user2, switch_to_user1
+from tests.auth import switch_to_user2, switch_to_user1, TestWithAuth
 from tests.create_page.create_page import CreatePage
 from tests.event_page.event_page import EventPage, Notification
-from tests.utils import Test, wait_for_element_load
+from tests.utils import wait_for_element_load
 
 
-class TestsRequiringTopicCreate(Test):
+class EventPageTestsHelper(TestWithAuth):
+    """ Some set up functions """
+
+    def setup_page(self):
+        self.event_page = EventPage(self.driver)
+        if hasattr(self, 'temp_topic_url'):
+            self.event_page.open(self.temp_topic_url)
+        else:
+            self.event_page.open()
+        wait_for_element_load(self.driver, (By.XPATH, EventPage.UNIQUE))
+
+
+class TestsRequiringTopicCreate(EventPageTestsHelper):
     """Contains create topic function"""
 
     TOPIC_TITLE = 'title'
@@ -25,14 +37,11 @@ class TestsRequiringTopicCreate(Test):
         self.temp_topic_url = self.driver.current_url
 
     def setUp(self, another_required=False):
-        super(TestsRequiringTopicCreate, self).setUp()
-        authenticate(self.driver, another=True)
+        super(TestsRequiringTopicCreate, self).setUp(another=True)
         self._create_topic()
         if another_required:
             switch_to_user1(self.driver)
-        self.event_page = EventPage(self.driver)
-        self.event_page.open(self.temp_topic_url)
-        wait_for_element_load(self.driver, (By.XPATH, EventPage.UNIQUE))
+        self.setup_page()
 
     def tearDown(self):
         switch_to_user2(self.driver)
@@ -48,24 +57,23 @@ class TestsRequiringTwoPersons(TestsRequiringTopicCreate):
         super(TestsRequiringTwoPersons, self).setUp(another_required=another_required)
 
 
-class EventPageTests(Test):
+class EventPageTests(EventPageTestsHelper):
     ALERT_TEXT = u'Вы действительно хотите перейти к другому комментарию?'
     SOME_TEXT = 'some text'
 
     def setUp(self):
         super(EventPageTests, self).setUp()
-        authenticate(self.driver)
-        self.event_page = EventPage(self.driver)
-        self.event_page.open()
-        wait_for_element_load(self.driver, (By.XPATH, EventPage.UNIQUE))
+        self.setup_page()
 
     def test_registration_closed_button(self):
         """Check the text of "registration closed" button"""
+
         participation_block = self.event_page.participation_block
         self.assertFalse(participation_block.is_button_clickable())
 
     def test_comments_button_link_test(self):
         """Click go to comments button"""
+
         topic_footer = self.event_page.topic_footer
         old_url = self.driver.current_url
         topic_footer.go_to_commments()
@@ -74,12 +82,14 @@ class EventPageTests(Test):
 
     def test_add_comment(self):
         """Add comment"""
+
         comments_block = self.event_page.comments_block
         comments_block.add_comment()
         self.assertTrue(comments_block.is_textarea_visible(), 'Textarea is not visible - adding a comment')
 
     def test_click_twice_on_add_comment(self):
         """Click add comment twice"""
+
         comments_block = self.event_page.comments_block
         comments_block.add_comment()
         comments_block.type_to_textarea(self.SOME_TEXT)
@@ -96,9 +106,8 @@ class EventPageTests(Test):
 class CommentTests(TestsRequiringTopicCreate):
     SOME_TEXT = 'some text'
     COMMENT_DELETED = u'комментарий удален'
-    COMMENT_DELETED_COLOR = '#c5c5c5'
 
-    def comment(self):
+    def _comment(self):
         comments_block = self.event_page.comments_block
         comments_block.add_comment()
         if comments_block.is_textarea_visible():
@@ -106,12 +115,12 @@ class CommentTests(TestsRequiringTopicCreate):
             comments_block.submit_comment()
 
     def test_leaving_comment(self):
-        self.comment()
+        self._comment()
         comment_text = self.event_page.comments_block.get_comment_text()
         self.assertEqual(comment_text, self.SOME_TEXT, 'Comment adding failed!')
 
     def test_deleting_comment(self):
-        self.comment()
+        self._comment()
         self.event_page.comments_block.delete_comment()
         switch_to_user1(self.driver)
         self.event_page.open(self.temp_topic_url)

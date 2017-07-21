@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
 from tests.utils import Page, Component
@@ -33,7 +33,7 @@ class EventPage(Page):
 
     def is_alert_shown(self):
         try:
-            WebDriverWait(self.driver, 3).until(EC.alert_is_present(), 'Timed out waiting alert')
+            WebDriverWait(self.driver, 3).until(ec.alert_is_present(), 'Timed out waiting alert')
             return True
         except TimeoutException:
             return False
@@ -116,13 +116,9 @@ class Notification(Component):
 
     @staticmethod
     def wait_for_notifications(driver):
-        WebDriverWait(driver, 10).until(
-            lambda d: Notification(d).is_notification_present()
-        )
-        WebDriverWait(driver, 10).until(
-            lambda d: not Notification(d).is_notification_present()
-        )
-
+        wait = WebDriverWait(driver, 10)
+        wait.until(lambda d: Notification(d).is_notification_present())
+        wait.until(lambda d: not Notification(d).is_notification_present())
 
 
 class CommentsBlock(Component):
@@ -148,7 +144,7 @@ class CommentsBlock(Component):
     def submit_comment(self):
         self._clicker(self.SUBMIT_COMMENT_PATH)
         WebDriverWait(self.driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, self.COMMENT_PATH))
+            ec.presence_of_element_located((By.XPATH, self.COMMENT_PATH))
         )
 
     def get_comment_text(self):
@@ -159,7 +155,7 @@ class CommentsBlock(Component):
 
     def delete_comment(self):
         self._clicker(self.DELETE_COMMENT_PATH)
-        WebDriverWait(self.driver, 3).until(EC.alert_is_present(), 'Deleting comment: alert didn\'t appear')
+        WebDriverWait(self.driver, 3).until(ec.alert_is_present(), 'Deleting comment: alert didn\'t appear')
         alert = self.driver.switch_to.alert
         alert.accept()
         Notification.wait_for_notifications(self.driver)

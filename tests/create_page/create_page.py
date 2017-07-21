@@ -2,6 +2,7 @@
 
 from tests.utils import Page, Component
 
+
 class CreatePage(Page):
     PATH = 'blog/33/topic/create/'
     UNIQUE = '//h2[@class="page-header" and contains(text(), "Создание топика")]'
@@ -21,6 +22,7 @@ class BlogDescriptionColumn(Component):
 
     def get_blog_description(self):
         return self._wait_for_xpath(self.BLOG_DESCRIPTION_PATH).text
+
 
 class TopicOptions(Component):
     ADD_POLL_PATH = '//input[@name="add_poll"]'
