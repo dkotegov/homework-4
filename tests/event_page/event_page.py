@@ -114,6 +114,16 @@ class Notification(Component):
     def is_notification_present(self):
         return self._wait_for_xpath(self.CONTAINER_PATH).text != ''
 
+    @staticmethod
+    def wait_for_notifications(driver):
+        WebDriverWait(driver, 10).until(
+            lambda d: Notification(d).is_notification_present()
+        )
+        WebDriverWait(driver, 10).until(
+            lambda d: not Notification(d).is_notification_present()
+        )
+
+
 
 class CommentsBlock(Component):
     ADD_COMMENT_PATH = u'//a[text()="Оставить комментарий"]'
@@ -152,12 +162,8 @@ class CommentsBlock(Component):
         WebDriverWait(self.driver, 3).until(EC.alert_is_present(), 'Deleting comment: alert didn\'t appear')
         alert = self.driver.switch_to.alert
         alert.accept()
-        WebDriverWait(self.driver, 10).until(
-            lambda d: Notification(d).is_notification_present()
-        )
-        WebDriverWait(self.driver, 10).until(
-            lambda d: not Notification(d).is_notification_present()
-        )
+        Notification.wait_for_notifications(self.driver)
+
 
 class TopicActionsBlock(Component):
     DELETE_LINK_PATH = '//a[@class="actions-delete"]'
