@@ -40,9 +40,9 @@ class Component(object):
 
 
 class AuthForm(Component):
-    LOGIN = '//input[@name="st.email"]'
-    PASSWORD = '//input[@name="st.password"]'
-    LOGIN_BUTTON = '//input[value="Log in"]'
+    LOGIN = '//input[@id="field_email"]'
+    PASSWORD = '//input[@id="field_password"]'
+    LOGIN_BUTTON = '//input[@class="button-pro __wide"]'
 
     def set_login(self, login):
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
@@ -55,7 +55,7 @@ class AuthForm(Component):
 
 
 class TopMenu(Component):
-    USERNAME = '//a[@class="mctc_name_tx bl"]'
+    USERNAME = '//h1[@class="mctc_name_tx bl"]'
 
     def get_username(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
@@ -89,4 +89,4 @@ class ExampleTest(unittest.TestCase):
         auth_form.submit()
 
         user_name = auth_page.top_menu.get_username()
-        self.assertEqual(self.USER_EMAIL, user_name)
+        self.assertEqual(self.USERNAME, user_name)
