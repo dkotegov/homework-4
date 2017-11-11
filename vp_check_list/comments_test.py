@@ -6,13 +6,22 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from vp_check_list.auth_pages import AuthPage
+from vp_check_list.pages import AuthPage
 
 
-class LoginTest(unittest.TestCase):
+class AddCommentTest(unittest.TestCase):
 	USERNAME = u'Илья Раков'
 	USER_EMAIL = 'technopark34'
 	PASSWORD = os.environ['OK_PASSWORD']
+
+	def login(self):
+		auth_page = AuthPage(self.driver)
+		auth_page.open()
+
+		auth_form = auth_page.form
+		auth_form.set_login(self.USER_EMAIL)
+		auth_form.set_password(self.PASSWORD)
+		auth_form.submit()
 
 	def setUp(self):
 		browser = os.environ.get('BROWSER', 'CHROME')
@@ -26,13 +35,7 @@ class LoginTest(unittest.TestCase):
 		self.driver.quit()
 
 	def test(self):
-		auth_page = AuthPage(self.driver)
-		auth_page.open()
 
-		auth_form = auth_page.form
-		auth_form.set_login(self.USER_EMAIL)
-		auth_form.set_password(self.PASSWORD)
-		auth_form.submit()
 
 		user_name = auth_page.top_menu.get_username()
 		self.assertEqual(self.USERNAME, user_name)
