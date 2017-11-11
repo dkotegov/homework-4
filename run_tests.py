@@ -2,6 +2,8 @@
 
 import sys
 import unittest
+
+from vp_check_list.comments_test import AddCommentTest
 from vp_check_list.login_test import LoginTest
 
 if __name__ == '__main__':
@@ -9,5 +11,11 @@ if __name__ == '__main__':
 		unittest.makeSuite(LoginTest),
 	))
 
+	comments_suite = unittest.TestSuite((
+		unittest.makeSuite(AddCommentTest),
+	))
+
 	login_result = unittest.TextTestRunner().run(login_suite)
-	sys.exit(not login_result.wasSuccessful())
+	comments_result = unittest.TextTestRunner().run(comments_suite)
+
+	sys.exit(not (login_result.wasSuccessful() and comments_result.wasSuccessful()))
