@@ -5,11 +5,11 @@
 ## Содержание
   - [Команда](#team)
   - [Jira](#jira)
+  - [Стек технологий](#tech-stack)
   - [Чек листы](#check-lists)
     * [Семенов Антон](#check-lists-sa)
     * [Семенова Екатерина](#check-lists-se)
     * [Перескоков Владислав](#check-lists-vp)
-  - [Стек технологий](#tech-stack)
    
 
 <a name="team"></a>
@@ -21,6 +21,13 @@
 <a name="jira"></a>
 ## Jira
 [Ссылка](http://st-jira.tech-mail.ru/browse/PARK-82) на [Jira](https://ru.atlassian.com/software/jira)
+
+<a name="tech-stack"></a>
+### Стек технологий
+
+  - python 2.7
+  — selenium
+  - chrome / firefox
 
 <a name="check-lists"></a>
 ## Чек листы
@@ -81,10 +88,3 @@
 |             Добавление комментария к удаленным записям            |   Ok   |
 |            Удалить, добавить и восстановить комментарий           |   Ok   |
 |                    xss уязвимость в комментарии                   |   Ok   |
-
-<a name="tech-stack"></a>
-### Стек технологий
-
-  - python 2.7
-  — selenium
-  - chrome / firefox
