@@ -26,8 +26,8 @@
 ### Стек технологий
 
   - python 2.7  
-  — selenium
   - chrome / firefox
+  - selenium
 
 <a name="check-lists"></a>
 ## Чек листы
