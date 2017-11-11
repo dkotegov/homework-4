@@ -5,8 +5,9 @@ import unittest
 from vp_check_list.login_test import LoginTest
 
 if __name__ == '__main__':
-	suite = unittest.TestSuite((
+	login_suite = unittest.TestSuite((
 		unittest.makeSuite(LoginTest),
 	))
-	result = unittest.TextTestRunner().run(suite)
-	sys.exit(not result.wasSuccessful())
+
+	login_result = unittest.TextTestRunner().run(login_suite)
+	sys.exit(not login_result.wasSuccessful())
