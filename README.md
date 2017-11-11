@@ -85,6 +85,6 @@
 <a name="tech-stack"></a>
 ### Стек технологий
 
-  — python 2.7
-  - selenium
+  - python 2.7
+  — selenium
   - chrome / firefox
