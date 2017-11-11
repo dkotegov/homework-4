@@ -2,7 +2,7 @@
 
 import sys
 import unittest
-from vp_check_list.test import LoginTest
+from vp_check_list.login_test import LoginTest
 
 if __name__ == '__main__':
 	suite = unittest.TestSuite((
