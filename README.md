@@ -23,7 +23,7 @@
 [Ссылка](http://st-jira.tech-mail.ru/browse/PARK-82) на [Jira](https://ru.atlassian.com/software/jira)
 
 <a name="tech-stack"></a>
-### Стек технологий
+## Стек технологий
 
   - python 2.7  
   - chrome / firefox
