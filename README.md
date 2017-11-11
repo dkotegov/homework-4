@@ -27,7 +27,7 @@
 
   - python 2.7  
   - chrome / firefox
-  - selenium
+  - selenium  
 
 <a name="check-lists"></a>
 ## Чек листы
