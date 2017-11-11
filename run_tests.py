@@ -2,7 +2,7 @@
 
 import sys
 import unittest
-from tests.example_test import ExampleTest
+from vp_check_list.test import ExampleTest
 
 
 if __name__ == '__main__':
