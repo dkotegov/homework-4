@@ -93,6 +93,8 @@ class UserPost(Component):
 	POST_COMMENT_BUTTON = '//button[@class="button-pro form-actions_yes"]'
 	POST_COMMENT_LAST = '//div[@class=" last-comment"]'
 	POST_COMMENT_TEXT = '//div[@class="comments_text textWrap"]'
+	POST_COMMENT_CONTROL = '//div[@class="comments_controls-t"]'
+	POST_COMMENT_CONTROL_DELETE = '//a[@title="Удалить"]'
 
 	def set_text_content(self, component, message):
 		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
@@ -136,3 +138,11 @@ class UserPost(Component):
 			.find_element_by_tag_name('div').get_attribute("textContent")
 
 		return comment
+
+	def del_comment(self):
+		last_comment_wrapper = self.get_comment_component()
+		controls_wrapper = last_comment_wrapper.find_element_by_xpath(self.POST_COMMENT_CONTROL)
+
+		print controls_wrapper
+
+

@@ -33,3 +33,11 @@ class CommentsTest(unittest.TestCase):
 		comment = self.post.get_comment_text()
 
 		self.assertEqual(comment, self.TEST_COMMENT)
+
+	def test_delete_comment(self):
+		self.post.add_comment(self.TEST_COMMENT)
+		self.post.del_comment()
+
+		comment = self.post.get_comment_text()
+
+		self.assertEqual(comment, self.TEST_COMMENT)
