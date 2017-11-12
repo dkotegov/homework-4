@@ -5,22 +5,10 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from vp_check_list.pages.auth_pages import AuthPage
+from vp_check_list.pages.pages import UserPage
 
 
-class AddCommentTest(unittest.TestCase):
-	def login(self):
-		user_email = 'technopark34'
-		password = os.environ['OK_PASSWORD']
-
-		auth_page = AuthPage(self.driver)
-		auth_page.open()
-
-		auth_form = auth_page.form
-		auth_form.set_login(user_email)
-		auth_form.set_password(password)
-		auth_form.submit()
-
+class CommentsTest(unittest.TestCase):
 	def setUp(self):
 		browser = os.environ.get('BROWSER', 'CHROME')
 
@@ -29,10 +17,10 @@ class AddCommentTest(unittest.TestCase):
 			desired_capabilities=getattr(DesiredCapabilities, browser).copy()
 		)
 
-		self.login()
+		UserPage(self.driver).login()
 
 	def tearDown(self):
 		self.driver.quit()
 
-	def test(self):
+	def add_comment_test(self):
 		pass

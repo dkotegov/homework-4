@@ -3,7 +3,7 @@
 import sys
 import unittest
 
-from vp_check_list.comments_test import AddCommentTest
+from vp_check_list.comments_test import CommentsTest
 
 from vp_check_list.login_test import LoginTest
 
@@ -13,7 +13,7 @@ if __name__ == '__main__':
 	))
 
 	comments_suite = unittest.TestSuite((
-		unittest.makeSuite(AddCommentTest),
+		unittest.makeSuite(CommentsTest),
 	))
 
 	login_result = unittest.TextTestRunner().run(login_suite)
