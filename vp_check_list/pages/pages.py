@@ -123,9 +123,13 @@ class UserPost(Component):
 		button = self.driver.find_element_by_xpath(self.POST_COMMENT_BUTTON)
 		self.execute(button)
 
-	def get_comment(self):
+	def get_comment_component(self):
 		user_post = self.open_post()
-		last_comment_wrapper = user_post.find_element_by_xpath(self.POST_COMMENT_LAST)
+
+		return user_post.find_element_by_xpath(self.POST_COMMENT_LAST)
+
+	def get_comment_text(self):
+		last_comment_wrapper = self.get_comment_component()
 
 		# .text not work
 		comment = last_comment_wrapper.find_element_by_xpath(self.POST_COMMENT_TEXT)\
