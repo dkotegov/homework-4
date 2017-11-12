@@ -105,10 +105,14 @@ class UserPost(Component):
 			lambda d: d.find_element_by_xpath(self.POST_COMMENT_INPUT)
 		)
 
-	def add_comment(self, message):
+	def open_post(self):
 		user_post = self.get_post()[0]
-
 		self.execute(user_post)
+
+		return user_post
+
+	def add_comment(self, message):
+		user_post = self.open_post()
 		comment_input = self.get_comment_input(user_post)
 
 		self.execute(comment_input)
