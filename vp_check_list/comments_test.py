@@ -20,12 +20,17 @@ class CommentsTest(unittest.TestCase):
 		self.user_page = UserPage(self.driver)
 		self.user_page.login()
 
+		self.post = self.user_page.post
+
 	def tearDown(self):
 		self.driver.quit()
 
 	def test_add_comment(self):
-		user_post = self.user_page.post.get_post_top()[0]
+		user_post = self.post.get_post()[0]
 
-		self.driver.execute_script('arguments[0].click();', user_post)
+		self.post.execute(user_post)
+		access = self.post.get_post_access(user_post)
+
+		print access.text
 
 		self.assertEqual(1, 1)

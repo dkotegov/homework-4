@@ -22,6 +22,9 @@ class Component(object):
 	def __init__(self, driver):
 		self.driver = driver
 
+	def execute(self, component):
+		self.driver.execute_script('arguments[0].click();', component)
+
 
 class AuthPage(Page):
 	PATH = ''
@@ -92,8 +95,14 @@ class UserPost(Component):
 	POST_CONTROL_CLASS = '//div[@class="widget_cnt"]'
 
 	POST = '//a[@href="/profile/570965755234/statuses/67241421616482"]'
+	POST_COMMENT_ACCESS = '//div[@class="comments_text textWrap"]'
 
 	def get_post(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
 			lambda d: d.find_elements_by_xpath(self.POST)
+		)
+
+	def get_post_access(self, post):
+		return WebDriverWait(post, 5, 0.1).until(
+			lambda d: d.find_element_by_xpath(self.POST_COMMENT_ACCESS).find_element_by_tag_name('div')
 		)
