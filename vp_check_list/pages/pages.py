@@ -25,6 +25,9 @@ class Component(object):
 	def execute(self, component):
 		self.driver.execute_script('arguments[0].click();', component)
 
+	def get_text(self, component):
+		return component.get_attribute("textContent")
+
 
 class AuthPage(Page):
 	PATH = ''
@@ -91,10 +94,11 @@ class UserPost(Component):
 	POST = '//a[@href="/profile/570965755234/statuses/67241421616482"]'
 	POST_COMMENT_INPUT = '//div[@class="itx js-comments_add js-ok-e comments_add-ceditable "]'
 	POST_COMMENT_BUTTON = '//button[@class="button-pro form-actions_yes"]'
-	POST_COMMENT_LAST = '//div[@class=" last-comment"]'
+	POST_COMMENT_LAST = '//div[contains(@id, "hook_Block_")]'
 	POST_COMMENT_TEXT = '//div[@class="comments_text textWrap"]'
 	POST_COMMENT_CONTROL = '//div[@class="comments_controls-t"]'
 	POST_COMMENT_CONTROL_DELETE = '//a[@title="Удалить"]'
+	POST_COMMENT_COUNTER = '//span[@class="widget_count js-count"]'
 
 	def set_text_content(self, component, message):
 		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
@@ -116,7 +120,7 @@ class UserPost(Component):
 		return user_post
 
 	def add_comment(self, message):
-		user_post = self.open_post()
+		user_post = self.get_post()[0]
 		comment_input = self.get_comment_input(user_post)
 
 		self.execute(comment_input)
@@ -126,23 +130,27 @@ class UserPost(Component):
 		self.execute(button)
 
 	def get_comment_component(self):
-		user_post = self.open_post()
+		user_post = self.get_post()[0]
 
-		return user_post.find_element_by_xpath(self.POST_COMMENT_LAST)
+		return user_post.find_elements_by_xpath(self.POST_COMMENT_LAST)[-1]
 
 	def get_comment_text(self):
 		last_comment_wrapper = self.get_comment_component()
 
 		# .text not work
 		comment = last_comment_wrapper.find_element_by_xpath(self.POST_COMMENT_TEXT)\
-			.find_element_by_tag_name('div').get_attribute("textContent")
+			.find_element_by_tag_name('div')
 
-		return comment
+		return self.get_text(comment)
 
 	def del_comment(self):
 		last_comment_wrapper = self.get_comment_component()
 		controls_wrapper = last_comment_wrapper.find_element_by_xpath(self.POST_COMMENT_CONTROL)
 
-		controls = controls_wrapper.find_element_by_xpath(self.POST_COMMENT_CONTROL_DELETE)
+		delete_control = controls_wrapper.find_element_by_xpath(self.POST_COMMENT_CONTROL_DELETE)
 
-		self.execute(controls)
+		self.execute(delete_control)
+
+	def get_comment_amount(self):
+		counter = self.driver.find_element_by_xpath(self.POST_COMMENT_COUNTER)
+		return self.get_text(counter)
