@@ -88,21 +88,31 @@ class UserPage(Page):
 
 
 class UserPost(Component):
-	POST_CONTROLS_LIST_WRAPPER = '//div[@class="feed_f"]'
-	POST_CONTROLS_LIST = '//li[@class="widget-list_i"]'
-	POST_CONTROL_ADD_COMMENT = '//a[@class="h-mod widget_cnt"]'
-	POST_CONTROL_REPOST = '//div[@class="widget_cnt"]'
-	POST_CONTROL_CLASS = '//div[@class="widget_cnt"]'
-
 	POST = '//a[@href="/profile/570965755234/statuses/67241421616482"]'
-	POST_COMMENT_ACCESS = '//div[@class="comments_text textWrap"]'
+	POST_COMMENT_INPUT = '//div[@class="itx js-comments_add js-ok-e comments_add-ceditable "]'
+	POST_COMMENT_BUTTON = '//button[@class="button-pro form-actions_yes"]'
+
+	def set_text_content(self, component, message):
+		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
 
 	def get_post(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
 			lambda d: d.find_elements_by_xpath(self.POST)
 		)
 
-	def get_post_access(self, post):
+	def get_comment_input(self, post):
 		return WebDriverWait(post, 5, 0.1).until(
-			lambda d: d.find_element_by_xpath(self.POST_COMMENT_ACCESS).find_element_by_tag_name('div')
+			lambda d: d.find_element_by_xpath(self.POST_COMMENT_INPUT)
 		)
+
+	def add_comment(self, message):
+		user_post = self.get_post()[0]
+
+		self.execute(user_post)
+		comment_input = self.get_comment_input(user_post)
+
+		self.execute(comment_input)
+		self.set_text_content(comment_input, message)
+
+		button = self.driver.find_element_by_xpath(self.POST_COMMENT_BUTTON)
+		self.execute(button)

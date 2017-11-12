@@ -9,7 +9,7 @@ from vp_check_list.login_test import LoginTest
 
 if __name__ == '__main__':
 	login_suite = unittest.TestSuite((
-		# unittest.makeSuite(LoginTest),
+		unittest.makeSuite(LoginTest),
 	))
 
 	comments_suite = unittest.TestSuite((

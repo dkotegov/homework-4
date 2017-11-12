@@ -4,11 +4,14 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
+from selenium.webdriver.support.wait import WebDriverWait
 
 from vp_check_list.pages.pages import UserPage
 
 
 class CommentsTest(unittest.TestCase):
+	TEST_COMMENT = 'Test comment'
+
 	def setUp(self):
 		browser = os.environ.get('BROWSER', 'CHROME')
 
@@ -26,11 +29,6 @@ class CommentsTest(unittest.TestCase):
 		self.driver.quit()
 
 	def test_add_comment(self):
-		user_post = self.post.get_post()[0]
-
-		self.post.execute(user_post)
-		access = self.post.get_post_access(user_post)
-
-		print access.text
+		self.post.add_comment(self.TEST_COMMENT)
 
 		self.assertEqual(1, 1)
