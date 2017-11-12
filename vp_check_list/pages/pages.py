@@ -95,16 +95,5 @@ class UserPost(Component):
 
 	def get_post(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
-			lambda d: d.find_elements_by_xpath(self.POST_IMG)
+			lambda d: d.find_elements_by_xpath(self.POST)
 		)
-
-	def get_post_controls(self):
-		post = self.get_post()[1]
-		post_controls_wrapper = post.find_element_by_xpath(self.POST_CONTROLS_LIST_WRAPPER)
-
-		return post_controls_wrapper.find_elements_by_xpath(self.POST_CONTROLS_LIST)
-
-	def get_post_control_add_comments(self):
-		controls = self.get_post_controls()[0]
-
-		return controls.find_element_by_xpath(self.POST_CONTROL_ADD_COMMENT).find_element_by_class_name('widget_ico')
