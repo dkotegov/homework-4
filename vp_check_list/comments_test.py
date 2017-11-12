@@ -4,7 +4,6 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support.wait import WebDriverWait
 
 from vp_check_list.pages.pages import UserPage
 
