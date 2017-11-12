@@ -46,16 +46,6 @@ class AuthPage(Page):
 		return self.user_header.get_username()
 
 
-class UserPage(Page):
-	PATH = ''
-
-	def login(self):
-		auth_page = AuthPage(self.driver)
-		auth_page.open()
-
-		return auth_page.login()
-
-
 class AuthForm(Component):
 	LOGIN = '//input[@id="field_email"]'
 	PASSWORD = '//input[@id="field_password"]'
@@ -78,3 +68,43 @@ class UserHeader(Component):
 		return WebDriverWait(self.driver, 5, 0.1).until(
 			lambda d: d.find_element_by_xpath(self.USERNAME).text
 		)
+
+
+class UserPage(Page):
+	PATH = ''
+
+	def login(self):
+		auth_page = AuthPage(self.driver)
+		auth_page.open()
+
+		return auth_page.login()
+
+	@property
+	def post(self):
+		return UserPost(self.driver)
+
+
+class UserPost(Component):
+	POST_CONTROLS_LIST_WRAPPER = '//div[@class="feed_f"]'
+	POST_CONTROLS_LIST = '//li[@class="widget-list_i"]'
+	POST_CONTROL_ADD_COMMENT = '//a[@class="h-mod widget_cnt"]'
+	POST_CONTROL_REPOST = '//div[@class="widget_cnt"]'
+	POST_CONTROL_CLASS = '//div[@class="widget_cnt"]'
+
+	POST = '//a[@href="/profile/570965755234/statuses/67241421616482"]'
+
+	def get_post(self):
+		return WebDriverWait(self.driver, 5, 0.1).until(
+			lambda d: d.find_elements_by_xpath(self.POST_IMG)
+		)
+
+	def get_post_controls(self):
+		post = self.get_post()[1]
+		post_controls_wrapper = post.find_element_by_xpath(self.POST_CONTROLS_LIST_WRAPPER)
+
+		return post_controls_wrapper.find_elements_by_xpath(self.POST_CONTROLS_LIST)
+
+	def get_post_control_add_comments(self):
+		controls = self.get_post_controls()[0]
+
+		return controls.find_element_by_xpath(self.POST_CONTROL_ADD_COMMENT).find_element_by_class_name('widget_ico')

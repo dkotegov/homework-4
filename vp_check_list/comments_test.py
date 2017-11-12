@@ -17,10 +17,15 @@ class CommentsTest(unittest.TestCase):
 			desired_capabilities=getattr(DesiredCapabilities, browser).copy()
 		)
 
-		UserPage(self.driver).login()
+		self.user_page = UserPage(self.driver)
+		self.user_page.login()
 
 	def tearDown(self):
 		self.driver.quit()
 
-	def add_comment_test(self):
-		pass
+	def test_add_comment(self):
+		user_post = self.user_page.post.get_post_top()[0]
+
+		self.driver.execute_script('arguments[0].click();', user_post)
+
+		self.assertEqual(1, 1)
