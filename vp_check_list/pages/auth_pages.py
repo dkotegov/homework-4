@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -31,11 +32,25 @@ class AuthForm(Component):
 	def submit(self):
 		self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
 
+	def login(self):
+		user_login = 'technopark34'
+		password = os.environ['OK_PASSWORD']
+
+		auth_page = AuthPage(self.driver)
+		auth_page.open()
+
+		auth_form = auth_page.form
+		auth_form.set_login(user_login)
+		auth_form.set_password(password)
+		auth_form.submit()
+
+		return auth_page.top_menu.get_username()
+
 
 class UserHeader(Component):
 	USERNAME = '//h1[@class="mctc_name_tx bl"]'
 
 	def get_username(self):
-		return WebDriverWait(self.driver, 30, 0.1).until(
+		return WebDriverWait(self.driver, 5, 0.1).until(
 			lambda d: d.find_element_by_xpath(self.USERNAME).text
 		)

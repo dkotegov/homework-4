@@ -3,6 +3,7 @@
 import os
 import unittest
 
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from vp_check_list.pages.auth_pages import AuthPage
@@ -29,9 +30,6 @@ class LoginTest(unittest.TestCase):
 		auth_page.open()
 
 		auth_form = auth_page.form
-		auth_form.set_login(self.USER_EMAIL)
-		auth_form.set_password(self.PASSWORD)
-		auth_form.submit()
 
-		user_name = auth_page.top_menu.get_username()
+		user_name = auth_form.login()
 		self.assertEqual(self.USERNAME, user_name)
