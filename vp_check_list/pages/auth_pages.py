@@ -17,6 +17,17 @@ class AuthPage(Page):
 	def user_header(self):
 		return UserHeader(self.driver)
 
+	def login(self):
+		user_login = 'technopark34'
+		password = os.environ['OK_PASSWORD']
+
+		auth_form = self.form
+		auth_form.set_login(user_login)
+		auth_form.set_password(password)
+		auth_form.submit()
+
+		return self.user_header.get_username()
+
 
 class AuthForm(Component):
 	LOGIN = '//input[@id="field_email"]'
@@ -31,20 +42,6 @@ class AuthForm(Component):
 
 	def submit(self):
 		self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
-
-	def login(self):
-		user_login = 'technopark34'
-		password = os.environ['OK_PASSWORD']
-
-		auth_page = AuthPage(self.driver)
-		auth_page.open()
-
-		auth_form = auth_page.form
-		auth_form.set_login(user_login)
-		auth_form.set_password(password)
-		auth_form.submit()
-
-		return auth_page.user_header.get_username()
 
 
 class UserHeader(Component):
