@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import os
-
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from vp_check_list.auth_pages import AuthPage
+from vp_check_list.pages.auth_pages import AuthPage
 
 
 class LoginTest(unittest.TestCase):

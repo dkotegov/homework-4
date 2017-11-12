@@ -2,7 +2,7 @@
 
 from selenium.webdriver.support.ui import WebDriverWait
 
-from vp_check_list.pages import Page, Component
+from vp_check_list.pages.pages import Page, Component
 
 
 class AuthPage(Page):

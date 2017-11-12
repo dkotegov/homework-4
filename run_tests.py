@@ -4,6 +4,7 @@ import sys
 import unittest
 
 from vp_check_list.comments_test import AddCommentTest
+
 from vp_check_list.login_test import LoginTest
 
 if __name__ == '__main__':
