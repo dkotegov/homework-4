@@ -143,6 +143,6 @@ class UserPost(Component):
 		last_comment_wrapper = self.get_comment_component()
 		controls_wrapper = last_comment_wrapper.find_element_by_xpath(self.POST_COMMENT_CONTROL)
 
-		print controls_wrapper
+		controls = controls_wrapper.find_element_by_xpath(self.POST_COMMENT_CONTROL_DELETE)
 
-
+		self.execute(controls)
