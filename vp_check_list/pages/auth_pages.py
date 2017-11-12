@@ -14,7 +14,7 @@ class AuthPage(Page):
 		return AuthForm(self.driver)
 
 	@property
-	def top_menu(self):
+	def user_header(self):
 		return UserHeader(self.driver)
 
 
@@ -44,7 +44,7 @@ class AuthForm(Component):
 		auth_form.set_password(password)
 		auth_form.submit()
 
-		return auth_page.top_menu.get_username()
+		return auth_page.user_header.get_username()
 
 
 class UserHeader(Component):
