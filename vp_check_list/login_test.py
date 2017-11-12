@@ -5,7 +5,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from vp_check_list.pages.auth_pages import AuthPage
+from vp_check_list.pages.auth_pages import UserPage
 
 
 class LoginTest(unittest.TestCase):
@@ -23,8 +23,6 @@ class LoginTest(unittest.TestCase):
 		self.driver.quit()
 
 	def test(self):
-		auth_page = AuthPage(self.driver)
-		auth_page.open()
+		user_name = UserPage(self.driver).login()
 
-		user_name = auth_page.login()
 		self.assertEqual(self.USERNAME, user_name)

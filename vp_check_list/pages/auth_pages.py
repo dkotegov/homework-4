@@ -29,6 +29,16 @@ class AuthPage(Page):
 		return self.user_header.get_username()
 
 
+class UserPage(Page):
+	PATH = ''
+
+	def login(self):
+		auth_page = AuthPage(self.driver)
+		auth_page.open()
+
+		return auth_page.login()
+
+
 class AuthForm(Component):
 	LOGIN = '//input[@id="field_email"]'
 	PASSWORD = '//input[@id="field_password"]'
