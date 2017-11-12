@@ -91,6 +91,8 @@ class UserPost(Component):
 	POST = '//a[@href="/profile/570965755234/statuses/67241421616482"]'
 	POST_COMMENT_INPUT = '//div[@class="itx js-comments_add js-ok-e comments_add-ceditable "]'
 	POST_COMMENT_BUTTON = '//button[@class="button-pro form-actions_yes"]'
+	POST_COMMENT_LAST = '//div[@class=" last-comment"]'
+	POST_COMMENT_TEXT = '//div[@class="comments_text textWrap"]'
 
 	def set_text_content(self, component, message):
 		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
@@ -120,3 +122,13 @@ class UserPost(Component):
 
 		button = self.driver.find_element_by_xpath(self.POST_COMMENT_BUTTON)
 		self.execute(button)
+
+	def get_comment(self):
+		user_post = self.open_post()
+		last_comment_wrapper = user_post.find_element_by_xpath(self.POST_COMMENT_LAST)
+
+		# .text not work
+		comment = last_comment_wrapper.find_element_by_xpath(self.POST_COMMENT_TEXT)\
+			.find_element_by_tag_name('div').get_attribute("textContent")
+
+		return comment
