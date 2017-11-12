@@ -30,7 +30,6 @@ class CommentsTest(unittest.TestCase):
 
 	def test_add_comment(self):
 		self.post.add_comment(self.TEST_COMMENT)
-
 		comment = self.post.get_comment()
 
 		self.assertEqual(comment, self.TEST_COMMENT)
