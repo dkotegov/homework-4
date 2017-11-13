@@ -10,7 +10,6 @@ from vp_check_list.pages.pages import UserPage
 
 class CommentsTest(unittest.TestCase):
 	TEST_COMMENT = 'Test comment'
-	TEST_COMMENT_DELETE = 'Test check delete comment'
 
 	@classmethod
 	def setUpClass(cls):
@@ -43,9 +42,11 @@ class CommentsTest(unittest.TestCase):
 	def test_delete_comment(self):
 		avatar = self.user_avatar.get_avatar()
 		self.user_avatar.open_avatar(avatar)
+
 		avatar_footer = self.user_avatar.get_avatar_footer()
+		comment_before_delete = self.user_avatar.get_last_comment_text(avatar_footer)
 
 		self.user_avatar.delete_comment_from_avatar(avatar_footer)
 
-		comment = self.user_avatar.get_last_comment_text(avatar_footer)
-		self.assertEqual(comment, self.TEST_COMMENT_DELETE)
+		comment_after_delete = self.user_avatar.get_last_comment_text(avatar_footer)
+		self.assertNotEqual(comment_before_delete, comment_after_delete)
