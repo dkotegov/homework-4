@@ -37,5 +37,5 @@ class CommentsTest(unittest.TestCase):
 
 		self.user_avatar.add_comment_to_avatar(avatar_footer, self.TEST_COMMENT)
 
-		comment = self.user_avatar.get_last_comment(avatar_footer)
+		comment = self.user_avatar.get_last_comment_text(avatar_footer)
 		self.assertEqual(comment, self.TEST_COMMENT)

@@ -140,7 +140,10 @@ class UserAvatar(Component):
 	def get_last_comment(self, avatar):
 		list_comments = avatar.find_elements_by_xpath(self.AVATAR_COMMENTS_LIST)
 
-		return self.get_text(list_comments[-1])
+		return list_comments[-1]
+
+	def get_last_comment_text(self, avatar):
+		return self.get_text(self.get_last_comment(avatar))
 
 	def get_comment_amount(self):
 		counter = self.driver.find_element_by_xpath(self.AVATAR_COMMENTS_COUNT)
