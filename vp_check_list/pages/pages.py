@@ -123,20 +123,6 @@ class UserAvatar(Component):
 			lambda d: d.find_element_by_xpath(self.AVATAR_INPUT)
 		)
 
-	def add_comment_to_avatar(self, avatar, message):
-		comment_input = self.get_avatar_input(avatar)
-		before_add = self.get_comment_amount()
-
-		self.execute(comment_input)
-		self.set_text_content(comment_input, message)
-
-		button = avatar.find_element_by_xpath(self.AVATAR_INPUT_BUTTON)
-		self.execute(button)
-
-		WebDriverWait(self, 10, 0.1).until(
-			lambda d: d.get_comment_amount() == before_add + 1
-		)
-
 	def get_last_comment(self, avatar):
 		list_comments = avatar.find_elements_by_xpath(self.AVATAR_COMMENTS_LIST)
 
@@ -151,3 +137,17 @@ class UserAvatar(Component):
 
 	def set_text_content(self, component, message):
 		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
+
+	def add_comment_to_avatar(self, avatar, message):
+		comment_input = self.get_avatar_input(avatar)
+		before_add = self.get_comment_amount()
+
+		self.execute(comment_input)
+		self.set_text_content(comment_input, message)
+
+		button = avatar.find_element_by_xpath(self.AVATAR_INPUT_BUTTON)
+		self.execute(button)
+
+		WebDriverWait(self, 10, 0.1).until(
+			lambda d: d.get_comment_amount() == before_add + 1
+		)
