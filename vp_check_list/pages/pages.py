@@ -90,16 +90,53 @@ class UserPage(Page):
 		return UserPost(self.driver)
 
 
-class UserPost(Component):
+class UserAvatar(Component):
 	POST = '//a[@href="/profile/570965755234/statuses/67241421616482"]'
 	POST_COMMENT_INPUT = '//div[@class="itx js-comments_add js-ok-e comments_add-ceditable "]'
-	POST_COMMENT_BUTTON = './/button[@class="button-pro form-actions_yes"]'
+	POST_COMMENT_BUTTON = '//button[@class="button-pro form-actions_yes" and text()="Добавить"]'
 	POST_COMMENT_LAST = '//div[contains(@id, "hook_Block_")]'
 	POST_COMMENT_LIST_WRAPPER = '//div[@class="comments_lst_cnt"]'
 	POST_COMMENT_TEXT = '//div[@class="comments_text textWrap"]'
 	POST_COMMENT_CONTROL = '//div[@class="comments_controls-t"]'
 	POST_COMMENT_CONTROL_DELETE = './/a[@title="Удалить"]'
 	POST_COMMENT_COUNTER = '//span[@class="widget_count js-count"]'
+
+	AVATAR = '//img[@id="viewImageLinkId"]'
+	AVATAR_ADD_DESCRIPT_BUTTON = '//span[text()="Добавить описание"]'
+
+	def get_post(self):
+		return WebDriverWait(self.driver, 5, 0.1).until(
+			lambda d: d.find_elements_by_xpath(self.POST)
+		)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	def set_text_content(self, component, message):
 		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
