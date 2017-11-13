@@ -3,24 +3,31 @@
 from page import *
 from test import Test
 
+ID = '575662065896'
 
 class TestAllMarkValues(Test):
 
     def test(self):
-        self.login()
+        self.login(USERNAME_SECOND)
 
         marks = list()
+        photos = list()
 
         expected_marks = range(1,6)
 
-        for i in expected_marks:
-            online_page = OnlinePage(self.driver)
-            online_page.open()
-            person_page = online_page.first_person()
-            avatar = person_page.avatar
-            avatar.open()
+        person_page = PersonPage(self.driver, '')
 
-            mark = Mark(self.driver)
+        for i in expected_marks:
+            photos.append(person_page.upload_photo('pic.jpg'))
+
+        self.logout()
+        self.login(USERNAME_FIRST)
+
+        for i in expected_marks:
+            photo_page = PhotoPage(self.driver, ID, photos[i - 1])
+            photo_page.open()
+
+            mark = photo_page.mark
             mark.set_mark(i)
             marks.append(int(mark.check_mark()))
 

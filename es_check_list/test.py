@@ -21,11 +21,11 @@ class Test(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def login(self):
+    def login(self, username):
         auth_page = AuthPage(self.driver)
         auth_page.open()
         auth_form = auth_page.form
-        auth_form.set_login(USERNAME)
+        auth_form.set_login(username)
         auth_form.set_password(PASSWORD)
         auth_form.submit()
 

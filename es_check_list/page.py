@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import time
 
 import urlparse
 
@@ -11,7 +12,8 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 
 
-USERNAME = 'technopark36'
+USERNAME_FIRST = 'technopark36'
+USERNAME_SECOND = 'technopark9'
 PASSWORD = os.environ['PASSWORD']
 
 
@@ -64,6 +66,9 @@ class PersonPage(Page):
     AVATAR = '//a[@class="card_wrp"]'
     COUNTER = '//a[@data-l="t,stats"]'
     ALL = '//a[@href="/feed"][@class="al"]'
+    UPLOAD_PHOTO = '//input[@type="file"][@name="photo"]'
+    ALBUM = '//a[@hrefattrs="st.cmd=userPersonalPhotos"]'
+    PHOTO = '//a[@class="photo-card_cnt"]'
 
     def __init__(self, driver, login):
         Page.__init__(self, driver)
@@ -82,6 +87,29 @@ class PersonPage(Page):
         wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.al[href="/feed"]')))
         ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.ALL)).click().perform()
 
+    def upload_photo(self, url):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
+        self.driver.find_element_by_xpath(
+            self.UPLOAD_PHOTO).send_keys(os.path.join(os.getcwd(), 'es_check_list/uploads/', url))
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.ALBUM)))
+        self.driver.find_element_by_xpath(self.ALBUM).click()
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.PHOTO)))
+        url = self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href').split('/')
+        return url[len(url) - 1]
+
+
+class PhotoPage(Page):
+    TEMPLATE = '/profile/{}/pphotos/{}'
+
+    def __init__(self, driver, user, photo):
+        Page.__init__(self, driver)
+        self.PATH = self.TEMPLATE.format(user, photo)
+
+    @property
+    def mark(self):
+        return Mark(self.driver)
+
 
 class Component(object):
     def __init__(self, driver):
@@ -89,8 +117,8 @@ class Component(object):
 
 
 class Mark(Component):
-    MARK = '//a[contains(@class,"marks-new_ic")][contains(text(),"{}")]'
-    RESULT = '//span[@class="marks-new_ic"]'
+    MARK = '//a[contains(@class,"marks-new_ic")][text()="{}"]'
+    RESULT = '//div[@class="marks marks-new __light jcol-r"]//span[contains(@class,"marks-new_ic")]'
 
     def set_mark(self, mark=5):
         wait = WebDriverWait(self.driver, 10)
@@ -102,8 +130,8 @@ class Mark(Component):
 
     def check_mark(self):
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'span.marks-new_ic')))
-        return self.driver.find_element_by_css_selector('span.marks-new_ic').text
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.RESULT)))
+        return self.driver.find_element_by_xpath(self.RESULT).text
 
 
 class AuthForm(Component):

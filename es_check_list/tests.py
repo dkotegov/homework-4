@@ -5,7 +5,7 @@ from es_check_list.self_mark_test import TestSelfMark
 from es_check_list.check_marks_test import TestCheckMarks
 
 tests = (
-    # unittest.makeSuite(TestAllMarkValues),
+    unittest.makeSuite(TestAllMarkValues),
     # unittest.makeSuite(TestSelfMark),
-    unittest.makeSuite(TestCheckMarks)
+    # unittest.makeSuite(TestCheckMarks)
 )
