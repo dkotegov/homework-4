@@ -96,7 +96,7 @@ class PersonPage(Page):
         self.driver.find_element_by_xpath(self.ALBUM).click()
         wait.until(EC.element_to_be_clickable((By.XPATH, self.PHOTO)))
         url = self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href').split('/')
-        return url[len(url) - 1]
+        return (url[len(url) - 1], url[len(url) - 3])
 
 
 class PhotoPage(Page):

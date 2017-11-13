@@ -3,7 +3,6 @@
 from page import *
 from test import Test
 
-ID = '575662065896'
 
 class TestAllMarkValues(Test):
 
@@ -23,8 +22,10 @@ class TestAllMarkValues(Test):
         self.logout()
         self.login(USERNAME_FIRST)
 
+        ID = photos[0][1]
+
         for i in expected_marks:
-            photo_page = PhotoPage(self.driver, ID, photos[i - 1])
+            photo_page = PhotoPage(self.driver, ID, photos[i - 1][0])
             photo_page.open()
 
             mark = photo_page.mark
