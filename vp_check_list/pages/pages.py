@@ -86,112 +86,65 @@ class UserPage(Page):
 		return auth_page.login()
 
 	@property
-	def post(self):
-		return UserPost(self.driver)
+	def avatar(self):
+		return UserAvatar(self.driver)
 
 
 class UserAvatar(Component):
-	POST = '//a[@href="/profile/570965755234/statuses/67241421616482"]'
-	POST_COMMENT_INPUT = '//div[@class="itx js-comments_add js-ok-e comments_add-ceditable "]'
-	POST_COMMENT_BUTTON = '//button[@class="button-pro form-actions_yes" and text()="Добавить"]'
-	POST_COMMENT_LAST = '//div[contains(@id, "hook_Block_")]'
-	POST_COMMENT_LIST_WRAPPER = '//div[@class="comments_lst_cnt"]'
-	POST_COMMENT_TEXT = '//div[@class="comments_text textWrap"]'
-	POST_COMMENT_CONTROL = '//div[@class="comments_controls-t"]'
-	POST_COMMENT_CONTROL_DELETE = './/a[@title="Удалить"]'
-	POST_COMMENT_COUNTER = '//span[@class="widget_count js-count"]'
-
 	AVATAR = '//img[@id="viewImageLinkId"]'
-	AVATAR_ADD_DESCRIPT_BUTTON = '//span[text()="Добавить описание"]'
+	AVATAR_FOOTER = '//div[@class="hookBlock photo-layer_bottom"]'
+	AVATAR_ADD_DESCRIPTION_BUTTON = './/span[text()="Добавить описание"]'
+	AVATAR_INPUT = './/div[@class="itx js-comments_add js-ok-e comments_add-ceditable "]'
+	AVATAR_INPUT_BUTTON = './/button[@class="button-pro form-actions_yes" and text()="Добавить"]'
+	AVATAR_COMMENTS_COUNT = '//div[@id="hook_Block_PhotoLayerFooterRB"]//span[@class="widget_count js-count"]'
+	AVATAR_COMMENTS_LIST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div[last()]' \
+	                       '//div[contains(@class, "comments_text")]//div'
 
-	def get_post(self):
+	def get_avatar(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
-			lambda d: d.find_elements_by_xpath(self.POST)
+			lambda d: d.find_element_by_xpath(self.AVATAR)
 		)
 
+	def get_avatar_description_button(self, avatar):
+		return WebDriverWait(avatar, 10, 0.1).until(
+			lambda d: d.find_element_by_xpath(self.AVATAR_ADD_DESCRIPTION_BUTTON)
+		)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	def set_text_content(self, component, message):
-		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
-
-	def get_post(self):
+	def get_avatar_footer(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
-			lambda d: d.find_elements_by_xpath(self.POST)
+			lambda d: d.find_element_by_xpath(self.AVATAR_FOOTER)
 		)
 
-	def get_comment_input(self, post):
-		return WebDriverWait(post, 5, 0.1).until(
-			lambda d: d.find_element_by_xpath(self.POST_COMMENT_INPUT)
+	def open_avatar(self, avatar):
+		self.execute(avatar)
+
+	def get_avatar_input(self, avatar):
+		return WebDriverWait(avatar, 5, 0.1).until(
+			lambda d: d.find_element_by_xpath(self.AVATAR_INPUT)
 		)
 
-	def open_post(self):
-		user_post = self.get_post()[0]
-		self.execute(user_post)
-
-		return user_post
-
-	def add_comment(self, message):
-		user_post = self.get_post()[0]
-		comment_input = self.get_comment_input(user_post)
+	def add_comment_to_avatar(self, avatar, message):
+		comment_input = self.get_avatar_input(avatar)
+		before_add = self.get_comment_amount()
 
 		self.execute(comment_input)
 		self.set_text_content(comment_input, message)
 
-		button = self.driver.find_element_by_xpath(self.POST_COMMENT_BUTTON)
+		button = avatar.find_element_by_xpath(self.AVATAR_INPUT_BUTTON)
 		self.execute(button)
 
-	def get_comment_component(self):
-		user_post = self.get_post()[0]
-		comments_list_wrapper = user_post.find_element_by_xpath(self.POST_COMMENT_LIST_WRAPPER)
+		WebDriverWait(self, 10, 0.1).until(
+			lambda d: d.get_comment_amount() == before_add + 1
+		)
 
-		comments_list = self.driver.find_elements_by_xpath(self.POST_COMMENT_TEXT)
+	def get_last_comment(self, avatar):
+		list_comments = avatar.find_elements_by_xpath(self.AVATAR_COMMENTS_LIST)
 
-		return comments_list[-1]
-
-	def get_comment_text(self):
-		last_comment_wrapper = self.get_comment_component()
-
-		# .text not work
-		comment = last_comment_wrapper.find_element_by_xpath(self.POST_COMMENT_TEXT) \
-			.find_element_by_tag_name('div')
-
-		return self.get_text(comment)
-
-	def del_comment(self):
-		last_comment_wrapper = self.get_comment_component()
-		controls_wrapper = last_comment_wrapper.find_element_by_xpath(self.POST_COMMENT_CONTROL)
-
-		delete_control = controls_wrapper.find_element_by_xpath(self.POST_COMMENT_CONTROL_DELETE)
-
-		self.execute(delete_control)
+		return self.get_text(list_comments[-1])
 
 	def get_comment_amount(self):
-		counter = self.driver.find_element_by_xpath(self.POST_COMMENT_COUNTER)
-		return self.get_text(counter)
+		counter = self.driver.find_element_by_xpath(self.AVATAR_COMMENTS_COUNT)
+		return int(self.get_text(counter))
+
+	def set_text_content(self, component, message):
+		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
