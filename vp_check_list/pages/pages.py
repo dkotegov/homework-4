@@ -28,6 +28,9 @@ class Component(object):
 	def get_text(self, component):
 		return component.get_attribute("textContent")
 
+	def set_text_content(self, component, message):
+		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
+
 
 class AuthPage(Page):
 	PATH = ''
@@ -132,9 +135,6 @@ class UserAvatar(Component):
 	def get_comment_amount(self):
 		counter = self.driver.find_element_by_xpath(self.AVATAR_COMMENTS_COUNT)
 		return int(self.get_text(counter))
-
-	def set_text_content(self, component, message):
-		self.driver.execute_script("arguments[0].textContent = '{}';".format(message), component)
 
 	def add_comment_to_avatar(self, avatar, message):
 		comment_input = self.get_avatar_input(avatar)
