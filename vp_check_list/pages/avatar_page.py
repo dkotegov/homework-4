@@ -21,7 +21,9 @@ class LastCommentUserAvatar(Component):
 		self.__comment__ = self.get_last_comment()
 
 	def get_last_comment(self):
-		list_comments = self.__avatar_footer__.find_elements_by_xpath(self.COMMENTS_LIST)
+		list_comments = WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
+			lambda d: d.find_elements_by_xpath(self.COMMENTS_LIST)
+		)
 
 		return list_comments[-1]
 
