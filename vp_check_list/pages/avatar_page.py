@@ -6,9 +6,9 @@ from vp_check_list.pages.base_page import Component
 
 
 class LastCommentUserAvatar(Component):
-	AVATAR_COMMENTS_LIST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div[last()]' \
+	COMMENTS_LIST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div[last()]' \
 	                       '//div[contains(@class, "comments_text")]//div'
-	AVATAR_LAST_COMMENT_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
+	COMMENTS_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
 	                                    '//div[last()]//div[contains(@class, "comments_controls-t")]' \
 	                                    '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
 
@@ -19,7 +19,7 @@ class LastCommentUserAvatar(Component):
 		self.__comment__ = self.get_last_comment()
 
 	def get_last_comment(self):
-		list_comments = self.__avatar_footer__.find_elements_by_xpath(self.AVATAR_COMMENTS_LIST)
+		list_comments = self.__avatar_footer__.find_elements_by_xpath(self.COMMENTS_LIST)
 
 		return list_comments[-1]
 
@@ -28,7 +28,7 @@ class LastCommentUserAvatar(Component):
 
 	def get_delete_button(self):
 		return WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
-			lambda d: d.find_elements_by_xpath(self.AVATAR_LAST_COMMENT_DELETE_BUTTON)
+			lambda d: d.find_elements_by_xpath(self.COMMENTS_DELETE_BUTTON)
 		)
 
 	def delete_comment(self):
