@@ -99,7 +99,9 @@ class UserAvatar(Component):
 	AVATAR_COMMENTS_COUNT = '//div[@id="hook_Block_PhotoLayerFooterRB"]//span[@class="widget_count js-count"]'
 	AVATAR_COMMENTS_LIST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div[last()]' \
 	                       '//div[contains(@class, "comments_text")]//div'
-	AVATAR_LAST_COMMENT_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div[last()]//div[contains(@class, "comments_controls-t")]//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
+	AVATAR_LAST_COMMENT_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
+	                                    '//div[last()]//div[contains(@class, "comments_controls-t")]' \
+	                                    '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
 
 	def get_avatar(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
