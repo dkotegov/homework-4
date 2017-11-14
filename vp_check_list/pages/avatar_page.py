@@ -66,7 +66,7 @@ class LastCommentUserAvatar(Component):
 		)[0]
 
 	def repost_count(self):
-		return int(self.get_repost_component().text)
+		return int(self.get_text(self.get_repost_component()))
 
 	def repost(self):
 		repost_component = self.get_repost_component()
