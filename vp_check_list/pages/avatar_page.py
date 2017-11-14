@@ -81,11 +81,11 @@ class CommentsUserAvatar(Component):
 		)
 
 	def get_comment_amount(self):
-		counter = WebDriverWait(self.__footer__, 5, 0.1).until(
+		counter = WebDriverWait(self.driver, 5, 0.1).until(
 			lambda d: d.find_element_by_xpath(self.AVATAR_COMMENTS_COUNT)
 		)
 
-		return int(self.get_text(counter))
+		return int(counter.text)
 
 	def add_comment_to_avatar(self, message):
 		comment_input = self.get_avatar_input()

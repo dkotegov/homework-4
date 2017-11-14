@@ -25,12 +25,14 @@ class SimpleActionsWithCommentsTest(BaseTest):
 
 		comment_after_delete = avatar_footer.last_comment.text()
 		self.assertNotEqual(comment_before_delete, comment_after_delete)
-
+	#
 	# def test_like_comment(self):
 	# 	self.user_avatar.open_avatar()
 	# 	avatar_footer = self.user_avatar.comments
 	#
+	# 	avatar_footer.add_comment_to_avatar(self.TEST_COMMENT)
+	#
 	# 	like_btn = avatar_footer.last_comment.likes()
 	#
 	# 	comment = avatar_footer.last_comment.text()
-	# 	self.assertNotEqual(comment, self.TEST_COMMENT)
+	# 	self.assertEqual(comment, self.TEST_COMMENT)
