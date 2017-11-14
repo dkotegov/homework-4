@@ -13,6 +13,8 @@ class LastCommentUserAvatar(Component):
 	                         '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
 	COMMENTS_LIKES = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div' \
 	                 '//div[@class="klass_w"]//span[@class="tico tico__12"]'
+	COMMENTS_REPOST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div//ul[@class="controls-list"]//li[contains(@class, "controls-list_item")][last()]//span[contains(@class, "widget_count js-count")]'
+	COMMENTS_REPOST_RESHARED_BUTTON = '//div[@class="sc-menu __reshare __noarrow sc-menu__top"]//i[@class="tico_img ic ic_reshare"]'
 	LIKE_TEXT = u'Вы'
 
 	def __init__(self, driver, avatar_footer):
@@ -52,6 +54,34 @@ class LastCommentUserAvatar(Component):
 	def like(self):
 		like_component_button = self.get_like_component()
 		self.execute(like_component_button)
+
+	def get_repost_component(self):
+		return WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
+			lambda d: d.find_elements_by_xpath(self.COMMENTS_REPOST)
+		)[-1]
+
+	def get_repost_reshared_button(self):
+		return WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
+			lambda d: d.find_elements_by_xpath(self.COMMENTS_REPOST_RESHARED_BUTTON)
+		)[0]
+
+	def repost_count(self):
+		return int(self.get_repost_component().text)
+
+	def repost(self):
+		repost_component = self.get_repost_component()
+		repost_counter_before = self.repost_count()
+
+		self.execute(repost_component)
+
+		repost_reshared = WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
+			lambda d: d.find_elements_by_xpath(self.COMMENTS_REPOST_RESHARED_BUTTON)
+		)[0]
+		self.execute(repost_reshared)
+
+		WebDriverWait(self, 5, 0.1).until(
+			lambda d: d.repost_count() == repost_counter_before + 1
+		)
 
 
 class CommentsUserAvatar(Component):
