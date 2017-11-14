@@ -39,10 +39,6 @@ class AuthPage(Page):
 	def form(self):
 		return AuthForm(self.driver)
 
-	@property
-	def user_header(self):
-		return UserHeader(self.driver)
-
 	def login(self):
 		user_login = 'technopark34'
 		password = os.environ['OK_PASSWORD']
