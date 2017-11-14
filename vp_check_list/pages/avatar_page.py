@@ -11,8 +11,8 @@ class LastCommentUserAvatar(Component):
 	COMMENTS_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
 	                         '//div[last()]//div[contains(@class, "comments_controls-t")]' \
 	                         '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
-	COMMENTS_LIKES_TEXT = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div' \
-	                      '//i[@class="tico_img ic12 ic12_klass tico_img__on-hover"]'
+	COMMENTS_LIKES_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div' \
+	                        '//i[@class="tico_img ic12 ic12_klass tico_img__on-hover"]'
 
 	def __init__(self, driver, avatar_footer):
 		super(LastCommentUserAvatar, self).__init__(driver)
