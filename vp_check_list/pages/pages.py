@@ -132,9 +132,6 @@ class CommentsUserAvatar(Component):
 	AVATAR_INPUT = './/div[@class="itx js-comments_add js-ok-e comments_add-ceditable "]'
 	AVATAR_INPUT_BUTTON = './/button[@class="button-pro form-actions_yes" and text()="Добавить"]'
 	AVATAR_COMMENTS_COUNT = '//div[@id="hook_Block_PhotoLayerFooterRB"]//span[@class="widget_count js-count"]'
-	AVATAR_LAST_COMMENT_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
-	                                    '//div[last()]//div[contains(@class, "comments_controls-t")]' \
-	                                    '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
 
 	def __init__(self, driver):
 		super(CommentsUserAvatar, self).__init__(driver)
