@@ -11,7 +11,8 @@ class LastCommentUserAvatar(Component):
 	COMMENTS_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
 	                         '//div[last()]//div[contains(@class, "comments_controls-t")]' \
 	                         '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
-	COMMENTS_LIKES = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div//div[@class="klass_w"]//span[@class="tico tico__12"]'
+	COMMENTS_LIKES = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div' \
+	                 '//div[@class="klass_w"]//span[@class="tico tico__12"]'
 	LIKE_TEXT = u'Вы'
 
 	def __init__(self, driver, avatar_footer):
