@@ -7,9 +7,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from vp_check_list.pages.pages import UserPage
 
 
-class CommentsTest(unittest.TestCase):
-	TEST_COMMENT = 'Test comment'
-
+class BaseTest(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
 		browser = \
