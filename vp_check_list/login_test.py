@@ -5,7 +5,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from vp_check_list.pages.pages import UserPage
+from vp_check_list.pages.user_page import UserPage
 
 
 class LoginTest(unittest.TestCase):

@@ -4,7 +4,8 @@ import os
 
 from selenium.webdriver.support.wait import WebDriverWait
 
-from vp_check_list.pages.pages import Page, Component, UserAvatar
+from vp_check_list.pages.avatar_page import UserAvatar
+from vp_check_list.pages.base_page import Page, Component
 
 
 class AuthPage(Page):
