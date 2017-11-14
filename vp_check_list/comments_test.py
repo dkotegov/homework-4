@@ -9,21 +9,21 @@ class SimpleActionsWithCommentsTest(BaseTest):
 	def test_add_comment(self):
 		avatar = self.user_avatar.get_avatar()
 		self.user_avatar.open_avatar(avatar)
-		avatar_footer = self.user_avatar.get_avatar_footer()
+		avatar_footer = self.user_avatar.comments
 
-		self.user_avatar.add_comment_to_avatar(avatar_footer, self.TEST_COMMENT)
+		avatar_footer.add_comment_to_avatar(self.TEST_COMMENT)
 
-		comment = self.user_avatar.get_last_comment_text(avatar_footer)
+		comment = avatar_footer.get_last_comment_text()
 		self.assertEqual(comment, self.TEST_COMMENT)
 
 	def test_delete_comment(self):
 		avatar = self.user_avatar.get_avatar()
 		self.user_avatar.open_avatar(avatar)
 
-		avatar_footer = self.user_avatar.get_avatar_footer()
-		comment_before_delete = self.user_avatar.get_last_comment_text(avatar_footer)
+		avatar_footer = self.user_avatar.comments
+		comment_before_delete = avatar_footer.get_last_comment_text()
 
-		self.user_avatar.delete_comment_from_avatar(avatar_footer)
+		avatar_footer.delete_comment_from_avatar()
 
-		comment_after_delete = self.user_avatar.get_last_comment_text(avatar_footer)
+		comment_after_delete = avatar_footer.get_last_comment_text()
 		self.assertNotEqual(comment_before_delete, comment_after_delete)
