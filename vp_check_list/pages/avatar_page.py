@@ -13,6 +13,9 @@ class LastCommentUserAvatar(Component):
 	                         '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
 	COMMENTS_LIKES_TEXT = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div' \
 	                      '//div[@class="klass_w"]//span[@class="tico tico__12"]'
+	COMMENTS_LIKES_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div' \
+	                        '//div[@class="klass_w"]//span[@class="tico tico__12"]//i'
+	LIKE_TEXT = u'Вы'
 
 	def __init__(self, driver, avatar_footer):
 		super(LastCommentUserAvatar, self).__init__(driver)
@@ -38,22 +41,24 @@ class LastCommentUserAvatar(Component):
 	def delete_comment(self):
 		self.execute(self.get_delete_button()[-1])
 
-	def get_like_components(self):
-		return WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
+	def get_like_component_text(self):
+		like_component = WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
 			lambda d: d.find_elements_by_xpath(self.COMMENTS_LIKES_TEXT)
 		)
 
-	def likes(self):
-		components = self.get_like_components()
+		return self.get_text(like_component[0])
 
-		btn = components[-1].find_element_by_tag_name('i')
+	def get_like_component_button(self):
+		return WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
+			lambda d: d.find_elements_by_xpath(self.COMMENTS_LIKES_BUTTON)
+		)[0]
 
-		print self.get_text(components[-1])
-		print self.get_text(btn)
+	def is_like(self):
+		return self.get_like_component_text() == self.LIKE_TEXT
 
-		self.execute(btn)
-
-		return btn
+	def like(self):
+		like_component_button = self.get_like_component_button()
+		self.execute(like_component_button)
 
 
 class CommentsUserAvatar(Component):
