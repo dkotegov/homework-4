@@ -51,7 +51,7 @@ class LastCommentUserAvatar(Component):
 			lambda d: d.find_elements_by_xpath(self.COMMENTS_LIKES)
 		)
 
-		return like_component[-2]
+		return like_component[0]
 
 	def is_like(self):
 		return self.get_text(self.get_like_component()) == self.LIKE_TEXT
