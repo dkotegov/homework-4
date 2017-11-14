@@ -3,7 +3,7 @@
 from vp_check_list.base_test import BaseTest
 
 
-class CommentsTest(BaseTest):
+class SimpleActionsWithCommentsTest(BaseTest):
 	TEST_COMMENT = 'Test comment'
 
 	def test_add_comment(self):

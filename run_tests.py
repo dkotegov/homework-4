@@ -1,22 +1,20 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import unittest
 
-from vp_check_list.comments_test import CommentsTest
+from vp_check_list.comments_test import SimpleActionsWithCommentsTest
 
 from vp_check_list.login_test import LoginTest
 
 if __name__ == '__main__':
-	login_suite = unittest.TestSuite((
-		unittest.makeSuite(LoginTest),
-	))
+	suits = [
+		unittest.TestSuite((
+			unittest.makeSuite(LoginTest),
+		)),
+		unittest.TestSuite((
+			unittest.makeSuite(SimpleActionsWithCommentsTest),
+		))
+	]
 
-	comments_suite = unittest.TestSuite((
-		unittest.makeSuite(CommentsTest),
-	))
-
-	login_result = unittest.TextTestRunner().run(login_suite)
-	comments_result = unittest.TextTestRunner().run(comments_suite)
-
-	sys.exit(not (login_result.wasSuccessful() and comments_result.wasSuccessful()))
+	for test_suite in suits:
+		unittest.TextTestRunner().run(test_suite)
