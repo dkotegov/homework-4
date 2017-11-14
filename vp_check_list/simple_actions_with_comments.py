@@ -10,10 +10,10 @@ class SimpleActionsWithCommentsTest(BaseTest):
 		self.user_avatar.open_avatar()
 		self.avatar_footer = self.user_avatar.comments
 
-		# self.avatar_footer.add_comment_to_avatar(self.TEST_COMMENT)
+		self.avatar_footer.add_comment_to_avatar(self.TEST_COMMENT)
 
 	def tearDown(self):
-		# self.avatar_footer.delete_comment_from_avatar()
+		self.avatar_footer.delete_comment_from_avatar()
 		pass
 
 	def test_like_comment(self):
