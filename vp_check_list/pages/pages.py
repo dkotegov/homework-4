@@ -108,11 +108,6 @@ class UserAvatar(Component):
 			lambda d: d.find_element_by_xpath(self.AVATAR)
 		)
 
-	def get_avatar_description_button(self, avatar):
-		return WebDriverWait(avatar, 10, 0.1).until(
-			lambda d: d.find_element_by_xpath(self.AVATAR_ADD_DESCRIPTION_BUTTON)
-		)
-
 	def get_avatar_footer(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
 			lambda d: d.find_element_by_xpath(self.AVATAR_FOOTER)
