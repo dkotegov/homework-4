@@ -97,13 +97,28 @@ class UserPage(Page):
 		return UserHeader(self.driver)
 
 
+class LastCommentUserAvatar(Component):
+	AVATAR_COMMENTS_LIST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div[last()]' \
+	                       '//div[contains(@class, "comments_text")]//div'
+
+	def __init__(self, driver, avatar_footer):
+		super(LastCommentUserAvatar, self).__init__(driver)
+		self.__comment__ = self.get_last_comment(avatar_footer)
+
+	def get_last_comment(self, avatar_footer):
+		list_comments = avatar_footer.find_elements_by_xpath(self.AVATAR_COMMENTS_LIST)
+
+		return list_comments[-1]
+
+	def text(self):
+		return self.get_text(self.__comment__)
+
+
 class CommentsUserAvatar(Component):
 	AVATAR_FOOTER = '//div[@class="hookBlock photo-layer_bottom"]'
 	AVATAR_INPUT = './/div[@class="itx js-comments_add js-ok-e comments_add-ceditable "]'
 	AVATAR_INPUT_BUTTON = './/button[@class="button-pro form-actions_yes" and text()="Добавить"]'
 	AVATAR_COMMENTS_COUNT = '//div[@id="hook_Block_PhotoLayerFooterRB"]//span[@class="widget_count js-count"]'
-	AVATAR_COMMENTS_LIST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div[last()]' \
-	                       '//div[contains(@class, "comments_text")]//div'
 	AVATAR_LAST_COMMENT_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
 	                                    '//div[last()]//div[contains(@class, "comments_controls-t")]' \
 	                                    '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
@@ -111,6 +126,10 @@ class CommentsUserAvatar(Component):
 	def __init__(self, driver):
 		super(CommentsUserAvatar, self).__init__(driver)
 		self.__footer__ = self.get_avatar_footer()
+
+	@property
+	def last_comment(self):
+		return LastCommentUserAvatar(self.driver, self.__footer__)
 
 	def get_avatar_footer(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
@@ -121,14 +140,6 @@ class CommentsUserAvatar(Component):
 		return WebDriverWait(self.__footer__, 5, 0.1).until(
 			lambda d: d.find_element_by_xpath(self.AVATAR_INPUT)
 		)
-
-	def get_last_comment(self):
-		list_comments = self.__footer__.find_elements_by_xpath(self.AVATAR_COMMENTS_LIST)
-
-		return list_comments[-1]
-
-	def get_last_comment_text(self):
-		return self.get_text(self.get_last_comment())
 
 	def get_comment_amount(self):
 		counter = self.driver.find_element_by_xpath(self.AVATAR_COMMENTS_COUNT)
