@@ -52,8 +52,6 @@ class AuthPage(Page):
 		auth_form.set_password(password)
 		auth_form.submit()
 
-		return self.user_header.get_username()
-
 
 class AuthForm(Component):
 	LOGIN = '//input[@id="field_email"]'
@@ -84,9 +82,11 @@ class UserPage(Page):
 
 	def login(self):
 		auth_page = AuthPage(self.driver)
-		auth_page.open()
 
-		return auth_page.login()
+		auth_page.open()
+		auth_page.login()
+
+		return self.user_header.get_username()
 
 	@property
 	def avatar(self):
