@@ -88,6 +88,15 @@ class LastCommentUserAvatar(Component):
 			lambda d: d.repost_count() == repost_counter_before + 1
 		)
 
+	def get_delete_cancel_button(self):
+		return WebDriverWait(self.driver, 5, 0.1).until(
+			lambda d: d.find_element_by_xpath(self.COMMENTS_DELETE_CANCEL_BUTTON)
+		)
+
+	def reset_comment(self):
+		delete_cancel_button = self.get_delete_cancel_button()
+		self.execute(delete_cancel_button)
+
 
 class CommentsUserAvatar(Component):
 	AVATAR_FOOTER = '//div[@class="hookBlock photo-layer_bottom"]'
