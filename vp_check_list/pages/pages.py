@@ -100,18 +100,31 @@ class UserPage(Page):
 class LastCommentUserAvatar(Component):
 	AVATAR_COMMENTS_LIST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div[last()]' \
 	                       '//div[contains(@class, "comments_text")]//div'
+	AVATAR_LAST_COMMENT_DELETE_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
+	                                    '//div[last()]//div[contains(@class, "comments_controls-t")]' \
+	                                    '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
 
 	def __init__(self, driver, avatar_footer):
 		super(LastCommentUserAvatar, self).__init__(driver)
-		self.__comment__ = self.get_last_comment(avatar_footer)
 
-	def get_last_comment(self, avatar_footer):
-		list_comments = avatar_footer.find_elements_by_xpath(self.AVATAR_COMMENTS_LIST)
+		self.__avatar_footer__ = avatar_footer
+		self.__comment__ = self.get_last_comment()
+
+	def get_last_comment(self):
+		list_comments = self.__avatar_footer__.find_elements_by_xpath(self.AVATAR_COMMENTS_LIST)
 
 		return list_comments[-1]
 
 	def text(self):
 		return self.get_text(self.__comment__)
+
+	def get_delete_button(self):
+		return WebDriverWait(self.__avatar_footer__, 5, 0.1).until(
+			lambda d: d.find_elements_by_xpath(self.AVATAR_LAST_COMMENT_DELETE_BUTTON)
+		)
+
+	def delete_comment(self):
+		self.execute(self.get_delete_button()[-1])
 
 
 class CommentsUserAvatar(Component):
@@ -165,10 +178,9 @@ class CommentsUserAvatar(Component):
 		)
 
 	def delete_comment_from_avatar(self):
-		comment_delete_button = self.get_delete_button()[-1]
 		before_add = self.get_comment_amount()
 
-		self.execute(comment_delete_button)
+		self.last_comment.delete_comment()
 
 		WebDriverWait(self, 10, 0.1).until(
 			lambda d: d.get_comment_amount() == before_add - 1
