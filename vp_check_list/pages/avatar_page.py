@@ -13,8 +13,13 @@ class LastCommentUserAvatar(Component):
 	                         '//a[@class="fade-on-hover comments_remove ic10 ic10_close-g"]'
 	COMMENTS_LIKES = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div' \
 	                 '//div[@class="klass_w"]//span[@class="tico tico__12"]'
-	COMMENTS_REPOST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div//ul[@class="controls-list"]//li[contains(@class, "controls-list_item")][last()]//span[contains(@class, "widget_count js-count")]'
-	COMMENTS_REPOST_RESHARED_BUTTON = '//div[@class="sc-menu __reshare __noarrow sc-menu__top"]//i[@class="tico_img ic ic_reshare"]'
+	COMMENTS_REPOST = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]//div' \
+	                  '//ul[@class="controls-list"]//li[contains(@class, "controls-list_item")][last()]' \
+	                  '//span[contains(@class, "widget_count js-count")]'
+	COMMENTS_REPOST_RESHARED_BUTTON = '//div[@class="sc-menu __reshare __noarrow sc-menu__top"]' \
+	                                  '//i[@class="tico_img ic ic_reshare"]'
+	COMMENTS_DELETE_CANCEL_BUTTON = '//div[@class="hookBlock photo-layer_bottom"]//div[@class="comments_lst_cnt"]' \
+	                                '//a[@class="delete-stub_cancel il lp"]'
 	LIKE_TEXT = u'Вы'
 
 	def __init__(self, driver, avatar_footer):
