@@ -2,6 +2,7 @@
 
 import unittest
 
+from vp_check_list.combine_actions_comments_test import CombineActionsCommentsTest
 from vp_check_list.simple_actions_with_comments import SimpleActionsWithCommentsTest
 from vp_check_list.simple_add_delete_comments_test import SimpleAddDeleteCommentsTest
 
@@ -15,6 +16,7 @@ if __name__ == '__main__':
 		unittest.TestSuite((
 			unittest.makeSuite(SimpleAddDeleteCommentsTest),
 			unittest.makeSuite(SimpleActionsWithCommentsTest),
+			unittest.makeSuite(CombineActionsCommentsTest),
 		))
 	]
 

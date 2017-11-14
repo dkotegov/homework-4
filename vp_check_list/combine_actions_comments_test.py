@@ -3,12 +3,12 @@
 from vp_check_list.base_test import BaseTest
 
 
-class CombineActionsComments(BaseTest):
+class CombineActionsCommentsTest(BaseTest):
 	TEST_COMMENT = 'Test comment'
 
 	@classmethod
 	def setUpClass(cls):
-		super(CombineActionsComments, cls).setUpClass()
+		super(CombineActionsCommentsTest, cls).setUpClass()
 		cls.user_avatar.open_avatar()
 
 	def test_add_and_delete_comment(self):
