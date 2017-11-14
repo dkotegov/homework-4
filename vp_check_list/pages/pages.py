@@ -172,11 +172,6 @@ class CommentsUserAvatar(Component):
 			lambda d: d.get_comment_amount() == before_add + 1
 		)
 
-	def get_delete_button(self):
-		return WebDriverWait(self.__footer__, 5, 0.1).until(
-			lambda d: d.find_elements_by_xpath(self.AVATAR_LAST_COMMENT_DELETE_BUTTON)
-		)
-
 	def delete_comment_from_avatar(self):
 		before_add = self.get_comment_amount()
 
