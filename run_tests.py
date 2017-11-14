@@ -16,8 +16,10 @@ if __name__ == '__main__':
 		unittest.TestSuite((
 			unittest.makeSuite(SimpleAddDeleteCommentsTest),
 			unittest.makeSuite(SimpleActionsWithCommentsTest),
+		)),
+		unittest.TestSuite((
 			unittest.makeSuite(CombineActionsCommentsTest),
-		))
+		)),
 	]
 
 	for test_suite in suits:
