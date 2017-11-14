@@ -1,33 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import os
-import unittest
-
-from selenium.webdriver import DesiredCapabilities, Remote
-
-from vp_check_list.pages.pages import UserPage
+from vp_check_list.base_test import BaseTest
 
 
-class CommentsTest(unittest.TestCase):
+class CommentsTest(BaseTest):
 	TEST_COMMENT = 'Test comment'
-
-	@classmethod
-	def setUpClass(cls):
-		browser = os.environ.get('BROWSER', 'CHROME')
-
-		cls.driver = Remote(
-			command_executor='http://127.0.0.1:4444/wd/hub',
-			desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-		)
-
-		cls.user_page = UserPage(cls.driver)
-		cls.user_page.login()
-
-		cls.user_avatar = cls.user_page.avatar
-
-	@classmethod
-	def tearDownClass(cls):
-		cls.driver.quit()
 
 	def test_add_comment(self):
 		avatar = self.user_avatar.get_avatar()
