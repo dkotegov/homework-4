@@ -92,6 +92,10 @@ class UserPage(Page):
 	def avatar(self):
 		return UserAvatar(self.driver)
 
+	@property
+	def user_header(self):
+		return UserHeader(self.driver)
+
 
 class CommentsUserAvatar(Component):
 	AVATAR_FOOTER = '//div[@class="hookBlock photo-layer_bottom"]'
