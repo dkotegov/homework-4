@@ -163,13 +163,17 @@ class CommentsUserAvatar(Component):
 class UserAvatar(Component):
 	AVATAR = '//img[@id="viewImageLinkId"]'
 
+	def __init__(self, driver):
+		super(UserAvatar, self).__init__(driver)
+		self.__avatar__ = self.get_avatar()
+
 	def get_avatar(self):
 		return WebDriverWait(self.driver, 5, 0.1).until(
 			lambda d: d.find_element_by_xpath(self.AVATAR)
 		)
 
-	def open_avatar(self, avatar):
-		self.execute(avatar)
+	def open_avatar(self):
+		self.execute(self.__avatar__)
 
 	@property
 	def comments(self):
