@@ -2,25 +2,8 @@
 
 import unittest
 
-from vp_check_list.combine_actions_comments_test import CombineActionsCommentsTest
-from vp_check_list.simple_actions_with_comments import SimpleActionsWithCommentsTest
-from vp_check_list.simple_add_delete_comments_test import SimpleAddDeleteCommentsTest
-
-from vp_check_list.login_test import LoginTest
+from vp_check_list.tests import vp_tests
 
 if __name__ == '__main__':
-	suits = [
-		unittest.TestSuite((
-			unittest.makeSuite(LoginTest),
-		)),
-		unittest.TestSuite((
-			unittest.makeSuite(SimpleAddDeleteCommentsTest),
-			unittest.makeSuite(SimpleActionsWithCommentsTest),
-		)),
-		unittest.TestSuite((
-			unittest.makeSuite(CombineActionsCommentsTest),
-		)),
-	]
-
-	for test_suite in suits:
+	for test_suite in vp_tests():
 		unittest.TextTestRunner().run(test_suite)
