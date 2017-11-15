@@ -22,6 +22,7 @@ class SimpleAddDeleteCommentsTest(BaseTest):
 		comment_before_delete = avatar_footer.last_comment.text()
 
 		avatar_footer.delete_comment_from_avatar()
+		avatar_footer = self.user_avatar.comments
 
 		comment_after_delete = avatar_footer.last_comment.text()
 		self.assertNotEqual(comment_before_delete, comment_after_delete)
