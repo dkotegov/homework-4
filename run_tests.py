@@ -2,7 +2,7 @@
 
 import unittest
 
-from vp_check_list.tests import vp_tests
+from vp_check_list.run_tests import vp_tests
 
 if __name__ == '__main__':
 	for test_suite in vp_tests():

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.support.wait import WebDriverWait
 
-from vp_check_list.base_test import BaseTest
+from vp_check_list.tests.base_test import BaseTest
 
 
 class SimpleActionsWithCommentsTest(BaseTest):
