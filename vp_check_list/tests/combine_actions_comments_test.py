@@ -46,8 +46,6 @@ class CombineActionsCommentsTest(BaseTest):
 		avatar_footer.last_comment.reset_comment()
 		avatar_footer.add_comment_to_avatar('New test comment')
 
-		print comments_before, self.user_avatar.comments.get_comment_amount()
-
 		WebDriverWait(avatar_footer, 5, 0.1).until(
 			lambda d: d.get_comment_amount() == comments_before + 1
 		)
