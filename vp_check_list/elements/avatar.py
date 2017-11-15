@@ -139,7 +139,7 @@ class CommentsUserAvatar(Component):
 		button = self.__footer__.find_element_by_xpath(self.AVATAR_INPUT_BUTTON)
 		self.execute(button)
 
-		WebDriverWait(self, 10, 0.1).until(
+		WebDriverWait(self, 20, 0.1).until(
 			lambda d: d.get_comment_amount() == before_add + 1
 		)
 
@@ -148,7 +148,7 @@ class CommentsUserAvatar(Component):
 
 		self.last_comment.delete_comment()
 
-		WebDriverWait(self, 10, 0.1).until(
+		WebDriverWait(self, 20, 0.1).until(
 			lambda d: d.get_comment_amount() == before_add - 1
 		)
 
