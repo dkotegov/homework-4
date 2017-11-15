@@ -2,7 +2,7 @@
 
 from selenium.webdriver.support.wait import WebDriverWait
 
-from vp_check_list.pages.base_page import Component
+from vp_check_list.elements.base import Component
 
 
 class LastCommentUserAvatar(Component):
