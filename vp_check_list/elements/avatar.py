@@ -127,7 +127,7 @@ class CommentsUserAvatar(Component):
 			lambda d: d.find_element_by_xpath(self.AVATAR_COMMENTS_COUNT)
 		)
 
-		return int(counter.text)
+		return int(self.get_text(counter))
 
 	def add_comment_to_avatar(self, message):
 		comment_input = self.get_avatar_input()
