@@ -7,6 +7,7 @@ from vp_check_list.tests.base_test import BaseTest
 
 class CombineActionsCommentsTest(BaseTest):
 	TEST_COMMENT = 'Test comment'
+	TEST_COMMENT_2 = 'New test comment'
 
 	@classmethod
 	def setUpClass(cls):
@@ -44,7 +45,7 @@ class CombineActionsCommentsTest(BaseTest):
 
 		avatar_footer.last_comment.delete_comment()
 		avatar_footer.last_comment.reset_comment()
-		avatar_footer.add_comment_to_avatar('New test comment')
+		avatar_footer.add_comment_to_avatar(self.TEST_COMMENT_2)
 
 		WebDriverWait(avatar_footer, 5, 0.1).until(
 			lambda d: d.get_comment_amount() == comments_before + 1
