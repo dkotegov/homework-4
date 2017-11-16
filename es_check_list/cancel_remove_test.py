@@ -6,7 +6,7 @@ from page import *
 from test import Test
 
 
-class TestRemoveMark(Test):
+class TestCancelRemoveMark(Test):
 
     def test(self):
         mark_value = 5
@@ -41,10 +41,12 @@ class TestRemoveMark(Test):
 
         marks.remove(name)
 
+        marks.cancel_remove()
+
         photo_page.open()
 
         marks = photo_page.marks
         marks.open()
 
         result = marks.check_mark(mark_value, name)
-        self.assertFalse(result)
+        self.assertTrue(result)

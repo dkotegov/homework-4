@@ -10,7 +10,6 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-
 class TestCheckMarks(Test):
 
     def test(self):
@@ -37,8 +36,6 @@ class TestCheckMarks(Test):
         self.logout()
 
         self.login(USERNAME_SECOND)
-
-        person_page = PersonPage(self.driver, '')
 
         photo_page = PhotoPage(self.driver, photo[1], photo[0])
         photo_page.open()
