@@ -2,12 +2,13 @@
 
 import sys
 import unittest
-from tests.example_test import ExampleTest
+
+from es_check_list.tests import tests
 
 
 if __name__ == '__main__':
-    suite = unittest.TestSuite((
-        unittest.makeSuite(ExampleTest),
-    ))
+    suite = unittest.TestSuite(
+        tests
+    )
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

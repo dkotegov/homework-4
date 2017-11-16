@@ -48,11 +48,10 @@ class OnlinePage(Page):
     AVATAR = '//a[@class="photoWrapper"]'
     OVERLAY = '//div[@class=__auto]'
 
+    @property
     def first_person(self):
-
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
-        # wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'photoWrapper')))
 
         self.driver.find_element_by_xpath(self.AVATAR).click()
 
@@ -63,12 +62,7 @@ class OnlinePage(Page):
 
 class PersonPage(Page):
     PATH = '/profile'
-    AVATAR = '//a[@class="card_wrp"]'
-    COUNTER = '//a[@data-l="t,stats"]'
-    ALL = '//a[@href="/feed"][@class="al"]'
-    UPLOAD_PHOTO = '//input[@type="file"][@name="photo"]'
-    ALBUM = '//a[@hrefattrs="st.cmd=userPersonalPhotos"]'
-    PHOTO = '//a[@class="photo-card_cnt"]'
+    NAME = '//h1[@class="mctc_name_tx bl"]'
 
     def __init__(self, driver, login):
         Page.__init__(self, driver)
@@ -78,25 +72,16 @@ class PersonPage(Page):
     def avatar(self):
         return Avatar(self.driver)
 
-    def open_counter(self):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a[data-l="t,stats"]')))
+    @property
+    def marks_modal(self):
+        return MarksModal(self.driver)
 
-        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.COUNTER)).perform()
+    @property
+    def photo_manager(self):
+        return PhotoManager(self.driver)
 
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.al[href="/feed"]')))
-        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.ALL)).click().perform()
-
-    def upload_photo(self, url):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
-        self.driver.find_element_by_xpath(
-            self.UPLOAD_PHOTO).send_keys(os.path.join(os.getcwd(), 'es_check_list/uploads/', url))
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.ALBUM)))
-        self.driver.find_element_by_xpath(self.ALBUM).click()
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.PHOTO)))
-        url = self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href').split('/')
-        return (url[len(url) - 1], url[len(url) - 3])
+    def get_name(self):
+        return self.driver.find_element_by_xpath(self.NAME).text
 
 
 class PhotoPage(Page):
@@ -109,6 +94,10 @@ class PhotoPage(Page):
     @property
     def mark(self):
         return Mark(self.driver)
+
+    @property
+    def marks(self):
+        return MarksModal(self.driver)
 
 
 class Component(object):
@@ -183,13 +172,61 @@ class TopMenu(Component):
 
 
 class MarksModal(Component):
+    COUNTER = '//a[@data-l="t,stats"]'
+    ALL_MARKS = '//a[@class="al"]'
     MARK_VALUE = '//a[contains(text(), "{}")]/../../span/span/span[@class="marks-new_ic __ac"]'
+    REMOVE = '//a[@title="удалить"]'
+
+    def open(self):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.COUNTER)))
+
+        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.COUNTER)).perform()
+
+        try:
+            wait.until(EC.element_to_be_clickable((By.XPATH, self.ALL_MARKS)))
+        except TimeoutException:
+            return False
+        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.ALL_MARKS))\
+                .click().perform()
+
+        return True
 
     def check_mark(self, expected_value, username):
 
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.MARK_VALUE.format(username))))
+        try:
+            wait.until(EC.element_to_be_clickable((By.XPATH, self.MARK_VALUE.format(username))))
+        except TimeoutException:
+            return False
+
         value = int(self.driver.find_element_by_xpath(self.MARK_VALUE.format(username)).text)
 
         return value == expected_value
 
+    def remove(self, name):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.MARK_VALUE.format(name))))
+        ActionChains(self.driver).move_to_element(
+            self.driver.find_element_by_xpath(self.MARK_VALUE.format(name))).perform()
+
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.REMOVE)))
+        ActionChains(self.driver).move_to_element(
+            self.driver.find_element_by_xpath(self.REMOVE)).click().perform()
+
+
+class PhotoManager(Component):
+    UPLOAD_PHOTO = '//input[@type="file"][@name="photo"]'
+    ALBUM = '//a[@hrefattrs="st.cmd=userPersonalPhotos"]'
+    PHOTO = '//a[@class="photo-card_cnt"]'
+
+    def upload_photo(self, url):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
+        self.driver.find_element_by_xpath(
+            self.UPLOAD_PHOTO).send_keys(os.path.join(os.getcwd(), 'es_check_list/uploads/', url))
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.ALBUM)))
+        self.driver.find_element_by_xpath(self.ALBUM).click()
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.PHOTO)))
+        url = self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href').split('/')
+        return url[len(url) - 1], url[len(url) - 3]

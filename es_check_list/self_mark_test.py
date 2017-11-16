@@ -11,7 +11,7 @@ from test import Test
 
 class TestSelfMark(Test):
     def test(self):
-        self.login()
+        self.login(USERNAME_FIRST)
 
         person_page = PersonPage(self.driver, '')
 

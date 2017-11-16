@@ -17,7 +17,7 @@ class TestAllMarkValues(Test):
         person_page = PersonPage(self.driver, '')
 
         for i in expected_marks:
-            photos.append(person_page.upload_photo('pic.jpg'))
+            photos.append(person_page.photo_manager.upload_photo('pic.jpg'))
 
         self.logout()
         self.login(USERNAME_FIRST)
