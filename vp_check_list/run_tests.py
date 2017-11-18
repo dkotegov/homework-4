@@ -7,6 +7,7 @@ from vp_check_list.tests.errors_tests import ErrorsCommentsTest
 from vp_check_list.tests.login_test import LoginTest
 from vp_check_list.tests.simple_actions_with_comments import SimpleActionsWithCommentsTest
 from vp_check_list.tests.simple_add_delete_comments_test import SimpleAddDeleteCommentsTest
+from vp_check_list.tests.xss_test import XssTest
 
 
 def vp_tests():
@@ -23,5 +24,6 @@ def vp_tests():
 		)),
 		unittest.TestSuite((
 			unittest.makeSuite(ErrorsCommentsTest),
+			unittest.makeSuite(XssTest),
 		)),
 	]
