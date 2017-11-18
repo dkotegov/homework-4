@@ -5,10 +5,16 @@ from vp_check_list.tests.base_test import BaseTest
 
 
 class ErrorsCommentsTest(BaseTest):
+	TEST_COMMENT = 'Test comment error'
+
 	@classmethod
 	def setUpClass(cls):
 		super(ErrorsCommentsTest, cls).setUpClass()
+
 		cls.user_avatar.open_avatar()
+		cls.avatar_footer = cls.user_avatar.comments
+
+		cls.avatar_footer.add_comment_to_avatar(cls.TEST_COMMENT)
 
 	def test_like_deleted_comment(self):
 		avatar_footer = self.user_avatar.comments
