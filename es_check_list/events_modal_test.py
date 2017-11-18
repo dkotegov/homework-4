@@ -69,3 +69,27 @@ class RemoveMarkEventTest(BasicTest):
         events_modal.open()
 
         self.assertNotEqual(photo, events_modal.get_photo())
+
+
+class CancelRemoveMarkEventTest(BasicTest):
+    def test(self):
+        mark_value = 5
+        marks = [mark_value]
+
+        photos = self.upload_photo(USERNAME_SECOND)
+        self.photos = photos
+        name = self.set_marks(USERNAME_FIRST, photos, marks)
+
+        self.login(USERNAME_SECOND)
+
+        page = Page(self.driver)
+        events_modal = page.top_menu.events_modal
+        events_modal.open()
+
+        marks_modal = events_modal.marks_modal
+        marks_modal.open(True)
+
+        marks_modal.remove(name)
+        marks_modal.cancel_remove()
+
+        self.assertTrue(self.check_marks(None, photos, marks, name, False))

@@ -157,6 +157,7 @@ class TopMenu(Component):
 
     def logout(self):
         self.driver.find_element_by_xpath(self.LOGOUT).click()
+        self.driver.implicitly_wait(10)
         self.driver.find_element_by_xpath(self.LOGOUT_CONFIRM).click()
 
     @property
@@ -211,8 +212,10 @@ class PhotoManager(Component):
     PHOTO = '//a[@class="photo-card_cnt"]'
 
     def upload_photo(self, url):
+        self.driver.implicitly_wait(0)
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
+        self.driver.implicitly_wait(10)
         self.driver.find_element_by_xpath(
             self.UPLOAD_PHOTO).send_keys(os.path.join(os.getcwd(), 'es_check_list/uploads/', url))
         self.driver.find_element_by_xpath(self.ALBUM).click()
