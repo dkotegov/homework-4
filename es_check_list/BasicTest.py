@@ -8,7 +8,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from page import *
 
 
-class Test(unittest.TestCase):
+class BasicTest(unittest.TestCase):
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
