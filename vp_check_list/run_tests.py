@@ -3,6 +3,7 @@
 import unittest
 
 from vp_check_list.tests.combine_actions_comments_test import CombineActionsCommentsTest
+from vp_check_list.tests.errors_tests import ErrorsCommentsTest
 from vp_check_list.tests.login_test import LoginTest
 from vp_check_list.tests.simple_actions_with_comments import SimpleActionsWithCommentsTest
 from vp_check_list.tests.simple_add_delete_comments_test import SimpleAddDeleteCommentsTest
@@ -19,5 +20,8 @@ def vp_tests():
 		)),
 		unittest.TestSuite((
 			unittest.makeSuite(CombineActionsCommentsTest),
+		)),
+		unittest.TestSuite((
+			unittest.makeSuite(ErrorsCommentsTest),
 		)),
 	]

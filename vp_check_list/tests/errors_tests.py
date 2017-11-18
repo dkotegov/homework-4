@@ -3,10 +3,10 @@
 from vp_check_list.tests.base_test import BaseTest
 
 
-class CombineActionsCommentsTest(BaseTest):
+class ErrorsCommentsTest(BaseTest):
 	@classmethod
 	def setUpClass(cls):
-		super(CombineActionsCommentsTest, cls).setUpClass()
+		super(ErrorsCommentsTest, cls).setUpClass()
 		cls.user_avatar.open_avatar()
 
 	def test_like_deleted_comment(self):
