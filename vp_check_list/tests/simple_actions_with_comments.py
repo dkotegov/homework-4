@@ -22,13 +22,15 @@ class SimpleActionsWithCommentsTest(BaseTest):
 		self.avatar_footer.delete_comment_from_avatar()
 
 	def test_like_comment(self):
-		like_before = self.avatar_footer.last_comment.is_like()
-		self.avatar_footer.last_comment.like()
+		last_comment = self.avatar_footer.last_comment
+		like_before = last_comment.is_like()
+
+		last_comment.like()
 
 		WebDriverWait(self, 5, 0.1).until(
-			lambda d: like_before != self.avatar_footer.last_comment.is_like()
+			lambda d: like_before != last_comment.is_like()
 		)
-		like_after = self.avatar_footer.last_comment.is_like()
+		like_after = last_comment.is_like()
 
 		self.assertNotEqual(like_before, like_after)
 
