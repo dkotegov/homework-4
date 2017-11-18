@@ -32,7 +32,7 @@ class CombineActionsCommentsTest(BaseTest):
 		avatar_footer.last_comment.delete_comment()
 		avatar_footer.last_comment.reset_comment()
 
-		WebDriverWait(avatar_footer, 5, 0.1).until(
+		WebDriverWait(avatar_footer, 10, 0.1).until(
 			lambda d: d.get_comment_amount() == comments_before
 		)
 		comments_after = avatar_footer.get_comment_amount()
