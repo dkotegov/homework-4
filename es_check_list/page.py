@@ -8,7 +8,7 @@ import urlparse
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 from selenium.webdriver.common.action_chains import ActionChains
 
 
@@ -73,10 +73,6 @@ class PersonPage(Page):
         return Avatar(self.driver)
 
     @property
-    def marks_modal(self):
-        return MarksModal(self.driver)
-
-    @property
     def photo_manager(self):
         return PhotoManager(self.driver)
 
@@ -101,8 +97,6 @@ class PhotoPage(Page):
         return MarksModal(self.driver)
 
     def remove(self):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.REMOVE)))
         self.driver.find_element_by_xpath(self.REMOVE).click()
 
 
@@ -116,16 +110,12 @@ class Mark(Component):
     RESULT = '//div[@class="marks marks-new __light jcol-r"]//span[contains(@class,"marks-new_ic")]'
 
     def set_mark(self, mark=5):
-        wait = WebDriverWait(self.driver, 10)
         try:
-            wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.marks-new_ic')))
+            self.driver.find_element_by_xpath(self.MARK.format(mark)).click()
         except TimeoutException:
             return 0
-        self.driver.find_element_by_xpath(self.MARK.format(mark)).click()
 
     def check_mark(self):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.RESULT)))
         return self.driver.find_element_by_xpath(self.RESULT).text
 
 
@@ -135,8 +125,6 @@ class AuthForm(Component):
     SUBMIT = '//input[@data-l="t,loginButton"]'
 
     def set_login(self, login):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.LOGIN)))
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):
@@ -152,9 +140,6 @@ class Avatar(Component):
     def open(self):
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
-
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.card_wrp')))
-
         self.driver.find_element_by_xpath(self.AVATAR).click()
 
     @property
@@ -168,65 +153,55 @@ class TopMenu(Component):
     LOGOUT_CONFIRM = '//input[@data-l="t,confirm"]'
 
     def open(self):
-        #wait = WebDriverWait(self.driver, 10)
-        #wait.until(EC.invisibility_of_element_located((By.ID, 'popLayer_mo')))
         self.driver.find_element_by_xpath(self.DROPDOWN).click()
 
     def logout(self):
         self.driver.find_element_by_xpath(self.LOGOUT).click()
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'input[data-l="t,confirm"]')))
         self.driver.find_element_by_xpath(self.LOGOUT_CONFIRM).click()
+
+    @property
+    def events_modal(self):
+        return EventsModal(self.driver)
 
 
 class MarksModal(Component):
     COUNTER = '//a[@data-l="t,stats"]'
+    EVENTS_COUNTER = '//span[@class="widget_ico ic12 ic12_i_marks-g"]'
     ALL_MARKS = '//a[@class="al"]'
     MARK_VALUE = '//a[contains(text(), "{}")]/../../span/span/span[@class="marks-new_ic __ac"]'
     REMOVE = '//a[@title="удалить"]'
     CANCEL = '//a[@class="il lp ml-x"]'
+    TIME = '//a[contains(text(), "Евгеша")]/../../../../../div[@class="notif_footer"]/span'
 
-    def open(self):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.COUNTER)))
+    def open(self, events=False):
+        if not events:
+            ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.COUNTER)).perform()
+            try:
+                ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.ALL_MARKS)) \
+                    .click().perform()
+            except TimeoutException:
+                return False
+        else:
+            self.driver.find_element_by_xpath(self.EVENTS_COUNTER).click()
 
-        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.COUNTER)).perform()
-
-        try:
-            wait.until(EC.element_to_be_clickable((By.XPATH, self.ALL_MARKS)))
-        except TimeoutException:
-            return False
-        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.ALL_MARKS))\
-                .click().perform()
 
         return True
 
     def check_mark(self, expected_value, name):
-
-        wait = WebDriverWait(self.driver, 10)
         try:
-            wait.until(EC.element_to_be_clickable((By.XPATH, self.MARK_VALUE.format(name))))
-        except TimeoutException:
+            value = int(self.driver.find_element_by_xpath(self.MARK_VALUE.format(name)).text)
+        except:
             return False
-
-        value = int(self.driver.find_element_by_xpath(self.MARK_VALUE.format(name)).text)
-
         return value == expected_value
 
     def remove(self, name):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.MARK_VALUE.format(name))))
         ActionChains(self.driver).move_to_element(
             self.driver.find_element_by_xpath(self.MARK_VALUE.format(name))).perform()
 
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.REMOVE)))
         ActionChains(self.driver).move_to_element(
             self.driver.find_element_by_xpath(self.REMOVE)).click().perform()
 
     def cancel_remove(self):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.CANCEL)))
-
         ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.CANCEL)).click().perform()
 
 
@@ -240,8 +215,27 @@ class PhotoManager(Component):
         wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
         self.driver.find_element_by_xpath(
             self.UPLOAD_PHOTO).send_keys(os.path.join(os.getcwd(), 'es_check_list/uploads/', url))
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.ALBUM)))
         self.driver.find_element_by_xpath(self.ALBUM).click()
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.PHOTO)))
         url = self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href').split('/')
         return url[len(url) - 1], url[len(url) - 3]
+
+
+class EventsModal(Component):
+    EVENTS = '//div[@class="toolbar_nav_i_tx-w usel-off"][contains(text(), "События")]'
+    MARK = '//a[contains(text(), "{}")]/../../../../../../../div/div[@class="feedback_type"]/span'
+    PHOTO = '//div[@data-l="t,previewCard"]/a'
+
+    def open(self):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
+        self.driver.find_element_by_xpath(self.EVENTS).click()
+
+    def check_mark(self, name, mark):
+        return int(self.driver.find_element_by_xpath(self.MARK.format(name)).text) == mark
+
+    @property
+    def marks_modal(self):
+        return MarksModal(self.driver)
+
+    def get_photo(self):
+        return self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href')

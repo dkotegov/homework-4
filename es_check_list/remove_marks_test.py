@@ -6,7 +6,7 @@ from page import *
 from BasicTest import BasicTest
 
 
-class TestRemoveMark(BasicTest):
+class RemoveMarkTest(BasicTest):
 
     def test(self):
         mark_value = 5
@@ -34,7 +34,7 @@ class CancelRemoveMarkTest(BasicTest):
         self.assertTrue(self.check_marks(None, photos, marks, name, False))
 
 
-class TestSetNewMark(BasicTest):
+class SetNewMarkTest(BasicTest):
 
     def test(self):
         mark_value = 5

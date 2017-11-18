@@ -18,6 +18,8 @@ class BasicTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
+        self.driver.implicitly_wait(10)
+
     def tearDown(self):
         self.driver.quit()
 

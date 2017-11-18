@@ -8,7 +8,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-class TestAllMarkValues(BasicTest):
+class AllMarkValuesTest(BasicTest):
 
     def test(self):
         marks = range(1,6)
@@ -19,7 +19,7 @@ class TestAllMarkValues(BasicTest):
         self.assertTrue(self.check_marks(USERNAME_SECOND, photos, marks, name, False))
 
 
-class TestSelfMark(BasicTest):
+class SelfMarkTest(BasicTest):
     def test(self):
         self.login(USERNAME_FIRST)
 
