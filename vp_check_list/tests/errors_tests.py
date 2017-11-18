@@ -19,3 +19,14 @@ class ErrorsCommentsTest(BaseTest):
 		comment_after = last_comment.is_like()
 
 		self.assertEqual(comment_before, comment_after)
+
+	def test_repost_deleted_comment(self):
+		avatar_footer = self.user_avatar.comments
+		last_comment = avatar_footer.last_comment
+
+		repost_before = last_comment.repost_count()
+		last_comment.delete_comment()
+		last_comment.repost()
+		repost_after = last_comment.repost_count()
+
+		self.assertEqual(repost_before, repost_after)
