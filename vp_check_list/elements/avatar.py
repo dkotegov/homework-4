@@ -86,7 +86,7 @@ class LastCommentUserAvatar(Component):
 		self.execute(repost_reshared)
 
 		WebDriverWait(self, 5, 0.1).until(
-			lambda d: d.repost_count() == repost_counter_before + 1
+			self.compare_reposts(repost_counter_before)
 		)
 
 	def get_delete_cancel_button(self):
@@ -103,9 +103,22 @@ class LastCommentUserAvatar(Component):
 		def compare(comment):
 			try:
 				if not is_negative:
-					return comment.is_like() != first_comment
+					return comment.is_like() == first_comment
 
-				return comment.is_like() == first_comment
+				return comment.is_like() != first_comment
+			except StaleElementReferenceException:
+				return False
+
+		return compare
+
+	@staticmethod
+	def compare_reposts(first_comment, is_negative=True):
+		def compare(comment):
+			try:
+				if not is_negative:
+					return comment.repost_count() == first_comment + 1
+
+				return comment.repost_count() != first_comment + 1
 			except StaleElementReferenceException:
 				return False
 
