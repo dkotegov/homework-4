@@ -86,6 +86,7 @@ class PersonPage(Page):
 
 class PhotoPage(Page):
     TEMPLATE = '/profile/{}/pphotos/{}'
+    REMOVE = '//a[@class="ic-w lp"]'
 
     def __init__(self, driver, user, photo):
         Page.__init__(self, driver)
@@ -98,6 +99,11 @@ class PhotoPage(Page):
     @property
     def marks(self):
         return MarksModal(self.driver)
+
+    def remove(self):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.REMOVE)))
+        self.driver.find_element_by_xpath(self.REMOVE).click()
 
 
 class Component(object):
@@ -129,6 +135,8 @@ class AuthForm(Component):
     SUBMIT = '//input[@data-l="t,loginButton"]'
 
     def set_login(self, login):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.LOGIN)))
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):

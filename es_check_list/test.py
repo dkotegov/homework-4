@@ -34,3 +34,78 @@ class Test(unittest.TestCase):
         page.open()
         page.top_menu.open()
         page.top_menu.logout()
+
+    def upload_photo(self, username, count=1):
+        self.login(username)
+
+        person_page = PersonPage(self.driver, '')
+        photos = []
+
+        for i in range(count):
+            photos.append(person_page.photo_manager.upload_photo('pic.jpg'))
+
+        self.logout()
+        return photos
+
+    def remove_photos(self, username, photos):
+        self.logout()
+        self.login(username)
+
+        for i in photos:
+            photo_page = PhotoPage(self.driver, i[1], i[0])
+            photo_page.open()
+            photo_page.remove()
+
+        self.logout()
+        return photos
+
+    def set_marks(self, username, photos, marks):
+        self.login(username)
+
+        person_page = PersonPage(self.driver, '')
+        name = person_page.get_name()
+
+        for i in range(len(photos)):
+            photo_page = PhotoPage(self.driver, photos[i][1], photos[i][0])
+            photo_page.open()
+
+            print(marks[i])
+            mark = photo_page.mark
+            mark.set_mark(marks[i])
+
+        self.logout()
+        return name
+
+    def remove_marks(self, username, photos, name, logout=True, cancel=False):
+        self.login(username)
+
+        for photo in photos:
+            photo_page = PhotoPage(self.driver, photo[1], photo[0])
+            photo_page.open()
+
+            marks = photo_page.marks
+            marks.open()
+
+            marks.remove(name)
+
+            marks.cancel_remove() if cancel else None
+
+        self.logout() if logout else None
+
+    def check_marks(self, username, photos, mark_values, name, logout=True):
+        self.login(username) if username else None
+
+        for i in range(len(photos)):
+            photo_page = PhotoPage(self.driver, photos[i][1], photos[0][0])
+            photo_page.open()
+
+            marks = photo_page.marks
+            marks.open()
+
+            if not marks.check_mark(mark_values[i], name):
+                self.logout() if logout else None
+                return False
+
+        self.logout() if logout else None
+
+        return True

@@ -6,7 +6,7 @@ from page import *
 from test import Test
 
 
-class TestRemoveMark(Test):
+class TestSetNewMark(Test):
 
     def test(self):
         mark_value = 5
@@ -15,6 +15,8 @@ class TestRemoveMark(Test):
         photos = self.upload_photo(USERNAME_SECOND)
         name = self.set_marks(USERNAME_FIRST, photos, marks)
 
-        self.remove_marks(USERNAME_SECOND, photos, name, False)
+        self.remove_marks(USERNAME_SECOND, photos, name)
 
-        self.assertFalse(self.check_marks(None, photos, marks, name, False))
+        name = self.set_marks(USERNAME_FIRST, photos, marks)
+
+        self.assertTrue(self.check_marks(USERNAME_SECOND, photos, marks, name, False))

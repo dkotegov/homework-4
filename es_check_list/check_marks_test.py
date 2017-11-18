@@ -31,7 +31,7 @@ class TestCheckMarks(Test):
         photo_page.open()
 
         mark = photo_page.mark
-        mark.set_mark(mark_value)
+        mark.set_marks(mark_value)
 
         self.logout()
 

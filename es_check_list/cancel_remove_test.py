@@ -10,43 +10,11 @@ class TestCancelRemoveMark(Test):
 
     def test(self):
         mark_value = 5
+        marks = [mark_value]
 
-        self.login(USERNAME_SECOND)
+        photos = self.upload_photo(USERNAME_SECOND)
+        name = self.set_marks(USERNAME_FIRST, photos, marks)
 
-        person_page = PersonPage(self.driver, '')
-        photo = person_page.photo_manager.upload_photo('pic.jpg')
+        self.remove_marks(USERNAME_SECOND, photos, name, False, True)
 
-        self.logout()
-        self.login(USERNAME_FIRST)
-
-        person_page = PersonPage(self.driver, '')
-
-        name = person_page.get_name()
-
-        photo_page = PhotoPage(self.driver, photo[1], photo[0])
-        photo_page.open()
-
-        mark = photo_page.mark
-        mark.set_mark(mark_value)
-
-        self.logout()
-
-        self.login(USERNAME_SECOND)
-
-        photo_page = PhotoPage(self.driver, photo[1], photo[0])
-        photo_page.open()
-
-        marks = photo_page.marks
-        marks.open()
-
-        marks.remove(name)
-
-        marks.cancel_remove()
-
-        photo_page.open()
-
-        marks = photo_page.marks
-        marks.open()
-
-        result = marks.check_mark(mark_value, name)
-        self.assertTrue(result)
+        self.assertTrue(self.check_marks(None, photos, marks, name, False))
