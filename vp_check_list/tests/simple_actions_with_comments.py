@@ -28,8 +28,8 @@ class SimpleActionsWithCommentsTest(BaseTest):
 
 		last_comment.like()
 
-		WebDriverWait(last_comment, 5, 0.1).until(
-			LastCommentUserAvatar.compare_likes(like_before)
+		WebDriverWait(last_comment, 15, 0.1).until(
+			LastCommentUserAvatar.compare_likes(like_before, False)
 		)
 		like_after = last_comment.is_like()
 

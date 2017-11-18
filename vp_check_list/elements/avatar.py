@@ -99,9 +99,12 @@ class LastCommentUserAvatar(Component):
 		self.execute(delete_cancel_button)
 
 	@staticmethod
-	def compare_likes(first_comment):
+	def compare_likes(first_comment, is_negative=True):
 		def compare(comment):
 			try:
+				if not is_negative:
+					return comment.is_like() != first_comment
+
 				return comment.is_like() == first_comment
 			except StaleElementReferenceException:
 				return False
