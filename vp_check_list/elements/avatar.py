@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 
 from vp_check_list.elements.base import Component
@@ -107,6 +107,8 @@ class LastCommentUserAvatar(Component):
 
 				return comment.is_like() != first_comment
 			except StaleElementReferenceException:
+				return False
+			except TimeoutException:
 				return False
 
 		return compare
