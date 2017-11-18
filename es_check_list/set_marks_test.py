@@ -14,6 +14,7 @@ class AllMarkValuesTest(BasicTest):
         marks = range(1,6)
 
         photos = self.upload_photo(USERNAME_SECOND, len(marks))
+        self.photos = photos
         name = self.set_marks(USERNAME_FIRST, photos, marks)
 
         self.assertTrue(self.check_marks(USERNAME_SECOND, photos, marks, name, False))

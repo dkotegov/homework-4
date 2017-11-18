@@ -10,6 +10,7 @@ class HasNewEventTest(BasicTest):
         marks = [mark_value]
 
         photos = self.upload_photo(USERNAME_SECOND)
+        self.photos = photos
         name = self.set_marks(USERNAME_FIRST, photos, marks)
 
         self.login(USERNAME_SECOND)
@@ -27,6 +28,7 @@ class CheckMarksEventTest(BasicTest):
         marks = [mark_value]
 
         photos = self.upload_photo(USERNAME_SECOND)
+        self.photos = photos
         name = self.set_marks(USERNAME_FIRST, photos, marks)
 
         self.login(USERNAME_SECOND)
@@ -47,6 +49,7 @@ class RemoveMarkEventTest(BasicTest):
         marks = [mark_value]
 
         photos = self.upload_photo(USERNAME_SECOND)
+        self.photos = photos
         name = self.set_marks(USERNAME_FIRST, photos, marks)
 
         self.login(USERNAME_SECOND)

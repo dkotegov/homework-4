@@ -19,8 +19,10 @@ class BasicTest(unittest.TestCase):
         )
 
         self.driver.implicitly_wait(10)
+        self.photos = []
 
     def tearDown(self):
+        self.remove_photos(USERNAME_SECOND, self.photos)
         self.driver.quit()
 
     def login(self, username):
