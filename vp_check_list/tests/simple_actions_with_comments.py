@@ -2,6 +2,7 @@
 
 from selenium.webdriver.support.wait import WebDriverWait
 
+from vp_check_list.elements.avatar import LastCommentUserAvatar
 from vp_check_list.tests.base_test import BaseTest
 
 
@@ -27,8 +28,8 @@ class SimpleActionsWithCommentsTest(BaseTest):
 
 		last_comment.like()
 
-		WebDriverWait(self, 5, 0.1).until(
-			lambda d: like_before != last_comment.is_like()
+		WebDriverWait(last_comment, 5, 0.1).until(
+			LastCommentUserAvatar.compare_likes(like_before)
 		)
 		like_after = last_comment.is_like()
 

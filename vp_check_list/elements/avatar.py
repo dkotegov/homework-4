@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.support.wait import WebDriverWait
 
 from vp_check_list.elements.base import Component
@@ -96,6 +97,16 @@ class LastCommentUserAvatar(Component):
 	def reset_comment(self):
 		delete_cancel_button = self.get_delete_cancel_button()
 		self.execute(delete_cancel_button)
+
+	@staticmethod
+	def compare_likes(first_comment):
+		def compare(comment):
+			try:
+				return comment.is_like() == first_comment
+			except StaleElementReferenceException:
+				return False
+
+		return compare
 
 
 class CommentsUserAvatar(Component):
