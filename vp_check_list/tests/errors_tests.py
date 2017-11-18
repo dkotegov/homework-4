@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
+from selenium.common.exceptions import TimeoutException
 
 from vp_check_list.tests.base_test import BaseTest
 
@@ -35,16 +35,6 @@ class ErrorsCommentsTest(BaseTest):
 		last_comment.delete_comment()
 		try:
 			last_comment.repost()
-			repost_after = last_comment.repost_count()
-
-			self.assertEqual(repost_before, repost_after)
-		except StaleElementReferenceException:
-			try:
-				last_comment.repost()
-			except TimeoutException:
-				self.assertEqual(1, 1)
-				return
-
 			repost_after = last_comment.repost_count()
 
 			self.assertEqual(repost_before, repost_after)
