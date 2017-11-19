@@ -5,7 +5,7 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from like_tests.components.html.UserPage import UserPage
+from like_tests.elements.user.pages import UserPage
 
 
 class LoginTest(unittest.TestCase):
