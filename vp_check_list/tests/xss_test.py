@@ -6,12 +6,7 @@ from vp_check_list.tests.base_test import BaseTest
 
 
 class XssTest(BaseTest):
-	TEST_XSS_COMMENT = "<script>alert('xss');</script>"
-
-	@classmethod
-	def setUpClass(cls):
-		super(XssTest, cls).setUpClass()
-		cls.user_avatar.open_avatar()
+	TEST_XSS_COMMENT = '<script>alert("xss");</script>'
 
 	def test_add_xss_comment(self):
 		self.user_avatar.open_avatar()
