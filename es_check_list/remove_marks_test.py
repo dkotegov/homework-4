@@ -14,7 +14,8 @@ class RemoveMarkTest(BasicTest):
 
         photos = self.upload_photo(USERNAME_SECOND)
         self.photos = photos
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks)
 
         self.remove_marks(USERNAME_SECOND, photos, name, False)
 
@@ -29,7 +30,8 @@ class CancelRemoveMarkTest(BasicTest):
 
         photos = self.upload_photo(USERNAME_SECOND)
         self.photos = photos
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks)
 
         self.remove_marks(USERNAME_SECOND, photos, name, False, True)
 
@@ -44,11 +46,13 @@ class SetNewMarkTest(BasicTest):
 
         photos = self.upload_photo(USERNAME_SECOND)
         self.photos = photos
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks)
 
         self.remove_marks(USERNAME_SECOND, photos, name)
 
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks)
 
         self.assertTrue(self.check_marks(USERNAME_SECOND, photos, marks, name, False))
 

@@ -8,7 +8,7 @@ import urlparse
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 
 
@@ -26,7 +26,7 @@ class Page(object):
 
     def open(self):
         url = urlparse.urljoin(self.BASE_URL, self.PATH)
-        print(url)
+        # print(url)
         self.driver.maximize_window()
         self.driver.get(url)
 
@@ -64,7 +64,7 @@ class PersonPage(Page):
     PATH = '/profile'
     NAME = '//h1[@class="mctc_name_tx bl"]'
 
-    def __init__(self, driver, login):
+    def __init__(self, driver, login=''):
         Page.__init__(self, driver)
         self.PATH += '/' + login
 
@@ -108,15 +108,34 @@ class Component(object):
 class Mark(Component):
     MARK = '//a[contains(@class,"marks-new_ic")][text()="{}"]'
     RESULT = '//div[@class="marks marks-new __light jcol-r"]//span[contains(@class,"marks-new_ic")]'
+    UPDATE = '//a[@class="il marks-new_lk"]'
+    FIVE_PLUS = '//span[@class="marks-new_ic-tx va_target"] ' \
+                '| //div[@id="hook_Block_PopLayerViewFriendPhotoRating"]/a[@class="marks-new_ic __plus"]'
+    UPDATE_MODAL_TITLE = '//div[@class="portlet_h_name_t"]'
 
     def set_mark(self, mark=5):
         try:
             self.driver.find_element_by_xpath(self.MARK.format(mark)).click()
-        except TimeoutException:
-            return 0
+            return True
+        except NoSuchElementException:
+            return False
 
     def check_mark(self):
         return self.driver.find_element_by_xpath(self.RESULT).text
+
+    def update(self):
+        self.driver.find_element_by_xpath(self.UPDATE).click()
+        self.driver.find_element_by_xpath(self.FIVE_PLUS).click()
+        self.driver.implicitly_wait(0)
+        wait = WebDriverWait(self.driver, 10)
+        try:
+            wait.until(EC.invisibility_of_element_located((By.XPATH, self.UPDATE_MODAL_TITLE)))
+        except TimeoutException:
+            return False
+        finally:
+            self.driver.implicitly_wait(10)
+
+        return True
 
 
 class AuthForm(Component):
@@ -169,10 +188,9 @@ class MarksModal(Component):
     COUNTER = '//a[@data-l="t,stats"]'
     EVENTS_COUNTER = '//span[@class="widget_ico ic12 ic12_i_marks-g"]'
     ALL_MARKS = '//a[@class="al"]'
-    MARK_VALUE = '//a[contains(text(), "{}")]/../../span/span/span[@class="marks-new_ic __ac"]'
+    MARK_VALUE = '//a[contains(text(), "{}")]/../../span/span/span[contains(@class, "marks-new_ic __ac")]'
     REMOVE = '//a[@title="удалить"]'
     CANCEL = '//a[@class="il lp ml-x"]'
-    TIME = '//a[contains(text(), "Евгеша")]/../../../../../div[@class="notif_footer"]/span'
 
     def open(self, events=False):
         if not events:
@@ -180,12 +198,10 @@ class MarksModal(Component):
             try:
                 ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.ALL_MARKS)) \
                     .click().perform()
-            except TimeoutException:
+            except NoSuchElementException:
                 return False
         else:
             self.driver.find_element_by_xpath(self.EVENTS_COUNTER).click()
-
-
         return True
 
     def check_mark(self, expected_value, name):
@@ -209,7 +225,9 @@ class MarksModal(Component):
 class PhotoManager(Component):
     UPLOAD_PHOTO = '//input[@type="file"][@name="photo"]'
     ALBUM = '//a[@hrefattrs="st.cmd=userPersonalPhotos"]'
-    PHOTO = '//a[@class="photo-card_cnt"]'
+    PHOTO = '//a[@class="photo-card_cnt"][@href!="{}"]'
+
+    last_href = None
 
     def upload_photo(self, url):
         self.driver.implicitly_wait(0)
@@ -219,7 +237,8 @@ class PhotoManager(Component):
         self.driver.find_element_by_xpath(
             self.UPLOAD_PHOTO).send_keys(os.path.join(os.getcwd(), 'es_check_list/uploads/', url))
         self.driver.find_element_by_xpath(self.ALBUM).click()
-        url = self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href').split('/')
+        self.last_href = self.driver.find_element_by_xpath(self.PHOTO.format(self.last_href)).get_attribute('href')
+        url = self.last_href.split('/')
         return url[len(url) - 1], url[len(url) - 3]
 
 
@@ -229,9 +248,15 @@ class EventsModal(Component):
     PHOTO = '//div[@data-l="t,previewCard"]/a'
 
     def open(self):
+        self.driver.implicitly_wait(0)
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
-        self.driver.find_element_by_xpath(self.EVENTS).click()
+        try:
+            wait.until(EC.invisibility_of_element_located((By.ID, 'photoLayerWrapper')))
+            wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
+        finally:
+            self.driver.implicitly_wait(10)
+
+            self.driver.find_element_by_xpath(self.EVENTS).click()
 
     def check_mark(self, name, mark):
         return int(self.driver.find_element_by_xpath(self.MARK.format(name)).text) == mark

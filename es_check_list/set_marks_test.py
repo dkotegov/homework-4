@@ -15,21 +15,30 @@ class AllMarkValuesTest(BasicTest):
 
         photos = self.upload_photo(USERNAME_SECOND, len(marks))
         self.photos = photos
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks)
 
         self.assertTrue(self.check_marks(USERNAME_SECOND, photos, marks, name, False))
 
 
 class SelfMarkTest(BasicTest):
     def test(self):
-        self.login(USERNAME_FIRST)
+        marks = [5]
+        photos = self.upload_photo(USERNAME_SECOND, len(marks), False)
+        self.photos = photos
+        self.assertFalse(self.set_marks(None, photos, marks, False))
 
-        person_page = PersonPage(self.driver, '')
 
-        avatar = person_page.avatar
-        avatar.open()
+class UpdateMarkTest(BasicTest):
+    def test(self):
+        marks = [5]
 
-        mark = Mark(self.driver)
-        mark_value = mark.set_mark()
+        photos = self.upload_photo(USERNAME_SECOND, len(marks))
+        self.photos = photos
+        self.set_marks(USERNAME_FIRST, photos, marks, False)
 
-        self.assertEqual(mark_value, 0)
+        photo_page = PhotoPage(self.driver, photos[0][1], photos[0][0])
+        photo_page.open()
+        mark = photo_page.mark
+
+        self.assertTrue(mark.update())

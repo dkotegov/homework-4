@@ -39,7 +39,7 @@ class BasicTest(unittest.TestCase):
         page.top_menu.open()
         page.top_menu.logout()
 
-    def upload_photo(self, username, count=1):
+    def upload_photo(self, username, count=1, logout=True):
         self.login(username)
 
         person_page = PersonPage(self.driver, '')
@@ -48,7 +48,7 @@ class BasicTest(unittest.TestCase):
         for i in range(count):
             photos.append(person_page.photo_manager.upload_photo('pic.jpg'))
 
-        self.logout()
+        self.logout() if logout else None
         return photos
 
     def remove_photos(self, username, photos):
@@ -63,22 +63,19 @@ class BasicTest(unittest.TestCase):
         self.logout()
         return photos
 
-    def set_marks(self, username, photos, marks):
-        self.login(username)
-
-        person_page = PersonPage(self.driver, '')
-        name = person_page.get_name()
+    def set_marks(self, username, photos, marks, logout=True):
+        self.login(username) if username else None
 
         for i in range(len(photos)):
             photo_page = PhotoPage(self.driver, photos[i][1], photos[i][0])
             photo_page.open()
 
-            print(marks[i])
             mark = photo_page.mark
-            mark.set_mark(marks[i])
+            if not mark.set_mark(marks[i]):
+                return False
 
-        self.logout()
-        return name
+        self.logout() if logout else None
+        return True
 
     def remove_marks(self, username, photos, name, logout=True, cancel=False):
         self.login(username)
@@ -100,11 +97,13 @@ class BasicTest(unittest.TestCase):
         self.login(username) if username else None
 
         for i in range(len(photos)):
-            photo_page = PhotoPage(self.driver, photos[i][1], photos[0][0])
+            photo_page = PhotoPage(self.driver, photos[i][1], photos[i][0])
             photo_page.open()
 
             marks = photo_page.marks
-            marks.open()
+
+            if not marks.open():
+                return False
 
             if not marks.check_mark(mark_values[i], name):
                 self.logout() if logout else None
@@ -113,3 +112,11 @@ class BasicTest(unittest.TestCase):
         self.logout() if logout else None
 
         return True
+
+    def get_name(self, username=None, logout=False):
+        self.login(username) if username else None
+        person_page = PersonPage(self.driver)
+        name = person_page.get_name()
+        self.logout() if logout else None
+
+        return name

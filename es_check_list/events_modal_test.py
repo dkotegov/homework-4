@@ -11,7 +11,8 @@ class HasNewEventTest(BasicTest):
 
         photos = self.upload_photo(USERNAME_SECOND)
         self.photos = photos
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks)
 
         self.login(USERNAME_SECOND)
 
@@ -29,9 +30,8 @@ class CheckMarksEventTest(BasicTest):
 
         photos = self.upload_photo(USERNAME_SECOND)
         self.photos = photos
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
-
-        self.login(USERNAME_SECOND)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks, False)
 
         page = Page(self.driver)
         events_modal = page.top_menu.events_modal
@@ -50,7 +50,8 @@ class RemoveMarkEventTest(BasicTest):
 
         photos = self.upload_photo(USERNAME_SECOND)
         self.photos = photos
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks)
 
         self.login(USERNAME_SECOND)
 
@@ -78,7 +79,8 @@ class CancelRemoveMarkEventTest(BasicTest):
 
         photos = self.upload_photo(USERNAME_SECOND)
         self.photos = photos
-        name = self.set_marks(USERNAME_FIRST, photos, marks)
+        name = self.get_name(USERNAME_FIRST)
+        self.set_marks(None, photos, marks)
 
         self.login(USERNAME_SECOND)
 
