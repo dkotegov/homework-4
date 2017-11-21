@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import unittest
-from tests.example_test import ExampleTest
 
+from vp_check_list.run_tests import vp_tests
 
 if __name__ == '__main__':
-    suite = unittest.TestSuite((
-        unittest.makeSuite(ExampleTest),
-    ))
-    result = unittest.TextTestRunner().run(suite)
-    sys.exit(not result.wasSuccessful())
+	for test_suite in vp_tests():
+		unittest.TextTestRunner().run(test_suite)
