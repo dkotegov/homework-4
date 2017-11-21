@@ -24,20 +24,24 @@ class SimpleActionsWithCommentsTest(BaseTest):
 
 	def test_like_comment(self):
 		last_comment = self.avatar_footer.last_comment
-		like_before = last_comment.is_like()
+		like_before = self.avatar_footer.last_comment.is_like()
 
-		last_comment.like()
+		self.avatar_footer.last_comment.like()
 
-		WebDriverWait(last_comment, 15, 0.1).until(
-			LastCommentUserAvatar.compare_likes(like_before, False)
+		WebDriverWait(self.avatar_footer.last_comment, 15, 0.1).until(
+			lambda d: like_before != d.is_like()
 		)
-		like_after = last_comment.is_like()
+		like_after = self.avatar_footer.last_comment.is_like()
 
 		self.assertNotEqual(like_before, like_after)
 
 	def test_repost_comment(self):
 		repost_before = self.avatar_footer.last_comment.repost_count()
 		self.avatar_footer.last_comment.repost()
+
+		WebDriverWait(self.avatar_footer.last_comment, 15, 0.1).until(
+			lambda d: repost_before != d.repost_count()
+		)
 		repost_after = self.avatar_footer.last_comment.repost_count()
 
 		self.assertNotEqual(repost_before, repost_after)
