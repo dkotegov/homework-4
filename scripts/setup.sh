@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./grid.sh & ./node.sh &
+./grid.sh & ./node.sh 
