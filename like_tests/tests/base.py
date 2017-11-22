@@ -6,9 +6,11 @@ import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 from like_tests.elements.user.pages import UserPage
 from like_tests.elements.photo.components import PhotoUploadButton
+from like_tests.elements.photo.pages import AlbumPage, PhotoPage
 
 
 class BaseTest(unittest.TestCase):
+    IMPLICIT_TIMEOUT = 5
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -17,6 +19,7 @@ class BaseTest(unittest.TestCase):
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
+        self.driver.implicitly_wait(self.IMPLICIT_TIMEOUT)
 
         self.user_page = UserPage(self.driver)
         self.user_page.login()
@@ -26,8 +29,17 @@ class BaseTest(unittest.TestCase):
 
 
 class BasePhotoTest(BaseTest):
+    PHOTO_PATH = os.path.join(os.getcwd(), "uploads/lion.jpeg")
 
     def setUp(self):
         super(BasePhotoTest, self).setUp()
-        PhotoUploadButton(self.driver).load_photo(os.path.join(os.getcwd(), "uploads/lion.jpeg"))
+        self.photo = AlbumPage(self.driver).load_photo(self.PHOTO_PATH).photo
+        print(self.photo.url)
+
+    def tearDown(self):
+        photo_page = PhotoPage(self.driver, self.photo.url)
+        photo_page.open()
+        photo_page.delete_photo()
+        super(BasePhotoTest, self).tearDown()
+
 
