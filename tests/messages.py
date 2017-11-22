@@ -5,6 +5,8 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+from tests.pages.auth import AuthPage
+
 
 class MessagesTest(unittest.TestCase):
     BROWSER = os.environ.get('BROWSER', 'CHROME')
@@ -16,6 +18,8 @@ class MessagesTest(unittest.TestCase):
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, self.BROWSER)
         )
+        auth_page = AuthPage(self.driver)
+        auth_page.sign_in(self.LOGIN, self.PASSWORD)
 
     def tearDown(self):
         self.driver.quit()
