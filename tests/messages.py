@@ -6,6 +6,7 @@ import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from tests.pages.auth import AuthPage
+from tests.pages.main import MainPage
 
 
 class MessagesTest(unittest.TestCase):
@@ -20,6 +21,9 @@ class MessagesTest(unittest.TestCase):
         )
         auth_page = AuthPage(self.driver)
         auth_page.sign_in(self.LOGIN, self.PASSWORD)
+
+        main_page = MainPage(self.driver)
+        self.assertTrue(main_page.is_authorized(), 'user authorized')
 
     def tearDown(self):
         self.driver.quit()
