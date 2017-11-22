@@ -223,23 +223,37 @@ class MarksModal(Component):
 
 
 class PhotoManager(Component):
-    UPLOAD_PHOTO = '//input[@type="file"][@name="photo"]'
-    ALBUM = '//a[@hrefattrs="st.cmd=userPersonalPhotos"]'
-    PHOTO = '//a[@class="photo-card_cnt"][@href!="{}"]'
+    UPLOAD_PHOTO = '//input[@type="file"][@name="photo"][not(@value)]'
+    UPLOAD = '//span[@class="html5-link_w js-fileapi-wrapper photo_upload_btn"]'
+    PHOTO = '//a[@class="photo-card_cnt"]'
+    PHOTOS = '//a[@class="mctc_navMenuSec"][@hrefattrs="st.cmd=userPhotos&st._aid=NavMenu_User_Photos"]'
+    BACK = '//span[@class="tico tico__12"][contains(text(), "Вернуться")]'
+    SUCCESS = '//div[@class="js-show-controls"]'
+    EDIT = '//span[@class="tico tico__12"][contains(text(), "Редактировать")]'
 
     last_href = None
 
-    def upload_photo(self, url):
-        self.driver.implicitly_wait(0)
+    def open(self):
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
-        self.driver.implicitly_wait(10)
+        self.driver.find_element_by_xpath(self.PHOTOS).click()
+
+
+    def upload_photo(self, url):
+        #wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
+        #self.driver.implicitly_wait(0)
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.UPLOAD)))
+
         self.driver.find_element_by_xpath(
             self.UPLOAD_PHOTO).send_keys(os.path.join(os.getcwd(), 'es_check_list/uploads/', url))
-        self.driver.find_element_by_xpath(self.ALBUM).click()
-        self.last_href = self.driver.find_element_by_xpath(self.PHOTO.format(self.last_href)).get_attribute('href')
-        url = self.last_href.split('/')
-        return url[len(url) - 1], url[len(url) - 3]
+
+        wait.until(EC.visibility_of_element_located((By.XPATH, self.SUCCESS)))
+        self.driver.implicitly_wait(10)
+        self.driver.find_element_by_xpath(self.BACK).click()
+        self.last_href = self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href').split('/')
+        #wait.until(EC.visibility_of_element_located((By.XPATH, self.EDIT)))
+        return self.last_href[len(self.last_href) - 1], self.last_href[len(self.last_href) - 3]
 
 
 class EventsModal(Component):
@@ -250,13 +264,9 @@ class EventsModal(Component):
     def open(self):
         self.driver.implicitly_wait(0)
         wait = WebDriverWait(self.driver, 10)
-        try:
-            wait.until(EC.invisibility_of_element_located((By.ID, 'photoLayerWrapper')))
-            wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
-        finally:
-            self.driver.implicitly_wait(10)
-
-            self.driver.find_element_by_xpath(self.EVENTS).click()
+        wait.until(EC.invisibility_of_element_located((By.ID, 'pointerOverlay')))
+        self.driver.implicitly_wait(10)
+        self.driver.find_element_by_xpath(self.EVENTS).click()
 
     def check_mark(self, name, mark):
         return int(self.driver.find_element_by_xpath(self.MARK.format(name)).text) == mark

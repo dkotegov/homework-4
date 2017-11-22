@@ -31,10 +31,12 @@ class CheckMarksEventTest(BasicTest):
         photos = self.upload_photo(USERNAME_SECOND)
         self.photos = photos
         name = self.get_name(USERNAME_FIRST)
-        self.set_marks(None, photos, marks, False)
+        self.set_marks(None, photos, marks)
 
-        page = Page(self.driver)
-        events_modal = page.top_menu.events_modal
+
+        self.login(USERNAME_SECOND)
+        person_page = PersonPage(self.driver, '')
+        events_modal = person_page.top_menu.events_modal
         events_modal.open()
 
         marks_modal = events_modal.marks_modal

@@ -14,7 +14,7 @@ tests = (
     unittest.makeSuite(CancelRemoveMarkTest),
     unittest.makeSuite(SetNewMarkTest),
     unittest.makeSuite(HasNewEventTest),
-    # unittest.makeSuite(CheckMarksEventTest),
+    unittest.makeSuite(CheckMarksEventTest),
     unittest.makeSuite(RemoveMarkEventTest),
     unittest.makeSuite(CancelRemoveMarkEventTest),
 )

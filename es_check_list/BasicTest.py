@@ -22,7 +22,8 @@ class BasicTest(unittest.TestCase):
         self.photos = []
 
     def tearDown(self):
-        self.remove_photos(USERNAME_SECOND, self.photos)
+        if self.photos:
+            self.remove_photos(USERNAME_SECOND, self.photos)
         self.driver.quit()
 
     def login(self, username):
@@ -44,9 +45,11 @@ class BasicTest(unittest.TestCase):
 
         person_page = PersonPage(self.driver, '')
         photos = []
+        photo_manager = person_page.photo_manager
+        photo_manager.open()
 
         for i in range(count):
-            photos.append(person_page.photo_manager.upload_photo('pic.jpg'))
+            photos.append(photo_manager.upload_photo('pic.jpg'))
 
         self.logout() if logout else None
         return photos
@@ -60,7 +63,6 @@ class BasicTest(unittest.TestCase):
             photo_page.open()
             photo_page.remove()
 
-        self.logout()
         return photos
 
     def set_marks(self, username, photos, marks, logout=True):
