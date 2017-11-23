@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from like_tests.elements.component import Component, Clickable
+from like_tests.elements.component import *
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class PhotoUploadButton(Component):
@@ -25,11 +26,17 @@ class UserAlbumButton(Clickable):
 
 
 class Photo(Component):
-    PHOTO = '//a[contains(@class, "photo-card_cnt")]'
+    PHOTO = '//a[@class="photo-card_cnt"]'
 
     @property
     def reference(self):
         return self.driver.find_element_by_xpath(self.PHOTO)
+
+    @property
+    def url(self):
+        return WebDriverWait(self.driver, self.TIMEOUT).until(
+            lambda d: d.find_element_by_xpath(self.PHOTO)
+        ).get_attribute('href')
 
 
 class PhotoDeleteButton(Clickable):

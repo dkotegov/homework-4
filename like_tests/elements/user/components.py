@@ -2,7 +2,7 @@
 
 from selenium.webdriver.support.wait import WebDriverWait
 
-from like_tests.elements.component import Component, Clickable
+from like_tests.elements.component import *
 
 
 class AuthForm(Component):

@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import os
 import unittest
 
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import DesiredCapabilities, Remote
 from like_tests.elements.user.pages import *
-from like_tests.elements.photo.components import *
 from like_tests.elements.photo.pages import *
 
 
@@ -21,6 +19,7 @@ class BaseTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
         self.driver.implicitly_wait(self.IMPLICIT_TIMEOUT)
+
         self.user_page = UserPage(self.driver)
         self.user_page.open()
         self.user_page.login_1()
@@ -34,9 +33,7 @@ class BasePhotoTest(BaseTest):
 
     def setUp(self):
         super(BasePhotoTest, self).setUp()
-        self.photo_url = AlbumPage(self.driver).load_photo(self.PHOTO_PATH).photo.get_attribute('href')
-
-       # AvatarUploadButton(self.driver).click()
+        self.photo_url = AlbumPage(self.driver).load_photo(self.PHOTO_PATH).url
 
     def tearDown(self):
         self.user_page.open()
