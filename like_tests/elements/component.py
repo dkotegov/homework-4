@@ -7,3 +7,10 @@ class Component(object):
 
     def __init__(self, driver):
         self.driver = driver
+
+
+class Clickable(Component):
+    CLICK = ''
+
+    def click(self):
+        self.driver.find_element_by_xpath(self.CLICK).click()

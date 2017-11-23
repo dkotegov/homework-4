@@ -18,9 +18,11 @@ class AlbumPage(Page):
         self.photo = Photo(self.driver)
         return self
 
+    def update_avatar(self):
+        AvatarUploadButton(self).click()
+
 
 class PhotoPage(Page):
-
     def __init__(self, driver, photo_url):
         super(PhotoPage, self).__init__(driver)
         self.PATH = photo_url

@@ -2,7 +2,7 @@
 
 from selenium.webdriver.support.wait import WebDriverWait
 
-from like_tests.elements.component import Component
+from like_tests.elements.component import Component, Clickable
 
 
 class AuthForm(Component):
@@ -36,18 +36,10 @@ class UserHeader(Component):
         )
 
 
-class LogoutButton(Component):
-    BUTTON = '//a[@class="x-ph__link x-ph__link_last"]'
-
-    def click(self):
-        self.driver.find_element_by_xpath(self.BUTTON).click()
+class LogoutButton(Clickable):
+    CLICK = '//a[@class="x-ph__link x-ph__link_last"]'
 
 
 class LogoutConfirmButton(Component):
-    BUTTON_CONFIRM = '//input[@class="button-pro form-actions_yes"]'
-
-    def confirm(self):
-        WebDriverWait(self.driver, self.TIMEOUT, self.POLL_FREQUENCY).until(
-            lambda d: d.find_element_by_xpath(self.BUTTON_CONFIRM)
-        ).click()
+    CLICK = '//input[@class="button-pro form-actions_yes"]'
 

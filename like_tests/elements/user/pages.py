@@ -7,15 +7,22 @@ from like_tests.elements.page import Page
 
 class AuthPage(Page):
     PATH = ''
-    USER_LOGIN = 'technopark18'
+    USER_LOGIN1 = 'technopark18'
+    USER_LOGIN2 = 'technopark22'
 
-    def login(self):
+    def login(self, login):
         password = os.environ['OK_PASSWORD']
 
         auth_form = self.form
-        auth_form.set_login(self.USER_LOGIN)
+        auth_form.set_login(login)
         auth_form.set_password(password)
         auth_form.submit()
+
+    def login_user_1(self):
+        self.login(self.USER_LOGIN1)
+
+    def login_user_2(self):
+        self.login(self.USER_LOGIN2)
 
     @property
     def form(self):
@@ -25,9 +32,12 @@ class AuthPage(Page):
 class UserPage(Page):
     PATH = ''
 
-    def login(self):
-        self.auth_page.open()
-        self.auth_page.login()
+    def login_1(self):
+        self.auth_page.login_user_1()
+        return self.user_header.get_username()
+
+    def login_2(self):
+        self.auth_page.login_user_2()
         return self.user_header.get_username()
 
     def logout(self):

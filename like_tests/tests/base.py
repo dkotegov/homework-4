@@ -5,8 +5,8 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from like_tests.elements.user.pages import UserPage
-from like_tests.elements.photo.components import PhotoUploadButton
-from like_tests.elements.photo.pages import AlbumPage, PhotoPage
+from like_tests.elements.photo.components import *
+from like_tests.elements.photo.pages import *
 
 
 class BaseTest(unittest.TestCase):
@@ -20,9 +20,9 @@ class BaseTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
         self.driver.implicitly_wait(self.IMPLICIT_TIMEOUT)
-
         self.user_page = UserPage(self.driver)
-        self.user_page.login()
+        self.user_page.open()
+        self.user_page.login_1()
 
     def tearDown(self):
         self.driver.quit()
@@ -34,9 +34,11 @@ class BasePhotoTest(BaseTest):
     def setUp(self):
         super(BasePhotoTest, self).setUp()
         self.photo = AlbumPage(self.driver).load_photo(self.PHOTO_PATH).photo
-        print(self.photo.url)
+
+       # AvatarUploadButton(self.driver).click()
 
     def tearDown(self):
+        # todo login u_1
         photo_page = PhotoPage(self.driver, self.photo.url)
         photo_page.open()
         photo_page.delete_photo()

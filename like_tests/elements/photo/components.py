@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from like_tests.elements.component import Component
+from like_tests.elements.component import Component, Clickable
 
 
 class PhotoUploadButton(Component):
@@ -12,11 +12,16 @@ class PhotoUploadButton(Component):
         self.driver.find_element_by_xpath(self.MOVE_PANEL)
 
 
-class UserAlbumButton(Component):
-    ALBUM = '//a[@hrefattrs="st.cmd=userPersonalPhotos"]'
+class AvatarUploadButton(Clickable):
+    CLICK = '//div[@class="stub-img stub-img__288 stub-img__user-change288"]'
 
-    def click(self):
-        self.driver.find_element_by_xpath(self.ALBUM).click()
+
+class AvatarSelection(Clickable):
+    CLICK = '//div[@class="photo-crop"]/a'
+
+
+class UserAlbumButton(Clickable):
+    CLICK = '//a[@hrefattrs="st.cmd=userPersonalPhotos"]'
 
 
 class Photo(Component):
@@ -31,9 +36,6 @@ class Photo(Component):
         return self.reference.get_attribute('href')
 
 
-class PhotoDeleteButton(Component):
-    BUTTON = '//a[descendant::i[@class="tico_img ic ic_delete"]]'
-
-    def click(self):
-        self.driver.find_element_by_xpath(self.BUTTON).click()
+class PhotoDeleteButton(Clickable):
+    CLICK = '//a[descendant::i[@class="tico_img ic ic_delete"]]'
 
