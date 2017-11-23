@@ -3,8 +3,9 @@
 import os
 import unittest
 
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import DesiredCapabilities, Remote
-from like_tests.elements.user.pages import UserPage
+from like_tests.elements.user.pages import *
 from like_tests.elements.photo.components import *
 from like_tests.elements.photo.pages import *
 
@@ -33,13 +34,24 @@ class BasePhotoTest(BaseTest):
 
     def setUp(self):
         super(BasePhotoTest, self).setUp()
-        self.photo = AlbumPage(self.driver).load_photo(self.PHOTO_PATH).photo
+        self.photo_url = AlbumPage(self.driver).load_photo(self.PHOTO_PATH).photo.get_attribute('href')
 
        # AvatarUploadButton(self.driver).click()
 
     def tearDown(self):
-        # todo login u_1
-        photo_page = PhotoPage(self.driver, self.photo.url)
+        self.user_page.open()
+        try:
+            self.user_page.open()
+            username = self.user_page.user_header.get_username()
+            assert(username == AuthPage.USER_LOGIN1)
+        except AssertionError:
+            self.user_page.logout()
+            self.user_page.login_1()
+        except WebDriverException:
+            self.user_page.login_1()
+
+        print(self.photo_url)
+        photo_page = PhotoPage(self.driver, self.photo_url)
         photo_page.open()
         photo_page.delete_photo()
         super(BasePhotoTest, self).tearDown()

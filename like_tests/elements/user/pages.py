@@ -42,7 +42,7 @@ class UserPage(Page):
 
     def logout(self):
         LogoutButton(self.driver).click()
-        LogoutConfirmButton(self.driver).confirm()
+        LogoutConfirmButton(self.driver).click()
 
     @property
     def user_header(self):

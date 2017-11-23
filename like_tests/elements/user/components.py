@@ -40,6 +40,6 @@ class LogoutButton(Clickable):
     CLICK = '//a[@class="x-ph__link x-ph__link_last"]'
 
 
-class LogoutConfirmButton(Component):
+class LogoutConfirmButton(Clickable):
     CLICK = '//input[@class="button-pro form-actions_yes"]'
 

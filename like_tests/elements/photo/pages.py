@@ -15,7 +15,7 @@ class AlbumPage(Page):
     def load_photo(self, path):
         PhotoUploadButton(self.driver).load_photo(path)
         UserAlbumButton(self.driver).click()
-        self.photo = Photo(self.driver)
+        self.photo = Photo(self.driver).reference
         return self
 
     def update_avatar(self):

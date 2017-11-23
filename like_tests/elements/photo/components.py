@@ -31,10 +31,6 @@ class Photo(Component):
     def reference(self):
         return self.driver.find_element_by_xpath(self.PHOTO)
 
-    @property
-    def url(self):
-        return self.reference.get_attribute('href')
-
 
 class PhotoDeleteButton(Clickable):
     CLICK = '//a[descendant::i[@class="tico_img ic ic_delete"]]'
