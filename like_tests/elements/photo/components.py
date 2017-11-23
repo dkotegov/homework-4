@@ -2,6 +2,8 @@
 
 from like_tests.elements.component import *
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import StaleElementReferenceException
+
 
 
 class PhotoUploadButton(Component):
@@ -34,9 +36,14 @@ class Photo(Component):
 
     @property
     def url(self):
-        return WebDriverWait(self.driver, self.TIMEOUT).until(
-            lambda d: d.find_element_by_xpath(self.PHOTO)
-        ).get_attribute('href')
+        return WebDriverWait(
+            self.driver,
+            self.TIMEOUT,
+            self.POLL_FREQUENCY,
+            ignored_exceptions=StaleElementReferenceException
+        ).until(
+            lambda d: d.find_element_by_xpath(self.PHOTO).get_attribute('href')
+        )
 
 
 class PhotoDeleteButton(Clickable):

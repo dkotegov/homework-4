@@ -9,7 +9,7 @@ from like_tests.elements.photo.pages import *
 
 
 class BaseTest(unittest.TestCase):
-    IMPLICIT_TIMEOUT = 5
+    IMPLICIT_TIMEOUT = 10
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -18,6 +18,7 @@ class BaseTest(unittest.TestCase):
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
+
         self.driver.implicitly_wait(self.IMPLICIT_TIMEOUT)
 
         self.user_page = UserPage(self.driver)
