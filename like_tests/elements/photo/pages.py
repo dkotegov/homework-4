@@ -22,15 +22,15 @@ class AlbumPage(Page):
 
 
 class PhotoPage(Page):
-    ACTIVE = PhotoLikeButton.ACTIVE
-    DISABLED = PhotoLikeButton.DISABLED
+    ACTIVE = PagePhotoLikeButton.ACTIVE
+    DISABLED = PagePhotoLikeButton.DISABLED
 
     def __init__(self, driver, photo_url):
         super(PhotoPage, self).__init__(driver)
         self.PATH = photo_url
 
     def add_like_to_zero(self):
-        PhotoLikeButton(self.driver).click_disabled()
+        PagePhotoLikeButton(self.driver).click_disabled()
 
     def has_empty_likes(self):
         return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED).is_empty()
@@ -39,7 +39,7 @@ class PhotoPage(Page):
         return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED).non_zero_count()
 
     def remove_like(self):
-        PhotoLikeButton(self.driver).click_active()
+        PagePhotoLikeButton(self.driver).click_active()
 
     def delete_photo(self):
         PhotoDeleteButton(self.driver).click()

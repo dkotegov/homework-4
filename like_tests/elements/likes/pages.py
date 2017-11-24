@@ -5,20 +5,22 @@ from like_tests.elements.likes.components import *
 
 
 class FriendsFeed(Page):
+    ACTIVE = FeedPhotoLikeButton.ACTIVE
+    DISABLED = FeedPhotoLikeButton.DISABLED
 
     def open_photo(self):
         FriendsFeedButton(self.driver).click()
         FeedPhoto(self.driver).click()
 
     def add_like(self):
-        PhotoLikeButton(self.driver).click_disabled()
+        PagePhotoLikeButton(self.driver).click_disabled()
 
     def checkout(self):
         FriendsFeedButton(self.driver).click()
         FeedPhoto(self.driver).click()
-        counter = PhotoLikeCounter(self.driver)
+        counter = PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
         assert(counter.is_empty())
-        like_btn = PhotoLikeButton(self.driver)
+        like_btn = FeedPhotoLikeButton(self.driver)
         like_btn.click_disabled()
         assert (counter.non_zero_count() == 1)
         like_btn.click_active()
