@@ -41,9 +41,7 @@ class BasePhotoTest(BaseTest):
         try:
             self.user_page.open()
             username = self.user_page.user_header.get_username()
-            print(username)
             assert(username == AuthPage.USER_NAME1)
-            print('ok')
         except AssertionError:
             self.user_page.logout()
             self.user_page.login_1()
