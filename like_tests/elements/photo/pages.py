@@ -2,6 +2,7 @@
 
 from like_tests.elements.page import Page
 from like_tests.elements.photo.components import *
+from like_tests.elements.likes.components import *
 
 
 class AlbumPage(Page):
@@ -25,6 +26,18 @@ class PhotoPage(Page):
     def __init__(self, driver, photo_url):
         super(PhotoPage, self).__init__(driver)
         self.PATH = photo_url
+
+    def add_like_to_zero(self):
+        PhotoLikeButton(self.driver).click_disabled()
+
+    def has_empty_likes(self):
+        return PhotoLikeCounter(self.driver).is_empty()
+
+    def non_zero_likes(self):
+        return PhotoLikeCounter(self.driver).non_zero_count()
+
+    def remove_like(self):
+        PhotoLikeButton(self.driver).click_active()
 
     def delete_photo(self):
         PhotoDeleteButton(self.driver).click()

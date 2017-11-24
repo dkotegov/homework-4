@@ -8,7 +8,9 @@ from like_tests.elements.page import Page
 class AuthPage(Page):
     PATH = ''
     USER_LOGIN1 = 'technopark18'
+    USER_NAME1 = u'Имярек Человекович'
     USER_LOGIN2 = 'technopark22'
+    USER_NAME2 = u'Кадыр Рамзанов'
 
     def login(self, login):
         password = os.environ['OK_PASSWORD']

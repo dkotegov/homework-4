@@ -13,15 +13,14 @@ class FeedPhoto(Clickable):
 
 class PhotoLikeButton(Component):
     BASE_BUTTON = 'button[@class="h-mod widget_cnt controls-list_lk"][@data-type="PHOTO"]'
-    ACTIVE = '//div[@class="widget  __active"]/' + BASE_BUTTON
-    DISABLED = '//div[@class="widget"]/' + BASE_BUTTON
+    ACTIVE = '//div[@class="widget  __active __compact"]/' + BASE_BUTTON
+    DISABLED = '//div[@class="widget  __compact"]/' + BASE_BUTTON
 
     def click_disabled(self):
-        self.driver.find_element_by_xpath(self.DISABLED).click()
+        self.driver.execute_script('arguments[0].click();', self.driver.find_element_by_xpath(self.DISABLED))
 
     def click_active(self):
-        self.driver.find_element_by_xpath(self.ACTIVE).click()
-
+        self.driver.execute_script('arguments[0].click();', self.driver.find_element_by_xpath(self.ACTIVE))
 
 class PhotoLikeCounter(Component):
     ACTIVE = PhotoLikeButton.ACTIVE + '/span[@class="widget_count js-count"]'
@@ -30,7 +29,5 @@ class PhotoLikeCounter(Component):
     def is_empty(self):
         return int(self.driver.find_element_by_xpath(self.EMPTY).text) == 0
 
-    def count(self):
-        a = self.driver.find_element_by_xpath(self.ACTIVE).text
-        print(a)
-        return int(a)
+    def non_zero_count(self):
+        return int(self.driver.find_element_by_xpath(self.ACTIVE).text)

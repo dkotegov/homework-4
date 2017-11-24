@@ -34,24 +34,24 @@ class BasePhotoTest(BaseTest):
 
     def setUp(self):
         super(BasePhotoTest, self).setUp()
-        self.photo_url = AlbumPage(self.driver).load_photo(self.PHOTO_PATH).url
+        self.photo_page = PhotoPage(self.driver, AlbumPage(self.driver).load_photo(self.PHOTO_PATH).url)
 
     def tearDown(self):
         self.user_page.open()
         try:
             self.user_page.open()
             username = self.user_page.user_header.get_username()
-            assert(username == AuthPage.USER_LOGIN1)
+            print(username)
+            assert(username == AuthPage.USER_NAME1)
+            print('ok')
         except AssertionError:
             self.user_page.logout()
             self.user_page.login_1()
         except WebDriverException:
             self.user_page.login_1()
 
-        print(self.photo_url)
-        photo_page = PhotoPage(self.driver, self.photo_url)
-        photo_page.open()
-        photo_page.delete_photo()
+        self.photo_page.open()
+        self.photo_page.delete_photo()
         super(BasePhotoTest, self).tearDown()
 
 
