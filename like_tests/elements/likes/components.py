@@ -17,10 +17,11 @@ class PhotoLikeButton(Component):
     DISABLED = '//div[@class="widget  __compact"]/' + BASE_BUTTON
 
     def click_disabled(self):
-        self.driver.execute_script('arguments[0].click();', self.driver.find_element_by_xpath(self.DISABLED))
+        Clickable.hard_click(self.driver, self.DISABLED)
 
     def click_active(self):
-        self.driver.execute_script('arguments[0].click();', self.driver.find_element_by_xpath(self.ACTIVE))
+        Clickable.hard_click(self.driver, self.ACTIVE)
+
 
 class PhotoLikeCounter(Component):
     ACTIVE = PhotoLikeButton.ACTIVE + '/span[@class="widget_count js-count"]'
