@@ -30,7 +30,7 @@ class BaseTest(unittest.TestCase):
 
 
 class BasePhotoTest(BaseTest):
-    PHOTO_PATH = os.path.join(os.getcwd(), "uploads/lion.jpeg")
+    PHOTO_PATH = os.path.join(os.getcwd(), "like_tests/uploads/lion.jpeg")
 
     def setUp(self):
         super(BasePhotoTest, self).setUp()
