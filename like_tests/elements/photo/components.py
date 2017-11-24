@@ -5,7 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import StaleElementReferenceException
 
 
-
 class PhotoUploadButton(Component):
     BUTTON = '//input[@type="file"][@name="photo"]'
     MOVE_PANEL = '//a[@data-l="aid,PhotoUpload_ShowMovePanel"]'
@@ -48,4 +47,3 @@ class Photo(Component):
 
 class PhotoDeleteButton(Clickable):
     CLICK = '//a[descendant::i[@class="tico_img ic ic_delete"]]'
-

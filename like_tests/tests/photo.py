@@ -6,6 +6,10 @@ from like_tests.elements.likes.pages import *
 
 class LikePhotoTest(BasePhotoTest):
 
+    def test_like_feed(self):
+        self.user_page.logout()
+        self.user_page.login_2()
+
     def test_like_page_photo(self):
         self.photo_page.open()
         assert(self.photo_page.has_empty_likes())

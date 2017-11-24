@@ -24,8 +24,11 @@ class PhotoLikeButton(Component):
 
 
 class PhotoLikeCounter(Component):
-    ACTIVE = PhotoLikeButton.ACTIVE + '/span[@class="widget_count js-count"]'
-    EMPTY = PhotoLikeButton.DISABLED + '/span[@class="widget_count js-count __empty"]'
+
+    def __init__(self, driver, active_button, disabled_button):
+        super(PhotoLikeCounter, self).__init__(driver)
+        self.ACTIVE = active_button + '/span[@class="widget_count js-count"]'
+        self.EMPTY = disabled_button + '/span[@class="widget_count js-count __empty"]'
 
     def is_empty(self):
         return int(self.driver.find_element_by_xpath(self.EMPTY).text) == 0

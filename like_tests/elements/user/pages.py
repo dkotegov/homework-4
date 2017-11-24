@@ -53,5 +53,3 @@ class UserPage(Page):
     @property
     def auth_page(self):
         return AuthPage(self.driver)
-
-

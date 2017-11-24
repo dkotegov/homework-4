@@ -42,4 +42,3 @@ class LogoutButton(Clickable):
 
 class LogoutConfirmButton(Clickable):
     CLICK = '//input[@class="button-pro form-actions_yes"]'
-
