@@ -9,17 +9,29 @@ class LikePhotoTests(BasePhotoTest):
     def test_like_feed(self):
         self.user_page.logout()
         self.user_page.login_2()
-        FriendsFeed(self.driver).checkout()
+        feed = FriendsFeed(self.driver)
+        feed.open_photo()
+        self.assertTrue(feed.like_counter.is_empty())
+        feed.add_like()
+        self.assertEqual(feed.like_counter.non_zero_count(), 1)
+
+    def test_like_reset_feed(self):
+        self.user_page.logout()
+        self.user_page.login_2()
+        feed = FriendsFeed(self.driver)
+        feed.open_photo()
+        feed.add_like()
+        feed.remove_like()
+        self.assertTrue(feed.like_counter.is_empty())
 
     def test_like_page_photo(self):
         self.photo_page.open()
-        self.assertTrue(self.photo_page.has_empty_likes())
-        self.photo_page.add_like_to_zero()
-        self.assertEqual(self.photo_page.non_zero_likes(), 1)
+        self.assertTrue(self.photo_page.like_counter.is_empty())
+        self.photo_page.add_like()
+        self.assertEqual(self.photo_page.like_counter.non_zero_count(), 1)
 
     def test_like_reset_page_photo(self):
         self.photo_page.open()
-        self.assertTrue(self.photo_page.has_empty_likes())
-        self.photo_page.add_like_to_zero()
+        self.photo_page.add_like()
         self.photo_page.remove_like()
-        self.assertTrue(self.photo_page.has_empty_likes())
+        self.assertTrue(self.photo_page.like_counter.is_empty())

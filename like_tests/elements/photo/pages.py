@@ -29,17 +29,23 @@ class PhotoPage(Page):
         super(PhotoPage, self).__init__(driver)
         self.PATH = photo_url
 
-    def add_like_to_zero(self):
-        PagePhotoLikeButton(self.driver).click_disabled()
-
-    def has_empty_likes(self):
-        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED).is_empty()
-
-    def non_zero_likes(self):
-        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED).non_zero_count()
+    def add_like(self):
+        self.like_button.click_disabled()
 
     def remove_like(self):
-        PagePhotoLikeButton(self.driver).click_active()
+        self.like_button.click_active()
 
     def delete_photo(self):
-        PhotoDeleteButton(self.driver).click()
+        self.delete_button.click()
+
+    @property
+    def like_counter(self):
+        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
+
+    @property
+    def like_button(self):
+        return PagePhotoLikeButton(self.driver)
+
+    @property
+    def delete_button(self):
+        return PhotoDeleteButton(self.driver)

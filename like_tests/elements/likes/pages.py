@@ -13,15 +13,15 @@ class FriendsFeed(Page):
         FeedPhoto(self.driver).click()
 
     def add_like(self):
-        PagePhotoLikeButton(self.driver).click_disabled()
+        self.like_button.click_disabled()
 
-    def checkout(self):
-        FriendsFeedButton(self.driver).click()
-        FeedPhoto(self.driver).click()
-        counter = PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
-        assert(counter.is_empty())
-        like_btn = FeedPhotoLikeButton(self.driver)
-        like_btn.click_disabled()
-        assert (counter.non_zero_count() == 1)
-        like_btn.click_active()
-        assert(counter.is_empty())
+    def remove_like(self):
+        self.like_button.click_active()
+
+    @property
+    def like_counter(self):
+        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
+
+    @property
+    def like_button(self):
+        return FeedPhotoLikeButton(self.driver)
