@@ -15,9 +15,12 @@ class RemoveMarkTest(BasicTest):
         name = self.get_name(USERNAME_FIRST)
         self.set_marks(None, photos, marks)
 
-        self.remove_marks(USERNAME_SECOND, photos, name, False)
+        if self.remove_marks(USERNAME_SECOND, photos, name, False):
+            result = not self.check_marks(None, photos, marks, name, False)
+        else:
+            result = None
 
-        self.assertFalse(self.check_marks(None, photos, marks, name, False))
+        self.assertTrue(result)
 
 
 class CancelRemoveMarkTest(BasicTest):
@@ -31,9 +34,12 @@ class CancelRemoveMarkTest(BasicTest):
         name = self.get_name(USERNAME_FIRST)
         self.set_marks(None, photos, marks)
 
-        self.remove_marks(USERNAME_SECOND, photos, name, False, True)
+        if self.remove_marks(USERNAME_SECOND, photos, name, False, True):
+            result = self.check_marks(None, photos, marks, name, False)
+        else:
+            result = None
 
-        self.assertTrue(self.check_marks(None, photos, marks, name, False))
+        self.assertTrue(result)
 
 
 class SetNewMarkTest(BasicTest):
@@ -47,9 +53,11 @@ class SetNewMarkTest(BasicTest):
         name = self.get_name(USERNAME_FIRST)
         self.set_marks(None, photos, marks)
 
-        self.remove_marks(USERNAME_SECOND, photos, name)
+        if self.remove_marks(USERNAME_SECOND, photos, name):
+            name = self.get_name(USERNAME_FIRST)
+            self.set_marks(None, photos, marks)
+            result = self.check_marks(USERNAME_SECOND, photos, marks, name, False)
+        else:
+            result = None
 
-        name = self.get_name(USERNAME_FIRST)
-        self.set_marks(None, photos, marks)
-
-        self.assertTrue(self.check_marks(USERNAME_SECOND, photos, marks, name, False))
+        self.assertTrue(result)

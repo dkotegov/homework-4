@@ -10,7 +10,7 @@ from page import *
 class BasicTest(unittest.TestCase):
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get('BROWSER', 'FIREFOX')
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -88,11 +88,13 @@ class BasicTest(unittest.TestCase):
             marks = photo_page.marks
             marks.open()
 
-            marks.remove(name)
+            if not marks.remove(name):
+                return False
 
             marks.cancel_remove() if cancel else None
 
         self.logout() if logout else None
+        return True
 
     def check_marks(self, username, photos, mark_values, name, logout=True):
         self.login(username) if username else None
