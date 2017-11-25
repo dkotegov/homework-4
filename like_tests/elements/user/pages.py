@@ -50,6 +50,9 @@ class UserPage(Page):
     def user_header(self):
         return UserHeader(self.driver)
 
+    def is_logged_out(self):
+        return self.auth_page.form.is_logged_out()
+
     @property
     def auth_page(self):
         return AuthPage(self.driver)

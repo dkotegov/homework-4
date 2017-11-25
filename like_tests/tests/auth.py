@@ -4,45 +4,16 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from like_tests.elements.user.pages import UserPage
+from like_tests.tests.base import BaseTest
+from like_tests.elements.user.pages import UserPage, AuthPage
 
 
-class LoginTest(unittest.TestCase):
-    USERNAME = u'Имярек Человекович'
+class AuthTests(BaseTest):
 
-    def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
+    def test_login(self):
+        self.assertEqual(AuthPage.USER_NAME1, self.user_page.user_header.get_username())
 
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
-
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
-        self.user_page = UserPage(self.driver)
-        user_name = self.user_page.login()
-        self.assertEqual(self.USERNAME, user_name)
-
-
-class LogoutTest(unittest.TestCase):
-    def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
-
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
-        user_page = UserPage(self.driver)
-        user_page.open()
-        user_page.login()
-        user_page.logout()
-        logged_in = user_page.auth_page.form.is_logged_out()
-        self.assertIsNotNone(logged_in)
+    def test_logout(self):
+        self.user_page.logout()
+        logged_in = self.user_page.is_logged_out()
+        self.assertTrue(logged_in)

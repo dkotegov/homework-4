@@ -3,15 +3,14 @@
 
 import sys
 import unittest
-from like_tests.tests.auth import LoginTest, LogoutTest
-from like_tests.tests.photo import LikePhotoTest
+from like_tests.tests.auth import *
+from like_tests.tests.photo import *
 
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        # unittest.makeSuite(LoginTest),
-        # unittest.makeSuite(LogoutTest)
-        unittest.makeSuite(LikePhotoTest)
+        # unittest.makeSuite(AuthTests),
+        unittest.makeSuite(LikePhotoTests)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
