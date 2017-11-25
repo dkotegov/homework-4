@@ -41,8 +41,7 @@ class LikePhotoTests(BasePhotoTest):
         self.user_page.open()
         self.user_page.open_own_feed()
         feed = OwnGeneralFeed(self.driver)
-        feed.open_photo()
-        photo = OwnPhotoPage(self.driver, '')
+        photo = feed.open_photo()
         photo.delete()
         self.photo_deleted = True
         photo.close()
@@ -64,6 +63,5 @@ class LikePhotoTests(BasePhotoTest):
     #     self.user_page.open()
     #     self.user_page.open_own_feed()
     #     feed = OwnGeneralFeed(self.driver)
-    #     feed.open_photo()
-    #     photo = OwnPhotoPage(self.driver)
+    #     photo = feed.open_photo()
     #     self.assertEqual(photo.like_counter.non_zero_count(), 1)

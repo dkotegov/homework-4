@@ -64,3 +64,22 @@ class OwnPhotoPage(Page):
     @property
     def close_button(self):
         return PhotoCloseButton(self.driver)
+
+
+class FeedPhotoPage(Clickable):
+    ACTIVE = FeedPhotoLikeButton.ACTIVE
+    DISABLED = FeedPhotoLikeButton.DISABLED
+
+    def add_like(self, wait_for_completion=False):
+        self.like_button.click_disabled(wait_for_completion)
+
+    def remove_like(self, wait_for_completion=False):
+        self.like_button.click_active(wait_for_completion)
+
+    @property
+    def like_counter(self):
+        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
+
+    @property
+    def like_button(self):
+        return FeedPhotoLikeButton(self.driver)
