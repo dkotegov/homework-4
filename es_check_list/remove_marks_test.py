@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import time
-
 from page import *
 from BasicTest import BasicTest
 
@@ -55,4 +53,3 @@ class SetNewMarkTest(BasicTest):
         self.set_marks(None, photos, marks)
 
         self.assertTrue(self.check_marks(USERNAME_SECOND, photos, marks, name, False))
-

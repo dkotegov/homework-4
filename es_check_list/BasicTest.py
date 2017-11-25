@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
@@ -26,9 +25,9 @@ class BasicTest(unittest.TestCase):
             self.remove_photos(USERNAME_SECOND, self.photos)
         self.driver.quit()
 
-    def login(self, username):
+    def login(self, username, first=False):
         auth_page = AuthPage(self.driver)
-        auth_page.open()
+        auth_page.open(first)
         auth_form = auth_page.form
         auth_form.set_login(username)
         auth_form.set_password(PASSWORD)
@@ -41,7 +40,7 @@ class BasicTest(unittest.TestCase):
         page.top_menu.logout()
 
     def upload_photo(self, username, count=1, logout=True):
-        self.login(username)
+        self.login(username, True)
 
         person_page = PersonPage(self.driver, '')
         photos = []

@@ -33,7 +33,6 @@ class CheckMarksEventTest(BasicTest):
         name = self.get_name(USERNAME_FIRST)
         self.set_marks(None, photos, marks)
 
-
         self.login(USERNAME_SECOND)
         person_page = PersonPage(self.driver, '')
         events_modal = person_page.top_menu.events_modal

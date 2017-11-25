@@ -11,13 +11,12 @@ sys.setdefaultencoding('utf-8')
 class AllMarkValuesTest(BasicTest):
 
     def test(self):
-        marks = range(1,6)
+        marks = range(1, 6)
 
         photos = self.upload_photo(USERNAME_SECOND, len(marks))
         self.photos = photos
         name = self.get_name(USERNAME_FIRST)
         self.set_marks(None, photos, marks)
-
         self.assertTrue(self.check_marks(USERNAME_SECOND, photos, marks, name, False))
 
 
