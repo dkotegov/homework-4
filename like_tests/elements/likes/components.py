@@ -46,7 +46,8 @@ class PhotoLikeCounter(Component):
         self.EMPTY = disabled_button + '/span[@class="widget_count js-count __empty"]'
 
     def is_empty(self):
-        return int(self.driver.find_element_by_xpath(self.EMPTY).text) == 0
+        return int(self.driver.find_element_by_xpath(self.EMPTY).get_attribute("innerText")) == 0
 
     def non_zero_count(self):
-        return int(self.driver.find_element_by_xpath(self.ACTIVE).text)
+        print(self.driver.find_element_by_xpath(self.ACTIVE).get_attribute("innerText"))
+        return int(self.driver.find_element_by_xpath(self.ACTIVE).get_attribute("innerText"))

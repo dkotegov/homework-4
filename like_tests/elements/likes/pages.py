@@ -15,8 +15,6 @@ class FriendsFeed(Page):
 
 
 class OwnGeneralFeed(Page):
-    ACTIVE = OwnPhotoLikeButton.ACTIVE
-    DISABLED = OwnPhotoLikeButton.DISABLED
 
     def open_photo(self):
         FeedPhotoIcon(self.driver).click()
@@ -32,7 +30,7 @@ class OwnGeneralFeed(Page):
 
     @property
     def like_counter(self):
-        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
+        return PhotoLikeCounter(self.driver, OwnPhotoLikeButton.ACTIVE, OwnPhotoLikeButton.DISABLED)
 
 
 

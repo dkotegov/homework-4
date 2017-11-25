@@ -32,7 +32,7 @@ class UserHeader(Clickable):
 
     def get_username(self):
         return WebDriverWait(self.driver, self.TIMEOUT, self.POLL_FREQUENCY).until(
-            lambda d: d.find_element_by_xpath(self.CLICK).text
+            lambda d: d.find_element_by_xpath(self.CLICK).get_attribute("innerText")
         )
 
 

@@ -30,8 +30,6 @@ class PhotoUploadPage(Page):
 
 
 class OwnPhotoPage(Page):
-    ACTIVE = OwnPhotoLikeButton.ACTIVE
-    DISABLED = OwnPhotoLikeButton.DISABLED
 
     def __init__(self, driver, photo_url=''):
         super(OwnPhotoPage, self).__init__(driver)
@@ -51,7 +49,7 @@ class OwnPhotoPage(Page):
 
     @property
     def like_counter(self):
-        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
+        return PhotoLikeCounter(self.driver, OwnPhotoLikeButton.ACTIVE, OwnPhotoLikeButton.DISABLED)
 
     @property
     def like_button(self):
@@ -67,8 +65,6 @@ class OwnPhotoPage(Page):
 
 
 class FeedPhotoPage(Clickable):
-    ACTIVE = FeedPhotoLikeButton.ACTIVE
-    DISABLED = FeedPhotoLikeButton.DISABLED
 
     def add_like(self, wait_for_completion=False):
         self.like_button.click_disabled(wait_for_completion)
@@ -78,7 +74,7 @@ class FeedPhotoPage(Clickable):
 
     @property
     def like_counter(self):
-        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
+        return PhotoLikeCounter(self.driver, FeedPhotoLikeButton.ACTIVE, FeedPhotoLikeButton.DISABLED)
 
     @property
     def like_button(self):

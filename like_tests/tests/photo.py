@@ -57,11 +57,11 @@ class LikePhotoTests(BasePhotoTest):
             self.photo_page.remove_like(True)
         self.assertTrue(self.photo_page.like_counter.is_empty())
 
-    # def test_class_identical(self):
-    #     self.photo_page.open()
-    #     self.photo_page.add_like()
-    #     self.user_page.open()
-    #     self.user_page.open_own_feed()
-    #     feed = OwnGeneralFeed(self.driver)
-    #     photo = feed.open_photo()
-    #     self.assertEqual(photo.like_counter.non_zero_count(), 1)
+    def test_class_identical(self):
+        self.photo_page.open()
+        self.photo_page.add_like()
+        self.user_page.open()
+        self.user_page.open_own_feed()
+        feed = OwnGeneralFeed(self.driver)
+        photo = feed.open_photo()
+        self.assertEqual(photo.like_counter.non_zero_count(), 1)
