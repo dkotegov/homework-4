@@ -26,7 +26,7 @@ class UserAlbumButton(Clickable):
     CLICK = '//a[@hrefattrs="st.cmd=userPersonalPhotos"]'
 
 
-class Photo(Component):
+class AlbumPhoto(Component):
     PHOTO = '//a[@class="photo-card_cnt"]'
 
     @property
@@ -47,3 +47,7 @@ class Photo(Component):
 
 class PhotoDeleteButton(Clickable):
     CLICK = '//a[descendant::i[@class="tico_img ic ic_delete"]]'
+
+
+class PhotoCloseButton(Clickable):
+    CLICK = '//div[@class="js-photoLayerClose ic photo-layer_close"]'

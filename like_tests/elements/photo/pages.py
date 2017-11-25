@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from urlparse import urlparse, urljoin
+
 from like_tests.elements.page import Page
 from like_tests.elements.photo.components import *
 from like_tests.elements.likes.components import *
@@ -7,20 +9,31 @@ from like_tests.elements.likes.components import *
 
 class AlbumPage(Page):
 
-    def __init__(self, driver):
+    def __init__(self, driver, user_path):
         super(AlbumPage, self).__init__(driver)
-        self.url = None
+        self.PATH = urljoin(user_path, 'pphotos')
+
+    @property
+    def photo(self):
+        return AlbumPhoto(self.driver)
+
+
+class PhotoUploadPage(Page):
+
+    def __init__(self, driver):
+        super(PhotoUploadPage, self).__init__(driver)
+        self.photo_url = None
 
     def load_photo(self, path):
         PhotoUploadButton(self.driver).load_photo(path)
         UserAlbumButton(self.driver).click()
-        self.url = Photo(self.driver).url
+        self.photo_url = AlbumPage(self.driver, '').photo.url
         return self
 
 
 class PhotoPage(Page):
-    ACTIVE = PagePhotoLikeButton.ACTIVE
-    DISABLED = PagePhotoLikeButton.DISABLED
+    ACTIVE = OwnPhotoLikeButton.ACTIVE
+    DISABLED = OwnPhotoLikeButton.DISABLED
 
     def __init__(self, driver, photo_url):
         super(PhotoPage, self).__init__(driver)
@@ -35,14 +48,21 @@ class PhotoPage(Page):
     def delete_photo(self):
         self.delete_button.click()
 
+    def close(self):
+        self.close_button.click()
+
     @property
     def like_counter(self):
         return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
 
     @property
     def like_button(self):
-        return PagePhotoLikeButton(self.driver)
+        return OwnPhotoLikeButton(self.driver)
 
     @property
     def delete_button(self):
         return PhotoDeleteButton(self.driver)
+
+    @property
+    def close_button(self):
+        return PhotoCloseButton(self.driver)

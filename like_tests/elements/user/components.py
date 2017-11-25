@@ -27,12 +27,12 @@ class AuthForm(Component):
         return True
 
 
-class UserHeader(Component):
-    USERNAME = '//h1[@class="mctc_name_tx bl"]'
+class UserHeader(Clickable):
+    CLICK = '//h1[@class="mctc_name_tx bl"]'
 
     def get_username(self):
         return WebDriverWait(self.driver, self.TIMEOUT, self.POLL_FREQUENCY).until(
-            lambda d: d.find_element_by_xpath(self.USERNAME).text
+            lambda d: d.find_element_by_xpath(self.CLICK).text
         )
 
 

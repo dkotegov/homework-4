@@ -34,14 +34,14 @@ class BasePhotoTest(BaseTest):
 
     def setUp(self):
         super(BasePhotoTest, self).setUp()
-        self.photo_page = PhotoPage(self.driver, AlbumPage(self.driver).load_photo(self.PHOTO_PATH).url)
+        self.photo_page = PhotoPage(self.driver, PhotoUploadPage(self.driver).load_photo(self.PHOTO_PATH).photo_url)
 
     def tearDown(self):
         self.user_page.open()
         try:
             self.user_page.open()
             username = self.user_page.user_header.get_username()
-            assert(username == AuthPage.USER_NAME1)
+            assert(username == UserPage.USER_NAME1)
         except AssertionError:
             self.user_page.logout()
             self.user_page.login_1()

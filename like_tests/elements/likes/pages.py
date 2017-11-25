@@ -25,3 +25,25 @@ class FriendsFeed(Page):
     @property
     def like_button(self):
         return FeedPhotoLikeButton(self.driver)
+
+class GeneralFeed(Page):
+    ACTIVE = OwnPhotoLikeButton.ACTIVE
+    DISABLED = OwnPhotoLikeButton.DISABLED
+
+    def open_photo(self):
+        FriendsFeedButton(self.driver).click()
+        FeedPhoto(self.driver).click()
+
+    def add_like(self):
+        self.like_button.click_disabled()
+
+    def remove_like(self):
+        self.like_button.click_active()
+
+    @property
+    def like_counter(self):
+        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
+
+    @property
+    def like_button(self):
+        return FeedPhotoLikeButton(self.driver)

@@ -11,7 +11,7 @@ class FeedPhoto(Clickable):
     CLICK = '//div[@class="media-block media-photos "]//a'
 
 
-class PagePhotoLikeButton(Component):
+class OwnPhotoLikeButton(Component):
     BASE_BUTTON = 'button[@class="h-mod widget_cnt controls-list_lk"][@data-type="PHOTO"]'
     ACTIVE = '//div[@class="widget  __active __compact"]/' + BASE_BUTTON
     DISABLED = '//div[@class="widget  __compact"]/' + BASE_BUTTON
@@ -23,8 +23,8 @@ class PagePhotoLikeButton(Component):
         Clickable.hard_click(self.driver, self.ACTIVE)
 
 
-class FeedPhotoLikeButton(PagePhotoLikeButton):
-    BASE_BUTTON = PagePhotoLikeButton.BASE_BUTTON
+class FeedPhotoLikeButton(OwnPhotoLikeButton):
+    BASE_BUTTON = OwnPhotoLikeButton.BASE_BUTTON
     ACTIVE = '//div[@class="widget  __active"]/' + BASE_BUTTON
     DISABLED = '//div[@class="widget"]/' + BASE_BUTTON
 
