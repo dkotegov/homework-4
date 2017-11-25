@@ -17,9 +17,6 @@ class AlbumPage(Page):
         self.url = Photo(self.driver).url
         return self
 
-    def update_avatar(self):
-        AvatarUploadButton(self).click()
-
 
 class PhotoPage(Page):
     ACTIVE = PagePhotoLikeButton.ACTIVE

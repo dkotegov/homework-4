@@ -14,11 +14,9 @@ class AuthPage(Page):
 
     def login(self, login):
         password = os.environ['OK_PASSWORD']
-
-        auth_form = self.form
-        auth_form.set_login(login)
-        auth_form.set_password(password)
-        auth_form.submit()
+        self.form.set_login(login)
+        self.form.set_password(password)
+        self.form.submit()
 
     def login_user_1(self):
         self.login(self.USER_LOGIN1)
@@ -43,16 +41,24 @@ class UserPage(Page):
         return self.user_header.get_username()
 
     def logout(self):
-        LogoutButton(self.driver).click()
-        LogoutConfirmButton(self.driver).click()
-
-    @property
-    def user_header(self):
-        return UserHeader(self.driver)
+        self.logout_button.click()
+        self.logout_confirm_button.click()
 
     def is_logged_out(self):
         return self.auth_page.form.is_logged_out()
 
     @property
+    def user_header(self):
+        return UserHeader(self.driver)
+
+    @property
     def auth_page(self):
         return AuthPage(self.driver)
+
+    @property
+    def logout_button(self):
+        return LogoutButton(self.driver)
+
+    @property
+    def logout_confirm_button(self):
+        return LogoutConfirmButton(self.driver)
