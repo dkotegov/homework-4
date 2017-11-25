@@ -9,7 +9,11 @@ class FriendsFeedButton(Clickable):
     CLICK = '//div[@class="main-feed portlet"]//a[text()[contains(., "Друзья")]]'
 
 
-class FeedPhoto(Clickable):
+class FeedPhotoLikeButtonBig(Clickable):
+    CLICK = '//a[@class="photo-layer_klass_link"]'
+
+
+class FeedPhotoIcon(Clickable):
     CLICK = '//div[@class="media-block media-photos "]//a'
 
 

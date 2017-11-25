@@ -25,6 +25,9 @@ class UserPage(Page):
         self.login(self.USER_LOGIN2)
         return self.user_header.get_username()
 
+    def open_own_feed(self):
+        self.user_header.click()
+
     def logout(self):
         self.logout_button.click()
         self.logout_confirm_button.click()

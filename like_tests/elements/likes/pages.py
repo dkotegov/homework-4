@@ -10,7 +10,37 @@ class FriendsFeed(Page):
 
     def open_photo(self):
         FriendsFeedButton(self.driver).click()
-        FeedPhoto(self.driver).click()
+        FeedPhotoIcon(self.driver).click()
+        FeedPhotoLikeButtonBig(self.driver).find()
+        return FeedPhotoPage(self.driver, self.ACTIVE, self.DISABLED)
+
+
+class OwnGeneralFeed(Page):
+    ACTIVE = OwnPhotoLikeButton.ACTIVE
+    DISABLED = OwnPhotoLikeButton.DISABLED
+
+    def open_photo(self):
+        FeedPhotoIcon(self.driver).click()
+        FeedPhotoLikeButtonBig(self.driver).find()
+        return FeedPhotoPage(self.driver, self.ACTIVE, self.DISABLED)
+
+    def add_like(self):
+        self.like_button.click_disabled()
+
+    @property
+    def like_button(self):
+        return OwnPhotoLikeButton(self.driver)
+
+    @property
+    def like_counter(self):
+        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
+
+
+class FeedPhotoPage(Clickable):
+    def __init__(self, driver, active, disabled):
+        super(FeedPhotoPage, self).__init__(driver)
+        self.ACTIVE = active
+        self.DISABLED = disabled
 
     def add_like(self, wait_for_completion=False):
         self.like_button.click_disabled(wait_for_completion)
@@ -25,25 +55,3 @@ class FriendsFeed(Page):
     @property
     def like_button(self):
         return FeedPhotoLikeButton(self.driver)
-
-
-class OwnGeneralFeed(Page):
-    ACTIVE = OwnPhotoLikeButton.ACTIVE
-    DISABLED = OwnPhotoLikeButton.DISABLED
-
-    def open_photo(self):
-        FeedPhoto(self.driver).click()
-
-    def add_like(self):
-        self.like_button.click_disabled()
-
-    def remove_like(self):
-        self.like_button.click_active()
-
-    @property
-    def like_counter(self):
-        return PhotoLikeCounter(self.driver, self.ACTIVE, self.DISABLED)
-
-    @property
-    def like_button(self):
-        return OwnPhotoLikeButton(self.driver)

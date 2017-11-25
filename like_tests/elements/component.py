@@ -6,6 +6,7 @@ class Component(object):
     POLL_FREQUENCY = 0.1
 
     def __init__(self, driver):
+        # type: (object) -> object
         self.driver = driver
 
 
@@ -14,6 +15,9 @@ class Clickable(Component):
 
     def click(self):
         self.driver.find_element_by_xpath(self.CLICK).click()
+
+    def find(self):
+        self.driver.find_element_by_xpath(self.CLICK)
 
     @staticmethod
     def hard_click(driver, xpath):
