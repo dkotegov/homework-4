@@ -48,3 +48,11 @@ class LikePhotoTests(BasePhotoTest):
         feed.add_like()
         self.assertTrue(feed.like_counter.is_empty())
         self.photo_deleted = True
+
+    def test_fast_likes(self):
+        self.photo_page.open()
+        self.driver.implicitly_wait(0.5)
+        for i in range(0, 10):
+            self.photo_page.add_like(True)
+            self.photo_page.remove_like(True)
+        self.assertTrue(self.photo_page.like_counter.is_empty())

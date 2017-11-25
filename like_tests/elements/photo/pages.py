@@ -8,7 +8,6 @@ from like_tests.elements.likes.components import *
 
 
 class AlbumPage(Page):
-
     def __init__(self, driver, user_path):
         super(AlbumPage, self).__init__(driver)
         self.PATH = urljoin(user_path, 'pphotos')
@@ -19,7 +18,6 @@ class AlbumPage(Page):
 
 
 class PhotoUploadPage(Page):
-
     def __init__(self, driver):
         super(PhotoUploadPage, self).__init__(driver)
         self.photo_url = None
@@ -39,11 +37,11 @@ class OwnPhotoPage(Page):
         super(OwnPhotoPage, self).__init__(driver)
         self.PATH = photo_url
 
-    def add_like(self):
-        self.like_button.click_disabled()
+    def add_like(self, wait_for_completion=False):
+        self.like_button.click_disabled(wait_for_completion)
 
-    def remove_like(self):
-        self.like_button.click_active()
+    def remove_like(self, wait_for_completion=False):
+        self.like_button.click_active(wait_for_completion)
 
     def delete(self):
         self.delete_button.click()

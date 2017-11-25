@@ -12,11 +12,11 @@ class FriendsFeed(Page):
         FriendsFeedButton(self.driver).click()
         FeedPhoto(self.driver).click()
 
-    def add_like(self):
-        self.like_button.click_disabled()
+    def add_like(self, wait_for_completion=False):
+        self.like_button.click_disabled(wait_for_completion)
 
-    def remove_like(self):
-        self.like_button.click_active()
+    def remove_like(self, wait_for_completion=False):
+        self.like_button.click_active(wait_for_completion)
 
     @property
     def like_counter(self):

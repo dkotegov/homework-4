@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support.wait import WebDriverWait
 from like_tests.elements.component import *
 
 
@@ -16,11 +18,15 @@ class OwnPhotoLikeButton(Component):
     ACTIVE = '//div[@class="widget  __active __compact"]/' + BASE_BUTTON
     DISABLED = '//div[@class="widget  __compact"]/' + BASE_BUTTON
 
-    def click_disabled(self):
+    def click_disabled(self, wait_for_completion=False):
         Clickable.hard_click(self.driver, self.DISABLED)
+        if wait_for_completion:
+            self.driver.find_element_by_xpath(self.ACTIVE)
 
-    def click_active(self):
+    def click_active(self, wait_for_completion=False):
         Clickable.hard_click(self.driver, self.ACTIVE)
+        if wait_for_completion:
+            self.driver.find_element_by_xpath(self.DISABLED)
 
 
 class FeedPhotoLikeButton(OwnPhotoLikeButton):
@@ -30,7 +36,6 @@ class FeedPhotoLikeButton(OwnPhotoLikeButton):
 
 
 class PhotoLikeCounter(Component):
-
     def __init__(self, driver, active_button, disabled_button):
         super(PhotoLikeCounter, self).__init__(driver)
         self.ACTIVE = active_button + '/span[@class="widget_count js-count"]'
