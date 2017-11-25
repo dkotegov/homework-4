@@ -31,12 +31,12 @@ class PhotoUploadPage(Page):
         return self
 
 
-class PhotoPage(Page):
+class OwnPhotoPage(Page):
     ACTIVE = OwnPhotoLikeButton.ACTIVE
     DISABLED = OwnPhotoLikeButton.DISABLED
 
     def __init__(self, driver, photo_url):
-        super(PhotoPage, self).__init__(driver)
+        super(OwnPhotoPage, self).__init__(driver)
         self.PATH = photo_url
 
     def add_like(self):
@@ -45,7 +45,7 @@ class PhotoPage(Page):
     def remove_like(self):
         self.like_button.click_active()
 
-    def delete_photo(self):
+    def delete(self):
         self.delete_button.click()
 
     def close(self):

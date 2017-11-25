@@ -7,11 +7,11 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 class PhotoUploadButton(Component):
     BUTTON = '//input[@type="file"][@name="photo"]'
-    MOVE_PANEL = '//a[@data-l="aid,PhotoUpload_ShowMovePanel"]'
+    SELECTABLE_ICON = '//span[@class="selectable-card_ic"]'
 
     def load_photo(self, photo_path):
         self.driver.find_element_by_xpath(self.BUTTON).send_keys(photo_path)
-        self.driver.find_element_by_xpath(self.MOVE_PANEL)
+        self.driver.find_element_by_xpath(self.SELECTABLE_ICON)
 
 
 class AvatarUploadButton(Clickable):

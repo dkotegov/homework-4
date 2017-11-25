@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from like_tests.tests.base import BasePhotoTest
-from like_tests.elements.likes.pages import *
+from like_tests.elements.likes.pages import FriendsFeed, OwnGeneralFeed
+from like_tests.elements.photo.pages import OwnPhotoPage
 
 
 class LikePhotoTests(BasePhotoTest):
@@ -36,4 +37,14 @@ class LikePhotoTests(BasePhotoTest):
         self.photo_page.remove_like()
         self.assertTrue(self.photo_page.like_counter.is_empty())
 
-    #def test_like_deleted_photo(self):
+    def test_like_deleted_photo(self):
+        self.user_page.open()
+        self.user_page.user_header.click()
+        feed = OwnGeneralFeed(self.driver)
+        feed.open_photo()
+        photo = OwnPhotoPage(self.driver, '')
+        photo.delete()
+        photo.close()
+        feed.add_like()
+        self.assertTrue(feed.like_counter.is_empty())
+        self.photo_deleted = True

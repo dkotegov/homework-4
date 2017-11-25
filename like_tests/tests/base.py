@@ -34,22 +34,34 @@ class BasePhotoTest(BaseTest):
 
     def setUp(self):
         super(BasePhotoTest, self).setUp()
-        self.photo_page = PhotoPage(self.driver, PhotoUploadPage(self.driver).load_photo(self.PHOTO_PATH).photo_url)
+        self.photo_page = OwnPhotoPage(self.driver, PhotoUploadPage(self.driver).load_photo(self.PHOTO_PATH).photo_url)
+        self.photo_deleted = False
 
     def tearDown(self):
-        self.user_page.open()
-        try:
+        if not self.photo_deleted:
             self.user_page.open()
-            username = self.user_page.user_header.get_username()
-            assert(username == UserPage.USER_NAME1)
-        except AssertionError:
-            self.user_page.logout()
-            self.user_page.login_1()
-        except WebDriverException:
-            self.user_page.login_1()
+            try:
+                self.user_page.open()
+                username = self.user_page.user_header.get_username()
+                assert(username == UserPage.USER_NAME1)
+            except AssertionError:
+                self.user_page.logout()
+                self.user_page.login_1()
+            except WebDriverException:
+                self.user_page.login_1()
 
-        self.photo_page.open()
-        self.photo_page.delete_photo()
+            self.photo_page.open()
+            self.photo_page.delete()
+
+        super(BasePhotoTest, self).tearDown()
+
+
+class NoDeletionPhotoTest(BasePhotoTest):
+
+    def setUp(self):
+        super(NoDeletionPhotoTest, self).setUp()
+
+    def tearDown(self):
         super(BasePhotoTest, self).tearDown()
 
 
