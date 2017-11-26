@@ -15,7 +15,7 @@ class FeedPhotoIcon(Clickable):
     CLICK = '//div[@class="media-block media-photos "]//a'
 
 
-class OwnPhotoLikeButton(Component):
+class CompactPhotoLikeButton(Component):
     BASE_BUTTON = 'button[@class="h-mod widget_cnt controls-list_lk"][@data-type="PHOTO"]'
     ACTIVE = '//div[@class="widget  __active __compact"]/' + BASE_BUTTON
     DISABLED = '//div[@class="widget  __compact"]/' + BASE_BUTTON
@@ -31,8 +31,8 @@ class OwnPhotoLikeButton(Component):
             self.driver.find_element_by_xpath(self.DISABLED)
 
 
-class FeedPhotoLikeButton(OwnPhotoLikeButton):
-    BASE_BUTTON = OwnPhotoLikeButton.BASE_BUTTON
+class NonCompactPhotoLikeButton(CompactPhotoLikeButton):
+    BASE_BUTTON = CompactPhotoLikeButton.BASE_BUTTON
     ACTIVE = '//div[@class="widget  __active"]/' + BASE_BUTTON
     DISABLED = '//div[@class="widget"]/' + BASE_BUTTON
 
@@ -50,7 +50,7 @@ class PhotoLikeCounter(Component):
         return int(self.driver.find_element_by_xpath(self.ACTIVE).get_attribute("innerText"))
 
 
-class GiftLikeButton(OwnPhotoLikeButton):
+class GiftLikeButton(CompactPhotoLikeButton):
     BASE_BUTTON = 'button[@class="h-mod widget_cnt controls-list_lk"][@data-type="PRESENT"]'
     ACTIVE = '//div[@class="widget  __active __compact"]/' + BASE_BUTTON
     DISABLED = '//div[@class="widget  __compact"]/' + BASE_BUTTON

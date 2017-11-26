@@ -44,11 +44,11 @@ class OwnPhotoPage(Page):
 
     @property
     def like_counter(self):
-        return PhotoLikeCounter(self.driver, OwnPhotoLikeButton.ACTIVE, OwnPhotoLikeButton.DISABLED)
+        return PhotoLikeCounter(self.driver, CompactPhotoLikeButton.ACTIVE, CompactPhotoLikeButton.DISABLED)
 
     @property
     def like_button(self):
-        return OwnPhotoLikeButton(self.driver)
+        return CompactPhotoLikeButton(self.driver)
 
     @property
     def delete_button(self):
@@ -69,8 +69,8 @@ class FeedPhotoPage(Clickable):
 
     @property
     def like_counter(self):
-        return PhotoLikeCounter(self.driver, FeedPhotoLikeButton.ACTIVE, FeedPhotoLikeButton.DISABLED)
+        return PhotoLikeCounter(self.driver, NonCompactPhotoLikeButton.ACTIVE, NonCompactPhotoLikeButton.DISABLED)
 
     @property
     def like_button(self):
-        return FeedPhotoLikeButton(self.driver)
+        return NonCompactPhotoLikeButton(self.driver)
