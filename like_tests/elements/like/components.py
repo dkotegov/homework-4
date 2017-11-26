@@ -49,7 +49,6 @@ class PhotoLikeCounter(Component):
         return int(self.driver.find_element_by_xpath(self.EMPTY).get_attribute("innerText")) == 0
 
     def non_zero_count(self):
-        print(self.driver.find_element_by_xpath(self.ACTIVE).get_attribute("innerText"))
         return int(self.driver.find_element_by_xpath(self.ACTIVE).get_attribute("innerText"))
 
 
@@ -58,6 +57,16 @@ class GiftLikeButton(OwnPhotoLikeButton):
     ACTIVE = '//div[@class="widget  __active __compact"]/' + BASE_BUTTON
     DISABLED = '//div[@class="widget  __compact"]/' + BASE_BUTTON
 
+    def click_disabled(self, wait_for_completion=False):
+        self.driver.find_element_by_xpath(self.DISABLED).click()
+        if wait_for_completion:
+            self.driver.find_element_by_xpath(self.ACTIVE)
+
+    def click_active(self, wait_for_completion=False):
+        self.driver.find_element_by_xpath(self.ACTIVE).click()
+        if wait_for_completion:
+            self.driver.find_element_by_xpath(self.DISABLED)
+
 
 class GiftLikeCounter(PhotoLikeCounter):
     ACTIVE = GiftLikeButton.ACTIVE + '/span[@class="widget_count js-count"]'
@@ -65,3 +74,9 @@ class GiftLikeCounter(PhotoLikeCounter):
 
     def __init__(self, driver):
         super(GiftLikeCounter, self).__init__(driver, GiftLikeButton.ACTIVE, GiftLikeButton.DISABLED)
+
+    def is_empty(self):
+        return self.driver.find_element_by_xpath(self.EMPTY)
+
+
+

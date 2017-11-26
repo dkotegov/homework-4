@@ -6,9 +6,17 @@ from like_tests.elements.gift.pages import OwnGiftsPage
 
 class GiftLikeTests(BaseTest):
 
-    def test_open(self):
-        OwnGiftsPage(self.driver).open()
-        import time
-        OwnGiftsPage(self.driver).add_like()
-        time.sleep(4)
-        assert (1 == 1)
+    def test_add_like(self):
+        gift_page = OwnGiftsPage(self.driver)
+        gift_page.open()
+        gift_page.add_like()
+        self.assertEqual(gift_page.likes_count(), 1)
+        gift_page.remove_like()
+
+    def test_remove_like(self):
+        gift_page = OwnGiftsPage(self.driver)
+        gift_page.open()
+        gift_page.add_like()
+        gift_page.remove_like()
+        self.driver.refresh()
+        self.assertTrue(gift_page.likes_empty())

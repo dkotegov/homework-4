@@ -6,7 +6,6 @@ class Component(object):
     POLL_FREQUENCY = 0.1
 
     def __init__(self, driver):
-        # type: (object) -> object
         self.driver = driver
 
 

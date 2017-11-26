@@ -8,8 +8,21 @@ class OwnGiftsPage(Page):
     PATH = 'gifts/received'
 
     def add_like(self):
-        GiftLikeButton(self.driver).click_disabled()
-        import time
-        time.sleep(2)
-        GiftLikeButton(self.driver).click_active()
+        self.like_button.click_disabled(True)
 
+    def remove_like(self):
+        self.like_button.click_active(True)
+
+    def likes_empty(self):
+        return self.like_counter.is_empty()
+
+    def likes_count(self):
+        return self.like_counter.non_zero_count()
+
+    @property
+    def like_button(self):
+        return GiftLikeButton(self.driver)
+
+    @property
+    def like_counter(self):
+        return GiftLikeCounter(self.driver)
