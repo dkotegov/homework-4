@@ -21,3 +21,11 @@ class MessagesTest(BaseTest):
         chat_page.send_message()
 
         self.assertEqual(len(chat_page.message_input_text()), 1, 'message input has cleared')
+
+    def test_home_button(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_home_button()
+
+        self.assertTrue(chat_page.is_chat_closed(), 'chat has closed')
