@@ -3,6 +3,7 @@
 from tests.pages.base import BasePage
 
 from tests.elements.messages.send_panel import SendPanel
+from tests.elements.messages.home_button import HomeButton
 
 
 class ChatPage(BasePage):
@@ -12,6 +13,7 @@ class ChatPage(BasePage):
         super(ChatPage, self).__init__(driver)
 
         self.send_panel = SendPanel(driver)
+        self.home_button = HomeButton(driver)
 
     def message_input_text(self, text=None):
         if text is not None:
@@ -24,3 +26,6 @@ class ChatPage(BasePage):
 
     def get_message_input_placeholder(self):
         return self.send_panel.message_input().wait_for_visible().get().get_attribute('data-placeholder')
+
+    def click_on_home_button(self):
+        self.home_button.button().wait_for_clickable().get().click()
