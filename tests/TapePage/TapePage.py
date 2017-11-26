@@ -7,7 +7,6 @@ from tests.Page.Page import Page
 
 
 class TapePage(Page):
-
     PATH = ''
 
     def open_first_post(self):

@@ -3,6 +3,7 @@
 import os
 from selenium import webdriver
 
+
 def main():
     browser = webdriver.Firefox(executable_path=os.environ['BROWSER_DRIVERS'] + '/geckodriver')
 
