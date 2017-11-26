@@ -11,8 +11,8 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException,
 from selenium.webdriver.common.action_chains import ActionChains
 
 
-USERNAME_FIRST = 'technopark9'
-USERNAME_SECOND = 'technopark36'
+USERNAME_FIRST = 'technopark36'
+USERNAME_SECOND = 'technopark9'
 PASSWORD = os.environ['PASSWORD']
 
 MAX = 60
