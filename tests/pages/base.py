@@ -1,7 +1,7 @@
 # coding=utf-8
 import time
 
-from tests.elements.main import UserDropdown
+from tests.elements.main import MainElements
 
 
 class BasePage(object):
@@ -12,4 +12,4 @@ class BasePage(object):
 
     def navigate(self):
         self.driver.get(self.url)
-        UserDropdown(self.driver).wait_for_presence()
+        MainElements(self.driver).user_email().wait_for_presence()
