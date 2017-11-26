@@ -16,7 +16,7 @@ class AuthPage(Page):
 
 	def login(self):
 		user_login = 'technopark34'
-		password = os.environ['OK_PASSWORD']
+		password = os.environ['PASSWORD']
 
 		auth_form = self.form
 		auth_form.set_login(user_login)

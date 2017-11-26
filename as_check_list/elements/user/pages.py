@@ -19,7 +19,7 @@ class UserPage(Page):
         user_page.open()
 
     def login(self, login):
-        password = os.environ['OK_PASSWORD']
+        password = os.environ['PASSWORD']
         self.auth_form.set_login(login)
         self.auth_form.set_password(password)
         self.auth_form.submit()
