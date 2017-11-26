@@ -29,3 +29,14 @@ class MessagesTest(BaseTest):
         chat_page.click_on_home_button()
 
         self.assertTrue(chat_page.is_chat_closed(), 'chat has closed')
+
+    def test_user_info_appearance(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        user_name = chat_page.get_chat_header_name()
+
+        chat_page.click_on_chat_header()
+
+        self.assertEqual(chat_page.get_chat_header_name(), user_name, 'chat header name has not boon changed')
+        self.assertEqual(chat_page.get_user_info_head_name(), user_name, 'user info header name fills properly')
