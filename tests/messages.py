@@ -2,6 +2,22 @@
 
 from base import BaseTest
 
+from tests.pages.messages.chat import ChatPage
+
 
 class MessagesTest(BaseTest):
-    pass
+    DEFAULT_USER_ID = 589325597219
+    DEFAULT_MESSAGE_TEXT = 'test from selenium'
+
+    MESSAGE_TEXT_INPUT_PLACEHOLDER = unicode('Напишите сообщение', 'utf-8')
+
+    def test_message_send(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        self.assertEqual(chat_page.get_message_input_placeholder(), self.MESSAGE_TEXT_INPUT_PLACEHOLDER)
+
+        chat_page.message_input_text(self.DEFAULT_MESSAGE_TEXT)
+        chat_page.send_message()
+
+        self.assertEqual(len(chat_page.message_input_text()), 1, 'message input has cleared')
