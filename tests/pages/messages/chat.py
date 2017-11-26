@@ -5,6 +5,7 @@ from tests.pages.base import BasePage
 from tests.elements.messages.send_panel import SendPanel
 from tests.elements.messages.home_button import HomeButton
 from tests.elements.messages.settings_button import SettingsButton
+from tests.elements.messages.chat_header import ChatHeader
 
 
 class ChatPage(BasePage):
@@ -16,6 +17,7 @@ class ChatPage(BasePage):
         self.send_panel = SendPanel(driver)
         self.home_button = HomeButton(driver)
         self.settings_button = SettingsButton(driver)
+        self.chat_header = ChatHeader(driver)
 
     def message_input_text(self, text=None):
         if text is not None:
@@ -35,3 +37,9 @@ class ChatPage(BasePage):
     def is_chat_closed(self):
         element = self.settings_button.button().wait_for_visible().get()
         return element is not None
+
+    def click_on_chat_header(self):
+        self.chat_header.head_name().wait_for_clickable().get().click()
+
+    def get_chat_header_name(self):
+        return self.chat_header.head_name().wait_for_visible().get().get_attribute('innerHTML')
