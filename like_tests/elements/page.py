@@ -5,10 +5,10 @@ import urlparse
 
 class Page(object):
     BASE_URL = 'https://www.ok.ru'
-    PATH = ''
 
-    def __init__(self, driver):
+    def __init__(self, driver, path=''):
         self.driver = driver
+        self.PATH = path
 
     def open(self):
         url = urlparse.urljoin(self.BASE_URL, self.PATH)

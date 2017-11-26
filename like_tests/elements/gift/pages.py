@@ -5,7 +5,9 @@ from like_tests.elements.like.components import *
 
 
 class OwnGiftsPage(Page):
-    PATH = 'gifts/received'
+
+    def __init__(self, driver):
+        super(OwnGiftsPage, self).__init__(driver, 'gifts/received')
 
     def add_like(self):
         self.like_button.click_disabled(True)

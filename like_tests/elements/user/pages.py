@@ -8,8 +8,15 @@ from like_tests.elements.page import Page
 class UserPage(Page):
     USER_LOGIN1 = 'technopark18'
     USER_NAME1 = u'Имярек Человекович'
+    USER_PATH1 = 'imyarek.chelovekovich'
     USER_LOGIN2 = 'technopark22'
     USER_NAME2 = u'Кадыр Рамзанов'
+    USER_PATH2 = '/profile/571379518273'
+
+    @staticmethod
+    def check_page(driver, user_path):
+        user_page = UserPage(driver, user_path)
+        user_page.open()
 
     def login(self, login):
         password = os.environ['OK_PASSWORD']

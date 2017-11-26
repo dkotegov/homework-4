@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from urlparse import urlparse, urljoin
+from urlparse import urljoin
 
 from like_tests.elements.page import Page
 from like_tests.elements.photo.components import *
@@ -9,8 +9,7 @@ from like_tests.elements.like.components import *
 
 class AlbumPage(Page):
     def __init__(self, driver, user_path=''):
-        super(AlbumPage, self).__init__(driver)
-        self.PATH = urljoin(user_path, 'pphotos')
+        super(AlbumPage, self).__init__(driver, urljoin(user_path, 'pphotos'))
 
     @property
     def photo(self):
@@ -30,10 +29,6 @@ class PhotoUploadPage(Page):
 
 
 class OwnPhotoPage(Page):
-
-    def __init__(self, driver, photo_url=''):
-        super(OwnPhotoPage, self).__init__(driver)
-        self.PATH = photo_url
 
     def add_like(self, wait_for_completion=False):
         self.like_button.click_disabled(wait_for_completion)
