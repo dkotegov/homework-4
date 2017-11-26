@@ -51,3 +51,10 @@ class PhotoDeleteButton(Clickable):
 
 class PhotoCloseButton(Clickable):
     CLICK = '//div[@class="js-photoLayerClose ic photo-layer_close"]'
+
+
+class DeletedPhotoStub(Component):
+    ELEMENT = '//span[@class="photo-layer_stub_img"]'
+
+    def find(self):
+        return self.driver.find_element_by_xpath(self.ELEMENT)

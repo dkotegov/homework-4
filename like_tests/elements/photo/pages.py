@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from urlparse import urljoin
+from selenium.webdriver.support.wait import WebDriverWait
 
 from like_tests.elements.page import Page
 from like_tests.elements.photo.components import *
@@ -38,9 +39,15 @@ class OwnPhotoPage(Page):
 
     def delete(self):
         self.delete_button.click()
+        DeletedPhotoStub(self.driver).find()
 
     def close(self):
+        url = self.driver.current_url
         self.close_button.click()
+        WebDriverWait(self.driver, Component.TIMEOUT, Component.POLL_FREQUENCY).until(
+            lambda d: d.current_url != url
+        )
+
 
     @property
     def like_counter(self):

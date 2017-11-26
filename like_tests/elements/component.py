@@ -16,7 +16,7 @@ class Clickable(Component):
         self.driver.find_element_by_xpath(self.CLICK).click()
 
     def find(self):
-        self.driver.find_element_by_xpath(self.CLICK)
+        return self.driver.find_element_by_xpath(self.CLICK)
 
     @staticmethod
     def hard_click(driver, xpath):

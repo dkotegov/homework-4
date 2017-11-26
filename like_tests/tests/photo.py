@@ -15,7 +15,7 @@ class LikePhotoTests(BasePhotoTest):
         photo.add_like()
         self.assertEqual(photo.like_counter.non_zero_count(), 1)
 
-    def test_like_remove_feed(self):
+    def test_remove_like_feed(self):
         self.user_page.logout()
         self.user_page.login_2()
         feed = FriendsFeed(self.driver)
@@ -30,7 +30,7 @@ class LikePhotoTests(BasePhotoTest):
         self.photo_page.add_like()
         self.assertEqual(self.photo_page.like_counter.non_zero_count(), 1)
 
-    def test_like_remove_album_photo(self):
+    def test_remove_like_album_photo(self):
         self.photo_page.open()
         self.photo_page.add_like()
         self.photo_page.remove_like()

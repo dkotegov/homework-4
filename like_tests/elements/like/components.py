@@ -1,5 +1,17 @@
 # -*- coding: utf-8 -*-
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import StaleElementReferenceException
+
+# return WebDriverWait(
+#             self.driver,
+#             self.TIMEOUT,
+#             self.POLL_FREQUENCY,
+#             ignored_exceptions=StaleElementReferenceException
+#         ).until(
+#             lambda d: int(d.find_element_by_xpath(self.ACTIVE).get_attribute("innerText"))
+#         )
+
 from like_tests.elements.component import *
 
 

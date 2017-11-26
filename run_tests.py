@@ -12,8 +12,8 @@ from like_tests.tests.feed import FeedLikeTests
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         # unittest.makeSuite(AuthTests),
-        # unittest.makeSuite(LikePhotoTests),
-        # unittest.makeSuite(GiftLikeTests),
+        unittest.makeSuite(LikePhotoTests),
+        unittest.makeSuite(GiftLikeTests),
         unittest.makeSuite(FeedLikeTests)
     ))
     result = unittest.TextTestRunner().run(suite)
