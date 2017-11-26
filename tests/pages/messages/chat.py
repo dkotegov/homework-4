@@ -6,6 +6,7 @@ from tests.elements.messages.send_panel import SendPanel
 from tests.elements.messages.home_button import HomeButton
 from tests.elements.messages.settings_button import SettingsButton
 from tests.elements.messages.chat_header import ChatHeader
+from tests.elements.messages.user_info import UserInfo
 
 
 class ChatPage(BasePage):
@@ -18,6 +19,7 @@ class ChatPage(BasePage):
         self.home_button = HomeButton(driver)
         self.settings_button = SettingsButton(driver)
         self.chat_header = ChatHeader(driver)
+        self.user_info = UserInfo(driver)
 
     def message_input_text(self, text=None):
         if text is not None:
@@ -43,3 +45,6 @@ class ChatPage(BasePage):
 
     def get_chat_header_name(self):
         return self.chat_header.head_name().wait_for_visible().get().get_attribute('innerHTML')
+
+    def get_user_info_head_name(self):
+        return self.user_info.head_name().wait_for_visible().get().get_attribute('innerHTML')
