@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from like_tests.tests.base import BasePhotoTest
-from like_tests.elements.likes.pages import FriendsFeed, OwnGeneralFeed, FeedPhotoPage
+from like_tests.elements.like.pages import FriendsFeed, OwnGeneralFeed, FeedPhotoPage
 from like_tests.elements.photo.pages import OwnPhotoPage
 
 

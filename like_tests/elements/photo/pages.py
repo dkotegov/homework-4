@@ -4,7 +4,7 @@ from urlparse import urlparse, urljoin
 
 from like_tests.elements.page import Page
 from like_tests.elements.photo.components import *
-from like_tests.elements.likes.components import *
+from like_tests.elements.like.components import *
 
 
 class AlbumPage(Page):

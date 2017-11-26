@@ -51,3 +51,17 @@ class PhotoLikeCounter(Component):
     def non_zero_count(self):
         print(self.driver.find_element_by_xpath(self.ACTIVE).get_attribute("innerText"))
         return int(self.driver.find_element_by_xpath(self.ACTIVE).get_attribute("innerText"))
+
+
+class GiftLikeButton(OwnPhotoLikeButton):
+    BASE_BUTTON = 'button[@class="h-mod widget_cnt controls-list_lk"][@data-type="PRESENT"]'
+    ACTIVE = '//div[@class="widget  __active __compact"]/' + BASE_BUTTON
+    DISABLED = '//div[@class="widget  __compact"]/' + BASE_BUTTON
+
+
+class GiftLikeCounter(PhotoLikeCounter):
+    ACTIVE = GiftLikeButton.ACTIVE + '/span[@class="widget_count js-count"]'
+    EMPTY = GiftLikeButton.DISABLED + '/span[@class="widget_count js-count __empty"]'
+
+    def __init__(self, driver):
+        super(GiftLikeCounter, self).__init__(driver, GiftLikeButton.ACTIVE, GiftLikeButton.DISABLED)

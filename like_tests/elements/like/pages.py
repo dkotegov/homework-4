@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from like_tests.elements.page import Page
-from like_tests.elements.likes.components import *
 from like_tests.elements.photo.pages import *
 
 
