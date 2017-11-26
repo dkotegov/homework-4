@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from urlparse import urljoin
-from selenium.webdriver.support.wait import WebDriverWait
 
-from like_tests.elements.page import Page
-from like_tests.elements.photo.components import *
-from like_tests.elements.like.components import *
+from as_check_list.elements.page import Page
+from as_check_list.elements.photo.components import *
+from as_check_list.elements.like.components import *
 
 
 class AlbumPage(Page):
@@ -30,7 +29,6 @@ class PhotoUploadPage(Page):
 
 
 class OwnPhotoPage(Page):
-
     def add_like(self, wait_for_completion=False):
         self.like_button.click_disabled(wait_for_completion)
 
@@ -47,7 +45,6 @@ class OwnPhotoPage(Page):
         WebDriverWait(self.driver, Component.TIMEOUT, Component.POLL_FREQUENCY).until(
             lambda d: d.current_url != url
         )
-
 
     @property
     def like_counter(self):
@@ -67,7 +64,6 @@ class OwnPhotoPage(Page):
 
 
 class FeedPhotoPage(Clickable):
-
     def add_like(self, wait_for_completion=False):
         self.like_button.click_disabled(wait_for_completion)
 

@@ -3,18 +3,11 @@
 
 import sys
 import unittest
-from like_tests.tests.auth import AuthTests
-from like_tests.tests.photo import LikePhotoTests
-from like_tests.tests.gift import GiftLikeTests
-from like_tests.tests.feed import FeedLikeTests
+
+from as_check_list.tests.test_suite import as_tests
 
 
 if __name__ == '__main__':
-    suite = unittest.TestSuite((
-        # unittest.makeSuite(AuthTests),
-        unittest.makeSuite(LikePhotoTests),
-        unittest.makeSuite(GiftLikeTests),
-        unittest.makeSuite(FeedLikeTests)
-    ))
+    suite = unittest.TestSuite(as_tests())
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

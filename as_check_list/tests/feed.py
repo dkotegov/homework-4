@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from like_tests.tests.base import BasePhotoTest
-from like_tests.elements.like.pages import FriendsFeed
+from as_check_list.tests.base import BasePhotoTest
+from as_check_list.elements.like.pages import FriendsFeed
 
 
 class FeedLikeTests(BasePhotoTest):
-
     def test_like_feed(self):
         self.user_page.logout()
         self.user_page.login_2()

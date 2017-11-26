@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from like_tests.elements.photo.pages import *
-from like_tests.elements.like.components import *
+from as_check_list.elements.photo.pages import *
+from as_check_list.elements.like.components import *
 
 
 class FriendsFeed(Page):

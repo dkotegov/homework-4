@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from like_tests.elements.component import *
+from as_check_list.elements.component import *
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import StaleElementReferenceException
 

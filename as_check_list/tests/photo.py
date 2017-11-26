@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from like_tests.tests.base import BasePhotoTest
-from like_tests.elements.like.pages import FriendsFeed, OwnGeneralFeed
+from as_check_list.tests.base import BasePhotoTest
+from as_check_list.elements.like.pages import FriendsFeed, OwnGeneralFeed
 
 
 class LikePhotoTests(BasePhotoTest):

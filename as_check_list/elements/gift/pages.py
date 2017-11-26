@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from urlparse import urljoin
-from like_tests.elements.page import Page
-from like_tests.elements.like.components import *
+from as_check_list.elements.page import Page
+from as_check_list.elements.like.components import *
 
 
 class OwnGiftsPage(Page):

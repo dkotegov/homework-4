@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from like_tests.tests.base import BaseGiftTest
-from like_tests.elements.user.pages import UserPage
-from like_tests.elements.gift.pages import OwnGiftsPage, FriendGiftsPage
+from as_check_list.tests.base import BaseGiftTest
+from as_check_list.elements.gift.pages import OwnGiftsPage, FriendGiftsPage
 
 
 # Предполагается, что у пользователя уже есть подарок
 class GiftLikeTests(BaseGiftTest):
-
     def test_add_like(self):
         gift_page = OwnGiftsPage(self.driver)
         gift_page.open()

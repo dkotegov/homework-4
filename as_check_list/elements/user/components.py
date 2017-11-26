@@ -2,7 +2,7 @@
 
 from selenium.webdriver.support.wait import WebDriverWait
 
-from like_tests.elements.component import *
+from as_check_list.elements.component import *
 
 
 class AuthForm(Component):

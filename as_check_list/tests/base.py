@@ -4,9 +4,9 @@ import unittest
 
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import DesiredCapabilities, Remote
-from like_tests.elements.user.pages import *
-from like_tests.elements.photo.pages import *
-from like_tests.elements.gift.pages import OwnGiftsPage
+from as_check_list.elements.user.pages import *
+from as_check_list.elements.photo.pages import *
+from as_check_list.elements.gift.pages import OwnGiftsPage
 
 
 class BaseTest(unittest.TestCase):
@@ -31,7 +31,7 @@ class BaseTest(unittest.TestCase):
 
 
 class BasePhotoTest(BaseTest):
-    PHOTO_PATH = os.path.join(os.getcwd(), "like_tests/uploads/lion.jpeg")
+    PHOTO_PATH = os.path.join(os.getcwd(), "as_check_list/uploads/lion.jpeg")
 
     def setUp(self):
         super(BasePhotoTest, self).setUp()

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-from like_tests.elements.user.components import *
-from like_tests.elements.page import Page
+from as_check_list.elements.user.components import *
+from as_check_list.elements.page import Page
 
 
 class UserPage(Page):
