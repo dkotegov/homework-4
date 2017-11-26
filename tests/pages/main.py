@@ -8,5 +8,5 @@ class MainPage(BasePage):
 
     def is_authorized(self):
         messages_button = MessagesButton(self.driver)
-        element = messages_button.get_button().wait_for_visible().get()
+        element = messages_button.messages_button().wait_for_visible().get()
         return element is not None

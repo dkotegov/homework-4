@@ -44,3 +44,9 @@ class BaseElement(object):
 
     def get(self):
         return self.element
+
+    def __getattr__(self, item):
+        def f():
+            self.locator = self.__getattribute__(item.upper())
+            return self
+        return f
