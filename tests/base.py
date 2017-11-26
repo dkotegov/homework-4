@@ -9,7 +9,7 @@ from tests.pages.auth import AuthPage
 from tests.pages.main import MainPage
 
 
-class MessagesTest(unittest.TestCase):
+class BaseTest(unittest.TestCase):
     BROWSER = os.environ.get('BROWSER', 'CHROME')
     LOGIN = unicode(os.environ['LOGIN'], 'utf-8')
     PASSWORD = unicode(os.environ['PASSWORD'], 'utf-8')
