@@ -6,6 +6,7 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import DesiredCapabilities, Remote
 from like_tests.elements.user.pages import *
 from like_tests.elements.photo.pages import *
+from like_tests.elements.gift.pages import OwnGiftsPage
 
 
 class BaseTest(unittest.TestCase):
@@ -56,12 +57,30 @@ class BasePhotoTest(BaseTest):
         super(BasePhotoTest, self).tearDown()
 
 
-class NoDeletionPhotoTest(BasePhotoTest):
+class BaseGiftTest(BaseTest):
 
     def setUp(self):
-        super(NoDeletionPhotoTest, self).setUp()
+        super(BaseGiftTest, self).setUp()
+        self.like_added = False
+        self.gift_page = OwnGiftsPage(self.driver)
 
     def tearDown(self):
-        super(BasePhotoTest, self).tearDown()
+        if self.like_added:
+            try:
+                self.user_page.open()
+                username = self.user_page.user_header.get_username()
+                assert (username == UserPage.USER_NAME1)
+            except AssertionError:
+                self.user_page.logout()
+                self.user_page.login_1()
+            except WebDriverException:
+                self.user_page.login_1()
+
+            self.gift_page.open()
+            self.gift_page.remove_like()
+
+        super(BaseGiftTest, self).tearDown()
+
+
 
 

@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from urlparse import urljoin
 from like_tests.elements.page import Page
 from like_tests.elements.like.components import *
 
 
 class OwnGiftsPage(Page):
 
-    def __init__(self, driver):
-        super(OwnGiftsPage, self).__init__(driver, 'gifts/received')
+    def __init__(self, driver, path='gifts/received'):
+        super(OwnGiftsPage, self).__init__(driver, path)
 
     def add_like(self):
         self.like_button.click_disabled(True)
@@ -28,3 +29,9 @@ class OwnGiftsPage(Page):
     @property
     def like_counter(self):
         return GiftLikeCounter(self.driver)
+
+
+class FriendGiftsPage(OwnGiftsPage):
+
+    def __init__(self, driver, user_path):
+        super(FriendGiftsPage, self).__init__(driver, urljoin(user_path + '/', 'giftsFriend'))

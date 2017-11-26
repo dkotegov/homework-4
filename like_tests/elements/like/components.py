@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from selenium.common.exceptions import StaleElementReferenceException
-from selenium.webdriver.support.wait import WebDriverWait
 from like_tests.elements.component import *
 
 
@@ -69,14 +67,10 @@ class GiftLikeButton(OwnPhotoLikeButton):
 
 
 class GiftLikeCounter(PhotoLikeCounter):
-    ACTIVE = GiftLikeButton.ACTIVE + '/span[@class="widget_count js-count"]'
-    EMPTY = GiftLikeButton.DISABLED + '/span[@class="widget_count js-count __empty"]'
 
     def __init__(self, driver):
-        super(GiftLikeCounter, self).__init__(driver, GiftLikeButton.ACTIVE, GiftLikeButton.DISABLED)
+        super(GiftLikeCounter, self).__init__(driver, '//' + GiftLikeButton.BASE_BUTTON, '//' + GiftLikeButton.BASE_BUTTON)
+        self.EMPTY = '//div[@class="widget  __compact"]//span[contains(@class, "widget_count js-count")]'
 
     def is_empty(self):
         return self.driver.find_element_by_xpath(self.EMPTY)
-
-
-
