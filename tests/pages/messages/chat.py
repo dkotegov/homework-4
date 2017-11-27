@@ -7,6 +7,7 @@ from tests.elements.messages.home_button import HomeButton
 from tests.elements.messages.settings_button import SettingsButton
 from tests.elements.messages.chat_header import ChatHeader
 from tests.elements.messages.user_info import UserInfo
+from tests.elements.messages.call import CallWindow
 
 
 class ChatPage(BasePage):
@@ -20,6 +21,7 @@ class ChatPage(BasePage):
         self.settings_button = SettingsButton(driver)
         self.chat_header = ChatHeader(driver)
         self.user_info = UserInfo(driver)
+        self.call_window = CallWindow(driver)
 
     def message_input_text(self, text=None):
         if text is not None:
@@ -40,8 +42,26 @@ class ChatPage(BasePage):
         element = self.settings_button.button().wait_for_visible().get()
         return element is not None
 
+    def is_call_window_opened(self):
+        element = self.call_window.modal().wait_for_visible().get()
+        return element is not None
+
+    def is_calling(self):
+        element = self.call_window.hang_up_button().wait_for_visible().get()
+        return element is not None
+
+    def is_hanged_up(self):
+        element = self.call_window.recall_button().wait_for_visible().get()
+        return element is not None
+
     def click_on_chat_header(self):
         self.chat_header.head_name().wait_for_clickable().get().click()
+
+    def click_on_call_button(self):
+        self.chat_header.call_button().wait_for_clickable().get().click()
+
+    def click_on_hang_up_button(self):
+        self.call_window.hang_up_button().wait_for_clickable().get().click()
 
     def get_chat_header_name(self):
         return self.chat_header.head_name().wait_for_visible().get().get_attribute('innerHTML')

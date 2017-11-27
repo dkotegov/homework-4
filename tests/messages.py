@@ -40,3 +40,16 @@ class MessagesTest(BaseTest):
 
         self.assertEqual(chat_page.get_chat_header_name(), user_name, 'chat header name has not boon changed')
         self.assertEqual(chat_page.get_user_info_head_name(), user_name, 'user info header name fills properly')
+
+    def test_call(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_call_button()
+
+        self.assertTrue(chat_page.is_call_window_opened(), 'call window has been opened')
+        self.assertTrue(chat_page.is_calling(), 'calling')
+
+        chat_page.click_on_hang_up_button()
+
+        self.assertTrue(chat_page.is_hanged_up(), 'hanged up')
