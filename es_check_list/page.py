@@ -139,7 +139,7 @@ class TopMenu(Component):
     DROPDOWN = '//div[@class="toolbar_dropdown_w h-mod"]'
     LOGOUT = '//a[@data-l="t,logoff"]'
     LOGOUT_CONFIRM = '//input[@id="hook_FormButton_logoff.confirm_not_decorate"][contains(@value,"Выйти")]'
-    ENTER = '//a[contains(text(), "Вход")]'
+    ENTER = '//input[@class="button-pro __wide"]'
     PHOTO = '//div[@id="photoLayerWrapper"]'
 
     def open(self):
@@ -149,8 +149,8 @@ class TopMenu(Component):
         counter = 0
         while counter < MAX:
             counter += 1
+            self.driver.find_element_by_xpath(self.LOGOUT).click()
             try:
-                self.driver.find_element_by_xpath(self.LOGOUT).click()
                 ActionChains(self.driver).move_to_element(
                     self.driver.find_element_by_xpath(self.LOGOUT_CONFIRM)).click().perform()
                 try:
