@@ -149,8 +149,8 @@ class TopMenu(Component):
         counter = 0
         while counter < MAX:
             counter += 1
-            self.driver.find_element_by_xpath(self.LOGOUT).click()
             try:
+                self.driver.find_element_by_xpath(self.LOGOUT).click()
                 ActionChains(self.driver).move_to_element(
                     self.driver.find_element_by_xpath(self.LOGOUT_CONFIRM)).click().perform()
                 try:
