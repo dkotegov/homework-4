@@ -2,6 +2,10 @@
 
 from base import BaseTest
 from tests.pages.discussions.discussions import DiscussionsPage
+from tests.pages.main import MainPage
+from tests.pages.post import Post
+
+from tests.pages.posts import PostsPage
 
 
 class DiscussionsTest(BaseTest):
@@ -38,3 +42,8 @@ class DiscussionsTest(BaseTest):
         elm1 = dp.openGrupsTab()
         elm2 = dp.selectedTab()
         self.assertEquals(elm1, elm2,"Groups not opened")
+
+    def test_create_my_publish(self):
+        postPage = PostsPage(self.driver)
+        postPage.navigate()
+        postPage.create_my_discussions("ПАСАНЫ Я СОЗДАЛ")
