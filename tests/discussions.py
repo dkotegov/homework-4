@@ -3,7 +3,6 @@
 from base import BaseTest
 from tests.pages.discussions.discussions import DiscussionsPage
 from tests.pages.main import MainPage
-from tests.pages.post import Post
 
 from tests.pages.posts import PostsPage
 
@@ -44,6 +43,9 @@ class DiscussionsTest(BaseTest):
         self.assertEquals(elm1, elm2,"Groups not opened")
 
     def test_create_my_publish(self):
+        text = "ПАСАНЫ Я СОЗДАЛ 3"
         postPage = PostsPage(self.driver)
         postPage.navigate()
-        postPage.create_my_discussions("ПАСАНЫ Я СОЗДАЛ")
+        postPage.create_my_discussions(text)
+        DiscussionsPage.setComment(self,"first comment")
+        self.assertEquals(unicode(text,"utf-8"),DiscussionsPage.getCurrentDiscussionTitle(self),"my publish not created")
