@@ -11,4 +11,30 @@ class DiscussionsTest(BaseTest):
         discussions_page.navigate()
         self.assertTrue(discussions_page.is_opened(), 'discussions opened')
 
+    def test_tab_participated_open(self):
+        dp = DiscussionsPage(self.driver)
+        dp.navigate()
+        elm1 = dp.openParticipatedTab()
+        elm2 = dp.selectedTab()
+        self.assertEquals(elm1,elm2)
 
+    def test_tab_my_posts_open(self):
+        dp = DiscussionsPage(self.driver)
+        dp.navigate()
+        elm1 = dp.openMyPostsTab()
+        elm2 = dp.selectedTab()
+        self.assertEquals(elm1,elm2)
+
+    def test_tab_friends_open(self):
+       dp = DiscussionsPage(self.driver)
+       dp.navigate()
+       elm1 = dp.openFriendsTab()
+       elm2 = dp.selectedTab()
+       self.assertEquals(elm1,elm2)
+
+    def test_tab_groups_open(self):
+        dp = DiscussionsPage(self.driver)
+        dp.navigate()
+        elm1 = dp.openGrupsTab()
+        elm2 = dp.selectedTab()
+        self.assertEquals(elm1, elm2)
