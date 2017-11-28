@@ -1,8 +1,8 @@
 # Selenium Tests for ok.ru
 ## Downloads
-* [Selenium](http://selenium-release.storage.googleapis.com/index.html?path=3.7)
+* [Selenium](http://selenium-release.storage.googleapis.com/index.html)
 * [Selenium gecko driver](https://github.com/mozilla/geckodriver/releases)
-* [Selenium chrome driver](http://chromedriver.storage.googleapis.com/index.html?path=2.33)
+* [Selenium chrome driver](http://chromedriver.storage.googleapis.com/index.html)
 
 ## Instructions
 ### Install
