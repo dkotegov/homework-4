@@ -31,6 +31,8 @@ class ChatPage(BasePage):
 
     def send_message(self):
         self.send_panel.send_button().wait_for_clickable().get().click()
+        self.send_panel.send_button().wait_for_clickable().get().click()
+        self.send_panel.send_button().wait_for_clickable().get().click()
 
     def get_message_input_placeholder(self):
         return self.send_panel.message_input().wait_for_visible().get().get_attribute('data-placeholder')
@@ -56,23 +58,37 @@ class ChatPage(BasePage):
 
     def click_on_chat_header(self):
         self.chat_header.head_name().wait_for_clickable().get().click()
+        self.chat_header.head_name().wait_for_clickable().get().click()
+        self.chat_header.head_name().wait_for_clickable().get().click()
 
     def click_on_call_button(self):
+        self.chat_header.call_button().wait_for_clickable().get().click()
+        self.chat_header.call_button().wait_for_clickable().get().click()
         self.chat_header.call_button().wait_for_clickable().get().click()
 
     def click_on_hang_up_button(self):
         self.call_window.hang_up_button().wait_for_clickable().get().click()
+        self.call_window.hang_up_button().wait_for_clickable().get().click()
+        self.call_window.hang_up_button().wait_for_clickable().get().click()
 
     def click_on_mic_on_button(self):
+        self.call_window.mic_on_button().wait_for_clickable().get().click()
+        self.call_window.mic_on_button().wait_for_clickable().get().click()
         self.call_window.mic_on_button().wait_for_clickable().get().click()
 
     def click_on_mic_off_button(self):
         self.call_window.mic_off_button().wait_for_clickable().get().click()
+        self.call_window.mic_off_button().wait_for_clickable().get().click()
+        self.call_window.mic_off_button().wait_for_clickable().get().click()
 
     def click_on_cam_on_button(self):
         self.call_window.cam_on_button().wait_for_clickable().get().click()
+        self.call_window.cam_on_button().wait_for_clickable().get().click()
+        self.call_window.cam_on_button().wait_for_clickable().get().click()
 
     def click_on_cam_off_button(self):
+        self.call_window.cam_off_button().wait_for_clickable().get().click()
+        self.call_window.cam_off_button().wait_for_clickable().get().click()
         self.call_window.cam_off_button().wait_for_clickable().get().click()
 
     def get_chat_header_name(self):
