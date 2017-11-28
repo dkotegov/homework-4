@@ -2,7 +2,7 @@
 
 import urlparse
 
-from .components import AuthForm, SearchField, Categories
+from .components import AuthForm, SearchField, Categories, NavBar, SearchResult
 
 class Page(object):
     BASE_URL = 'https://ok.ru/'
@@ -31,4 +31,11 @@ class SearchPage(Page):
     @property
     def categories(self):
         return Categories(self.driver)
-    
+
+    @property
+    def nav(self):
+        return NavBar(self.driver)
+
+    @property
+    def search_result(self):
+        return SearchResult(self.driver)
