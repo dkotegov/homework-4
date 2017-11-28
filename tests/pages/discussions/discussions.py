@@ -1,5 +1,9 @@
+from time import sleep
+
+from tests.elements.discussions.Discussion import Discussion
 from tests.elements.discussions.Friends import Friends
 from tests.elements.discussions.Grups import Grups
+from tests.elements.discussions.Input import Input
 from tests.elements.discussions.Participated import Participated
 from tests.elements.discussions.SelectedTab import SelectedTab
 from tests.elements.discussions.myPosts import MyPosts
@@ -37,6 +41,26 @@ class DiscussionsPage(BasePage):
         return element
 
     def selectedTab(self):
-        selected = SelectedTab(self)
+        selected = SelectedTab(self.driver)
         element = selected.selected_tab().get()
         return element
+
+    @staticmethod
+    def setComment(self,text):
+        input = Input(self.driver)
+        # input.input().wait_for_visible().get().click()
+        text_edit = input.div().wait_for_visible().get()
+        text_edit.click()
+        text_edit.clear()
+
+        text_edit.send_keys(unicode(text,"utf-8"))
+
+        button = input.button_send().wait_for_visible().get()
+        button.click()
+
+
+    @staticmethod
+    def getCurrentDiscussionTitle(self):
+        discussion = Discussion(self.driver)
+        title = discussion.title().wait_for_visible().get()
+        return title.text
