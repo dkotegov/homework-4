@@ -6,18 +6,13 @@ from tests.elements.main import MessagesButton
 from tests.elements.status import Status
 
 
-class MainPage(BasePage):
-    url = 'http://ok.ru'
-
-    def is_authorized(self):
-        messages_button = MessagesButton(self.driver)
-        element = messages_button.messages_button().wait_for_visible().get()
-        return element is not None
+class PostsPage(BasePage):
+    url = 'https://ok.ru/post'
 
     def create_my_discussions(self,text):
         status = Status(self.driver)
-        show_edit = status.show_edit().wait_for_visible().get()
-        show_edit.click()
+        # show_edit = status.show_edit().wait_for_visible().get()
+        # show_edit.click()
         input = status.status_edit().wait_for_visible().get()
         input.click()
         input.click()
@@ -30,4 +25,7 @@ class MainPage(BasePage):
         # sleep(2)
         publish = status.publish().wait_for_clickable().get()
         publish.click()
+        sleep(2)
+        comment = status.comment().wait_for_visible().get()
+        comment.click()
         sleep(2)
