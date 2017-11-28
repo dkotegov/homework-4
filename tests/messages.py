@@ -74,8 +74,8 @@ class MessagesTest(BaseTest):
 
         chat_page.click_on_call_button()
 
-        chat_page.click_on_cam_off_button()
         chat_page.click_on_cam_on_button()
+        chat_page.click_on_cam_off_button()
 
         self.assertTrue(True, 'timeout has not reached')
 
