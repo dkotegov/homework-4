@@ -1,3 +1,14 @@
+#webdrivers
+chromedriver
+geckodriver
+
+#selenium
+selenium*
+
+#bash scripts for selenium
+grid.sh
+node.sh
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
