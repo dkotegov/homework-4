@@ -41,14 +41,49 @@ class MessagesTest(BaseTest):
         self.assertEqual(chat_page.get_chat_header_name(), user_name, 'chat header name has not boon changed')
         self.assertEqual(chat_page.get_user_info_head_name(), user_name, 'user info header name fills properly')
 
-    def test_call(self):
+    def test_call_window_opens(self):
         chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
         chat_page.navigate()
 
         chat_page.click_on_call_button()
 
         self.assertTrue(chat_page.is_call_window_opened(), 'call window has been opened')
+
+    def test_call_calling(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_call_button()
+
         self.assertTrue(chat_page.is_calling(), 'calling')
+
+    def test_call_mic_button(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_call_button()
+
+        chat_page.click_on_mic_off_button()
+        chat_page.click_on_mic_on_button()
+
+        self.assertTrue(True, 'timeout has not reached')
+
+    def test_call_cam_button(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_call_button()
+
+        chat_page.click_on_cam_off_button()
+        chat_page.click_on_cam_on_button()
+
+        self.assertTrue(True, 'timeout has not reached')
+
+    def test_call_hang_up_button(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_call_button()
 
         chat_page.click_on_hang_up_button()
 
