@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
 import string
+from time import sleep
 
 from base import BaseTest
 from tests.pages.discussions.pages import DiscPage
@@ -99,3 +100,16 @@ class DiscussionsTest(BaseTest):
         DiscussionsPage.deleteLastCommentInCurrentDiscussion(self)
         text2 = DiscussionsPage.getLastCommentInCurrentDiscussion(self)
         self.assertIsNone(text2, "my comment not deleted")
+    def test_change_comment_for_my_publish(self):
+        text_discussion_title = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+        text_comment = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+        text_change_comment = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+
+        postPage = PostsPage(self.driver)
+        postPage.navigate()
+        postPage.create_my_discussions(text_discussion_title)
+        DiscussionsPage.setComment(self, text_comment)
+        DiscussionsPage.changeLastCommentInCurrentDiscussion(self,text_change_comment)
+
+        text2 = DiscussionsPage.getLastEditedCommentInCurrentDiscussion(self)
+        self.assertEquals(unicode(text_change_comment, "utf-8"), text2, "my comment not changed")

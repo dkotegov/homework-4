@@ -77,6 +77,14 @@ class DiscussionsPage(BasePage):
         return comment.get().text
 
     @staticmethod
+    def getLastEditedCommentInCurrentDiscussion(self):
+        discussion = Discussion(self.driver)
+        comment = discussion.get_last_edited_comment()
+        if comment is None:
+            return None
+        return comment.get().text
+
+    @staticmethod
     def deleteLastCommentInCurrentDiscussion(self):
         discussion = Discussion(self.driver)
         delete = discussion.get_last_comment_delete_button().get()
@@ -86,3 +94,19 @@ class DiscussionsPage(BasePage):
         deleteCommentAlert = DeleteCommentAlert(self.driver)
         button_ok = deleteCommentAlert.ok_button().wait_for_visible().get()
         button_ok.click()
+
+    @staticmethod
+    def changeLastCommentInCurrentDiscussion(self,text):
+        discussion = Discussion(self.driver)
+        change = discussion.get_last_comment_change_button().get()
+        action = ActionChains(self.driver)
+        action.move_to_element(change)
+        action.click().perform()
+
+        input = Input(self.driver)
+        text_edit = input.div_not_empty().wait_for_visible().get()
+        text_edit.click()
+        text_edit.clear()
+        text_edit.send_keys(unicode(text,"utf-8"))
+        button = input.button_edit_send().wait_for_visible().get()
+        button.click()
