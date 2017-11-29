@@ -1,5 +1,8 @@
 from time import sleep
 
+from selenium.webdriver import ActionChains
+
+from tests.elements.discussions.DeleteCommentAlert import DeleteCommentAlert
 from tests.elements.discussions.Discussion import Discussion
 from tests.elements.discussions.Friends import Friends
 from tests.elements.discussions.Grups import Grups
@@ -68,5 +71,18 @@ class DiscussionsPage(BasePage):
     @staticmethod
     def getLastCommentInCurrentDiscussion(self):
         discussion = Discussion(self.driver)
-        comment = discussion.get_last_comment().get()
-        return comment.text
+        comment = discussion.get_last_comment()
+        if comment is None:
+            return None
+        return comment.get().text
+
+    @staticmethod
+    def deleteLastCommentInCurrentDiscussion(self):
+        discussion = Discussion(self.driver)
+        delete = discussion.get_last_comment_delete_button().get()
+        action = ActionChains(self.driver)
+        action.move_to_element(delete)
+        action.click().perform()
+        deleteCommentAlert = DeleteCommentAlert(self.driver)
+        button_ok = deleteCommentAlert.ok_button().wait_for_visible().get()
+        button_ok.click()

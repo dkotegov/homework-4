@@ -88,3 +88,14 @@ class DiscussionsTest(BaseTest):
 
         text2 = DiscussionsPage.getLastCommentInCurrentDiscussion(self)
         self.assertEquals(unicode(text_comment, "utf-8"), text2, "my comment not created")
+
+    def test_delete_comment_for_my_publish(self):
+        text_discussion_title = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+        text_comment = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+        postPage = PostsPage(self.driver)
+        postPage.navigate()
+        postPage.create_my_discussions(text_discussion_title)
+        DiscussionsPage.setComment(self, text_comment)
+        DiscussionsPage.deleteLastCommentInCurrentDiscussion(self)
+        text2 = DiscussionsPage.getLastCommentInCurrentDiscussion(self)
+        self.assertIsNone(text2, "my comment not deleted")
