@@ -2,7 +2,6 @@
 
 import os
 import urlparse
-import time
 
 
 from selenium.webdriver.common.by import By
@@ -51,8 +50,13 @@ class SearchField(Component):
     def value(self):
         self.driver.find_element_by_xpath(self.SEARCH_FIELD).text
 
-    def status(self):
-        return WebDriverWait(self.driver, WAIT_TIME).until(EC.visibility_of_element_located((By.XPATH, self.SEARCH_STATUS))).text
+    def is_status(self, status):
+        xpath = './/span[text()="%s"]' % status
+        try:
+            self.driver.find_element_by_xpath(xpath).click()
+        except (NoSuchElementException, ElementNotVisibleException):
+            return False
+        return True
 
 
 class Categories(Component):
@@ -83,7 +87,6 @@ class NavBar(Component):
     def try_click(self, xpath):
         try:
             self.driver.find_element_by_xpath(xpath).click()
-            # time.sleep(1)  # Super mega sh*t
         except (NoSuchElementException, ElementNotVisibleException):
             pass
 
@@ -100,13 +103,11 @@ class NavBar(Component):
         self.try_click(self.MOVIE_LINK)
 
     def is_all_empty(self):
-
-        menu = WebDriverWait(self.driver, WAIT_TIME).until(EC.visibility_of_element_located((By.XPATH, self.MENU_LIST)))
+        empty_xpath = './/span[@class="gs_tab main-menu_a __empty"]'
+        menu_list = WebDriverWait(self.driver, WAIT_TIME).until(EC.presence_of_all_elements_located(
+            (By.XPATH, empty_xpath)))
+        return len(menu_list) == 4
         
-        for m in menu:
-            if '__empty' not in m.find_element_by_xpath('.//span').get_attribute('class'):
-                return False
-        return True
 
 
 class SearchResult(Component):

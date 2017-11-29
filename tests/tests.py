@@ -48,7 +48,7 @@ class SearchTests(BaseTest):
         При пустой строке поиска на вкладке "Люди" отображается список "Возможно знакомых людей"
         """
         # self.sp.search_field.clear()
-        self.assertEqual(self.sp.search_field.status(), u'Возможно, вы знакомы')
+        self.assertTrue(self.sp.search_field.is_status(u'Возможно, вы знакомы'))
 
     def test_people_categories(self):
         """
@@ -60,12 +60,12 @@ class SearchTests(BaseTest):
         self.assertTrue(self.sp.categories.CheckExists(u'Место'))
         self.assertTrue(self.sp.categories.CheckExists(u'Школа'))
         
-    def test_empty_query_group_search(self):
+    def test_empty_query_group_search(self): #here
         """
         При пустой строке поиска на вкладке "Группы" отображается список "Популярное"
         """
         self.sp.nav.goto_groups()
-        self.assertEqual(self.sp.search_field.status(), u'Популярное')
+        self.assertTrue(self.sp.search_field.is_status(u'Популярное'))
 
     def test_group_categories(self):
         """
@@ -131,7 +131,7 @@ class SearchTests(BaseTest):
         self.sp.search_field.enter('queen')
         self.assertEqual(self.sp.search_result.music_best_search(), u'Queen')
         
-    def test_empty_results_on_stupid_query(self):
+    def test_empty_results_on_dump_query(self):
         """
         При поиске заведомо несуществующего запроса 
         (например, "жфмтишй3х3ерпшоьсщфиыПР№ОТЗМЛУТЛЭИфыщшоп" )
