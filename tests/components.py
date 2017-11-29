@@ -57,18 +57,15 @@ class SearchField(Component):
 
 class Categories(Component):
     CATEGORIES_DIV = '//div[@class="gs_filter_column"]'
+    CATEGORY_FIELD = '//div[@class="gs_filter_t"]'
 
     def CheckExists(self, name):
-        cat_list = WebDriverWait(self.driver, WAIT_TIME).until(
-            EC.presence_of_element_located((By.XPATH, self.CATEGORIES_DIV)))
+        try:
+            elem = WebDriverWait(self.driver, WAIT_TIME).until(EC.visibility_of_element_located((By.XPATH, './/div[text()="%s"]' % name)))
+        except (NoSuchElementException, ElementNotVisibleException):
+            return False
+        return True
 
-        # print len(cat_list.find_elements_by_xpath('./div'))
-
-        for c in cat_list.find_elements_by_xpath('./div'):
-            # print c.find_element_by_xpath('.//div[@class="gs_filter_t"]').textt
-            if c.find_element_by_xpath('.//div[@class="gs_filter_t"]').text == name:
-                return True
-        return False
 
     def Set(self, name):
         xpath = './/div[text()="%s"]' % name
@@ -86,7 +83,7 @@ class NavBar(Component):
     def try_click(self, xpath):
         try:
             self.driver.find_element_by_xpath(xpath).click()
-            time.sleep(1)  # Super mega sh*t
+            # time.sleep(1)  # Super mega sh*t
         except (NoSuchElementException, ElementNotVisibleException):
             pass
 
@@ -104,8 +101,9 @@ class NavBar(Component):
 
     def is_all_empty(self):
 
-        time.sleep(2)
-        for m in self.driver.find_elements_by_xpath(self.MENU_LIST):
+        menu = WebDriverWait(self.driver, WAIT_TIME).until(EC.visibility_of_element_located((By.XPATH, self.MENU_LIST)))
+        
+        for m in menu:
             if '__empty' not in m.find_element_by_xpath('.//span').get_attribute('class'):
                 return False
         return True
@@ -124,18 +122,12 @@ class SearchResult(Component):
         return True
 
     def contains(self, value):
-        time.sleep(3)
+        try:
+            elem = WebDriverWait(self.driver, WAIT_TIME).until(EC.visibility_of_element_located((By.XPATH, './/a[text()="%s"]' % value)))
+        except (NoSuchElementException, ElementNotVisibleException):
+            return False
+        return True
 
-        cat_list = WebDriverWait(self.driver, WAIT_TIME).until(
-            EC.visibility_of_element_located((By.XPATH, self.RESULT_LIST)))
-
-        # print len(cat_list.find_elements_by_xpath('./div'))
-
-        for c in cat_list.find_elements_by_xpath('./div'):
-            # print c.find_element_by_xpath('.//div[@class="gs_result_i_t"]/a').text
-            if c.find_element_by_xpath('.//div/a[@class="gs_result_i_t_name o"]').text == value:
-                return True
-        return False
 
     def music_best_search(self):
         return WebDriverWait(self.driver, WAIT_TIME).until(
