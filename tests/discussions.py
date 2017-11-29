@@ -77,3 +77,14 @@ class DiscussionsTest(BaseTest):
         DiscussionsPage.setComment(self,"first comment")
         text2 = DiscussionsPage.getCurrentDiscussionTitle(self)
         self.assertEquals(unicode(text,"utf-8"),text2,"my publish not created")
+
+    def test_create_comment_for_my_publish(self):
+        text_discussion_title = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+        text_comment = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+        postPage = PostsPage(self.driver)
+        postPage.navigate()
+        postPage.create_my_discussions(text_discussion_title)
+        DiscussionsPage.setComment(self, text_comment)
+
+        text2 = DiscussionsPage.getLastCommentInCurrentDiscussion(self)
+        self.assertEquals(unicode(text_comment, "utf-8"), text2, "my comment not created")

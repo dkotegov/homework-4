@@ -64,3 +64,9 @@ class DiscussionsPage(BasePage):
         discussion = Discussion(self.driver)
         title = discussion.title().wait_for_visible().get()
         return title.text
+
+    @staticmethod
+    def getLastCommentInCurrentDiscussion(self):
+        discussion = Discussion(self.driver)
+        comment = discussion.get_last_comment().get()
+        return comment.text
