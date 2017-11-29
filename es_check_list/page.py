@@ -11,11 +11,9 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException,
 from selenium.webdriver.common.action_chains import ActionChains
 
 
-USERNAME_FIRST = 'technopark36'
-USERNAME_SECOND = 'technopark9'
+USERNAME_FIRST = 'technopark9'
+USERNAME_SECOND = 'technopark36'
 PASSWORD = os.environ['PASSWORD']
-
-MAX = 60
 
 
 class Page(object):
@@ -63,10 +61,19 @@ class PersonPage(Page):
 class PhotoPage(Page):
     TEMPLATE = '/profile/{}/pphotos/{}'
     REMOVE = '//a[@class="ic-w lp"]'
+    PHOTOS = '//a[@class="mctc_navMenuSec"][contains(text(), "Фото")]'
+    PHOTO = '//a[@class="photo-card_cnt"][contains(@href, "{}")]'
+    SIMPLE_PHOTO = '//a[@class="photo-card_cnt"]'
 
     def __init__(self, driver, user, photo):
         Page.__init__(self, driver)
-        self.PATH = self.TEMPLATE.format(user, photo)
+        self.PATH = '/profile/{}'.format(user)
+        self.PHOTO_ID = photo
+
+    def open(self, first=False):
+        Page.open(self)
+        self.driver.find_element_by_xpath(self.PHOTOS).click()
+        self.driver.find_element_by_xpath(self.PHOTO.format(self.PHOTO_ID)).click()
 
     @property
     def mark(self):
@@ -91,41 +98,44 @@ class Mark(Component):
     UPDATE = '//a[@class="il marks-new_lk"]'
     FIVE_PLUS = '//span[@class="marks-new_ic-tx va_target"] ' \
                 '| //div[@id="hook_Block_PopLayerViewFriendPhotoRating"]/a[@class="marks-new_ic __plus"]'
+    LOADER = '//div[@class="photo-layer_process"]'
 
     def set_mark(self, mark=5):
-        counter = 0
-        while counter < MAX:
-            counter += 1
-            try:
-                self.driver.find_element_by_xpath(self.MARK.format(mark)).click()
-                return True
-            except NoSuchElementException:
-                return False
-            except MoveTargetOutOfBoundsException:
-                continue
+        try:
+            wait = WebDriverWait(self.driver, 10)
+            wait.until(ec.invisibility_of_element_located((By.XPATH, self.LOADER)))
+            element = self.driver.find_element_by_xpath(self.MARK.format(mark))
+            self.driver.execute_script("arguments[0].click();", element)
+            return True
+        except NoSuchElementException:
+            return False
 
     def check_mark(self):
         return self.driver.find_element_by_xpath(self.RESULT).text
 
     def update(self):
-        self.driver.find_element_by_xpath(self.UPDATE).click()
-        wait = WebDriverWait(self.driver, 10)
         try:
-            wait.until(ec.element_to_be_clickable((By.XPATH, self.FIVE_PLUS)))
-        except TimeoutException:
+            element = self.driver.find_element_by_xpath(self.UPDATE)
+            self.driver.execute_script("arguments[0].click();", element)
+            return True
+        except NoSuchElementException:
             return False
-
-        return True
 
 
 class AuthForm(Component):
     LOGIN = '//input[@name="st.email"]'
     PASSWORD = '//input[@name="st.password"]'
     SUBMIT = '//input[@data-l="t,loginButton"]'
+    ADD = '//span[contains(text(), "Добавить профиль")]'
 
     def set_login(self, login):
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(ec.element_to_be_clickable((By.XPATH, self.LOGIN)))
+        try:
+            wait = WebDriverWait(self.driver, 10)
+            wait.until(ec.element_to_be_clickable((By.XPATH, self.LOGIN)))
+        except TimeoutException:
+            #self.driver.save_screenshot('screen.png')
+            self.driver.find_element_by_xpath(self.ADD).click()
+            #self.driver.save_screenshot('screen_after.png')
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):
@@ -146,20 +156,10 @@ class TopMenu(Component):
         self.driver.find_element_by_xpath(self.DROPDOWN).click()
 
     def logout(self):
-        counter = 0
-        while counter < MAX:
-            counter += 1
-            self.driver.find_element_by_xpath(self.LOGOUT).click()
-            try:
-                ActionChains(self.driver).move_to_element(
-                    self.driver.find_element_by_xpath(self.LOGOUT_CONFIRM)).click().perform()
-                try:
-                    self.driver.find_element_by_xpath(self.ENTER)
-                    break
-                except NoSuchElementException:
-                    continue
-            except NoSuchElementException:
-                continue
+        self.driver.find_element_by_xpath(self.LOGOUT).click()
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(ec.visibility_of_element_located((By.XPATH, self.LOGOUT_CONFIRM)))
+        self.driver.find_element_by_xpath(self.LOGOUT_CONFIRM).click()
 
     @property
     def events_modal(self):
@@ -173,27 +173,21 @@ class MarksModal(Component):
     MARK_VALUE = '//a[contains(text(), "{}")]/../../span/span/span[contains(@class, "marks-new_ic __ac")]'
     REMOVE = '//a[@title="удалить"]'
     CANCEL = '//a[@class="il lp ml-x"]'
+    LOADER = '//div[@class="photo-layer_process"]'
 
     def open(self, events=False):
-        if not events:
-            counter = 0
-            while counter < MAX:
-                counter += 1
-                try:
-                    ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.COUNTER)).perform()
-                    ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.ALL_MARKS))\
-                        .click().perform()
-                    break
-                except NoSuchElementException:
-                    return False
-                except MoveTargetOutOfBoundsException:
-                    continue
-        else:
-            try:
+        try:
+            if not events:
+                wait = WebDriverWait(self.driver, 10)
+                wait.until(ec.invisibility_of_element_located((By.XPATH, self.LOADER)))
+                ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.COUNTER)).perform()
+                ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.ALL_MARKS))\
+                    .click().perform()
+            else:
                 self.driver.find_element_by_xpath(self.EVENTS_COUNTER).click()
-            except NoSuchElementException:
-                return False
-        return True
+            return True
+        except NoSuchElementException:
+            return False
 
     def check_mark(self, expected_value, name):
         try:
@@ -237,12 +231,9 @@ class PhotoManager(Component):
         self.driver.find_element_by_xpath(
             self.UPLOAD_PHOTO).send_keys(os.path.join(os.getcwd(), 'es_check_list/uploads/', url))
 
-        try:
-            wait = WebDriverWait(self.driver, 10)
-            wait.until(ec.visibility_of_element_located((By.XPATH, self.SUCCESS)))
-            self.driver.find_element_by_xpath(self.BACK).click()
-        except TimeoutException, NoSuchElementException:
-            self.driver.find_element_by_xpath(self.ALBUM).click()
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(ec.visibility_of_element_located((By.XPATH, self.SUCCESS)))
+        self.driver.find_element_by_xpath(self.BACK).click()
 
         self.last_href = self.driver.find_element_by_xpath(self.PHOTO).get_attribute('href').split('/')
         return self.last_href[len(self.last_href) - 1], self.last_href[len(self.last_href) - 3]
