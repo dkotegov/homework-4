@@ -2,74 +2,73 @@ from time import sleep
 
 from selenium.webdriver import ActionChains
 
-from tests.elements.discussions.DeleteCommentAlert import DeleteCommentAlert
-from tests.elements.discussions.Discussion import Discussion
-from tests.elements.discussions.Friends import Friends
-from tests.elements.discussions.Grups import Grups
-from tests.elements.discussions.Input import Input
-from tests.elements.discussions.Participated import Participated
-from tests.elements.discussions.SelectedTab import SelectedTab
-from tests.elements.discussions.myPosts import MyPosts
+from tests.elements.discussions.delete_comment_alert import DeleteCommentAlert
+from tests.elements.discussions.discussion import Discussion
+from tests.elements.discussions.friends import Friends
+from tests.elements.discussions.groups import Groups
+from tests.elements.discussions.input import Input
+from tests.elements.discussions.participated import Participated
+from tests.elements.discussions.selected_tab import SelectedTab
+from tests.elements.discussions.my_posts import MyPosts
 from tests.pages.base import BasePage
 
 
 class DiscussionsPage(BasePage):
-    def __init__(self,driver):
+    def __init__(self, driver):
         self.url = "http://ok.ru/discussions"
-        super(DiscussionsPage,self).__init__(driver)
+        super(DiscussionsPage, self).__init__(driver)
 
     def is_opened(self):
         my_posts_button = MyPosts(self.driver)
         element = my_posts_button.button().wait_for_visible().get()
         return element is not None
 
-    def openParticipatedTab(self):
-        participatedTab = Participated(self.driver)
-        element = participatedTab.button().wait_for_visible().get().click()
+    def open_participated_tab(self):
+        participated_tab = Participated(self.driver)
+        element = participated_tab.button().wait_for_visible().get().click()
         return element
 
-    def openMyPostsTab(self):
-        myPostsTab = MyPosts(self.driver)
-        element = myPostsTab.button().wait_for_visible().get().click()
+    def open_my_posts_tab(self):
+        my_posts_tab = MyPosts(self.driver)
+        element = my_posts_tab.button().wait_for_visible().get().click()
         return element
 
-    def openFriendsTab(self):
-        friendsTab = Friends(self.driver)
-        element = friendsTab.button().wait_for_visible().get().click()
+    def open_friends_tab(self):
+        friends_tab = Friends(self.driver)
+        element = friends_tab.button().wait_for_visible().get().click()
         return element
 
-    def openGrupsTab(self):
-        grupsTab = Grups(self.driver)
-        element = grupsTab.button().wait_for_visible().get().click()
+    def open_groups_tab(self):
+        groups_tab = Groups(self.driver)
+        element = groups_tab.button().wait_for_visible().get().click()
         return element
 
-    def selectedTab(self):
+    def selected_tab(self):
         selected = SelectedTab(self.driver)
         element = selected.selected_tab().get()
         return element
 
     @staticmethod
-    def setComment(self,text):
-        input = Input(self.driver)
-        # input.input().wait_for_visible().get().click()
-        text_edit = input.div().wait_for_visible().get()
+    def set_comment(self, text):
+        input_element = Input(self.driver)
+        # input_element.input_element().wait_for_visible().get().click()
+        text_edit = input_element.div().wait_for_visible().get()
         text_edit.click()
         text_edit.clear()
 
-        text_edit.send_keys(unicode(text,"utf-8"))
+        text_edit.send_keys(unicode(text, "utf-8"))
 
-        button = input.button_send().wait_for_visible().get()
+        button = input_element.button_send().wait_for_visible().get()
         button.click()
 
-
     @staticmethod
-    def getCurrentDiscussionTitle(self):
+    def get_current_discussion_title(self):
         discussion = Discussion(self.driver)
         title = discussion.title().wait_for_visible().get()
         return title.text
 
     @staticmethod
-    def getLastCommentInCurrentDiscussion(self):
+    def get_last_comment_in_current_discussion(self):
         discussion = Discussion(self.driver)
         comment = discussion.get_last_comment()
         if comment is None:
@@ -77,7 +76,7 @@ class DiscussionsPage(BasePage):
         return comment.get().text
 
     @staticmethod
-    def getLastEditedCommentInCurrentDiscussion(self):
+    def get_last_edited_comment_in_current_discussion(self):
         discussion = Discussion(self.driver)
         comment = discussion.get_last_edited_comment()
         if comment is None:
@@ -85,28 +84,28 @@ class DiscussionsPage(BasePage):
         return comment.get().text
 
     @staticmethod
-    def deleteLastCommentInCurrentDiscussion(self):
+    def delete_last_comment_in_current_discussion(self):
         discussion = Discussion(self.driver)
         delete = discussion.get_last_comment_delete_button().get()
         action = ActionChains(self.driver)
         action.move_to_element(delete)
         action.click().perform()
-        deleteCommentAlert = DeleteCommentAlert(self.driver)
-        button_ok = deleteCommentAlert.ok_button().wait_for_visible().get()
+        delete_comment_alert = DeleteCommentAlert(self.driver)
+        button_ok = delete_comment_alert.ok_button().wait_for_visible().get()
         button_ok.click()
 
     @staticmethod
-    def changeLastCommentInCurrentDiscussion(self,text):
+    def change_last_comment_in_current_discussion(self, text):
         discussion = Discussion(self.driver)
         change = discussion.get_last_comment_change_button().get()
         action = ActionChains(self.driver)
         action.move_to_element(change)
         action.click().perform()
 
-        input = Input(self.driver)
-        text_edit = input.div_not_empty().wait_for_visible().get()
+        input_element = Input(self.driver)
+        text_edit = input_element.div_not_empty().wait_for_visible().get()
         text_edit.click()
         text_edit.clear()
-        text_edit.send_keys(unicode(text,"utf-8"))
-        button = input.button_edit_send().wait_for_visible().get()
+        text_edit.send_keys(unicode(text, "utf-8"))
+        button = input_element.button_edit_send().wait_for_visible().get()
         button.click()
