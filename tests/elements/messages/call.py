@@ -14,3 +14,5 @@ class CallWindow(BaseElement):
     MIC_OFF_BUTTON = (By.CSS_SELECTOR, ".vc_ic32_mic-off")
     CAM_ON_BUTTON = (By.CSS_SELECTOR, ".vc_ic32_camera-on")
     CAM_OFF_BUTTON = (By.CSS_SELECTOR, ".vc_ic32_camera-off")
+    HELP_BUTTON = (By.CSS_SELECTOR, "a.video-chat_ac_ic")
+    HELP_CLOSE_BUTTON = (By.CSS_SELECTOR, "input.form-actions_yes")

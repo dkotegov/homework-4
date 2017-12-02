@@ -88,3 +88,14 @@ class MessagesTest(BaseTest):
         chat_page.click_on_hang_up_button()
 
         self.assertTrue(True, 'timeout has not reached')
+
+    def test_help_view(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_call_button()
+
+        chat_page.click_on_help_button()
+
+        chat_page.click_on_help_close_button()
+        self.assertTrue(True, 'timeout has not reached')

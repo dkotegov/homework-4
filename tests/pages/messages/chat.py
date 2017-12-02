@@ -69,6 +69,12 @@ class ChatPage(BasePage):
     def click_on_cam_button(self):
         self.call_window.cam_off_button().wait_for_clickable().get().click()
 
+    def click_on_help_button(self):
+        self.call_window.help_button().wait_for_clickable().get().click()
+
+    def click_on_help_close_button(self):
+        self.call_window.help_close_button().wait_for_clickable().get().click()
+
     def get_chat_header_name(self):
         return self.chat_header.head_name().wait_for_visible().get().get_attribute('innerHTML')
 

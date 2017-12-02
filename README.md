@@ -1,4 +1,5 @@
 # Selenium Tests for ok.ru
+- Работает кнопка справки звонка
 ## Downloads
 * [Selenium](http://selenium-release.storage.googleapis.com/index.html?path=3.7)
 * [Selenium gecko driver](https://github.com/mozilla/geckodriver/releases)
