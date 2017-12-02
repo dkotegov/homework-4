@@ -50,10 +50,6 @@ class ChatPage(BasePage):
         element = self.call_window.hang_up_button().wait_for_visible().get()
         return element is not None
 
-    def is_hanged_up(self):
-        element = self.call_window.recall_button().wait_for_visible().get()
-        return element is not None
-
     def click_on_chat_header(self):
         self.chat_header.head_name().wait_for_clickable().get().click()
         self.chat_header.head_name().wait_for_clickable().get().click()
