@@ -99,3 +99,14 @@ class MessagesTest(BaseTest):
 
         chat_page.click_on_help_close_button()
         self.assertTrue(True, 'timeout has not reached')
+
+    def test_do_not_disturb(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_chat_header()
+
+        chat_page.click_on_do_not_disturb_button()
+        chat_page.click_on_do_not_disturb_button()
+
+        self.assertTrue(True, 'timeout has not reached')

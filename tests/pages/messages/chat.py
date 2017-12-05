@@ -78,6 +78,9 @@ class ChatPage(BasePage):
     def click_on_help_close_button(self):
         self.call_window.help_close_button().wait_for_clickable().get().click()
 
+    def click_on_do_not_disturb_button(self):
+        self.user_info.do_not_disturb_button().wait_for_clickable().get().click()
+
     def get_chat_header_name(self):
         return self.chat_header.head_name().wait_for_visible().get().get_attribute('innerHTML')
 
