@@ -1,0 +1,15 @@
+# This is dev config
+# I am a.naberezgnyi
+
+# Server settings
+ok:
+  server: "ok.ru"
+  scheme: "https"
+
+browser:
+  name: "Chrome"
+
+login: "technopark46"
+password: "****"
+
+timeout: 10
