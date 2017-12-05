@@ -59,6 +59,9 @@ class ChatPage(BasePage):
         self.chat_header.call_button().wait_for_clickable().get().click()
         self.chat_header.call_button().wait_for_clickable().get().click()
         self.chat_header.call_button().wait_for_clickable().get().click()
+        self.chat_header.call_button().wait_for_clickable().get().click()
+        self.chat_header.call_button().wait_for_clickable().get().click()
+        self.chat_header.call_button().wait_for_clickable().get().click()
 
     def click_on_hang_up_button(self):
         self.call_window.hang_up_button().wait_for_clickable().get().click()
