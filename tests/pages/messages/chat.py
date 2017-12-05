@@ -8,6 +8,7 @@ from tests.elements.messages.settings_button import SettingsButton
 from tests.elements.messages.chat_header import ChatHeader
 from tests.elements.messages.user_info import UserInfo
 from tests.elements.messages.call import CallWindow
+from tests.elements.messages.stickers import Stickers
 
 
 class ChatPage(BasePage):
@@ -22,6 +23,7 @@ class ChatPage(BasePage):
         self.chat_header = ChatHeader(driver)
         self.user_info = UserInfo(driver)
         self.call_window = CallWindow(driver)
+        self.stickers = Stickers(driver)
 
     def message_input_text(self, text=None):
         if text is not None:
@@ -80,6 +82,18 @@ class ChatPage(BasePage):
 
     def click_on_do_not_disturb_button(self):
         self.user_info.do_not_disturb_button().wait_for_clickable().get().click()
+
+    def click_on_stickers_panel(self):
+        self.send_panel.stickers_button().wait_for_clickable().get().click()
+        self.send_panel.stickers_button().wait_for_clickable().get().click()
+        self.send_panel.stickers_button().wait_for_clickable().get().click()
+        self.send_panel.stickers_button().wait_for_clickable().get().click()
+
+    def click_on_smiles_tab(self):
+        self.stickers.smiles_tab_link().wait_for_clickable().get().click()
+
+    def click_on_sad_smile(self):
+        self.stickers.sad_smile().wait_for_clickable().get().click()
 
     def get_chat_header_name(self):
         return self.chat_header.head_name().wait_for_visible().get().get_attribute('innerHTML')

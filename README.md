@@ -1,6 +1,7 @@
 # Selenium Tests for ok.ru
 - работает кнопка справки звонка
 - уведомления в беседе выключаются/включаются
+- смайлики отправляются
 ## Downloads
 * [Selenium](http://selenium-release.storage.googleapis.com/index.html?path=3.7)
 * [Selenium gecko driver](https://github.com/mozilla/geckodriver/releases)
