@@ -1,0 +1,17 @@
+# This is dev config
+# I am a.naberezgnyi
+
+# Server settings
+debug: False
+timeout: 15
+
+ok:
+  server: "ok.ru"
+  scheme: "https"
+
+executor:
+  server: "127.0.0.1:4444"
+  scheme: "http"
+
+  browser:
+    name: "CHROME"
