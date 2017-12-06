@@ -60,3 +60,14 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# idea
+.idea
+
+# virtualenv
+.venv
+
+# selenium
+chromedriver
+geckodriver
+selenium-server-standalone.jar
