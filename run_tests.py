@@ -2,5 +2,12 @@
 
 import unittest
 
+from test_fedorova.run_test import vf_tests
+
 if __name__ == '__main__':
-    pass
+
+    vf_suite = unittest.TestSuite(
+        vf_tests()
+    )
+
+    result = unittest.TextTestRunner().run(vf_suite)
