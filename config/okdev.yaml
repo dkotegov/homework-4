@@ -2,14 +2,19 @@
 # I am a.naberezgnyi
 
 # Server settings
+debug: False
+timeout: 7
+
 ok:
   server: "ok.ru"
   scheme: "https"
 
-browser:
-  name: "Chrome"
+executor:
+  server: "127.0.0.1:4444"
+  scheme: "http"
+
+  browser:
+    name: "CHROME"
 
 login: "technopark46"
 password: "****"
-
-timeout: 10
