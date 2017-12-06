@@ -8,6 +8,7 @@ from tests.elements.messages.settings_button import SettingsButton
 from tests.elements.messages.chat_header import ChatHeader
 from tests.elements.messages.user_info import UserInfo
 from tests.elements.messages.call import CallWindow
+from tests.elements.messages.stickers import Stickers
 
 
 class ChatPage(BasePage):
@@ -22,6 +23,7 @@ class ChatPage(BasePage):
         self.chat_header = ChatHeader(driver)
         self.user_info = UserInfo(driver)
         self.call_window = CallWindow(driver)
+        self.stickers = Stickers(driver)
 
     def message_input_text(self, text=None):
         if text is not None:
@@ -50,10 +52,6 @@ class ChatPage(BasePage):
         element = self.call_window.hang_up_button().wait_for_visible().get()
         return element is not None
 
-    def is_hanged_up(self):
-        element = self.call_window.recall_button().wait_for_visible().get()
-        return element is not None
-
     def click_on_chat_header(self):
         self.chat_header.head_name().wait_for_clickable().get().click()
         self.chat_header.head_name().wait_for_clickable().get().click()
@@ -63,21 +61,45 @@ class ChatPage(BasePage):
         self.chat_header.call_button().wait_for_clickable().get().click()
         self.chat_header.call_button().wait_for_clickable().get().click()
         self.chat_header.call_button().wait_for_clickable().get().click()
+        self.chat_header.call_button().wait_for_clickable().get().click()
+        self.chat_header.call_button().wait_for_clickable().get().click()
+        self.chat_header.call_button().wait_for_clickable().get().click()
 
     def click_on_hang_up_button(self):
         self.call_window.hang_up_button().wait_for_clickable().get().click()
 
-    def click_on_mic_on_button(self):
+    def click_on_mic_button(self):
         self.call_window.mic_on_button().wait_for_clickable().get().click()
 
-    def click_on_mic_off_button(self):
-        self.call_window.mic_off_button().wait_for_clickable().get().click()
-
-    def click_on_cam_on_button(self):
-        self.call_window.cam_on_button().wait_for_clickable().get().click()
-
-    def click_on_cam_off_button(self):
+    def click_on_cam_button(self):
         self.call_window.cam_off_button().wait_for_clickable().get().click()
+
+    def click_on_help_button(self):
+        self.call_window.help_button().wait_for_clickable().get().click()
+
+    def click_on_help_close_button(self):
+        self.call_window.help_close_button().wait_for_clickable().get().click()
+
+    def click_on_do_not_disturb_button(self):
+        self.user_info.do_not_disturb_button().wait_for_clickable().get().click()
+
+    def click_on_stickers_panel(self):
+        self.send_panel.stickers_button().wait_for_clickable().get().click()
+        self.send_panel.stickers_button().wait_for_clickable().get().click()
+        self.send_panel.stickers_button().wait_for_clickable().get().click()
+        self.send_panel.stickers_button().wait_for_clickable().get().click()
+
+    def click_on_first_card(self):
+        self.stickers.first_card().wait_for_clickable().get().click()
+
+    def click_on_cards_tab(self):
+        self.stickers.cards_tab_link().wait_for_clickable().get().click()
+
+    def click_on_smiles_tab(self):
+        self.stickers.smiles_tab_link().wait_for_clickable().get().click()
+
+    def click_on_sad_smile(self):
+        self.stickers.sad_smile().wait_for_clickable().get().click()
 
     def get_chat_header_name(self):
         return self.chat_header.head_name().wait_for_visible().get().get_attribute('innerHTML')
