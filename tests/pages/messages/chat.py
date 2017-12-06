@@ -89,6 +89,12 @@ class ChatPage(BasePage):
         self.send_panel.stickers_button().wait_for_clickable().get().click()
         self.send_panel.stickers_button().wait_for_clickable().get().click()
 
+    def click_on_first_card(self):
+        self.stickers.first_card().wait_for_clickable().get().click()
+
+    def click_on_cards_tab(self):
+        self.stickers.cards_tab_link().wait_for_clickable().get().click()
+
     def click_on_smiles_tab(self):
         self.stickers.smiles_tab_link().wait_for_clickable().get().click()
 

@@ -121,3 +121,13 @@ class MessagesTest(BaseTest):
         chat_page.send_message()
 
         self.assertTrue(True, 'timeout has not reached')
+
+    def test_card(self):
+        chat_page = ChatPage(self.driver, self.DEFAULT_USER_ID)
+        chat_page.navigate()
+
+        chat_page.click_on_stickers_panel()
+        chat_page.click_on_cards_tab()
+        chat_page.click_on_first_card()
+
+        self.assertTrue(True, 'timeout has not reached')
