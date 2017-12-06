@@ -3,7 +3,7 @@
 
 # Server settings
 debug: False
-timeout: 7
+timeout: 15
 
 ok:
   server: "ok.ru"
@@ -15,6 +15,3 @@ executor:
 
   browser:
     name: "CHROME"
-
-login: "technopark46"
-password: "****"

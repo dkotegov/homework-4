@@ -34,7 +34,7 @@ class MusicPage(Page):
 
     BUTTON_CLASS_CREATE_COLLECT = "gwt-uid-720" # it's ID
 
-    UL_COLLECTIONS = "lmPPLlst"
+    UL_COLLECTIONS = "mlLM"
 
     ########
     # find #
@@ -51,6 +51,8 @@ class MusicPage(Page):
     DIV_CLASS_VOLUME = "mus_player-volume"
     DIV_CLASS_VOLUME_ICON = "mus_player-volume_ic"
     DIV_CLASS_VOLUME_MUTE = "__mute"
+
+    DIV_CLASS_MUSIC_TICK_XPATH = "//div[@class='mus_player_time']/span"
 
     def _assert_active_music_panel(self, isActive):
         self.driver.find_elements_by_class_name(self.TOOLBAR_CLASS_MUSIC)
@@ -122,18 +124,22 @@ class MusicPage(Page):
     # return on_flag
     def get_volume_mute(self):
         self._assert_active_music_panel(True)
-        controlls = self.getElementByClass(self.driver, self.DIV_CLASS_VOLUME)
-        icon_volume = self.getElementByClass(controlls, self.DIV_CLASS_VOLUME_ICON)
+        controlls = self.get_element_by_class(self.driver, self.DIV_CLASS_VOLUME)
+        icon_volume = self.get_element_by_class(controlls, self.DIV_CLASS_VOLUME_ICON)
 
         return icon_volume.get_attribute("class").find(self.DIV_CLASS_VOLUME_MUTE) > 0
 
     def set_volume(self, mute):
         self._assert_active_music_panel(True)
-        controlls = self.getElementByClass(self.driver, self.DIV_CLASS_VOLUME)
-        icon_volume = self.getElementByClass(controlls, self.DIV_CLASS_VOLUME_ICON)
+        controlls = self.get_element_by_class(self.driver, self.DIV_CLASS_VOLUME)
+        icon_volume = self.get_element_by_class(controlls, self.DIV_CLASS_VOLUME_ICON)
 
         icon_volume.click()
         self._assert_volume(icon_volume, mute)
+
+    def wait_play_music(self, until_time="0:01"):
+        ticker = self.driver.find_element_by_xpath(self.DIV_CLASS_MUSIC_TICK_XPATH)
+        self.wait.until(lambda s: ticker.text == until_time)
 
     def set_play_music(self, active_flag):
         self._assert_active_music_panel(True)
@@ -145,21 +151,21 @@ class MusicPage(Page):
     def click_help(self):
         self._assert_active_music_panel(True)
 
-        self.getElementByClass(self.driver, self.BUTTON_CLASS_HELP, tag="play").click()
+        self.get_element_by_class(self.driver, self.BUTTON_CLASS_HELP, tag="play").click()
         self._assert_help_form()
 
-    def getFirstPopularElement(self):
+    def get_first_popular_element(self):
         self._assert_active_music_panel(True)
 
         populars = self.driver.find_elements_by_class_name(self.DIV_CLASS_POPULARS)
         assert_that(len(populars), greater_than_or_equal_to(1), "cannot find popular collect")
         return populars[0]
 
-    def addToPopular(self, popularElement):
+    def add_to_popular(self, popularElement):
         self._assert_active_music_panel(True)
 
-        buttonAdd = self.getElementByClass(popularElement, self.SPAN_CLASS_POPULARS_ADD, tag="popular add")
-        spanSuccess = self.getElementByClass(popularElement, self.SPAN_CLASS_POPULARS_SUCCESS, tag="popular success")
+        buttonAdd = self.get_element_by_class(popularElement, self.SPAN_CLASS_POPULARS_ADD, tag="popular add")
+        spanSuccess = self.get_element_by_class(popularElement, self.SPAN_CLASS_POPULARS_SUCCESS, tag="popular success")
 
         self.actions.move_to_element(popularElement).pause(3).click(buttonAdd).perform()
         self.wait.until(lambda s: spanSuccess.is_displayed())
@@ -168,8 +174,8 @@ class MusicPage(Page):
         self._assert_active_music_panel(True)
 
         base = self.driver.find_element_by_id(self.UL_COLLECTIONS)
-        el = self.getElementByClass(base, self.DIV_CLASS_CREATE_COLLECT_BUTTON, tag="create collect")
-        button_create = self.getParent(el)
+        el = self.get_element_by_class(base, self.DIV_CLASS_CREATE_COLLECT_BUTTON, tag="create collect")
+        button_create = self.get_parent(el)
 
         button_create.click()
 
@@ -180,13 +186,13 @@ class MusicPage(Page):
 
         self.click_collect()
 
-        base = self.getElementByClass(self.driver, self.DIV_CLASS_CREATE_COLLECT, "collect input")
+        base = self.get_element_by_class(self.driver, self.DIV_CLASS_CREATE_COLLECT, "collect input")
 
         collect_field = self.driver.find_element_by_xpath("//input[@type='text' and contains(@class, 'vl_it')]")
         collect_field.send_keys(name_collect)
 
-        scope_buttons = self.getElementByClass(base, "form-actions", tag="collect click")
-        self.getElementByClass(scope_buttons, "vl_btn", tag="click button").click()
+        scope_buttons = self.get_element_by_class(base, "form-actions", tag="collect click")
+        self.get_element_by_class(scope_buttons, "vl_btn", tag="click button").click()
 
         all_collections = self.driver.find_element_by_id(self.UL_COLLECTIONS)
         self.wait.until(lambda s: all_collections.find_element_by_xpath(self.FIND_IN_COLLECTIONS.format(name_collect)))
@@ -194,10 +200,10 @@ class MusicPage(Page):
     def click_close(self):
         self._assert_active_music_panel(True)
 
-        self.getElementByClass(self.driver, self.SPAN_CLASS_CLOSE_BUTTON, tag="find button").click()
+        self.get_element_by_class(self.driver, self.SPAN_CLASS_CLOSE_BUTTON, tag="find button").click()
         self._assert_active_music_panel(False)
 
     # check only edit button
     def check_music_album_in_my_music(self):
-        album = self.getFirstElementByClass(self.driver, self.DIV_CLASS_MY_ALBUM)
+        album = self.get_first_element_by_class(self.driver, self.DIV_CLASS_MY_ALBUM)
         album.find_element_by_xpath("//a[contains(@class, 'js-pl-edit')]")

@@ -2,11 +2,13 @@ import yaml
 
 from hamcrest import *
 
+DEFAULT_CONF = "./config/okdev.yaml"
+
 class Config:
     def __init__(self, conf_dict):
         self.cfg = conf_dict
 
-    def get(self, key, default = None):
+    def get(self, key, default=None):
         paths = key.split(".")
 
         obj = self.cfg
@@ -20,6 +22,7 @@ class Config:
 
     def __getitem__(self, item):
         return self.get(item, default=None)
+
 
 config = None
 
@@ -35,4 +38,19 @@ def parse_config(filename):
         except yaml.YAMLError as exc:
             print(exc)
 
-parse_config("./config/okdev.yaml")
+
+from sys import argv
+
+def getopts(argv):
+    opts = {}
+    while argv:
+        if argv[0][0] == '-':
+            opts[argv[0]] = argv[1]
+        argv = argv[1:]
+    return opts
+
+args = getopts(argv)
+if '-c' in args:
+    parse_config(args['-c'])
+else:
+    parse_config(DEFAULT_CONF)

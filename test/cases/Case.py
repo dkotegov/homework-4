@@ -3,8 +3,10 @@ from unittest import TestCase
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities, Remote
 
+from logger import *
+
 from config import config
-from logger import log_d
+import os
 
 from test.ok.LoginPage import LoginPage
 
@@ -21,8 +23,9 @@ class Case(TestCase):
 
         # self.driver = webdriver.Chrome()
         # self.driver = webdriver.Firefox()
+        self.driver.implicitly_wait(config["timeout"])
 
-        self.loginModel = LoginPage(self.driver, config["login"], config["password"])
+        self.loginModel = LoginPage(self.driver, os.environ.get('LOGIN'), os.environ.get('PASSWORD'))
 
         self.loginModel.open()
         self.loginModel.auth()

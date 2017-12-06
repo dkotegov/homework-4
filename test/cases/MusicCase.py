@@ -2,14 +2,8 @@ from Case import Case
 
 import random
 from hamcrest import *
-import time
-
-from config import config
-
-from logger import log_d
 
 from test.ok.MusicPage import MusicPage
-
 
 
 class MusicTestCase(Case):
@@ -27,7 +21,7 @@ class MusicTestCase(Case):
         self.music_page.set_play_music(True)
 
         # listen music 3 seconds
-        time.sleep(3)
+        self.music_page.wait_play_music("0:03")
 
         self.music_page.set_play_music(False)
 
@@ -37,19 +31,18 @@ class MusicTestCase(Case):
 
     def testAddToPopular(self):
         self.music_page.set_active_music_panel(True, waitLoad=True)
-        element = self.music_page.getFirstPopularElement()
-        self.music_page.addToPopular(element)
+        element = self.music_page.get_first_popular_element()
+        self.music_page.add_to_popular(element)
 
     def testCheckCollect(self):
         self.music_page.set_active_music_panel(True, waitLoad=True)
         self.music_page.choose_my_music()
         self.music_page.click_collect()
 
-
     def testCreateCollect(self):
         self.music_page.set_active_music_panel(True, waitLoad=True)
         self.music_page.choose_my_music()
-        self.music_page.click_and_create_collect("test" + str(random.randint(0, 100000))) # some increment
+        self.music_page.click_and_create_collect("test" + str(random.randint(0, 100000)))  # some increment
 
     def testClosePanel(self):
         self.music_page.set_active_music_panel(True, waitLoad=True)

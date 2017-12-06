@@ -25,5 +25,5 @@ class LoginPage(Page):
         # for Chrome
         # password_field.send_keys(Keys.ENTER)
 
-        base = self.getElementByClass(self.driver, self.FORM_CLASS)
-        self.getElementByClass(base, self.BUTTON_CLASS).click()
+        base = self.get_element_by_class(self.driver, self.FORM_CLASS)
+        self.get_element_by_class(base, self.BUTTON_CLASS).click()
