@@ -5,6 +5,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 import selenium.webdriver.common.by as by
 
+
 class DiscPage(BasePage):
     url = 'http://ok.ru'
 

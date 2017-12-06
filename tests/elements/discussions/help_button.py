@@ -2,5 +2,6 @@
 from tests.elements.base import BaseElement
 from selenium.webdriver.common.by import By
 
-class MyPosts(BaseElement):
-    BUTTON = (By.ID, 'd-f-tab-fM')
+
+class HelpButton(BaseElement):
+    SPAN = (By.XPATH, '//span[@uid="openHelpFeedbackForm"]')
