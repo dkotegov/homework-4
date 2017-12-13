@@ -133,9 +133,7 @@ class AuthForm(Component):
             wait = WebDriverWait(self.driver, 10)
             wait.until(ec.element_to_be_clickable((By.XPATH, self.LOGIN)))
         except TimeoutException:
-            #self.driver.save_screenshot('screen.png')
             self.driver.find_element_by_xpath(self.ADD).click()
-            #self.driver.save_screenshot('screen_after.png')
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):
@@ -192,7 +190,7 @@ class MarksModal(Component):
     def check_mark(self, expected_value, name):
         try:
             value = int(self.driver.find_element_by_xpath(self.MARK_VALUE.format(name)).text)
-        except:
+        except NoSuchElementException, TimeoutException:
             return False
         return value == expected_value
 

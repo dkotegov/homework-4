@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import os
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from page import *
+from page import USERNAME_SECOND, PASSWORD, AuthPage, Page, PersonPage, PhotoPage
 
 
 class BasicTest(unittest.TestCase):
@@ -50,7 +51,8 @@ class BasicTest(unittest.TestCase):
         for i in range(count):
             photos.append(photo_manager.upload_photo('pic.jpg'))
 
-        self.logout() if logout else None
+        if logout:
+            self.logout()
         return photos
 
     def remove_photos(self, username, photos):
@@ -65,7 +67,8 @@ class BasicTest(unittest.TestCase):
         return photos
 
     def set_marks(self, username, photos, marks, logout=True):
-        self.login(username) if username else None
+        if username:
+            self.login(username)
 
         for i in range(len(photos)):
             photo_page = PhotoPage(self.driver, photos[i][1], photos[i][0])
@@ -75,7 +78,8 @@ class BasicTest(unittest.TestCase):
             if not mark.set_mark(marks[i]):
                 return False
 
-        self.logout() if logout else None
+        if logout:
+            self.logout()
         return True
 
     def remove_marks(self, username, photos, name, logout=True, cancel=False):
@@ -91,13 +95,16 @@ class BasicTest(unittest.TestCase):
             if not marks.remove(name):
                 return False
 
-            marks.cancel_remove() if cancel else None
+            if cancel:
+                marks.cancel_remove()
 
-        self.logout() if logout else None
+        if logout:
+            self.logout()
         return True
 
     def check_marks(self, username, photos, mark_values, name, logout=True):
-        self.login(username) if username else None
+        if self.login(username):
+            self.login(username)
 
         for i in range(len(photos)):
             photo_page = PhotoPage(self.driver, photos[i][1], photos[i][0])
@@ -109,17 +116,21 @@ class BasicTest(unittest.TestCase):
                 return False
 
             if not marks.check_mark(mark_values[i], name):
-                self.logout() if logout else None
+                if logout:
+                    self.logout()
                 return False
 
-        self.logout() if logout else None
+        if logout:
+            self.logout()
 
         return True
 
     def get_name(self, username=None, logout=False):
-        self.login(username) if username else None
+        if logout:
+            self.logout()
         person_page = PersonPage(self.driver)
         name = person_page.get_name()
-        self.logout() if logout else None
+        if logout:
+            self.logout()
 
         return name
