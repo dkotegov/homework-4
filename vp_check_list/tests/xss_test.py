@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from selenium.common.exceptions import NoAlertPresentException
+from selenium.common.exceptions import NoAlertPresentException, TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 
 from vp_check_list.tests.base_test import BaseTest
@@ -13,7 +13,11 @@ class XssTest(BaseTest):
 		avatar_footer = self.user_avatar.comments
 
 		avatar_footer.add_comment_to_avatar(self.TEST_XSS_COMMENT)
-		WebDriverWait(self.driver, 10, 0.1).until(self.__alert_check__)
+		try:
+			WebDriverWait(self.driver, 10, 0.1).until(self.__alert_check__)
+			self.assertTrue(True)
+		except TimeoutException:
+			self.assertTrue(False)
 
 	def __alert_check__(self, driver):
 		try:
