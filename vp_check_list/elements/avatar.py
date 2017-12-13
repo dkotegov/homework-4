@@ -94,9 +94,13 @@ class LastCommentUserAvatar(Component):
 			lambda d: d.find_element_by_xpath(self.COMMENTS_DELETE_CANCEL_BUTTON)
 		)
 
-	def reset_comment(self):
+	def reset_comment(self, comments_before, avatar_footer):
 		delete_cancel_button = self.get_delete_cancel_button()
 		self.execute(delete_cancel_button)
+
+		WebDriverWait(avatar_footer, 10, 0.1).until(
+			lambda d: d.get_comment_amount() == comments_before
+		)
 
 	@staticmethod
 	def compare_likes(first_comment, is_negative=True):

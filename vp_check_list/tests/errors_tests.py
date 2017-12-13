@@ -39,4 +39,4 @@ class ErrorsCommentsTest(BaseTest):
 
 			self.assertEqual(repost_before, repost_after)
 		except TimeoutException:
-			self.assertEqual(1, 1)
+			self.assertTrue(True)
