@@ -93,19 +93,26 @@ class Photos(Component):
 
     BACK = '//span[@class="tico tico__12"][contains(text(), "Вернуться")] | //span[@class="portlet_h_name_t"]/a[@class="o"]'
 
-
     def upload_photo(self):
         expected_conditions.visibility_of_element_located((By.XPATH, self.TOP))
         self.driver.find_element_by_xpath(self.UPLOAD).send_keys(os.path.join(os.getcwd(), 'tests_butorin/photos/img.jpg'))
 
+    def get_uploaded_photo(self):
         wait = WebDriverWait(self.driver, WAIT_TIME)
-        wait.until(expected_conditions.visibility_of_element_located((By.XPATH, self.UPLOADED)))
+        element = wait.until(expected_conditions.visibility_of_element_located((By.XPATH, self.UPLOADED)))
         self.driver.find_element_by_xpath(self.BACK).click()
+        return element
 
+    def get_last_photo(self):
         wait = WebDriverWait(self.driver, WAIT_TIME)
         wait.until(expected_conditions.visibility_of_element_located((By.XPATH, self.PREVIEW)))
         href = self.driver.find_element_by_xpath(self.PREVIEW).get_attribute('href').split('/')
         return href[len(href) - 1]
+
+    def upload_and_get_photo(self):
+        self.upload_photo()
+        self.get_uploaded_photo()
+        return self.get_last_photo()
 
     def get_photos_count(self):
         return int(self.driver.find_element_by_xpath(self.COUNT).text)
@@ -114,13 +121,12 @@ class Photos(Component):
         expected_conditions.visibility_of_element_located((By.XPATH, self.PHOTO.format(user, id)))
         self.driver.find_element_by_xpath(self.PHOTO.format(user, id)).click()
 
-    def check_photo_opened(self):
+    def get_opened_photo(self):
         wait = WebDriverWait(self.driver, WAIT_TIME)
-        wait.until(expected_conditions.visibility_of_element_located((By.XPATH, self.RESULT)))
+        return wait.until(expected_conditions.visibility_of_element_located((By.XPATH, self.RESULT)))
 
     def open_photo(self, user, id):
         self.click_on_photo(user, id)
-        self.check_photo_opened()
 
     def click_make_main(self):
         overlay = self.driver.find_element_by_xpath(self.MAKEMAIN)

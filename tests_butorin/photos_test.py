@@ -24,7 +24,7 @@ class BasePhotoTest(BaseTest):
         super(BasePhotoTest, self).tearDown()
 
     def add_photo(self):
-        id = self.photos.upload_photo()
+        id = self.photos.upload_and_get_photo()
         self.added_photos.append(id)
         self.photos_page.open()
         return id
@@ -37,13 +37,19 @@ class BasePhotoTest(BaseTest):
 
 class UploadPhotoTest(BasePhotoTest):
     def test(self):
-        self.add_photo()
+        self.photos.upload_photo()
+        self.assertIsNotNone(self.photos.get_uploaded_photo())
+
+    def tearDown(self):
+        self.added_photos.append(self.photos.get_last_photo())
+        super(UploadPhotoTest, self).tearDown()
 
 
 class OpenPhotoTest(BasePhotoTest):
     def test(self):
         id = self.add_photo()
         self.photos.open_photo(LOGIN, id)
+        self.assertIsNotNone(self.photos.get_opened_photo())
 
 
 class MakeMainPhotoTest(BasePhotoTest):
@@ -89,7 +95,7 @@ class DeletePhotoTest(BasePhotoTest):
         self.delete_photo(id)
 
         self.photos_page.open()
-        self.assertEqual(count, self.photos.get_photos_count() + 1)
+        self.assertNotEqual(count, self.photos.get_photos_count())
 
 
 class RestorePhotoTest(BasePhotoTest):
