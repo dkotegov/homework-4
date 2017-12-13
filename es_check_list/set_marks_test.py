@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from page import *
+from page import USERNAME_FIRST, USERNAME_SECOND, PhotoPage
 from BasicTest import BasicTest
 
 import sys

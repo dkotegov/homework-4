@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from page import *
+from page import USERNAME_SECOND, USERNAME_FIRST, Page, PersonPage
 from BasicTest import BasicTest
 
 
@@ -39,10 +39,8 @@ class CheckMarksEventTest(BasicTest):
         events_modal.open()
 
         marks_modal = events_modal.marks_modal
-        if marks_modal.open(True):
-            result = marks_modal.check_mark(marks[0], name)
-        else:
-            result = None
+        self.assertTrue(marks_modal.open(True))
+        result = marks_modal.check_mark(marks[0], name)
 
         self.assertTrue(result)
 
@@ -93,11 +91,11 @@ class CancelRemoveMarkEventTest(BasicTest):
         events_modal.open()
 
         marks_modal = events_modal.marks_modal
-        if marks_modal.open(True):
-            marks_modal.remove(name)
-            marks_modal.cancel_remove()
-            result = self.check_marks(None, photos, marks, name, False)
-        else:
-            result = None
+
+        self.assertTrue(marks_modal.open(True))
+
+        marks_modal.remove(name)
+        marks_modal.cancel_remove()
+        result = self.check_marks(None, photos, marks, name, False)
 
         self.assertTrue(result)
