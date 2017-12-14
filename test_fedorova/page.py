@@ -46,9 +46,6 @@ class GroupPage(Page):
     def form(self):
         return Group(self.driver)
 
-    @property
-    def my_form(self):
-        return MyGroup(self.driver)
 
 
 class MyGroupsPage(Page):
@@ -58,13 +55,23 @@ class MyGroupsPage(Page):
     def form(self):
         return MyGroups(self.driver)  
 
+class MyGroupPage(Page):
+    PATH = ''
+
+    def __init__(self, driver, path):
+	Page.__init__(self, driver)
+	self.PATH = path
+
+    @property
+    def form(self):
+        return MyGroup(self.driver)
 
 class Component(object):
     def __init__(self, driver):
         self.driver = driver
 
 class Groups(Component):
-    CHECK_IMG_GROUP = '//div[@class="stub-img stub-img stub-group-business-48 stub-img__48"]/img[@class="photo_img"]'
+    CHECK_IMG_GROUP = '//img[@class="photo_img"][@alt="{}"]'
     GROUP_HREF = '//a[contains(@class,"o two-lines")]'
     CREATE_GROUP = '//a[@class="add-stub al add-stub__hor"]'
     PUBLIC_GROUP = '//a[@class="create-group-dialog_i"]'
@@ -74,14 +81,11 @@ class Groups(Component):
     OPTION = '//option[@value="subcatVal12001"]'
 
     def check_group_in_left(self, name):
-	self.driver.implicitly_wait(5)
-	imgs = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_elements_by_xpath(self.CHECK_IMG_GROUP)
-        )
-	for img in imgs:
-		if img.get_attribute("alt") == name:
-			return True
-	return False
+	try:
+		self.driver.find_elements_by_xpath(self.CHECK_IMG_GROUP.format(name.encode('utf-8')))
+		return True
+	except NoSuchElementException:
+		return False
 		
     def get_group_name(self):
 	WebDriverWait(self.driver, 30, 0.1).until(
@@ -97,7 +101,7 @@ class Groups(Component):
 	gp.open()
         return gp.form
 
-    def in_groups(self, group_name):
+    def assert_in_groups(self, group_name):
 	elems = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_elements_by_xpath(self.GROUP_HREF)
         )
@@ -122,7 +126,7 @@ class Groups(Component):
 	)
 	self.driver.find_element_by_xpath(self.OPTION).click()
 	self.driver.execute_script("arguments[0].click();", self.driver.find_element_by_xpath(self.CREATE_BUTTON))
-	return GroupPage(self.driver, self.driver.current_url).my_form
+	return MyGroupPage(self.driver, self.driver.current_url).form
 
 
 class AllGroups(Groups):
@@ -150,6 +154,7 @@ class MyGroups(Groups):
 class Group(Component):
     MEMBER = '//span[text()="Участник" or text()="Запрос отправлен" or text()="В группе"]' 
     LEAVE_BUTTON = '//a[@class="dropdown_i"]'
+    CONFIRM_LEAVE = '//input[@value="Выйти"]'
 
     def leave(self):
 	self.driver.find_element_by_xpath(self.MEMBER).click()
@@ -157,6 +162,13 @@ class Group(Component):
             lambda d: d.find_element_by_xpath(self.LEAVE_BUTTON)
         )
 	leave.click()
+	try:
+       		self.driver.find_element_by_xpath(self.CONFIRM_LEAVE).click()
+	except NoSuchElementException:
+		return
+
+    def is_close_group(self):
+	return self.driver.find_element_by_xpath(self.MEMBER).text == u'Запрос отправлен'
 
     def is_member(self):
 	try:
@@ -168,19 +180,18 @@ class Group(Component):
 class MyGroup(Component):
     ACTION_BUTTON = '//em[text()="Другие действия"]'
     DELETE_BUTTON = '//a/span[text()="Удалить"]'
-    DELETE_BUTTON1 = '//input[@type = "submit"][@value = "Удалить"]'
+    DELETE_BUTTON_CONFIRM = '//input[@type = "submit"][@value = "Удалить"]'
     CREATE_THEME = '//div[text()="Создать новую тему"]'
     INSERT_TEXT = '//div[@id="posting_form_text_field"]'
     SHARE_BUTTON = '//input[@value="Поделиться" and @class="button-pro"]'
-    TEXT = '//div[@class="media-text_cnt_tx textWrap"]'
+    TEXT = '//div[@class="media-text_cnt_tx emoji-tx textWrap"]'
     ARROW = '//div[@class="feed_menu"]'
     DELETE_THEME = '//a/span[text()="Удалить тему"]'
-    PLACEHOLDER = '//div[@class="input_placeholder"]'
     SETTINGS = '//span[text()="Настройки"]'
     NAME = '//input[@name="st.name"]'
     SAVE = '//input[@value="Сохранить"]'
     MAIN_NAME = '//h1[@class="mctc_name_tx"]'
-    OVERLAY = '//div[@class="posting-form_overlay invisible"]' #posting-form_overlay __active
+    OVERLAY = '//div[@class="posting-form_overlay invisible"]' 
     TOP_MENU = '//div[@id="mainTopContentRow"]'
 
     def delete(self):
@@ -194,7 +205,7 @@ class MyGroup(Component):
         )
 	delete.click()
 	delete1 = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.DELETE_BUTTON1)
+            lambda d: d.find_element_by_xpath(self.DELETE_BUTTON_CONFIRM)
         )
 	delete1.click()
 	return GroupsPage(self.driver).form
@@ -213,7 +224,6 @@ class MyGroup(Component):
 	element = self.driver.find_element_by_xpath(self.INSERT_TEXT)
 	self.driver.execute_script("arguments[0].click();", element)
 	element.send_keys(text)
-	self.driver.execute_script("arguments[0].remove();", self.driver.find_element_by_xpath(self.PLACEHOLDER))
 	WebDriverWait(self.driver, 30, 0.1).until(
 		expected_conditions.presence_of_element_located((By.XPATH, self.SHARE_BUTTON))
 	)

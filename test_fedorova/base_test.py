@@ -24,11 +24,10 @@ class BaseTest(unittest.TestCase):
         auth_page.open()
 
         auth_form = auth_page.form
-        auth_form.set_login('technopark36')
-        auth_form.set_password('testQA1')
+        auth_form.set_login(LOGIN)
+        auth_form.set_password(PASSWORD)
         auth_form.submit()
-	groups_page = GroupsPage(self.driver)		
-	groups_page.open()
+	GroupsPage(self.driver).open()
 
     def tearDown(self):
         self.driver.quit()
