@@ -67,9 +67,9 @@ class Photos(Component):
     COUNT = '//div[@id="hook_Block_UserStreamPhotosV2Block"]//span[@class="portlet_h_name_aux lstp-t"]'
     RESULT = '//div[@data-l="t,image"]'
 
-    MAKEMAIN = '//i[@class="tico_img ic ic_i_mainPhoto"]'
+    MAKE_MAIN = '//i[@class="tico_img ic ic_i_mainPhoto"]'
     FRAME_AREA = '//div[@class="jcrop-tracker"]'
-    SUBMITMAIN = '//button[@class="js-doCrop button-pro"]'
+    SUBMIT_MAIN = '//button[@class="js-doCrop button-pro"]'
 
     CLOSE_OVERLAY = '//div[@data-l="t,closeOverlay"]'
     CLOSE_BUTTON = '//div[@data-l="t,close"]'
@@ -82,7 +82,7 @@ class Photos(Component):
     DESCRIPTION_BUTTON = '//span[@class="tico_txt"]'
     DESCRIPTION_FIELD = '//textarea[@class="js-textarea itx photo-layer_descr_ceditable"]'
     DESCRIPTION_SAVE = '//input[@class="button-pro __small form-actions_yes"]'
-    DESCRIPTION = '//span[contains(text(), "{}")]'
+    DESCRIPTION = '//span[@id="plp_descrCntText"]'
 
     SHOW_LINK = '//span[contains(text(), "Получить ссылку")]'
     LINK = '//input[@class="photo-layer_get-link_ac"]'
@@ -129,7 +129,7 @@ class Photos(Component):
         self.click_on_photo(user, id)
 
     def click_make_main(self):
-        overlay = self.driver.find_element_by_xpath(self.MAKEMAIN)
+        overlay = self.driver.find_element_by_xpath(self.MAKE_MAIN)
         self.driver.execute_script("arguments[0].click();", overlay)
 
     def check_frame_area(self):
@@ -140,7 +140,7 @@ class Photos(Component):
         self.open_photo(user, id)
         self.click_make_main()
         self.check_frame_area()
-        self.driver.find_element_by_xpath(self.SUBMITMAIN).click()
+        self.driver.find_element_by_xpath(self.SUBMIT_MAIN).click()
 
     def click_overlay(self):
         overlay = self.driver.find_element_by_xpath(self.CLOSE_OVERLAY)
@@ -150,7 +150,7 @@ class Photos(Component):
         button = self.driver.find_element_by_xpath(self.CLOSE_BUTTON)
         self.driver.execute_script("arguments[0].click();", button)
 
-    def check_photo_disappeared(self):
+    def is_photo_disappeared(self):
         self.driver.implicitly_wait(0)
         is_disappeared = len(self.driver.find_elements_by_xpath(self.RESULT)) == 0
         self.driver.implicitly_wait(WAIT_TIME)
@@ -174,8 +174,8 @@ class Photos(Component):
         button_save = self.driver.find_element_by_xpath(self.DESCRIPTION_SAVE)
         self.driver.execute_script("arguments[0].click();", button_save)
 
-    def check_description(self, text):
-        expected_conditions.visibility_of_element_located((By.XPATH, self.DESCRIPTION.format(text)))
+    def get_description(self):
+        return self.driver.find_element_by_xpath(self.DESCRIPTION).text
 
     def get_link(self):
         self.driver.find_element_by_xpath(self.SHOW_LINK).click()
@@ -186,8 +186,8 @@ class Photos(Component):
         self.driver.find_element_by_xpath(self.COMMENT_ADD).send_keys(text)
         self.driver.find_element_by_xpath(self.COMMENT_SAVE).click()
 
-    def check_comment(self):
-        expected_conditions.visibility_of_element_located((By.XPATH, self.COMMENT))
+    def get_comment(self):
+        return self.driver.find_element_by_xpath(self.COMMENT).text
 
 
 class AuthForm(Component):

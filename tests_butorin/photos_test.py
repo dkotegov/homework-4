@@ -55,15 +55,6 @@ class OpenPhotoTest(BasePhotoTest):
 class MakeMainPhotoTest(BasePhotoTest):
     def test(self):
         id = self.add_photo()
-        self.photos.open_photo(LOGIN, id)
-
-        self.photos.click_make_main()
-        self.photos.check_frame_area()
-
-
-class SubmitMainPhotoTest(BasePhotoTest):
-    def test(self):
-        id = self.add_photo()
         self.photos.submit_main(LOGIN, id)
 
         self.main_page = MainPage(self.driver, LOGIN)
@@ -76,7 +67,7 @@ class ClosePhotoOverlayTest(BasePhotoTest):
         id = self.add_photo()
         self.photos.open_photo(LOGIN, id)
         self.photos.click_overlay()
-        self.assertTrue(self.photos.check_photo_disappeared())
+        self.assertTrue(self.photos.is_photo_disappeared())
 
 
 class ClosePhotoButtonTest(BasePhotoTest):
@@ -84,7 +75,7 @@ class ClosePhotoButtonTest(BasePhotoTest):
         id = self.add_photo()
         self.photos.open_photo(LOGIN, id)
         self.photos.click_close()
-        self.assertTrue(self.photos.check_photo_disappeared())
+        self.assertTrue(self.photos.is_photo_disappeared())
 
 
 class DeletePhotoTest(BasePhotoTest):
@@ -119,7 +110,7 @@ class AddDescriptionTest(BasePhotoTest):
         self.photos.open_photo(LOGIN, id)
         self.photos.add_description(description)
 
-        self.photos.check_description(description)
+        self.assertEqual(description, self.photos.get_description())
 
 
 class ShowLinkTest(BasePhotoTest):
@@ -137,7 +128,7 @@ class AddCommentTest(BasePhotoTest):
         self.photos.open_photo(LOGIN, id)
         self.photos.add_comment(comment)
 
-        self.photos.check_comment()
+        self.assertEqual(comment, self.photos.get_comment())
 
 
 butorin_tests = [
@@ -149,9 +140,6 @@ butorin_tests = [
     )),
     unittest.TestSuite((
         unittest.makeSuite(MakeMainPhotoTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SubmitMainPhotoTest),
     )),
     unittest.TestSuite((
         unittest.makeSuite(ClosePhotoOverlayTest),
