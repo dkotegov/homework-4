@@ -48,7 +48,7 @@ class UploadPhotoTest(BasePhotoTest):
 class OpenPhotoTest(BasePhotoTest):
     def test(self):
         id = self.add_photo()
-        self.photos.open_photo(LOGIN, id)
+        self.photos.click_on_photo(LOGIN, id)
         self.assertIsNotNone(self.photos.get_opened_photo())
 
 
@@ -109,7 +109,7 @@ class AddDescriptionTest(BasePhotoTest):
         id = self.add_photo()
         self.photos.open_photo(LOGIN, id)
         self.photos.add_description(description)
-
+        self.driver.refresh()
         self.assertEqual(description, self.photos.get_description())
 
 

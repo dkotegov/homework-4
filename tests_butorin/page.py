@@ -127,6 +127,7 @@ class Photos(Component):
 
     def open_photo(self, user, id):
         self.click_on_photo(user, id)
+        expected_conditions.visibility_of_element_located((By.XPATH, self.RESULT))
 
     def click_make_main(self):
         overlay = self.driver.find_element_by_xpath(self.MAKE_MAIN)
