@@ -23,7 +23,6 @@ class AuthPage(Page):
 
 
 class PhotoPage(Page):
-    
     @property
     def open_photos(self):
         return Main(self.driver)

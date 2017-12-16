@@ -73,17 +73,20 @@ class PhotoSectionTest(BaseTest):
     def test(self):
         self.photo_page = PhotoPage(self.driver)
         self.assertTrue(self.photo_page.open_photos.check_click())
+        self.assertTrue(self.photo_page.open_photos.check_album_section())
 
 
 class CreateAlbumTest(BaseAlbumCreateTest):
     def test(self):
         self.assertTrue(self.photo_page.create_album.check_click())
+        self.assertTrue(self.photo_page.create_album.check())
 
 
 class CancelCreateAlbumTest(BaseAlbumCreateTest):
     def test(self):
         self.assertTrue(self.photo_page.create_album.check_click())
         self.assertTrue(self.photo_page.create_album.cancel_click())
+        self.assertTrue(self.photo_page.open_photos.check_album_section())
 
 
 class CheckboxesAlbumTest(BaseAlbumCreateTest):
@@ -121,12 +124,14 @@ class CreatedAlbumTest(BaseAlbumCreateTest):
         self.assertTrue(self.photo_page.create_album.check_click())
         self.assertTrue(self.photo_page.create_album.create_name_album(name_alb))
         self.assertTrue(self.photo_page.create_album.create_album_click())
+        self.assertTrue(self.photo_page.album.check_album_field())
         self.delAlbum()
 
 
 class OpenAlbumTest(BaseAlbumEditTest):
     def test(self):
         self.assertTrue(self.photo_page.album.open_click(name_alb))
+        self.assertTrue(self.photo_page.album.check_album_field())
         self.assertTrue(self.photo_page.album.edit_click())
 
 
@@ -134,6 +139,7 @@ class EditAlbumTest(BaseAlbumEditTest):
     def test(self):
         self.assertTrue(self.photo_page.album.open_click(name_alb))
         self.assertTrue(self.photo_page.album.edit_click())
+        self.assertTrue(self.photo_page.album.check_album_edit_field())
 
 
 class RenameAlbumTest(BaseAlbumEditTest):
@@ -149,6 +155,7 @@ class BackAlbumTest(BaseAlbumEditTest):
         self.assertTrue(self.photo_page.album.open_click(name_alb))
         self.assertTrue(self.photo_page.album.edit_click())
         self.assertTrue(self.photo_page.album.back_click())
+        self.assertTrue(self.photo_page.album.check_album_field())
         self.assertTrue(self.photo_page.album.edit_click())
 
 
@@ -157,6 +164,7 @@ class EditPrivateAlbumTest(BaseAlbumEditTest):
         self.assertTrue(self.photo_page.album.open_click(name_alb))
         self.assertTrue(self.photo_page.album.edit_click())
         self.assertTrue(self.photo_page.album.edit_private_click())
+        self.assertTrue(self.photo_page.album.check_edit_private())
         self.assertTrue(self.photo_page.album.cancel_click())
 
 

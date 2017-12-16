@@ -32,7 +32,8 @@ class AuthForm(Base):
 
 
 class Main(Base):
-    PHOTO_SECTION = '//div[@class="nav-side __navigation __rainbow-menu"]/a[5]'
+    PHOTO_SECTION = '//div[@class="nav-side __navigation __rainbow-menu __small"]/a[5]'
+    PHOTO_SECTION_ALBUM = '//div[@class="photo-sc photo-sc__albums __albums"]'
 
     def check_click(self):
         try:
@@ -41,14 +42,23 @@ class Main(Base):
             return False
         return True
 
+    def check_album_section(self):
+        try:
+            self.driver.find_element_by_xpath(self.PHOTO_SECTION_ALBUM)
+        except (NoSuchElementException, ElementNotVisibleException):
+            return False
+        return True
+
 
 class CreateAlbum(Base):
+    FIELD = '//div[@class="modal_overlay"]'
     CREATE_ALBUM = '//a[@class="portlet_h_ac lp"]'
     CHECKBOX_ALBUM = 'irc'
     NAME_ALBUM = '//input[@name="st.layer.photoAlbumName"]'
     CREATE_ALBUM_SUBMIT = '//input[@name="button_album_create"]'
     ATTR = 'value'
     CANCEL = 'Отменить'
+    ALBUM_FIELD = '//div[@class="photo-panel_info"]'
 
     FRIENDS = {
         'all': 0,
@@ -81,6 +91,13 @@ class CreateAlbum(Base):
         res = self.click(self.driver.find_element_by_xpath(self.CREATE_ALBUM))
         return res
 
+    def check(self):
+        try:
+            self.driver.find_element_by_xpath(self.FIELD)
+        except (NoSuchElementException, ElementNotVisibleException):
+            return False
+        return True
+
     def cancel_click(self):
         res = self.click(self.driver.find_element_by_link_text(self.CANCEL))
         return res
@@ -98,14 +115,14 @@ class CreateAlbum(Base):
     def check_all_friend_checkboxes(self):
         cb = self.driver.find_elements(By.CLASS_NAME, self.CHECKBOX_ALBUM)
         cb[self.FRIENDS['all_friend']].click()
- 
+        cb = self.driver.find_elements(By.CLASS_NAME, self.CHECKBOX_ALBUM)
+        
         for el in self.FRIENDS:
-            if el != 'all_friend':
-                if el == 'all':
-                    if cb[self.FRIENDS[el]].get_attribute('checked') != None:
-                        return False
-                elif cb[self.FRIENDS[el]].get_attribute('checked') != "true":
+            if el == 'all':
+                if cb[self.FRIENDS[el]].get_attribute('checked') != None:
                     return False
+            elif cb[self.FRIENDS[el]].get_attribute('checked') != "true":
+                return False
         
         return True
 
@@ -125,6 +142,7 @@ class CreateAlbum(Base):
     def check_not_empty_checkboxes(self):
         cb = self.driver.find_elements(By.CLASS_NAME, self.CHECKBOX_ALBUM)
         cb[self.FRIENDS['all']].click()
+        cb = self.driver.find_elements(By.CLASS_NAME, self.CHECKBOX_ALBUM)
  
         if cb[self.FRIENDS['all']].get_attribute('checked') != "true":
             return False
@@ -138,12 +156,14 @@ class CreateAlbum(Base):
             return True
         return False
 
+
     def create_album_click(self):
         res = self.click(self.driver.find_element_by_xpath(self.CREATE_ALBUM_SUBMIT))
         return res
 
 
 class Album(Base):
+    FIELD = '//div[@class="modal_overlay"]'
     EDIT_ALBOM = '//div[@class="photo-menu_edit iblock-cloud_show"]'
     EDIT_NAME_ALBUM = '//input[@class="it h-mod"]'
     ATTR = 'value'
@@ -153,10 +173,25 @@ class Album(Base):
     NAV_PHOTO = '//a[@class="mctc_navMenuSec mctc_navMenuActiveSec"]'
     COVER = '//a[@class="modal_overlay"]'
     CANCEL = '//a[@class="lp"]'
+    ALBUM_FIELD = '//div[@class="photo-panel_info"]'
 
     def click(self, elem):
         try:
             elem.click()
+        except (NoSuchElementException, ElementNotVisibleException):
+            return False
+        return True
+
+    def check_album_field(self):
+        try:
+            self.driver.find_element_by_xpath(self.ALBUM_FIELD)
+        except (NoSuchElementException, ElementNotVisibleException):
+            return False
+        return True
+
+    def check_album_edit_field(self):
+        try:
+            self.driver.find_element_by_xpath(self.BACK)
         except (NoSuchElementException, ElementNotVisibleException):
             return False
         return True
@@ -200,6 +235,13 @@ class Album(Base):
         wait.until(expected_conditions.invisibility_of_element_located((By.XPATH, self.COVER)))
         res = self.click(self.driver.find_element_by_xpath(self.NAV_PHOTO))
         return res
+
+    def check_edit_private(self):
+        try:
+            self.driver.find_element_by_xpath(self.FIELD)
+        except (NoSuchElementException, ElementNotVisibleException):
+            return False
+        return True
 
     def del_click(self):
         try:
