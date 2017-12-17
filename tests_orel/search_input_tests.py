@@ -16,12 +16,12 @@ class BaseSearchInputTest(BaseTest):
 
 class SearchInputPopupTest(BaseSearchInputTest):
     def test(self):
-        self.main_page.is_search_suggestions_on_page()
+        self.assertIsNotNone(self.main_page.get_search_suggestions_on_page())
 
 
 class SearchInputOverlayTest(BaseSearchInputTest):
     def test(self):
-        self.main_page.is_search_overlay_on_page()
+        self.assertIsNotNone(self.main_page.get_search_overlay_on_page())
 
 
 class SearchInputSuggestionsShowAllTest(BaseSearchInputTest):

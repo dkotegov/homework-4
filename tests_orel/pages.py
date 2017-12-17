@@ -63,14 +63,14 @@ class MainPage(Page):
     def search(self, some_string):
         self.driver.find_element_by_id(self.SEARCH).send_keys(some_string)
 
-    def is_search_suggestions_on_page(self):
-        self.driver.find_element_by_id(self.SEARCH_SUGGESTIONS)
+    def get_search_suggestions_on_page(self):
+        return self.driver.find_element_by_id(self.SEARCH_SUGGESTIONS)
 
     def get_search_suggestions_showall_text(self):
         return self.driver.find_element_by_xpath(self.SEARCH_SUGGESTIONS_SHOWALL_LINK).text
 
-    def is_search_overlay_on_page(self):
-        self.driver.find_element_by_xpath(self.SEARCH_OVERLAY)
+    def get_search_overlay_on_page(self):
+        return self.driver.find_element_by_xpath(self.SEARCH_OVERLAY)
 
     def submit_search(self):
         self.driver.find_element_by_id(self.SEARCH_BTN).click()

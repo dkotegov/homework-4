@@ -32,11 +32,13 @@ class SearchPageGenderTest(BaseSearchPageTest):
 
     def test(self):
         search_filter_page = SearchFilterPage(self.driver)
-        search_filter_page.set_female()
+        url_before = self.driver.current_url
 
+        search_filter_page.set_female()
         WebDriverWait(self.driver, 10).until(
-            lambda driver: driver.current_url.find(self.FEMALE_QUERY) != self.NOT_FOUND
+            lambda driver: driver.current_url != url_before
         )
+        self.assertIn(self.FEMALE_QUERY, self.driver.current_url)
 
 
 class SearchPageAgeTest(BaseSearchPageTest):
@@ -56,10 +58,13 @@ class SearchPageAgeTest(BaseSearchPageTest):
                 search_filter_page._from_age_selector(self.FROM_AGE)
             ))
         )
+        url_before = self.driver.current_url
         search_filter_page.click_from_age_select(self.FROM_AGE)
         WebDriverWait(self.driver, 10).until(
-            lambda driver: driver.current_url.find(self.FROM_AGE_QUERY) != self.NOT_FOUND
+            lambda driver: driver.current_url != url_before
         )
+        self.assertIn(self.FROM_AGE_QUERY, self.driver.current_url)
+
 
         search_filter_page.click_till_age()
         WebDriverWait(self.driver, 10).until(
@@ -68,10 +73,12 @@ class SearchPageAgeTest(BaseSearchPageTest):
                 search_filter_page._till_age_selector(self.FROM_AGE)
             ))
         )
+        url_before = self.driver.current_url
         search_filter_page.click_till_age_select(self.TILL_AGE)
         WebDriverWait(self.driver, 10).until(
-            lambda driver: driver.current_url.find(self.TILL_AGE_QUERY) != self.NOT_FOUND
+            lambda driver: driver.current_url != url_before
         )
+        self.assertIn(self.TILL_AGE_QUERY, self.driver.current_url)
 
 
 class SearchPageHideFilterTest(BaseSearchPageTest):
@@ -86,13 +93,12 @@ class SearchPageHideFilterTest(BaseSearchPageTest):
 
         gender_title.click()
 
-        WebDriverWait(self.driver, 10).until(
-            lambda driver: self.OPEN_CLASS not in gender_block.get_attribute('class')
-        )
+        self.assertNotIn(self.OPEN_CLASS, gender_block.get_attribute('class'))
 
 
 class SearchPageClearTest(BaseSearchPageTest):
     SEARCH_STRING = 'kek'
+    EMPTY_STRING = ''
 
     def test(self):
         search_page = SearchPage(self.driver)
@@ -106,9 +112,8 @@ class SearchPageClearTest(BaseSearchPageTest):
         )
         search_cancel.click()
 
-        WebDriverWait(self.driver, 10).until(
-            lambda driver: search_input.text == ''
-        )
+        self.assertEqual(self.EMPTY_STRING, search_input.text)
+
 
 
 class SearchPageFilterTagsTest(SearchPageGenderTest):
