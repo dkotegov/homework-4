@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import unittest
-
 from base_test import BaseTest, LOGIN
 from page import PhotosPage, MainPage
 
@@ -129,38 +127,3 @@ class AddCommentTest(BasePhotoTest):
         self.photos.add_comment(comment)
 
         self.assertEqual(comment, self.photos.get_comment())
-
-
-butorin_tests = [
-    unittest.TestSuite((
-        unittest.makeSuite(UploadPhotoTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(OpenPhotoTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(MakeMainPhotoTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(ClosePhotoOverlayTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(ClosePhotoButtonTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(DeletePhotoTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(RestorePhotoTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(AddDescriptionTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(ShowLinkTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(AddCommentTest),
-    )),
-]
-

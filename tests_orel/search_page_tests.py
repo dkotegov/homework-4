@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-import unittest
-
-from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -139,29 +135,3 @@ class SearchPageClearFilterTest(SearchPageGenderTest):
         WebDriverWait(self.driver, 10).until(
             lambda driver: len(search_page.get_filter_tags()) == 0
         )
-
-
-
-search_page_tests = [
-    unittest.TestSuite((
-        unittest.makeSuite(SearchPageDefaultSearchTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchPageGenderTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchPageAgeTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchPageHideFilterTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchPageClearTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchPageFilterTagsTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchPageClearFilterTest),
-    )),
-]

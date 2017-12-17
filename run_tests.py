@@ -2,13 +2,13 @@
 
 import unittest
 
-from tests_orel.tests import tests_orel
-from tests_butorin.photos_test import butorin_tests
+from tests_orel.run_tests import run_tests_orel
+from tests_butorin.run_tests import run_tests_butorin
 
 if __name__ == '__main__':
 
-    for test_suite in tests_orel:
+    for test_suite in run_tests_orel:
         unittest.TextTestRunner().run(test_suite)
 
-    for test_suite in butorin_tests:
+    for test_suite in run_tests_butorin:
         unittest.TextTestRunner().run(test_suite)

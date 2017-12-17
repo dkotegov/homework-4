@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-import unittest
-
-from selenium.webdriver import DesiredCapabilities, Remote
-
 from base_test import BaseTest
 from pages import MainPage, SearchPage
 
@@ -46,19 +41,3 @@ class SearchInputSubmitTest(BaseSearchInputTest):
         search_page = SearchPage(self.driver)
         menu = search_page.get_menu()
         self.assertEqual(self.MENU_LENGTH, len(menu))
-
-
-search_input_tests = [
-    unittest.TestSuite((
-        unittest.makeSuite(SearchInputPopupTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchInputOverlayTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchInputSuggestionsShowAllTest),
-    )),
-    unittest.TestSuite((
-        unittest.makeSuite(SearchInputSubmitTest),
-    )),
-]
