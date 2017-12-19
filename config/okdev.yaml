@@ -1,0 +1,16 @@
+# Server settings
+timeout: 10
+
+ok:
+  server: "ok.ru"
+  scheme: "https"
+
+executor:
+  server: "127.0.0.1:4444"
+  scheme: "http"
+
+  browser:
+    name: "CHROME"
+
+login: "technopark45"
+password: "******"
