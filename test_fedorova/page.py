@@ -258,8 +258,9 @@ class MyGroup(Component):
 	WebDriverWait(self.driver, 30, 0.1).until(
 		expected_conditions.presence_of_element_located((By.XPATH, self.NAME))
 	)
-	self.driver.find_element_by_xpath(self.NAME).click()
-	self.driver.find_element_by_xpath(self.NAME).send_keys(text)
+	name_input = self.driver.find_element_by_xpath(self.NAME);
+	name_input.click()
+	name_input.send_keys(text)
 	WebDriverWait(self.driver, 30, 0.1).until(
 		expected_conditions.element_to_be_clickable((By.XPATH, self.SAVE))
 	)

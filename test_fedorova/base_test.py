@@ -29,6 +29,7 @@ class BaseTest(unittest.TestCase):
         auth_form.submit()
 	GroupsPage(self.driver).open()
 
+
     def tearDown(self):
         self.driver.quit()
 
