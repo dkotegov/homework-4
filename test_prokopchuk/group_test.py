@@ -120,14 +120,15 @@ class GroupsTest(BaseTest):
         my_group_form = groups_form.create_public_group(new_group_name)
         post1_text = Utils.random_str(5).decode('utf-8')  # to UNICODE
         my_group_form.create_new_theme(post1_text)
-        self._test_post_STAV_KLASS(my_group_form)
-        self._test_post_NE_STAV_KLASS(my_group_form)
 
-    def _test_post_STAV_KLASS(self, my_group_form):
-        self.assertTrue(my_group_form.get_post_likes_count() is None)
-        my_group_form.click_like_post()
-        self.assertTrue(my_group_form.get_post_likes_count() == u'1')
+        def _test_post_STAV_KLASS():
+            self.assertTrue(my_group_form.get_post_likes_count() is None)
+            my_group_form.click_like_post()
+            self.assertTrue(my_group_form.get_post_likes_count() == u'1')
 
-    def _test_post_NE_STAV_KLASS(self, my_group_form):
-        my_group_form.click_like_post()
-        self.assertTrue(my_group_form.get_post_likes_count() is None)
+        def _test_post_NE_STAV_KLASS():
+            my_group_form.click_like_post()
+            self.assertTrue(my_group_form.get_post_likes_count() is None)
+
+        _test_post_STAV_KLASS()
+        _test_post_NE_STAV_KLASS()
