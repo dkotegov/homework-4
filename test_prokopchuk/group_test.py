@@ -7,14 +7,14 @@ from test_prokopchuk.utils import Utils
 
 class GroupsTest(BaseTest):
 
-    def test_add_to_bookmarks(self):  # добавление в закладки 1
+    def test_add_to_bookmarks(self):  # добавление в закладки
         new_group_name = Utils.random_str(8)
         groups_form = GroupsPage(self.driver).form
         my_group_form = groups_form.create_public_group(new_group_name)
         my_group_form.set_bookmark()
         self.assertTrue(my_group_form.is_added_to_bookmarks() is True)
 
-    def test_change_group_desc(self):  # Смена описания группы 2
+    def test_change_group_desc(self):  # Смена описания группы
         new_group_name = Utils.random_str(5)
         groups_form = GroupsPage(self.driver).form
         my_group_form = groups_form.create_public_group(new_group_name)
@@ -68,7 +68,7 @@ class GroupsTest(BaseTest):
         _test_hide_video_section()
         _test_show_video_section()
 
-    def test_change_group_category(self):  # Смена категории группы 5
+    def test_change_group_category(self):  # Смена категории группы
         new_group_name = Utils.random_str(5)
         groups_form = GroupsPage(self.driver).form
         my_group_form = groups_form.create_public_group(new_group_name)
@@ -99,13 +99,13 @@ class GroupsTest(BaseTest):
         my_group_form.create_new_theme(post1_text)
         my_group_form.create_new_theme(post2_text)
 
-        def _test_check_posts_order_after_pin():  # порядок отображения постов при закрепленном старом посте 7
+        def _test_check_posts_order_after_pin():  # порядок отображения постов при закрепленном старом посте
             my_group_form.click_pin_post(1)  # прикрепляем более ранний пост
             texts_after_pin = my_group_form.get_all_posts_texts()
             self.assertTrue(texts_after_pin[0] == post1_text)
             self.assertTrue(texts_after_pin[1] == post2_text)
 
-        def _test_check_posts_order_after_unpin():  # порядок отображения постов после открепления поста 8
+        def _test_check_posts_order_after_unpin():  # порядок отображения постов после открепления поста
             my_group_form.click_unpin_post(0)  # открепить
             texts_after_pin = my_group_form.get_all_posts_texts()
             self.assertTrue(texts_after_pin[0] == post2_text)
