@@ -6,8 +6,8 @@ import unittest
 from test_prokopchuk.page import AuthPage, GroupsPage
 from selenium.webdriver import DesiredCapabilities, Remote
 
-LOGIN = 'technopark27'
-PASSWORD = 'testQA1'
+LOGIN = os.environ['LOGIN']
+PASSWORD = os.environ['PASSWORD']
 
 
 class BaseTest(unittest.TestCase):
