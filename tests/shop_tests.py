@@ -65,7 +65,7 @@ class Popup(Component):
 
 
 class TopMenu(Component):
-    OPEN_SHOP_PAGE_LINK = '//a[contains(@class,"compact-profile_a")]'
+    OPEN_SHOP_PAGE_LINK = '//div[contains(@class,"mctc_navMenu")]/a[contains(@hrefattrs,"altGroupMain")]'
 
     def open_shop_page(self):
         open_shop_link = WebDriverWait(self.driver, 30, 0.1).until(
@@ -75,13 +75,27 @@ class TopMenu(Component):
 
 
 class ShopPage(Component):
+    OTHER_ACTIONS_BUTTON = '//em[@class="tico_simb_txt"]'
     REMOVE_SHOP_BUTTON = '//a[contains(@hrefattrs,"RemoveAltGroup")]'
+    SUBMIT_REMOVE_BUTTON = '//input[@name="button_delete"]'
+
+    def other_actions(self):
+        other_button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.OTHER_ACTIONS_BUTTON)
+        )
+        other_button.click()
 
     def remove_shop(self):
         remove_button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.REMOVE_SHOP_BUTTON)
         )
         remove_button.click()
+
+    def submit_remove(self):
+        submit_button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SUBMIT_REMOVE_BUTTON)
+        )
+        submit_button.click()
 
 
 class ShopTests(unittest.TestCase):
@@ -100,12 +114,14 @@ class ShopTests(unittest.TestCase):
         commons.open_groups_page()
 
     def tearDown(self):
-        # shop_admin_page = ShopAdminPage(self.driver)
-        # top_menu = shop_admin_page.top_menu
-        # top_menu.open_shop_page()
-        #
-        # shop_page = shop_admin_page.shop_main_page
-        # shop_page.remove_shop()
+        shop_admin_page = ShopAdminPage(self.driver)
+        top_menu = shop_admin_page.top_menu
+        top_menu.open_shop_page()
+
+        shop_page = shop_admin_page.shop_main_page
+        shop_page.other_actions()
+        shop_page.remove_shop()
+        shop_page.submit_remove()
 
         self.driver.quit()
 
