@@ -15,6 +15,16 @@ class GroupsPage(Page):
         return Popup(self.driver)
 
 
+class ShopAdminPage(Page):
+    @property
+    def top_menu(self):
+        return TopMenu(self.driver)
+
+    @property
+    def shop_main_page(self):
+        return ShopPage(self.driver)
+
+
 class Popup(Component):
     CREATE_GROUP = '//div[@class="create-group"]//a'
     CREATE_SHOP = '//a[contains(@href,"SHOP")]'
@@ -54,6 +64,26 @@ class Popup(Component):
         submit_button.click()
 
 
+class TopMenu(Component):
+    OPEN_SHOP_PAGE_LINK = '//a[contains(@class,"compact-profile_a")]'
+
+    def open_shop_page(self):
+        open_shop_link = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.OPEN_SHOP_PAGE_LINK)
+        )
+        open_shop_link.click()
+
+
+class ShopPage(Component):
+    REMOVE_SHOP_BUTTON = '//a[contains(@hrefattrs,"RemoveAltGroup")]'
+
+    def remove_shop(self):
+        remove_button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.REMOVE_SHOP_BUTTON)
+        )
+        remove_button.click()
+
+
 class ShopTests(unittest.TestCase):
     SHOP_NAME = u'Ларек-Марек'
 
@@ -70,6 +100,13 @@ class ShopTests(unittest.TestCase):
         commons.open_groups_page()
 
     def tearDown(self):
+        # shop_admin_page = ShopAdminPage(self.driver)
+        # top_menu = shop_admin_page.top_menu
+        # top_menu.open_shop_page()
+        #
+        # shop_page = shop_admin_page.shop_main_page
+        # shop_page.remove_shop()
+
         self.driver.quit()
 
     def test(self):
