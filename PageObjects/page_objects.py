@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from PageObjects.page import Page
-from Components.main_group_page_components import (GroupLeftMenu,
+from Components.main_group_page_components import (ShopMainPage,
                                                    GroupTopMenu)
 from Components.theme_page_components import (ThemeForm)
 from Components.group_page_components import (Popup)
@@ -34,8 +34,8 @@ class MainGroupPage(Page):
         return GroupTopMenu(self.driver)
 
     @property
-    def group_left_menu(self):
-        return GroupLeftMenu(self.driver)
+    def shop_main_page(self):
+        return ShopMainPage(self.driver)
 
 
 class ThemesPage(Page):

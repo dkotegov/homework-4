@@ -35,8 +35,8 @@ class PostTests(unittest.TestCase):
 
     def tearDown(self):
         main_group_page = MainGroupPage(self.driver)
-        main_group_page.group_top_menu.lenta_page_open()
-        main_group_page.group_left_menu.delete_group()
+        main_group_page.group_top_menu.shop_main_page_open()
+        main_group_page.shop_main_page.delete_group()
 
         self.driver.quit()
 
