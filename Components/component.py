@@ -14,6 +14,9 @@ class Component(object):
             lambda d: d.find_element_by_xpath(element)
         ).click()
 
+    def click_element_without_waiting(self, element):
+        self.driver.find_element_by_xpath(element).click()
+
     def input_text_to_element(self, element, text):
         WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
             lambda d: d.find_element_by_xpath(element)

@@ -15,11 +15,9 @@ class AuthTest(unittest.TestCase):
         self.driver.quit()
 
     def test(self):
-        auth = Auth(self.driver)
-        auth.auth()
+        Auth(self.driver).sign_in()
 
         main_page = MainPage(self.driver)
-        left_menu = main_page.left_menu
-        username = left_menu.get_username()
+        username = main_page.left_menu.get_username()
 
         self.assertEqual(self.USERNAME, username)

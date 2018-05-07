@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from PageObjects.page_objects import GroupsPage, MainGroupPage, ThemesPage
-from tests.common import getDriver, Auth, Groups
+from PageObjects.page_objects import ShopForumPage
+from tests.common import getDriver, Auth, Shop, Main
 
 
 class PostTests(unittest.TestCase):
@@ -11,36 +11,20 @@ class PostTests(unittest.TestCase):
     def setUp(self):
         self.driver = getDriver()
 
-        auth = Auth(self.driver)
-        auth.auth()
+        Auth(self.driver).sign_in()
+        Main(self.driver).open_groups_page()
 
-        groups = Groups(self.driver)
-        groups.open_groups_page()
-
-        group_page = GroupsPage(self.driver)
-        popup = group_page.popup
-        popup.open_popup()
-
-        popup.create_shop()
-
-        popup.set_shop_name(self.SHOP_NAME)
-        popup.set_subcategory()
-        popup.submit_creation()
+        shop = Shop(self.driver)
+        shop.create(self.SHOP_NAME)
+        shop.open_forum_page()
 
     def tearDown(self):
-        main_group_page = MainGroupPage(self.driver)
-        main_group_page.group_top_menu.shop_main_page_open()
-        main_group_page.shop_main_page.delete_group()
-
+        Shop(self.driver).remove()
         self.driver.quit()
 
     def test_create_delete_theme(self):
-        main_group_page = MainGroupPage(self.driver)
-        main_group_page.group_top_menu.themes_page_open()
-
-        themes_page = ThemesPage(self.driver)
-        themes_page.theme_form.open_form()
-        themes_page.theme_form.set_text()
-        themes_page.theme_form.submit()
-
-        self.assertEqual(1, 1)
+        shop_forum_page = ShopForumPage(self.driver)
+        topic_popup = shop_forum_page.topic_popup
+        topic_popup.open_popup()
+        topic_popup.set_text()
+        topic_popup.submit()

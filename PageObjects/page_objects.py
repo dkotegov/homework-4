@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
+from Components.feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
 from PageObjects.page import Page
 from Components.auth_form import AuthForm
-from Components.create_groups_popup import CreateGroupsPopup
-from Components.left_menu_on_main_page import LeftMenuOnMainPage
-from Components.main_group_page_components import ShopMainPage, GroupTopMenu
-from Components.shop_page_components import TopMenu, ShopPage
-from Components.theme_page_components import ThemeForm
+from Components.groups_page_components import CreateGroupsPopup
+from Components.main_page_components import LeftMenuOnMainPage
+from Components.forum_page_components import TopicPopup
 
 
 class AuthPage(Page):
@@ -28,27 +27,31 @@ class GroupsPage(Page):
         return CreateGroupsPopup(self.driver)
 
 
-class MainGroupPage(Page):
-    @property
-    def group_top_menu(self):
-        return GroupTopMenu(self.driver)
-
-    @property
-    def shop_main_page(self):
-        return ShopMainPage(self.driver)
-
-
-class ThemesPage(Page):
-    @property
-    def theme_form(self):
-        return ThemeForm(self.driver)
-
-
-class ShopAdminPage(Page):
+class ShopFeedPage(Page):
     @property
     def top_menu(self):
-        return TopMenu(self.driver)
+        return TopMenuOnShopPage(self.driver)
 
     @property
-    def shop_main_page(self):
-        return ShopPage(self.driver)
+    def left_menu(self):
+        return LeftMenuOnShopFeedPage(self.driver)
+
+    @property
+    def header(self):
+        return HeaderOnShopFeedPage(self.driver)
+
+
+class ShopForumPage(Page):
+    @property
+    def top_menu(self):
+        return TopMenuOnShopPage(self.driver)
+
+    @property
+    def topic_popup(self):
+        return TopicPopup(self.driver)
+
+
+class ShopMarketPage(Page):
+    @property
+    def top_menu(self):
+        return TopMenuOnShopPage(self.driver)
