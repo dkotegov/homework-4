@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from PageObjects.page import Page
-from Components.main_group_page_components import (ShopMainPage,
-                                                   GroupTopMenu)
-from Components.theme_page_components import (ThemeForm)
-from Components.group_page_components import (Popup)
-from Components.auth_page_components import (AuthForm)
-from Components.main_page_components import (LeftMenu)
+from Components.auth_form import AuthForm
+from Components.create_groups_popup import CreateGroupsPopup
+from Components.left_menu_on_main_page import LeftMenuOnMainPage
+from Components.main_group_page_components import ShopMainPage, GroupTopMenu
+from Components.shop_page_components import TopMenu, ShopPage
+from Components.theme_page_components import ThemeForm
 
 
 class AuthPage(Page):
@@ -19,13 +19,13 @@ class AuthPage(Page):
 class MainPage(Page):
     @property
     def left_menu(self):
-        return LeftMenu(self.driver)
+        return LeftMenuOnMainPage(self.driver)
 
 
 class GroupsPage(Page):
     @property
     def popup(self):
-        return Popup(self.driver)
+        return CreateGroupsPopup(self.driver)
 
 
 class MainGroupPage(Page):
@@ -42,3 +42,13 @@ class ThemesPage(Page):
     @property
     def theme_form(self):
         return ThemeForm(self.driver)
+
+
+class ShopAdminPage(Page):
+    @property
+    def top_menu(self):
+        return TopMenu(self.driver)
+
+    @property
+    def shop_main_page(self):
+        return ShopPage(self.driver)

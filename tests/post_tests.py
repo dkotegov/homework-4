@@ -1,27 +1,21 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
-from selenium.webdriver import DesiredCapabilities, Remote
-
-from Components.common import Commons
-from PageObjects.page_objects import (GroupsPage,MainGroupPage,
-                                      ThemesPage)
+from PageObjects.page_objects import GroupsPage, MainGroupPage, ThemesPage
+from tests.common import getDriver, Auth, Groups
 
 
 class PostTests(unittest.TestCase):
     SHOP_NAME = u'Магазин'
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
+        self.driver = getDriver()
 
-        commons = Commons(self.driver)
-        commons.auth()
-        commons.open_groups_page()
+        auth = Auth(self.driver)
+        auth.auth()
+
+        groups = Groups(self.driver)
+        groups.open_groups_page()
 
         group_page = GroupsPage(self.driver)
         popup = group_page.popup
@@ -41,7 +35,6 @@ class PostTests(unittest.TestCase):
         self.driver.quit()
 
     def test_create_delete_theme(self):
-
         main_group_page = MainGroupPage(self.driver)
         main_group_page.group_top_menu.themes_page_open()
 

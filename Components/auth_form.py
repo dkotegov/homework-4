@@ -8,10 +8,10 @@ class AuthForm(Component):
     SUBMIT = '//input[@class="button-pro __wide"]'
 
     def set_login(self, login):
-        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
+        super(AuthForm, self).input_text_to_element(self.LOGIN, login)
 
-    def set_password(self, pwd):
-        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
+    def set_password(self, password):
+        super(AuthForm, self).input_text_to_element(self.PASSWORD, password)
 
     def submit(self):
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
+        super(AuthForm, self).click_element(self.SUBMIT)

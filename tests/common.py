@@ -1,10 +1,21 @@
+# -*- coding: utf-8 -*-
 import os
 
+from selenium.webdriver import DesiredCapabilities, Remote
+
 from Components.component import Component
-from PageObjects.page_objects import (AuthPage,MainPage)
+from PageObjects.page_objects import AuthPage, MainPage
 
 
-class Commons(Component):
+def getDriver():
+    browser = os.environ.get('BROWSER', 'CHROME')
+    return Remote(
+        command_executor='http://127.0.0.1:4444/wd/hub',
+        desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+    )
+
+
+class Auth(Component):
     LOGIN = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
 
@@ -17,6 +28,8 @@ class Commons(Component):
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
 
+
+class Groups(Component):
     def open_groups_page(self):
         main_page = MainPage(self.driver)
 

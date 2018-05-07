@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from Components.component import Component
 from selenium.webdriver.support.ui import WebDriverWait
+
+from Components.component import Component
 
 
 class ThemeForm(Component):

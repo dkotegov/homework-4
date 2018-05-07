@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from Components.component import Component
+import time
+
 from selenium.webdriver.support.ui import WebDriverWait
 
-import time
+from Components.component import Component
 
 
 class GroupTopMenu(Component):
@@ -17,7 +18,7 @@ class GroupTopMenu(Component):
         themes_button.click()
 
     def shop_main_page_open(self):
-        # Надо придумать что с этим делать
+        # TODO Надо придумать что с этим делать
         time.sleep(2)
         shop_main_page_button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SHOP_MAIN_PAGE_BUTTON)
