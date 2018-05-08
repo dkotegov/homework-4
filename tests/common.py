@@ -32,12 +32,11 @@ class Auth(Component):
 class Main(Component):
     def open_groups_page(self):
         main_page = MainPage(self.driver)
-        main_page.open()
         main_page.left_menu.open_groups_page()
 
 
 class Shop(Component):
-    def create(self, shop_name):
+    def create(self, shop_name=u'Ларек-Марек'):
         groups_page = GroupsPage(self.driver)
         popup = groups_page.popup
         popup.open_popup()

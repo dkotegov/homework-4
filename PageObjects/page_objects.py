@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Components.feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
+from Components.market_page_components import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup
 from PageObjects.page import Page
 from Components.auth_form import AuthForm
 from Components.groups_page_components import CreateGroupsPopup
@@ -8,8 +9,6 @@ from Components.forum_page_components import TopicPopup
 
 
 class AuthPage(Page):
-    PATH = ''
-
     @property
     def form(self):
         return AuthForm(self.driver)
@@ -55,3 +54,20 @@ class ShopMarketPage(Page):
     @property
     def top_menu(self):
         return TopMenuOnShopPage(self.driver)
+
+    @property
+    def catalog_popup(self):
+        return CatalogPopup(self.driver)
+
+    def catalog_widget(self):
+        return CatalogWidget(self.driver)
+
+
+class CatalogPage(Page):
+    @property
+    def catalog_panel(self):
+        return CatalogPanel(self.driver)
+
+    @property
+    def remove_popup(self):
+        return RemoveCatalogPopup(self.driver)
