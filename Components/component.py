@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class Component(object):
     TIMEOUT = 30
-    FREQUENCY = 0.1
+    FREQUENCY = 0.4
 
     def __init__(self, driver):
         self.driver = driver

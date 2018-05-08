@@ -6,6 +6,7 @@ from tests.common import getDriver, Auth
 
 
 class AuthTest(unittest.TestCase):
+    # TODO проставить нужные credentials
     USERNAME = u'Феофан Лампер'
 
     def setUp(self):

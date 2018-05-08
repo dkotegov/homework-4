@@ -14,4 +14,4 @@ class TopicPopup(Component):
         super(TopicPopup, self).input_text_to_element(self.THEME_TEXT, text)
 
     def submit(self):
-        super(TopicPopup, self).click_element_without_waiting(self.SUBMIT)
+        super(TopicPopup, self).click_element(self.SUBMIT)

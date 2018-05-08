@@ -19,6 +19,9 @@ class PostTests(unittest.TestCase):
         shop.open_forum_page()
 
     def tearDown(self):
+        # TODO Element <a ...> is not clickable
+        import time; time.sleep(1)
+
         Shop(self.driver).remove()
         self.driver.quit()
 
