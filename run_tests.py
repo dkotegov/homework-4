@@ -6,13 +6,13 @@ import unittest
 from tests.auth_test import AuthTest
 from tests.catalog_tests import CatalogTests
 from tests.create_shop_test import CreateShopTest
-from tests.post_tests import PostTests
+from tests.theme_tests import PostTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite([
-        unittest.makeSuite(AuthTest),
-        unittest.makeSuite(CreateShopTest),
-        unittest.makeSuite(CatalogTests),
+        # unittest.makeSuite(AuthTest),
+        # unittest.makeSuite(CreateShopTest),
+        # unittest.makeSuite(CatalogTests),
         unittest.makeSuite(PostTests)
     ])
 
