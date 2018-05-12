@@ -56,7 +56,31 @@ class PostTests(unittest.TestCase):
     #     # TODO проверить удаление
 
 
-    def test_set_hashtag_to_theme(self):
+    # def test_set_hashtag_to_theme(self):
+    #     shop_forum_page = ShopForumPage(self.driver)
+    #     topic_popup = shop_forum_page.topic_popup
+    #     topic_popup.open_popup()
+    #     topic_popup.set_text()
+    #     topic_popup.submit()
+    #
+    #     topic_list = shop_forum_page.topic_list
+    #     topic_list.open_keyword_field()
+    #     topic_list.set_keyword(self.KEYWORD)
+    #     topic_list.submit_keyword()
+    #
+    #     self.driver.refresh()
+    #
+    #     hashtag = topic_list.get_hashtag()
+    #     self.assertEqual('#' + self.KEYWORD, hashtag)
+    #     topic_list.open_keyword_field()
+    #     topic_list.delete_keyword()
+    #     topic_list.submit_keyword()
+    #
+    #     self.driver.refresh()
+    #     # TODO проверить удаление
+
+    def test_set_class(self):
+
         shop_forum_page = ShopForumPage(self.driver)
         topic_popup = shop_forum_page.topic_popup
         topic_popup.open_popup()
@@ -64,19 +88,16 @@ class PostTests(unittest.TestCase):
         topic_popup.submit()
 
         topic_list = shop_forum_page.topic_list
-        topic_list.open_keyword_field()
-        topic_list.set_keyword(self.KEYWORD)
-        topic_list.submit_keyword()
 
-        self.driver.refresh()
+        topic_list.click_class()
+        class_counter = topic_list.get_class_counter(active=True)
+        self.assertEqual("1",class_counter)
 
-        hashtag = topic_list.get_hashtag()
-        self.assertEqual('#' + self.KEYWORD, hashtag)
-        topic_list.open_keyword_field()
-        topic_list.delete_keyword()
-        topic_list.submit_keyword()
+        topic_list.click_class()
+        class_counter = topic_list.get_class_counter(active=False)
+        self.assertEqual("0", class_counter)
 
-        self.driver.refresh()
-        # TODO проверить удаление
+
+
 
 

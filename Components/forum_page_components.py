@@ -28,6 +28,10 @@ class TopicList(Component):
     HASHTAG = '//a[contains(@class,"__hashtag")]'
     KEYWORD_DELETE_BTN = '//span[contains(@class,"tag_del")]'
 
+    CLASS = '//span[contains(@class,"controls-list_lk")]'
+    CLASS_COUNTER_ACTIVE = '//span[contains(@class,"controls-list_lk")]/' \
+                    'span[contains(@class,"widget_count") and {}(contains(@class,"__react-like"))]'
+
     def open_keyword_field(self):
         super(TopicList, self).click_element(self.ADD_KEYWORD_BTN)
 
@@ -52,3 +56,14 @@ class TopicList(Component):
 
     def delete_keyword(self):
         super(TopicList, self).click_element(self.KEYWORD_DELETE_BTN)
+
+        # LIKE
+    def click_class(self):
+        super(TopicList, self).click_element(self.CLASS)
+
+    def get_class_counter(self, active=True):
+        return WebDriverWait(self.driver, 30).until(
+            lambda d: d.find_element_by_xpath(self.CLASS_COUNTER_ACTIVE.format(
+                "" if active else "not"
+            ))
+        ).text
