@@ -14,7 +14,9 @@ class EditForm(Component):
     SAVE_BUTTON = 'button_save'
 
     def set_name(self, name):
-        self.driver.find_element_by_id(self.NAME_FIELD).send_keys(name)
+        name_field = self.driver.find_element_by_id(self.NAME_FIELD)
+        name_field.clear()
+        name_field.send_keys(name)
 
     def submit(self):
         self.driver.find_element_by_name(self.SAVE_BUTTON).click()

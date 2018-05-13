@@ -29,10 +29,14 @@ class EmptyAlbumContent(Component):
 
 class Toolbar(Component):
     TOOLBAR_BUTTON = 'js-t-widget'
+    EDIT_BUTTON = 'ic-edit'
     DELETE_BUTTON = 'ic-del'
 
     def open(self):
         self.driver.find_element_by_id(self.TOOLBAR_BUTTON).click()
+
+    def edit(self):
+        self.driver.find_elements(By.CLASS_NAME, self.EDIT_BUTTON)[0].click()
 
     def delete(self):
         self.driver.find_elements(By.CLASS_NAME, self.DELETE_BUTTON)[0].click()

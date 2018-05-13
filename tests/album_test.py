@@ -68,3 +68,20 @@ class AlbumTest(unittest.TestCase):
 
         albums_list = UserAlbumsPage(self.driver).albums_list
         self.assertFalse(albums_list.include(album_name))
+
+    def test_rename_album(self):
+        self.auth()
+        self.create_album()
+
+        album_page = UserAlbumPage(self.driver)
+
+        toolbar = album_page.toolbar
+        toolbar.open()
+        toolbar.edit()
+
+        album_name = 'Renamed test album #{}'.format(time.time())
+        edit_form = UserAlbumEditPage(self.driver).form
+        edit_form.set_name(album_name)
+        edit_form.submit()
+
+        self.assertEqual(album_name, album_page.empty_album_content.title)
