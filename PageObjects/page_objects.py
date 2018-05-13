@@ -5,7 +5,10 @@ from PageObjects.page import Page
 from Components.auth_form import AuthForm
 from Components.groups_page_components import CreateGroupsPopup
 from Components.main_page_components import LeftMenuOnMainPage
-from Components.forum_page_components import TopicCreationPopup, TopicList, TopicPopup
+from Components.forum_page_components import (TopicCreationPopup,
+                                              TopicList,
+                                              TopicPopup,
+                                              NotifyPanel)
 
 
 class AuthPage(Page):
@@ -44,6 +47,10 @@ class ShopForumPage(Page):
     @property
     def top_menu(self):
         return TopMenuOnShopPage(self.driver)
+
+    @property
+    def notify_panel(self):
+        return NotifyPanel(self.driver)
 
     @property
     def topic_creation_popup(self):

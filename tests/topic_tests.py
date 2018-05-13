@@ -5,6 +5,7 @@ from PageObjects.page_objects import ShopForumPage
 from tests.common import getDriver, Auth, Shop, Main
 import time
 
+
 class PostTests(unittest.TestCase):
     SHOP_NAME = u'Магазин'
     KEYWORD = u'keyword'
@@ -168,6 +169,44 @@ class PostTests(unittest.TestCase):
     #     topic_popup.close_topic_popup()
     #
     #     time.sleep(2)
+
+
+    # TODO доделать
+    def test_delete_post(self):
+        shop_forum_page = ShopForumPage(self.driver)
+        topic_list = shop_forum_page.topic_list
+        topic_list.open_topic_popup()
+
+        topic_popup = shop_forum_page.topic_popup
+        topic_popup.open_right_menu()
+        topic_popup.remove_topic()
+
+        remove_topic_info = topic_popup.remove_topic_info()
+        self.assertEqual(u"Тема удалена", remove_topic_info)
+
+        topic_popup.close_topic_popup()
+
+
+        time.sleep(2)
+
+    # def test_edit_topic_text(self):
+    #     shop_forum_page = ShopForumPage(self.driver)
+    #     topic_list = shop_forum_page.topic_list
+    #     topic_list.open_topic_popup()
+    #
+    #     topic_popup = shop_forum_page.topic_popup
+    #     topic_popup.open_right_menu()
+    #     topic_popup.edit_topic()
+    #     topic_popup.clear_edit_field()
+    #
+    #
+    #
+    #
+    #     time.sleep(2)
+
+
+
+
 
 
 

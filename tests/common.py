@@ -69,3 +69,19 @@ class Shop(Component):
         shop_market_page = ShopMarketPage(self.driver)
         shop_market_page.top_menu.open_market_page()
         return shop_market_page
+
+
+class Topic(Component):
+    def create(self, text="topic text"):
+        shop_forum_page = ShopForumPage(self.driver)
+        topic_creation_popup = shop_forum_page.topic_creation_popup
+        topic_creation_popup.open_popup()
+        topic_creation_popup.set_text(text)
+        topic_creation_popup.submit()
+
+    def remove(self):
+        shop_forum_page = ShopForumPage(self.driver)
+        topic_popup = shop_forum_page.topic_popup
+        topic_popup.open_right_menu()
+        topic_popup.remove_topic()
+        topic_popup.close_topic_popup()

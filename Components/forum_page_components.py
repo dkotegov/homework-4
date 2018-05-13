@@ -22,6 +22,9 @@ class TopicCreationPopup(Component):
 
 
 class TopicPopup(Component):
+    THEME_TEXT = '//div[@data-module="postingForm/mediaText"]'
+
+
     COMMENT_FIELD = '//div[contains(@class,"js-comments_add")]'
     CLOSE = '//div[contains(@class,"media-layer_close_ico")]'
     SUBMIT_COMMENT_BTN = '//button[contains(@class,"form-actions_yes")]'
@@ -34,6 +37,12 @@ class TopicPopup(Component):
     RECOVER_COMMENT_BTN = '//a[contains(@class, "delete-stub_cancel")]'
     EDIT_COMMENT_BTN = '//a[contains(@class, "comments_edit")]'
     EDIT_COMMENT_SAVE_BTN = '//button[contains(@class,"comments_add-controls_save")]'
+
+    RIGHT_MENU = '//div[@class="mlr_top_ac"]' \
+                 '/div[@data-module="ShortcutMenu"]/div/div[contains(@class,"sc-menu")]'
+    REMOVE_TOPIC_BTN = '//a[contains(@href, "Topic_Remove")]'
+    REMOVE_TOPIC_INFO = '//span[contains(@class, "delete-stub_info")]'
+    EDIT_TOPIC_BTN = '//a[contains(@href, "Topic_Edit")]'
 
     def close_topic_popup(self):
         super(TopicPopup, self).click_element(self.CLOSE)
@@ -81,8 +90,32 @@ class TopicPopup(Component):
     def recover_comment(self):
         super(TopicPopup, self).click_element(self.RECOVER_COMMENT_BTN)
 
+    def open_right_menu(self):
+        right_menu = WebDriverWait(self.driver, 30).until(
+            lambda d: d.find_element_by_xpath(self.RIGHT_MENU)
+        )
+        self.driver.execute_script("arguments[0].classList.remove('sc-menu__hidden');", right_menu)
+
+    def remove_topic(self):
+        super(TopicPopup, self).click_element(self.REMOVE_TOPIC_BTN)
+
+    def edit_topic(self):
+        super(TopicPopup, self).click_element(self.EDIT_TOPIC_BTN)
+
+    def remove_topic_info(self):
+        return super(TopicPopup, self).get_element_text(self.REMOVE_TOPIC_INFO)
+
+    def clear_edit_field(self):
+        WebDriverWait(self.driver, 30).until(
+            lambda d: d.find_element_by_xpath(self.THEME_TEXT)
+        ).clear()
+
 
 class TopicList(Component):
+    TOPIC_TEXT = '//div[contains(@class,"media-text_cnt_tx")]'
+    TOPIC_OWNER = '//span[@class="shortcut-wrap"]/a[contains(@hrefattrs,"GroupTopicLayer_VisitProfile")]'
+
+
     ADD_KEYWORD_BTN = '//a[contains(text(),"ключевые слова")]'
     KEYWORD_FIELD = '//input[@name="st.newTag"]'
     SUBMIT_KEYWORD = '//td[contains(@class,"tag-box_button_w")]'
@@ -95,6 +128,13 @@ class TopicList(Component):
     CLASS = '//span[contains(@class,"controls-list_lk")]'
     CLASS_COUNTER = '//span[contains(@class,"controls-list_lk")]/' \
                     'span[contains(@class,"widget_count") and {}(contains(@class,"__react-like"))]'
+
+    def get_topic_text(self):
+        return super(TopicList, self).get_element_text(self.TOPIC_TEXT)
+
+    def get_topic_owner(self):
+        return super(TopicList, self).get_element_text(self.TOPIC_OWNER)
+
 
     def open_keyword_field(self):
         super(TopicList, self).click_element(self.ADD_KEYWORD_BTN)
@@ -134,3 +174,13 @@ class TopicList(Component):
 
     def open_topic_popup(self):
         super(TopicList, self).click_element(self.OPEN_TOPIC_POPUP)
+
+class NotifyPanel(Component):
+    MESSAGE = '//div[@id = "notifyPanel_msg"]'
+    CLOSE_BTN = '//input[@name = "button_close"]'
+
+    def get_message(self):
+        return super(NotifyPanel, self).get_element_text(self.MESSAGE)
+
+    def close_panel(self):
+        super(NotifyPanel,self).click_element(self.CLOSE_BTN)
