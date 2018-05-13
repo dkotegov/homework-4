@@ -10,6 +10,14 @@ class UserAlbumPage(Page):
     def empty_album_content(self):
         return EmptyAlbumContent(self.driver)
 
+    @property
+    def toolbar(self):
+        return Toolbar(self.driver)
+
+    @property
+    def confirmation_modal(self):
+        return ConfirmationModal(self.driver)
+
 
 class EmptyAlbumContent(Component):
     TITLE = 'ep-ttl-txt'
@@ -17,3 +25,21 @@ class EmptyAlbumContent(Component):
     @property
     def title(self):
         return self.driver.find_elements(By.CLASS_NAME, self.TITLE)[0].text
+
+
+class Toolbar(Component):
+    TOOLBAR_BUTTON = 'js-t-widget'
+    DELETE_BUTTON = 'ic-del'
+
+    def open(self):
+        self.driver.find_element_by_id(self.TOOLBAR_BUTTON).click()
+
+    def delete(self):
+        self.driver.find_elements(By.CLASS_NAME, self.DELETE_BUTTON)[0].click()
+
+
+class ConfirmationModal(Component):
+    DELETE_BUTTON = 'button_delete'
+
+    def delete(self):
+        self.driver.find_element_by_name(self.DELETE_BUTTON).click()
