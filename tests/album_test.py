@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import os
+import time
 
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from tests.pages.auth_page import AuthPage
+from tests.pages.user_album_edit_page import UserAlbumEditPage
+from tests.pages.user_album_page import UserAlbumPage
 
 
 class AlbumTest(unittest.TestCase):
@@ -32,6 +35,15 @@ class AlbumTest(unittest.TestCase):
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
 
-    def test(self):
+    def test_create_album(self):
         self.auth()
 
+        create_album_page = UserAlbumEditPage(self.driver)
+        create_album_page.open()
+        create_form = create_album_page.form
+        album_name = 'Test album #{}'.format(time.time())
+        create_form.set_name(album_name)
+        create_form.submit()
+
+        album = UserAlbumPage(self.driver).empty_album_content
+        self.assertEqual(album_name, album.title)
