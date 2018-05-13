@@ -5,7 +5,7 @@ from PageObjects.page import Page
 from Components.auth_form import AuthForm
 from Components.groups_page_components import CreateGroupsPopup
 from Components.main_page_components import LeftMenuOnMainPage
-from Components.forum_page_components import TopicPopup, TopicList
+from Components.forum_page_components import TopicCreationPopup, TopicList, TopicPopup
 
 
 class AuthPage(Page):
@@ -46,12 +46,16 @@ class ShopForumPage(Page):
         return TopMenuOnShopPage(self.driver)
 
     @property
-    def topic_popup(self):
-        return TopicPopup(self.driver)
+    def topic_creation_popup(self):
+        return TopicCreationPopup(self.driver)
 
     @property
     def topic_list(self):
         return TopicList(self.driver)
+
+    @property
+    def topic_popup(self):
+        return TopicPopup(self.driver)
 
 
 class ShopMarketPage(Page):
