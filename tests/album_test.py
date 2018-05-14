@@ -39,9 +39,17 @@ class AlbumTest(unittest.TestCase):
     def create_album(self, album_name='Test album #{}'.format(time.time())):
         create_album_page = UserAlbumEditPage(self.driver)
         create_album_page.open()
+
         create_form = create_album_page.form
         create_form.set_name(album_name)
         create_form.submit()
+
+    def like_album(self, album_name):
+        albums_page = UserAlbumsPage(self.driver)
+        albums_page.open()
+
+        album_item = albums_page.albums_list.find(album_name)
+        album_item.like()
 
     def test_create_album(self):
         self.auth()
@@ -91,16 +99,32 @@ class AlbumTest(unittest.TestCase):
 
         album_name = 'Liked test album #{}'.format(time.time())
         self.create_album(album_name)
+        self.like_album(album_name)
 
         albums_page = UserAlbumsPage(self.driver)
-        albums_page.open()
-
         album_item = albums_page.albums_list.find(album_name)
-        album_item.like()
         self.assertEqual(1, album_item.likes_count)
 
         # Обновлю и еще раз проверю
         albums_page.open()
-
         album_item = albums_page.albums_list.find(album_name)
         self.assertEqual(1, album_item.likes_count)
+
+    def test_cancel_album_like(self):
+        self.auth()
+
+        album_name = 'Liked test album #{}'.format(time.time())
+        self.create_album(album_name)
+        self.like_album(album_name)
+
+        # Дизлайк
+        self.like_album(album_name)
+
+        albums_page = UserAlbumsPage(self.driver)
+        album_item = albums_page.albums_list.find(album_name)
+        self.assertEqual(0, album_item.likes_count)
+
+        # Обновлю и еще раз проверю
+        albums_page.open()
+        album_item = albums_page.albums_list.find(album_name)
+        self.assertEqual(0, album_item.likes_count)
