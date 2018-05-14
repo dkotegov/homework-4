@@ -26,7 +26,7 @@ class EmptyAlbumContent(Component):
 
     @property
     def title(self):
-        return self.driver.find_elements(By.CLASS_NAME, self.TITLE)[0].text
+        return self.driver.find_element_by_class_name(self.TITLE).text
 
 
 class Toolbar(Component):
@@ -38,10 +38,10 @@ class Toolbar(Component):
         WebDriverWait(self.driver, 2, 0.1).until(EC.element_to_be_clickable((By.ID, self.TOOLBAR_BUTTON))).click()
 
     def edit(self):
-        self.driver.find_elements(By.CLASS_NAME, self.EDIT_BUTTON)[0].click()
+        self.driver.find_element_by_class_name(self.EDIT_BUTTON).click()
 
     def delete(self):
-        self.driver.find_elements(By.CLASS_NAME, self.DELETE_BUTTON)[0].click()
+        self.driver.find_element_by_class_name(self.DELETE_BUTTON).click()
 
 
 class ConfirmationModal(Component):

@@ -67,7 +67,7 @@ class AlbumTest(unittest.TestCase):
         album_page.confirmation_modal.delete()
 
         albums_list = UserAlbumsPage(self.driver).albums_list
-        self.assertFalse(albums_list.include(album_name))
+        self.assertFalse(albums_list.includes(album_name))
 
     def test_rename_album(self):
         self.auth()

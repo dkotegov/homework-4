@@ -14,7 +14,7 @@ class UserAlbumsPage(Page):
 class AlbumsList(Component):
     TITLE = 'albm'
 
-    def include(self, album_name):
+    def includes(self, album_name):
         albums = self.driver.find_elements(By.CLASS_NAME, self.TITLE)
         for album in albums:
             if album.text == album_name:
