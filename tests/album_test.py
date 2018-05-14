@@ -85,3 +85,22 @@ class AlbumTest(unittest.TestCase):
         edit_form.submit()
 
         self.assertEqual(album_name, album_page.empty_album_content.title)
+
+    def test_like_album(self):
+        self.auth()
+
+        album_name = 'Liked test album #{}'.format(time.time())
+        self.create_album(album_name)
+
+        albums_page = UserAlbumsPage(self.driver)
+        albums_page.open()
+
+        album_item = albums_page.albums_list.find(album_name)
+        album_item.like()
+        self.assertEqual(1, album_item.likes_count)
+
+        # Обновлю и еще раз проверю
+        albums_page.open()
+
+        album_item = albums_page.albums_list.find(album_name)
+        self.assertEqual(1, album_item.likes_count)
