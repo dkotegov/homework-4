@@ -46,7 +46,7 @@ class AlbumTest(unittest.TestCase):
     def test_create_album(self):
         self.auth()
 
-        album_name = 'Test album #{}'.format(time.time())
+        album_name = 'Created test album #{}'.format(time.time())
         self.create_album(album_name)
 
         album = UserAlbumPage(self.driver).empty_album_content
@@ -55,7 +55,7 @@ class AlbumTest(unittest.TestCase):
     def test_remove_album(self):
         self.auth()
 
-        album_name = 'Test album #{}'.format(time.time())
+        album_name = 'Test album #{} for remove'.format(time.time())
         self.create_album(album_name)
 
         album_page = UserAlbumPage(self.driver)
