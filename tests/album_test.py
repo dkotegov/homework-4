@@ -205,3 +205,6 @@ class AlbumTest(unittest.TestCase):
         # Отмена лайка
         photo.cancel_like()
         self.assertEqual(0, photo.likes_count)
+
+        self.driver.refresh()
+        self.assertEqual(0, photo.likes_count)

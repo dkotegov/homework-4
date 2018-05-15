@@ -78,15 +78,17 @@ class Toolbar(Component):
     def open(self):
         WebDriverWait(self.driver, 2, 0.1).until(EC.element_to_be_clickable((By.ID, self.TOOLBAR_BUTTON))).click()
 
+    @wait_until_url_changes
     def edit(self):
-        self.driver.find_element_by_class_name(self.EDIT_BUTTON).click()
+        WebDriverWait(self.driver, 4).until(EC.element_to_be_clickable((By.CLASS_NAME, self.EDIT_BUTTON))).click()
 
     def delete(self):
-        self.driver.find_element_by_class_name(self.DELETE_BUTTON).click()
+        WebDriverWait(self.driver, 4).until(EC.element_to_be_clickable((By.CLASS_NAME, self.DELETE_BUTTON))).click()
 
 
 class ConfirmationModal(Component):
     DELETE_BUTTON = 'button_delete'
 
+    @wait_until_url_changes
     def delete(self):
-        self.driver.find_element_by_name(self.DELETE_BUTTON).click()
+        WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable((By.NAME, self.DELETE_BUTTON))).click()
