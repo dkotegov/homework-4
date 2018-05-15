@@ -7,7 +7,7 @@ from tests.common import getDriver, Auth, Shop, Main
 
 class CreateDeleteTopicTest(unittest.TestCase):
     SHOP_NAME = u'Shop'
-    TOPIC_TEXT = u'topic text'
+    TOPIC_TEXT = u'my topic text'
     REMOVE_TOPIC_INFO = u"Тема удалена"
     REMOVE_TOPIC_MSG = u"Этот объект уже удалён или заблокирован."
 
@@ -32,7 +32,7 @@ class CreateDeleteTopicTest(unittest.TestCase):
         topic_creation_popup.set_text(self.TOPIC_TEXT)
         topic_creation_popup.submit()
 
-        topic_list_element = shop_forum_page.topic_list
+        topic_list_element = shop_forum_page.topic_list_element
 
         topic_text = topic_list_element.get_topic_text()
         self.assertEqual(topic_text, self.TOPIC_TEXT)

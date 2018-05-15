@@ -6,7 +6,7 @@ from Components.auth_form import AuthForm
 from Components.groups_page_components import CreateGroupsPopup
 from Components.main_page_components import LeftMenuOnMainPage
 from Components.forum_page_components import (TopicCreationPopup,
-                                              TopicList,
+                                              TopicListElement,
                                               TopicPopup,
                                               NotifyPanel)
 
@@ -57,8 +57,8 @@ class ShopForumPage(Page):
         return TopicCreationPopup(self.driver)
 
     @property
-    def topic_list(self):
-        return TopicList(self.driver)
+    def topic_list_element(self):
+        return TopicListElement(self.driver)
 
     @property
     def topic_popup(self):

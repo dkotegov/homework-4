@@ -6,25 +6,28 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class TopicCreationPopup(Component):
-    CREATE_THEME = '//a[contains(@data-l, "OpenPostingPopup")]'
-    THEME_TEXT = '//div[@data-module="postingForm/mediaText"]'
+    CREATE_TOPIC = '//a[contains(@data-l, "OpenPostingPopup")]'
+    TOPIC_TEXT = '//div[@data-module="postingForm/mediaText"]'
     SUBMIT = '//div[@data-action="submit"]'
 
     def open_popup(self):
-        super(TopicCreationPopup, self).click_element(self.CREATE_THEME)
+        super(TopicCreationPopup, self).click_element(self.CREATE_TOPIC)
 
     def set_text(self, text="Default text"):
-        super(TopicCreationPopup, self).input_text_to_element(self.THEME_TEXT, text)
+        super(TopicCreationPopup, self).input_text_to_element(self.TOPIC_TEXT, text)
 
     def submit(self):
         super(TopicCreationPopup, self).click_element(self.SUBMIT)
 
+    def clear_edit_field(self):
+        WebDriverWait(self.driver, 30).until(
+            lambda d: d.find_element_by_xpath(self.TOPIC_TEXT)
+        ).clear()
+
 
 
 class TopicPopup(Component):
-    THEME_TEXT = '//div[@data-module="postingForm/mediaText"]'
-
-
+    TOPIC_TEXT = '//div[contains(@class,"media-text __full")]/div'
     COMMENT_FIELD = '//div[contains(@class,"js-comments_add")]'
     CLOSE = '//div[contains(@class,"media-layer_close_ico")]'
     SUBMIT_COMMENT_BTN = '//button[contains(@class,"form-actions_yes")]'
@@ -32,6 +35,7 @@ class TopicPopup(Component):
                       '//a[@data-module = "CommentWidgets"]' \
                       '/span[contains(@class,"widget_count") and {}(contains(@class,"__empty"))]'
     COMMENT_TEXT = '//div[contains(@class, "comments_text")]/div'
+    COMMENT_AUTHOR = '//div[@class = "comments_author"]/span/a'
     REMOVE_COMMENT_BTN = '//a[contains(@class, "comments_remove")]'
     REMOVE_COMMENT_INFO = '//span[contains(@class, "delete-stub_info")]'
     RECOVER_COMMENT_BTN = '//a[contains(@class, "delete-stub_cancel")]'
@@ -44,11 +48,19 @@ class TopicPopup(Component):
     REMOVE_TOPIC_INFO = '//span[contains(@class, "delete-stub_info")]'
     EDIT_TOPIC_BTN = '//a[contains(@href, "Topic_Edit")]'
 
+    def get_topic_text(self):
+        return super(TopicPopup, self).get_element_text(self.TOPIC_TEXT)
+
     def close_topic_popup(self):
         super(TopicPopup, self).click_element(self.CLOSE)
 
     def set_comment(self, comment="comment"):
         super(TopicPopup, self).input_text_to_element(self.COMMENT_FIELD, comment)
+
+    def clear_comment_field(self):
+        WebDriverWait(self.driver, 30).until(
+            lambda d: d.find_element_by_xpath(self.COMMENT_FIELD)
+        ).clear()
 
     def submit_comment(self):
         super(TopicPopup, self).click_element(self.SUBMIT_COMMENT_BTN)
@@ -62,6 +74,9 @@ class TopicPopup(Component):
 
     def get_comment_text(self):
         return super(TopicPopup, self).get_element_text(self.COMMENT_TEXT)
+
+    def get_comment_author(self):
+        return super(TopicPopup, self).get_element_text(self.COMMENT_AUTHOR)
 
     def remove_comment(self):
         remove_btn = WebDriverWait(self.driver, 30).until(
@@ -111,7 +126,8 @@ class TopicPopup(Component):
         ).clear()
 
 
-class TopicList(Component):
+
+class TopicListElement(Component):
     TOPIC_TEXT = '//div[contains(@class,"media-text_cnt_tx")]'
     TOPIC_OWNER = '//span[@class="shortcut-wrap"]/a[contains(@hrefattrs,"GroupTopicLayer_VisitProfile")]'
 
@@ -130,40 +146,41 @@ class TopicList(Component):
                     'span[contains(@class,"widget_count") and {}(contains(@class,"__react-like"))]'
 
     def get_topic_text(self):
-        return super(TopicList, self).get_element_text(self.TOPIC_TEXT)
+        return super(TopicListElement, self).get_element_text(self.TOPIC_TEXT)
 
     def get_topic_owner(self):
-        return super(TopicList, self).get_element_text(self.TOPIC_OWNER)
+        return super(TopicListElement, self).get_element_text(self.TOPIC_OWNER)
 
 
     def open_keyword_field(self):
-        super(TopicList, self).click_element(self.ADD_KEYWORD_BTN)
+        super(TopicListElement, self).click_element(self.ADD_KEYWORD_BTN)
 
     def set_keyword(self, word="word"):
-        super(TopicList, self).input_text_to_element(self.KEYWORD_FIELD, word)
+        super(TopicListElement, self).input_text_to_element(self.KEYWORD_FIELD, word)
 
     def submit_keyword(self):
-        super(TopicList, self).click_element(self.SUBMIT_KEYWORD)
+        super(TopicListElement, self).click_element(self.SUBMIT_KEYWORD)
 
     def get_keyword(self):
-        return WebDriverWait(self.driver, 30).until(
+        return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.KEYWORD)
         ).text
 
+
     def open_keyword_edit_field(self):
-        super(TopicList, self).click_element(self.KEYWORD_EDIT_BTN)
+        super(TopicListElement, self).click_element(self.KEYWORD_EDIT_BTN)
 
     def get_hashtag(self):
-        return WebDriverWait(self.driver, 30).until(
+        return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.HASHTAG)
         ).text
 
     def delete_keyword(self):
-        super(TopicList, self).click_element(self.KEYWORD_DELETE_BTN)
+        super(TopicListElement, self).click_element(self.KEYWORD_DELETE_BTN)
 
         # LIKE
     def click_class(self):
-        super(TopicList, self).click_element(self.CLASS)
+        super(TopicListElement, self).click_element(self.CLASS)
 
     def get_class_counter(self, active=True):
         return WebDriverWait(self.driver, 30).until(
@@ -173,7 +190,8 @@ class TopicList(Component):
         ).text
 
     def open_topic_popup(self):
-        super(TopicList, self).click_element(self.OPEN_TOPIC_POPUP)
+        super(TopicListElement, self).click_element(self.OPEN_TOPIC_POPUP)
+
 
 class NotifyPanel(Component):
     MESSAGE = '//div[@id = "notifyPanel_msg"]'

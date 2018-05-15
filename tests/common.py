@@ -81,6 +81,7 @@ class Topic(Component):
 
     def remove(self):
         shop_forum_page = ShopForumPage(self.driver)
+        shop_forum_page.topic_list_element.open_topic_popup()
         topic_popup = shop_forum_page.topic_popup
         topic_popup.open_right_menu()
         topic_popup.remove_topic()
