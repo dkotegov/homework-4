@@ -1,4 +1,4 @@
-from src.pages.forms.base_element import BaseElement
+from src.components.base_element import BaseElement
 
 
 class AuthForm(BaseElement):
