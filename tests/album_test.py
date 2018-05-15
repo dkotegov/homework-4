@@ -8,6 +8,7 @@ from os.path import abspath
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from tests.pages.auth_page import AuthPage
+from tests.pages.photo_page import PhotoPage
 from tests.pages.user_add_album_photo_page import UserAddAlbumPhotoPage
 from tests.pages.user_album_edit_page import UserAlbumEditPage
 from tests.pages.user_album_page import UserAlbumPage
@@ -53,6 +54,11 @@ class AlbumTest(unittest.TestCase):
 
         album_item = albums_page.albums_list.find(album_name)
         album_item.like()
+
+    def upload_photo(self, album_id, photo=abspath('tests/photos/test_photo.jpg')):
+        add_photo_page = UserAddAlbumPhotoPage(self.driver, album_id)
+        add_photo_page.open()
+        add_photo_page.form.upload_photo(photo)
 
     def test_create_album(self):
         self.auth()
@@ -139,10 +145,28 @@ class AlbumTest(unittest.TestCase):
         album_page = UserAlbumPage(self.driver)
         album_id = album_page.parse_album_id()
 
-        add_photo_page = UserAddAlbumPhotoPage(self.driver, album_id)
-        add_photo_page.open()
-        add_photo_page.form.upload_photo(abspath('./photos/test_photo.jpg'))
+        self.upload_photo(album_id)
 
         edit_photo = UserEditAlbumPhotoPage(self.driver)
-        edit_photo.form.submit()
+        edit_photo.form.save()
         self.assertEqual(1, album_page.photos_list.count)
+
+    def test_add_photo_with_description(self):
+        self.auth()
+        self.create_album()
+
+        album_page = UserAlbumPage(self.driver)
+        album_id = album_page.parse_album_id()
+
+        self.upload_photo(album_id)
+
+        edit_photo = UserEditAlbumPhotoPage(self.driver).form
+        description = 'Photo description.'
+        edit_photo.set_description(description)
+        edit_photo.save()
+
+        photos_list = album_page.photos_list
+        self.assertEqual(1, photos_list.count)
+        photos_list.first.click()
+        photo = PhotoPage(self.driver).photo
+        self.assertEqual(description, photo.description)

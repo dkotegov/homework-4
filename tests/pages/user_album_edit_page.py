@@ -1,3 +1,6 @@
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
 from tests.pages.page import Page, Component
 
 
@@ -19,4 +22,6 @@ class EditForm(Component):
         name_field.send_keys(name)
 
     def submit(self):
+        current_url = self.driver.current_url
         self.driver.find_element_by_name(self.SAVE_BUTTON).click()
+        WebDriverWait(self.driver, 4).until(EC.url_changes(current_url))

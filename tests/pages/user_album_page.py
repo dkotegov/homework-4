@@ -57,6 +57,17 @@ class PhotosList(Component):
     def count(self):
         return len(self.driver.find_elements_by_class_name(self.ITEM))
 
+    @property
+    def first(self):
+        return PhotoItem(self.driver.find_elements_by_class_name(self.ITEM)[0])
+
+
+class PhotoItem(Component):
+    ITEM = 'sil'
+
+    def click(self):
+        self.driver.click()
+
 
 class Toolbar(Component):
     TOOLBAR_BUTTON = 'js-t-widget'
