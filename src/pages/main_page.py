@@ -5,7 +5,7 @@ from src.pages.base_page import BasePage
 class MainPage(BasePage):
 
     def __init__(self, driver):
-        super().__init__(driver)
+        super(MainPage, self).__init__(driver)
         self.main_element = MainElement(self.driver)
 
     def open_gifts(self):

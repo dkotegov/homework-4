@@ -28,7 +28,7 @@ class Tests(unittest.TestCase):
         self._auth = AuthFactory.create(username='technopark8')
 
         self.auth_page = AuthPage(self.driver)
-        # self.main_page = MainPage(self.driver)
+        self.main_page = MainPage(self.driver)
 
     def tearDown(self):
         self.driver.quit()
@@ -36,4 +36,4 @@ class Tests(unittest.TestCase):
     def test_open(self):
         self.auth_page.open()
         self.auth_page.sign_in(self._auth.username, self._auth.password)
-        # self.main_page.open_gifts()
+        self.main_page.open_gifts()
