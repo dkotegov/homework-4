@@ -8,8 +8,11 @@ class Page(object):
     def __init__(self, driver):
         self.driver = driver
 
-    def open(self):
-        url = urllib.parse.urljoin(self.BASE_URL, self.PATH)
+    def open(self, path=None):
+        if path is None:
+            path = self.PATH
+
+        url = urllib.parse.urljoin(self.BASE_URL, path)
         self.driver.get(url)
         self.driver.maximize_window()
 

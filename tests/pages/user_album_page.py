@@ -1,3 +1,5 @@
+from urllib.parse import urlparse, parse_qs
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -6,11 +8,20 @@ from tests.pages.page import Page, Component
 
 
 class UserAlbumPage(Page):
-    PATH = '/dk?st.cmd=userAlbumEdit'
+    PATH = '/dk?st.cmd=userAlbum&st.albId={}'
+    ALBUM_ID = 'st.albId'
+
+    def __init__(self, driver, album_id=None):
+        super().__init__(driver)
+        self.album_id = album_id
 
     @property
-    def empty_album_content(self):
-        return EmptyAlbumContent(self.driver)
+    def empty_album(self):
+        return EmptyAlbum(self.driver)
+
+    @property
+    def photos_list(self):
+        return PhotosList(self.driver)
 
     @property
     def toolbar(self):
@@ -20,13 +31,31 @@ class UserAlbumPage(Page):
     def confirmation_modal(self):
         return ConfirmationModal(self.driver)
 
+    def open(self, path=None):
+        if path is None:
+            path = self.PATH.format(self.album_id)
+        super().open(path)
 
-class EmptyAlbumContent(Component):
+    def parse_album_id(self):
+        qs = urlparse(self.driver.current_url).query
+        self.album_id = parse_qs(qs)[self.ALBUM_ID][0]
+        return self.album_id
+
+
+class EmptyAlbum(Component):
     TITLE = 'ep-ttl-txt'
 
     @property
     def title(self):
         return self.driver.find_element_by_class_name(self.TITLE).text
+
+
+class PhotosList(Component):
+    ITEM = 'sil'
+
+    @property
+    def count(self):
+        return len(self.driver.find_elements_by_class_name(self.ITEM))
 
 
 class Toolbar(Component):
