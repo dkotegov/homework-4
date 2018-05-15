@@ -30,6 +30,30 @@ class CatalogPopup(Component):
         super(CatalogPopup, self).click_element(self.CLOSE_BUTTON)
 
 
+class ProductPopup(Component):
+    CREATE_PRODUCT = '//a[contains(@href,"post")]'
+    PRODUCT_NAME = '//div[@class="posting-form_itx_w"]/input'
+    PRODUCT_PRICE = '//input[contains(@class,"js-advert-price")]'
+    PRODUCT_ABOUT = '//div[@id="d.posting_form_text_field"]'
+
+    SUBMIT_BUTTON = '//input[contains(@id,"submit")]'
+
+    def open_popup(self):
+        super(ProductPopup, self).click_element(self.CREATE_PRODUCT)
+
+    def set_product_name(self, name=u'Товар'):
+        super(ProductPopup, self).input_text_to_element(self.PRODUCT_NAME, name)
+
+    def set_product_price(self, price='100'):
+        super(ProductPopup, self).input_text_to_element(self.PRODUCT_PRICE, price)
+
+    def set_product_about(self, about=u'Описание товара'):
+        super(ProductPopup, self).input_text_to_element(self.PRODUCT_ABOUT, about)
+
+    def submit(self):
+        super(ProductPopup, self).click_element(self.SUBMIT_BUTTON)
+
+
 class CatalogWidget(Component):
     # OPEN_CATALOG = '//a[@class="photo-crop_cnt"]'
     CATALOG_NAME = '//a[@class="o"]'
