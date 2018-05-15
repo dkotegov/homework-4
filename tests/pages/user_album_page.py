@@ -4,7 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-from tests.pages.page import Page, Component
+from tests.pages.page import Page, Component, wait_until_url_changes
 
 
 class UserAlbumPage(Page):
@@ -59,14 +59,15 @@ class PhotosList(Component):
 
     @property
     def first(self):
-        return PhotoItem(self.driver.find_elements_by_class_name(self.ITEM)[0])
+        return PhotoItem(self.driver, self.driver.find_elements_by_class_name(self.ITEM)[0])
 
 
 class PhotoItem(Component):
     ITEM = 'sil'
 
+    @wait_until_url_changes
     def click(self):
-        self.driver.click()
+        self.element.click()
 
 
 class Toolbar(Component):

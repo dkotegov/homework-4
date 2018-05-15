@@ -115,7 +115,7 @@ class AlbumTest(unittest.TestCase):
         self.assertEqual(1, album_item.likes_count)
 
         # Обновлю и еще раз проверю
-        albums_page.open()
+        albums_page.refresh()
         album_item = albums_page.albums_list.find(album_name)
         self.assertEqual(1, album_item.likes_count)
 
@@ -134,7 +134,7 @@ class AlbumTest(unittest.TestCase):
         self.assertEqual(0, album_item.likes_count)
 
         # Обновлю и еще раз проверю
-        albums_page.open()
+        albums_page.refresh()
         album_item = albums_page.albums_list.find(album_name)
         self.assertEqual(0, album_item.likes_count)
 
@@ -170,3 +170,21 @@ class AlbumTest(unittest.TestCase):
         photos_list.first.click()
         photo = PhotoPage(self.driver).photo
         self.assertEqual(description, photo.description)
+
+    def test_like_photo(self):
+        self.auth()
+        self.create_album()
+
+        album_page = UserAlbumPage(self.driver)
+        album_id = album_page.parse_album_id()
+
+        self.upload_photo(album_id)
+
+        album_page.open()
+        photos_list = album_page.photos_list
+        photos_list.first.click()
+
+        photo_page = PhotoPage(self.driver)
+        photo = photo_page.photo
+        photo.like()
+        self.assertEqual(1, photo.likes_count)

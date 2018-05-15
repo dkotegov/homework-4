@@ -1,3 +1,4 @@
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -17,7 +18,9 @@ class EditForm(Component):
     SAVE_BUTTON = 'button_save'
 
     def set_description(self, description):
-        self.driver.find_element_by_id(self.DESCRIPTION_FIELD).send_keys(description)
+        WebDriverWait(self.driver, 2, 0.1).until(
+            EC.presence_of_element_located((By.ID, self.DESCRIPTION_FIELD))
+        ).send_keys(description)
 
     def save(self):
         current_url = self.driver.current_url
