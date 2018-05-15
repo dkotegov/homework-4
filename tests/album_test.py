@@ -60,6 +60,16 @@ class AlbumTest(unittest.TestCase):
         add_photo_page.open()
         add_photo_page.form.upload_photo(photo)
 
+    def upload_photo_and_open(self):
+        album_page = UserAlbumPage(self.driver)
+        album_id = album_page.parse_album_id()
+
+        self.upload_photo(album_id)
+
+        album_page.open()
+        photos_list = album_page.photos_list
+        photos_list.first.click()
+
     def test_create_album(self):
         self.auth()
 
@@ -115,7 +125,7 @@ class AlbumTest(unittest.TestCase):
         self.assertEqual(1, album_item.likes_count)
 
         # Обновлю и еще раз проверю
-        albums_page.refresh()
+        self.driver.refresh()
         album_item = albums_page.albums_list.find(album_name)
         self.assertEqual(1, album_item.likes_count)
 
@@ -134,7 +144,7 @@ class AlbumTest(unittest.TestCase):
         self.assertEqual(0, album_item.likes_count)
 
         # Обновлю и еще раз проверю
-        albums_page.refresh()
+        self.driver.refresh()
         album_item = albums_page.albums_list.find(album_name)
         self.assertEqual(0, album_item.likes_count)
 
@@ -174,17 +184,24 @@ class AlbumTest(unittest.TestCase):
     def test_like_photo(self):
         self.auth()
         self.create_album()
+        self.upload_photo_and_open()
 
-        album_page = UserAlbumPage(self.driver)
-        album_id = album_page.parse_album_id()
-
-        self.upload_photo(album_id)
-
-        album_page.open()
-        photos_list = album_page.photos_list
-        photos_list.first.click()
-
-        photo_page = PhotoPage(self.driver)
-        photo = photo_page.photo
+        photo = PhotoPage(self.driver).photo
         photo.like()
         self.assertEqual(1, photo.likes_count)
+
+        self.driver.refresh()
+        self.assertEqual(1, photo.likes_count)
+
+    def test_cancel_photo_like(self):
+        self.auth()
+        self.create_album()
+        self.upload_photo_and_open()
+
+        photo = PhotoPage(self.driver).photo
+        photo.like()
+        self.driver.refresh()
+
+        # Отмена лайка
+        photo.cancel_like()
+        self.assertEqual(0, photo.likes_count)

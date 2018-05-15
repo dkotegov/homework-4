@@ -16,29 +16,38 @@ class PhotoPage(Page):
 
 class Photo(Component):
     DESCRIPTION = 'photo-description'
-    LIKE = 'widget_like'
+    LIKE = "//div[contains(@class, 'np_photoBox')]//a[@data-func='performLike']"
+    CANCEL_LIKE = "//div[contains(@class, 'np_photoBox')]//a[@data-func='unReact']"
     LIKES_COUNT = 'ecnt'
 
     @property
     def description(self):
         return self.driver.find_element_by_class_name(self.DESCRIPTION).text
 
-    def like(self):
-        widgets = self.driver.find_elements_by_class_name(self.LIKE)
-        for widget in widgets:
-            try:
-                widget.click()
-                return
-            except ElementClickInterceptedException:
-                pass
-        raise KeyError
-
     @property
     def likes_count(self):
         try:
-            likes_count = WebDriverWait(self.driver, 2).until(
+            likes_count = WebDriverWait(self.driver, 4).until(
                 EC.presence_of_element_located((By.CLASS_NAME, self.LIKES_COUNT))
             )
             return int(likes_count.text)
         except TimeoutException:
             return 0
+
+    def like(self):
+        WebDriverWait(self.driver, 4).until(
+            EC.element_to_be_clickable((By.XPATH, self.LIKE))
+        ).click()
+
+        WebDriverWait(self.driver, 4).until(
+            EC.element_to_be_clickable((By.XPATH, self.CANCEL_LIKE))
+        )
+
+    def cancel_like(self):
+        WebDriverWait(self.driver, 4).until(
+            EC.element_to_be_clickable((By.XPATH, self.CANCEL_LIKE))
+        ).click()
+
+        WebDriverWait(self.driver, 4).until(
+            EC.element_to_be_clickable((By.XPATH, self.LIKE))
+        )
