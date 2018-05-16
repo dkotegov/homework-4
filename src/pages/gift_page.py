@@ -23,6 +23,6 @@ class GiftPage(BaseElement):
         self._element.get_logo().click()
         return FeedPage(self.driver)
 
-    def open_feed_page_by_nav_bar(self):
-        self._element.get_logo().click()
+    def open_feed_page_by_nav_menu(self):
+        self._element.get_feed_item_nav_menu().click()
         return FeedPage(self.driver)

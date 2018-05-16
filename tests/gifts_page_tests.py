@@ -21,14 +21,14 @@ class GiftsPageTests(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+    #
+    # def test_open_feed_page_by_logo(self):
+    #     feed_page = self.gift_page.open_feed_page_by_logo()
+    #     ok = feed_page.is_loaded()
+    #     self.assertTrue(ok)
 
-    def test_open_feed_page_by_logo(self):
-        feed_page = self.gift_page.open_feed_page_by_logo()
-        ok = feed_page.is_loaded()
-        self.assertTrue(ok)
-
-    def test_open_feed_page_by_nav_side(self):
-        feed_page = self.gift_page.open_feed_page_by_logo()
+    def test_open_feed_page_by_nav_menu(self):
+        feed_page = self.gift_page.open_feed_page_by_nav_menu()
         ok = feed_page.is_loaded()
         self.assertTrue(ok)
 

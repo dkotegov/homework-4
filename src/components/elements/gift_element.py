@@ -8,6 +8,9 @@ class GiftElement(BaseElement):
 
     LOGO = '//div[@id="topPanelLeftCorner"]'
 
+    XPATH_FEED_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
+                               '[@hrefattrs="st.cmd=userMain&st._aid=NavMenu_User_Main"]'
+
     def is_marked(self):
         """
         Check for the existence of marked gifts item in nav bar
@@ -17,4 +20,7 @@ class GiftElement(BaseElement):
 
     def get_logo(self):
         return self.get_button_by_xpath(self.LOGO)
+
+    def get_feed_item_nav_menu(self):
+        return self.get_button_by_xpath(self.XPATH_FEED_ITEM_NAV_MENU)
 

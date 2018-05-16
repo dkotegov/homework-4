@@ -21,8 +21,8 @@ class MainPageTests(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-
-    def test_open_gifts(self):
-        gifts_page = self.main_page.open_gifts()
-        is_loaded = gifts_page.is_loaded()
-        self.assertTrue(is_loaded)
+    #
+    # def test_open_gifts(self):
+    #     gifts_page = self.main_page.open_gifts()
+    #     is_loaded = gifts_page.is_loaded()
+    #     self.assertTrue(is_loaded)
