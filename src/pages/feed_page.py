@@ -1,5 +1,4 @@
 from src.components.elements.feed_element import FeedElement
-from src.pages.auth_page import AuthPage
 from src.pages.base_page import BasePage
 
 
@@ -8,7 +7,6 @@ class FeedPage(BasePage):
     def __init__(self, driver):
         super(FeedPage, self).__init__(driver)
         self.element = FeedElement(self.driver)
-        self.auth_page = AuthPage(driver)
 
     def is_loaded(self):
         # TODO here you can add a search for other items

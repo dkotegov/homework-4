@@ -11,6 +11,9 @@ class GiftElement(BaseElement):
     XPATH_FEED_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
                                '[@hrefattrs="st.cmd=userMain&st._aid=NavMenu_User_Main"]'
 
+    XPATH_FRIENDS_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
+                                  '[@hrefattrs="st.cmd=userFriend&st._aid=NavMenu_User_Friends"]'
+
     def is_marked(self):
         """
         Check for the existence of marked gifts item in nav bar
@@ -24,3 +27,5 @@ class GiftElement(BaseElement):
     def get_feed_item_nav_menu(self):
         return self.get_button_by_xpath(self.XPATH_FEED_ITEM_NAV_MENU)
 
+    def get_friends_item_nav_menu(self):
+        return self.get_button_by_xpath(self.XPATH_FRIENDS_ITEM_NAV_MENU)

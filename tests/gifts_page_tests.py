@@ -27,8 +27,12 @@ class GiftsPageTests(unittest.TestCase):
     #     ok = feed_page.is_loaded()
     #     self.assertTrue(ok)
 
-    def test_open_feed_page_by_nav_menu(self):
-        feed_page = self.gift_page.open_feed_page_by_nav_menu()
-        ok = feed_page.is_loaded()
-        self.assertTrue(ok)
+    # def test_open_feed_page_by_nav_menu(self):
+    #     feed_page = self.gift_page.open_feed_page_by_nav_menu()
+    #     ok = feed_page.is_loaded()
+    #     self.assertTrue(ok)
 
+    def test_open_friends_page_by_nav_menu(self):
+        friends_page = self.gift_page.open_friends_page_by_nav_menu()
+        ok = friends_page.is_loaded()
+        self.assertTrue(ok)
