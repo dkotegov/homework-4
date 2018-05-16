@@ -8,6 +8,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from pages.auth_page import AuthPage
 # from pages.friends_page import FriendsPage
 from pages.main_page import MainPage
+from time import sleep
 
 
 class Tests(unittest.TestCase):
@@ -34,6 +35,7 @@ class Tests(unittest.TestCase):
 
         main_page = MainPage(self.driver)
         main_page.open_friends_list()
+        sleep(3)
 
         #friends_page = FriendsPage(self.driver)
         # friends_page = FriendsPage(self.driver)
