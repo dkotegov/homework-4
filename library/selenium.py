@@ -28,8 +28,8 @@ class ScreenshotTextTestResult(TextTestResult):
         super(ScreenshotTextTestResult, self).startTest(test)
 
     def stopTest(self, test):
-        self.current_test = None
         super(ScreenshotTextTestResult, self).stopTest(test)
+        self.current_test = None
 
     def addError(self, test, err):
         self.save_screenshot()
@@ -57,10 +57,6 @@ class SeleniumTestCase(TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
         cls.driver.implicitly_wait(config.get('IMPLICITLY_WAIT'))
-
-    def tearDown(self):
-        super(SeleniumTestCase, self).tearDown()
-        self.driver.delete_all_cookies()
 
     @classmethod
     def tearDownClass(cls):
