@@ -2,12 +2,12 @@
 
 import sys
 import unittest
-from src.tests import Tests
 
+from tests.main_page_tests import MainPageTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(Tests),
+        unittest.makeSuite(MainPageTests),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

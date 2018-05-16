@@ -1,21 +1,14 @@
-# -*- coding: utf-8 -*-
-
 import os
-
 import unittest
-import urlparse
-
-from time import sleep
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support.ui import WebDriverWait
 
 from src.auth_factory import AuthFactory
 from src.pages.auth_page import AuthPage
 from src.pages.main_page import MainPage
 
 
-class Tests(unittest.TestCase):
+class MainPageTests(unittest.TestCase):
 
     def setUp(self):
         browser = os.environ.get('BROWSER', os.environ['BROWSER'])
@@ -36,7 +29,7 @@ class Tests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_open_gifts_from_main_page(self):
+    def test_open_gifts(self):
         """
         Переход с главной страницы на страницу подарков
         :return: None
