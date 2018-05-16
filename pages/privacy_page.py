@@ -17,4 +17,4 @@ class PrivacyPage(Page):
 		save = privacy_component.get_save_button()
 		save.click()	
 
-		
+
