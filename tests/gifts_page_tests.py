@@ -3,8 +3,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from src.auth_factory import AuthFactory
-from src.pages.auth_page import AuthPage
+from src.pages.gift_page import GiftPage
 from src.pages.main_page import MainPage
 
 
@@ -18,16 +17,18 @@ class GiftsPageTests(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-        self._auth = AuthFactory.create(username='technopark8')
-
-        self.auth_page = AuthPage(self.driver)
         self.main_page = MainPage(self.driver)
-
-        self._open_gifts()
+        self.gift_page = GiftPage(self.driver)
+        self.gift_page.open()
 
     def tearDown(self):
         self.driver.quit()
 
-    def _open_gifts(self):
-        self.auth_page.sign_in(self._auth.username, self._auth.password)
-        self.main_page.open_gifts()
+    def test_open_main_page(self):
+        main_page = self.gift_page.open_main_page()
+        ok = main_page.is_loaded()
+        print(ok)
+        self.assertTrue(ok)
+
+
+
