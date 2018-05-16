@@ -15,6 +15,6 @@ class PrivacyPage(Page):
 	def save(self):
 		privacy_component = PrivacyForm(self.driver)
 		save = privacy_component.get_save_button()
-		save.click()	
+		self.driver.execute_script("arguments[0].click();", save)	
 
 		
