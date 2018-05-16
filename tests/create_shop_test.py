@@ -15,15 +15,16 @@ class CreateShopTest(unittest.TestCase):
         Auth(self.driver).sign_in()
         Main(self.driver).open_groups_page()
 
-        shop = Shop(self.driver)
-        shop.create(self.SHOP_NAME)
-        shop.open_feed_page()
-
     def tearDown(self):
         Shop(self.driver).remove()
         self.driver.quit()
 
     def test(self):
+        shop = Shop(self.driver)
+        shop.create(self.SHOP_NAME)
+
+        shop.open_feed_page()
+
         header = ShopFeedPage(self.driver).header
 
         shop_name = header.get_shop_name()
