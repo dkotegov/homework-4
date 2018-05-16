@@ -1,6 +1,6 @@
 from unittest import TestCase, TextTestRunner, TextTestResult
 from urllib.parse import urljoin
-from os.path import dirname, realpath, join
+from os.path import dirname, realpath, join, pardir
 from os import environ
 from datetime import datetime
 from selenium.webdriver import DesiredCapabilities, Remote
@@ -14,7 +14,7 @@ class ScreenshotTextTestResult(TextTestResult):
         self.current_test = None
 
     def save_screenshot(self):
-        current_directory = dirname(realpath(__file__))
+        current_directory = dirname(realpath(join(__file__, pardir)))
         now = datetime.now().strftime('%Y.%m.%d-%H:%M:%S')
         screenshot_name = '{id}-{now}.png'.format(id=self.current_test.id(), now=now)
         screenshot_path = join(current_directory, config.get('TESTS_DIR'),
@@ -24,20 +24,20 @@ class ScreenshotTextTestResult(TextTestResult):
             warn('Saving screenshot "{}" failed with IOError'.format(screenshot_path))
 
     def startTest(self, test):
-        super(ScreenshotTextTestResult, self).startTest(test)
         self.current_test = test
+        super(ScreenshotTextTestResult, self).startTest(test)
 
     def stopTest(self, test):
-        super(ScreenshotTextTestResult, self).stopTest(test)
         self.current_test = None
+        super(ScreenshotTextTestResult, self).stopTest(test)
 
     def addError(self, test, err):
-        super(ScreenshotTextTestResult, self).addError(test, err)
         self.save_screenshot()
+        super(ScreenshotTextTestResult, self).addError(test, err)
 
     def addFailure(self, test, err):
-        super(ScreenshotTextTestResult, self).addFailure(test, err)
         self.save_screenshot()
+        super(ScreenshotTextTestResult, self).addFailure(test, err)
 
 
 class ScreenshotTextTestRunner(TextTestRunner):
