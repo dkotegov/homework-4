@@ -28,15 +28,19 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.set_catalog_name(self.CATALOG_NAME)
         catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
         catalog_popup.waiting_until_image_upload()
+        upload_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
         catalog_popup.waiting_until_close()
 
         catalog_widget = shop_market_page.catalog_widget()
         catalog_name = catalog_widget.get_catalog_name()
-        number_of_products = catalog_widget.get_number_of_products()
-
         self.assertEqual(self.CATALOG_NAME, catalog_name)
+
+        number_of_products = catalog_widget.get_number_of_products()
         self.assertEqual(u'0', number_of_products)
+
+        current_image_src = catalog_widget.get_image_src()
+        self.assertEqual(upload_image_src, current_image_src)
 
     def test_edit_catalog(self):
         shop_market_page = ShopMarketPage(self.driver)
@@ -59,8 +63,12 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.set_catalog_name(self.OTHER_CATALOG_NAME)
         catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
         catalog_popup.waiting_until_image_upload()
+        upload_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
         catalog_popup.waiting_until_close()
 
         catalog_name_after_edit = catalog_panel.get_catalog_name()
         self.assertEquals(self.OTHER_CATALOG_NAME, catalog_name_after_edit)
+
+        current_image_src = catalog_panel.get_image_src()
+        self.assertEqual(upload_image_src, current_image_src)

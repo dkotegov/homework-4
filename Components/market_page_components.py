@@ -5,6 +5,7 @@ from Components.component import Component
 class CatalogPopup(Component):
     POPUP = '//div[@class="modal-new_center"]'
     IMAGE = '//img[@class="add-happening_poster_img" and contains(@src,"i.mycdn.me")]'
+    IMAGE_SRC = '//img[@class="add-happening_poster_img" and contains(@src,"i.mycdn.me")]/@src'
 
     CREATE_CATALOG = '//a[@class="market-albums_new-lk"]'
     CATALOG_NAME = '//input[@id="field_name"]'
@@ -26,6 +27,9 @@ class CatalogPopup(Component):
     def waiting_until_image_upload(self):
         super(CatalogPopup, self).find_element(self.IMAGE)
 
+    def get_image_src(self):
+        return self.driver.find_element_by_xpath(self.IMAGE).get_attribute("src")
+
     def save(self):
         super(CatalogPopup, self).click_element(self.SAVE_BUTTON)
 
@@ -40,15 +44,18 @@ class CatalogPopup(Component):
 
 
 class CatalogWidget(Component):
-    # OPEN_CATALOG = '//a[@class="photo-crop_cnt"]'
     CATALOG_NAME = '//a[@class="o"]'
     NUMBER_OF_PRODUCTS = '//div[contains(@class,"photo-sc_i_cnt_data_counter")]'
+    CATALOG_IMAGE = '//img[@class="photo-crop_img"]'
 
     def get_catalog_name(self):
         return super(CatalogWidget, self).get_element_text(self.CATALOG_NAME)
 
     def get_number_of_products(self):
         return super(CatalogWidget, self).get_element_text(self.NUMBER_OF_PRODUCTS)
+
+    def get_image_src(self):
+        return self.driver.find_element_by_xpath(self.CATALOG_IMAGE).get_attribute("src")
 
     def open_catalog(self):
         super(CatalogWidget, self).click_element(self.CATALOG_NAME)
@@ -57,6 +64,7 @@ class CatalogWidget(Component):
 class CatalogPanel(Component):
     CATALOG_NAME = '//div[@class="fs-14"]'
     NUMBER_OF_PRODUCTS = '//div[@class="mt-x lstp-t"]'
+    CATALOG_IMAGE = '//div[contains(@class,"market-panel")]//img[@class="photo_img"]'
 
     EDIT_BUTTON = '//a[contains(@hrefattrs,"SelectionManage")]'
     REMOVE_BUTTON = '//a[contains(@hrefattrs,"SelectionRemove")]'
@@ -66,6 +74,9 @@ class CatalogPanel(Component):
 
     def get_number_of_products(self):
         return super(CatalogPanel, self).get_element_text(self.NUMBER_OF_PRODUCTS)
+
+    def get_image_src(self):
+        return self.driver.find_element_by_xpath(self.CATALOG_IMAGE).get_attribute("src")
 
     def edit_catalog(self):
         super(CatalogPanel, self).click_element(self.EDIT_BUTTON)
