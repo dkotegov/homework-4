@@ -32,7 +32,8 @@ class TestsPrivacy(unittest.TestCase):
         privacy_page = PrivacyPage(self.driver)
         privacy_page.open('/settings/privacy')
 
-        privacy_page.test()
+        privacy_page.tag_my_in_photo_no_one()
+        privacy_page.save()
 
         time.sleep(5)
 
