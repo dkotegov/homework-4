@@ -70,6 +70,13 @@ class AlbumTest(unittest.TestCase):
         photos_list = album_page.photos_list
         photos_list.first.click()
 
+    def make_photo_cover(self):
+        photo_page = PhotoPage(self.driver)
+        toolbar = photo_page.toolbar
+        toolbar.open()
+        toolbar.make_cover()
+        photo_page.confirmation.yes()
+
     def test_create_album(self):
         self.auth()
 
@@ -208,3 +215,36 @@ class AlbumTest(unittest.TestCase):
 
         self.driver.refresh()
         self.assertEqual(0, photo.likes_count)
+
+    def test_make_photo_album_cover(self):
+        self.auth()
+        self.create_album()
+
+        album_page = UserAlbumPage(self.driver)
+        album_id = album_page.parse_album_id()
+
+        self.upload_photo(album_id, abspath('tests/photos/test_photo.jpg'))
+        self.upload_photo(album_id, abspath('tests/photos/test_photo2.jpeg'))
+
+        album_page.open()
+        photos_list = album_page.photos_list
+
+        # Делаю первое фото обложкой
+        first_photo_item = photos_list.get(0)
+        first_photo_id = first_photo_item.image_id
+
+        first_photo_item.click()
+        self.make_photo_cover()
+
+        album_page.open()
+        self.assertEqual(first_photo_id, album_page.album_header.cover_id)
+
+        # Делаю второе фото обложкой
+        second_photo_item = photos_list.get(1)
+        second_photo_id = second_photo_item.image_id
+
+        second_photo_item.click()
+        self.make_photo_cover()
+
+        album_page.open()
+        self.assertEqual(second_photo_id, album_page.album_header.cover_id)

@@ -1,4 +1,4 @@
-from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -12,6 +12,14 @@ class PhotoPage(Page):
     @property
     def photo(self):
         return Photo(self.driver)
+
+    @property
+    def toolbar(self):
+        return Toolbar(self.driver)
+
+    @property
+    def confirmation(self):
+        return ConfirmationModal(self.driver)
 
 
 class Photo(Component):
@@ -51,3 +59,23 @@ class Photo(Component):
         WebDriverWait(self.driver, 4).until(
             EC.element_to_be_clickable((By.XPATH, self.LIKE))
         )
+
+
+class Toolbar(Component):
+    TOOLBAR_BUTTON = 'layer-menu'
+    COVER_BUTTON = 'ic-acvr'
+
+    def open(self):
+        WebDriverWait(self.driver, 4).until(EC.element_to_be_clickable((By.CLASS_NAME, self.TOOLBAR_BUTTON))).click()
+
+    def make_cover(self):
+        WebDriverWait(self.driver, 4).until(EC.element_to_be_clickable((By.CLASS_NAME, self.COVER_BUTTON))).click()
+
+
+class ConfirmationModal(Component):
+    YES_BUTTON = '//a[contains(@class, "dialog_action_button") and @data-func="go"]'
+
+    def yes(self):
+        WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable((By.XPATH, self.YES_BUTTON))).click()
+
+        WebDriverWait(self.driver, 2).until_not(EC.presence_of_element_located((By.XPATH, self.YES_BUTTON)))

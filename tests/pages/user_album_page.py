@@ -20,6 +20,10 @@ class UserAlbumPage(Page):
         return EmptyAlbum(self.driver)
 
     @property
+    def album_header(self):
+        return AlbumHeader(self.driver)
+
+    @property
     def photos_list(self):
         return PhotosList(self.driver)
 
@@ -50,6 +54,17 @@ class EmptyAlbum(Component):
         return self.driver.find_element_by_class_name(self.TITLE).text
 
 
+class AlbumHeader(Component):
+    COVER = '//div[@class="user-album"]//div[contains(@class, "icvr")]'
+    COVER_ID = 'id'
+
+    @property
+    def cover_id(self):
+        url = self.driver.find_element_by_xpath(self.COVER).get_attribute('style')
+        qs = urlparse(url).query
+        return parse_qs(qs)[self.COVER_ID][0]
+
+
 class PhotosList(Component):
     ITEM = 'sil'
 
@@ -59,11 +74,28 @@ class PhotosList(Component):
 
     @property
     def first(self):
-        return PhotoItem(self.driver, self.driver.find_elements_by_class_name(self.ITEM)[0])
+        return self.get(0)
+
+    def get(self, index):
+        return PhotoItem(self.driver, self.driver.find_elements_by_class_name(self.ITEM)[index])
 
 
 class PhotoItem(Component):
     ITEM = 'sil'
+    PHOTO_ID = 'st.phoId'
+    IMAGE_ID = 'id'
+
+    @property
+    def id(self):
+        href = self.element.get_attribute('href')
+        qs = urlparse(href).query
+        return parse_qs(qs)[self.PHOTO_ID][0]
+
+    @property
+    def image_id(self):
+        url = self.element.get_attribute('style')
+        qs = urlparse(url).query
+        return parse_qs(qs)[self.IMAGE_ID][0]
 
     @wait_until_url_changes
     def click(self):
