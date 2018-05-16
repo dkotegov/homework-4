@@ -1,0 +1,5 @@
+import os
+
+PROFILE_TECHNOPARK43 = "technopark43"
+PROFILE_TECHNOPARK46 = "technopark46"
+PROFILE_PASSWORD = os.environ['PROFILE_PASSWORD']
