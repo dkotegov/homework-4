@@ -16,9 +16,11 @@ class Component(object):
         ).click()
 
     def input_text_to_element(self, element, text):
-        WebDriverWait(self.driver, self.TIMEOUT).until(
+        input_element = WebDriverWait(self.driver, self.TIMEOUT).until(
             lambda d: d.find_element_by_xpath(element)
-        ).send_keys(text)
+        )
+        input_element.clear()
+        input_element.send_keys(text)
 
     def upload_image(self, element, file_name):
         image_path = os.getcwd() + '/images/' + file_name
