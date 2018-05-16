@@ -21,6 +21,9 @@ class GiftPage(BaseElement):
     def is_loaded(self):
         return self._element.is_marked()
 
+    def is_loaded_own_gifts(self):
+        return self._element.is_exists_receive_gifts_nav_side()
+
     def open(self):
         self._auth_page.open_and_sign_in()
         self.driver.get(self._url)
@@ -56,3 +59,7 @@ class GiftPage(BaseElement):
     def open_inventories_page_by_nav_menu(self):
         self._element.get_inventories_item_nav_menu().click()
         return InventoriesPage(self.driver)
+
+    def open_own_gifts(self):
+        self._element.get_own_gifts_nav_side_ico().click()
+        return self
