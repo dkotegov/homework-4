@@ -1,12 +1,12 @@
 from src.pages.base_page import BasePage
-from src.components.elements.friend_element import FriendsElement
+from src.components.elements.photo_element import PhotoElement
 
 
-class FriendsPage(BasePage):
+class PhotoPage(BasePage):
 
     def __init__(self, driver):
-        super(FriendsPage, self).__init__(driver)
-        self.element = FriendsElement(self.driver)
+        super(PhotoPage, self).__init__(driver)
+        self.element = PhotoElement(self.driver)
 
     def is_loaded(self):
         # TODO here you can add other logic

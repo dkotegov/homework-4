@@ -2,7 +2,6 @@ from src.components.base_element import BaseElement
 
 
 class GiftElement(BaseElement):
-
     GIFTS_MARKED_ITEM_NAV_BAR = '//a[@hrefattrs="st.cmd=giftsFront&st.or=NAV_MENU&st._aid=NavMenu_User_Presents"]' \
                                 '[@class="mctc_navMenuSec mctc_navMenuActiveSec"]'
 
@@ -13,6 +12,9 @@ class GiftElement(BaseElement):
 
     XPATH_FRIENDS_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
                                   '[@hrefattrs="st.cmd=userFriend&st._aid=NavMenu_User_Friends"]'
+
+    XPATH_PHOTO_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
+                                '[@hrefattrs="st.cmd=userPhotos&st._aid=NavMenu_User_Photos"]'
 
     def is_marked(self):
         """
@@ -29,3 +31,6 @@ class GiftElement(BaseElement):
 
     def get_friends_item_nav_menu(self):
         return self.get_button_by_xpath(self.XPATH_FRIENDS_ITEM_NAV_MENU)
+
+    def get_photo_item_nav_menu(self):
+        return self.get_button_by_xpath(self.XPATH_PHOTO_ITEM_NAV_MENU)

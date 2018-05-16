@@ -3,6 +3,7 @@ from src.components.elements.gift_element import GiftElement
 from src.pages.auth_page import AuthPage
 from src.pages.feed_page import FeedPage
 from src.pages.friends_page import FriendsPage
+from src.pages.photo_page import PhotoPage
 
 
 class GiftPage(BaseElement):
@@ -31,3 +32,7 @@ class GiftPage(BaseElement):
     def open_friends_page_by_nav_menu(self):
         self._element.get_friends_item_nav_menu().click()
         return FriendsPage(self.driver)
+
+    def open_photo_page_by_nav_menu(self):
+        self._element.get_photo_item_nav_menu().click()
+        return PhotoPage(self.driver)
