@@ -30,10 +30,18 @@ class Tests(unittest.TestCase):
         self.auth_page = AuthPage(self.driver)
         self.main_page = MainPage(self.driver)
 
+        self.auth_page.open()
+        self.auth_page.sign_in(self._auth.username, self._auth.password)
+
     def tearDown(self):
         self.driver.quit()
 
-    def test_open(self):
-        self.auth_page.open()
-        self.auth_page.sign_in(self._auth.username, self._auth.password)
-        self.main_page.open_gifts()
+    def test_open_gifts_from_main_page(self):
+        """
+        Переход с главной страницы на страницу подарков
+        :return: None
+        """
+
+        gifts_button = self.main_page.open_gifts()
+        self.assertIsNotNone(gifts_button)
+
