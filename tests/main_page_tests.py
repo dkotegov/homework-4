@@ -31,3 +31,5 @@ class MainPageTests(unittest.TestCase):
 
     def test_open_gifts(self):
         gifts_page = self.main_page.open_gifts()
+        ok = gifts_page.is_loaded()
+        self.assertTrue(ok)
