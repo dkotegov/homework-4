@@ -5,6 +5,7 @@ from src.pages.feed_page import FeedPage
 from src.pages.friends_page import FriendsPage
 from src.pages.games_page import GamesPage
 from src.pages.groups_page import GroupsPage
+from src.pages.inventories_page import InventoriesPage
 from src.pages.notes_page import NotesPage
 from src.pages.photo_page import PhotoPage
 
@@ -51,3 +52,7 @@ class GiftPage(BaseElement):
     def open_notes_page_by_nav_menu(self):
         self._element.get_notes_item_nav_menu().click()
         return NotesPage(self.driver)
+
+    def open_inventories_page_by_nav_menu(self):
+        self._element.get_inventories_item_nav_menu().click()
+        return InventoriesPage(self.driver)

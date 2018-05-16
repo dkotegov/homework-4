@@ -52,7 +52,12 @@ class GiftsPageTests(unittest.TestCase):
     #     ok = games_page.is_loaded()
     #     self.assertTrue(ok)
 
-    def test_open_notes_page_by_nav_menu(self):
-        notes_page = self.gift_page.open_notes_page_by_nav_menu()
-        ok = notes_page.is_loaded()
+    # def test_open_notes_page_by_nav_menu(self):
+    #     notes_page = self.gift_page.open_notes_page_by_nav_menu()
+    #     ok = notes_page.is_loaded()
+    #     self.assertTrue(ok)
+
+    def test_open_inventories_page_by_nav_menu(self):
+        inventories_page = self.gift_page.open_inventories_page_by_nav_menu()
+        ok = inventories_page.is_loaded()
         self.assertTrue(ok)
