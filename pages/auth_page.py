@@ -12,7 +12,8 @@ class AuthPage(Page):
         auth_form = AuthForm(self.driver)
         auth_form.get_login().send_keys(login)
         auth_form.get_password().send_keys(password)
-        auth_form.submit()
+        # auth_form.get_example_problem_button().click()
+        auth_form.submit().click()
 
 
 

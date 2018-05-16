@@ -5,15 +5,14 @@ import os
 import time
 from selenium.webdriver import DesiredCapabilities, Remote
 
+from constants import profiles
 from pages.auth_page import AuthPage
 # from pages.friends_page import FriendsPage
 from pages.main_page import MainPage
+from time import sleep
 
 
 class Tests(unittest.TestCase):
-    PROFILE_ONE_LOGIN = 'technopark43'
-    PROFILE_PASSWORD = os.environ['PROFILE_PASSWORD']
-    PROFILE_SECOND_LOGIN = 'technopark46'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -30,7 +29,7 @@ class Tests(unittest.TestCase):
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
-        auth_page.login(self.PROFILE_ONE_LOGIN, self.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         main_page = MainPage(self.driver)
         main_page.open_friends_list()

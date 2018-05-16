@@ -14,3 +14,6 @@ class AuthForm(BaseComponent):
 
     def submit(self):
         return self.driver.find_element_by_xpath(self.SUBMIT_BUTTON)
+
+    # def example_get_problem_button(self):
+    #     return self.get_element_1(self.EMAIL_INPUT)
