@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*-
-
+#!/usr/bin/env python3
 import unittest
 
+from library.selenium import ScreenshotTextTestRunner
+
 if __name__ == '__main__':
-    pass
+    unittest.main(testRunner=ScreenshotTextTestRunner)
