@@ -37,7 +37,22 @@ class GiftsPageTests(unittest.TestCase):
     #     ok = friends_page.is_loaded()
     #     self.assertTrue(ok)
 
-    def test_open_photo_page_by_nav_menu(self):
-        photo_page = self.gift_page.open_photo_page_by_nav_menu()
-        ok = photo_page.is_loaded()
+    # def test_open_photo_page_by_nav_menu(self):
+    #     photo_page = self.gift_page.open_photo_page_by_nav_menu()
+    #     ok = photo_page.is_loaded()
+    #     self.assertTrue(ok)
+
+    # def test_open_groups_page_by_nav_menu(self):
+    #     groups_page = self.gift_page.open_groups_page_by_nav_menu()
+    #     ok = groups_page.is_loaded()
+    #     self.assertTrue(ok)
+
+    # def test_open_games_page_by_nav_menu(self):
+    #     games_page = self.gift_page.open_games_page_by_nav_menu()
+    #     ok = games_page.is_loaded()
+    #     self.assertTrue(ok)
+
+    def test_open_notes_page_by_nav_menu(self):
+        notes_page = self.gift_page.open_notes_page_by_nav_menu()
+        ok = notes_page.is_loaded()
         self.assertTrue(ok)

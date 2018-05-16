@@ -16,6 +16,15 @@ class GiftElement(BaseElement):
     XPATH_PHOTO_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
                                 '[@hrefattrs="st.cmd=userPhotos&st._aid=NavMenu_User_Photos"]'
 
+    XPATH_GROUPS_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
+                                 '[@hrefattrs="st.cmd=userAltGroup&st._aid=NavMenu_User_AltGroups"]'
+
+    XPATH_GAMES_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
+                                '[@hrefattrs="st.cmd=appsShowcaseHD&st._aid=NavMenu_User_Apps"]'
+
+    XPATH_NOTES_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
+                                '[@hrefattrs="st.cmd=userStatuses&st._aid=NavMenu_User_StatusHistory"]'
+
     def is_marked(self):
         """
         Check for the existence of marked gifts item in nav bar
@@ -34,3 +43,12 @@ class GiftElement(BaseElement):
 
     def get_photo_item_nav_menu(self):
         return self.get_button_by_xpath(self.XPATH_PHOTO_ITEM_NAV_MENU)
+
+    def get_groups_item_nav_menu(self):
+        return self.get_button_by_xpath(self.XPATH_GROUPS_ITEM_NAV_MENU)
+
+    def get_games_item_nav_menu(self):
+        return self.get_button_by_xpath(self.XPATH_GAMES_ITEM_NAV_MENU)
+
+    def get_notes_item_nav_menu(self):
+        return self.get_button_by_xpath(self.XPATH_NOTES_ITEM_NAV_MENU)

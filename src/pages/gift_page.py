@@ -3,6 +3,9 @@ from src.components.elements.gift_element import GiftElement
 from src.pages.auth_page import AuthPage
 from src.pages.feed_page import FeedPage
 from src.pages.friends_page import FriendsPage
+from src.pages.games_page import GamesPage
+from src.pages.groups_page import GroupsPage
+from src.pages.notes_page import NotesPage
 from src.pages.photo_page import PhotoPage
 
 
@@ -36,3 +39,15 @@ class GiftPage(BaseElement):
     def open_photo_page_by_nav_menu(self):
         self._element.get_photo_item_nav_menu().click()
         return PhotoPage(self.driver)
+
+    def open_groups_page_by_nav_menu(self):
+        self._element.get_groups_item_nav_menu().click()
+        return GroupsPage(self.driver)
+
+    def open_games_page_by_nav_menu(self):
+        self._element.get_games_item_nav_menu().click()
+        return GamesPage(self.driver)
+
+    def open_notes_page_by_nav_menu(self):
+        self._element.get_notes_item_nav_menu().click()
+        return NotesPage(self.driver)
