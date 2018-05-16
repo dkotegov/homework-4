@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 
 
 class Component(object):
@@ -10,6 +12,11 @@ class Component(object):
 
     def __init__(self, driver):
         self.driver = driver
+
+    def find_element(self, element):
+        return WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
+            lambda d: d.find_element_by_xpath(element)
+        )
 
     def click_element(self, element):
         WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
@@ -33,3 +40,7 @@ class Component(object):
         return WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
             lambda d: d.find_element_by_xpath(element).text
         )
+
+    def waiting_until_invisible(self, element):
+        wait = WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY)
+        wait.until(ec.invisibility_of_element_located((By.XPATH, element)))

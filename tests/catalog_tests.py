@@ -8,20 +8,16 @@ from tests.common import getDriver, Auth, Main, Shop
 class CatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
     OTHER_CATALOG_NAME = u'Другой Каталог'
-    CATALOG_ICON = 'catalog-icon.png'
+    CATALOG_IMAGE = 'catalog-icon.png'
 
     def setUp(self):
         self.driver = getDriver()
 
         Auth(self.driver).sign_in()
         Main(self.driver).open_groups_page()
-
         Shop(self.driver).create()
 
     def tearDown(self):
-        # TODO Element <a ...> is not clickable
-        import time; time.sleep(1)
-
         Shop(self.driver).remove()
         self.driver.quit()
 
@@ -30,8 +26,10 @@ class CatalogTests(unittest.TestCase):
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.open_popup()
         catalog_popup.set_catalog_name(self.CATALOG_NAME)
-        catalog_popup.upload_icon(self.CATALOG_ICON)
+        catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
+        catalog_popup.waiting_until_image_upload()
         catalog_popup.save()
+        catalog_popup.waiting_until_close()
 
         catalog_widget = shop_market_page.catalog_widget()
         catalog_name = catalog_widget.get_catalog_name()
@@ -46,6 +44,7 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.open_popup()
         catalog_popup.set_catalog_name(self.CATALOG_NAME)
         catalog_popup.save()
+        catalog_popup.waiting_until_close()
 
         catalog_widget = shop_market_page.catalog_widget()
         catalog_widget.open_catalog()
@@ -58,8 +57,10 @@ class CatalogTests(unittest.TestCase):
 
         catalog_panel.edit_catalog()
         catalog_popup.set_catalog_name(self.OTHER_CATALOG_NAME)
-        # catalog_popup.upload_icon(self.CATALOG_ICON)
+        catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
+        catalog_popup.waiting_until_image_upload()
         catalog_popup.save()
+        catalog_popup.waiting_until_close()
 
         catalog_name_after_edit = catalog_panel.get_catalog_name()
         self.assertEquals(self.OTHER_CATALOG_NAME, catalog_name_after_edit)

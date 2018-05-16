@@ -3,6 +3,9 @@ from Components.component import Component
 
 
 class CatalogPopup(Component):
+    POPUP = '//div[@class="modal-new_center"]'
+    IMAGE = '//img[@class="add-happening_poster_img" and contains(@src,"i.mycdn.me")]'
+
     CREATE_CATALOG = '//a[@class="market-albums_new-lk"]'
     CATALOG_NAME = '//input[@id="field_name"]'
     UPLOAD_IMAGE = '//input[@class="html5-upload-link"]'
@@ -17,11 +20,17 @@ class CatalogPopup(Component):
     def set_catalog_name(self, name=u'Каталог'):
         super(CatalogPopup, self).input_text_to_element(self.CATALOG_NAME, name)
 
-    def upload_icon(self, file_name):
+    def upload_catalog_image(self, file_name):
         super(CatalogPopup, self).upload_image(self.UPLOAD_IMAGE, file_name)
+
+    def waiting_until_image_upload(self):
+        super(CatalogPopup, self).find_element(self.IMAGE)
 
     def save(self):
         super(CatalogPopup, self).click_element(self.SAVE_BUTTON)
+
+    def waiting_until_close(self):
+        super(CatalogPopup, self).waiting_until_invisible(self.POPUP)
 
     def cancel_saving(self):
         super(CatalogPopup, self).click_element(self.CANCEL_BUTTON)
