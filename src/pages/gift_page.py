@@ -1,6 +1,7 @@
 from src.components.base_element import BaseElement
 from src.components.elements.gift_element import GiftElement
 from src.pages.auth_page import AuthPage
+from src.pages.feed_page import FeedPage
 
 
 class GiftPage(BaseElement):
@@ -18,8 +19,10 @@ class GiftPage(BaseElement):
         self._auth_page.open_and_sign_in()
         self.driver.get(self._url)
 
-    def open_main_page(self):
+    def open_feed_page_by_logo(self):
         self._element.get_logo().click()
-        return MainPage(self.driver)
+        return FeedPage(self.driver)
 
-from .main_page import MainPage
+    def open_feed_page_by_nav_bar(self):
+        self._element.get_logo().click()
+        return FeedPage(self.driver)

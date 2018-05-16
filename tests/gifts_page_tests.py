@@ -4,7 +4,6 @@ import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from src.pages.gift_page import GiftPage
-from src.pages.main_page import MainPage
 
 
 class GiftsPageTests(unittest.TestCase):
@@ -17,18 +16,19 @@ class GiftsPageTests(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-        self.main_page = MainPage(self.driver)
         self.gift_page = GiftPage(self.driver)
         self.gift_page.open()
 
     def tearDown(self):
         self.driver.quit()
 
-    def test_open_main_page(self):
-        main_page = self.gift_page.open_main_page()
-        ok = main_page.is_loaded()
-        print(ok)
+    def test_open_feed_page_by_logo(self):
+        feed_page = self.gift_page.open_feed_page_by_logo()
+        ok = feed_page.is_loaded()
         self.assertTrue(ok)
 
-
+    def test_open_feed_page_by_nav_side(self):
+        feed_page = self.gift_page.open_feed_page_by_logo()
+        ok = feed_page.is_loaded()
+        self.assertTrue(ok)
 
