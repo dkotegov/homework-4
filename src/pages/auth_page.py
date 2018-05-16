@@ -9,7 +9,7 @@ class AuthPage(BasePage):
         super(AuthPage, self).__init__(driver)
         self._url = 'http://ok.ru'
         self._logout_url = "https://www.ok.ru/dk?st.cmd=anonymMain&st.lgn=on&st.fflo=off"
-        self._auth = AuthFactory.create("technopark8")
+        self._auth = AuthFactory.create()
 
     def open_and_sign_in(self):
         self.driver.maximize_window()
