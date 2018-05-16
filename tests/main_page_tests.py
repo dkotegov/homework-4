@@ -30,11 +30,4 @@ class MainPageTests(unittest.TestCase):
         self.driver.quit()
 
     def test_open_gifts(self):
-        """
-        Переход с главной страницы на страницу подарков
-        :return: None
-        """
-
-        gifts_button = self.main_page.open_gifts()
-        self.assertIsNotNone(gifts_button)
-
+        gifts_page = self.main_page.open_gifts()

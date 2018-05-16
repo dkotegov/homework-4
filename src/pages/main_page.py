@@ -9,6 +9,5 @@ class MainPage(BasePage):
         self.main_element = MainElement(self.driver)
 
     def open_gifts(self):
-        button = self.main_element.get_gifts_button()
-        button.click()
-        return button
+        self.main_element.get_gifts_button().click()
+        return None
