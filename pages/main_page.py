@@ -13,3 +13,7 @@ class MainPage(Page):
     def my_name_surname(self):
         main_form = MainForm(self.driver)
         return main_form.get_name_surname()
+
+    def my_birthday(self):
+        main_form = MainForm(self.driver)
+        return main_form.get_birthday()
