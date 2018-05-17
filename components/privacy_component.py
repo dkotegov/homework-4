@@ -10,6 +10,6 @@ class PrivacyForm(BaseComponent):
     
 
     def get_radiobutton_by_name_and_value(self, name, value):
-        return self.driver.find_element_by_xpath("//input["+ name + " and "+ value + "]")
+        return self.get_clickable_element("//input["+ name + " and "+ value + "]")
     def get_save_button(self):
-        return self.driver.find_element_by_xpath(self.SAVE_BUTTON)
+        return self.get_clickable_element(self.SAVE_BUTTON)
