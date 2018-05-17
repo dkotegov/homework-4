@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 from pages.page import Component, url_changer
 from pages.photo_page import PhotoPage
@@ -62,3 +64,35 @@ class ApplicationPortlet(Component):
         if app.text == name:
             return True
         return False
+
+
+class CreateTopicPopup(Component):
+    MESSAGE = '//*[@id="hook_Block_pfnull"]/div[2]/div[1]/div/div[2]'
+    SEND_BUTTON = 'posting_submit'
+    TOPIC_POPUP = '//*[@id="mtLayer"]/div[1]'
+
+    def enter_message(self, msg: str):
+        self.driver.find_element_by_xpath(self.MESSAGE).click()
+        self.driver.find_element_by_xpath(self.MESSAGE).send_keys(msg)
+
+    def send(self):
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.SEND_BUTTON)))
+        self.driver.find_element_by_class_name(self.SEND_BUTTON).click()
+        # WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.XPATH, self.TOPIC_POPUP)))
+
+
+class CommentPopup(Component):
+    MESSAGE = '//*[@id="ok-e-d"]'
+    SEND_BUTTON = '//*[@id="ok-e-d_button"]'
+    FIRST_COMMENT = '//*[@id="d-id-cmnt-local--101-m"]'
+
+    def enter_message(self, msg: str):
+        self.driver.find_element_by_xpath(self.MESSAGE).send_keys(msg)
+
+    def send(self):
+        self.driver.find_element_by_xpath(self.MESSAGE).click()
+        self.driver.find_element_by_xpath(self.SEND_BUTTON).click()
+
+    def save_id_comment(self):
+        el = self.driver.find_element_by_xpath(self.FIRST_COMMENT)
+        return el.find_element_by_tag_name("div").get_attribute('id')

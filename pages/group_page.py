@@ -1,4 +1,9 @@
-from pages.group_components import LeftActionBar, MainNavBar, ApplicationPortlet
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+from pages.group_components import ApplicationPortlet, CommentPopup, CreateTopicPopup, LeftActionBar, MainNavBar
 from pages.page import Page
 from pages.photo_page import PhotoPage
 from pages.settings_page import SettingsPage
@@ -12,6 +17,8 @@ class GroupPage(Page):
     DESCRIPTION_TEXT = '//*[@id="hook_Block_MiddleColumnTopCardAltGroup"]/div[2]/div/div[2]/div[1]/div[2]'
     CATEGORY_TEXT = '//*[@id="hook_Block_MiddleColumnTopCardAltGroup"]/div[2]/div/div[2]/div[1]/div[1]'
     APPLICATION_PORTLET = '//*[@id="hook_Block_AltGroupAppsPortletRB"]/div'
+    CREATE_NEW_TOPIC = 'input_placeholder'
+    CREATE_COMMENT = 'ic_comment'
 
     @property
     def left_action_bar(self) -> LeftActionBar:
@@ -20,6 +27,12 @@ class GroupPage(Page):
     @property
     def main_nav_bar(self) -> MainNavBar:
         return MainNavBar(self.driver)
+
+    def create_topic_popup(self):
+        return CreateTopicPopup(self.driver)
+
+    def create_comment_popup(self):
+        return CommentPopup(self.driver)
 
     def to_photo_page(self) -> PhotoPage:
         photo_page = self.main_nav_bar.photo_page
@@ -62,3 +75,27 @@ class GroupPage(Page):
         unjoin_button = self.driver.find_element_by_class_name(self.UNJOIN_BUTTON_CLASS)
         unjoin_button.click()
         return self
+
+    def create_post(self, msg: str):
+        self.driver.find_element_by_class_name(self.CREATE_NEW_TOPIC).click()
+        popup = self.create_topic_popup()
+        popup.enter_message(msg)
+        popup.send()
+
+    def create_comment(self, msg: str):
+        self.driver.find_element_by_class_name(self.CREATE_COMMENT).click()
+        popup = self.create_comment_popup()
+        popup.enter_message(msg)
+        popup.send()
+        return popup.save_id_comment()
+
+    def open_comment_popup(self):
+        self.driver.find_element_by_xpath(self.CREATE_COMMENT).click()
+        return self.create_comment_popup()
+
+    def check_presence_section(self, section: str):
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.LINK_TEXT, section)))
+        except TimeoutException as e:
+            return False
+        return True

@@ -135,10 +135,26 @@ class ApplicationForm(Component):
 class ManagmentForm(Component):
     GENERATE_API_KEY_BUTTON = '//*[@id="group-settings-form"]/div[8]/div[2]/div/div[2]/div/a'
     API_KEY_INPUT = '//*[@id="hook_Form_PopLayerAltGroupChangeTokenForm"]/form/input[3]'
+    OBSCENE_LANGUAGE = '//*[@id="field_opt_ConcealObsceneWordsInCommentsEnabled"]'
+    PHOTO_SECTION = '//*[@id="field_opt_PhotosTabHidden"]'
+    SAVE_BUTTON = '//*[@id="hook_FormButton_button_save_settings"]'
+    TIP = '//*[@id="hook_Block_TipBlock"]/div/div'
 
     def generate_api_key(self):
         self.driver.find_element_by_xpath(self.GENERATE_API_KEY_BUTTON).click()
         return self.driver.find_element_by_xpath(self.API_KEY_INPUT).value
+
+    def hide_photo_section(self):
+        select = Select(self.driver.find_element_by_xpath(self.PHOTO_SECTION))
+        select.select_by_value("on")
+
+    def hide_obscene(self):
+        select_obscene = Select(self.driver.find_element_by_xpath(self.OBSCENE_LANGUAGE))
+        select_obscene.select_by_value("on")
+        # WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, self.TIP)))
+
+    def save_settings(self):
+        self.driver.find_element_by_xpath(self.SAVE_BUTTON).click()
 
 
 class PopupUserMenu(Component):

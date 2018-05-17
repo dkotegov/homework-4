@@ -61,8 +61,8 @@ class GroupPageCreateForm(Component):
         super().__init__(driver)
         self.title: str = page_description['title']
         self.description: str = page_description['description']
-        self.subcategory: str = page_description['subcategory'].value
-        self.age_restriction: str = page_description['age_restriction'].value
+        self.subcategory: str = page_description['subcategory']
+        self.age_restriction: str = page_description['age_restriction']
 
     @property
     def title(self) -> WebElement:

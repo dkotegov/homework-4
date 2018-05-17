@@ -21,7 +21,7 @@ class SettingsPage(Page):
 
     def to_management_page(self) -> ManagmentPage:
         path = self.driver.find_element_by_xpath(self.MANAGEMENT_ITEM).get_attribute('href')
-        return ManagmentPage(self.driver, path=path)
+        return ManagmentPage(self.driver, path=path).open()
 
     def to_general_page(self) -> GeneralPage:
         path = self.driver.find_element_by_xpath(self.GENERAL_ITEM).get_attribute('href')
