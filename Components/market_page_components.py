@@ -25,7 +25,7 @@ class CatalogPopup(Component):
         super(CatalogPopup, self).upload_image(self.UPLOAD_IMAGE, file_name)
 
     def waiting_until_image_upload(self):
-        super(CatalogPopup, self).find_element(self.IMAGE)
+        super(CatalogPopup, self).is_exist_element(self.IMAGE)
 
     def get_image_src(self):
         return self.driver.find_element_by_xpath(self.IMAGE).get_attribute("src")
@@ -44,9 +44,14 @@ class CatalogPopup(Component):
 
 
 class CatalogWidget(Component):
+    WIDGET_PANEL = '//div[@data-module="AdvertSort"]'
+
     CATALOG_NAME = '//a[@class="o"]'
     NUMBER_OF_PRODUCTS = '//div[contains(@class,"photo-sc_i_cnt_data_counter")]'
     CATALOG_IMAGE = '//img[@class="photo-crop_img"]'
+
+    def is_exist_catalog_widget(self):
+        return super(CatalogWidget, self).is_exist_element(self.WIDGET_PANEL)
 
     def get_catalog_name(self):
         return super(CatalogWidget, self).get_element_text(self.CATALOG_NAME)
@@ -86,10 +91,12 @@ class CatalogPanel(Component):
 
 
 class RemoveCatalogPopup(Component):
+    POPUP = '//div[@class="modal-new_center"]'
+
     SAVE_PRODUCTS = '//input[@id="field_deleteAdverts_off"]'
     REMOVE_PRODUCTS = '//input[@id="field_deleteAdverts_on"]'
 
-    REMOVE_BUTTON = '//input[@id="button_remove"]'
+    REMOVE_BUTTON = '//input[@name="button_remove"]'
     CANCEL_BUTTON = '//input[@id="button_cancel"]'
     CLOSE_BUTTON = '//a[@id="nohook_modal_close"]'
 
@@ -107,3 +114,27 @@ class RemoveCatalogPopup(Component):
 
     def close_popup(self):
         super(RemoveCatalogPopup, self).click_element(self.CLOSE_BUTTON)
+
+    def waiting_until_close(self):
+        super(RemoveCatalogPopup, self).waiting_until_invisible(self.POPUP)
+
+
+class CatalogCounter(Component):
+    CATALOGS_COUNTER = '//span[@class="portlet_h_count"]'
+
+    def get_number_of_catalogs(self):
+        super(CatalogCounter, self).get_element_text(self.CATALOGS_COUNTER)
+
+
+class ProductCounter(Component):
+    PRODUCTS_COUNTER = '//span[@class="filter_count"]'
+
+    def get_number_of_all_products(self):
+        super(ProductCounter, self).get_element_text(self.PRODUCTS_COUNTER)
+
+
+class CatalogStub(Component):
+    STUB = '//div[@class="stub-empty  __without-icon"]'
+
+    def check_stub_present(self):
+        return super(CatalogStub, self).is_exist_element(self.STUB)

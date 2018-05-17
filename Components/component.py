@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -13,10 +14,14 @@ class Component(object):
     def __init__(self, driver):
         self.driver = driver
 
-    def find_element(self, element):
-        return WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
-            lambda d: d.find_element_by_xpath(element)
-        )
+    def is_exist_element(self, element):
+        try:
+            WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
+                lambda d: d.find_element_by_xpath(element)
+            )
+        except TimeoutException:
+            return False
+        return True
 
     def click_element(self, element):
         WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(

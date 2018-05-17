@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from Components.market_page_components import RemoveCatalogPopup
 from PageObjects.page_objects import ShopMarketPage, CatalogPage
 from tests.common import getDriver, Auth, Main, Shop
 
@@ -13,7 +14,6 @@ class CatalogTests(unittest.TestCase):
 
     def setUp(self):
         self.driver = getDriver()
-
         Auth(self.driver).sign_in()
         Main(self.driver).open_groups_page()
         Shop(self.driver).create()
@@ -23,6 +23,7 @@ class CatalogTests(unittest.TestCase):
         self.driver.quit()
 
     def test_create_catalog(self):
+        # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.open_popup()
@@ -33,7 +34,11 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.save()
         catalog_popup.waiting_until_close()
 
-        catalog_widget = shop_market_page.catalog_widget()
+        # checks
+        catalog_widget = shop_market_page.catalog_widget
+        is_exist_catalog_widget = catalog_widget.is_exist_catalog_widget()
+        self.assertTrue(is_exist_catalog_widget)
+
         catalog_name = catalog_widget.get_catalog_name()
         self.assertEqual(self.CATALOG_NAME, catalog_name)
 
@@ -44,6 +49,7 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], current_image_src[:self.CHARS_IN_SUBSTRING])
 
     def test_edit_catalog(self):
+        # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.open_popup()
@@ -51,15 +57,19 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.save()
         catalog_popup.waiting_until_close()
 
-        catalog_widget = shop_market_page.catalog_widget()
-        catalog_widget.open_catalog()
+        # checks
+        catalog_widget = shop_market_page.catalog_widget
+        is_exist_catalog_widget = catalog_widget.is_exist_catalog_widget()
+        self.assertTrue(is_exist_catalog_widget)
 
+        catalog_widget.open_catalog()
         catalog_page = CatalogPage(self.driver)
         catalog_panel = catalog_page.catalog_panel
 
         catalog_name_before_edit = catalog_panel.get_catalog_name()
         self.assertEquals(self.CATALOG_NAME, catalog_name_before_edit)
 
+        # editing catalog
         catalog_panel.edit_catalog()
         catalog_popup.set_catalog_name(self.OTHER_CATALOG_NAME)
         catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
@@ -68,8 +78,42 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.save()
         catalog_popup.waiting_until_close()
 
+        # checks
         catalog_name_after_edit = catalog_panel.get_catalog_name()
         self.assertEquals(self.OTHER_CATALOG_NAME, catalog_name_after_edit)
 
         current_image_src = catalog_panel.get_image_src()
         self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], current_image_src[:self.CHARS_IN_SUBSTRING])
+
+    def test_delete_empty_catalog(self):
+        # check stub
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_stub = shop_market_page.catalog_stub
+        is_catalog_stub_present_before_create = catalog_stub.check_stub_present()
+        self.assertTrue(is_catalog_stub_present_before_create)
+
+        # creating catalog
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.set_catalog_name()
+        catalog_popup.save()
+        catalog_popup.waiting_until_close()
+
+        # check widget
+        catalog_widget = shop_market_page.catalog_widget
+        is_exist_catalog_widget = catalog_widget.is_exist_catalog_widget()
+        self.assertTrue(is_exist_catalog_widget)
+
+        # removing catalog
+        catalog_widget.open_catalog()
+        catalog_page = CatalogPage(self.driver)
+        catalog_panel = catalog_page.catalog_panel
+
+        catalog_panel.remove_catalog()
+        remove_catalog_popup = RemoveCatalogPopup(self.driver)
+        remove_catalog_popup.submit_remove()
+        remove_catalog_popup.waiting_until_close()
+
+        # check stub
+        is_catalog_stub_present_after_remove = catalog_stub.check_stub_present()
+        self.assertTrue(is_catalog_stub_present_after_remove)
