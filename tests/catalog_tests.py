@@ -22,6 +22,32 @@ class CatalogTests(unittest.TestCase):
         Shop(self.driver).remove()
         self.driver.quit()
 
+    def test_cancel_creating_catalog(self):
+        shop_market_page = ShopMarketPage(self.driver)
+
+        catalog_stub = shop_market_page.catalog_stub
+        self.check_catalog_stub(catalog_stub)
+
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.cancel_saving()
+        catalog_popup.waiting_until_close()
+
+        self.check_catalog_stub(catalog_stub)
+
+    def test_close_creating_catalog(self):
+        shop_market_page = ShopMarketPage(self.driver)
+
+        catalog_stub = shop_market_page.catalog_stub
+        self.check_catalog_stub(catalog_stub)
+
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.close_popup()
+        catalog_popup.waiting_until_close()
+
+        self.check_catalog_stub(catalog_stub)
+
     def test_create_catalog(self):
         # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
@@ -36,8 +62,7 @@ class CatalogTests(unittest.TestCase):
 
         # checks
         catalog_widget = shop_market_page.catalog_widget
-        is_exist_catalog_widget = catalog_widget.is_exist_catalog_widget()
-        self.assertTrue(is_exist_catalog_widget)
+        self.check_catalog_widget(catalog_widget)
 
         catalog_name = catalog_widget.get_catalog_name()
         self.assertEqual(self.CATALOG_NAME, catalog_name)
@@ -59,8 +84,7 @@ class CatalogTests(unittest.TestCase):
 
         # checks
         catalog_widget = shop_market_page.catalog_widget
-        is_exist_catalog_widget = catalog_widget.is_exist_catalog_widget()
-        self.assertTrue(is_exist_catalog_widget)
+        self.check_catalog_widget(catalog_widget)
 
         catalog_widget.open_catalog()
         catalog_page = CatalogPage(self.driver)
@@ -89,8 +113,7 @@ class CatalogTests(unittest.TestCase):
         # check stub
         shop_market_page = ShopMarketPage(self.driver)
         catalog_stub = shop_market_page.catalog_stub
-        is_catalog_stub_present_before_create = catalog_stub.check_stub_present()
-        self.assertTrue(is_catalog_stub_present_before_create)
+        self.check_catalog_stub(catalog_stub)
 
         # creating catalog
         catalog_popup = shop_market_page.catalog_popup
@@ -101,8 +124,7 @@ class CatalogTests(unittest.TestCase):
 
         # check widget
         catalog_widget = shop_market_page.catalog_widget
-        is_exist_catalog_widget = catalog_widget.is_exist_catalog_widget()
-        self.assertTrue(is_exist_catalog_widget)
+        self.check_catalog_widget(catalog_widget)
 
         # removing catalog
         catalog_widget.open_catalog()
@@ -115,5 +137,12 @@ class CatalogTests(unittest.TestCase):
         remove_catalog_popup.waiting_until_close()
 
         # check stub
-        is_catalog_stub_present_after_remove = catalog_stub.check_stub_present()
-        self.assertTrue(is_catalog_stub_present_after_remove)
+        self.check_catalog_stub(catalog_stub)
+
+    def check_catalog_stub(self, catalog_stub):
+        is_exist_catalog_stub = catalog_stub.is_exist_catalog_stub()
+        self.assertTrue(is_exist_catalog_stub)
+
+    def check_catalog_widget(self, catalog_widget):
+        is_exist_catalog_widget = catalog_widget.is_exist_catalog_widget()
+        self.assertTrue(is_exist_catalog_widget)

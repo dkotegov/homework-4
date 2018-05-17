@@ -12,7 +12,7 @@ class CatalogPopup(Component):
     UPLOAD_IMAGE = '//input[@class="html5-upload-link"]'
 
     SAVE_BUTTON = '//input[@id="hook_FormButton_button_save"]'
-    CANCEL_BUTTON = '//input[@id="button_cancel"]'
+    CANCEL_BUTTON = '//a[@id="button_cancel"]'
     CLOSE_BUTTON = '//a[@id="nohook_modal_close"]'
 
     def open_popup(self):
@@ -136,5 +136,5 @@ class ProductCounter(Component):
 class CatalogStub(Component):
     STUB = '//div[@class="stub-empty  __without-icon"]'
 
-    def check_stub_present(self):
+    def is_exist_catalog_stub(self):
         return super(CatalogStub, self).is_exist_element(self.STUB)
