@@ -7,16 +7,17 @@ class CatalogPopup(Component):
     IMAGE = '//img[@class="add-happening_poster_img" and contains(@src,"i.mycdn.me")]'
     IMAGE_SRC = '//img[@class="add-happening_poster_img" and contains(@src,"i.mycdn.me")]/@src'
 
-    CREATE_CATALOG = '//a[@class="market-albums_new-lk"]'
     CATALOG_NAME = '//input[@id="field_name"]'
+    ERROR_MESSAGE = '//div[contains(@class,"form_i__error")]/span[@class="input-e"]'
     UPLOAD_IMAGE = '//input[@class="html5-upload-link"]'
 
+    CREATE_BUTTON = '//a[@class="market-albums_new-lk"]'
     SAVE_BUTTON = '//input[@id="hook_FormButton_button_save"]'
     CANCEL_BUTTON = '//a[@id="button_cancel"]'
     CLOSE_BUTTON = '//a[@id="nohook_modal_close"]'
 
     def open_popup(self):
-        super(CatalogPopup, self).click_element(self.CREATE_CATALOG)
+        super(CatalogPopup, self).click_element(self.CREATE_BUTTON)
 
     def set_catalog_name(self, name=u'Каталог'):
         super(CatalogPopup, self).input_text_to_element(self.CATALOG_NAME, name)
@@ -29,6 +30,9 @@ class CatalogPopup(Component):
 
     def get_image_src(self):
         return self.driver.find_element_by_xpath(self.IMAGE).get_attribute("src")
+
+    def get_error_message(self):
+        return super(CatalogPopup, self).get_element_text(self.ERROR_MESSAGE)
 
     def save(self):
         super(CatalogPopup, self).click_element(self.SAVE_BUTTON)

@@ -36,7 +36,7 @@ class Component(object):
         input_element.send_keys(text)
 
     def upload_image(self, element, file_name):
-        image_path = os.getcwd() + '/images/' + file_name
+        image_path = '../images/' + file_name
         WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
             lambda d: d.find_element_by_xpath(element)
         ).send_keys(image_path)

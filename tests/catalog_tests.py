@@ -48,15 +48,69 @@ class CatalogTests(unittest.TestCase):
 
         self.check_catalog_stub(catalog_stub)
 
-    def test_create_catalog(self):
+    def test_create_catalog_without_name(self):
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.save()
+
+        error_message = catalog_popup.get_error_message()
+        self.assertEqual(u'Введите название каталога', error_message)
+
+        catalog_popup.cancel_saving()
+        catalog_popup.waiting_until_close()
+
+    def test_create_catalog_with_very_long_name(self):
+        name_length = 51
+        very_long_catalog_name = 'x' * name_length
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.set_catalog_name(very_long_catalog_name)
+        catalog_popup.save()
+
+        error_message = catalog_popup.get_error_message()
+        self.assertEqual(u'Название каталога не должно превышать 50 знаков', error_message)
+
+        catalog_popup.cancel_saving()
+        catalog_popup.waiting_until_close()
+
+    def test_create_catalog_with_long_name(self):
+        name_length = 50
+        long_catalog_name = 'x' * name_length
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.set_catalog_name(long_catalog_name)
+        catalog_popup.save()
+        catalog_popup.waiting_until_close()
+
+        catalog_widget = shop_market_page.catalog_widget
+        widget_catalog_name = catalog_widget.get_catalog_name()
+        self.assertEqual(long_catalog_name, widget_catalog_name)
+
+    def test_create_catalog_with_name_of_spec_chars(self):
+        spec_name = '~`!@$%^&*()-_=+?/.,|;:\"\''
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.set_catalog_name(spec_name)
+        catalog_popup.save()
+        catalog_popup.waiting_until_close()
+
+        catalog_widget = shop_market_page.catalog_widget
+        widget_catalog_name = catalog_widget.get_catalog_name()
+        self.assertEqual(spec_name, widget_catalog_name)
+
+    def test_create_empty_catalog(self):
         # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.open_popup()
         catalog_popup.set_catalog_name(self.CATALOG_NAME)
-        catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
-        catalog_popup.waiting_until_image_upload()
-        upload_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
         catalog_popup.waiting_until_close()
 
@@ -64,14 +118,30 @@ class CatalogTests(unittest.TestCase):
         catalog_widget = shop_market_page.catalog_widget
         self.check_catalog_widget(catalog_widget)
 
-        catalog_name = catalog_widget.get_catalog_name()
-        self.assertEqual(self.CATALOG_NAME, catalog_name)
+        widget_catalog_name = catalog_widget.get_catalog_name()
+        self.assertEqual(self.CATALOG_NAME, widget_catalog_name)
 
         number_of_products = catalog_widget.get_number_of_products()
         self.assertEqual(u'0', number_of_products)
 
-        current_image_src = catalog_widget.get_image_src()
-        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], current_image_src[:self.CHARS_IN_SUBSTRING])
+    def test_create_catalog_with_image(self):
+        # creating catalog
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.set_catalog_name()
+        catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
+        catalog_popup.waiting_until_image_upload()
+
+        upload_image_src = catalog_popup.get_image_src()
+
+        catalog_popup.save()
+        catalog_popup.waiting_until_close()
+
+        # check
+        catalog_widget = shop_market_page.catalog_widget
+        widget_image_src = catalog_widget.get_image_src()
+        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], widget_image_src[:self.CHARS_IN_SUBSTRING])
 
     def test_edit_catalog(self):
         # creating catalog
