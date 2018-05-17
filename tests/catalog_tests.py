@@ -9,6 +9,7 @@ class CatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
     OTHER_CATALOG_NAME = u'Другой Каталог'
     CATALOG_IMAGE = 'catalog-icon.png'
+    CHARS_IN_SUBSTRING = 83
 
     def setUp(self):
         self.driver = getDriver()
@@ -40,7 +41,7 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(u'0', number_of_products)
 
         current_image_src = catalog_widget.get_image_src()
-        self.assertEqual(upload_image_src, current_image_src)
+        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], current_image_src[:self.CHARS_IN_SUBSTRING])
 
     def test_edit_catalog(self):
         shop_market_page = ShopMarketPage(self.driver)
@@ -71,4 +72,4 @@ class CatalogTests(unittest.TestCase):
         self.assertEquals(self.OTHER_CATALOG_NAME, catalog_name_after_edit)
 
         current_image_src = catalog_panel.get_image_src()
-        self.assertEqual(upload_image_src, current_image_src)
+        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], current_image_src[:self.CHARS_IN_SUBSTRING])
