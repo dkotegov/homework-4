@@ -15,3 +15,8 @@ class BaseComponent(object):
     def get_visibility_element(self, path):
         return WebDriverWait(self.driver, 10, 0.2) \
             .until(expected_conditions.visibility_of_element_located((By.XPATH, path)))
+
+    def get_element_by_path(self, path):
+        return WebDriverWait(self.driver, 10, 0.2).until(
+            lambda d: d.find_element_by_xpath(path)
+        )
