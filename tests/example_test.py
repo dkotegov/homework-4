@@ -5,7 +5,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.auth_page import AuthPage
 from pages.group_page import GroupPage
-from pages.my_groups_components import GroupPageCreateForm, GroupSubcategory
+from pages.my_groups_components import GroupPageCreateForm, GroupSubcategory, AgeRestriction
 from pages.settings_components import GeneralForm
 
 
@@ -36,14 +36,14 @@ class ExampleTest(unittest.TestCase):
             'description': 'group about shit',
             'title': 'pulp fiction',
             'subcategory': GroupSubcategory.CINEMA_TV,
-            'age_restriction': 0
+            'age_restriction': AgeRestriction.NO_RESTRICTION
         }
 
         desc2 = {
             'description': 'group about python',
             'title': 'django',
             'subcategory': GroupSubcategory.CHILDREN,
-            'age_restriction': 0
+            'age_restriction': AgeRestriction.NO_RESTRICTION
         }
 
         group_page = profile_page.to_groups_page().create_public_page(desc)
