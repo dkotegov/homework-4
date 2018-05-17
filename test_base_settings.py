@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 
 import os
@@ -23,8 +25,36 @@ class TestsBaseSettings(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+    #
+    # def test_name_surname(self):
+    #     name = "Name1"
+    #     surname = "Surname1"
+    #
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open('')
+    #
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
+    #
+    #     base_settings_page = BaseSettingsPage(self.driver)
+    #     base_settings_page.open('/settings')
+    #     personal_data = base_settings_page.personal_data()
+    #     personal_data.name_surname(name, surname)
+    #     personal_data.save()
+    #     personal_data.close_save()
+    #
+    #     name_surname = base_settings_page.profile_get()
+    #     self.assertEqual(name + " " + surname, name_surname)
+    #     base_settings_page.profile()
+    #
+    #     main_page = MainPage(self.driver)
+    #     name_surname = main_page.my_name_surname()
+    #     self.assertEqual(name + " " + surname, name_surname)
 
-    def test_name_surname(self):
+    def test_name_surname_error(self):
+        name = "Name_1"
+        surname = "Surname_1"
+        error = "Пожалуйста, используйте только буквы."
+
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
@@ -33,22 +63,16 @@ class TestsBaseSettings(unittest.TestCase):
         base_settings_page = BaseSettingsPage(self.driver)
         base_settings_page.open('/settings')
         personal_data = base_settings_page.personal_data()
-        time.sleep(1)
-        personal_data.name_surname()
+        personal_data.name_surname(name, surname)
         personal_data.save()
-        time.sleep(1)
-        personal_data.close_save()
-        time.sleep(1)
-        name_surname = base_settings_page.profile_get()
-        self.assertEqual("Name1 Surname1", name_surname)
-        base_settings_page.profile()
-        time.sleep(2)
 
-        main_page = MainPage(self.driver)
-        name_surname = main_page.my_name_surname()
-        self.assertEqual("Name1 Surname1", name_surname)
+        e1, e2 = personal_data.name_surname_error()
 
-        time.sleep(1)
+        self.assertEqual(error, e1)
+        self.assertEqual(error, e2)
+
+
+
 
 
 
