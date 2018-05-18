@@ -51,12 +51,17 @@ class GiftDialogElement(BaseElement):
     # SENT_FRIEND = '//div[contains(@class, "d_comment_text")]/div/a'
 
     DELETE_COMMENT_BUTTON = '//a[@uid="delComment"]'
+    # DELETE_COMMENT_BUTTON = '//*[@id="d-id-cmnt-local--100-d"]'
+    # DELETE_COMMENT_BUTTON = '//a[contains(@class, "d_comment_act_del") and contains(@title, "Удалить комментарий")]'
+    # DELETE_COMMENT_BUTTON = '//div[@class="d_comment_r"]/div/a[2]'
     ACCEPT_DELETE_BUTTON = '//input[@value="Удалить"]'
 
     CHANGE_COMMENT_BUTTON = '//a[@uid="editComment"]'
     CHANGE_COMMENT = '//*[contains(text(),"Test comment!Changed text")]'
 
     LOADER = '//div[@class="progress __bottom __slim"]'
+
+    COMMENT_BODY = '//div[contains(@class, "d_comment_author_icon")]'
 
     def get_sticker_button(self):
         return self.get_button_by_xpath(self.STICKER_BUTTON)
@@ -132,8 +137,13 @@ class GiftDialogElement(BaseElement):
     def get_sent_text_comment(self):
         return self.existence_of_element_by_xpath(self.COMMENT_WITH_TEXT)
 
+    def get_comment_body(self):
+        return self.get_button_by_xpath(self.COMMENT_BODY)
+
     def get_delete_comment_button(self):
-        return self.get_button_by_xpath(self.DELETE_COMMENT_BUTTON)
+        button = self.get_button_by_xpath(self.DELETE_COMMENT_BUTTON)
+        # WebElement
+        return button
 
     def get_accept_delete_comment_button(self):
         return self.get_button_by_xpath(self.ACCEPT_DELETE_BUTTON)

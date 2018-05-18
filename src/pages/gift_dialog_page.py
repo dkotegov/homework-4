@@ -1,9 +1,12 @@
 import os
 
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from src.components.base_element import BaseElement
 from src.components.elements.gift_dialog_element import GiftDialogElement
+
+import time
 
 
 class GiftDialogPage(BaseElement):
@@ -56,11 +59,19 @@ class GiftDialogPage(BaseElement):
         return
 
     def delete_comment(self):
+        actions = ActionChains(self.driver)
+        comment_body = self._gift_dialog_element.get_comment_body()
+        actions.move_to_element(comment_body)
+        actions.perform()
         self._gift_dialog_element.get_delete_comment_button().click()
         self._gift_dialog_element.get_accept_delete_comment_button().click()
         return
 
     def change_text_comment(self, change_text):
+        actions = ActionChains(self.driver)
+        comment_body = self._gift_dialog_element.get_comment_body()
+        actions.move_to_element(comment_body)
+        actions.perform()
         self._gift_dialog_element.get_change_comment_button().click()
         elem = self._gift_dialog_element.get_change_comment_input()
         self.set_input_value(elem, change_text)
