@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from tests.pages.page import Page, Component
+from tests.pages.mobile.page import Page, Component
 
 
 class UserEditAlbumPhotoPage(Page):

@@ -33,10 +33,6 @@
 9. Отмена "класса" у фото
 10. Сделать фото обложкой альбома
 
-### Логин и пароль
-    LOGIN=technopark26
-    PASSWORD=testQA13
-
 ## Полезные ссылки:
 Бинарник selenium (версия 3.11.0): http://selenium-release.storage.googleapis.com/index.html?path=3.11/
 Бинарник geckodriver: https://github.com/mozilla/geckodriver/releases

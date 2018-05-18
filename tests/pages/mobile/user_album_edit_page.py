@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from tests.pages.page import Page, Component
+from tests.pages.mobile.page import Page, Component
 
 
 class UserAlbumEditPage(Page):

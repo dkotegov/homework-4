@@ -1,4 +1,4 @@
-from tests.pages.page import Page, Component
+from tests.pages.mobile.page import Page, Component
 
 
 class AuthPage(Page):
