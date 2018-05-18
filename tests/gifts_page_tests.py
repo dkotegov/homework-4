@@ -117,9 +117,16 @@ class GiftsPageTests(unittest.TestCase):
     #     self.assertTrue(self.gift_dialog_page.comment_with_photo_exists(), "test_send_photo failed")
     #     self.delete_comment()
 
-    def test_send_video(self):
+    # def test_send_video(self):
+    #     self.open_self_gifts()
+    #     self.self_gift.open_gift_dialog()
+    #     self.gift_dialog_page.send_video()
+    #     self.assertTrue(self.gift_dialog_page.comment_with_video_exists(), "test_send_video failed")
+    #     self.delete_comment()
+
+    def test_send_photo_from_computer(self):
         self.open_self_gifts()
         self.self_gift.open_gift_dialog()
-        self.gift_dialog_page.send_video()
-        self.assertTrue(self.gift_dialog_page.comment_with_video_exists(), "test_send_video failed")
+        self.gift_dialog_page.send_photo_from_computer()
+        self.assertTrue(self.gift_dialog_page.comment_with_photo_from_computer_exists(), "test_send_photo_from_computer failed")
         self.delete_comment()
