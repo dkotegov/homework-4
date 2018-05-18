@@ -54,7 +54,7 @@ class DialogForm(BaseElement):
     FIND_NEW_SET_TEMPLATE = '//a[contains(@hrefattrs, "set={ID}")]'
     SINGLE_STICKER_SET = '//div[contains(@class,"sticker-set-single")]'
 
-    SENT_MESSAGE_TEXT = '//div[contains(@class, "msg_tx")]/div[2]/div[1]/span[1]/span[1]'
+    SENT_MESSAGE_TEXT = '//span[contains(@class, "js-copy-text")]/span[1]'
     GAME_LIST = '//div[contains(@id, "hook_Block_ChatGames")]'
     ACTIVE_GAME_TEMPLATE = '//div[contains(@data-appid, "{AppID}")]'
     PICK_GAME_TEMPLATE = '(//a[contains(@href, "appId={AppID}")])[2]'
