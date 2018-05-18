@@ -26,9 +26,12 @@ class AuthPage(Page):
         # self.auth_form.get_logout_button().click()
         # self.auth_form.get_confirm_logout_button().click()
 
-    def add_profile(self, login, password):
+    def add_profile(self):
         self.auth_form.get_add_profile_button().click()
-        self.login(login, password)
+
+    def clear_inputs(self):
+        self.auth_form.get_login().clear()
+        self.auth_form.get_password().clear()
 
     #def already_login(self):
 

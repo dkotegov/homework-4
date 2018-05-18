@@ -5,10 +5,10 @@ import os
 import time
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from constants import profiles
+from constants import profiles, dialog
 from pages.auth_page import AuthPage
 # from pages.friends_page import FriendsPage
-from pages.black_list_page import BlackList
+from pages.black_list_page import BlackList, BlackListPage
 from pages.friends_page import FriendsPage
 from pages.main_page import MainPage
 from time import sleep
@@ -29,7 +29,7 @@ class Tests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_add_profile_to_black_list(self):
+    def test_add_profile_to_and_delete_from_black_list(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -47,12 +47,62 @@ class Tests(unittest.TestCase):
         message_page.accept_to_adding_to_black_list()
 
         auth_page.logout()
-        auth_page.add_profile(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+
+        auth_page.add_profile()
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
 
         main_page.open_friends_list()
         friends_page.open_message_dialog()
         message_page.send_message()
 
-        # black_list = BlackList(self.driver)
-        # black_list.open()
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.clear_inputs()
+        auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+
+        self.assertFalse(message_page.check_message(), False)
+
+        # delete
+        black_list = BlackListPage(self.driver)
+        black_list.open()
+        black_list.delete_from()
+
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.clear_inputs()
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+        message_page.delete_message()
+        message_page.send_message()
+
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.clear_inputs()
+        auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+
+        self.assertEqual(message_page.check_message(), dialog.TEST_MESSAGE)
+
+        message_page.delete_message()
+
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.clear_inputs()
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+        message_page.delete_message()
+
         sleep(3)

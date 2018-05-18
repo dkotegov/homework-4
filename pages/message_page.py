@@ -1,3 +1,5 @@
+from selenium.webdriver import ActionChains
+
 from components.message_dialog import MessageDialog
 from components.message_info_bar import MessageInfoBar
 from components.page import Page
@@ -21,8 +23,34 @@ class MessagePage(Page):
         self.message_info_bar.accept_adding_to_black_list().click()
 
     def type_the_message(self):
-        self.message_dialog.get_message_input().send_keys(dialog.TEST_MESSAGE)
+        message_input = self.message_dialog.get_message_input()
+        message_input.send_keys(dialog.TEST_MESSAGE)
 
     def send_message(self):
         self.type_the_message()
         self.message_dialog.get_message_send_button().click()
+
+    def delete_message(self):
+        hover = ActionChains(self.driver).move_to_element(self.message_dialog.hover_element())
+        hover.perform()
+        self.message_dialog.get_delete_message_button().click()
+        self.message_dialog.get_confirm_delete_message_button().click()
+
+        #self.message_dialog.hover_element()
+
+    #def found_message(self):
+        # if self.message_dialog.get_is_element_attached():
+        #     return self.get_message_text()
+        # return False
+
+    def check_message(self):
+        if self.message_dialog.get_message() is False:
+            return False
+        return self.get_message_text()
+
+    def get_message_text(self):
+        return self.message_dialog.get_message().get_attribute('innerHTML')
+
+
+
+
