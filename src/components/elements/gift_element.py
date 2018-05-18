@@ -28,9 +28,6 @@ class GiftElement(BaseElement):
     XPATH_INVENTORIES_ITEM_NAV_MENU = '//a[@class="mctc_navMenuSec"]' \
                                       '[@hrefattrs="st.cmd=mall&st.section=main&st._aid=NavMenu_User_Mall"]'
 
-    XPATH_OWN_GIFTS_NAV_SIDE = '//a[@class="nav-side_i __with-ic"]' \
-                               '[@hrefattrs="st.cmd=giftsFront&st.or=NAV_MENU&st.cat=my"]'
-
     XPATH_OWN_GIFTS_NAV_SIDE_ICO = '//i[@class="tico_img ic ic_nav_gifts-my"]'
 
     XPATH_OWN_GIFTS_RECEIVE_NAV_SIDE_ICO = '//i[@class="tico_img ic ic_nav_gifts-receive"]'
@@ -68,9 +65,6 @@ class GiftElement(BaseElement):
 
     def get_inventories_item_nav_menu(self):
         return self.get_button_by_xpath(self.XPATH_INVENTORIES_ITEM_NAV_MENU)
-
-    def get_own_gifts_nav_side(self):
-        return self.existence_of_element_in_dom_by_xpath(self.XPATH_OWN_GIFTS_NAV_SIDE)
 
     def get_own_gifts_nav_side_ico(self):
         return self.get_button_by_xpath(self.XPATH_OWN_GIFTS_NAV_SIDE_ICO)
