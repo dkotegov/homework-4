@@ -109,7 +109,7 @@ class GiftPage(BaseElement):
         present.click()
 
         #   finding receiver
-        text_input = ('Космос').decode('utf-8')
+        text_input = 'Космос'
         edit_text_find_reciever = self._gift_element.get_edit_text_find_receiver()
         edit_text_find_reciever.send_keys(text_input)
 
