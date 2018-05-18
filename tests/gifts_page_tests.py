@@ -27,7 +27,6 @@ class GiftsPageTests(unittest.TestCase):
         self.driver.quit()
 
     #pitikdmitry
-
     def test_open_authors_gifts(self):
         authors_gift_page = self.gift_page.open_authors_gifts()
         ok = authors_gift_page.is_loaded()
