@@ -6,7 +6,7 @@ class SelfGiftElement(BaseElement):
     SELF_GIFTS_MARKED_ITEM_LEFT_COLUMN = '//a[@hrefattrs="st.cmd=giftsFront&st.or=NAV_MENU&st.cat=my"]' \
                                          '[@class="nav-side_i  __ac __with-ic"]'
     LIKE_BUTTON = '//span[@data-id1="784462592490"]'
-    DIAOLOG_BUTTON = '//a[@data-id="784462592490"]'
+    DIAOLOG_BUTTON = '//*[@id="hook_Block_GiftsFrontContentRBx"]/div/div[2]/div/div/div/ul/li'
 
     def is_marked(self):
         """

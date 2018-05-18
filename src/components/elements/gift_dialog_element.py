@@ -14,10 +14,14 @@ class GiftDialogElement(BaseElement):
 
     COMMENT_WITH_STICKER = '//img[@class="emoji emoji_ok_26"]'
     CLIP_BUTTON = '//a[@class="disc_toolbar_i_ic smiles_w __staple"]'
-    ADD_PHOTO_BUTTON = '//span[@data-object-id="575662066154_16_784462592490"]'
+
+    ADD_PHOTO_BUTTON = '//a[contains(@data-l, "t,photoLink")]/span[contains(@class, "tico")]'
+
     SELECT_PHOTO_BUTTON = '//img[@class="photo-crop_img"]'
     READY_BUTTON = '//input[@id="hook_FormButton_button_attach"]'
-    COMMENT_WITH_PHOTO = '//img[@src="//i.mycdn.me/image?id=849710064874&t=41&plc=WEB&ts=00&tkn=*vyuE52msTH1A78mXDUH9i4TeYhs"]'
+
+    COMMENT_WITH_PHOTO = '//div[contains(@class, "collage")]'
+
     VIDEO_BUTTON = '//a[@data-l="t,videoLink"]'
 
     INPUT_FIND_VIDEO = '//input[@id="attachVideoQuery"]'
@@ -40,6 +44,7 @@ class GiftDialogElement(BaseElement):
     SENT_FRIEND = '//a[@data-user-id="571379517763"]'
 
     DELETE_COMMENT_BUTTON = '//a[@uid="delComment"]'
+    # DELETE_COMMENT_BUTTON = '//*[@id="topPanelPopup_d"]/div[2]/div/div[1]/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/div[2]/div[3]/div[2]/div[2]/div[2]/div/div/a[2]'
     ACCEPT_DELETE_BUTTON = '//input[@value="Удалить"]'
 
     CHANGE_COMMENT_BUTTON = '//a[@uid="editComment"]'
