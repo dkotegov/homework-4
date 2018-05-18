@@ -40,11 +40,15 @@ class GiftDialogElement(BaseElement):
     PHOTO_INPUT = '//span[contains(@data-l, "t,photo_upload_menu")]/input[1]'
     SENT_MESSAGE = '//a[contains(@class,"collage_cnt image-hover")]'
     SET_FRIEND_BUTTON = '//span[@data-l="t,mention"]'
-    FIRST_FRIEND = '//img[@src="//i.mycdn.me/image?id=838343541059&t=32&plc=WEB&tkn=*3mzOlIwyGgxWXyErpIW2bgqZPLw"]'
-    SENT_FRIEND = '//a[@data-user-id="571379517763"]'
+
+    # FIRST_FRIEND = '//img[@src="//i.mycdn.me/image?id=838343541059&t=32&plc=WEB&tkn=*3mzOlIwyGgxWXyErpIW2bgqZPLw"]'
+    FIRST_FRIEND = '//ul[contains(@class, "suggest_ul")]/li[2]'
+
+    SENT_FRIEND = '//a[@data-user-id="589325601063"]'
+    # SENT_FRIEND = '//a[@href="/technopark17.technopark17"]'
+    # SENT_FRIEND = '//div[contains(@class, "d_comment_text")]/div/a'
 
     DELETE_COMMENT_BUTTON = '//a[@uid="delComment"]'
-    # DELETE_COMMENT_BUTTON = '//*[@id="topPanelPopup_d"]/div[2]/div/div[1]/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/div[2]/div[3]/div[2]/div[2]/div[2]/div/div/a[2]'
     ACCEPT_DELETE_BUTTON = '//input[@value="Удалить"]'
 
     CHANGE_COMMENT_BUTTON = '//a[@uid="editComment"]'

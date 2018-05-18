@@ -108,12 +108,12 @@ class GiftsPageTests(unittest.TestCase):
     #     self.assertTrue(self.gift_dialog_page.comment_with_sticker_exists(), "test_send_sticker failed")
     #     self.delete_comment()
 
-    def test_send_photo(self):
-        self.open_self_gifts()
-        self.self_gift.open_gift_dialog()
-        self.gift_dialog_page.send_photo()
-        self.assertTrue(self.gift_dialog_page.comment_with_photo_exists(), "test_send_photo failed")
-        self.delete_comment()
+    # def test_send_photo(self):
+    #     self.open_self_gifts()
+    #     self.self_gift.open_gift_dialog()
+    #     self.gift_dialog_page.send_photo()
+    #     self.assertTrue(self.gift_dialog_page.comment_with_photo_exists(), "test_send_photo failed")
+    #     self.delete_comment()
 
     # def test_send_video(self):
     #     self.open_self_gifts()
@@ -121,21 +121,21 @@ class GiftsPageTests(unittest.TestCase):
     #     self.gift_dialog_page.send_video()
     #     self.assertTrue(self.gift_dialog_page.comment_with_video_exists(), "test_send_video failed")
     #     self.delete_comment()
-    #
+
     # def test_send_photo_from_computer(self):
     #     self.open_self_gifts()
     #     self.self_gift.open_gift_dialog()
     #     self.gift_dialog_page.send_photo_from_computer()
     #     self.assertTrue(self.gift_dialog_page.comment_with_photo_from_computer_exists(), "test_send_photo_from_computer failed")
     #     self.delete_comment()
-    #
-    # def test_set_friend(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.open_gift_dialog()
-    #     self.gift_dialog_page.send_friend()
-    #     self.assertTrue(self.gift_dialog_page.comment_with_user_exists(), "test_send_photo_from_computer failed")
-    #     self.delete_comment()
-    #
+
+    def test_set_friend(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.gift_dialog_page.send_friend()
+        self.assertTrue(self.gift_dialog_page.comment_with_user_exists(), "test_set_friend failed")
+        self.delete_comment()
+
     # def test_send_text_comment(self):
     #     self.open_self_gifts()
     #     self.self_gift.open_gift_dialog()
