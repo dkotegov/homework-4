@@ -1,39 +1,12 @@
-# -*- coding: utf-8 -*-
-
 import os
 
-import urllib.parse as urlparse
-
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-
-class Page(object):
-    BASE_URL = 'https://ok.ru/'
-    PATH = ''
-
-    def __init__(self, driver):
-        self.driver = driver
-
-    def open(self):
-        url = urlparse.urljoin(self.BASE_URL, self.PATH)
-        self.driver.get(url)
-        self.driver.maximize_window()
-
-    def redirect(self, path):
-        url = urlparse.urljoin(self.BASE_URL, path)
-        self.driver.get(url)
-
-    def reload(self):
-        self.driver.refresh()
-
-
-class AuthPage(Page):
-    @property
-    def form(self):
-        return AuthForm(self.driver)
+from tests.pages.primary.component import Component
+from tests.pages.primary.page import Page
 
 
 class PhotoPage(Page):
@@ -53,33 +26,6 @@ class PhotoPage(Page):
     @property
     def input_comment(self):
         return InputComment(self.driver)
-
-
-class Component(object):
-    def __init__(self, driver):
-        self.driver = driver
-
-    def hover(self, element_xpath):
-        WebDriverWait(self.driver, 20, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, element_xpath))
-        )
-        element = self.driver.find_element_by_xpath(element_xpath)
-
-        from selenium.webdriver import ActionChains
-        hov = ActionChains(self.driver).move_to_element(element)
-        hov.perform()
-
-    def hover_css(self, element_css):
-        try:
-            WebDriverWait(self.driver, 20, 0.1).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, element_css))
-            )
-            element = self.driver.find_element_by_css_selector(element_css)
-            from selenium.webdriver import ActionChains
-            hov = ActionChains(self.driver).move_to_element(element)
-            hov.perform()
-        except TimeoutException:
-            return 0
 
 
 class Comments(Component):
@@ -324,18 +270,3 @@ class InputComment(Component):
     def add_video(self):
         self.input_attach_focus()
         self.choose_video()
-
-
-class AuthForm(Component):
-    LOGIN = '//input[@name="st.email"]'
-    PASSWORD = '//input[@name="st.password"]'
-    SUBMIT = '//input[@data-l="t,sign_in"]'
-
-    def set_login(self, login):
-        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
-
-    def set_password(self, pwd):
-        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
-
-    def submit(self):
-        self.driver.find_element_by_xpath(self.SUBMIT).click()

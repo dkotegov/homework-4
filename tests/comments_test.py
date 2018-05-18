@@ -4,9 +4,10 @@ import os
 
 import unittest
 
-from tests.pages.primary.page_objects import AuthPage, PhotoPage
-
 from selenium.webdriver import DesiredCapabilities, Remote
+
+from tests.pages.primary.auth_page import AuthPage
+from tests.pages.primary.photo_page import PhotoPage
 
 
 class CommentsTest(unittest.TestCase):
