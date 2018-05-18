@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from os.path import abspath
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -21,6 +22,10 @@ class UserAddAlbumPhotoPage(Page):
         if path is None:
             path = self.PATH.format(self.album_id)
         super().open(path)
+
+    def upload_photo(self, photo=abspath('tests/photos/test_photo.jpg')):
+        self.open()
+        self.form.upload_photo(photo)
 
 
 class AddPhotoForm(Component):

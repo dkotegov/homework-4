@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -10,6 +12,12 @@ class UserAlbumEditPage(Page):
     @property
     def form(self):
         return EditForm(self.driver)
+
+    def create_album(self, album_name='Test album #{}'.format(time.time())):
+        self.open()
+        create_form = self.form
+        create_form.set_name(album_name)
+        create_form.submit()
 
 
 class EditForm(Component):

@@ -21,6 +21,12 @@ class PhotoPage(Page):
     def confirmation(self):
         return ConfirmationModal(self.driver)
 
+    def make_photo_cover(self):
+        toolbar = self.toolbar
+        toolbar.open()
+        toolbar.make_cover()
+        self.confirmation.yes()
+
 
 class Photo(Component):
     DESCRIPTION = 'photo-description'

@@ -8,6 +8,13 @@ class AuthPage(Page):
     def form(self):
         return AuthForm(self.driver)
 
+    def auth(self, login, password):
+        self.open()
+        auth_form = self.form
+        auth_form.set_login(login)
+        auth_form.set_password(password)
+        auth_form.submit()
+
 
 class AuthForm(Component):
     LOGIN_FIELD = 'field_login'

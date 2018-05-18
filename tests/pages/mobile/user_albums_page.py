@@ -13,6 +13,11 @@ class UserAlbumsPage(Page):
     def albums_list(self):
         return AlbumsList(self.driver)
 
+    def like_album(self, album_name):
+        self.open()
+        album_item = self.albums_list.find(album_name)
+        album_item.like()
+
 
 class AlbumsList(Component):
     ITEM = 'photos_album-grid-w'
