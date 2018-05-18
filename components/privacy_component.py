@@ -7,6 +7,8 @@ class PrivacyForm(BaseComponent):
     NO_ONE   = "@value = '2'"
     TAG_ME_IN_PHOTO = "@name='st.accessForMAKE_PHOTOPINS'"
     MY_AGE = "@name='st.accessForAGE_VISIBILITY'"
+    MY_GAMES_AND_APPLICATIONS = "@name='st.accessForGAMES_APPS_VISIBILITY'"
+    MY_GROUPS = "@name='st.accessForGROUPS_VISIBILITY'"
     SAVE_BUTTON = "//input[@id='hook_FormButton_button_changeProfileType']"
     
 
