@@ -60,6 +60,22 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.cancel_saving()
         catalog_popup.waiting_until_close()
 
+    def test_create_catalog_with_name_consist_of_spaces(self):
+        name_length = 10
+        spaces_name = ' ' * name_length
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.set_catalog_name(spaces_name)
+        catalog_popup.open_popup()
+        catalog_popup.save()
+
+        error_message = catalog_popup.get_error_message()
+        self.assertEqual(u'Введите название каталога', error_message)
+
+        catalog_popup.cancel_saving()
+        catalog_popup.waiting_until_close()
+
     def test_create_catalog_with_very_long_name(self):
         name_length = 51
         very_long_catalog_name = 'x' * name_length
@@ -91,8 +107,8 @@ class CatalogTests(unittest.TestCase):
         widget_catalog_name = catalog_widget.get_catalog_name()
         self.assertEqual(long_catalog_name, widget_catalog_name)
 
-    def test_create_catalog_with_name_of_spec_chars(self):
-        spec_name = '~`!@$%^&*()-_=+?/.,|;:\"\''
+    def test_create_catalog_with_name_consist_of_spec_chars(self):
+        spec_name = u'~`!@#№$;%:^?&*()-_+=/.,|\"\'\\<>[]{}'
 
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
@@ -104,6 +120,21 @@ class CatalogTests(unittest.TestCase):
         catalog_widget = shop_market_page.catalog_widget
         widget_catalog_name = catalog_widget.get_catalog_name()
         self.assertEqual(spec_name, widget_catalog_name)
+
+    def test_create_catalog_with_name_include_space_chars(self):
+        original_catalog_name = u'   А Б  В     Г Д  Е Ж   З И К    '
+        expected_catalog_name = u'А Б В Г Д Е Ж З И К'
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.set_catalog_name(original_catalog_name)
+        catalog_popup.save()
+        catalog_popup.waiting_until_close()
+
+        catalog_widget = shop_market_page.catalog_widget
+        widget_catalog_name = catalog_widget.get_catalog_name()
+        self.assertEqual(expected_catalog_name, widget_catalog_name)
 
     def test_create_empty_catalog(self):
         # creating catalog
