@@ -45,7 +45,7 @@ class GiftDialogElement(BaseElement):
     # FIRST_FRIEND = '//img[@src="//i.mycdn.me/image?id=838343541059&t=32&plc=WEB&tkn=*3mzOlIwyGgxWXyErpIW2bgqZPLw"]'
     FIRST_FRIEND = '//ul[contains(@class, "suggest_ul")]/li[2]'
 
-    COMMENTS_UNDER_GIFT_DIV = '//ul[@class="disc-comments-w"]'
+    COMMENTS_UNDER_GIFT_DIV = '//div[@class="disc-comments-w"]'
     SENT_FRIEND = '//a[@data-user-id="589325601063"]'
     # SENT_FRIEND = '//a[@href="/technopark17.technopark17"]'
     # SENT_FRIEND = '//div[contains(@class, "d_comment_text")]/div/a'
@@ -119,10 +119,12 @@ class GiftDialogElement(BaseElement):
         return self.get_button_by_xpath(self.FIRST_FRIEND)
 
     def get_sent_friend(self):
-        comments_div = self.existence_of_element_by_xpath(self.COMMENTS_UNDER_GIFT_DIV)
-        comment = comments_div.find_element_by_class_name('o media-text_lnk')
+        comments_div = self.get_button_by_xpath(self.COMMENTS_UNDER_GIFT_DIV)
+        comment = comments_div.find_element_by_class_name('media-text_lnk')
         # WebElement
-        return comment
+        if comment is not None:
+            return True
+        return False
 
     def get_comment_input(self):
         return self.get_field_by_xpath(self.INPUT_COMMENT_MESSAGE)
