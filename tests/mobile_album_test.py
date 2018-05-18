@@ -41,7 +41,7 @@ class AlbumTest(unittest.TestCase):
 
         album_page.open()
         photos_list = album_page.photos_list
-        photos_list.first.click()
+        photos_list.first.open()
 
     def test_create_album(self):
         album_name = 'Created test album #{}'.format(time.time())
@@ -129,7 +129,7 @@ class AlbumTest(unittest.TestCase):
 
         photos_list = album_page.photos_list
         self.assertEqual(1, photos_list.count)
-        photos_list.first.click()
+        photos_list.first.open()
         photo = PhotoPage(self.driver).photo
         self.assertEqual(description, photo.description)
 
@@ -149,7 +149,6 @@ class AlbumTest(unittest.TestCase):
         photo.like()
         photo.touch_overlay()
 
-        # Отмена лайка
         photo.cancel_like()
         self.assertEqual(0, photo.likes_count)
 
@@ -165,22 +164,12 @@ class AlbumTest(unittest.TestCase):
         album_page.open()
         photos_list = album_page.photos_list
 
-        # Делаю первое фото обложкой
-        first_photo_item = photos_list.get(0)
-        first_photo_id = first_photo_item.image_id
+        # Делаю фото обложкой
+        photo_item = photos_list.get(1)
+        photo_id = photo_item.image_id
 
-        first_photo_item.click()
+        photo_item.open()
         PhotoPage(self.driver).make_photo_cover()
 
         album_page.open()
-        self.assertEqual(first_photo_id, album_page.album_header.cover_id)
-
-        # Делаю второе фото обложкой
-        second_photo_item = photos_list.get(1)
-        second_photo_id = second_photo_item.image_id
-
-        second_photo_item.click()
-        PhotoPage(self.driver).make_photo_cover()
-
-        album_page.open()
-        self.assertEqual(second_photo_id, album_page.album_header.cover_id)
+        self.assertEqual(photo_id, album_page.album_header.cover_id)

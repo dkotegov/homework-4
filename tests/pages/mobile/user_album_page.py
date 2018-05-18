@@ -98,7 +98,7 @@ class PhotoItem(Component):
         return parse_qs(qs)[self.IMAGE_ID][0]
 
     @wait_until_url_changes
-    def click(self):
+    def open(self):
         self.element.click()
 
 
