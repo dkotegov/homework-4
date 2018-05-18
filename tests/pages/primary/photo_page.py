@@ -235,7 +235,7 @@ class InputComment(Component):
         PHOTO_PC_INPUT_CSS = 'span.comments_attach_trigger input[title="Добавить фото"]'
 
         self.driver.find_element_by_css_selector(PHOTO_PC_INPUT_CSS).send_keys(
-            os.path.join(os.getcwd(), 'my_test/photo_src/image.jpg'))
+            os.path.join(os.getcwd(), 'tests/photos/test_photo.jpg'))
 
     def click_css(self, css):
         WebDriverWait(self.driver, 20, 0.1).until(
