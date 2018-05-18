@@ -90,11 +90,6 @@ class AlbumTest(unittest.TestCase):
         album_item = albums_page.albums_list.find(album_name)
         self.assertEqual(1, album_item.likes_count)
 
-        # Обновлю и еще раз проверю
-        self.driver.refresh()
-        album_item = albums_page.albums_list.find(album_name)
-        self.assertEqual(1, album_item.likes_count)
-
     def test_cancel_album_like(self):
         album_name = 'Liked test album #{}'.format(time.time())
         UserAlbumEditPage(self.driver).create_album(album_name)
@@ -104,11 +99,6 @@ class AlbumTest(unittest.TestCase):
         UserAlbumsPage(self.driver).like_album(album_name)
 
         albums_page = UserAlbumsPage(self.driver)
-        album_item = albums_page.albums_list.find(album_name)
-        self.assertEqual(0, album_item.likes_count)
-
-        # Обновлю и еще раз проверю
-        self.driver.refresh()
         album_item = albums_page.albums_list.find(album_name)
         self.assertEqual(0, album_item.likes_count)
 
@@ -151,9 +141,6 @@ class AlbumTest(unittest.TestCase):
         photo.like()
         self.assertEqual(1, photo.likes_count)
 
-        self.driver.refresh()
-        self.assertEqual(1, photo.likes_count)
-
     def test_cancel_photo_like(self):
         UserAlbumEditPage(self.driver).create_album()
         self.upload_photo_and_open()
@@ -164,9 +151,6 @@ class AlbumTest(unittest.TestCase):
 
         # Отмена лайка
         photo.cancel_like()
-        self.assertEqual(0, photo.likes_count)
-
-        self.driver.refresh()
         self.assertEqual(0, photo.likes_count)
 
     def test_make_photo_album_cover(self):
