@@ -10,7 +10,7 @@ class BaseElement(object):
         self.driver = driver
 
     def get_button_by_xpath(self, xpath):
-        return WebDriverWait(self.driver, 30, 0.3).until(
+        return WebDriverWait(self.driver, 3, 0.3).until(
             EC.element_to_be_clickable((By.XPATH, xpath)))
             
     def get_field_by_xpath(self, xpath):
