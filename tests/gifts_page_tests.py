@@ -98,7 +98,14 @@ class GiftsPageTests(unittest.TestCase):
     def delete_comment(self):
         self.gift_dialog_page.delete_comment()
 
-    def test_set_like_gift(self):
+    # def test_set_like_gift(self):
+    #     self.open_self_gifts()
+    #     self.self_gift.like_gift()
+    #     self.assertTrue(self.gift_page.like_gift_exists(), "test_send_sticker failed")
+
+    def test_send_sticker(self):
         self.open_self_gifts()
-        self.self_gift.like_gift()
-        self.assertTrue(self.gift_page.like_gift_exists(), "test_send_sticker failed")
+        self.self_gift.open_gift_dialog()
+        self.gift_dialog_page.send_sticker()
+        self.assertTrue(self.gift_dialog_page.comment_with_sticker_exists(), "test_send_sticker failed")
+        self.delete_comment()
