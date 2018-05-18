@@ -214,15 +214,15 @@ class CatalogTests(unittest.TestCase):
 
         # check image stub
         catalog_widget = shop_market_page.catalog_widget
-        is_exist_image_stub = catalog_widget.is_exist_image_stub()
-        self.assertTrue(is_exist_image_stub)
+        is_exist_image_stub_on_widget = catalog_widget.is_exist_image_stub()
+        self.assertTrue(is_exist_image_stub_on_widget)
 
         catalog_widget.open_catalog()
         catalog_page = CatalogPage(self.driver)
         catalog_panel = catalog_page.catalog_panel
 
-        is_exist_image_stub = catalog_panel.is_exist_image_stub()
-        self.assertTrue(is_exist_image_stub)
+        is_exist_image_stub_on_panel = catalog_panel.is_exist_image_stub()
+        self.assertTrue(is_exist_image_stub_on_panel)
 
         # editing catalog
         catalog_panel.edit_catalog()
@@ -232,8 +232,9 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.save()
         catalog_popup.waiting_until_close()
 
-        current_image_src = catalog_panel.get_image_src()
-        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], current_image_src[:self.CHARS_IN_SUBSTRING])
+        # check upload image
+        panel_image_src = catalog_panel.get_image_src()
+        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], panel_image_src[:self.CHARS_IN_SUBSTRING])
 
     def test_delete_empty_catalog(self):
         # check stub
