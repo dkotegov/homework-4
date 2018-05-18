@@ -2,7 +2,7 @@
 
 import sys
 import unittest
-from tests.album_test import AlbumTest
+from tests.mobile_album_test import AlbumTest
 
 
 if __name__ == '__main__':

@@ -7,13 +7,13 @@ import unittest
 from os.path import abspath
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from tests.pages.auth_page import AuthPage
-from tests.pages.photo_page import PhotoPage
-from tests.pages.user_add_album_photo_page import UserAddAlbumPhotoPage
-from tests.pages.user_album_edit_page import UserAlbumEditPage
-from tests.pages.user_album_page import UserAlbumPage
-from tests.pages.user_albums_page import UserAlbumsPage
-from tests.pages.user_edit_album_photo_page import UserEditAlbumPhotoPage
+from tests.pages.mobile.auth_page import AuthPage
+from tests.pages.mobile.photo_page import PhotoPage
+from tests.pages.mobile.user_add_album_photo_page import UserAddAlbumPhotoPage
+from tests.pages.mobile.user_album_edit_page import UserAlbumEditPage
+from tests.pages.mobile.user_album_page import UserAlbumPage
+from tests.pages.mobile.user_albums_page import UserAlbumsPage
+from tests.pages.mobile.user_edit_album_photo_page import UserEditAlbumPhotoPage
 
 
 class AlbumTest(unittest.TestCase):
