@@ -44,3 +44,4 @@ class BaseComponent(object):
             lambda d: d.find_elements_by_xpath(path)
         )
 
+

@@ -17,7 +17,12 @@ class MainUpToolbar(BaseComponent):
 
     def get_image_element(self):
         try:
-            el = self.get_element_by_path(self.IMAGE)
+            el = self.get_elements_by_path(self.IMAGE)[0]
         except TimeoutException:
             return False
         return el
+
+    def get_split_for_app_id(self, str):
+        first_split = str.split("&st.")[2]
+        print(first_split)
+

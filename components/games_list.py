@@ -7,6 +7,11 @@ class GamesList(BaseComponent):
     USER_AVATAR = "//div[@class='avatar user']"
     CHOOSE_USER = "//div[@class='leftCardAddInfo']"
     CONFIRM_CHOICE = "//input[@name='button_invite']"
+    APP_ID = "//a[@data-post='gwt.scrl=false']"
+
+    def __init__(self, driver):
+        super(GamesList, self).__init__(driver)
+        self.app_id = 0
 
     def get_invite_friends_button(self):
         return self.get_clickable_element(self.INVITE_FRIENDS_BUTTON)
@@ -24,3 +29,7 @@ class GamesList(BaseComponent):
 
     def get_confirm_user(self):
         return self.get_clickable_element(self.CONFIRM_CHOICE)
+
+    # def get_appId(self):
+    #     element_hrefattrs = self.get_clickable_element(self.APP_ID).get_attribute('hrefattrs')
+    #     self.app_id =

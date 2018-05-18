@@ -21,6 +21,11 @@ class MainPage(Page):
         self.main_up_toolbar.get_notification_games().click()
 
     def check_notification(self):
+        image_element = self.main_up_toolbar.get_image_element()
+        if image_element is False:
+            return False
+        return image_element
+
 
 
 

@@ -5,6 +5,7 @@ import os
 import time
 from selenium.webdriver import DesiredCapabilities, Remote
 
+from components.main_up_toolbar import MainUpToolbar
 from constants import profiles, dialog
 from pages.auth_page import AuthPage
 # from pages.friends_page import FriendsPage
@@ -126,9 +127,15 @@ class Tests(unittest.TestCase):
         auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
 
         print('b')
-        main_page.open_notification()
 
-        game_page = GamePage(self.driver)
-        game_page.block_notifications()
+        main_page.open_notification()
+        notification_game = main_page.check_notification()
+
+        if notification_game is not False:
+            notification_for_split = notification_game.get_attribute('hrefattrs')
+            main_up_toolbar = MainUpToolbar(self.driver)
+            main_up_toolbar.get_split_for_app_id(notification_for_split)
+        # game_page = GamePage(self.driver)
+        # game_page.block_notifications()
 
         sleep(3)
