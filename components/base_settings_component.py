@@ -30,16 +30,16 @@ class PersonalDataForm(BaseComponent):
         return e1, e2
 
     DAYS = "//select[@id='field_bday']"
-    DAY = "//option[@value='5']"
-    DAY_ERROR = "//option[@value='29']"
+    DAY = "//select[@id='field_bday']/option[@value='5']"
+    DAY_ERROR = "//select[@id='field_bday']/option[@value='29']"
 
     MONTHS = "//select[@id='field_bmonth']"
-    MONTH = "//option[@value='3']"
-    MONTH_ERROR = "//option[@value='2']"
+    MONTH = "//select[@id='field_bmonth']/option[@value='3']"
+    MONTH_ERROR = "//select[@id='field_bmonth']/option[@value='2']"
 
     YEARS = "//select[@id='field_byear']"
-    YEAR = "//option[@value='1996']"
-    YEAR_ERROR = "//option[@value='2001']"
+    YEAR = "//select[@id='field_byear']/option[@value='1996']"
+    YEAR_ERROR = "//select[@id='field_byear']/option[@value='2001']"
 
     DATE = "//div[@value='user-profile_i_value ellip']"
 
@@ -64,7 +64,6 @@ class PersonalDataForm(BaseComponent):
         self.get_visibility_element(self.YEAR_ERROR).click()
 
     def get_birthday_error(self):
-        #self.get_visibility_element(self.ERROR)  # Ждем пока станет видимый
         return self.get_visibility_elements(self.ERROR)[2].text
 
 
