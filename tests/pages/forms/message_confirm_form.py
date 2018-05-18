@@ -1,5 +1,6 @@
 from base_element import BaseElement
 
+
 class MessageConfirmForm(BaseElement):
 
     CONFIRM_REPORT_BUTTON = '//input[@id="hook_FormButton_button_spam_confirm"]'

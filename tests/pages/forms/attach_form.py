@@ -22,7 +22,7 @@ class AttachForm(BaseElement):
 
     def get_document_input(self):
         return self.get_button_by_xpath(self.DOCUMENT_INPUT)
-    
+
     def get_song(self):
         return self.get_field_by_xpath(self.SONG)
 
@@ -31,7 +31,7 @@ class AttachForm(BaseElement):
 
     def get_photo_input(self):
         return self.get_button_by_xpath(self.PHOTO_INPUT)
-    
+
     def get_video_input(self):
         return self.get_hidden_input_by_xpath(self.VIDEO_INPUT)
 

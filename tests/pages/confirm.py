@@ -2,7 +2,6 @@ from base_page import BasePage
 from forms.confirm_form import ConfirmForm
 
 
-
 class ConfirmPage(BasePage):
 
     def confirm(self):
