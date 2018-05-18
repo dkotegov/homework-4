@@ -31,8 +31,8 @@ class MessagePage(Page):
         self.message_dialog.get_message_send_button().click()
 
     def delete_message(self):
-        hover = ActionChains(self.driver).move_to_element(self.message_dialog.hover_element())
-        hover.perform()
+        el = self.message_dialog.hover_element()
+        self.get_hover(el)
         self.message_dialog.get_delete_message_button().click()
         self.message_dialog.get_confirm_delete_message_button().click()
 

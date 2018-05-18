@@ -26,7 +26,7 @@ class MessageDialog(BaseComponent):
 
     def get_message(self):
         try:
-            el = self.get_visibility_element(self.MESSAGE)
+            el = self.get_element_by_path(self.MESSAGE)
         except TimeoutException:
             return False
         return el
