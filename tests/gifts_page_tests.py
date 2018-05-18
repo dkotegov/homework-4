@@ -138,9 +138,17 @@ class GiftsPageTests(unittest.TestCase):
     #     self.assertTrue(self.gift_dialog_page.comment_with_user_exists(), "test_send_photo_from_computer failed")
     #     self.delete_comment()
 
-    def test_send_text_comment(self):
+    # def test_send_text_comment(self):
+    #     self.open_self_gifts()
+    #     self.self_gift.open_gift_dialog()
+    #     self.create_text_comment("Hello!")
+    #     self.assertTrue(self.gift_dialog_page.comment_with_text_exists(), "test_send_text_comment failed")
+    #     self.delete_comment()
+
+    def test_delete_comment(self):
         self.open_self_gifts()
         self.self_gift.open_gift_dialog()
-        self.create_text_comment("Hello!")
-        self.assertTrue(self.gift_dialog_page.comment_with_text_exists(), "test_send_text_comment failed")
+        self.create_text_comment("Test delete comment!")
+        # self.gift_dialog_page.delete_comment()
         self.delete_comment()
+        self.assertFalse(self.gift_dialog_page.comment_with_delete_text_exists(), "test_delete_comment failed")
