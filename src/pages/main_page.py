@@ -16,6 +16,12 @@ class MainPage(BasePage):
         self.main_element.get_gifts_button().click()
         return GiftPage(self.driver)
 
+    def open_friends(self):
+        self.main_element.get_friends_button().click()
+        return FriendsPage(self.driver)
+
     def open(self):
         self._auth_page.open_and_sign_in()
         self.driver.get(self._url)
+
+from src.pages.friends_page import FriendsPage

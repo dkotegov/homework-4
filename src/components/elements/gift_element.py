@@ -66,6 +66,9 @@ class GiftElement(BaseElement):
 
     XPATH_ADDED_MUSIC_ELEMENT = '//div[@class="ellip lp-t curDefault"]'
 
+    XPATH_I_FRAME_SUBMIT_GIFT = '//iframe[@class="modal-new_payment-frame"]'
+    XPATH_BUTTON_SUBMIT_GIFT = '//button[@class="button-pro form-actions__yes"]'
+
     def is_marked(self):
         return self.existence_of_element_by_xpath(self.GIFTS_MARKED_ITEM_NAV_BAR)
 
@@ -155,3 +158,9 @@ class GiftElement(BaseElement):
 
     def is_exists_added_music(self):
         return self.existence_of_element_by_xpath(self.XPATH_ADDED_MUSIC_ELEMENT)
+
+    def submit_send_gift(self):
+        self.driver.switch_to_frame(self.get_field_by_xpath(self.XPATH_I_FRAME_SUBMIT_GIFT))
+        btn = self.get_button_by_xpath(self.XPATH_BUTTON_SUBMIT_GIFT)
+        btn.click()
+        self.driver.switch_to_default_content()

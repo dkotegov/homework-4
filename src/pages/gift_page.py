@@ -10,7 +10,6 @@ from src.pages.auth_page import AuthPage
 from src.pages.authors_gift_page import AuthorsGiftPage
 from src.pages.create_gift_page import CreateGiftPage
 from src.pages.feed_page import FeedPage
-from src.pages.friends_page import FriendsPage
 from src.pages.games_page import GamesPage
 from src.pages.groups_page import GroupsPage
 from src.pages.inventories_page import InventoriesPage
@@ -185,5 +184,15 @@ class GiftPage(BaseElement):
         music_editor = self.open_add_music_editor()
         return music_editor.select_sound()
 
+    def send_gift_with_selected_profile(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        self._gift_element.submit_send_gift()
+        return GiftPage(self.driver)
+
+
+from src.pages.friends_page import FriendsPage
 from src.pages.music_editor import MusicEditor
 

@@ -26,3 +26,14 @@ class MainPageTests(unittest.TestCase):
         gifts_page = self.main_page.open_gifts()
         ok = gifts_page.is_loaded()
         self.assertTrue(ok)
+
+    def test_open_friend_and_make_gift(self):
+        friends_page = self.main_page.open_friends()
+        friend_profile = friends_page.open_friend_profile()
+        gift_page = friend_profile.make_gift()
+        ok = gift_page.is_loaded()
+        self.assertTrue(ok)
+
+        gift_page = gift_page.send_gift_with_selected_profile()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
