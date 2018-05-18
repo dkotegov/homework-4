@@ -181,5 +181,9 @@ class GiftPage(BaseElement):
     def is_added_music(self):
         return self._gift_element.is_exists_added_music()
 
+    def add_music(self):
+        music_editor = self.open_add_music_editor()
+        return music_editor.select_sound()
+
 from src.pages.music_editor import MusicEditor
 

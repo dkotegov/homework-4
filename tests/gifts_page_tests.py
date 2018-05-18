@@ -214,10 +214,22 @@ class GiftsPageTests(unittest.TestCase):
     #     self.assertTrue(ok)
     #
     #     ok = own_gifts_page.is_loaded_own_gifts()
-    #     self.assertTrue(ok)cla
+    #     self.assertTrue(ok)
 
-    def test_add_music(self):
-        music_editor = self.gift_page.open_add_music_editor()
-        gift_page = music_editor.select_sound()
-        ok = gift_page.is_added_music()
+    # def test_add_music(self):
+    #     music_editor = self.gift_page.open_add_music_editor()
+    #     gift_page = music_editor.select_sound()
+    #     ok = gift_page.is_added_music()
+    #     self.assertTrue(ok)
+
+    # def test_send_usual_gift_with_music(self):
+    #     self.gift_page.add_music()
+    #     gift_page = self.gift_page.send_gift_usual()
+    #     ok = gift_page.is_gift_sent()
+    #     self.assertTrue(ok)
+
+    def test_send_private_gift_with_music(self):
+        self.gift_page.add_music()
+        gift_page = self.gift_page.send_gift_private()
+        ok = gift_page.is_gift_sent()
         self.assertTrue(ok)
