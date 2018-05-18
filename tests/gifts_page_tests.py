@@ -28,63 +28,63 @@ class GiftsPageTests(unittest.TestCase):
 
     #pitikdmitry
 
-    # def test_open_authors_gifts(self):
-    #     authors_gift_page = self.gift_page.open_authors_gifts()
-    #     ok = authors_gift_page.is_loaded()
-    #     self.assertTrue(ok)
+    def test_open_authors_gifts(self):
+        authors_gift_page = self.gift_page.open_authors_gifts()
+        ok = authors_gift_page.is_loaded()
+        self.assertTrue(ok)
 
-    # def test_open_actual_gifts(self):
-    #     # opening actual gifts page
-    #     # actual_gift_page = self.gift_page.open_actual_gifts()
-    #     # ok = actual_gift_page.is_loaded()
-    #
-    #     # opening authors gifts page
-    #     # authors_gift_page = self.gift_page.open_authors_gifts()
-    #
-    #     #trying to open actual gifts page second time
-    #     actual_gift_page = self.gift_page.open_actual_gifts()
-    #     ok = actual_gift_page.is_loaded()
-    #     self.assertTrue(ok)
-    #
-    # def test_open_postcards(self):
-    #     postcards_page = self.gift_page.open_postcards()
-    #     ok = postcards_page.is_loaded()
-    #     self.assertTrue(ok)
-    #
-    # def test_open_vip_gifts(self):
-    #     vip_gift_page = self.gift_page.open_vip_gifts()
-    #     ok = vip_gift_page.is_loaded()
-    #     self.assertTrue(ok)
-    #
-    # def test_create_gift(self):
-    #     create_gift_page = self.gift_page.open_create_gift()
-    #     ok = create_gift_page.is_loaded()
-    #     self.assertTrue(ok)
-    #
-    # def test_send_gift_secretly(self):
-    #     gift_page = self.gift_page.send_gift_secretly()
-    #     ok = gift_page.is_gift_sent()
-    #     self.assertTrue(ok)
-    #
-    # def test_send_gift_private(self):
-    #     gift_page = self.gift_page.send_gift_private()
-    #     ok = gift_page.is_gift_sent()
-    #     self.assertTrue(ok)
-    #
-    # def test_send_gift_usual(self):
-    #     gift_page = self.gift_page.send_gift_usual()
-    #     ok = gift_page.is_gift_sent()
-    #     self.assertTrue(ok)
-    #
-    # def test_search_gift(self):
-    #     search_gift_page = self.gift_page.search_gift()
-    #     ok = search_gift_page.is_search_done()
-    #     self.assertTrue(ok)
-    #
-    # def test_send_gift_by_receivers_name(self):
-    #     gift_page = self.gift_page.send_gift_by_receivers_name()
-    #     ok = gift_page.is_gift_sent()
-    #     self.assertTrue(ok)
+    def test_open_actual_gifts(self):
+        # opening actual gifts page
+        # actual_gift_page = self.gift_page.open_actual_gifts()
+        # ok = actual_gift_page.is_loaded()
+
+        # opening authors gifts page
+        # authors_gift_page = self.gift_page.open_authors_gifts()
+
+        #trying to open actual gifts page second time
+        actual_gift_page = self.gift_page.open_actual_gifts()
+        ok = actual_gift_page.is_loaded()
+        self.assertTrue(ok)
+
+    def test_open_postcards(self):
+        postcards_page = self.gift_page.open_postcards()
+        ok = postcards_page.is_loaded()
+        self.assertTrue(ok)
+
+    def test_open_vip_gifts(self):
+        vip_gift_page = self.gift_page.open_vip_gifts()
+        ok = vip_gift_page.is_loaded()
+        self.assertTrue(ok)
+
+    def test_create_gift(self):
+        create_gift_page = self.gift_page.open_create_gift()
+        ok = create_gift_page.is_loaded()
+        self.assertTrue(ok)
+
+    def test_send_gift_secretly(self):
+        gift_page = self.gift_page.send_gift_secretly()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    def test_send_gift_private(self):
+        gift_page = self.gift_page.send_gift_private()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    def test_send_gift_usual(self):
+        gift_page = self.gift_page.send_gift_usual()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    def test_search_gift(self):
+        search_gift_page = self.gift_page.search_gift()
+        ok = search_gift_page.is_search_done()
+        self.assertTrue(ok)
+
+    def test_send_gift_by_receivers_name(self):
+        gift_page = self.gift_page.send_gift_by_receivers_name()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
 
 
     #grigorevpv
@@ -98,60 +98,60 @@ class GiftsPageTests(unittest.TestCase):
     def delete_comment(self):
         self.gift_dialog_page.delete_comment()
 
-    # def test_set_like_gift(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.like_gift()
-    #     self.assertTrue(self.gift_page.like_gift_exists(), "test_send_sticker failed")
+    def test_set_like_gift(self):
+        self.open_self_gifts()
+        self.self_gift.like_gift()
+        self.assertTrue(self.gift_page.like_gift_exists(), "test_send_sticker failed")
 
-    # def test_send_sticker(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.open_gift_dialog()
-    #     self.gift_dialog_page.send_sticker()
-    #     self.assertTrue(self.gift_dialog_page.comment_with_sticker_exists(), "test_send_sticker failed")
-    #     self.delete_comment()
+    def test_send_sticker(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.gift_dialog_page.send_sticker()
+        self.assertTrue(self.gift_dialog_page.comment_with_sticker_exists(), "test_send_sticker failed")
+        self.delete_comment()
 
-    # def test_send_photo(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.open_gift_dialog()
-    #     self.gift_dialog_page.send_photo()
-    #     self.assertTrue(self.gift_dialog_page.comment_with_photo_exists(), "test_send_photo failed")
-    #     self.delete_comment()
+    def test_send_photo(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.gift_dialog_page.send_photo()
+        self.assertTrue(self.gift_dialog_page.comment_with_photo_exists(), "test_send_photo failed")
+        self.delete_comment()
 
-    # def test_send_video(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.open_gift_dialog()
-    #     self.gift_dialog_page.send_video()
-    #     self.assertTrue(self.gift_dialog_page.comment_with_video_exists(), "test_send_video failed")
-    #     self.delete_comment()
+    def test_send_video(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.gift_dialog_page.send_video()
+        self.assertTrue(self.gift_dialog_page.comment_with_video_exists(), "test_send_video failed")
+        self.delete_comment()
 
-    # def test_send_photo_from_computer(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.open_gift_dialog()
-    #     self.gift_dialog_page.send_photo_from_computer()
-    #     self.assertTrue(self.gift_dialog_page.comment_with_photo_from_computer_exists(), "test_send_photo_from_computer failed")
-    #     self.delete_comment()
+    def test_send_photo_from_computer(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.gift_dialog_page.send_photo_from_computer()
+        self.assertTrue(self.gift_dialog_page.comment_with_photo_from_computer_exists(), "test_send_photo_from_computer failed")
+        self.delete_comment()
 
-    # def test_set_friend(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.open_gift_dialog()
-    #     self.gift_dialog_page.send_friend()
-    #     self.assertTrue(self.gift_dialog_page.comment_with_user_exists(), "test_send_photo_from_computer failed")
-    #     self.delete_comment()
+    def test_set_friend(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.gift_dialog_page.send_friend()
+        self.assertTrue(self.gift_dialog_page.comment_with_user_exists(), "test_send_photo_from_computer failed")
+        self.delete_comment()
 
-    # def test_send_text_comment(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.open_gift_dialog()
-    #     self.create_text_comment("Hello!")
-    #     self.assertTrue(self.gift_dialog_page.comment_with_text_exists(), "test_send_text_comment failed")
-    #     self.delete_comment()
+    def test_send_text_comment(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.create_text_comment("Hello!")
+        self.assertTrue(self.gift_dialog_page.comment_with_text_exists(), "test_send_text_comment failed")
+        self.delete_comment()
 
-    # def test_delete_comment(self):
-    #     self.open_self_gifts()
-    #     self.self_gift.open_gift_dialog()
-    #     self.create_text_comment("Test delete comment!")
-    #     # self.gift_dialog_page.delete_comment()
-    #     self.delete_comment()
-    #     self.assertFalse(self.gift_dialog_page.comment_with_delete_text_exists(), "test_delete_comment failed")
+    def test_delete_comment(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.create_text_comment("Test delete comment!")
+        # self.gift_dialog_page.delete_comment()
+        self.delete_comment()
+        self.assertFalse(self.gift_dialog_page.comment_with_delete_text_exists(), "test_delete_comment failed")
 
     def test_change_text_comment(self):
         self.open_self_gifts()
@@ -159,4 +159,12 @@ class GiftsPageTests(unittest.TestCase):
         self.create_text_comment("Test comment!")
         self.gift_dialog_page.change_text_comment("Changed text!")
         self.assertTrue(self.gift_dialog_page.comment_with_change_text_exists(), "test_change_text_comment failed")
+        self.delete_comment()
+
+    def test_like_comment(self):
+        self.open_self_gifts()
+        self.self_gift.open_gift_dialog()
+        self.create_text_comment("Like comment!")
+        self.gift_dialog_page.like_comment()
+        self.assertTrue(self.gift_dialog_page.like_comment_exists(), "test_like_comment failed")
         self.delete_comment()
