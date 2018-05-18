@@ -1,9 +1,18 @@
 from components.main_vertical_list import MainVerticalList
 from components.page import Page
+from components.notification_component import NotificationComponent
 
 
 class MainPage(Page):
 
-    def open_friends_list(self):
-        main_vertical_list = MainVerticalList(self.driver)
-        main_vertical_list.get_friends().click()
+	def __init__(self, driver):
+		super(MainPage, self).__init__(driver)	
+
+	def open_friends_list(self):
+		main_vertical_list = MainVerticalList(self.driver)
+		main_vertical_list.get_friends().click()
+
+	def accept_notification(self):
+		notification = NotificationComponent(self.driver)
+		notification.notification().click()
+		notification.accept_reletionship().click()

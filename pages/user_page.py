@@ -43,4 +43,14 @@ class UserPage(Page):
         self.user_component.button_menu_friends().click()
         self.user_component.button_del_friend().click()
 
+    def reletionship_visibility(self):
+        try:
+            self.user_component.relationship()
+            return True
+        except TimeoutException:
+            return False 
+
+    def sent_request_add_to_groups():
+        self.user_component.extend_item().click()
+        self.user_component.send_groups().click()
 

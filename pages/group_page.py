@@ -22,3 +22,10 @@ class GroupPage(Page):
     def group_delete(self):
         self.group_form.group_menu().click()
         self.group_form.group_delete().click()
+
+    def is_my_group(self):
+    	try:
+    		self.group_form.group_menu()
+    		return True
+    	except TimeoutException:
+    		return False

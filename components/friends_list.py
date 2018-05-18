@@ -3,10 +3,15 @@ from components.base_component import BaseComponent
 
 class FriendsList(BaseComponent):
     MESSAGE_DIALOG = "//i[@class='tico_img ic ic_message']"
-    PATH_FOR_NAME_FRIEND = "//div[@class='ellip']/a[@hrev="
+    SUBSCRIBERS_LIST = "//a[@class='nav-side_i  __ac' and @href='"
+    SUBSCRIPTIONS_LIST = "//a[@class='nav-side_i' and @href='"
+
 
     def get_message_dialog_button(self):
         return self.get_clickable_element(self.MESSAGE_DIALOG)
 
-    def find_friend_with_url(self, url):
-        return self.driver.find_element_by_xpath(self.PATH_FOR_NAME_FRIEND + "'" + url + "']")
+    def subscribers_list(self, url):
+    	return self.get_clickable_element(self.SUBSCRIBERS_LIST + url + "'/subscribers]")
+
+    def subscriptions_list(self, url):
+    	return self.get_clickable_element(self.SUBSCRIPTIONS_LIST + url + "/subscriptions']")

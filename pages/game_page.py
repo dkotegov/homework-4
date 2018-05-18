@@ -19,3 +19,12 @@ class GamePage(Page):
     def game_delete(self):
         self.game_form.game_delete().click()
         self.game_form.game_delete_repead().click()
+
+    def game_invite_check(self, name):
+        self.game_form.game_invite().click()
+        try:
+        	self.game_form.game_invite_name_friend(name)
+        	return True
+        except TimeoutException:
+        	return False
+        
