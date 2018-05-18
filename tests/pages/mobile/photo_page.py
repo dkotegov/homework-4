@@ -1,4 +1,4 @@
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -33,6 +33,7 @@ class Photo(Component):
     LIKE = "//div[contains(@class, 'np_photoBox')]//a[@data-func='performLike']"
     CANCEL_LIKE = "//div[contains(@class, 'np_photoBox')]//a[@data-func='unReact']"
     LIKES_COUNT = 'ecnt'
+    TOUCH_OVERLAY = 'touch-overlay'
 
     @property
     def description(self):
@@ -65,6 +66,12 @@ class Photo(Component):
         WebDriverWait(self.driver, 4).until(
             EC.element_to_be_clickable((By.XPATH, self.LIKE))
         )
+
+    def touch_overlay(self):
+        try:
+            self.driver.find_element_by_class_name(self.TOUCH_OVERLAY).click()
+        except NoSuchElementException:
+            pass
 
 
 class Toolbar(Component):

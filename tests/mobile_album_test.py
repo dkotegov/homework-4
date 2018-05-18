@@ -147,7 +147,7 @@ class AlbumTest(unittest.TestCase):
 
         photo = PhotoPage(self.driver).photo
         photo.like()
-        self.driver.refresh()
+        photo.touch_overlay()
 
         # Отмена лайка
         photo.cancel_like()
