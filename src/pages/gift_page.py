@@ -120,3 +120,10 @@ class GiftPage(BaseElement):
     def open(self):
         self._auth_page.open_and_sign_in()
         self.driver.get(self._url)
+
+    def open_self_gifts(self):
+        self._gift_element.get_self_gifts_button().click()
+        return
+
+    def like_gift_exists(self):
+        return self._gift_element.get_like_gift()

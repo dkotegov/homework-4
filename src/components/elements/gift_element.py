@@ -32,6 +32,10 @@ class GiftElement(BaseElement):
 
     EDIT_TEXT_FIND_RECEIVER = '//input[@class="it search-input_it search-input_it h-mod"][@id="field_search_query"]'
 
+    SELF_GIFTS_BUTTON = '//a[@href="/gifts/my"]'
+
+    LIKE = '//span[@class="widget_cnt controls-list_lk h-mod"]'
+
     def is_marked(self):
         return self.existence_of_element_by_xpath(self.GIFTS_MARKED_ITEM_NAV_BAR)
 
@@ -79,3 +83,9 @@ class GiftElement(BaseElement):
 
     def get_send_gift_secretly_button(self):
         return self.get_button_by_xpath(self.CREATE_GIFT_BUTTON)
+
+    def get_self_gifts_button(self):
+        return self.get_button_by_xpath(self.SELF_GIFTS_BUTTON)
+
+    def get_like_gift(self):
+        return self.existence_of_element_by_xpath(self.LIKE)
