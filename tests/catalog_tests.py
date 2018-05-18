@@ -8,7 +8,6 @@ from tests.common import getDriver, Auth, Main, Shop
 
 class CatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
-    OTHER_CATALOG_NAME = u'Другой Каталог'
     CATALOG_IMAGE = 'catalog-icon.png'
     CHARS_IN_SUBSTRING = 83
 
@@ -174,7 +173,7 @@ class CatalogTests(unittest.TestCase):
         widget_image_src = catalog_widget.get_image_src()
         self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], widget_image_src[:self.CHARS_IN_SUBSTRING])
 
-    def test_edit_catalog(self):
+    def test_edit_catalog_name(self):
         # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
@@ -183,10 +182,8 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.save()
         catalog_popup.waiting_until_close()
 
-        # checks
+        # check name before
         catalog_widget = shop_market_page.catalog_widget
-        self.check_catalog_widget(catalog_widget)
-
         catalog_widget.open_catalog()
         catalog_page = CatalogPage(self.driver)
         catalog_panel = catalog_page.catalog_panel
@@ -194,18 +191,46 @@ class CatalogTests(unittest.TestCase):
         catalog_name_before_edit = catalog_panel.get_catalog_name()
         self.assertEquals(self.CATALOG_NAME, catalog_name_before_edit)
 
+        # editing catalog name
+        other_catalog_name = u'Другой каталог'
+
+        catalog_panel.edit_catalog()
+        catalog_popup.set_catalog_name(other_catalog_name)
+        catalog_popup.save()
+        catalog_popup.waiting_until_close()
+
+        # check name after
+        catalog_name_after_edit = catalog_panel.get_catalog_name()
+        self.assertEquals(other_catalog_name, catalog_name_after_edit)
+
+    def test_edit_catalog_upload_image_after_creating_catalog(self):
+        # creating catalog
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup()
+        catalog_popup.set_catalog_name()
+        catalog_popup.save()
+        catalog_popup.waiting_until_close()
+
+        # check image stub
+        catalog_widget = shop_market_page.catalog_widget
+        is_exist_image_stub = catalog_widget.is_exist_image_stub()
+        self.assertTrue(is_exist_image_stub)
+
+        catalog_widget.open_catalog()
+        catalog_page = CatalogPage(self.driver)
+        catalog_panel = catalog_page.catalog_panel
+
+        is_exist_image_stub = catalog_panel.is_exist_image_stub()
+        self.assertTrue(is_exist_image_stub)
+
         # editing catalog
         catalog_panel.edit_catalog()
-        catalog_popup.set_catalog_name(self.OTHER_CATALOG_NAME)
         catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
         catalog_popup.waiting_until_image_upload()
         upload_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
         catalog_popup.waiting_until_close()
-
-        # checks
-        catalog_name_after_edit = catalog_panel.get_catalog_name()
-        self.assertEquals(self.OTHER_CATALOG_NAME, catalog_name_after_edit)
 
         current_image_src = catalog_panel.get_image_src()
         self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], current_image_src[:self.CHARS_IN_SUBSTRING])

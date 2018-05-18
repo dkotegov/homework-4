@@ -5,7 +5,6 @@ from Components.component import Component
 class CatalogPopup(Component):
     POPUP = '//div[@class="modal-new_center"]'
     IMAGE = '//img[@class="add-happening_poster_img" and contains(@src,"i.mycdn.me")]'
-    IMAGE_SRC = '//img[@class="add-happening_poster_img" and contains(@src,"i.mycdn.me")]/@src'
 
     CATALOG_NAME = '//input[@id="field_name"]'
     ERROR_MESSAGE = '//div[contains(@class,"form_i__error")]/span[@class="input-e"]'
@@ -29,7 +28,7 @@ class CatalogPopup(Component):
         super(CatalogPopup, self).is_exist_element(self.IMAGE)
 
     def get_image_src(self):
-        return self.driver.find_element_by_xpath(self.IMAGE).get_attribute("src")
+        return super(CatalogPopup, self).find_element(self.IMAGE).get_attribute("src")
 
     def get_error_message(self):
         return super(CatalogPopup, self).get_element_text(self.ERROR_MESSAGE)
@@ -53,6 +52,7 @@ class CatalogWidget(Component):
     CATALOG_NAME = '//a[@class="o"]'
     NUMBER_OF_PRODUCTS = '//div[contains(@class,"photo-sc_i_cnt_data_counter")]'
     CATALOG_IMAGE = '//img[@class="photo-crop_img"]'
+    CATALOG_IMAGE_STUB = '//a[@class="photo-crop_cnt"]/div[contains(@class,"stub-img")]'
 
     def is_exist_catalog_widget(self):
         return super(CatalogWidget, self).is_exist_element(self.WIDGET_PANEL)
@@ -64,16 +64,20 @@ class CatalogWidget(Component):
         return super(CatalogWidget, self).get_element_text(self.NUMBER_OF_PRODUCTS)
 
     def get_image_src(self):
-        return self.driver.find_element_by_xpath(self.CATALOG_IMAGE).get_attribute("src")
+        return super(CatalogWidget, self).find_element(self.CATALOG_IMAGE).get_attribute("src")
 
     def open_catalog(self):
         super(CatalogWidget, self).click_element(self.CATALOG_NAME)
+
+    def is_exist_image_stub(self):
+        return super(CatalogWidget, self).is_exist_element(self.CATALOG_IMAGE_STUB)
 
 
 class CatalogPanel(Component):
     CATALOG_NAME = '//div[@class="fs-14"]'
     NUMBER_OF_PRODUCTS = '//div[@class="mt-x lstp-t"]'
     CATALOG_IMAGE = '//div[contains(@class,"market-panel")]//img[@class="photo_img"]'
+    CATALOG_IMAGE_STUB = '//div[@class="photo"]/div[contains(@class,"stub-img")]'
 
     EDIT_BUTTON = '//a[contains(@hrefattrs,"SelectionManage")]'
     REMOVE_BUTTON = '//a[contains(@hrefattrs,"SelectionRemove")]'
@@ -85,13 +89,16 @@ class CatalogPanel(Component):
         return super(CatalogPanel, self).get_element_text(self.NUMBER_OF_PRODUCTS)
 
     def get_image_src(self):
-        return self.driver.find_element_by_xpath(self.CATALOG_IMAGE).get_attribute("src")
+        return super(CatalogPanel, self).find_element(self.CATALOG_IMAGE).get_attribute("src")
 
     def edit_catalog(self):
         super(CatalogPanel, self).click_element(self.EDIT_BUTTON)
 
     def remove_catalog(self):
         super(CatalogPanel, self).click_element(self.REMOVE_BUTTON)
+
+    def is_exist_image_stub(self):
+        return super(CatalogPanel, self).is_exist_element(self.CATALOG_IMAGE_STUB)
 
 
 class RemoveCatalogPopup(Component):
