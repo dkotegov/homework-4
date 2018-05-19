@@ -25,6 +25,12 @@ class GiftsPageTests(unittest.TestCase):
         self.gift_dialog_page = GiftDialogPage(self.driver)
         self.gift_page.open()
 
+        self.gift_page.open_self_gifts()
+        if not self.gift_page.check_gift_exist():
+            self.gift_page.create_new_gift()
+
+        self.gift_page.open_without_auth()
+
     def tearDown(self):
         self.driver.quit()
 

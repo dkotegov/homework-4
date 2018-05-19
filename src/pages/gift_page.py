@@ -28,6 +28,7 @@ class GiftPage(BaseElement):
         self._auth_page = AuthPage(driver)
         self._gift_sent_element = GiftSentElement(driver)
         self._search_gift_element = SearchGiftElement(driver)
+        self._driver = driver
 
     def is_loaded(self):
         return self._gift_element.is_marked()
@@ -137,6 +138,9 @@ class GiftPage(BaseElement):
         self._auth_page.open_and_sign_in()
         self.driver.get(self._url)
 
+    def open_without_auth(self):
+        self.driver.get(self._url)
+
     def open_feed_page_by_logo(self):
         self._gift_element.get_logo().click()
         return FeedPage(self.driver)
@@ -192,6 +196,19 @@ class GiftPage(BaseElement):
         self._gift_element.submit_send_gift()
         return GiftPage(self.driver)
 
+    def check_gift_exist(self):
+        return self._gift_element.exist_receive_gifts()
+
+    def create_new_gift(self):
+        self._gift_element.get_create_custom_gift_button().click()
+        self._gift_element.switch_to_text_gift_frame()
+        self._gift_element.get_create_text_gift_button().click()
+        input = self._gift_element.get_create_text_gift_input()
+        input.send_keys("Test gift")
+        self._gift_element.get_save_custom_gift_button().click()
+        self._gift_element.get_present_custom_gift_button().click()
+        self._driver.switch_to_default_content()
+        self._gift_element.get_select_myself_button().click()
 
 from src.pages.friends_page import FriendsPage
 from src.pages.music_editor import MusicEditor
