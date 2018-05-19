@@ -12,8 +12,10 @@ class GamesVitrine(Page):
 
     def invite_friend_to_the_game(self):
         el_game = self.games_list.get_game()
+        print (el_game)
+        # self.main_up_toolbar.get_split_for_app_id(el_game.get_attribute('hrefattrs'))
         self.get_hover(el_game)
-        self.main_up_toolbar.get_split_for_app_id()
+
         self.games_list.get_invite_friends_button().click()
 
         el_user = self.games_list.get_user_avatar()

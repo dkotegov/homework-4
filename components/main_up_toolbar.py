@@ -1,6 +1,7 @@
 from selenium.common.exceptions import TimeoutException
 
 from components.base_component import BaseComponent
+from constants import game
 
 
 class MainUpToolbar(BaseComponent):
@@ -22,7 +23,13 @@ class MainUpToolbar(BaseComponent):
             return False
         return el
 
-    def get_split_for_app_id(self, str):
-        first_split = str.split("&st.")[2]
-        print(first_split)
+    def get_element_by_id(self):
+        try:
+            return self.get_element_by_path(game.APP_ID)
+        except TimeoutException:
+            return False
+
+    # def get_split_for_app_id(self, str):
+    #     first_split = str.split("&st.")[2]
+    #     print(first_split)
 

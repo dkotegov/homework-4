@@ -18,13 +18,14 @@ class MainPage(Page):
 
     def open_notification(self):
         self.main_up_toolbar.get_notification().click()
-        self.main_up_toolbar.get_notification_games().click()
+        # self.main_up_toolbar.get_notification_games().click()
 
     def check_notification(self):
         image_element = self.main_up_toolbar.get_image_element()
         if image_element is False:
             return False
-        return image_element
+        if image_element == self.main_up_toolbar.get_element_by_id():
+            return image_element
 
 
 

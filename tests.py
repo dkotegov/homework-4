@@ -32,81 +32,81 @@ class Tests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    # def test_add_profile_to_and_delete_from_black_list(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
-    #
-    #     main_page = MainPage(self.driver)
-    #     main_page.open_friends_list()
-    #
-    #     friends_page = FriendsPage(self.driver)
-    #     friends_page.open_message_dialog()
-    #
-    #     message_page = MessagePage(self.driver)
-    #     message_page.open_info_bar()
-    #     message_page.add_to_black_list()
-    #     message_page.accept_to_adding_to_black_list()
-    #
-    #     auth_page.logout()
-    #
-    #     auth_page.add_profile()
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
-    #
-    #     main_page.open_friends_list()
-    #     friends_page.open_message_dialog()
-    #     message_page.send_message()
-    #
-    #     auth_page.logout()
-    #
-    #     auth_page.add_profile()
-    #     auth_page.clear_inputs()
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
-    #
-    #     main_page.open_friends_list()
-    #     friends_page.open_message_dialog()
-    #
-    #     self.assertFalse(message_page.check_message(), False)
-    #
-    #     # delete
-    #     black_list = BlackListPage(self.driver)
-    #     black_list.open()
-    #     black_list.delete_from()
-    #
-    #     auth_page.logout()
-    #
-    #     auth_page.add_profile()
-    #     auth_page.clear_inputs()
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
-    #
-    #     main_page.open_friends_list()
-    #     friends_page.open_message_dialog()
-    #     message_page.delete_message()
-    #     message_page.send_message()
-    #
-    #     auth_page.logout()
-    #
-    #     auth_page.add_profile()
-    #     auth_page.clear_inputs()
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
-    #
-    #     main_page.open_friends_list()
-    #     friends_page.open_message_dialog()
-    #
-    #     self.assertEqual(message_page.check_message(), dialog.TEST_MESSAGE)
-    #
-    #     message_page.delete_message()
-    #
-    #     auth_page.logout()
-    #
-    #     auth_page.add_profile()
-    #     auth_page.clear_inputs()
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
-    #
-    #     main_page.open_friends_list()
-    #     friends_page.open_message_dialog()
-    #     message_page.delete_message()
+    def test_add_profile_to_and_delete_from_black_list(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+
+        main_page = MainPage(self.driver)
+        main_page.open_friends_list()
+
+        friends_page = FriendsPage(self.driver)
+        friends_page.open_message_dialog()
+
+        message_page = MessagePage(self.driver)
+        message_page.open_info_bar()
+        message_page.add_to_black_list()
+        message_page.accept_to_adding_to_black_list()
+
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+        message_page.send_message()
+
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.clear_inputs()
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+
+        self.assertFalse(message_page.check_message(), False)
+
+        # delete
+        black_list = BlackListPage(self.driver)
+        black_list.open()
+        black_list.delete_from()
+
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.clear_inputs()
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+        message_page.delete_message()
+        message_page.send_message()
+
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.clear_inputs()
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+
+        self.assertEqual(message_page.check_message(), dialog.TEST_MESSAGE)
+
+        message_page.delete_message()
+
+        auth_page.logout()
+
+        auth_page.add_profile()
+        auth_page.clear_inputs()
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+
+        main_page.open_friends_list()
+        friends_page.open_message_dialog()
+        message_page.delete_message()
 
     def test_hide_and_show_games_in_feed(self):
         auth_page = AuthPage(self.driver)
@@ -126,15 +126,11 @@ class Tests(unittest.TestCase):
         auth_page.clear_inputs()
         auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
 
-        print('b')
-
         main_page.open_notification()
         notification_game = main_page.check_notification()
 
-        if notification_game is not False:
-            notification_for_split = notification_game.get_attribute('hrefattrs')
-            main_up_toolbar = MainUpToolbar(self.driver)
-            main_up_toolbar.get_split_for_app_id(notification_for_split)
+        self.assertTrue(notification_game, not False) #Did sender's and receiver's notifications are coincide?
+
         # game_page = GamePage(self.driver)
         # game_page.block_notifications()
 
