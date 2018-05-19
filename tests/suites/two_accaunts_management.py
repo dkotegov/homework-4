@@ -12,6 +12,7 @@ from tests.pages.confirm import ConfirmPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+
 class TwoAccauntsManagement(unittest.TestCase):
 
     def setUp(self):
@@ -25,11 +26,10 @@ class TwoAccauntsManagement(unittest.TestCase):
 
         self.MESSAGE_TEXT = "testNumber1"
         self.LONG_MESSAGE_TEXT = "test" * 100
-        self.RED_POWER = u"☭☭☭☭☭☭" #special unicode
+        self.RED_POWER = u"☭☭☭☭☭☭"  # special unicode
         self.RUSSIAN_ARMENIAN_MESSAGE = u"привет աշխարհ"
         self.NOT_VALID_MESSAGE = "?" * 4100
         self.EMPTY_MESSAGE = ""
-        
 
         self.BOT_1_LOGIN = "technopark3"
         self.BOT_2_LOGIN = "technopark2"
@@ -59,7 +59,7 @@ class TwoAccauntsManagement(unittest.TestCase):
         self.driver.get(self.CURRENT_DIALOG_URL)
         self.delete_dialog()
         self.driver.quit()
-    
+
     def create_dialog(self):
         self.message_page.create_dialog()
         self.message_page.choose_companion()
@@ -71,7 +71,7 @@ class TwoAccauntsManagement(unittest.TestCase):
         dilog_menu_page.delete_dialog()
         confirm_page = ConfirmPage(self.driver)
         confirm_page.confirm()
-    
+
     def test_send_message_to_blocked_user(self):
         self.dialog_page.send_message(self.MESSAGE_TEXT)
 
@@ -89,7 +89,7 @@ class TwoAccauntsManagement(unittest.TestCase):
             self.main_page.get_new_message_text(),
             self.RED_POWER)
         self.NEED_TO_CHANGE_ACC = True
-    
+
     def test_send_rus_arm_message_to_blocked_user(self):
         self.dialog_page.send_message(self.RUSSIAN_ARMENIAN_MESSAGE)
 
@@ -125,7 +125,6 @@ class TwoAccauntsManagement(unittest.TestCase):
             self.main_page.get_new_message_text(),
             self.EMPTY_MESSAGE)
         self.NEED_TO_CHANGE_ACC = True
-
 
     def test_send_message_to_unblocked_user(self):
         self.dialog_page.unblock_user()
@@ -198,7 +197,7 @@ class TwoAccauntsManagement(unittest.TestCase):
         self.driver.get(self.URL_OF_DIALOG_WITH_ME)
         self.dialog_page.send_message(self.MESSAGE_TEXT)
         self.CURRENT_DIALOG_URL = self.driver.current_url
-        
+
         self.auth_page.chage_account(self.BOT_1_LOGIN, self.PASSWORD)
         self.assertFalse(
             self.main_page.get_existance_of_new_message(),
@@ -218,4 +217,3 @@ class TwoAccauntsManagement(unittest.TestCase):
             "test_get_message_from_blocked_user failed")
         self.BOT_1_LOGIN = self.BOT_2_LOGIN
         self.NEED_TO_CHANGE_ACC = True
-        

@@ -11,6 +11,7 @@ from tests.pages.confirm import ConfirmPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+
 class TestsSendDocuments(unittest.TestCase):
 
     def setUp(self):
@@ -54,25 +55,28 @@ class TestsSendDocuments(unittest.TestCase):
         confirm_page.confirm()
 
     def test_send_document_txt(self):
-        self.dialog_page.send_document( os.getcwd() + "/tests/static/awd.txt")
+        self.dialog_page.send_document(os.getcwd() + "/tests/static/awd.txt")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_document_txt failed")
 
     def test_send_document_video(self):
-        self.dialog_page.send_document( os.getcwd() + "/tests/static/sabaton_low.mp4")
+        self.dialog_page.send_document(
+            os.getcwd() + "/tests/static/sabaton_low.mp4")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_document_video failed")
 
     def test_send_document_photo(self):
-        self.dialog_page.send_document( os.getcwd() + "/tests/static/sabaton_low.jpeg")
+        self.dialog_page.send_document(
+            os.getcwd() + "/tests/static/sabaton_low.jpeg")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_document_photo failed")
 
     def test_send_document_pages(self):
-        self.dialog_page.send_document( os.getcwd() + "/tests/static/sabaton.pages")
+        self.dialog_page.send_document(
+            os.getcwd() + "/tests/static/sabaton.pages")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_document_pages failed")
@@ -82,7 +86,7 @@ class TestsSendDocuments(unittest.TestCase):
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_photo failed")
-    
+
     def test_send_photo_wrong_format(self):
         self.dialog_page.send_photo(os.getcwd() + "/tests/static/awd.txt")
         self.assertTrue(
@@ -90,43 +94,50 @@ class TestsSendDocuments(unittest.TestCase):
             "test_send_photo_wrong_format failed")
 
     def test_send_photo_high_res(self):
-        self.dialog_page.send_photo(os.getcwd() + "/tests/static/sabaton_high.jpg")
+        self.dialog_page.send_photo(
+            os.getcwd() + "/tests/static/sabaton_high.jpg")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_photo_high_res failed")
-    
+
     def test_send_photo_low_res(self):
-        self.dialog_page.send_photo(os.getcwd() + "/tests/static/sabaton_low.jpeg")
+        self.dialog_page.send_photo(
+            os.getcwd() + "/tests/static/sabaton_low.jpeg")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_photo_low_res failed")
 
     def test_send_photo_png_format(self):
-        self.dialog_page.send_photo(os.getcwd() + "/tests/static/sabaton_png.png")
+        self.dialog_page.send_photo(
+            os.getcwd() + "/tests/static/sabaton_png.png")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_photo_png_format failed")
 
     def test_send_video_low_res(self):
-        self.dialog_page.send_video(os.getcwd() + "/tests/static/sabaton_low.mp4")
+        self.dialog_page.send_video(
+            os.getcwd() + "/tests/static/sabaton_low.mp4")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_video_low_res failed")
 
     def test_send_video_high_res(self):
-        self.dialog_page.send_video(os.getcwd() + "/tests/static/sabaton_high.mp4")
+        self.dialog_page.send_video(
+            os.getcwd() + "/tests/static/sabaton_high.mp4")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_video_high_res failed")
 
     def test_send_video_no_sound(self):
-        self.dialog_page.send_video(os.getcwd() + "/tests/static/sabaton_no_sound.mp4")
+        self.dialog_page.send_video(
+            os.getcwd() + "/tests/static/sabaton_no_sound.mp4")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_video_no_sound failed")
 
     def test_send_video_webm_fromat(self):
-        self.dialog_page.send_video(os.getcwd() + "/tests/static/sabaton_webm.webm")
+        self.dialog_page.send_video(
+            os.getcwd() + "/tests/static/sabaton_webm.webm")
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_video_webm_fromat failed")
@@ -136,6 +147,3 @@ class TestsSendDocuments(unittest.TestCase):
         self.assertTrue(
             self.dialog_page.get_wrong_photo_format(),
             "test_send_video_webm_fromat failed")
-    
-    
-    

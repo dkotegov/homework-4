@@ -12,6 +12,7 @@ from pages.confirm import ConfirmPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+
 class Tests(unittest.TestCase):
 
     def setUp(self):
@@ -104,29 +105,13 @@ class Tests(unittest.TestCase):
             self.dialog_page.no_messages_text_exists(),
             "test_create_and_delete_dialog failed")
 
-
     def test_send_music(self):
         self.dialog_page.send_music()
         self.assertTrue(
             self.dialog_page.sent_message_exists(),
             "test_send_music failed")
 
-
-    def test_find_dialog(self):
-        self.dialog_page.find_dialog()
-        self.assertTrue(
-            self.message_page.get_existance_of_search_result(),
-            "test_find_dialog failed")
-
-
     # 112Nick
-
-    def test_find_message(self):
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-        self.dialog_page.find_message(self.MESSAGE_TEXT)
-        self.assertEquals(
-            self.MESSAGE_TEXT,
-            self.message_page.get_found_message_text())
 
     def test_add_user_to_group_chat(self):
         self.dialog_page.add_user_to_chat()

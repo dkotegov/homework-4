@@ -56,7 +56,7 @@ class DialogPage(BasePage):
         if(self.attach_form.get_loader()):
             self.dialog_form.get_send_message_button().click()
 
-    def send_video(self,pwd):
+    def send_video(self, pwd):
         self.dialog_form.get_attach_button().click()
         self.attach_form.get_video_button().click()
         self.attach_form.get_video_input().send_keys(pwd)
@@ -66,10 +66,11 @@ class DialogPage(BasePage):
     def wait_for_loader(self):
         self.dialog_form.wait_dialog_loader()
 
-    def find_dialog(self):
-        name = self.dialog_form.get_companion_name()
+    def find_dialog(self, name):
         self.message_form.get_find_dialog_input().send_keys(name)
-        return name
+
+    def get_dialog_name(self):
+        return self.dialog_form.get_companion_name()
 
     def send_message(self, msg):
         self.dialog_form.get_message_input().send_keys(msg)
@@ -85,7 +86,7 @@ class DialogPage(BasePage):
         self.open_menu()
         self.dialog_menu_form.get_block_unblock_user_button().click()
         self.open_menu()
-    
+
     def get_wrong_photo_format(self):
         return self.dialog_form.existance_wrong_photo_format_ic()
 
@@ -163,7 +164,7 @@ class DialogPage(BasePage):
         self.dialog_form.get_unpin_button().click()
         pin_message_confirm_page = ConfirmPage(self.driver)
         pin_message_confirm_page.confirm()
-    
+
     def long_message_error_exists(self):
         return self.dialog_form.get_long_message_error()
 

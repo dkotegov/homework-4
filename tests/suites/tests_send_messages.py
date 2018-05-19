@@ -12,6 +12,7 @@ from tests.pages.confirm import ConfirmPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+
 class TestsSendMessages(unittest.TestCase):
 
     def setUp(self):
@@ -28,13 +29,12 @@ class TestsSendMessages(unittest.TestCase):
         self.CURRENT_DIALOG_URL = ""
 
         self.USUAL_MESSAGE_TEXT = 'USUAL TEXT'
-        self.CHINESE_TEXT =  u'測試漢字'
+        self.CHINESE_TEXT = u'測試漢字'
         self.EMPTY_MESSAGE_TEXT = ''
         self.LONG_VALID_MESSAGE = '_123' * 512
-        self.LONG_INVALID_MESSAGE ='_123' * 1024
+        self.LONG_INVALID_MESSAGE = '_123' * 1024
         self.MESSAGE_EDITED_TEXT = ' IS_EDITED'
         self.MESSAGE_ANSWERED_TEXT = ' IS_ANSWERED'
-        
 
         self.dialog_page = DialogPage(self.driver)
         self.message_page = MessagePage(self.driver)
@@ -89,9 +89,9 @@ class TestsSendMessages(unittest.TestCase):
     def test_send_long_invalid_message(self):
         self.dialog_page.send_message(self.LONG_INVALID_MESSAGE)
         self.assertTrue(
-            self.dialog_page.long_message_error_exists(),  
+            self.dialog_page.long_message_error_exists(),
             "test send long invalid message failed")
-    
+
     def test_usual_edit_usual_message(self):
         self.dialog_page.send_message(self.USUAL_MESSAGE_TEXT)
         self.dialog_page.edit_and_send_message(self.MESSAGE_EDITED_TEXT)

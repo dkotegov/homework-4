@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 
 import unittest
@@ -10,9 +11,10 @@ from tests.pages.dialog_menu import DialogMenuPage
 from tests.pages.confirm import ConfirmPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
+from time import sleep
 
 
-class TestsSendStickers(unittest.TestCase):
+class TestsFindDialogMsg(unittest.TestCase):
 
     def setUp(self):
         browser = os.environ.get('BROWSER', os.environ['BROWSER'])
@@ -34,6 +36,10 @@ class TestsSendStickers(unittest.TestCase):
         self.main_page = MainPage(self.driver)
         self.main_page.open_messages()
 
+        self.MESSAGE_TEXT = "testNumber1"
+        self.RED_POWER = u"☭☭☭☭☭☭"
+        self.URL_OF_MESSAGES = "https://ok.ru/messages"
+
         self.create_dialog()
         self.CURRENT_DIALOG_URL = self.driver.current_url
 
@@ -54,32 +60,33 @@ class TestsSendStickers(unittest.TestCase):
         confirm_page = ConfirmPage(self.driver)
         confirm_page.confirm()
 
-    def test_send_usmile_sticker(self):
-        self.dialog_page.send_sticker("USMILE_STICKER")
-        self.assertTrue(
-            self.dialog_page.message_with_sticker_exists(),
-            "test_send_usmile_sticker failed")
+    def test_find_message(self):
+        self.dialog_page.send_message(self.MESSAGE_TEXT)
+        self.dialog_page.find_message(self.MESSAGE_TEXT)
+        self.assertEquals(
+            self.MESSAGE_TEXT,
+            self.message_page.get_found_message_text())
 
-    def test_send_usmile_2_sticker(self):
-        self.dialog_page.send_sticker("USMILE_STICKER_2")
+    def test_wrong_find_message(self):
+        self.dialog_page.send_message(self.MESSAGE_TEXT)
+        self.driver.get(self.URL_OF_MESSAGES)
+        self.dialog_page.find_message(self.RED_POWER)
         self.assertTrue(
-            self.dialog_page.message_with_sticker_exists(),
-            "test_send_usmile_2_sticker failed")
+            self.message_page.get_existance_of_dialogs_empty(),
+            "test_wrong_find_message failed")
 
-    def test_send_dog_sticker(self):
-        self.dialog_page.send_sticker("DOG_STICKER")
+    def test_find_dialog(self):
+        dialog_name = self.dialog_page.get_dialog_name()
+        self.dialog_page.find_dialog(dialog_name)
         self.assertTrue(
-            self.dialog_page.message_with_sticker_exists(),
-            "test_send_dog_sticker failed")
+            self.message_page.get_existance_of_search_result(),
+            "test_find_dialog failed")
 
-    def test_send_fox_sticker(self):
-        self.dialog_page.send_sticker("FOX_STICKER")
+    def test_wrong_find_dialog(self):
+        self.dialog_page.send_message(self.MESSAGE_TEXT)
+        dialog_name = self.dialog_page.get_dialog_name()
+        self.driver.get(self.URL_OF_MESSAGES)
+        self.dialog_page.find_dialog(self.RED_POWER)
         self.assertTrue(
-            self.dialog_page.message_with_sticker_exists(),
-            "test_send_fox_sticker failed")
-
-    def test_send_heart_sticker(self):
-        self.dialog_page.send_sticker("HEART_STICKER")
-        self.assertTrue(
-            self.dialog_page.message_with_sticker_exists(),
-            "test_send_heart_sticker failed")
+            self.message_page.get_existance_of_dialogs_empty(),
+            "test_find_dialog failed")

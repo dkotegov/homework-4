@@ -10,12 +10,12 @@ class DialogForm(BaseElement):
     STICKER_BUTTON = '//span[contains(@class, " emoji-m")]'
     STICKER_LIST_BUTTON = '//a[contains(@data-l, "stickersTab")]'
 
-    STICKERS    = {
-    'USMILE_STICKER': '//div[@data-code="#u9b43ee364as#"]',
-    'USMILE_STICKER_2': '//div[@data-code="#u9b4399ed9bs#"]',
-    'DOG_STICKER': '//div[@data-code="#uced34a1000s#"]',
-    'HEART_STICKER': '//div[@data-code="#ucdb3367600s#"]',
-    'FOX_STICKER': '//div[@data-code="#ucf1b357200s#"]'
+    STICKERS = {
+        'USMILE_STICKER': '//div[@data-code="#u9b43ee364as#"]',
+        'USMILE_STICKER_2': '//div[@data-code="#u9b4399ed9bs#"]',
+        'DOG_STICKER': '//div[@data-code="#uced34a1000s#"]',
+        'HEART_STICKER': '//div[@data-code="#ucdb3367600s#"]',
+        'FOX_STICKER': '//div[@data-code="#ucf1b357200s#"]'
     }
 
     ATTACH_BUTTON = "//div[contains(@class, 'comments_attach')]"
@@ -331,5 +331,3 @@ class DialogForm(BaseElement):
 
     def get_sticker_from_bar(self):
         return self.get_button_by_xpath(self.STICKER_IN_BAR)
-
-    
