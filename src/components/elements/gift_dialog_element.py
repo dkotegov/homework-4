@@ -34,7 +34,7 @@ class GiftDialogElement(BaseElement):
 
     SELECT_VIDEO = '//img[@src="//pimg.mycdn.me/getImage?disableStub=true&type=VIDEO_S_368&url=http%3A%2F%2Fvdp.mycdn.me%2FgetImage%3Fid%3D64640453334%26idx%3D3%26thumbType%3D32%26f%3D1&signatureToken=tSToFK4xGZaDwHtNCObT9Q"]'
     COMMENT_WITH_VIDEO = '//img[@class="vid-card_img"]'
-    COMMENT_WITH_TEXT = '//*[contains(text(),"Hello!")]'
+    COMMENT_WITH_TEXT = '//*[contains(text(),"Test text message")]'
     COMMENT_WITH_DELETE_TEXT = '//*[contains(text(),"Test delete comment!")]'
 
     ADD_PHOTO_FROM_COMPUTER_BUTTON = '//span[@data-l="t,photo_upload_menu"]'
