@@ -29,10 +29,10 @@ class DialogPage(BasePage):
     def no_messages_text_exists(self):
         return self.dialog_form.get_no_messages_text_exists()
 
-    def send_sticker(self):
+    def send_sticker(self, name):
         self.dialog_form.get_sticker_button().click()
         self.dialog_form.get_sticker_list_button().click()
-        self.dialog_form.get_unsmile_sticker().click()
+        self.dialog_form.get_sticker(name).click()
 
     def message_with_sticker_exists(self):
         return self.dialog_form.get_message_with_sticker()
@@ -46,23 +46,20 @@ class DialogPage(BasePage):
         self.attach_form.get_song().click()
         self.attach_form.get_send_song_button().click()
 
-    def send_document(self):
+    def send_document(self, pwd):
         self.dialog_form.get_attach_button().click()
-        self.attach_form.get_document_input().send_keys(
-            os.getcwd() + "/tests/static/awd.txt")
+        self.attach_form.get_document_input().send_keys(pwd)
 
-    def send_photo(self):
+    def send_photo(self, pwd):
         self.dialog_form.get_attach_button().click()
-        self.attach_form.get_photo_input().send_keys(
-            os.getcwd() + "/tests/static/sabaton.jpg")
+        self.attach_form.get_photo_input().send_keys(pwd)
         if(self.attach_form.get_loader()):
             self.dialog_form.get_send_message_button().click()
 
-    def send_video(self):
+    def send_video(self,pwd):
         self.dialog_form.get_attach_button().click()
         self.attach_form.get_video_button().click()
-        self.attach_form.get_video_input().send_keys(
-            os.getcwd() + "/tests/static/sabaton.mp4")
+        self.attach_form.get_video_input().send_keys(pwd)
         if(self.attach_form.get_loader()):
             self.dialog_form.get_send_message_button().click()
 
@@ -88,6 +85,9 @@ class DialogPage(BasePage):
         self.open_menu()
         self.dialog_menu_form.get_block_unblock_user_button().click()
         self.open_menu()
+    
+    def get_wrong_photo_format(self):
+        return self.dialog_form.existance_wrong_photo_format_ic()
 
     # Nick112
 
@@ -163,6 +163,9 @@ class DialogPage(BasePage):
         self.dialog_form.get_unpin_button().click()
         pin_message_confirm_page = ConfirmPage(self.driver)
         pin_message_confirm_page.confirm()
+    
+    def long_message_error_exists(self):
+        return self.dialog_form.get_long_message_error()
 
     # Trubnikov
 

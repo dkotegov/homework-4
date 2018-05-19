@@ -12,7 +12,6 @@ from pages.confirm import ConfirmPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-
 class Tests(unittest.TestCase):
 
     def setUp(self):
@@ -105,11 +104,6 @@ class Tests(unittest.TestCase):
             self.dialog_page.no_messages_text_exists(),
             "test_create_and_delete_dialog failed")
 
-    def test_send_sticker(self):
-        self.dialog_page.send_sticker()
-        self.assertTrue(
-            self.dialog_page.message_with_sticker_exists(),
-            "test_send_sticker failed")
 
     def test_send_music(self):
         self.dialog_page.send_music()
@@ -117,23 +111,6 @@ class Tests(unittest.TestCase):
             self.dialog_page.sent_message_exists(),
             "test_send_music failed")
 
-    def test_send_document(self):
-        self.dialog_page.send_document()
-        self.assertTrue(
-            self.dialog_page.sent_message_exists(),
-            "test_send_document failed")
-
-    def test_send_photo(self):
-        self.dialog_page.send_photo()
-        self.assertTrue(
-            self.dialog_page.sent_message_exists(),
-            "test_send_photo failed")
-
-    def test_send_video(self):
-        self.dialog_page.send_video()
-        self.assertTrue(
-            self.dialog_page.sent_message_exists(),
-            "test_send_video failed")
 
     def test_find_dialog(self):
         self.dialog_page.find_dialog()
@@ -141,80 +118,8 @@ class Tests(unittest.TestCase):
             self.message_page.get_existance_of_search_result(),
             "test_find_dialog failed")
 
-    def test_send_message_to_blocked_user(self):
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-
-        self.auth_page.chage_account(self.BOT_2_LOGIN, self.PASSWORD)
-        self.assertEquals(
-            self.main_page.get_new_message_text(),
-            self.MESSAGE_TEXT)
-        self.NEED_TO_CHANGE_ACC = True
-
-    def test_send_message_to_unblocked_user(self):
-        self.dialog_page.unblock_user()
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-
-        self.dialog_page.block_user()
-        self.auth_page.chage_account(self.BOT_2_LOGIN, self.PASSWORD)
-        self.assertEquals(
-            self.main_page.get_new_message_text(),
-            self.MESSAGE_TEXT)
-        self.NEED_TO_CHANGE_ACC = True
-
-    def test_get_message_from_blocked_user(self):
-        self.auth_page.chage_account(self.BOT_2_LOGIN, self.PASSWORD)
-        self.driver.get(self.URL_OF_DIALOG_WITH_ME)
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-
-        self.auth_page.chage_account(self.BOT_1_LOGIN, self.PASSWORD)
-        self.assertTrue(
-            not self.main_page.get_existance_of_new_message(),
-            "test_get_message_from_blocked_user failed")
-        self.BOT_1_LOGIN = self.BOT_2_LOGIN
-        self.NEED_TO_CHANGE_ACC = True
 
     # 112Nick
-
-    def test_send_message(self):
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-        self.assertTrue(
-            self.dialog_page.sent_message_exists(),
-            "test send message failed")
-
-    def test_edit_message(self):
-        MESSAGE_EDITED_TEXT = ' IS_EDITED'
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-        self.dialog_page.edit_and_send_message(MESSAGE_EDITED_TEXT)
-        self.driver.refresh()
-        self.assertEquals(
-            self.dialog_page.get_sent_message_text(),
-            self.MESSAGE_TEXT + MESSAGE_EDITED_TEXT)
-
-    def test_delete_message(self):
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-        self.dialog_page.delete_message()
-        self.driver.refresh()
-        self.assertTrue(
-            self.dialog_page.no_messages_text_exists(),
-            "test_delete_message failed")
-
-    def test_answer_message(self):
-        MESSAGE_ANSWERED_TEXT = ' IS_ANSWERED'
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-        self.dialog_page.answer_message(MESSAGE_ANSWERED_TEXT)
-        self.driver.refresh()
-        self.assertTrue(
-            self.dialog_page.get_exsistance_of_answered_message(),
-            "test_answer_message failed")
-
-    def test_forward_message(self):
-        self.dialog_page.send_message(self.MESSAGE_TEXT)
-        self.dialog_page.forward_message()
-        self.message_page.choose_companion_forward_message()
-        self.driver.refresh()
-        self.assertTrue(
-            self.dialog_page.get_exsistance_of_forwarded_message(),
-            "test_forward_message failed")
 
     def test_find_message(self):
         self.dialog_page.send_message(self.MESSAGE_TEXT)

@@ -23,8 +23,8 @@ class BaseElement(object):
 
     def existance_of_element_in_dom_by_xpath(self, xpath):
         try:
-            return WebDriverWait(self.driver, 7, 0.3).until(
-                EC.staleness_of(WebDriverWait(self.driver, 7, 0.3).until(
+            return WebDriverWait(self.driver, 10, 0.3).until(
+                EC.staleness_of(WebDriverWait(self.driver, 10, 0.3).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))))
         except TimeoutException as e:
             return True
