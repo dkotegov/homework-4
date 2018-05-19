@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from selenium.webdriver.remote.webelement import WebElement
 
 from src.components.base_element import BaseElement
@@ -68,6 +70,18 @@ class GiftElement(BaseElement):
 
     XPATH_I_FRAME_SUBMIT_GIFT = '//iframe[@class="modal-new_payment-frame"]'
     XPATH_BUTTON_SUBMIT_GIFT = '//button[@class="button-pro form-actions__yes"]'
+
+    # XPATH_RECEIVE_GIFTS = '//*[@class="portlet_h_name_t"][text()="Полученные"]'
+    XPATH_RECEIVE_GIFTS = '//div[contains(@class, "portlet_h_name_t") and (text()="Полученные")]'
+
+    CREATE_CUSTOM_GIFT_BUTTON = '//*[@id="hook_Block_GiftsFrontSidebar"]/a'
+    TEXT_GIFT_BUTTON = '//div[@id="id-start_text_present_btn"]'
+    TEXT_GIFT_INPUT = '//*[@id="id-text_input"]'
+    SAVE_CUSTOM_GIFT_BUTTON = '//*[@id="id-ready_present_btn"]/div[1]'
+    XPATH_I_FRAME = '//iframe[@id="appMain_Div"]'
+    PRESENT_CUSTOM_GIFT_BUTTON = '//*[@id="id-send128"]/div[1]'
+    SELECT_MYSELF_BUTTON = '//*[@id="friend_scroll_pane"]/div/div/ul/li'
+
 
     def is_marked(self):
         return self.existence_of_element_by_xpath(self.GIFTS_MARKED_ITEM_NAV_BAR)
@@ -164,3 +178,32 @@ class GiftElement(BaseElement):
         btn = self.get_button_by_xpath(self.XPATH_BUTTON_SUBMIT_GIFT)
         btn.click()
         self.driver.switch_to_default_content()
+
+    def exist_receive_gifts(self):
+        rec_fil = self.existence_of_element_by_xpath(self.XPATH_RECEIVE_GIFTS)
+        return rec_fil
+
+    def get_create_custom_gift_button(self):
+        return self.get_button_by_xpath(self.CREATE_CUSTOM_GIFT_BUTTON)
+
+    def get_create_text_gift_input(self):
+        return self.get_field_by_xpath(self.TEXT_GIFT_INPUT)
+
+    def get_create_text_gift_button(self):
+        return self.get_button_by_xpath(self.TEXT_GIFT_BUTTON)
+
+    def get_save_custom_gift_button(self):
+        return self.get_button_by_xpath(self.SAVE_CUSTOM_GIFT_BUTTON)
+
+    def switch_to_text_gift_frame(self):
+        self.driver.switch_to_frame(self.get_field_by_xpath(self.XPATH_I_FRAME))
+
+    def get_present_custom_gift_button(self):
+        return self.get_button_by_xpath(self.PRESENT_CUSTOM_GIFT_BUTTON)
+
+    def get_select_myself_button(self):
+        return self.get_button_by_xpath(self.SELECT_MYSELF_BUTTON)
+
+
+
+

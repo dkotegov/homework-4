@@ -15,3 +15,4 @@ class CreateGiftElement(BaseElement):
         span_title = self.existence_of_element_by_xpath(self.XPATH_TITLE)
         self._driver.switch_to_default_content()
         return span_title
+
