@@ -281,6 +281,12 @@ class InputComment(Component):
             EC.invisibility_of_element_located((By.CSS_SELECTOR, progress_bar))
         )
 
+    def wait_preview_display(self):
+        preview_img = 'div[data-module="AttachPreview"] .attach-photo_img.preview-image'
+        WebDriverWait(self.driver, 10, 0.1).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, preview_img))
+        )
+
     def add_comment_smile(self, smile_class):
         self.input_attach_focus()
         self.choose_smile(smile_class)

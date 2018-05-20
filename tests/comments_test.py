@@ -40,7 +40,6 @@ class CommentsTest(unittest.TestCase):
         self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
         input_comment.add_comment_text(text)
-
         comment_text = self.photo_page.comments.get_newest_comment_text()
         self.assertEqual(text, comment_text)
 
@@ -95,6 +94,23 @@ class CommentsTest(unittest.TestCase):
         interaction = input_comment.counter_interact(current_counter)
         self.assertTrue(interaction)
 
+    def test_add_comment_html_injejction(self):
+        text_html = '<i>hello QA</i>'
+        text_ans = 'hello QA'
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.add_comment_text(text_html)
+        comment_text = self.photo_page.comments.get_newest_comment_text()
+        self.assertEqual(text_ans, comment_text)
+
+    def test_add_comment_empty_html_not_send(self):
+        text = '<br><br>'
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.add_comment_text(text)
+        err = input_comment.add_comment_text(text)
+        self.assertFalse(0, err)
+
 ##############################################################################
 
     def test_answer_comment(self):
@@ -121,6 +137,8 @@ class CommentsTest(unittest.TestCase):
         comments = self.photo_page.comments
         video_in_attach_number = comments.get_newest_comment_video_attach_num()
         self.assertEqual(1, video_in_attach_number)
+
+##############################################################################
 
     def test_add_one_photo(self):
         self.photo_page.goto_photo_comment()
@@ -151,6 +169,21 @@ class CommentsTest(unittest.TestCase):
         photo_in_attach_number = comments.get_newest_comment_photo_attach_num()
 
         self.assertEqual(2, photo_in_attach_number)
+
+    def test_add_photo_by_url(self):
+        self.photo_page.goto_photo_comment()
+        url = 'https://img.getbg.net/upload/small/www.GetBg.net_Cartoons_Homer_Simpson_quickly_runs_away_095322_.jpg '
+        input_comment = self.photo_page.input_comment
+        input_comment.input_text(url)
+        input_comment.wait_preview_display()
+        input_comment.send()
+
+        comments = self.photo_page.comments
+        photo_in_attach_number = comments.get_newest_comment_photo_attach_num()
+
+        self.assertEqual(1, photo_in_attach_number)
+
+##############################################################################
 
     def test_add_comment_sticker(self):
         self.photo_page.goto_photo_comment()
