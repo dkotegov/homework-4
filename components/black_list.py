@@ -2,7 +2,6 @@ from components.base_component import BaseComponent
 
 
 class BlackList(BaseComponent):
-
     DELETE_BUTTON = "//div[@class='ic12 ic12_close-w']"
     CONFIRM_BUTTON = "//input[@class='button-pro form-actions_yes']"
 

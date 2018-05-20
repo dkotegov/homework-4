@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import unittest
 
 import os
@@ -6,7 +7,8 @@ import time
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from components.main_up_toolbar import MainUpToolbar
-from constants import profiles, dialog
+from components.password_form import PasswordForm
+from constants import profiles, dialog, game
 from pages.auth_page import AuthPage
 # from pages.friends_page import FriendsPage
 from pages.black_list_page import BlackList, BlackListPage
@@ -17,6 +19,9 @@ from pages.main_page import MainPage
 from time import sleep
 
 from pages.message_page import MessagePage
+from pages.password_page import PasswordPage
+from pages.settings_game_page import SettingsGamePage
+from pages.settings_page import SettingsPage
 
 
 class Tests(unittest.TestCase):
@@ -42,7 +47,7 @@ class Tests(unittest.TestCase):
         main_page.open_friends_list()
 
         friends_page = FriendsPage(self.driver)
-        friends_page.open_message_dialog()
+        friends_page.open_message_dialog_with_46()
 
         message_page = MessagePage(self.driver)
         message_page.open_info_bar()
@@ -55,7 +60,7 @@ class Tests(unittest.TestCase):
         auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
 
         main_page.open_friends_list()
-        friends_page.open_message_dialog()
+        friends_page.open_message_dialog_with_55()
         message_page.send_message()
 
         auth_page.logout()
@@ -65,7 +70,7 @@ class Tests(unittest.TestCase):
         auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
 
         main_page.open_friends_list()
-        friends_page.open_message_dialog()
+        friends_page.open_message_dialog_with_46()
 
         self.assertFalse(message_page.check_message(), False)
 
@@ -81,7 +86,7 @@ class Tests(unittest.TestCase):
         auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
 
         main_page.open_friends_list()
-        friends_page.open_message_dialog()
+        friends_page.open_message_dialog_with_55()
         message_page.delete_message()
         message_page.send_message()
 
@@ -92,7 +97,7 @@ class Tests(unittest.TestCase):
         auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
 
         main_page.open_friends_list()
-        friends_page.open_message_dialog()
+        friends_page.open_message_dialog_with_46()
 
         self.assertEqual(message_page.check_message(), dialog.TEST_MESSAGE)
 
@@ -105,33 +110,157 @@ class Tests(unittest.TestCase):
         auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
 
         main_page.open_friends_list()
-        friends_page.open_message_dialog()
+        friends_page.open_message_dialog_with_55()
         message_page.delete_message()
+    #
+    # def test_hide_and_show_games_in_feed(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+    #
+    #     main_page = MainPage(self.driver)
+    #     main_page.open_games_list()
+    #
+    #     games_vitrine = GamesVitrine(self.driver)
+    #     games_vitrine.invite_friend_to_the_game()
+    #
+    #     auth_page.logout()
+    #
+    #     auth_page.add_profile()
+    #     auth_page.clear_inputs()
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+    #
+    #     main_page.open_notification()
+    #     notification_game = main_page.check_notification()
+    #
+    #     self.assertTrue(notification_game,
+    #                     games_vitrine.games_list.el)  # Did sender's and receiver's notifications are coincide?
+    #
+    #     main_page.hide_notification()
+    #     main_page.update()
+    #     main_page.open_notification()
+    #     checker = main_page.check_notification()
+    #
+    #     self.assertFalse(checker, False)  # hide notification
+    #
+    #     auth_page.logout()
+    #
+    #     auth_page.add_profile()
+    #     auth_page.clear_inputs()
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+    #
+    #     main_page.open_games_list()
+    #
+    #     self.assertFalse(games_vitrine.invite_friend_to_the_game(), False)  # block to send notification
+    #
+    #     auth_page.logout()
+    #
+    #     auth_page.add_profile()
+    #     auth_page.clear_inputs()
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+    #
+    #     # delete
+    #     settings_game_page = SettingsGamePage(self.driver)
+    #     settings_game_page.open()
+    #     settings_game_page.delete_from_list()
+    #
+    #     auth_page.logout()
+    #
+    #     auth_page.add_profile()
+    #     auth_page.clear_inputs()
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+    #
+    #     main_page.open_games_list()
+    #
+    #     self.assertTrue(games_vitrine.invite_friend_to_the_game(), True)
+    #
+    #     auth_page.logout()
+    #
+    #     auth_page.add_profile()
+    #     auth_page.clear_inputs()
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+    #
+    #     main_page.open_notification()
+    #
+    #     self.assertTrue(notification_game,
+    #                     games_vitrine.games_list.el)
+    #
+    # def test_current_fake_password_and_new_are_the_same(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+    #
+    #     settings_page = SettingsPage(self.driver)
+    #     settings_page.open()
+    #     settings_page.open_password_form()
+    #
+    #     password_page = PasswordPage(self.driver)
+    #     password_form = PasswordForm(self.driver)
+    #     password_page.type_fake_current_password()
+    #     password_page.type_new_password()
+    #     password_page.type_retype_password()
+    #
+    #     self.assertFalse(password_form.get_password_element(), False)
+    #     self.assertFalse(password_form.get_second_password_element(), False)
+    #     self.assertFalse(password_form.get_third__password_element(), False)
+    #
+    #     password_page.submit()
+    #
+    #     self.assertTrue(password_form.get_password_element(), True)
+    #     self.assertFalse(password_form.get_second_password_element(), False)
+    #     self.assertFalse(password_form.get_third__password_element(), False)
+    #
+    # def test_current_password_and_new_are_fake_the_same(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+    #
+    #     settings_page = SettingsPage(self.driver)
+    #     settings_page.open()
+    #     settings_page.open_password_form()
+    #
+    #     password_page = PasswordPage(self.driver)
+    #     password_form = PasswordForm(self.driver)
+    #     password_page.type_current_password()
+    #     password_page.type_new_password()
+    #     password_page.type_fake_retype_password()
+    #
+    #     self.assertFalse(password_form.get_password_element(), False)
+    #     self.assertFalse(password_form.get_second_password_element(), False)
+    #     self.assertFalse(password_form.get_third__password_element(), False)
+    #
+    #     password_page.submit()
+    #
+    #     self.assertFalse(password_form.get_password_element(), False)
+    #     self.assertFalse(password_form.get_second_password_element(), False)
+    #     self.assertTrue(password_form.get_third__password_element(), True)
+    #
+    # def test_unallowed_symbols_in_password(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+    #
+    #     settings_page = SettingsPage(self.driver)
+    #     settings_page.open()
+    #     settings_page.open_password_form()
+    #
+    #     password_page = PasswordPage(self.driver)
+    #     password_form = PasswordForm(self.driver)
+    #     password_page.type_current_password()
+    #     password_page.type_unallowed_new_password()
+    #     password_page.type_unallowed_retype_password()
+    #
+    #     self.assertFalse(password_form.get_password_element(), False)
+    #     self.assertFalse(password_form.get_second_password_element(), False)
+    #     self.assertFalse(password_form.get_third__password_element(), False)
+    #
+    #     password_page.submit()
+    #
+    #     self.assertFalse(password_form.get_password_element(), False)
+    #     self.assertTrue(password_form.get_second_password_element(), True)
+    #     self.assertFalse(password_form.get_third__password_element(), False)
 
-    def test_hide_and_show_games_in_feed(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
-
-        main_page = MainPage(self.driver)
-        main_page.open_games_list()
-
-        games_list = GamesVitrine(self.driver)
-        games_list.invite_friend_to_the_game()
-
-        auth_page.logout()
-
-        auth_page.add_profile()
-        auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
-
-        main_page.open_notification()
-        notification_game = main_page.check_notification()
-
-        self.assertTrue(notification_game, not False) #Did sender's and receiver's notifications are coincide?
-
-        # game_page = GamePage(self.driver)
-        # game_page.block_notifications()
+    # def test_delete_game_from_out_apps(self):
 
         sleep(3)

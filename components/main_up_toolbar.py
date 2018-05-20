@@ -5,31 +5,28 @@ from constants import game
 
 
 class MainUpToolbar(BaseComponent):
-    # POPUP_NOTIFICATION_BUTTON = "//a[contains(@data-l, 'growl_link')]"
     NOTIFICATION_BUTTON = "//div[@class='toolbar_nav_i_tx-w usel-off']"
     NOTIFICATION_BUTTON__GAMES = "//a[@data-category='Games']"
     IMAGE = "//a[@data-l='t,app_ava']"
+    NOTIFICATION_HOVER = "//div[contains(@data-l,'notifMarker')]"
+    REPORT_NOTIFICATION_BUTTON = "//i[@data-l='t,spam']"
+    CONFIRM_REPORT_NOTIFICATION = "//span[@tsid='ntf_unsubscribe']"
+    LOGO_IMG = "//div[@class='toolbar_logo_img']"
 
     def get_notification(self):
-        return self.driver.find_elements_by_xpath(self.NOTIFICATION_BUTTON)[2]
+        return self.get_elements_by_path(self.NOTIFICATION_BUTTON)[2]
 
     def get_notification_games(self):
         return self.get_clickable_element(self.NOTIFICATION_BUTTON__GAMES)
 
-    def get_image_element(self):
-        try:
-            el = self.get_elements_by_path(self.IMAGE)[0]
-        except TimeoutException:
-            return False
-        return el
+    def get_notification_hover(self):
+        return self.get_elements_by_path(self.NOTIFICATION_HOVER)[0]
 
-    def get_element_by_id(self):
-        try:
-            return self.get_element_by_path(game.APP_ID)
-        except TimeoutException:
-            return False
+    def get_report_notification_button(self):
+        return self.get_clickable_element(self.REPORT_NOTIFICATION_BUTTON)
 
-    # def get_split_for_app_id(self, str):
-    #     first_split = str.split("&st.")[2]
-    #     print(first_split)
+    def get_confirm_report_notification(self):
+        return self.get_clickable_element(self.CONFIRM_REPORT_NOTIFICATION)
 
+    def get_logo_img(self):
+        return self.get_element_by_path(self.LOGO_IMG)

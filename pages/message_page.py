@@ -36,12 +36,12 @@ class MessagePage(Page):
         self.message_dialog.get_delete_message_button().click()
         self.message_dialog.get_confirm_delete_message_button().click()
 
-        #self.message_dialog.hover_element()
+        # self.message_dialog.hover_element()
 
-    #def found_message(self):
-        # if self.message_dialog.get_is_element_attached():
-        #     return self.get_message_text()
-        # return False
+    # def found_message(self):
+    # if self.message_dialog.get_is_element_attached():
+    #     return self.get_message_text()
+    # return False
 
     def check_message(self):
         if self.message_dialog.get_message() is False:
@@ -50,7 +50,3 @@ class MessagePage(Page):
 
     def get_message_text(self):
         return self.message_dialog.get_message().get_attribute('innerHTML')
-
-
-
-

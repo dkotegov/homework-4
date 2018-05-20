@@ -5,7 +5,7 @@ from components.base_component import BaseComponent
 
 
 class MessageDialog(BaseComponent):
-    #MESSAGE_INPUT = "//div[@class='itx js-comments_add js-ok-e comments_add-ceditable']"
+    # MESSAGE_INPUT = "//div[@class='itx js-comments_add js-ok-e comments_add-ceditable']"
     MESSAGE_INPUT = "//div[contains(@id, 'field_txt')]"
     MESSAGE_SEND_BUTTON = "//button[@class='button-pro comments_add-controls_save']"
     MESSAGE = "//span[@class='js-copy-text']/span"

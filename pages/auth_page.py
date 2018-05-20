@@ -33,9 +33,4 @@ class AuthPage(Page):
         self.auth_form.get_login().clear()
         self.auth_form.get_password().clear()
 
-    #def already_login(self):
-
-
-
-
-
+    # def already_login(self):

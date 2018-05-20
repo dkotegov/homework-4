@@ -1,3 +1,5 @@
+from selenium.common.exceptions import TimeoutException
+
 from components.games_list import GamesList
 from components.main_up_toolbar import MainUpToolbar
 from components.page import Page
@@ -12,13 +14,17 @@ class GamesVitrine(Page):
 
     def invite_friend_to_the_game(self):
         el_game = self.games_list.get_game()
-        print (el_game)
-        # self.main_up_toolbar.get_split_for_app_id(el_game.get_attribute('hrefattrs'))
         self.get_hover(el_game)
 
         self.games_list.get_invite_friends_button().click()
+
+        if self.games_list.get_lock():
+            return False
 
         el_user = self.games_list.get_user_avatar()
         self.get_hover(el_user)
         self.games_list.get_choose_user().click()
         self.games_list.get_confirm_user().click()
+        return True
+
+
