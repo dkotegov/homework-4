@@ -10,6 +10,10 @@ class AlbumPage(Page):
     def title(self) -> str:
         return self.control_panel.title
 
+    @title.setter
+    def title(self, new_title) -> None:
+        self.control_panel.title = new_title
+
     @property
     def control_panel(self) -> AlbumControlPanel:
         return AlbumControlPanel(self.driver)
@@ -27,4 +31,5 @@ class AlbumPage(Page):
     def upload_photos(self, images: List[str]) -> List[ImageCard]:
         return self.photos_panel.bulk_upload(images)
 
-
+    def image(self, image_id) -> ImageCard:
+        return self.photos_panel.find_image(image_id)
