@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 import sys
-import re
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
@@ -37,7 +37,7 @@ class UserPage(Page):
                 raise
 
     def age(self):
-        return re.sub(r'\([^\)]+\)', '', self.user_component.age().text)
+        return self.user_component.age().text.split(' (')
         
     def del_friend(self):
         self.user_component.button_menu_friends().click()

@@ -29,3 +29,13 @@ class GroupPage(Page):
     		return True
     	except TimeoutException:
     		return False
+
+    def invite_friend(self,name):
+        try:
+            self.group_form.group_invite_friends().click()
+            self.group_form.group_invite_search().send_keys(name)
+            self.group_form.group_friend_invite().click()
+            self.group_form.group_invite_button()
+            return True
+        except TimeoutException:
+            return False

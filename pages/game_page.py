@@ -23,7 +23,8 @@ class GamePage(Page):
     def game_invite_check(self, name):
         self.game_form.game_invite().click()
         try:
-        	self.game_form.game_invite_name_friend(name)
+        	self.game_form.game_invite_name_friend(name).click()
+        	self.game_form.game_invite_button()
         	return True
         except TimeoutException:
         	return False

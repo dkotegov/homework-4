@@ -14,5 +14,4 @@ class MainPage(Page):
 
 	def accept_notification(self):
 		notification = NotificationComponent(self.driver)
-		notification.notification().click()
 		notification.accept_reletionship().click()

@@ -58,7 +58,7 @@ class PrivacyPage(Page):
 	def mark_in_topic_only_friends(self):
 		return self.privacy_component.get_radiobutton_by_name_and_value(self.privacy_component.MARK_IN_TOPIC, self.privacy_component.ONLY_FRIENDS)								
 
-	def set_radiobutton_by_value(self, naem, value):
+	def set_radiobutton_by_value(self, name, value):
 		return self.privacy_component.get_radiobutton_by_name_and_value("@name = '"+ name + "'", "@value = '"+ value + "'")
 
 	def save(self):

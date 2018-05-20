@@ -1,13 +1,13 @@
+# -*- coding: utf-8 -*-
 from components.base_component import BaseComponent
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-
 
 
 class UserForm(BaseComponent):
     BUTTON_REQUEST_SENT = "//span[@class='dropdown_ac button-pro __sec __with-arrow']"
     BUTTON_ADD_TO_FRIENDS = "//span[@class='dropdown_ac button-pro __wide']"
     BUTTON_ACCEPT_FRIEND_REQUEST = "//a[@class='dropdown_ac button-pro']"
-    BUTTON_FRIENDS = "//span[@class='dropdown __wide primary-dropdown']"
+    BUTTON_FRIENDS = "//span[@class='dropdown_ac button-pro __sec __with-arrow' and text()='Друзья']"
     BUTTON_FRIENDS_CONTROL_MENU = "//span[@class='dropdown_ac button-pro __sec']"
     BUTTON_DEL_FRIEND = "//div[@class='dropdown_ic ic_delete']"
     MY_AGE = "//div[@data-type='AGE']"
