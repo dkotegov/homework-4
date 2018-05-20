@@ -1,6 +1,7 @@
 import os
 
-from selenium.common.exceptions import NoSuchElementException
+import time
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -18,6 +19,8 @@ class PhotoPage(Page):
         WebDriverWait(self.driver, 30, 0.1).until(
             EC.invisibility_of_element_located((By.CSS_SELECTOR, progress_roll))
         )
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", self.driver.find_element_by_css_selector(
+            '.photo-layer_bottom_block_w'))
 
     @property
     def comments(self):
@@ -142,6 +145,8 @@ class InputComment(Component):
     VIDEO_BTN_CSS = 'a[data-l="t,videoLink"]'
     VIDEO_CARD_CSS = '.vid-card_n'
 
+    COUNTER_LIMIT_CSS = '.comments_add-itx .txt-counter'
+
     def send(self):
         n = self.driver.find_element_by_css_selector(self.NUM_COMMENTS).text
 
@@ -150,9 +155,12 @@ class InputComment(Component):
         ).click()
 
         num_after = str(int(n) + 1)
-        WebDriverWait(self.driver, 20, 0.1).until(
-            EC.text_to_be_present_in_element((By.CSS_SELECTOR, self.NUM_COMMENTS), num_after)
-        )
+        try:
+            WebDriverWait(self.driver, 20, 0.1).until(
+                EC.text_to_be_present_in_element((By.CSS_SELECTOR, self.NUM_COMMENTS), num_after)
+            )
+        except TimeoutException:
+            return 0
 
     def input_focus(self):
         WebDriverWait(self.driver, 20, 0.1).until(
@@ -163,9 +171,9 @@ class InputComment(Component):
         self.driver.execute_script("arguments[0].scrollIntoView(true);", self.driver.find_element_by_css_selector(
             '.comments_lst_cnt > div[id^="hook_Block"]:last-child'))
 
-    def input_text(self, element, text):
+    def input_text(self, text):
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(element)
+            lambda d: d.find_element_by_xpath(self.INPUT)
         ).send_keys(text)
 
     def submit(self):
@@ -184,13 +192,33 @@ class InputComment(Component):
             EC.element_to_be_clickable((By.CSS_SELECTOR, comment_added_msg_css))
         ).click()
 
+    def get_comment_limit_counter(self):
+        elem = WebDriverWait(self.driver, 10, 0.1).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, self.COUNTER_LIMIT_CSS))
+        )
+        return elem.text
+
+    def counter_interact(self, current_counter):
+        counter_after = str(int(current_counter) - 1)
+        self.input_text('1')
+        try:
+            WebDriverWait(self.driver, 20, 0.1).until(
+                EC.text_to_be_present_in_element((By.CSS_SELECTOR, self.COUNTER_LIMIT_CSS), counter_after)
+            )
+            return 1
+        except TimeoutException:
+            return 0
+
     def add_comment_text(self, text):
         self.input_focus()
-        self.input_text(self.INPUT, text)
-        self.send()
+        self.input_text(text)
+        try:
+            self.send()
+        except TimeoutError:
+            return False
 
     def add_answer_text(self, text):
-        self.input_text(self.INPUT, text)
+        self.input_text(text)
         self.submit()
         self.go_to_newest_com()
 

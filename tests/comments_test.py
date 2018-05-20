@@ -8,13 +8,14 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 from tests.pages.primary.auth_page import AuthPage
 from tests.pages.primary.photo_page import PhotoPage
+import tests.strings.str_comments as str_comments
 
 
 class CommentsTest(unittest.TestCase):
     USERNAME = u'Куклина Нина'
-    LOGIN = os.environ.get('LOGIN')
-    PASSWORD = os.environ.get('PASSWORD')
-    
+    LOGIN = os.environ['LOGIN']
+    PASSWORD = os.environ['PASSWORD']
+
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
@@ -31,6 +32,70 @@ class CommentsTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+
+##############################################################################
+
+    def test_add_comment_base(self):
+        text = 'hello QA'
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.add_comment_text(text)
+
+        comment_text = self.photo_page.comments.get_newest_comment_text()
+        self.assertEqual(text, comment_text)
+
+    def test_comment_to_much_not_send(self):
+        text = str_comments.str_after_limit_11
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        err = input_comment.add_comment_text(text)
+        self.assertFalse(0, err)
+
+    def test_add_comment_empty_not_send(self):
+        text = ''
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.add_comment_text(text)
+        err = input_comment.add_comment_text(text)
+        self.assertFalse(0, err)
+
+    def test_comment_counter_before_limit(self):
+        text = str_comments.str_before_limit_43
+        before_limit_counter = '43'
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.input_text(text)
+        counter_symb = input_comment.check_comment_too_much_counter()
+        self.assertEqual(before_limit_counter, counter_symb)
+
+    def test_comment_counter_limit(self):
+        text = str_comments.str_limit_4096
+        limit_counter = '0'
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.input_text(text)
+        counter_symb = input_comment.get_comment_limit_counter()
+        self.assertEqual(limit_counter, counter_symb)
+
+    def test_comment_counter_marker_after_limit(self):
+        text = str_comments.str_after_limit_11
+        after_limit_counter = '-11'
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.input_text(text)
+        counter_symb = input_comment.get_comment_limit_counter()
+        self.assertEqual(after_limit_counter, counter_symb)
+
+    def test_сomment_changing_counter_after_add_symb(self):
+        text = str_comments.str_after_limit_11
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.input_text(text)
+        current_counter = input_comment.get_comment_limit_counter()
+        interaction = input_comment.counter_interact(current_counter)
+        self.assertTrue(interaction)
+
+##############################################################################
 
     def test_answer_comment(self):
         answer_text = 'answer'
@@ -111,15 +176,6 @@ class CommentsTest(unittest.TestCase):
         comments = self.photo_page.comments
         content = comments.get_newest_comment_smile()
         self.assertIn(smile_class, content)
-
-    def test_add_comment(self):
-        text = 'hello QA'
-        self.photo_page.goto_photo_comment()
-        input_comment = self.photo_page.input_comment
-        input_comment.add_comment_text(text)
-
-        comment_text = self.photo_page.comments.get_newest_comment_text()
-        self.assertEqual(text, comment_text)
 
     def test_undelete_comment(self):
         self.photo_page.goto_photo_comment()
