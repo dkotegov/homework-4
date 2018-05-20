@@ -1,11 +1,11 @@
 import sys
 import unittest
-from tests.example_test import ExampleTest
+from tests.test_settings import HideObsceneLanguageTest
 
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(ExampleTest),
+        unittest.makeSuite(HideObsceneLanguageTest),
     ))
-    result = unittest.TextTestRunner().run(suite)
+    result = unittest.TextTestRunner(failfast=True).run(suite)
     sys.exit(not result.wasSuccessful())

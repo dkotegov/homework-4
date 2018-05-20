@@ -11,7 +11,7 @@ class SettingsPage(Page):
     MANAGEMENT_ITEM = '//*[@id="RightColumnAltGroupSettingsCatalog"]/div/div/a[2]'
     ADMIN_ITEM = '//*[@id="RightColumnAltGroupSettingsCatalog"]/div/div/a[3]'
     APPLICATION_ITEM = '//*[@id="RightColumnAltGroupSettingsCatalog"]/div/div/a[4]'
-    GROUP_LINKS_ITEM = '//*[@id="altGroupsOfFriendsPanel"]/div[2]/div/a'
+    GROUP_LINKS_ITEM = 'Add'
 
     def to_admin_page(self) -> AdminPage:
         path = self.driver.find_element_by_xpath(self.ADMIN_ITEM).get_attribute('href')
@@ -25,12 +25,15 @@ class SettingsPage(Page):
 
     def to_general_page(self) -> GeneralPage:
         path = self.driver.find_element_by_xpath(self.GENERAL_ITEM).get_attribute('href')
-        return GeneralPage(self.driver, path=path)
+        return GeneralPage(self.driver, path=path).open()
 
     def to_application_page(self) -> ApplicationPage:
         path = self.driver.find_element_by_xpath(self.APPLICATION_ITEM).get_attribute('href')
         return ApplicationPage(self.driver, path=path)
 
     def add_group_links(self):
-        self.driver.find_element_by_xpath(self.GROUP_LINKS_ITEM).click()
+        # self.driver.find_element_by_link_text(self.GROUP_LINKS_ITEM).click()
+        self.driver.execute_script('''
+        document.querySelector('#altGroupsOfFriendsPanel > div.portlet_b > div > a').click();
+        ''')
         return AddGroupLinksPopup(self.driver)

@@ -16,10 +16,16 @@ class GeneralPage(Page):
         form.save()
         return self
 
-    def change_category_of_group(self, category: str, subcategory=None):
-        self.driver.find_element_by_xpath(self.CHANGE_BUTTON).click()
+    def change_category_of_group(self, category: str = None, subcategory=None):
         form = self.form
+        if form.type == 'Страница':
+            self.driver.find_element_by_xpath(self.CHANGE_BUTTON).click()
         form.category = category
         form.subcategory = subcategory
         form.save()
+        return self
+
+    def change_type(self):
+        form = self.form
+        form.toggle_type()
         return self

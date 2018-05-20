@@ -8,14 +8,28 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.page import Component
 
 
+class RoleRadioButtons(Enum):
+    MODERATOR = '//*[@id="field_index_0"]'
+    SUPERMODERATOR = '//*[@id="field_index_1"]'
+    EDITOR = '//*[@id="field_index_2"]'
+    ANALYST = '//*[@id="field_index_3"]'
+
+
+class Role(Enum):
+    MODERATOR = 'Модератор'
+    SUPERMODERATOR = 'Супермодератор'
+    EDITOR = 'Редактор'
+    ANALYST = 'Аналитик'
+
+
 class ModerForm(Component):
     RADIO_BUTTON_MODERATOR = '//*[@id="field_index_0"]'
     ADD_BUTTON = '//*[@id="hook_FormButton_button_grant"]'
     REMOVE_BUTTON = '//*[@id="hook_FormButton_button_revoke_confirm"]'
     POPUP_DIALOG = '//*[@id="popLayer_mo"]'
 
-    def add_grant(self):
-        self.driver.find_element_by_xpath(self.RADIO_BUTTON_MODERATOR).click()
+    def add_grant(self, role: RoleRadioButtons):
+        self.driver.find_element_by_xpath(role.value).click()
         self.driver.find_element_by_xpath(self.ADD_BUTTON).click()
         WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.XPATH, self.POPUP_DIALOG)))
 
@@ -26,12 +40,16 @@ class ModerForm(Component):
 class GeneralForm(Component):
     NAME_GROUP_INPUT = '//*[@id="field_name"]'
     DESCRIPTION_GROUP_INPUT = '//*[@id="field_description"]'
-    CATEGORY = '//*[@id="field_pageSuperCategory"]'
-    SUBCATEGORY = '//*[@id="field_pageMixedCategory"]'
+    GROUP_CATEGORY = '//*[@id="field_category"]'
+    PAGE_CATEGORY = '//*[@id="field_pageSuperCategory"]'
+    PAGE_SUBCATEGORY = '//*[@id="field_pageMixedCategory"]'
     CATEGORY_AFTER_SAVE = '//*[@id="categoriesCollapsedId"]/div[2]/span[1]'
     SAVE_BUTTON = '//*[@id="hook_FormButton_button_save_settings"]'
     TIP = '//*[@id="hook_Block_TipBlock"]/div/div'
     TYPE_TEXT = '//*[@id="group-settings-form"]/div/div[1]/div[2]/div/span[1]'
+    CHANGE_TYPE = '//*[@id="group-settings-form"]/div/div[1]/div[2]/div/a'
+    POPUP = '//*[@id="popLayer_mo"]'
+    POPUP_CONFIRM_BUTTON = '//*[@id="hook_FormButton_button_change_type"]'
 
     class Categories(Enum):
         BRAND = 'BRAND'
@@ -64,29 +82,43 @@ class GeneralForm(Component):
 
     @property
     def category(self):
-        return self.driver.find_element_by_xpath(self.CATEGORY_AFTER_SAVE).text
+        if self.type == "Страница":
+            return self.driver.find_element_by_xpath(self.CATEGORY_AFTER_SAVE).text
+        else:
+            return Select(self.driver.find_element_by_xpath(self.GROUP_CATEGORY)).first_selected_option.text
 
     @category.setter
     def category(self, category: str):
-        select_category = Select(self.driver.find_element_by_xpath(self.CATEGORY))
-        select_category.select_by_value(category)
+        if self.type == "Страница":
+            select_category = Select(self.driver.find_element_by_xpath(self.PAGE_CATEGORY))
+            select_category.select_by_value(category)
+        else:
+            select_category = Select(self.driver.find_element_by_xpath(self.GROUP_CATEGORY))
+            select_category.select_by_index(1)
 
     @property
     def subcategory(self):
-        select_subcategory = Select(self.driver.find_element_by_xpath(self.SUBCATEGORY))
+        select_subcategory = Select(self.driver.find_element_by_xpath(self.PAGE_SUBCATEGORY))
         return select_subcategory.first_selected_option.text
 
     @subcategory.setter
     def subcategory(self, subcategory: str):
-        select_category = Select(self.driver.find_element_by_xpath(self.SUBCATEGORY))
-        if subcategory not in [o.get_attribute('value') for o in select_category.options]:
-            select_category.select_by_index(0)
-        else:
-            select_category.deselect_by_value(subcategory)
+        if subcategory is not None:
+            select_category = Select(self.driver.find_element_by_xpath(self.PAGE_SUBCATEGORY))
+            if subcategory not in [o.get_attribute('value') for o in select_category.options]:
+                select_category.select_by_index(0)
+            else:
+                select_category.deselect_by_value(subcategory)
 
     @property
     def type(self):
         return self.driver.find_element_by_xpath(self.TYPE_TEXT).text
+
+    def toggle_type(self):
+        self.driver.find_element_by_xpath(self.CHANGE_TYPE).click()
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, self.POPUP)))
+        self.driver.find_element_by_xpath(self.POPUP_CONFIRM_BUTTON).click()
+        WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.XPATH, self.POPUP)))
 
     def save(self):
         self.driver.find_element_by_xpath(self.SAVE_BUTTON).click()
@@ -115,13 +147,19 @@ class AddGroupLinksPopup(Component):
     POPUP = '//*[@id="popLayer_mo"]'
     SELECT = '//*[@id="hook_InviteChangeCard_4585283105"]/div/div[2]/div[2]/div[2]/div[2]'
     ADD_BUTTON = '//*[@id="hook_FormButton_button_invite"]'
+    GROUP_NAME = 'leftCardName'
 
     def add(self):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, self.POPUP)))
         self.driver.execute_script(
-            "document.getElementsByClassName('ifSelect')[0].style.display = 'block';")
-        self.driver.find_element_by_xpath(self.SELECT).click()
+            "el = document.getElementsByClassName('ifSelect')[0];"
+            "el.style.display = 'block';"
+            "el.click();")
+        # WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, 'ifSelect')))
+        # self.driver.find_element_by_class_name('ifSelect').click()
+        name = self.driver.find_element_by_class_name(self.GROUP_NAME).text
         self.driver.find_element_by_xpath(self.ADD_BUTTON).click()
+        return name
 
 
 class ApplicationForm(Component):
@@ -132,20 +170,36 @@ class ApplicationForm(Component):
         return ApplicationPopup(self.driver)
 
 
+class WhoCanLeaveComments(Enum):
+    NOBODY = 'NOBODY'
+    MEMBERS = 'MEMBERS'
+    EVERYBODY = 'EVERYBODY'
+
+
 class ManagmentForm(Component):
-    GENERATE_API_KEY_BUTTON = '//*[@id="group-settings-form"]/div[8]/div[2]/div/div[2]/div/a'
+    GENERATE_LINK = '//*[@id="group-settings-form"]/div[8]/div[2]/div/div[2]/div/a'
+    GENERATE_API_KEY_BUTTON = '//*[@id="hook_FormButton_button_change_token"]'
     API_KEY_INPUT = '//*[@id="hook_Form_PopLayerAltGroupChangeTokenForm"]/form/input[3]'
     OBSCENE_LANGUAGE = '//*[@id="field_opt_ConcealObsceneWordsInCommentsEnabled"]'
     PHOTO_SECTION = '//*[@id="field_opt_PhotosTabHidden"]'
+    VIDEO_SECTION = '//*[@id="field_opt_VideoTabHidden"]'
+    COMMENT = '//*[@id="field_opt_whoCanComment"]'
     SAVE_BUTTON = '//*[@id="hook_FormButton_button_save_settings"]'
     TIP = '//*[@id="hook_Block_TipBlock"]/div/div'
 
     def generate_api_key(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.driver.find_element_by_xpath(self.GENERATE_LINK).click()
         self.driver.find_element_by_xpath(self.GENERATE_API_KEY_BUTTON).click()
-        return self.driver.find_element_by_xpath(self.API_KEY_INPUT).value
+        value = self.driver.find_element_by_xpath(self.API_KEY_INPUT).get_attribute('value')
+        return value
 
     def hide_photo_section(self):
         select = Select(self.driver.find_element_by_xpath(self.PHOTO_SECTION))
+        select.select_by_value("on")
+
+    def hide_video_section(self):
+        select = Select(self.driver.find_element_by_xpath(self.VIDEO_SECTION))
         select.select_by_value("on")
 
     def hide_obscene(self):
@@ -153,22 +207,27 @@ class ManagmentForm(Component):
         select_obscene.select_by_value("on")
         # WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, self.TIP)))
 
+    def forbid_leave_comments(self, who: WhoCanLeaveComments):
+        select = Select(self.driver.find_element_by_xpath(self.COMMENT))
+        select.select_by_value(who.value)
+
     def save_settings(self):
         self.driver.find_element_by_xpath(self.SAVE_BUTTON).click()
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, self.TIP)))
 
 
 class PopupUserMenu(Component):
-    ASSIGN_MODERATOR_POPUP_ITEM = '//*[@id="hook_Block_MainContainer"]/div[5]/table/tbody/tr/td/div/div/div[1]/div/ul[2]/li[2]'
-    REMOVE_MODERATOR_POPUP_ITEM = '//*[@id="hook_Block_MainContainer"]/div[5]/table/tbody/tr/td/div/div/div[1]/div/ul[2]/li[4]'
+    ASSIGN_MODERATOR_POPUP_ITEM = 'ic_moder'
+    REMOVE_MODERATOR_POPUP_ITEM = 'ic_moder-off'
 
     @property
     def assign_as_moderator(self) -> ModerForm:
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, self.ASSIGN_MODERATOR_POPUP_ITEM))).click()
+            EC.visibility_of_element_located((By.CLASS_NAME, self.ASSIGN_MODERATOR_POPUP_ITEM))).click()
         return ModerForm(self.driver)
 
     @property
     def remove_as_moderator(self):
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, self.REMOVE_MODERATOR_POPUP_ITEM))).click()
+            EC.visibility_of_element_located((By.CLASS_NAME, self.REMOVE_MODERATOR_POPUP_ITEM))).click()
         return ModerForm(self.driver)
