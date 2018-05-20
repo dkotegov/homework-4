@@ -17,3 +17,11 @@ class MainPage(Page):
     def my_birthday(self):
         main_form = MainForm(self.driver)
         return main_form.get_birthday()
+
+    def my_birth_note(self):
+        main_form = MainForm(self.driver)
+        return main_form.get_birth_note()
+
+    def my_current_city(self):
+        main_form = MainForm(self.driver)
+        return main_form.get_current_city()

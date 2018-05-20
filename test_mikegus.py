@@ -2,14 +2,18 @@
 
 import unittest
 import os
-import time
 from pages.about_page import AboutPage
 from pages.auth_page import AuthPage
 from pages.community_page import CommunityPage
+from pages.main_page import MainPage
 from constants import profiles
 from constants import army
 from constants import career
 from constants import comminity
+from constants import study
+from constants import main_page
+from constants import base_settings
+
 from selenium.common.exceptions import NoSuchElementException
 
 from pages.base_settings_page import BaseSettingsPage
@@ -30,10 +34,10 @@ class Tests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    # def test_home(self):
     #
+    # def test_current_city_correct(self):
     #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
+    #     auth_page.open('')
     #
     #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
     #
@@ -41,20 +45,20 @@ class Tests(unittest.TestCase):
     #     base_settings_page.open('/settings')
     #     personal_data = base_settings_page.personal_data()
     #
-    #     city = u"Москва"
-    #     country = u"Россия"
-    #     personal_data.set_home_city_country(city, country)
+    #     city_country = base_settings.CORRECT_CITY + ", " + base_settings.CORRECT_COUNTRY
+    #     personal_data.put_current_city_country(city_country)
+    #     personal_data.select_current_city_country()
     #     personal_data.save()
+    #     personal_data.close_save()
     #
-    #     personal_data = base_settings_page.personal_data()
-    #     new_city, new_country = personal_data.get_home_city_country()
+    #     m_page = MainPage(self.driver)
+    #     m_page.open(main_page.PROFILE_TECHNOPARK11_REFERENCE)
+    #     self.assertEqual(base_settings.CORRECT_CITY, m_page.my_current_city())
     #
-    #     self.assertEqual(city, new_city)
-    #     self.assertEqual(country, new_country)
-    #
-    # def test_home_error(self):
+    # def test_current_city_incorrect(self):
+    #     return
     #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
+    #     auth_page.open('')
     #
     #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
     #
@@ -62,45 +66,49 @@ class Tests(unittest.TestCase):
     #     base_settings_page.open('/settings')
     #     personal_data = base_settings_page.personal_data()
     #
-    #     city = u"Масква"
-    #     country = u"Россия"
-    #     error = u"Пожалуйста, выберите место проживания из списка"
-    #
-    #     personal_data.set_home_city_country(city, country)
+    #     city_country = base_settings.CORRECT_CITY + ", " + base_settings.INCORRECT_COUNTRY
+    #     personal_data.put_current_city_country(city_country)
     #     personal_data.save()
-    #
-    #     e = personal_data.home_error()
-    #     self.assertEqual(e, error)
-    #
-    #     city = u"Москва"
-    #     country = u"Рассия"
-    #     personal_data.set_home_city_country(city, country)
-    #     personal_data.save()
-    #
-    #     e = personal_data.home_error()
-    #     self.assertEqual(e, error)
-    #
-    # def test_change_sex(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     base_settings_page = BaseSettingsPage(self.driver)
-    #     base_settings_page.open('/settings')
-    #     personal_data = base_settings_page.personal_data()
-    #
-    #     male = False
-    #     personal_data.change_sex(male)
-    #     personal_data.save()
-    #
-    #     personal_data = base_settings_page.personal_data()
-    #     new_male = personal_data.get_sex()
-    #
-    #     self.assertEqual(male, new_male)
+    #     error = personal_data.current_city_error()
+    #     self.assertEqual(error, base_settings.CITY_ERROR)
+
+    def test_change_sex(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        base_settings_page = BaseSettingsPage(self.driver)
+        base_settings_page.open('/settings')
+        personal_data = base_settings_page.personal_data()
+
+        personal_data.check_female()
+        personal_data.save()
+        personal_data.close_save()
+
+        personal_data = base_settings_page.personal_data()
+        self.assertEqual(personal_data.is_female(), True)
+        self.assertEqual(personal_data.is_male(), False)
+
+        m_page = MainPage(self.driver)
+        m_page.open(main_page.PROFILE_TECHNOPARK11_REFERENCE)
+        self.assertEqual(m_page.my_birth_note(), main_page.FEMALE_BIRTH_NOTE)
+
+        base_settings_page.open('/settings')
+        personal_data = base_settings_page.personal_data()
+        personal_data.check_male()
+        personal_data.save()
+        personal_data.close_save()
+
+        personal_data = base_settings_page.personal_data()
+        self.assertEqual(personal_data.is_female(), False)
+        self.assertEqual(personal_data.is_male(), True)
+
+        m_page.open(main_page.PROFILE_TECHNOPARK11_REFERENCE)
+        self.assertEqual(m_page.my_birth_note(), main_page.MALE_BIRTH_NOTE)
+
 
     def test_army_correct_city_unit(self):
-        return
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
@@ -126,7 +134,6 @@ class Tests(unittest.TestCase):
         community_form.leave()
 
     def test_army_incorrect_city_unit(self):
-        return
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
@@ -144,7 +151,6 @@ class Tests(unittest.TestCase):
         self.assertEqual(error, army.ERROR_INVALID_UNIT)
 
     def test_army_duplicate(self):
-        return
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
@@ -170,7 +176,6 @@ class Tests(unittest.TestCase):
         community_form.leave()
 
     def test_career_correct_city_job(self):
-        return
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
@@ -196,7 +201,6 @@ class Tests(unittest.TestCase):
         community_form.leave()
 
     def test_career_incorrect_city_job(self):
-        return
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
@@ -221,7 +225,6 @@ class Tests(unittest.TestCase):
         self.assertEqual(error, career.ERROR_INVALID_JOB)
 
     def test_career_duplicate(self):
-        return
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
@@ -246,105 +249,76 @@ class Tests(unittest.TestCase):
         community_form = community_page.community_form()
         community_form.leave()
 
-    # def test_study_city(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver)
-    #     about_page.open('/bochrvf260602.lp/about')
-    #
-    #     study_data = about_page.study_data()
-    #
-    #     city = "Москва"
-    #     unit = "1 школа"
-    #
-    #     study_data.set_city_unit(city, unit)
-    #     study_data = about_page.study_data()
-    #
-    #     new_city, new_unit = study_data.get_city_unit()
-    #     self.assertEqual(city, new_city)
-    #     self.assertEqual(unit, new_unit)
-    #
-    # def test_study_city_error(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver)
-    #     about_page.open('/bochrvf260602.lp/about')
-    #
-    #     study_data = about_page.study_data()
-    #
-    #     city = "Москва"
-    #     unit = "1 школа"
-    #     error = "Мы не знаем о такой школе"
-    #
-    #     study_data.set_city_unit(city, unit)
-    #
-    #     e = study_data.get_error_unit()
-    #     self.assertEqual(error, e)
-    #
-    # def test_study_city_dup(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver)
-    #     about_page.open('/bochrvf260602.lp/about')
-    #
-    #     study_data = about_page.study_data()
-    #
-    #     city = "Москва"
-    #     unit = "1 школа"
-    #     error = "Вы уже состоите в этом сообществе"
-    #
-    #     study_data.set_city_unit(city, unit)
-    #     study_data.set_city_unit(city, unit)
-    #
-    #     e = study_data.get_error_unit()
-    #     self.assertEqual(error, e)
+    def test_study_correct_city_school(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
 
-    # def test_study_city_error(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver)
-    #     about_page.open('/bochrvf260602.lp/about')
-    #
-    #     work_data = about_page.work_data()
-    #
-    #     city = "Москва"
-    #     unit = "11-й автобусный парк"
-    #     error = "Мы не знаем о организации"
-    #
-    #     work_data.set_city_unit(city, unit)
-    #
-    #     e = work_data.get_error_unit()
-    #     self.assertEqual(error, e)
-    #
-    # def test_study_city_dup(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver)
-    #     about_page.open('/bochrvf260602.lp/about')
-    #
-    #     work_data = about_page.work_data()
-    #
-    #     city = "Москва"
-    #     unit = "11-й автобусный парк"
-    #     error = "Вы уже состоите в этом сообществе"
-    #
-    #     work_data.set_city_unit(city, unit)
-    #     work_data.set_city_unit(city, unit)
-    #
-    #     e = work_data.get_error_unit()
-    #     self.assertEqual(error, e)
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver)
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+
+        about_form = about_page.about_form()
+        study_form = about_form.study_form()
+        study_form.add_city_school(study.CORRECT_CITY_COUNTRY, study.CORRECT_SCHOOL)
+        study_form.button_ok()
+        about_form.close_popup()
+
+        try:
+            about_form.get_top_school()
+        except NoSuchElementException:
+            self.fail('место учебы не добавлено')
+
+        community_page = CommunityPage(self.driver)
+        community_page.open(study.CORRECT_SCHOOL_REFERENCE)
+        community_form = community_page.community_form()
+        community_form.leave()
+
+    def test_study_incorrect_city_school(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver)
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+
+        about_form = about_page.about_form()
+        study_form = about_form.study_form()
+        study_form.put_city(study.INCORRECT_CITY_COUNTRY)
+        error = study_form.city_error()
+        self.assertEqual(error, study.ERROR_INVALID_CITY)
+
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_form = about_page.about_form()
+        study_form = about_form.study_form()
+
+        study_form.add_city(study.CORRECT_CITY_COUNTRY)
+        study_form.put_school(study.INCORRECT_SCHOOL)
+        error = study_form.school_error()
+        self.assertEqual(error, study.ERROR_INVALID_SCHOOL)
+
+    def test_school_duplicate(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver)
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+
+        about_form = about_page.about_form()
+        study_form = about_form.study_form()
+        study_form.add_city_school(study.CORRECT_CITY_COUNTRY, study.CORRECT_SCHOOL)
+        study_form.button_ok()
+        about_form.close_popup()
+
+        study_form = about_form.study_form()
+        study_form.add_city_school(study.CORRECT_CITY_COUNTRY, study.CORRECT_SCHOOL)
+        error = study_form.school_error()
+        self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
+
+        community_page = CommunityPage(self.driver)
+        community_page.open(study.CORRECT_SCHOOL_REFERENCE)
+        community_form = community_page.community_form()
+        community_form.leave()

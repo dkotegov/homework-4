@@ -10,6 +10,7 @@ class AboutForm(BaseComponent):
     BUTTON_CLOSE_POPUP = "//a[@id='nohook_modal_close']"
     TOP_UNIT = "//span[@title='134523, Москва, Россия']"
     TOP_JOB = "//span[@title='\"Красное и белое\", Москва, Россия']"
+    TOP_SCHOOL = "//span[@title='1 школа, Москва, Россия']"
 
     def career_form(self):
         self.get_visibility_elements(self.REF)[1].click()
@@ -28,6 +29,9 @@ class AboutForm(BaseComponent):
 
     def get_top_job(self):
         return self.get_visibility_element(self.TOP_JOB)
+
+    def get_top_school(self):
+        return self.get_visibility_element(self.TOP_SCHOOL)
 
     def get_top_unit(self):
         return self.get_visibility_element(self.TOP_UNIT)

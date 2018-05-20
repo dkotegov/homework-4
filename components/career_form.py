@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from components.base_component import BaseComponent
-import time
 
 
 class CareerForm(BaseComponent):

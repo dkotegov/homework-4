@@ -3,6 +3,7 @@
 from components.base_component import BaseComponent
 import time
 
+
 class PersonalDataForm(BaseComponent):
     NAME = "//input[@name='fr.name']"
     SURNAME = "//input[@name='fr.surname']"
@@ -11,9 +12,9 @@ class PersonalDataForm(BaseComponent):
 
     def name_surname(self, my_name, my_surname):
         name = self.get_visibility_element(self.NAME)
-        self.driver.execute_script("arguments[0].value='" + my_name +"'", name)
+        self.driver.execute_script("arguments[0].value='" + my_name + "'", name)
         surname = self.get_visibility_element(self.SURNAME)
-        self.driver.execute_script("arguments[0].value='" + my_surname +"'", surname)
+        self.driver.execute_script("arguments[0].value='" + my_surname + "'", surname)
 
     def save(self):
         self.get_clickable_element(self.SAVE_BUTTON).click()
@@ -24,7 +25,7 @@ class PersonalDataForm(BaseComponent):
     ERROR = "//span[@class='input-e']"
 
     def name_surname_error(self):
-        self.get_visibility_element(self.ERROR) # Ждем пока станет видимый
+        self.get_visibility_element(self.ERROR)  # Ждем пока станет видимый
         e1 = self.get_visibility_elements(self.ERROR)[0].text
         e2 = self.get_visibility_elements(self.ERROR)[1].text
         return e1, e2
@@ -66,9 +67,44 @@ class PersonalDataForm(BaseComponent):
     def get_birthday_error(self):
         return self.get_visibility_elements(self.ERROR)[2].text
 
+    GENDER_MALE = "//input[@id='field_gender_1']"
+    GENDER_FEMALE = "//input[@id='field_gender_2']"
+
+    def check_male(self):
+        self.get_clickable_element(self.GENDER_MALE).click()
+
+    def check_female(self):
+        self.get_clickable_element(self.GENDER_FEMALE).click()
+
+    def is_male(self):
+        return self.get_clickable_element(self.GENDER_MALE).is_selected()
+
+    def is_female(self):
+        return self.get_clickable_element(self.GENDER_FEMALE).is_selected()
+
+    CURRENT_CITY = "//input[@id='field_citySugg_SearchInput']"
+
+    BIRTH_CITY = "//input[@id='field_cityBSugg_SearchInput']"
+
+    CITY_LIST = "//li[@class='suggest_li']"
+
+
+    def put_current_city_country(self, str):
+        city = self.get_visibility_element(self.CURRENT_CITY)
+        city.clear()
+        city.send_keys(str)
+
+    def select_current_city_country(self):
+        self.get_visibility_elements(self.CITY_LIST)[0].click()
+
+    CITY_ERROR = "//span[@class='input-e']"
+
+    def current_city_error(self):
+        return self.get_visibility_element(self.CITY_ERROR).text
+
+
 
 class ProneNumberForm(BaseComponent):
-
     NUMBER = "//input[@name='st.layer.phone']"
     OK_BUTTON = "//input[@class='button-pro form-actions_yes']"
 
@@ -89,6 +125,7 @@ class ProneNumberForm(BaseComponent):
     def number_error(self):
         return self.get_visibility_element(self.NUMBER_ERROR).text
 
+
 class EmailForm(BaseComponent):
     EMAIL = "//input[@name='fr.email']"
     PASSWORD = "//input[@name='fr.password']"
@@ -106,9 +143,9 @@ class EmailForm(BaseComponent):
         self.get_clickable_element(self.SAVE_BUTTON).click()
 
     ERROR = "//span[@class='input-e']"
+
     def get_error_password(self):
         return self.get_visibility_element(self.ERROR).text
-
 
 
 class BaseSettingsForm(BaseComponent):
@@ -136,5 +173,3 @@ class BaseSettingsForm(BaseComponent):
 
     def profile_click(self):
         self.get_clickable_element(self.PROFILE1).click()
-
-
