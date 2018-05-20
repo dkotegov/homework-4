@@ -1,39 +1,33 @@
 # -*- coding: utf-8 -*-
 
 from components.base_component import BaseComponent
-import selenium
-import time
-
-
-class WarForm(BaseComponent):
-    CITY = "//input[@name='st.layer.city']"
-    def city(self):
-        city = self.get_visibility_element(self.CITY)
-        self.driver.execute_script("arguments[0].value='Москва'", city)
-    UNIT = "//input[@name='st.layer.armyText']"
-    UNIT2 = "//div[@class='sug_it_txt-div ellip']"
-    BUTTON_OK = "//input[@id='hook_FormButton_button_join']"
-
-    def unit(self):
-        unit = self.driver.find_element_by_xpath(self.UNIT)
-        unit.send_keys("83536")
-        self.get_clickable_element(self.UNIT2).click()
-        # self.get_clickable_element(self.UNIT2).click()
-        # unit = self.get_visibility_element(self.UNIT)
-        # self.driver.execute_script("arguments[0].value='83536'", unit)
-        # time.sleep(1)
-        # self.driver.execute_script("arguments[0].value+='6'", unit)
-
-        # self.driver.execute_script("keyPressAndWait('83536')", unit)
-        # self.get_clickable_element(self.UNIT2).click()
-
-    def button_ok(self):
-        self.get_clickable_element(self.BUTTON_OK).click()
-
+from components.army_form import ArmyForm
+from components.career_form import CareerForm
+from components.study_form import StudyForm
 
 class AboutForm(BaseComponent):
     REF = "//a[@class='user-profile_lk-o']"
-    def war_data(self):
-        self.get_visibility_elements(self.REF)[3].click()
-        return WarForm(self.driver)
+    BUTTON_CLOSE_POPUP = "//a[@id='nohook_modal_close']"
+    TOP_UNIT = "//span[@title='134523, Москва, Россия']"
+    TOP_JOB = "//span[@title='\"Красное и белое\", Москва, Россия']"
 
+    def career_form(self):
+        self.get_visibility_elements(self.REF)[1].click()
+        return CareerForm(self.driver)
+
+    def study_form(self):
+        self.get_visibility_elements(self.REF)[2].click()
+        return StudyForm(self.driver)
+
+    def army_form(self):
+        self.get_visibility_elements(self.REF)[3].click()
+        return ArmyForm(self.driver)
+
+    def close_popup(self):
+        self.get_clickable_element(self.BUTTON_CLOSE_POPUP).click()
+
+    def get_top_job(self):
+        return self.get_visibility_element(self.TOP_JOB)
+
+    def get_top_unit(self):
+        return self.get_visibility_element(self.TOP_UNIT)

@@ -5,7 +5,12 @@ import os
 import time
 from pages.about_page import AboutPage
 from pages.auth_page import AuthPage
+from pages.community_page import CommunityPage
 from constants import profiles
+from constants import army
+from constants import career
+from constants import comminity
+from selenium.common.exceptions import NoSuchElementException
 
 from pages.base_settings_page import BaseSettingsPage
 
@@ -94,74 +99,153 @@ class Tests(unittest.TestCase):
     #
     #     self.assertEqual(male, new_male)
 
-    def test_war_city(self):
+    def test_army_correct_city_unit(self):
+        return
         auth_page = AuthPage(self.driver)
         auth_page.open('')
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open('/bochrvf260602.lp/about')
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
 
         about_form = about_page.about_form()
-        war_form = about_form.war_data()
-        war_form.city()
-        war_form.unit()
-        war_form.button_ok()
+        army_form = about_form.army_form()
+        army_form.add_city_unit(army.CORRECT_CITY, army.CORRECT_UNIT)
+        army_form.button_ok()
+        about_form.close_popup()
 
-        time.sleep(1)
+        try:
+            about_form.get_top_unit()
+        except NoSuchElementException:
+            self.fail('в/ч не добавлена')
 
-        # city = "Москва"
-        # unit = "7456"
-        #
-        # war_data.set_city_unit(city, unit)
-        # war_data = about_page.war_data()
-        #
-        # new_city, new_unit = war_data.get_city_unit()
-        # self.assertEqual(city, new_city)
-        # self.assertEqual(unit, new_unit)
+        community_page = CommunityPage(self.driver)
+        community_page.open(army.CORRECT_ARMY_REFERENCE)
+        community_form = community_page.community_form()
+        community_form.leave()
 
-    # def test_war_city_error(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver)
-    #     about_page.open('/bochrvf260602.lp/about')
-    #
-    #     war_data = about_page.war_data()
-    #
-    #     city = "Москва"
-    #     unit = "91824018420214092109"
-    #     error = "Мы не знаем о такой воинской части"
-    #
-    #     war_data.set_city_unit(city, unit)
-    #
-    #     e = war_data.get_error_unit()
-    #     self.assertEqual(error, e)
-    #
-    # def test_war_city_dup(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver)
-    #     about_page.open('/bochrvf260602.lp/about')
-    #
-    #     war_data = about_page.war_data()
-    #
-    #     city = "Москва"
-    #     unit = "7456"
-    #     error = "Вы уже состоите в этом сообществе"
-    #
-    #     war_data.set_city_unit(city, unit)
-    #     war_data.set_city_unit(city, unit)
-    #
-    #     e = war_data.get_error_unit()
-    #     self.assertEqual(error, e)
-    #
+    def test_army_incorrect_city_unit(self):
+        return
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver)
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+
+        about_form = about_page.about_form()
+        army_form = about_form.army_form()
+        army_form.put_city(army.CORRECT_CITY)
+        army_form.put_unit(army.INCORRECT_UNIT)
+
+        error = army_form.army_error()
+        self.assertEqual(error, army.ERROR_INVALID_UNIT)
+
+    def test_army_duplicate(self):
+        return
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver)
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+
+        about_form = about_page.about_form()
+        army_form = about_form.army_form()
+        army_form.add_city_unit(army.CORRECT_CITY, army.CORRECT_UNIT)
+        army_form.button_ok()
+        about_form.close_popup()
+
+        army_form = about_form.army_form()
+        army_form.add_city_unit(army.CORRECT_CITY, army.CORRECT_UNIT)
+        error = army_form.army_error()
+        self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
+
+        community_page = CommunityPage(self.driver)
+        community_page.open(army.CORRECT_ARMY_REFERENCE)
+        community_form = community_page.community_form()
+        community_form.leave()
+
+    def test_career_correct_city_job(self):
+        return
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver)
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+
+        about_form = about_page.about_form()
+        career_form = about_form.career_form()
+        career_form.add_city_job(career.CORRECT_CITY_COUNTRY, career.CORRECT_JOB)
+        career_form.button_ok()
+        about_form.close_popup()
+
+        try:
+            about_form.get_top_job()
+        except NoSuchElementException:
+            self.fail('место работы не добавлено')
+
+        community_page = CommunityPage(self.driver)
+        community_page.open(career.CORRECT_CAREER_REFERENCE)
+        community_form = community_page.community_form()
+        community_form.leave()
+
+    def test_career_incorrect_city_job(self):
+        return
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver)
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+
+        about_form = about_page.about_form()
+        career_form = about_form.career_form()
+        career_form.put_city(career.INCORRECT_CITY_COUNTRY)
+        error = career_form.city_error()
+        self.assertEqual(error, career.ERROR_INVALID_CITY)
+
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_form = about_page.about_form()
+        career_form = about_form.career_form()
+
+        career_form.add_city(career.CORRECT_CITY_COUNTRY)
+        career_form.put_job(career.INCORRECT_JOB)
+        error = career_form.job_error()
+        self.assertEqual(error, career.ERROR_INVALID_JOB)
+
+    def test_career_duplicate(self):
+        return
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver)
+        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+
+        about_form = about_page.about_form()
+        career_form = about_form.career_form()
+        career_form.add_city_job(career.CORRECT_CITY_COUNTRY, career.CORRECT_JOB)
+        career_form.button_ok()
+        about_form.close_popup()
+
+        career_form = about_form.career_form()
+        career_form.add_city_job(career.CORRECT_CITY_COUNTRY, career.CORRECT_JOB)
+        error = career_form.job_error()
+        self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
+
+        community_page = CommunityPage(self.driver)
+        community_page.open(career.CORRECT_CAREER_REFERENCE)
+        community_form = community_page.community_form()
+        community_form.leave()
+
     # def test_study_city(self):
     #     auth_page = AuthPage(self.driver)
     #     auth_page.open()
@@ -223,28 +307,7 @@ class Tests(unittest.TestCase):
     #
     #     e = study_data.get_error_unit()
     #     self.assertEqual(error, e)
-    #
-    # def test_work_city(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver)
-    #     about_page.open('/bochrvf260602.lp/about')
-    #
-    #     work_data = about_page.work_data()
-    #
-    #     city = "Москва"
-    #     unit = "11-й автобусный парк"
-    #
-    #     work_data.set_city_unit(city, unit)
-    #     work_data = about_page.work_data()
-    #
-    #     new_city, new_unit = work_data.get_city_unit()
-    #     self.assertEqual(city, new_city)
-    #     self.assertEqual(unit, new_unit)
-    #
+
     # def test_study_city_error(self):
     #     auth_page = AuthPage(self.driver)
     #     auth_page.open()
