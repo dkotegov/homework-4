@@ -81,32 +81,38 @@ class PhotosList(Component):
 
     @property
     def first(self):
-        return self.get(0)
+        return self.get(1)
 
     def get(self, index):
-        return PhotoItem(self.driver, self.driver.find_elements_by_class_name(self.ITEM)[index])
+        return PhotoItem(self.driver, index)
 
 
 class PhotoItem(Component):
+    BASE = '//li[@class="photo-collage"]/a[{}]'
     ITEM = 'sil'
     PHOTO_ID = 'st.phoId'
     IMAGE_ID = 'id'
 
+    def __init__(self, driver, index):
+        super().__init__(driver)
+        self.index = index
+        self.base = self.BASE.format(index)
+
     @property
     def id(self):
-        href = self.element.get_attribute('href')
+        href = self.driver.find_element_by_xpath(self.base).get_attribute('href')
         qs = urlparse(href).query
         return parse_qs(qs)[self.PHOTO_ID][0]
 
     @property
     def image_id(self):
-        url = self.element.get_attribute('style')
+        url = self.driver.find_element_by_xpath(self.base).get_attribute('style')
         qs = urlparse(url).query
         return parse_qs(qs)[self.IMAGE_ID][0]
 
     @wait_until_url_changes
     def open(self):
-        self.element.click()
+        self.driver.find_element_by_xpath(self.base).click()
 
 
 class Toolbar(Component):

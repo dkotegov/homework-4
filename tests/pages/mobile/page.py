@@ -1,9 +1,12 @@
 import urllib.parse
 
+from selenium.common.exceptions import NoSuchElementException
+
 
 class Page(object):
     BASE_URL = 'https://m.ok.ru/'
     PATH = ''
+    TOUCH_OVERLAY = 'touch-overlay'
 
     def __init__(self, driver):
         self.driver = driver
@@ -27,10 +30,13 @@ class Page(object):
     def current_url(self):
         return self.driver.current_url
 
+    def touch_overlay(self):
+        try:
+            self.driver.find_element_by_class_name(self.TOUCH_OVERLAY).click()
+        except NoSuchElementException:
+            pass
+
 
 class Component(object):
-    def __init__(self, driver, element=None):
+    def __init__(self, driver):
         self.driver = driver
-        self.element = element
-        if element is None:
-            self.element = self.driver
