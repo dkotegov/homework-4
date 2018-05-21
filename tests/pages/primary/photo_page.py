@@ -36,6 +36,7 @@ class Comments(Component):
 
     COMMENT_LIST_CSS_lastchild = '.comments_lst_cnt > div[id^="hook_Block"]:last-child'
     COMMENT_BOX_CSS_last = '.comments_lst_cnt > div[id^="hook_Block"]:last-child div[class="comments_i"]'
+    DELETE_BTN_last = COMMENT_LIST_CSS_lastchild + ' a.comments_remove'
 
     DELETE_BTN = '//a[contains(@class, "comments_remove")]'
     UNDELETE_BTN = '//a[contains(@class, "delete-stub_cancel")]'
@@ -49,6 +50,8 @@ class Comments(Component):
     ANS_MARKER_CSS = '.comments_lst_cnt > div[id^="hook_Block"]:last-child .vaTop'
 
     NUM_COMMENTS = ".photo-layer_bottom_block_w .widget.__no-o a[data-module='CommentWidgets'] .widget_count.js-count"
+
+    DELETED_MARKER_CSS = '.comments_i.__deleted'
 
     def get_newest_comment_text(self):
         comment_text_field = self.driver.find_elements_by_xpath(self.COMMENT)[-1]
@@ -118,12 +121,11 @@ class Comments(Component):
                 EC.element_to_be_clickable((By.CSS_SELECTOR, '.comments_remove'))
             ).click()
             num_after = str(int(n) - 1)
-            WebDriverWait(self.driver, 20, 0.1).until(
-                EC.text_to_be_present_in_element((By.CSS_SELECTOR, self.NUM_COMMENTS), num_after)
+            WebDriverWait(self.driver, 10, 0.1).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR, self.DELETED_MARKER_CSS))
             )
-            deleted_marker_css = '.comments_i.__deleted'
-            WebDriverWait(self.driver, 20, 0.1).until(
-                EC.visibility_of_element_located((By.CSS_SELECTOR, deleted_marker_css))
+            WebDriverWait(self.driver, 10, 0.1).until(
+                EC.text_to_be_present_in_element((By.CSS_SELECTOR, self.NUM_COMMENTS), num_after)
             )
         except NoSuchElementException:
             return 0
