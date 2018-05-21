@@ -92,22 +92,30 @@ class MobileAlbumTest(unittest.TestCase):
         edit_form.submit()
         self.assertEqual(album_name, self.album_page.empty_album.title)
 
-    def test_like_album(self):
+    def test_like_album_at_albums_page(self):
         albums_page = UserAlbumsPage(self.driver)
         albums_page.open()
-        album_item = albums_page.albums_list.first
-        album_item.like()
-        self.assertEqual(1, album_item.likes_count)
+        like_component = albums_page.albums_list.first.like
+        like_component.like()
+        self.assertEqual(1, like_component.likes_count)
+
+    def test_like_album(self):
+        UserAddAlbumPhotoPage(self.driver, self.album_id).upload_photo()
+        self.album_page.open()
+
+        like_component = self.album_page.like
+        like_component.like()
+        self.assertEqual(1, like_component.likes_count)
 
     def test_cancel_album_like(self):
         albums_page = UserAlbumsPage(self.driver)
         albums_page.open()
-        album_item = albums_page.albums_list.first
-        album_item.like()
+        like_component = albums_page.albums_list.first.like
+        like_component.like()
         albums_page.touch_overlay()
 
-        album_item.cancel_like()
-        self.assertEqual(0, album_item.likes_count)
+        like_component.cancel_like()
+        self.assertEqual(0, like_component.likes_count)
 
     def test_add_photo(self):
         UserAddAlbumPhotoPage(self.driver, self.album_id).upload_photo()
@@ -133,20 +141,20 @@ class MobileAlbumTest(unittest.TestCase):
     def test_like_photo(self):
         self.upload_photo_and_open()
 
-        photo = PhotoPage(self.driver).photo
-        photo.like()
-        self.assertEqual(1, photo.likes_count)
+        like_component = PhotoPage(self.driver).photo.like
+        like_component.like()
+        self.assertEqual(1, like_component.likes_count)
 
     def test_cancel_photo_like(self):
         self.upload_photo_and_open()
 
         photo_page = PhotoPage(self.driver)
-        photo = photo_page.photo
-        photo.like()
+        like_component = photo_page.photo.like
+        like_component.like()
         photo_page.touch_overlay()
 
-        photo.cancel_like()
-        self.assertEqual(0, photo.likes_count)
+        like_component.cancel_like()
+        self.assertEqual(0, like_component.likes_count)
 
     def test_make_photo_album_cover(self):
         UserAddAlbumPhotoPage(self.driver, self.album_id).upload_photo(abspath('tests/photos/test_photo.jpg'))

@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
+from tests.pages.mobile.like_component import LikeComponent
 from tests.pages.mobile.page import Page, Component
 from tests.utils.waits import wait_until_url_changes
 
@@ -23,6 +24,10 @@ class UserAlbumPage(Page):
     @property
     def album_header(self):
         return AlbumHeader(self.driver)
+
+    @property
+    def like(self):
+        return LikeComponent(self.driver)
 
     @property
     def photos_list(self):
