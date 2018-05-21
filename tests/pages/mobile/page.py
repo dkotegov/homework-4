@@ -30,6 +30,13 @@ class Page(object):
     def current_url(self):
         return self.driver.current_url
 
+    @property
+    def is_xss(self):
+        try:
+            return self.driver.find_element_by_id('xss')
+        except NoSuchElementException:
+            return False
+
     def touch_overlay(self):
         try:
             self.driver.find_element_by_class_name(self.TOUCH_OVERLAY).click()

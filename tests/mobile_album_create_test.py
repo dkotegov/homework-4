@@ -77,6 +77,18 @@ class MobileAlbumCreateTest(unittest.TestCase):
         create_form = create_page.form
         self.assertTrue(create_form.is_name_error())
 
+    def test_xss(self):
+        album_name = '<h1 id="xss">XSS</h1>'
+        UserAlbumEditPage(self.driver).create_album(album_name)
+
+        album_page = UserAlbumPage(self.driver)
+        self.album_url = album_page.current_url
+        self.assertFalse(album_page.is_xss)
+
+        albums_page = UserAlbumsPage(self.driver)
+        albums_page.open()
+        self.assertFalse(albums_page.is_xss)
+
     def test_album_shows(self):
         album_name = 'Best friends and colleagues'
         create_page = UserAlbumEditPage(self.driver)
