@@ -76,6 +76,22 @@ class MobileAlbumTest(unittest.TestCase):
 
         self.assertEqual(album_name, self.album_page.empty_album.title)
 
+    def test_rename_album_to_long_name(self):
+        toolbar = self.album_page.toolbar
+        toolbar.open()
+        toolbar.edit()
+
+        album_name = 'L' * 51
+        edit_form = UserAlbumEditPage(self.driver).form
+        edit_form.set_name(album_name)
+        edit_form.submit()
+        self.assertTrue(edit_form.is_name_error())
+
+        album_name = 'L' * 50
+        edit_form.set_name(album_name)
+        edit_form.submit()
+        self.assertEqual(album_name, self.album_page.empty_album.title)
+
     def test_like_album(self):
         albums_page = UserAlbumsPage(self.driver)
         albums_page.open()
