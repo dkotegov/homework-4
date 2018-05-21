@@ -13,10 +13,21 @@ class UserAlbumsPage(Page):
     def albums_list(self):
         return AlbumsList(self.driver)
 
+    @property
+    def header(self):
+        return AlbumsHeader(self.driver)
+
     def like_album(self, album_name):
         self.open()
         album_item = self.albums_list.find(album_name)
         album_item.like()
+
+
+class AlbumsHeader(Component):
+    CREATE_BUTTON = 'addition-button'
+
+    def create_album(self):
+        self.driver.find_element_by_class_name(self.CREATE_BUTTON).click()
 
 
 class AlbumsList(Component):
