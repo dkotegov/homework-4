@@ -73,7 +73,7 @@ class CommentsTest(unittest.TestCase):
         self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
         input_comment.input_text(text)
-        counter_symb = input_comment.check_comment_too_much_counter()
+        counter_symb = input_comment.get_comment_limit_counter()
         self.assertEqual(before_limit_counter, counter_symb)
 
     def test_comment_counter_limit(self):
