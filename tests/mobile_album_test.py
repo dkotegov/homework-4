@@ -37,6 +37,8 @@ class AlbumTest(unittest.TestCase):
         self.album_id = self.album_page.parse_album_id()
 
     def tearDown(self):
+        self.album_page.open()
+        self.album_page.remove_album()
         self.driver.quit()
 
     def upload_photo_and_open(self):
