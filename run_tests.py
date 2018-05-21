@@ -4,11 +4,13 @@ import sys
 import unittest
 
 from tests.comments_test import CommentsTest
+from tests.mobile_album_create_test import MobileAlbumCreateTest
 from tests.mobile_album_test import AlbumTest
 
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
+        unittest.makeSuite(MobileAlbumCreateTest),
         unittest.makeSuite(AlbumTest),
         unittest.makeSuite(CommentsTest),
     ))

@@ -1,5 +1,6 @@
 import time
 
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -22,6 +23,7 @@ class UserAlbumEditPage(Page):
 
 class EditForm(Component):
     NAME_FIELD = 'field_name'
+    NAME_ERROR = 'field_name_label'
     SAVE_BUTTON = 'button_save'
 
     def set_name(self, name):
@@ -30,6 +32,11 @@ class EditForm(Component):
         name_field.send_keys(name)
 
     def submit(self):
-        current_url = self.driver.current_url
         self.driver.find_element_by_name(self.SAVE_BUTTON).click()
-        WebDriverWait(self.driver, 4).until(EC.url_changes(current_url))
+
+    def is_name_error(self):
+        try:
+            self.driver.find_element_by_id(self.NAME_ERROR)
+            return True
+        except NoSuchElementException:
+            return False

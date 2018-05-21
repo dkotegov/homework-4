@@ -45,3 +45,17 @@ class MobileAlbumCreateTest(unittest.TestCase):
 
         albums_page.open()
         self.assertTrue(albums_page.albums_list.includes(album_name))
+
+    def test_long_album_name(self):
+        album_name = 'L' * 51
+        create_page = UserAlbumEditPage(self.driver)
+        create_page.create_album(album_name)
+        create_form = create_page.form
+        self.assertTrue(create_form.is_name_error())
+
+        album_name = 'L' * 50
+        create_form.set_name(album_name)
+        create_form.submit()
+
+        album = UserAlbumPage(self.driver).empty_album
+        self.assertEqual(album_name, album.title)
