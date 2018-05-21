@@ -81,8 +81,8 @@ class Comments(Component):
 
     def get_newest_comment_video_attach_url(self):
         el = self.get_newest_comment()
-        el = el.find_elements_by_css_selector(self.VIDEO_LINK_CSS)
-        return len(el)
+        el = el.find_element_by_css_selector(self.VIDEO_LINK_CSS)
+        return el.text
 
     def input_text(self, element, text):
         WebDriverWait(self.driver, 30, 0.1).until(
@@ -156,13 +156,13 @@ class InputComment(Component):
     def send(self):
         n = self.driver.find_element_by_css_selector(self.NUM_COMMENTS).text
 
-        WebDriverWait(self.driver, 20, 0.1).until(
+        WebDriverWait(self.driver, 10, 0.1).until(
             EC.element_to_be_clickable((By.XPATH, self.SUBMIT_BTN))
         ).click()
 
         num_after = str(int(n) + 1)
         try:
-            WebDriverWait(self.driver, 20, 0.1).until(
+            WebDriverWait(self.driver, 10, 0.1).until(
                 EC.text_to_be_present_in_element((By.CSS_SELECTOR, self.NUM_COMMENTS), num_after)
             )
         except TimeoutException:

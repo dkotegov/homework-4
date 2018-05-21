@@ -169,7 +169,7 @@ class CommentsTest(unittest.TestCase):
 
         comments = self.photo_page.comments
         video_in_attach_link = comments.get_newest_comment_video_attach_url()
-        self.assertEqual(1, video_in_attach_link)
+        self.assertEqual(url.strip(), video_in_attach_link)
 
 ##############################################################################
 
