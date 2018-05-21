@@ -152,6 +152,7 @@ class InputComment(Component):
     VIDEO_CARD_CSS = '.vid-card_n'
 
     COUNTER_LIMIT_CSS = '.comments_add-itx .txt-counter'
+    COMMENTS_ADD_ERR_CSS = '.comments_add-error'
 
     def send(self):
         n = self.driver.find_element_by_css_selector(self.NUM_COMMENTS).text
@@ -234,6 +235,17 @@ class InputComment(Component):
             self.send()
         except TimeoutError:
             return False
+
+    def get_comments_add_err(self):
+        elem = WebDriverWait(self.driver, 10, 0.1).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, self.COMMENTS_ADD_ERR_CSS))
+        )
+        return elem.text
+
+    def try_add_comment_text(self, text):
+        self.input_focus()
+        self.input_text(text)
+        self.send()
 
     def add_answer_text(self, text):
         self.input_text(text)

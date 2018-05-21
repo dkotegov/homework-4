@@ -58,6 +58,15 @@ class CommentsTest(unittest.TestCase):
         err = input_comment.add_comment_text(text)
         self.assertFalse(0, err)
 
+    def test_comment_to_much_err_msg(self):
+        text = str_comments.str_after_limit_11
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.try_add_comment_text(text)
+        err = input_comment.get_comments_add_err()
+        ans = 'Слишком длинный комментарий.'
+        self.assertEqual(ans, err)
+
     def test_comment_counter_before_limit(self):
         text = str_comments.str_before_limit_43
         before_limit_counter = '43'
