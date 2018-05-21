@@ -71,6 +71,12 @@ class MobileAlbumCreateTest(unittest.TestCase):
 
         self.album_url = album_page.current_url
 
+    def test_empty_album_name(self):
+        create_page = UserAlbumEditPage(self.driver)
+        create_page.create_album('')
+        create_form = create_page.form
+        self.assertTrue(create_form.is_name_error())
+
     def test_album_shows(self):
         album_name = 'Best friends and colleagues'
         create_page = UserAlbumEditPage(self.driver)
