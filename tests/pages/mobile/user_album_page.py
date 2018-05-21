@@ -46,6 +46,12 @@ class UserAlbumPage(Page):
         self.album_id = parse_qs(qs)[self.ALBUM_ID][0]
         return self.album_id
 
+    def remove_album(self):
+        toolbar = self.toolbar
+        toolbar.open()
+        toolbar.delete()
+        self.confirmation_modal.delete()
+
 
 class EmptyAlbum(Component):
     TITLE = 'ep-ttl-txt'

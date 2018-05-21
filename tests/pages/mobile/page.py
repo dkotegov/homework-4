@@ -1,8 +1,5 @@
 import urllib.parse
 
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
-
 
 class Page(object):
     BASE_URL = 'https://m.ok.ru/'
@@ -19,8 +16,16 @@ class Page(object):
         self.driver.get(url)
         self.driver.maximize_window()
 
+    def open_url(self, url):
+        self.driver.get(url)
+        self.driver.maximize_window()
+
     def refresh(self):
         self.driver.refresh()
+
+    @property
+    def current_url(self):
+        return self.driver.current_url
 
 
 class Component(object):

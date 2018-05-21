@@ -4,6 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from tests.pages.mobile.page import Page, Component
+from tests.utils.waits import wait_until_url_changes
 
 
 class UserAlbumsPage(Page):
@@ -26,6 +27,7 @@ class UserAlbumsPage(Page):
 class AlbumsHeader(Component):
     CREATE_BUTTON = 'addition-button'
 
+    @wait_until_url_changes
     def create_album(self):
         self.driver.find_element_by_class_name(self.CREATE_BUTTON).click()
 
