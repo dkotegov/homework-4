@@ -35,8 +35,8 @@ class AddPhotoForm(Component):
     EDIT_ALBUM_PHOTO_URL = 'st.cmd=userEditAlbumPhoto'
 
     def upload_photo(self, photo):
-        self.driver.execute_script("document.getElementById('{}').className=''".format(self.FILE_INPUT))
+        self.driver.execute_script("arguments[0].className=''", self.driver.find_element_by_id(self.FILE_INPUT))
         file_input = self.driver.find_element_by_id(self.FILE_INPUT)
         file_input.send_keys(photo)
-        self.driver.execute_script("document.getElementById('{}').submit()".format(self.FORM))
+        self.driver.execute_script("arguments[0].submit()", self.driver.find_element_by_id(self.FORM))
         WebDriverWait(self.driver, 4).until(EC.url_contains(self.EDIT_ALBUM_PHOTO_URL))
