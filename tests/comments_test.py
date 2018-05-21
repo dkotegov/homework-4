@@ -85,13 +85,22 @@ class CommentsTest(unittest.TestCase):
         counter_symb = input_comment.get_comment_limit_counter()
         self.assertEqual(after_limit_counter, counter_symb)
 
-    def test_сomment_changing_counter_after_add_symb(self):
+    def test_сomment_changing_counter_after_add_symbol(self):
         text = str_comments.str_after_limit_11
         self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
         input_comment.input_text(text)
         current_counter = input_comment.get_comment_limit_counter()
-        interaction = input_comment.counter_interact(current_counter)
+        interaction = input_comment.counter_interact_add(current_counter)
+        self.assertTrue(interaction)
+
+    def test_сomment_changing_counter_after_del_symbol(self):
+        text = str_comments.str_after_limit_11
+        self.photo_page.goto_photo_comment()
+        input_comment = self.photo_page.input_comment
+        input_comment.input_text(text)
+        current_counter = input_comment.get_comment_limit_counter()
+        interaction = input_comment.counter_interact_del(current_counter)
         self.assertTrue(interaction)
 
     def test_add_comment_html_injejction(self):
@@ -138,6 +147,30 @@ class CommentsTest(unittest.TestCase):
         video_in_attach_number = comments.get_newest_comment_video_attach_num()
         self.assertEqual(1, video_in_attach_number)
 
+    def test_add_video_by_url(self):
+        self.photo_page.goto_photo_comment()
+        url = 'https://www.youtube.com/watch?v=Ep6SQcMg3Jk&list=PLPOCJi2Sznkr2p-HenHsOQ384fkek4QB5&index=1 '
+        input_comment = self.photo_page.input_comment
+        input_comment.input_text(url)
+        input_comment.wait_video_preview_display()
+        input_comment.send()
+
+        comments = self.photo_page.comments
+        video_in_attach_number = comments.get_newest_comment_video_attach_num()
+        self.assertEqual(1, video_in_attach_number)
+
+    def test_add_video_by_url_link(self):
+        self.photo_page.goto_photo_comment()
+        url = 'https://www.youtube.com/watch?v=Ep6SQcMg3Jk&list=PLPOCJi2Sznkr2p-HenHsOQ384fkek4QB5&index=1 '
+        input_comment = self.photo_page.input_comment
+        input_comment.input_text(url)
+        input_comment.wait_video_preview_display()
+        input_comment.send()
+
+        comments = self.photo_page.comments
+        video_in_attach_link = comments.get_newest_comment_video_attach_url()
+        self.assertEqual(1, video_in_attach_link)
+
 ##############################################################################
 
     def test_add_one_photo(self):
@@ -175,7 +208,7 @@ class CommentsTest(unittest.TestCase):
         url = 'https://img.getbg.net/upload/small/www.GetBg.net_Cartoons_Homer_Simpson_quickly_runs_away_095322_.jpg '
         input_comment = self.photo_page.input_comment
         input_comment.input_text(url)
-        input_comment.wait_preview_display()
+        input_comment.wait_img_preview_display()
         input_comment.send()
 
         comments = self.photo_page.comments

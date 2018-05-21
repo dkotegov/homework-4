@@ -44,6 +44,7 @@ class Comments(Component):
     COMMENT_STICKER = COMMENT + '/*/div[contains(@class, "__sticker")]'
 
     VIDEO_CONT_CSS = 'div[data-l="t,play"]'
+    VIDEO_LINK_CSS = 'a[uid = "stopEvents"]'
 
     ANS_MARKER_CSS = '.comments_lst_cnt > div[id^="hook_Block"]:last-child .vaTop'
 
@@ -76,6 +77,11 @@ class Comments(Component):
     def get_newest_comment_video_attach_num(self):
         el = self.get_newest_comment()
         el = el.find_elements_by_css_selector(self.VIDEO_CONT_CSS)
+        return len(el)
+
+    def get_newest_comment_video_attach_url(self):
+        el = self.get_newest_comment()
+        el = el.find_elements_by_css_selector(self.VIDEO_LINK_CSS)
         return len(el)
 
     def input_text(self, element, text):
@@ -198,9 +204,21 @@ class InputComment(Component):
         )
         return elem.text
 
-    def counter_interact(self, current_counter):
+    def counter_interact_add(self, current_counter):
         counter_after = str(int(current_counter) - 1)
         self.input_text('1')
+        try:
+            WebDriverWait(self.driver, 20, 0.1).until(
+                EC.text_to_be_present_in_element((By.CSS_SELECTOR, self.COUNTER_LIMIT_CSS), counter_after)
+            )
+            return 1
+        except TimeoutException:
+            return 0
+
+    def counter_interact_del(self, current_counter):
+        from selenium.webdriver.common.keys import Keys
+        counter_after = str(int(current_counter) + 1)
+        self.input_text(Keys.BACKSPACE)
         try:
             WebDriverWait(self.driver, 20, 0.1).until(
                 EC.text_to_be_present_in_element((By.CSS_SELECTOR, self.COUNTER_LIMIT_CSS), counter_after)
@@ -255,8 +273,6 @@ class InputComment(Component):
         return code
 
     def choose_photo(self):
-        PHOTO_PC_BTN = '//span[@data-l="t,photo_upload_menu"]'
-        PHOTO_PC_INPUT = '//span[@data-l="t,photo_upload_menu"]/*/input[@title="Добавить фото"]'
         self.click_attach_btn()
         script_visualise_input = 'document.querySelector(\'span.comments_attach_trigger input[title="Добавить фото"]\').hidden = false'
         self.driver.execute_script(script_visualise_input)
@@ -281,10 +297,16 @@ class InputComment(Component):
             EC.invisibility_of_element_located((By.CSS_SELECTOR, progress_bar))
         )
 
-    def wait_preview_display(self):
+    def wait_img_preview_display(self):
         preview_img = 'div[data-module="AttachPreview"] .attach-photo_img.preview-image'
         WebDriverWait(self.driver, 10, 0.1).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, preview_img))
+        )
+
+    def wait_video_preview_display(self):
+        preview_video = 'div[data-module="AttachPreview"] .vid-card_img.preview-image'
+        WebDriverWait(self.driver, 10, 0.1).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, preview_video))
         )
 
     def add_comment_smile(self, smile_class):
