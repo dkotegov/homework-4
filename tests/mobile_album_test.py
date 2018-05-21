@@ -138,6 +138,18 @@ class MobileAlbumTest(unittest.TestCase):
         photo = PhotoPage(self.driver).photo
         self.assertEqual(description, photo.description)
 
+    def test_xss_in_photo_description(self):
+        UserAddAlbumPhotoPage(self.driver, self.album_id).upload_photo()
+
+        edit_photo = UserEditAlbumPhotoPage(self.driver).form
+        description = '<h1 id="xss">XSS</h1>'
+        edit_photo.set_description(description)
+        edit_photo.save()
+
+        self.album_page.photos_list.first.open()
+        photo_page = PhotoPage(self.driver)
+        self.assertFalse(photo_page.is_xss)
+
     def test_upload_not_image(self):
         add_photo_page = UserAddAlbumPhotoPage(self.driver, self.album_id)
         add_photo_page.upload_photo(abspath('tests/photos/not_image.txt'))
