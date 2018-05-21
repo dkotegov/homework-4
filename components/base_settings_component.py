@@ -16,31 +16,33 @@ class PersonalDataForm(BaseComponent):
         surname = self.get_visibility_element(self.SURNAME)
         self.driver.execute_script("arguments[0].value='" + my_surname + "'", surname)
 
+    def name_surname_send_keys(self, my_name, my_surname):
+        name = self.get_visibility_element(self.NAME).send_keys(my_name)
+        surname = self.get_visibility_element(self.SURNAME).send_keys(my_surname)
+
     def save(self):
         self.get_clickable_element(self.SAVE_BUTTON).click()
 
     def close_save(self):
         self.get_clickable_element(self.CLOSE_BUTTON).click()
 
-    ERROR = "//span[@class='input-e']"
+    ERROR_NAME = "//div[@class='form form__gl-2-2']/div[1]/span[2]"
+    ERROR_SURNAME = "//div[@class='form form__gl-2-2']/div[2]/span[2]"
 
     def name_surname_error(self):
-        self.get_visibility_element(self.ERROR)  # Ждем пока станет видимый
-        e1 = self.get_visibility_elements(self.ERROR)[0].text
-        e2 = self.get_visibility_elements(self.ERROR)[1].text
+        e1 = self.get_visibility_element(self.ERROR_NAME).text
+        e2 = self.get_visibility_element(self.ERROR_SURNAME).text
         return e1, e2
 
     DAYS = "//select[@id='field_bday']"
     DAY = "//select[@id='field_bday']/option[@value='5']"
-    DAY_ERROR = "//select[@id='field_bday']/option[@value='29']"
+    DAY_ERROR_29 = "//select[@id='field_bday']/option[@value='29']"
 
     MONTHS = "//select[@id='field_bmonth']"
-    MONTH = "//select[@id='field_bmonth']/option[@value='3']"
-    MONTH_ERROR = "//select[@id='field_bmonth']/option[@value='2']"
+    MONTH = "//select[@id='field_bmonth']/option[@value='2']"
 
     YEARS = "//select[@id='field_byear']"
-    YEAR = "//select[@id='field_byear']/option[@value='1996']"
-    YEAR_ERROR = "//select[@id='field_byear']/option[@value='2001']"
+    YEAR = "//select[@id='field_byear']/option[@value='2001']"
 
     DATE = "//div[@value='user-profile_i_value ellip']"
 
@@ -54,18 +56,38 @@ class PersonalDataForm(BaseComponent):
         self.get_visibility_element(self.YEARS).click()
         self.get_visibility_element(self.YEAR).click()
 
-    def birthday_error(self):
+    def birthday_error_29(self):
         self.get_visibility_element(self.DAYS).click()
-        self.get_visibility_element(self.DAY_ERROR).click()
+        self.get_visibility_element(self.DAY_ERROR_29).click()
 
         self.get_visibility_element(self.MONTHS).click()
-        self.get_visibility_element(self.MONTH_ERROR).click()
+        self.get_visibility_element(self.MONTH).click()
 
         self.get_visibility_element(self.YEARS).click()
-        self.get_visibility_element(self.YEAR_ERROR).click()
+        self.get_visibility_element(self.YEAR).click()
+
+    DAY_ERROR_VOID = "//select[@id='field_bday']/option[1]"
+
+    MONTH_ERROR_VOID = "//select[@id='field_bmonth']/option[1]"
+
+    YEAR_ERROR_VOID = "//select[@id='field_byear']/option[1]"
+
+    def birthday_error_void_day(self):
+        self.get_visibility_element(self.DAYS).click()
+        self.get_visibility_element(self.DAY_ERROR_VOID).click()
+
+    def birthday_error_void_month(self):
+        self.get_visibility_element(self.MONTHS).click()
+        self.get_visibility_element(self.MONTH_ERROR_VOID).click()
+
+    def birthday_error_void_year(self):
+        self.get_visibility_element(self.YEARS).click()
+        self.get_visibility_element(self.YEAR_ERROR_VOID).click()
+
+    ERROR_DATE = "//div[@class='form form__gl-2-2']/div[3]/span[2]"
 
     def get_birthday_error(self):
-        return self.get_visibility_elements(self.ERROR)[2].text
+        return self.get_visibility_element(self.ERROR_DATE).text
 
     GENDER_MALE = "//input[@id='field_gender_1']"
     GENDER_FEMALE = "//input[@id='field_gender_2']"
@@ -95,7 +117,7 @@ class PersonalDataForm(BaseComponent):
         city.send_keys(str)
 
     def select_current_city_country(self):
-        self.get_visibility_elements(self.CITY_LIST)[0].click()
+        self.get_visibility_element(self.CITY_LIST).click()
 
     CITY_ERROR = "//span[@class='input-e']"
 
