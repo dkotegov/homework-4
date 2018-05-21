@@ -34,6 +34,7 @@ class AlbumTest(unittest.TestCase):
         UserAlbumEditPage(self.driver).create_album(self.album_name)
 
         self.album_page = UserAlbumPage(self.driver)
+        self.album_id = self.album_page.parse_album_id()
 
     def tearDown(self):
         self.driver.quit()
@@ -87,18 +88,14 @@ class AlbumTest(unittest.TestCase):
         self.assertEqual(0, album_item.likes_count)
 
     def test_add_photo(self):
-        album_id = self.album_page.parse_album_id()
-
-        UserAddAlbumPhotoPage(self.driver, album_id).upload_photo()
+        UserAddAlbumPhotoPage(self.driver, self.album_id).upload_photo()
 
         edit_photo = UserEditAlbumPhotoPage(self.driver)
         edit_photo.form.save()
         self.assertEqual(1, self.album_page.photos_list.count)
 
     def test_add_photo_with_description(self):
-        album_id = self.album_page.parse_album_id()
-
-        UserAddAlbumPhotoPage(self.driver, album_id).upload_photo()
+        UserAddAlbumPhotoPage(self.driver, self.album_id).upload_photo()
 
         edit_photo = UserEditAlbumPhotoPage(self.driver).form
         description = 'Photo description.'
@@ -129,10 +126,8 @@ class AlbumTest(unittest.TestCase):
         self.assertEqual(0, photo.likes_count)
 
     def test_make_photo_album_cover(self):
-        album_id = self.album_page.parse_album_id()
-
-        UserAddAlbumPhotoPage(self.driver, album_id).upload_photo(abspath('tests/photos/test_photo.jpg'))
-        UserAddAlbumPhotoPage(self.driver, album_id).upload_photo(abspath('tests/photos/test_photo2.jpeg'))
+        UserAddAlbumPhotoPage(self.driver, self.album_id).upload_photo(abspath('tests/photos/test_photo.jpg'))
+        UserAddAlbumPhotoPage(self.driver, self.album_id).upload_photo(abspath('tests/photos/test_photo2.jpeg'))
 
         self.album_page.open()
         photos_list = self.album_page.photos_list
