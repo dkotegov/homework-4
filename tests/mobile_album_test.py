@@ -138,6 +138,15 @@ class MobileAlbumTest(unittest.TestCase):
         photo = PhotoPage(self.driver).photo
         self.assertEqual(description, photo.description)
 
+    def test_upload_not_image(self):
+        add_photo_page = UserAddAlbumPhotoPage(self.driver, self.album_id)
+        add_photo_page.upload_photo(abspath('tests/photos/not_image.txt'))
+        add_photo_form = add_photo_page.form
+        self.assertTrue(add_photo_form.is_error)
+
+        add_photo_form.upload_photo(abspath('tests/photos/not_image.jpg'))
+        self.assertTrue(add_photo_form.is_error)
+
     def test_like_photo(self):
         self.upload_photo_and_open()
 

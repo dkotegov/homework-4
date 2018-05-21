@@ -16,9 +16,9 @@ class ElementsCountChanged(object):
 
 
 def wait_until_url_changes(method_to_decorate):
-    def wrapper(self):
+    def wrapper(self, *args, **kwargs):
         url = self.driver.current_url
-        method_to_decorate(self)
+        method_to_decorate(self, *args, **kwargs)
         WebDriverWait(self.driver, 2, 0.2).until(EC.url_changes(url))
 
     return wrapper
