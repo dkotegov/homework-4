@@ -43,13 +43,6 @@ class AlbumTest(unittest.TestCase):
         photos_list = album_page.photos_list
         photos_list.first.open()
 
-    def test_create_album(self):
-        album_name = 'Created test album #{}'.format(time.time())
-        UserAlbumEditPage(self.driver).create_album(album_name)
-
-        album = UserAlbumPage(self.driver).empty_album
-        self.assertEqual(album_name, album.title)
-
     def test_remove_album(self):
         album_name = 'Test album #{} for remove'.format(time.time())
         UserAlbumEditPage(self.driver).create_album(album_name)
