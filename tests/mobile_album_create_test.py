@@ -23,7 +23,6 @@ class MobileAlbumCreateTest(unittest.TestCase):
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
-        self.driver.implicitly_wait(4)
 
         AuthPage(self.driver).auth(self.LOGIN, self.PASSWORD)
 
@@ -59,3 +58,34 @@ class MobileAlbumCreateTest(unittest.TestCase):
 
         album = UserAlbumPage(self.driver).empty_album
         self.assertEqual(album_name, album.title)
+
+    def test_album_shows(self):
+        album_name = 'Best friends and colleagues'
+        create_page = UserAlbumEditPage(self.driver)
+        create_page.open()
+
+        create_form = UserAlbumEditPage(self.driver).form
+        create_form.set_name(album_name)
+        self.assertEqual(1, create_form.shows_checkboxes_count)
+        create_form.shows_all()
+        self.assertEqual(2, create_form.shows_checkboxes_count)
+        create_form.shows_friends()
+        self.assertEqual(9, create_form.shows_checkboxes_count)
+        create_form.shows_friends()
+        self.assertEqual(2, create_form.shows_checkboxes_count)
+        create_form.shows_friends()
+        self.assertEqual(9, create_form.shows_checkboxes_count)
+        create_form.shows_best_friends()
+        create_form.shows_colleagues()
+        create_form.submit()
+
+        album_page = UserAlbumPage(self.driver)
+        self.assertEqual(album_name, album_page.empty_album.title)
+
+        toolbar = album_page.toolbar
+        toolbar.open()
+        toolbar.edit()
+
+        edit_form = UserAlbumEditPage(self.driver).form
+        self.assertTrue(edit_form.is_shows_best_friends())
+        self.assertTrue(edit_form.is_shows_colleagues())

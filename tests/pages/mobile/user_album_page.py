@@ -4,7 +4,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-from tests.pages.mobile.page import Page, Component, wait_until_url_changes
+from tests.pages.mobile.page import Page, Component
+from tests.utils.waits import wait_until_url_changes
 
 
 class UserAlbumPage(Page):

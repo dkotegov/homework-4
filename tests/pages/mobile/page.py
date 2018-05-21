@@ -29,11 +29,3 @@ class Component(object):
         self.element = element
         if element is None:
             self.element = self.driver
-
-
-def wait_until_url_changes(method_to_decorate):
-    def wrapper(self):
-        url = self.driver.current_url
-        method_to_decorate(self)
-        WebDriverWait(self.driver, 5).until(EC.url_changes(url))
-    return wrapper
