@@ -184,6 +184,20 @@ class DialogPage(BasePage):
         self.dialog_form.pick_chocolate_smile().click()
         self.dialog_form.get_send_message_button().click()
 
+    def send_whale_smile(self):
+        self.dialog_form.get_sticker_button().click()
+        self.dialog_form.get_smiles_list_button().click()
+        self.dialog_form.pick_whale_smile().click()
+        self.dialog_form.get_send_message_button().click()
+
+    def send_combo_wombo_smile(self):
+        self.dialog_form.get_sticker_button().click()
+        self.dialog_form.get_smiles_list_button().click()
+        self.dialog_form.pick_whale_smile().click()
+        self.dialog_form.pick_gas_smile().click()
+        self.dialog_form.pick_chocolate_smile().click()
+        self.dialog_form.get_send_message_button().click()
+
     def send_postcard(self):
         self.dialog_form.get_sticker_button().click()
         self.dialog_form.get_postcards_list_button().click()
@@ -195,6 +209,21 @@ class DialogPage(BasePage):
         self.dialog_form.search_postcards(search_request)
         self.dialog_form.wait_search_loading()
         self.dialog_form.pick_first_postcard()
+
+    def search_postcards(self, search_request):
+        self.dialog_form.get_sticker_button().click()
+        self.dialog_form.get_postcards_list_button().click()
+        self.dialog_form.search_postcards(search_request)
+        self.dialog_form.wait_search_loading()
+
+    def search_postcards_by_suggest(self):
+        self.dialog_form.get_sticker_button().click()
+        self.dialog_form.get_postcards_list_button().click()
+        self.dialog_form.search_postcards_by_suggest()
+        self.dialog_form.wait_search_loading()
+
+    def is_empty_postcard_search(self):
+        return self.dialog_form.is_empty_postcard_search()
 
     def check_sending_postcard(self):
         return self.dialog_form.get_sent_postcard()
@@ -232,7 +261,15 @@ class DialogPage(BasePage):
         ActionChains(self.driver).move_to_element(
             report_message_button).perform()
         report_message_button.click()
+
+    def confirm_report(self):
         MessageConfirmPage(self.driver).confirm_report()
+
+    def cancel_report(self):
+        MessageConfirmPage(self.driver).cancel_report()
+
+    def close_report(self):
+        MessageConfirmPage(self.driver).close_report()
 
     def existence_reported_message(self):
         return self.dialog_form.existence_reported_message()
@@ -242,8 +279,29 @@ class DialogPage(BasePage):
         self.dialog_form.wait_game_list()
         self.dialog_form.pick_game(app_id)
 
+    def close_game(self):
+        self.dialog_form.get_game_close_button().click()
+
     def existence_game(self, app_id):
         return self.dialog_form.existence_game(app_id)
+
+    def apply_game_invite(self, app_id):
+        return self.dialog_form.apply_game_invite(app_id)
+
+    def reject_game_invite(self, app_id):
+        return self.dialog_form.reject_game_invite(app_id)
+
+    def play_again_game_invite(self, app_id):
+        return self.dialog_form.play_again_game_invite(app_id)
+
+    def existence_play_again_button(self):
+        return self.dialog_form.existence_play_again_button()
+
+    def existence_game_invite_in_dialog(self):
+        return self.dialog_form.find_game_invite()
+
+    def find_game_invite_by_id(self, app_id):
+        return self.dialog_form.find_game_invite_by_id(app_id)
 
     # AndersRichter
 
@@ -261,6 +319,9 @@ class DialogPage(BasePage):
 
     def hide_sticker_bar(self):
         return self.dialog_form.get_sticker_bar_button().click()
+
+    def open_sticker_bar(self):
+        return self.dialog_form.get_sticker_bar_close().click()
 
     def sticker_bar_exists(self):
         return self.dialog_form.get_sticker_bar_close()
@@ -282,9 +343,6 @@ class DialogPage(BasePage):
         self.dialog_form.get_attach_button().click()
         self.attach_form.get_money_button().click()
 
-    def close_money_page(self):
-        self.dialog_form.get_close_money_button().click()
-
     def money_page_exists(self):
         return self.dialog_form.get_money_window()
 
@@ -299,13 +357,19 @@ class DialogPage(BasePage):
     def profile_page_exists(self):
         return self.dialog_form.get_profile_page()
 
-    def send_animation_smile(self):
+    def send_smile(self, name):
         self.dialog_form.get_sticker_button().click()
         self.dialog_form.get_smiles_list_button().click()
-        self.dialog_form.pick_animation_list().click()
+        self.dialog_form.get_smile_list(name).click()
         self.dialog_form.wait_smile_loader()
-        self.dialog_form.pick_animation_smile().click()
+        self.dialog_form.get_smile(name).click()
         self.dialog_form.get_send_message_button().click()
 
-    def send_sticker_from_bar(self):
-        self.dialog_form.get_sticker_from_bar().click()
+    def send_sticker1_from_bar(self):
+        self.dialog_form.get_sticker1_from_bar().click()
+
+    def sticker_in_bar_exists(self):
+        return self.dialog_form.get_existance_of_sticker1_in_bar()
+
+    def send_sticker2_from_bar(self):
+        self.dialog_form.get_sticker2_from_bar().click()

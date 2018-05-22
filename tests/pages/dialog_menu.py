@@ -23,11 +23,19 @@ class DialogMenuPage(BasePage):
     # Trubnikov
     def change_title(self, title):
         self.dialog_menu_form.get_clickable_chat_title().click()
+        self.clear_current_input()
         self.dialog_menu_form.get_input_title().send_keys(title)
         self.dialog_menu_form.get_input_title().send_keys(Keys.RETURN)
 
+    def clear_current_input(self):
+        self.dialog_menu_form.get_input_title().send_keys(Keys.LEFT_CONTROL + "a")
+        self.dialog_menu_form.get_input_title().send_keys(Keys.DELETE)
+
     def get_title(self):
         return self.dialog_menu_form.get_chat_title().get_attribute("innerHTML")
+
+    def get_message_of_error_notification(self):
+        return self.dialog_menu_form.get_error_notification().get_attribute("innerHTML")
 
     def change_photo(self, photo_url):
         self.dialog_menu_form.get_change_photo_button().click()

@@ -9,3 +9,9 @@ class MessageConfirmPage(BasePage):
 
     def confirm_report(self):
         self.confirm_form.confirm_report()
+
+    def cancel_report(self):
+        self.confirm_form.cancel_report()
+
+    def close_report(self):
+        self.confirm_form.close_report()

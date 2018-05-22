@@ -44,3 +44,11 @@ class BaseElement(object):
         except TimeoutException as e:
             return False
         return True
+
+    def existence_of_game_by_xpath(self, xpath):
+        try:
+            WebDriverWait(self.driver, 30, 0.5).until(
+                EC.visibility_of_element_located((By.XPATH, xpath)))
+        except TimeoutException as e:
+            return False
+        return True

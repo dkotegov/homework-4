@@ -9,6 +9,7 @@ class DialogMenuForm(BaseElement):
     CHANGE_PHOTO_BUTTON = '//i[contains(@class, " ic_make-main")]'
 
     CHAT_TITLE = '//div[contains(@class, "chat_column_hd_name")]'
+    ERROR_NOTIFICATION = '//div[contains(@class, "progress-panel_error")]'
     TITLE_INPUT_FIELD = '//textarea[contains(@name, "st.chatName")]'
 
     COMPANION_BUTTON = "//div[@id='hook_Block_ConversationParticipantsAddMenuList']/div[1]/div[2]"
@@ -48,6 +49,9 @@ class DialogMenuForm(BaseElement):
 
     def get_chat_title(self):
         return self.get_field_by_xpath(self.CHAT_TITLE)
+
+    def get_error_notification(self):
+        return self.get_field_by_xpath(self.ERROR_NOTIFICATION)
 
     def get_input_title(self):
         return self.get_button_by_xpath(self.TITLE_INPUT_FIELD)

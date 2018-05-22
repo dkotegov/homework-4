@@ -4,38 +4,47 @@ import sys
 import unittest
 from tests.tests import Tests
 from tests.suites.tests_send_document import TestsSendDocuments
-from tests.suites.test_send_stickers import TestsSendStickers
+from tests.suites.test_send_stickers import TestsStickers
 from tests.suites.two_accaunts_management import TwoAccauntsManagement
 from tests.suites.tests_send_messages import TestsSendMessages
 from tests.suites.tests_find_dialog_msg import TestsFindDialogMsg
+from tests.suites.tests_group_dialogs import TestsGroupDialogs
+
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         unittest.makeSuite(Tests),
     ))
-    suite1 = unittest.TestSuite((
+    testsSendDocumentsSuite = unittest.TestSuite((
         unittest.makeSuite(TestsSendDocuments),
     ))
 
-    suite2 = unittest.TestSuite((
-        unittest.makeSuite(TestsSendStickers),
+    testsSendStickersSuite = unittest.TestSuite((
+        unittest.makeSuite(TestsStickers),
     ))
 
-    suite3 = unittest.TestSuite((
+    twoAccauntsManagementSuite = unittest.TestSuite((
         unittest.makeSuite(TwoAccauntsManagement),
     ))
 
-    suite4 = unittest.TestSuite((
+    testsSendMessagesSuite = unittest.TestSuite((
         unittest.makeSuite(TestsSendMessages),
     ))
 
-    suite5 = unittest.TestSuite((
+    testsFindDialogMsgSuite = unittest.TestSuite((
         unittest.makeSuite(TestsFindDialogMsg),
     ))
+
+    testsGroupDialogsSuite = unittest.TestSuite((
+        unittest.makeSuite(TestsGroupDialogs),
+    ))
+
     # result = unittest.TextTestRunner().run(suite)
-    # result1 = unittest.TextTestRunner().run(suite1)
-    # result2 = unittest.TextTestRunner().run(suite2)
-    # result3 = unittest.TextTestRunner().run(suite3)
-    # result4 = unittest.TextTestRunner().run(suite4)
-    result5 = unittest.TextTestRunner().run(suite5)
-    sys.exit(not result5.wasSuccessful())
+    # result1 = unittest.TextTestRunner().run(testsSendDocumentsSuite)
+    # result2 = unittest.TextTestRunner().run(testsSendStickersSuite)
+    result3 = unittest.TextTestRunner().run(twoAccauntsManagementSuite)
+    # result4 = unittest.TextTestRunner().run(testsSendMessagesSuite)
+    # result5 = unittest.TextTestRunner().run(testsFindDialogMsgSuite)
+    # result6 = unittest.TextTestRunner().run(testsGroupDialogsSuite)
+    
+    sys.exit(not result3.wasSuccessful())
