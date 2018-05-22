@@ -306,7 +306,8 @@ class DialogForm(BaseElement):
         return self.existence_of_game_by_xpath(self.GAME_INVITE_MESSAGE)
 
     def find_game_invite_by_id(self, app_id):
-        game_invite = self.GAME_INVITE_MESSAGE_TEMPLATE.replace("{AppID}", app_id)
+        game_invite = self.GAME_INVITE_MESSAGE_TEMPLATE.replace(
+            "{AppID}", app_id)
         return self.existence_of_game_by_xpath(game_invite)
 
     def wait_game_list(self):
@@ -321,19 +322,23 @@ class DialogForm(BaseElement):
         return self.existance_of_element_by_xpath(find_game)
 
     def apply_game_invite(self, app_id):
-        apply_button = self.GAME_INVITE_APPLY_TEMPLATE.replace("{AppID}", app_id)
+        apply_button = self.GAME_INVITE_APPLY_TEMPLATE.replace(
+            "{AppID}", app_id)
         self.get_button_by_xpath(apply_button).click()
 
     def reject_game_invite(self, app_id):
-        reject_button = self.GAME_INVITE_REJECT_TEMPLATE.replace("{AppID}", app_id)
+        reject_button = self.GAME_INVITE_REJECT_TEMPLATE.replace(
+            "{AppID}", app_id)
         self.get_button_by_xpath(reject_button).click()
 
     def play_again_game_invite(self, app_id):
-        play_again_button = self.GAME_INVITE_PLAY_AGAIN_TEMPLATE.replace("{AppID}", app_id)
+        play_again_button = self.GAME_INVITE_PLAY_AGAIN_TEMPLATE.replace(
+            "{AppID}", app_id)
         self.get_button_by_xpath(play_again_button).click()
 
     def existence_play_again_button(self):
-        play_again_button = self.GAME_INVITE_PLAY_AGAIN_TEMPLATE.replace("{AppID}", "")
+        play_again_button = self.GAME_INVITE_PLAY_AGAIN_TEMPLATE.replace(
+            "{AppID}", "")
         return self.existance_of_element_by_xpath(play_again_button)
 
     def is_empty_postcard_search(self):

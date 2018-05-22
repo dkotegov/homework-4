@@ -250,4 +250,3 @@ class TestsStickers(unittest.TestCase):
         self.assertTrue(
             self.dialog_page.message_with_sticker_exists(),
             "test_send_sticker_x2_from_bar failed")
-

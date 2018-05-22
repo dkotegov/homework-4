@@ -46,5 +46,5 @@ if __name__ == '__main__':
     # result4 = unittest.TextTestRunner().run(testsSendMessagesSuite)
     # result5 = unittest.TextTestRunner().run(testsFindDialogMsgSuite)
     # result6 = unittest.TextTestRunner().run(testsGroupDialogsSuite)
-    
+
     sys.exit(not result3.wasSuccessful())

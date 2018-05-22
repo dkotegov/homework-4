@@ -155,7 +155,6 @@ class TestsSendMessages(unittest.TestCase):
             self.dialog_page.get_exsistance_of_forwarded_message(),
             "test_forward_message failed")
 
-
     def test_delete_usual_message(self):
         self.dialog_page.send_message(self.USUAL_MESSAGE_TEXT)
         self.dialog_page.delete_message()
@@ -248,9 +247,11 @@ class TestsSendMessages(unittest.TestCase):
         self.dialog_page.close_game()
         self.dialog_page.reject_game_invite(app_id)
 
-
     def test_game_several_game_invites(self):
-        app_ids = [self.APPLICATION_ID_1, self.APPLICATION_ID_2, self.APPLICATION_ID_3]
+        app_ids = [
+            self.APPLICATION_ID_1,
+            self.APPLICATION_ID_2,
+            self.APPLICATION_ID_3]
         for app_id in app_ids:
             self.dialog_page.invite_game(app_id)
             self.assertTrue(
