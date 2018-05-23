@@ -29,4 +29,7 @@ class MainUpToolbar(BaseComponent):
         return self.get_clickable_element(self.CONFIRM_REPORT_NOTIFICATION)
 
     def get_logo_img(self):
-        return self.get_element_by_path(self.LOGO_IMG)
+        return self.get_clickable_element(self.LOGO_IMG)
+
+    def get_is_logo_attached(self):
+        return self.get_searching_element(self.IMAGE)

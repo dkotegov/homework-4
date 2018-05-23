@@ -6,6 +6,7 @@ from components.page import Page
 
 
 class GamesVitrine(Page):
+    PAGE = '/vitrine'
 
     def __init__(self, driver):
         super(GamesVitrine, self).__init__(driver)
@@ -26,5 +27,17 @@ class GamesVitrine(Page):
         self.games_list.get_choose_user().click()
         self.games_list.get_confirm_user().click()
         return True
+
+    def check_invite_button(self):
+        self.games_list.get_invite()
+        self.games_list.get_invite_friends_button().click()
+        self.games_list.get_back_button().click()
+
+    def participate_to_game(self):
+        self.get_hover(self.games_list.get_hover_right_arrow())
+        self.games_list.get_right_arrow().click()
+        self.games_list.get_blood_button_game().click()
+
+
 
 
