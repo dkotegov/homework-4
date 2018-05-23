@@ -26,7 +26,7 @@ class TestsBaseSettings(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-
+# Name Surname
 
     def test_name_surname_letters(self):
         name = "Name"
@@ -305,7 +305,7 @@ class TestsBaseSettings(unittest.TestCase):
         name_surname = main_page.my_name_surname()
         self.assertEqual("Name 1" + " " + "Surname 1", name_surname)
 
-
+#Birthday
 
     def test_birthday(self):
         birthday = u"5 февраля 2001 (17 лет)"
@@ -382,23 +382,7 @@ class TestsBaseSettings(unittest.TestCase):
         e = personal_data.get_birthday_error()
         self.assertEqual(e, error)
 
-
-
-    def test_phone_number(self):
-
-        number = "9999977771"
-
-        auth_page = AuthPage(self.driver)
-        auth_page.open('')
-
-        auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
-
-        base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
-        phone_number = base_settings_page.phone_number()
-        phone_number.set_number(number)
-        phone_number.ok_button_click()
-        phone_number.ok_button2()     # если появилась кнопка подтвержить код, то номер телефона принят
+# Phone number
 
     def test_phone_number_error_symbol(self):
 
@@ -417,6 +401,7 @@ class TestsBaseSettings(unittest.TestCase):
         phone_number.ok_button_click()
         e = phone_number.number_error()
         self.assertEqual(e, error)
+
     def test_phone_number_error_small(self):
         number = "9997777"
         error = u"Ошибки:\n" + u"В номере неверное количество цифр"
@@ -484,6 +469,21 @@ class TestsBaseSettings(unittest.TestCase):
         phone_number.ok_button_click()
         e = phone_number.number_error()
         self.assertEqual(e, error)
+
+    def test_phone_number(self):
+        number = "9999977771"
+
+        auth_page = AuthPage(self.driver)
+        auth_page.open('')
+
+        auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
+
+        base_settings_page = BaseSettingsPage(self.driver)
+        base_settings_page.open('/settings')
+        phone_number = base_settings_page.phone_number()
+        phone_number.set_number(number)
+        phone_number.ok_button_click()
+        phone_number.ok_button2()  # если появилась кнопка подтвержить код, то номер телефона принят
 
 
 
