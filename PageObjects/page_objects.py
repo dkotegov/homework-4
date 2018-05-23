@@ -9,6 +9,7 @@ from Components.forum_page_components import (TopicCreationPopup,
                                               TopicListElement,
                                               TopicPopup,
                                               NotifyPanel)
+from Components.keyword_components import KeywordsComponent
 
 
 class AuthPage(Page):
@@ -63,6 +64,10 @@ class ShopForumPage(Page):
     @property
     def topic_popup(self):
         return TopicPopup(self.driver)
+
+    @property
+    def keyword_component(self):
+        return KeywordsComponent(self.driver)
 
 
 class ShopMarketPage(Page):

@@ -9,6 +9,8 @@ class TopicCreationPopup(Component):
     CREATE_TOPIC = '//a[contains(@data-l, "OpenPostingPopup")]'
     TOPIC_TEXT = '//div[@data-module="postingForm/mediaText"]'
     SUBMIT = '//div[@data-action="submit"]'
+    ADD_PHOTO_BTN = '//div[@data-module="postingForm/mediaPhotosAddButton"]'
+    ADD_PHOTO_FROM_COMPUTER_BTN = '//a[contains(@class, "__photo-full")]'
 
     def open_popup(self):
         super(TopicCreationPopup, self).click_element(self.CREATE_TOPIC)
@@ -23,6 +25,12 @@ class TopicCreationPopup(Component):
         WebDriverWait(self.driver, 30).until(
             lambda d: d.find_element_by_xpath(self.TOPIC_TEXT)
         ).clear()
+
+    def add_photo(self):
+        super(TopicCreationPopup, self).click_element(self.ADD_PHOTO_BTN)
+
+    def add_photo_from_computer(self):
+        super(TopicCreationPopup, self).click_element(self.ADD_PHOTO_FROM_COMPUTER_BTN)
 
 
 

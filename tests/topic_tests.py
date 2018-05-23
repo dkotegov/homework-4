@@ -192,6 +192,25 @@ class TopicTests(unittest.TestCase):
     #
     #     topic_popup.close_topic_popup()
 
+    def test_add_photo(self):
+        shop_forum_page = ShopForumPage(self.driver)
+        topic_list_element = shop_forum_page.topic_list_element
+        topic_list_element.open_topic_popup()
+
+        topic_popup = shop_forum_page.topic_popup
+        topic_popup.open_right_menu()
+        topic_popup.edit_topic()
+
+        topic_edit_popup = shop_forum_page.topic_creation_popup
+        topic_edit_popup.add_photo()
+        topic_edit_popup.add_photo_from_computer()
+
+
+
+
+
+
+
 
 
 
