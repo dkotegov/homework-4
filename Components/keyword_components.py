@@ -60,6 +60,15 @@ class KeywordsComponent(Component):
             return False
         return True
 
+    def is_hashtag_exists(self):
+        try:
+            WebDriverWait(self.driver, 4, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.HASHTAG)
+            )
+        except:
+            return False
+        return True
+
     def is_keyword_error_min_length_exist(self):
         try:
             WebDriverWait(self.driver, 4, 0.1).until(
