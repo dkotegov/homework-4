@@ -20,7 +20,7 @@ from pages.base_settings_page import BaseSettingsPage
 from selenium.webdriver import DesiredCapabilities, Remote
 
 
-class Tests(unittest.TestCase):
+class TestsBuevichGusev(unittest.TestCase):
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
