@@ -1,5 +1,4 @@
-from components.page import Page
-from components.password_form import PasswordForm
+from pages.page import Page
 from components.settings_form import SettingsForm
 
 

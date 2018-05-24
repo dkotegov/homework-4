@@ -1,5 +1,5 @@
 from components.current_game import CurrentGame
-from components.page import Page
+from pages.page import Page
 
 
 class GamePage(Page):

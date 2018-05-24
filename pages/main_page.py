@@ -1,9 +1,10 @@
-from components.games_list import GamesList
 from components.group_component import GroupComponent
 from components.main_up_toolbar import MainUpToolbar
 from components.main_vertical_list import MainVerticalList
-from components.page import Page
+from pages.page import Page
 from constants import game
+
+from components.main_components import MainForm
 
 
 class MainPage(Page):
@@ -16,6 +17,22 @@ class MainPage(Page):
 
     def open_friends_list(self):
         self.main_vertical_list.get_friends().click()
+
+    def my_name_surname(self):
+        main_form = MainForm(self.driver)
+        return main_form.get_name_surname()
+
+    def my_birthday(self):
+        main_form = MainForm(self.driver)
+        return main_form.get_birthday()
+
+    def my_birth_note(self):
+        main_form = MainForm(self.driver)
+        return main_form.get_birth_note()
+
+    def my_current_city(self):
+        main_form = MainForm(self.driver)
+        return main_form.get_current_city()
 
     def open_games_list(self):
         self.main_vertical_list.get_games().click()
@@ -57,7 +74,4 @@ class MainPage(Page):
 
     def go_to_group_news(self):
         self.group_component.get_groups_news_button().click()
-
-
-
 

@@ -1,4 +1,4 @@
-from components.page import Page
+from pages.page import Page
 from components.password_form import PasswordForm
 from constants import profiles
 
