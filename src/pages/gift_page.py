@@ -234,6 +234,14 @@ class GiftPage(BaseElement):
         btn = self._gift_element.get_authors_gift_button()
         btn.click()
 
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   choose receiver
+        receiver = self._gift_element.get_receiver()
+        receiver.click()
+
         return AuthorsGiftPage(self.driver)
 
     def open_postcards(self):

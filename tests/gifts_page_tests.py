@@ -107,30 +107,29 @@ class GiftsPageTests(unittest.TestCase):
     #     ok = gift_page.is_gift_sent()
     #     self.assertTrue(ok)
     #
-    #    Переход на страницу акуальных подарков
-    def test_open_actual_gifts(self):
-        actual_gift_page = self.gift_page.open_actual_gifts()
-        ok = actual_gift_page.is_loaded()
-        self.assertTrue(ok)
-
-    #    Переход на страницу акуальных подарков и отправка подарка
-    def test_open_actual_gifts_and_send_gift(self):
-        actual_gift_page = self.gift_page.open_actual_gifts_and_send()
-        ok = actual_gift_page.is_gift_sent()
-        self.assertTrue(ok)
-
-    # #    Переход на страницу авторских подарков
-    # def test_open_authors_gifts(self):
-    #     authors_gift_page = self.gift_page.open_authors_gifts()
-    #     ok = authors_gift_page.is_loaded()
+    # #    Переход на страницу акуальных подарков
+    # def test_open_actual_gifts(self):
+    #     actual_gift_page = self.gift_page.open_actual_gifts()
+    #     ok = actual_gift_page.is_loaded()
     #     self.assertTrue(ok)
     #
     # #    Переход на страницу акуальных подарков и отправка подарка
-    # def test_open_authors_gifts_and_send_gift(self):
-    #     authors_gift_page = self.gift_page.open_authors_gifts_and_send()
-    #     ok = authors_gift_page.is_gift_sent()
+    # def test_open_actual_gifts_and_send_gift(self):
+    #     actual_gift_page = self.gift_page.open_actual_gifts_and_send()
+    #     ok = actual_gift_page.is_gift_sent()
     #     self.assertTrue(ok)
 
+    #    Переход на страницу авторских подарков
+    def test_open_authors_gifts(self):
+        authors_gift_page = self.gift_page.open_authors_gifts()
+        ok = authors_gift_page.is_loaded()
+        self.assertTrue(ok)
+
+    #    Переход на страницу акуальных подарков и отправка подарка
+    def test_open_authors_gifts_and_send_gift(self):
+        authors_gift_page = self.gift_page.open_authors_gifts_and_send()
+        ok = authors_gift_page.is_gift_sent()
+        self.assertTrue(ok)
 
     #
     # def test_open_postcards(self):
