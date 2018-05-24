@@ -89,15 +89,24 @@ class GiftsPageTests(unittest.TestCase):
     #     ok = gift_page.is_gift_sent()
     #     self.assertTrue(ok)
     #
-    def test_search_gift(self):
-        gift_page = self.gift_page.search_gift()
-        ok = gift_page.is_search_done()
-        self.assertTrue(ok)
+    # #   Поиск подарка по названию(такой подарок есть)
+    # def test_search_gift(self):
+    #     gift_page = self.gift_page.search_gift()
+    #     ok = gift_page.is_search_done()
+    #     self.assertTrue(ok)
+    #
+    # #   Поиск подарка по названию(такой такой подарок отстуствует)
+    # def test_search_gift_not_exists(self):
+    #     gift_page = self.gift_page.search_gift_not_exists()
+    #     ok = gift_page.is_search_not_done()
+    #     self.assertTrue(ok)
+    #
+    # #   Поиск подарка по названию и отправка
+    # def test_search_gift_and_send(self):
+    #     gift_page = self.gift_page.search_gift_and_send()
+    #     ok = gift_page.is_gift_sent()
+    #     self.assertTrue(ok)
 
-    def test_search_gift_not_exists(self):
-        gift_page = self.gift_page.search_gift_not_exists()
-        ok = gift_page.is_search_not_done()
-        self.assertTrue(ok)
     # def test_open_authors_gifts(self):
     #     authors_gift_page = self.gift_page.open_authors_gifts()
     #     ok = authors_gift_page.is_loaded()
