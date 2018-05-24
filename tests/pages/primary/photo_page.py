@@ -239,15 +239,26 @@ class InputComment(Component):
             return False
 
     def get_comments_add_err(self):
-        elem = WebDriverWait(self.driver, 10, 0.1).until(
+        elem = WebDriverWait(self.driver, 5, 0.1).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, self.COMMENTS_ADD_ERR_CSS))
         )
         return elem.text
 
+    def insert_text(self, text):
+        script_insert_text = 'document.querySelectorAll(\'div[name="st.dM"]\')[0].innerText = "{}"'.format(text[1:])
+        self.driver.execute_script(script_insert_text)
+        self.input_text('1')
+        WebDriverWait(self.driver, 10, 0.1).until(
+            EC.text_to_be_present_in_element((By.XPATH, self.INPUT), text)
+        )
+
     def try_add_comment_text(self, text):
         self.input_focus()
-        self.input_text(text)
-        self.send()
+        self.insert_text(text)
+        try:
+            self.send()
+        except TimeoutError:
+            return False
 
     def add_answer_text(self, text):
         self.input_text(text)
