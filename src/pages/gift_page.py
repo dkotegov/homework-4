@@ -206,15 +206,35 @@ class GiftPage(BaseElement):
         receiver.click()
         return GiftPage(self.driver)
 
+    def open_actual_gifts(self):
+        btn = self._gift_element.get_actual_gift_button()
+        btn.click()
+        return ActualGiftPage(self.driver)
+
+    def open_actual_gifts_and_send(self):
+        btn = self._gift_element.get_actual_gift_button()
+        btn.click()
+
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   choose receiver
+        receiver = self._gift_element.get_receiver()
+        receiver.click()
+
+        return ActualGiftPage(self.driver)
+
     def open_authors_gifts(self):
         btn = self._gift_element.get_authors_gift_button()
         btn.click()
         return AuthorsGiftPage(self.driver)
 
-    def open_actual_gifts(self):
-        btn = self._gift_element.get_actual_gift_button()
+    def open_authors_gifts_and_send(self):
+        btn = self._gift_element.get_authors_gift_button()
         btn.click()
-        return ActualGiftPage(self.driver)
+
+        return AuthorsGiftPage(self.driver)
 
     def open_postcards(self):
         btn = self._gift_element.get_postcard_button()
