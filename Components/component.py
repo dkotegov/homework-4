@@ -24,6 +24,13 @@ class Component(object):
             return False
         return True
 
+    def is_not_exist_element(self, xpath):
+        try:
+            self.waiting_until_invisible(xpath)
+        except TimeoutException:
+            return False
+        return True
+
     def click_element(self, xpath):
         self.find_element(xpath).click()
 

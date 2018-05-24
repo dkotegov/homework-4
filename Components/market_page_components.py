@@ -70,6 +70,9 @@ class CatalogWidget(Component):
     def is_exist_catalog_widget(self):
         return super(CatalogWidget, self).is_exist_element(self.WIDGET_PANEL)
 
+    def is_not_exist_catalog_widget(self):
+        return super(CatalogWidget, self).is_not_exist_element(self.WIDGET_PANEL)
+
     def get_catalog_name(self):
         return super(CatalogWidget, self).get_element_text(self.CATALOG_NAME)
 
@@ -163,6 +166,9 @@ class CatalogStub(Component):
 
     def is_exist_catalog_stub(self):
         return super(CatalogStub, self).is_exist_element(self.STUB)
+
+    def is_not_exist_catalog_stub(self):
+        return super(CatalogStub, self).is_not_exist_element(self.STUB)
 
     def create_catalog_later(self):
         return super(CatalogStub, self).click_element(self.CREATE_LATER)
