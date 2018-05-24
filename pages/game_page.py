@@ -1,3 +1,4 @@
+
 import sys
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -9,8 +10,9 @@ from components.page import Page
 from constants import profiles
 
 
-class GamePage(Page):
 
+
+class GamePage(Page):
     def __init__(self, driver):
         super(GamePage, self).__init__(driver)
         self.game_form = GameForm(self.driver)

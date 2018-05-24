@@ -21,3 +21,4 @@ class PrivacyForm(BaseComponent):
         return self.get_clickable_element("//input["+ name + " and "+ value + "]")
     def get_save_button(self):
         return self.get_clickable_element(self.SAVE_BUTTON)
+    

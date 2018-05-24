@@ -1,3 +1,4 @@
+
 import sys
 import re
 from selenium import webdriver
@@ -12,7 +13,6 @@ from constants import profiles
 
 
 class AboutPage(Page):
-
     def __init__(self, driver, url):
         super(AboutPage, self).__init__(driver)
         self.about_form = AboutForm(self.driver)
@@ -36,3 +36,6 @@ class AboutPage(Page):
                 self.about_form.reletionship_cansel_request().click()
             except TimeoutException:
                 self.break_reletionship()
+                
+    def about_form(self):
+        return AboutForm(self.driver)

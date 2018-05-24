@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import sys
 from tests import Tests
-from tests_privacy import TestsPrivacy
+
+from alltests import TestsBuevichGusev
 
 if __name__ == '__main__':
-    suite = unittest.TestSuite((unittest.makeSuite(TestsPrivacy)),)
-    result = unittest.TextTestRunner().run(suite)
+    #suite = unittest.TestSuite((unittest.makeSuite(Tests)),)
+    suite1 = unittest.TestSuite((unittest.makeSuite(TestsBuevichGusev)),)
+    result = unittest.TextTestRunner().run(suite1)
+
