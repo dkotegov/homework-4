@@ -4,6 +4,7 @@ from components.main_vertical_list import MainVerticalList
 from components.page import Page
 from components.notification_component import NotificationComponent
 from constants import game
+import urlparse
 
 from components.main_components import MainForm
 
@@ -82,3 +83,9 @@ class MainPage(Page):
 
     def go_to_group_news(self):
         self.group_component.get_groups_news_button().click()
+
+    def open_page_by_url(self, path):
+        url = urlparse.urljoin(self.BASE_URL, self.PAGE)
+        url = urlparse.urljoin(url, path)
+        self.driver.get(url)
+        self.driver.maximize_window()

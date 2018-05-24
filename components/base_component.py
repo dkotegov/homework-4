@@ -78,3 +78,8 @@ class BaseComponent(object):
                 .until(expected_conditions.element_to_be_clickable((By.XPATH, path)))
         except TimeoutException:
             return False
+
+    def get_visibility_elements(self, path):
+        return WebDriverWait(self.driver, 30, 0.5).until(
+            lambda d: d.find_elements_by_xpath(path)
+        )       
