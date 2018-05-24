@@ -16,12 +16,12 @@ class MainPage(Page):
         self.main_vertical_list = MainVerticalList(self.driver)
         self.group_component = GroupComponent(self.driver)
 
-	def open_friends_list(self):
-		self.main_vertical_list.get_friends().click()
+    def open_friends_list(self):
+        self.main_vertical_list.get_friends().click()
 
-	def accept_notification(self):
-		notification = NotificationComponent(self.driver)
-		notification.accept_reletionship().click()
+    def accept_notification(self):
+        notification = NotificationComponent(self.driver)
+        notification.accept_reletionship().click()
 
     def open_friends_list(self):
         self.main_vertical_list.get_friends().click()
