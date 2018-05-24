@@ -129,7 +129,6 @@ class GiftsPageTests(unittest.TestCase):
         self.self_gift.open_gift_dialog()
         self.gift_dialog_page.send_photo()
         self.assertTrue(self.gift_dialog_page.comment_with_photo_exists(), "test_send_photo failed")
-        time.sleep(3)
         self.delete_comment()
 
     def test_send_video(self):
@@ -139,12 +138,35 @@ class GiftsPageTests(unittest.TestCase):
         self.assertTrue(self.gift_dialog_page.comment_with_video_exists(), "test_send_video failed")
         self.delete_comment()
 
+    def send_jpeg_photo(self):
+        # send gif image
+        self.gift_dialog_page.send_photo_from_computer("/staticfiles/jpeg_image.jpeg")
+        self.assertTrue(self.gift_dialog_page.comment_with_photo_from_computer_exists(),
+                        "test_send_jpeg_photo_from_computer failed")
+        self.delete_comment()
+
+    def send_gif_photo(self):
+        # send gif image
+        self.gift_dialog_page.send_photo_from_computer("/staticfiles/gif_image.gif")
+        self.assertTrue(self.gift_dialog_page.comment_with_photo_from_computer_exists(),
+                        "test_send_gif_photo_from_computer failed")
+        self.delete_comment()
+
+    # def test_send_png_photo(self):
+    #     self.open_self_gifts()
+    #     self.self_gift.open_gift_dialog()
+    #     # send png image
+    #     self.gift_dialog_page.send_photo_from_computer("/staticfiles/png_image.png")
+    #     self.assertTrue(self.gift_dialog_page.comment_with_photo_from_computer_exists(),
+    #                     "test_send_png_photo_from_computer failed")
+    #     self.delete_comment()
+
     def test_send_photo_from_computer(self):
         self.open_self_gifts()
         self.self_gift.open_gift_dialog()
-        self.gift_dialog_page.send_photo_from_computer()
-        self.assertTrue(self.gift_dialog_page.comment_with_photo_from_computer_exists(), "test_send_photo_from_computer failed")
-        self.delete_comment()
+        self.send_gif_photo()
+        # self.send_png_photo()
+        self.send_jpeg_photo()
 
     def test_set_friend(self):
         self.open_self_gifts()
