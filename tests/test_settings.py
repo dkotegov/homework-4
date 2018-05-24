@@ -400,7 +400,7 @@ class TestsAddStuff(unittest.TestCase):
         group_page_user2 = GroupPage(self.driver_2, path=group_page.path).open()
         group_page_user2.join()
 
-        setting_page = group_page.to_settings_page()
+        setting_page = group_page.open().to_settings_page()
 
         self.group_page = group_page
         self.group_page_user_2 = group_page_user2
@@ -437,7 +437,7 @@ class TestsAddStuff(unittest.TestCase):
         self.assertTrue(admin_page.is_moder_added(self.profile_user_2.name, Role.ANALYST))
 
 
-class HideObsceneLanguageTest(unittest.TestCase):
+class TestsHideObsceneLanguage(unittest.TestCase):
     LOGIN_1 = os.environ['LOGIN_1']
     PASSWORD_1 = os.environ['PASSWORD_1']
     LOGIN_2 = os.environ['LOGIN_2']

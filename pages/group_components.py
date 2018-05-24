@@ -77,7 +77,6 @@ class ApplicationPortlet(Component):
 
     def find_app(self, name):
         app = self.elem.find_element_by_xpath(self.APP_NAME)
-        print(app.text)
         if app.text == name:
             return True
         return False
