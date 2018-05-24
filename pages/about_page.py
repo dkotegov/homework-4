@@ -6,6 +6,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 import constants
 from components.base_component import BaseComponent
+import urlparse
 from components.about_form import AboutForm
 from components.page import Page
 from constants import profiles
@@ -36,6 +37,6 @@ class AboutPage(Page):
                 self.about_form.reletionship_cansel_request().click()
             except TimeoutException:
                 self.break_reletionship()
-                
+
     def about_form(self):
         return AboutForm(self.driver)

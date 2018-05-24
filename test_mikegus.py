@@ -35,12 +35,12 @@ class TestsMikeGus(unittest.TestCase):
 
     def test_change_sex(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
 
         personal_data.check_female()
@@ -52,10 +52,10 @@ class TestsMikeGus(unittest.TestCase):
         self.assertEqual(personal_data.is_male(), False)
 
         m_page = MainPage(self.driver)
-        m_page.open(main_page.PROFILE_TECHNOPARK11_REFERENCE)
+        m_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
         self.assertEqual(m_page.my_birth_note(), main_page.FEMALE_BIRTH_NOTE)
 
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.check_male()
         personal_data.save()
@@ -65,17 +65,17 @@ class TestsMikeGus(unittest.TestCase):
         self.assertEqual(personal_data.is_female(), False)
         self.assertEqual(personal_data.is_male(), True)
 
-        m_page.open(main_page.PROFILE_TECHNOPARK11_REFERENCE)
+        m_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
         self.assertEqual(m_page.my_birth_note(), main_page.MALE_BIRTH_NOTE)
 
     def test_army_correct_city_unit(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         army_form = about_form.army_form()
@@ -89,19 +89,19 @@ class TestsMikeGus(unittest.TestCase):
             self.fail('в/ч не добавлена')
 
         community_page = CommunityPage(self.driver)
-        community_page.open(army.CORRECT_ARMY_REFERENCE)
+        community_page.open_page_by_url(army.CORRECT_ARMY_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_army_no_city_correct_unit(self):
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         army_form = about_form.army_form()
@@ -115,18 +115,18 @@ class TestsMikeGus(unittest.TestCase):
             self.fail('в/ч не добавлена')
 
         community_page = CommunityPage(self.driver)
-        community_page.open(army.CORRECT_ARMY_REFERENCE)
+        community_page.open_page_by_url(army.CORRECT_ARMY_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_army_incorrect_city_unit(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open_page_by_url('')
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         army_form = about_form.army_form()
@@ -146,18 +146,18 @@ class TestsMikeGus(unittest.TestCase):
             self.fail('в/ч не добавлена')
 
         community_page = CommunityPage(self.driver)
-        community_page.open(army.CORRECT_ARMY_REFERENCE)
+        community_page.open_page_by_url(army.CORRECT_ARMY_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_army_duplicate(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         army_form = about_form.army_form()
@@ -171,18 +171,18 @@ class TestsMikeGus(unittest.TestCase):
         self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
 
         community_page = CommunityPage(self.driver)
-        community_page.open(army.CORRECT_ARMY_REFERENCE)
+        community_page.open_page_by_url(army.CORRECT_ARMY_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_career_correct_city_job(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         career_form = about_form.career_form()
@@ -196,18 +196,18 @@ class TestsMikeGus(unittest.TestCase):
             self.fail('место работы не добавлено')
 
         community_page = CommunityPage(self.driver)
-        community_page.open(career.CORRECT_CAREER_REFERENCE)
+        community_page.open_page_by_url(career.CORRECT_CAREER_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_career_no_city_correct_job(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         career_form = about_form.career_form()
@@ -222,18 +222,18 @@ class TestsMikeGus(unittest.TestCase):
             self.fail('место работы не добавлено')
 
         community_page = CommunityPage(self.driver)
-        community_page.open(career.CORRECT_CAREER_REFERENCE)
+        community_page.open_page_by_url(career.CORRECT_CAREER_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_career_incorrect_city_job(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         career_form = about_form.career_form()
@@ -241,7 +241,7 @@ class TestsMikeGus(unittest.TestCase):
         error = career_form.city_error()
         self.assertEqual(error, career.ERROR_INVALID_CITY)
 
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
         about_form = about_page.about_form()
         career_form = about_form.career_form()
 
@@ -257,12 +257,12 @@ class TestsMikeGus(unittest.TestCase):
 
     def test_career_duplicate(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         career_form = about_form.career_form()
@@ -276,18 +276,18 @@ class TestsMikeGus(unittest.TestCase):
         self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
 
         community_page = CommunityPage(self.driver)
-        community_page.open(career.CORRECT_CAREER_REFERENCE)
+        community_page.open_page_by_url(career.CORRECT_CAREER_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_study_correct_city_school(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         study_form = about_form.study_form()
@@ -301,18 +301,18 @@ class TestsMikeGus(unittest.TestCase):
             self.fail('место учебы не добавлено')
 
         community_page = CommunityPage(self.driver)
-        community_page.open(study.CORRECT_SCHOOL_REFERENCE)
+        community_page.open_page_by_url(study.CORRECT_SCHOOL_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_study_no_city_correct_school(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         study_form = about_form.study_form()
@@ -327,18 +327,18 @@ class TestsMikeGus(unittest.TestCase):
             self.fail('место учебы не добавлено')
 
         community_page = CommunityPage(self.driver)
-        community_page.open(study.CORRECT_SCHOOL_REFERENCE)
+        community_page.open_page_by_url(study.CORRECT_SCHOOL_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()
 
     def test_study_incorrect_city_school(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         study_form = about_form.study_form()
@@ -346,7 +346,7 @@ class TestsMikeGus(unittest.TestCase):
         error = study_form.city_error()
         self.assertEqual(error, study.ERROR_INVALID_CITY)
 
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
         about_form = about_page.about_form()
         study_form = about_form.study_form()
 
@@ -362,12 +362,12 @@ class TestsMikeGus(unittest.TestCase):
 
     def test_school_duplicate(self):
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver)
-        about_page.open(profiles.PROFILE_TECHNOPARK11_ABOUT_PAGE)
+        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
 
         about_form = about_page.about_form()
         study_form = about_form.study_form()
@@ -381,6 +381,6 @@ class TestsMikeGus(unittest.TestCase):
         self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
 
         community_page = CommunityPage(self.driver)
-        community_page.open(study.CORRECT_SCHOOL_REFERENCE)
+        community_page.open_page_by_url(study.CORRECT_SCHOOL_REFERENCE)
         community_form = community_page.community_form()
         community_form.leave()

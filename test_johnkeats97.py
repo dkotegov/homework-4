@@ -33,12 +33,12 @@ class TestsBaseSettings(unittest.TestCase):
         surname = "Surname"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK42, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -57,12 +57,12 @@ class TestsBaseSettings(unittest.TestCase):
         surname = "surname"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK42, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -82,12 +82,12 @@ class TestsBaseSettings(unittest.TestCase):
         surname = "SURNAME"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -106,12 +106,12 @@ class TestsBaseSettings(unittest.TestCase):
         surname = "456"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -130,12 +130,12 @@ class TestsBaseSettings(unittest.TestCase):
         surname = "Surname456"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK12, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -155,12 +155,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"Пожалуйста, используйте только буквы."
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -175,12 +175,12 @@ class TestsBaseSettings(unittest.TestCase):
         surname = "Surname" * 100
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK13, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname_send_keys(name, surname)
         personal_data.save()
@@ -198,12 +198,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"Текст слишком длинный"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -220,12 +220,12 @@ class TestsBaseSettings(unittest.TestCase):
         error_surname = u"Пожалуйста, укажите вашу фамилию."
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -242,12 +242,12 @@ class TestsBaseSettings(unittest.TestCase):
         error_surname = u"Пожалуйста, укажите вашу фамилию."
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -262,12 +262,12 @@ class TestsBaseSettings(unittest.TestCase):
         surname = " " * 10 + "Surname1" + " " * 10
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK19, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -286,12 +286,12 @@ class TestsBaseSettings(unittest.TestCase):
         surname = "Surname" + " " * 5 + "1"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK14, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.name_surname(name, surname)
         personal_data.save()
@@ -311,12 +311,12 @@ class TestsBaseSettings(unittest.TestCase):
         birthday = u"5 февраля 2001 (17 лет)"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
 
         personal_data.birthday()
@@ -333,12 +333,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"День вашего рождения указан некорректно."
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
 
         personal_data.birthday_error_29()
@@ -352,12 +352,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"День вашего рождения указан некорректно."
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
 
         personal_data.birthday_error_void_day()
@@ -366,7 +366,7 @@ class TestsBaseSettings(unittest.TestCase):
         e = personal_data.get_birthday_error()
         self.assertEqual(e, error)
 
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.birthday_error_void_month()
         personal_data.save()
@@ -374,7 +374,7 @@ class TestsBaseSettings(unittest.TestCase):
         e = personal_data.get_birthday_error()
         self.assertEqual(e, error)
 
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         personal_data = base_settings_page.personal_data()
         personal_data.birthday_error_void_year()
         personal_data.save()
@@ -390,12 +390,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"Ошибки:\n" + u"В номере неверное количество цифр"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         phone_number = base_settings_page.phone_number()
         phone_number.set_number(number)
         phone_number.ok_button_click()
@@ -407,12 +407,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"Ошибки:\n" + u"В номере неверное количество цифр"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         phone_number = base_settings_page.phone_number()
         phone_number.set_number(number)
         phone_number.ok_button_click()
@@ -424,12 +424,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"Ошибки:\n" + u"В номере неверное количество цифр"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         phone_number = base_settings_page.phone_number()
         phone_number.set_number(number)
         phone_number.ok_button_click()
@@ -441,12 +441,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"Ошибки:\n" + u"Введите номер телефона"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         phone_number = base_settings_page.phone_number()
         phone_number.set_number(number)
         phone_number.ok_button_click()
@@ -458,12 +458,12 @@ class TestsBaseSettings(unittest.TestCase):
         error = u"Ошибки:\n" + u"Введите номер телефона"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         phone_number = base_settings_page.phone_number()
         phone_number.set_number(number)
         phone_number.ok_button_click()
@@ -474,12 +474,12 @@ class TestsBaseSettings(unittest.TestCase):
         number = "9999977771"
 
         auth_page = AuthPage(self.driver)
-        auth_page.open('')
+        auth_page.open()
 
         auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
-        base_settings_page.open('/settings')
+        base_settings_page.open()
         phone_number = base_settings_page.phone_number()
         phone_number.set_number(number)
         phone_number.ok_button_click()
