@@ -44,6 +44,9 @@ class GiftPage(BaseElement):
     def is_search_done(self):
         return self._search_gift_element.is_search_done()
 
+    def is_search_not_done(self):
+        return self._search_gift_element.is_search_not_done()
+
     def send_gift_usual(self):
         #   clicking on gift
         present = self._gift_element.get_present()
@@ -202,6 +205,13 @@ class GiftPage(BaseElement):
 
     def search_gift(self):
         text_input = "flower"
+        edit_text_search_gift = self._gift_element.get_edit_text()
+        edit_text_search_gift.send_keys(text_input)
+
+        return GiftPage(self.driver)
+
+    def search_gift_not_exists(self):
+        text_input = "bad present name"
         edit_text_search_gift = self._gift_element.get_edit_text()
         edit_text_search_gift.send_keys(text_input)
 
