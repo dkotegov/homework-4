@@ -1,19 +1,27 @@
 from components.group_component import GroupComponent
 from components.main_up_toolbar import MainUpToolbar
 from components.main_vertical_list import MainVerticalList
-from pages.page import Page
+from components.page import Page
+from components.notification_component import NotificationComponent
 from constants import game
 
 from components.main_components import MainForm
 
 
-class MainPage(Page):
 
+class MainPage(Page):
     def __init__(self, driver):
         super(MainPage, self).__init__(driver)
         self.main_up_toolbar = MainUpToolbar(self.driver)
         self.main_vertical_list = MainVerticalList(self.driver)
         self.group_component = GroupComponent(self.driver)
+
+	def open_friends_list(self):
+		self.main_vertical_list.get_friends().click()
+
+	def accept_notification(self):
+		notification = NotificationComponent(self.driver)
+		notification.accept_reletionship().click()
 
     def open_friends_list(self):
         self.main_vertical_list.get_friends().click()
@@ -74,4 +82,3 @@ class MainPage(Page):
 
     def go_to_group_news(self):
         self.group_component.get_groups_news_button().click()
-

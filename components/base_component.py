@@ -6,6 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from constants import game
 
 
+
 class BaseComponent(object):
 
     def __init__(self, driver):
@@ -14,15 +15,6 @@ class BaseComponent(object):
     def get_clickable_element(self, path):
         return WebDriverWait(self.driver, 10, 0.3)\
             .until(expected_conditions.element_to_be_clickable((By.XPATH, path)))
-
-    def get_visibility_element(self, path):
-        return WebDriverWait(self.driver, 10, 0.2) \
-            .until(expected_conditions.visibility_of_element_located((By.XPATH, path)))
-
-    def get_visibility_elements(self, path):
-        return WebDriverWait(self.driver, 30, 0.5).until(
-            lambda d: d.find_elements_by_xpath(path)
-        )
 
     def get_clickable_element_by_element(self, element):
         return WebDriverWait(self.driver, 30, 0.3)\
