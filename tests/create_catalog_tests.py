@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from Components.market_page_components import RemoveCatalogPopup, CatalogStub, CatalogCounter
-from PageObjects.page_objects import ShopMarketPage, CatalogPage
+from Components.market_page_components import CatalogStub, CatalogCounter
+from PageObjects.page_objects import ShopMarketPage
 from tests.common import getDriver, Auth, Main, Shop
 
 
-class CatalogTests(unittest.TestCase):
+class CreateCatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
     CHARS_IN_SUBSTRING = 83
 
@@ -151,22 +151,6 @@ class CatalogTests(unittest.TestCase):
         number_of_products = catalog_widget.get_number_of_products()
         self.assertEqual(u'0', number_of_products)
 
-    def test_create_several_catalogs(self, number_of_catalogs=10):
-        for i in xrange(number_of_catalogs):
-            self.test_create_empty_catalog_from_catalog_panel(str(i))
-
-        catalog_counter = CatalogCounter(self.driver)
-        actual_catalog_count = catalog_counter.get_number_of_catalogs()
-        self.assertEquals(number_of_catalogs, int(actual_catalog_count))
-
-    def test_create_maximum_catalogs(self):
-        self.test_create_several_catalogs(100)
-
-        shop_market_page = ShopMarketPage(self.driver)
-        catalog_popup = shop_market_page.catalog_popup
-        is_disabled_creation = catalog_popup.is_disabled_creation()
-        self.assertTrue(is_disabled_creation)
-
     def test_create_empty_catalog_from_catalog_panel(self, name=CATALOG_NAME):
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
@@ -190,6 +174,22 @@ class CatalogTests(unittest.TestCase):
         catalog_popup.open_popup_from_product_panel()
 
         self.create_and_check_empty_catalog(catalog_popup, name)
+
+    def test_create_several_catalogs(self, number_of_catalogs=10):
+        for i in xrange(number_of_catalogs):
+            self.test_create_empty_catalog_from_catalog_panel(str(i))
+
+        catalog_counter = CatalogCounter(self.driver)
+        actual_catalog_count = catalog_counter.get_number_of_catalogs()
+        self.assertEquals(number_of_catalogs, int(actual_catalog_count))
+
+    def test_create_maximum_catalogs(self):
+        self.test_create_several_catalogs(100)
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        is_disabled_creation = catalog_popup.is_disabled_creation()
+        self.assertTrue(is_disabled_creation)
 
     def create_and_check_catalog_with_image(self, image_name):
         # creating catalog
@@ -236,99 +236,6 @@ class CatalogTests(unittest.TestCase):
 
     def test_create_catalog_with_large_gif_image(self):
         self.create_and_check_catalog_with_image('image_4K.gif')
-
-    def test_edit_catalog_name(self):
-        # creating catalog
-        shop_market_page = ShopMarketPage(self.driver)
-        catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup_from_catalog_panel()
-        catalog_popup.set_catalog_name(self.CATALOG_NAME)
-        catalog_popup.save()
-        catalog_popup.waiting_until_close()
-
-        # check name before
-        catalog_widget = shop_market_page.catalog_widget
-        catalog_widget.open_catalog()
-        catalog_page = CatalogPage(self.driver)
-        catalog_panel = catalog_page.catalog_panel
-
-        catalog_name_before_edit = catalog_panel.get_catalog_name()
-        self.assertEquals(self.CATALOG_NAME, catalog_name_before_edit)
-
-        # editing catalog name
-        other_catalog_name = u'Другой каталог'
-
-        catalog_panel.edit_catalog()
-        catalog_popup.set_catalog_name(other_catalog_name)
-        catalog_popup.save()
-        catalog_popup.waiting_until_close()
-
-        # check name after
-        catalog_name_after_edit = catalog_panel.get_catalog_name()
-        self.assertEquals(other_catalog_name, catalog_name_after_edit)
-
-    def test_edit_catalog_upload_image_after_creating_catalog(self):
-        # creating catalog
-        shop_market_page = ShopMarketPage(self.driver)
-        catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup_from_catalog_panel()
-        catalog_popup.set_catalog_name()
-        catalog_popup.save()
-        catalog_popup.waiting_until_close()
-
-        # check image stub
-        catalog_widget = shop_market_page.catalog_widget
-        is_exist_image_stub_on_widget = catalog_widget.is_exist_image_stub()
-        self.assertTrue(is_exist_image_stub_on_widget)
-
-        catalog_widget.open_catalog()
-        catalog_page = CatalogPage(self.driver)
-        catalog_panel = catalog_page.catalog_panel
-
-        is_exist_image_stub_on_panel = catalog_panel.is_exist_image_stub()
-        self.assertTrue(is_exist_image_stub_on_panel)
-
-        # editing catalog
-        catalog_panel.edit_catalog()
-        catalog_popup.upload_catalog_image()
-        catalog_popup.waiting_until_image_upload()
-        upload_image_src = catalog_popup.get_image_src()
-        catalog_popup.save()
-        catalog_popup.waiting_until_close()
-
-        # check upload image
-        panel_image_src = catalog_panel.get_image_src()
-        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], panel_image_src[:self.CHARS_IN_SUBSTRING])
-
-    def test_delete_empty_catalog(self):
-        # check stub
-        shop_market_page = ShopMarketPage(self.driver)
-        catalog_stub = shop_market_page.catalog_stub
-        self.check_catalog_stub(catalog_stub)
-
-        # creating catalog
-        catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup_from_catalog_panel()
-        catalog_popup.set_catalog_name()
-        catalog_popup.save()
-        catalog_popup.waiting_until_close()
-
-        # check widget
-        catalog_widget = shop_market_page.catalog_widget
-        self.check_catalog_widget(catalog_widget)
-
-        # removing catalog
-        catalog_widget.open_catalog()
-        catalog_page = CatalogPage(self.driver)
-        catalog_panel = catalog_page.catalog_panel
-
-        catalog_panel.remove_catalog()
-        remove_catalog_popup = RemoveCatalogPopup(self.driver)
-        remove_catalog_popup.submit_remove()
-        remove_catalog_popup.waiting_until_close()
-
-        # check stub
-        self.check_catalog_stub(catalog_stub)
 
     def check_catalog_stub(self, catalog_stub):
         is_exist_catalog_stub = catalog_stub.is_exist_catalog_stub()
