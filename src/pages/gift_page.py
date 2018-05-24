@@ -94,10 +94,28 @@ class GiftPage(BaseElement):
 
         return GiftPage(self.driver)
 
+    def send_gift_private(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   pressing button to send gift by private
+        private_button = self._gift_element.get_private_button()
+        private_button.click()
+
+        #   choose receiver
+        receiver = self._gift_element.get_receiver()
+        receiver.click()
+        return GiftPage(self.driver)
+
     def send_gift_private_by_receivers_name(self):
         #   clicking on gift
         present = self._gift_element.get_present()
         present.click()
+
+        #   pressing button to send gift by private
+        private_button = self._gift_element.get_private_button()
+        private_button.click()
 
         #   finding receiver
         text_input = 'kosmos'
@@ -106,6 +124,40 @@ class GiftPage(BaseElement):
 
         receiver = self._gift_element.get_receiver()
         receiver.click()
+        return GiftPage(self.driver)
+
+    def send_gift_private_by_receivers_name_not_exists(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   pressing button to send gift by private
+        private_button = self._gift_element.get_private_button()
+        private_button.click()
+
+        #   finding receiver
+        text_input = 'reciever that not exists'
+        edit_text_find_reciever = self._gift_element.get_edit_text_find_receiver()
+        edit_text_find_reciever.send_keys(text_input)
+
+        return GiftPage(self.driver)
+
+    def send_gift_private_by_receivers_name_big_str(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   pressing button to send gift by private
+        private_button = self._gift_element.get_private_button()
+        private_button.click()
+
+        #   finding receiver
+        text_input = ''
+        for i in range(0, 1000):
+            text_input += 'big str'
+        edit_text_find_reciever = self._gift_element.get_edit_text_find_receiver()
+        edit_text_find_reciever.send_keys(text_input)
+
         return GiftPage(self.driver)
 
     def open_authors_gifts(self):
@@ -153,20 +205,6 @@ class GiftPage(BaseElement):
         edit_text_search_gift = self._gift_element.get_edit_text()
         edit_text_search_gift.send_keys(text_input)
 
-        return GiftPage(self.driver)
-
-    def send_gift_private(self):
-        #   clicking on gift
-        present = self._gift_element.get_present()
-        present.click()
-
-        #   pressing button to send gift by private
-        private_button = self._gift_element.get_private_button()
-        private_button.click()
-
-        #   choose receiver
-        receiver = self._gift_element.get_receiver()
-        receiver.click()
         return GiftPage(self.driver)
 
     def open_self_gifts(self):

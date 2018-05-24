@@ -59,17 +59,29 @@ class GiftsPageTests(unittest.TestCase):
     #     gift_page = self.gift_page.send_gift_by_receivers_name_big_str()
     #     ok = gift_page.is_gift_not_sent()
     #     self.assertTrue(ok)
+    #
+    # #    Отправка подарка другу приватно
+    # def test_send_gift_private(self):
+    #     gift_page = self.gift_page.send_gift_private()
+    #     ok = gift_page.is_gift_sent()
+    #     self.assertTrue(ok)
+    #
+    # #    Отправка подарка приватно по имени друга(такой друг есть)
+    # def test_send_gift_private_by_receivers_name(self):
+    #     gift_page = self.gift_page.send_gift_private_by_receivers_name()
+    #     ok = gift_page.is_gift_sent()
+    #     self.assertTrue(ok)
 
-    #    Отправка подарка другу приватно
-    def test_send_gift_private(self):
-        gift_page = self.gift_page.send_gift_private()
-        ok = gift_page.is_gift_sent()
+    #   Отправка подарка приватно по имени друга(такого друга нет)
+    def test_send_gift_private_by_receivers_name_not_exists(self):
+        gift_page = self.gift_page.send_gift_private_by_receivers_name_not_exists()
+        ok = gift_page.is_gift_not_sent()
         self.assertTrue(ok)
 
-    #    Отправка подарка приватно по имени друга(такой друг есть)
-    def test_send_gift_private_by_receivers_name(self):
-        gift_page = self.gift_page.send_gift_by_receivers_name()
-        ok = gift_page.is_gift_sent()
+    #   Отправка подарка приватно по имени друга(очень большая строка)
+    def test_send_gift_by_receivers_name_big_str(self):
+        gift_page = self.gift_page.send_gift_private_by_receivers_name_big_str()
+        ok = gift_page.is_gift_not_sent()
         self.assertTrue(ok)
 
     # def test_open_authors_gifts(self):
