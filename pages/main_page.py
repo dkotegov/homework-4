@@ -1,8 +1,7 @@
-from components.games_list import GamesList
 from components.group_component import GroupComponent
 from components.main_up_toolbar import MainUpToolbar
 from components.main_vertical_list import MainVerticalList
-from components.page import Page
+from pages.page import Page
 from constants import game
 
 from components.main_components import MainForm

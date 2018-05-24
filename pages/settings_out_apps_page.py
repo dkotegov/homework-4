@@ -1,6 +1,5 @@
 from components.games_list import GamesList
-from components.page import Page
-from components.settings_out_apps_list import SettingsOutAppsList
+from pages.page import Page
 
 
 class SettingsOutAppsPage(Page):

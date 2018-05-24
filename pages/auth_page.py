@@ -1,11 +1,5 @@
-import sys
-from selenium import webdriver
-
-import constants
 from components.auth_form import AuthForm
-from components.base_component import BaseComponent
-from components.page import Page
-from constants import profiles
+from pages.page import Page
 
 
 class AuthPage(Page):

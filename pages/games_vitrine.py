@@ -1,8 +1,6 @@
-from selenium.common.exceptions import TimeoutException
-
 from components.games_list import GamesList
 from components.main_up_toolbar import MainUpToolbar
-from components.page import Page
+from pages.page import Page
 
 
 class GamesVitrine(Page):

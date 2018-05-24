@@ -1,4 +1,4 @@
-from components.page import Page
+from pages.page import Page
 from components.settings_man_component import SettingsManComponent
 
 

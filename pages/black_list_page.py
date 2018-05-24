@@ -1,5 +1,5 @@
 from components.black_list import BlackList
-from components.page import Page
+from pages.page import Page
 
 
 class BlackListPage(Page):

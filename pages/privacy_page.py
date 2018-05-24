@@ -1,4 +1,4 @@
-from components.page import Page
+from pages.page import Page
 from components.privacy_component import PrivacyForm
 
 

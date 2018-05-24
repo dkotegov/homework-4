@@ -1,8 +1,6 @@
-from selenium.webdriver import ActionChains
-
 from components.message_dialog import MessageDialog
 from components.message_info_bar import MessageInfoBar
-from components.page import Page
+from pages.page import Page
 from constants import dialog
 
 

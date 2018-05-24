@@ -1,5 +1,5 @@
 from components.notes_component import NotesComponent
-from components.page import Page
+from pages.page import Page
 from constants import dialog
 
 
