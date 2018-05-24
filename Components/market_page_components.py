@@ -11,6 +11,7 @@ class CatalogPopup(Component):
     UPLOAD_IMAGE = '//input[@class="html5-upload-link"]'
 
     CREATE_BUTTON_ON_CATALOG_PANEL = '//a[@class="market-albums_new-lk"]'
+    DISABLED_CREATE_BUTTON_ON_CATALOG_PANEL = '//span[@class="market-albums_new-lk __disabled"]'
     CREATE_BUTTON_ON_CATALOG_STUB = '//a[@class="button-pro"]'
     CREATE_BUTTON_ON_PRODUCT_PANEL = '//div[@class="portlet_h_inf"]/a'
 
@@ -20,6 +21,9 @@ class CatalogPopup(Component):
 
     def open_popup_from_catalog_panel(self):
         super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_CATALOG_PANEL)
+
+    def is_disabled_creation(self):
+        return super(CatalogPopup, self).is_exist_element(self.DISABLED_CREATE_BUTTON_ON_CATALOG_PANEL)
 
     def open_popup_from_catalog_stub(self):
         super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_CATALOG_STUB)
@@ -143,14 +147,14 @@ class CatalogCounter(Component):
     CATALOGS_COUNTER = '//span[@class="portlet_h_count"]'
 
     def get_number_of_catalogs(self):
-        super(CatalogCounter, self).get_element_text(self.CATALOGS_COUNTER)
+        return super(CatalogCounter, self).get_element_text(self.CATALOGS_COUNTER)
 
 
 class ProductCounter(Component):
     PRODUCTS_COUNTER = '//span[@class="filter_count"]'
 
     def get_number_of_all_products(self):
-        super(ProductCounter, self).get_element_text(self.PRODUCTS_COUNTER)
+        return super(ProductCounter, self).get_element_text(self.PRODUCTS_COUNTER)
 
 
 class CatalogStub(Component):

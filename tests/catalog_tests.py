@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from Components.market_page_components import RemoveCatalogPopup, CatalogStub
+from Components.market_page_components import RemoveCatalogPopup, CatalogStub, CatalogCounter
 from PageObjects.page_objects import ShopMarketPage, CatalogPage
 from tests.common import getDriver, Auth, Main, Shop
 
@@ -134,9 +134,9 @@ class CatalogTests(unittest.TestCase):
         widget_catalog_name = catalog_widget.get_catalog_name()
         self.assertEqual(expected_catalog_name, widget_catalog_name)
 
-    def create_and_check_empty_catalog(self, popup):
+    def create_and_check_empty_catalog(self, popup, name):
         # creating catalog
-        popup.set_catalog_name(self.CATALOG_NAME)
+        popup.set_catalog_name(name)
         popup.save()
         popup.waiting_until_close()
 
@@ -146,26 +146,42 @@ class CatalogTests(unittest.TestCase):
         self.check_catalog_widget(catalog_widget)
 
         widget_catalog_name = catalog_widget.get_catalog_name()
-        self.assertEqual(self.CATALOG_NAME, widget_catalog_name)
+        self.assertEqual(name, widget_catalog_name)
 
         number_of_products = catalog_widget.get_number_of_products()
         self.assertEqual(u'0', number_of_products)
 
-    def test_create_empty_catalog_from_catalog_panel(self):
+    def test_create_several_catalogs(self, number_of_catalogs=10):
+        for i in xrange(number_of_catalogs):
+            self.test_create_empty_catalog_from_catalog_panel(str(i))
+
+        catalog_counter = CatalogCounter(self.driver)
+        actual_catalog_count = catalog_counter.get_number_of_catalogs()
+        self.assertEquals(number_of_catalogs, int(actual_catalog_count))
+
+    def test_create_maximum_catalogs(self):
+        self.test_create_several_catalogs(100)
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        is_disabled_creation = catalog_popup.is_disabled_creation()
+        self.assertTrue(is_disabled_creation)
+
+    def test_create_empty_catalog_from_catalog_panel(self, name=CATALOG_NAME):
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.open_popup_from_catalog_panel()
 
-        self.create_and_check_empty_catalog(catalog_popup)
+        self.create_and_check_empty_catalog(catalog_popup, name)
 
-    def test_create_empty_catalog_from_product_stub(self):
+    def test_create_empty_catalog_from_product_stub(self, name=CATALOG_NAME):
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.open_popup_from_catalog_stub()
 
-        self.create_and_check_empty_catalog(catalog_popup)
+        self.create_and_check_empty_catalog(catalog_popup, name)
 
-    def test_create_empty_catalog_from_product_panel(self):
+    def test_create_empty_catalog_from_product_panel(self, name=CATALOG_NAME):
         catalog_stub = CatalogStub(self.driver)
         catalog_stub.create_catalog_later()
 
@@ -173,7 +189,7 @@ class CatalogTests(unittest.TestCase):
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.open_popup_from_product_panel()
 
-        self.create_and_check_empty_catalog(catalog_popup)
+        self.create_and_check_empty_catalog(catalog_popup, name)
 
     def create_and_check_catalog_with_image(self, image_name):
         # creating catalog
