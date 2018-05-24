@@ -44,60 +44,6 @@ class GiftPage(BaseElement):
     def is_search_done(self):
         return self._search_gift_element.is_search_done()
 
-    def open_authors_gifts(self):
-        btn = self._gift_element.get_authors_gift_button()
-        btn.click()
-        return AuthorsGiftPage(self.driver)
-
-    def open_actual_gifts(self):
-        btn = self._gift_element.get_actual_gift_button()
-        btn.click()
-        return ActualGiftPage(self.driver)
-
-    def open_postcards(self):
-        btn = self._gift_element.get_postcard_button()
-        btn.click()
-        return PostCardPage(self.driver)
-
-    def open_vip_gifts(self):
-        btn = self._gift_element.get_vip_gift_button()
-        btn.click()
-        return VipGiftPage(self.driver)
-
-    def open_create_gift(self):
-        btn = self._gift_element.get_create_gift_button()
-        btn.click()
-        return CreateGiftPage(self.driver)
-
-    def send_gift_secretly(self):
-        #   clicking on gift
-        present = self._gift_element.get_present()
-        present.click()
-
-        # this functional was putted out!!!
-        #   pressing button to send gift by secret
-        # secret_button = self._gift_element.get_secret_button()
-        # secret_button.click()
-
-        #   choose receiver
-        receiver = self._gift_element.get_receiver()
-        receiver.click()
-        return GiftPage(self.driver)
-
-    def send_gift_private(self):
-        #   clicking on gift
-        present = self._gift_element.get_present()
-        present.click()
-
-        #   pressing button to send gift by private
-        private_button = self._gift_element.get_private_button()
-        private_button.click()
-
-        #   choose receiver
-        receiver = self._gift_element.get_receiver()
-        receiver.click()
-        return GiftPage(self.driver)
-
     def send_gift_usual(self):
         #   clicking on gift
         present = self._gift_element.get_present()
@@ -106,13 +52,6 @@ class GiftPage(BaseElement):
         #   choose receiver
         receiver = self._gift_element.get_receiver()
         receiver.click()
-        return GiftPage(self.driver)
-
-    def search_gift(self):
-        text_input = "flower"
-        edit_text_search_gift = self._gift_element.get_edit_text()
-        edit_text_search_gift.send_keys(text_input)
-
         return GiftPage(self.driver)
 
     def send_gift_by_receivers_name(self):
@@ -155,6 +94,80 @@ class GiftPage(BaseElement):
 
         return GiftPage(self.driver)
 
+    def send_gift_private_by_receivers_name(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   finding receiver
+        text_input = 'kosmos'
+        edit_text_find_reciever = self._gift_element.get_edit_text_find_receiver()
+        edit_text_find_reciever.send_keys(text_input)
+
+        receiver = self._gift_element.get_receiver()
+        receiver.click()
+        return GiftPage(self.driver)
+
+    def open_authors_gifts(self):
+        btn = self._gift_element.get_authors_gift_button()
+        btn.click()
+        return AuthorsGiftPage(self.driver)
+
+    def open_actual_gifts(self):
+        btn = self._gift_element.get_actual_gift_button()
+        btn.click()
+        return ActualGiftPage(self.driver)
+
+    def open_postcards(self):
+        btn = self._gift_element.get_postcard_button()
+        btn.click()
+        return PostCardPage(self.driver)
+
+    def open_vip_gifts(self):
+        btn = self._gift_element.get_vip_gift_button()
+        btn.click()
+        return VipGiftPage(self.driver)
+
+    def open_create_gift(self):
+        btn = self._gift_element.get_create_gift_button()
+        btn.click()
+        return CreateGiftPage(self.driver)
+
+    def send_gift_secretly(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        # this functional was putted out!!!
+        #   pressing button to send gift by secret
+        # secret_button = self._gift_element.get_secret_button()
+        # secret_button.click()
+
+        #   choose receiver
+        receiver = self._gift_element.get_receiver()
+        receiver.click()
+        return GiftPage(self.driver)
+
+    def search_gift(self):
+        text_input = "flower"
+        edit_text_search_gift = self._gift_element.get_edit_text()
+        edit_text_search_gift.send_keys(text_input)
+
+        return GiftPage(self.driver)
+
+    def send_gift_private(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   pressing button to send gift by private
+        private_button = self._gift_element.get_private_button()
+        private_button.click()
+
+        #   choose receiver
+        receiver = self._gift_element.get_receiver()
+        receiver.click()
+        return GiftPage(self.driver)
 
     def open_self_gifts(self):
         self._gift_element.get_self_gifts_button().click()
