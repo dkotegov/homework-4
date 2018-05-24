@@ -60,15 +60,18 @@ class CatalogPopup(Component):
 
 
 class ProductPopup(Component):
-    CREATE_PRODUCT = '//a[contains(@href,"post")]'
+    POPUP = '//div[@id="mtLayerMain"]'
+
     PRODUCT_NAME = '//div[@class="posting-form_itx_w"]/input'
     PRODUCT_PRICE = '//input[contains(@class,"js-advert-price")]'
     PRODUCT_ABOUT = '//div[@id="d.posting_form_text_field"]'
+    PRODUCT_CATALOG = '//div[contains(@class,"pform_map") and contains(@class,"__active")]'
 
+    CREATE_PRODUCT_BUTTON = '//a[contains(@href,"post")]'
     SUBMIT_BUTTON = '//input[contains(@id,"submit")]'
 
     def open_popup(self):
-        super(ProductPopup, self).click_element(self.CREATE_PRODUCT)
+        super(ProductPopup, self).click_element(self.CREATE_PRODUCT_BUTTON)
 
     def set_product_name(self, name=u'Товар'):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_NAME, name)
@@ -79,8 +82,14 @@ class ProductPopup(Component):
     def set_product_about(self, about=u'Описание товара'):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_ABOUT, about)
 
+    def waiting_product_catalog(self):
+        super(ProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
+
     def submit(self):
         super(ProductPopup, self).click_element(self.SUBMIT_BUTTON)
+
+    def waiting_until_close(self):
+        super(ProductPopup, self).waiting_until_invisible(self.POPUP)
 
 
 class CatalogWidget(Component):
