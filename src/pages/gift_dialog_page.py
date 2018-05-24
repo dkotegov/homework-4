@@ -43,10 +43,10 @@ class GiftDialogPage(BaseElement):
         self._gift_dialog_element.get_send_button().click()
         return
 
-    def send_photo_from_computer(self):
+    def send_photo_from_computer(self, image_path):
         self._gift_dialog_element.get_clip_button().click()
         self._gift_dialog_element.get_add_photo_from_computer_button().click()
-        self._gift_dialog_element.get_photo_input().send_keys(os.getcwd()+"/staticfiles/red.jpg")
+        self._gift_dialog_element.get_photo_input().send_keys(os.getcwd() + image_path)
         if (self._gift_dialog_element.get_loader()):
             self._gift_dialog_element.get_send_button().click()
         return
