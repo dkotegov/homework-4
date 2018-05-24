@@ -38,6 +38,12 @@ class UserPage(Page):
 
     def age(self):
         return self.user_component.age().text.split(' (')
+
+    def name_surname(self):
+        return self.user_component.name().text
+
+    def name(self):
+        return self.user_component.name().text.split(' ')
         
     def del_friend(self):
         self.user_component.button_menu_friends().click()

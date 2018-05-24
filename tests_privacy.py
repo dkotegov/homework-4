@@ -438,7 +438,6 @@ class TestsPrivacy(unittest.TestCase):
             privacy_page.click(privacy_page.save())
 
     def test_my_reletionship_only_friends(self):
-        name = u'Name1 Surname1'
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -462,6 +461,7 @@ class TestsPrivacy(unittest.TestCase):
 
         user_test_page = UserPage(self.driver, profiles.PROFILE_URL_TECHNOPARK43)
         user_test_page.open()
+        name = user_test_page.name_surname()
         user_test_page.add_to_friend()
 
         auth_page.logout()
@@ -518,7 +518,6 @@ class TestsPrivacy(unittest.TestCase):
         user_page.del_friend()
 
     def test_mark_in_topics_and_comment_only_friends(self):
-        name = u'IмранName1NaNme1 ПахомовSurname1Surname1S'
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -548,6 +547,7 @@ class TestsPrivacy(unittest.TestCase):
 
         user_test_page = UserPage(self.driver, profiles.PROFILE_URL_TECHNOPARK42)
         user_test_page.open()
+        name = user_test_page.name_surname()
         user_test_page.accept_friend()
 
         statuses_page = StatusesPage(self.driver, profiles.PROFILE_URL_TECHNOPARK43)
@@ -589,7 +589,6 @@ class TestsPrivacy(unittest.TestCase):
         user_page.del_friend()
 
     def test_mark_in_topics_and_comment_no_one(self):
-        name = u'IмранName1NaNme1'
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -619,6 +618,7 @@ class TestsPrivacy(unittest.TestCase):
 
         user_test_page = UserPage(self.driver, profiles.PROFILE_URL_TECHNOPARK42)
         user_test_page.open()
+        name = user_test_page.name()[0]
         user_test_page.accept_friend()
 
         statuses_page = StatusesPage(self.driver, profiles.PROFILE_URL_TECHNOPARK43)
@@ -645,7 +645,6 @@ class TestsPrivacy(unittest.TestCase):
 
 
     def test_games_invite_only_friends(self):
-        name = u'IмранName1NaNme1 П...'
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -675,6 +674,7 @@ class TestsPrivacy(unittest.TestCase):
 
         user_test_page = UserPage(self.driver, profiles.PROFILE_URL_TECHNOPARK42)
         user_test_page.open()
+        name = user_test_page.name_surname()
         user_test_page.accept_friend()
 
         game_page = GamePage(self.driver)
@@ -709,7 +709,6 @@ class TestsPrivacy(unittest.TestCase):
 
 
     def test_games_invite_no_one(self):
-        name = u'IмранName1NaNme1 П...'
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -739,6 +738,7 @@ class TestsPrivacy(unittest.TestCase):
 
         user_test_page = UserPage(self.driver, profiles.PROFILE_URL_TECHNOPARK42)
         user_test_page.open()
+        name = user_test_page.name_surname()
         user_test_page.accept_friend()
 
         game_page = GamePage(self.driver)
@@ -761,7 +761,6 @@ class TestsPrivacy(unittest.TestCase):
 
 
     def test_group_invite_no_one(self):
-        name = u'IмранName1NaNme1 ПахомовSurname1Surname1S'
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -791,6 +790,7 @@ class TestsPrivacy(unittest.TestCase):
 
         user_test_page = UserPage(self.driver, profiles.PROFILE_URL_TECHNOPARK42)
         user_test_page.open()
+        name = user_test_page.name_surname()
         user_test_page.accept_friend()
 
         group_page = GroupPage(self.driver)

@@ -14,6 +14,7 @@ class UserForm(BaseComponent):
     RELATIONSHIP = "//a[@class='o user-profile_i_relation-t']"
     BUTTON_EXPEND_ITEM = "//li[@id='action_menu_expand_item']"
     BUTTON_SEND_GROUPS = "//i[@class='tico_img ic ic_group']"
+    USER_NAME = "//h1[@class='mctc_name_tx bl']"
 
     def sent_request_add_to_friends(self):
         return self.get_element_by_path(self.BUTTON_ADD_TO_FRIENDS)
@@ -44,5 +45,8 @@ class UserForm(BaseComponent):
         return self.get_element_by_path(self.BUTTON_EXPEND_ITEM)
 
     def send_groups(self):
-        return self.get_element_by_path(self.BUTTON_SEND_GROUPS)        
+        return self.get_element_by_path(self.BUTTON_SEND_GROUPS)
+    
+    def name(self):
+        return self.get_element_by_path(self.USER_NAME)      
 
