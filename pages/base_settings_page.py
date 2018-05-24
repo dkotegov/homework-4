@@ -1,8 +1,17 @@
+import urlparse
+
 from pages.page import Page
 from components.base_settings_component import BaseSettingsForm
 
 
 class BaseSettingsPage(Page):
+
+    PAGE = 'settings'
+
+    def open(self):
+        url = urlparse.urljoin(self.BASE_URL, self.PAGE)
+        self.driver.get(url)
+        self.driver.maximize_window()
 
     def personal_data(self):
         baseSettingsForm = BaseSettingsForm(self.driver)
