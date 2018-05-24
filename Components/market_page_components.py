@@ -4,7 +4,7 @@ from Components.component import Component
 
 class CatalogPopup(Component):
     POPUP = '//div[@class="modal-new_center"]'
-    IMAGE = '//img[@class="add-happening_poster_img" and contains(@src,"i.mycdn.me")]'
+    IMAGE = '//img[contains(@class,"add-happening_poster_img") and contains(@src,"i.mycdn.me")]'
 
     CATALOG_NAME = '//input[@id="field_name"]'
     ERROR_MESSAGE = '//div[contains(@class,"form_i__error")]/span[@class="input-e"]'
@@ -85,6 +85,9 @@ class CatalogWidget(Component):
     def open_catalog(self):
         super(CatalogWidget, self).click_element(self.CATALOG_NAME)
 
+    def is_exist_image(self):
+        return super(CatalogWidget, self).is_exist_element(self.CATALOG_IMAGE)
+
     def is_exist_image_stub(self):
         return super(CatalogWidget, self).is_exist_element(self.CATALOG_IMAGE_STUB)
 
@@ -112,6 +115,9 @@ class CatalogPanel(Component):
 
     def remove_catalog(self):
         super(CatalogPanel, self).click_element(self.REMOVE_BUTTON)
+
+    def is_exist_image(self):
+        return super(CatalogPanel, self).is_exist_element(self.CATALOG_IMAGE)
 
     def is_exist_image_stub(self):
         return super(CatalogPanel, self).is_exist_element(self.CATALOG_IMAGE_STUB)
