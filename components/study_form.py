@@ -29,7 +29,7 @@ class StudyForm(BaseComponent):
         city.send_keys(str)
 
     def select_city(self):
-        self.get_visibility_elements(self.CAREER_LIST)[0].click()
+        self.get_clickable_element(self.CAREER_LIST).click()
 
     def add_school(self, str):
         self.put_school(str)
@@ -37,10 +37,11 @@ class StudyForm(BaseComponent):
 
     def put_school(self, str):
         unit = self.get_visibility_element(self.JOB)
+        unit.clear()
         unit.send_keys(str)
 
     def select_school(self):
-        self.get_visibility_elements(self.JOB_LIST)[0].click()
+        self.get_clickable_element(self.JOB_LIST).click()
 
     def button_ok(self):
         self.get_clickable_element(self.BUTTON_JOIN).click()

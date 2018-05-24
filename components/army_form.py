@@ -16,7 +16,7 @@ class ArmyForm(BaseComponent):
         self.add_unit(unit)
 
     def put_city(self, str):
-        city = self.get_visibility_element(self.CITY)
+        city = self.get_clickable_element(self.CITY)
         city.clear()
         city.send_keys(str)
 
@@ -25,7 +25,8 @@ class ArmyForm(BaseComponent):
         self.select_unit()
 
     def put_unit(self, str):
-        unit = self.get_visibility_element(self.UNIT)
+        unit = self.get_clickable_element(self.UNIT)
+        unit.clear()
         unit.send_keys(str)
 
     def select_unit(self):

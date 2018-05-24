@@ -24,23 +24,24 @@ class CareerForm(BaseComponent):
         self.select_city()
 
     def put_city(self, str):
-        city = self.get_visibility_element(self.CITY)
+        city = self.get_clickable_element(self.CITY)
         city.clear()
         city.send_keys(str)
 
     def select_city(self):
-        self.get_visibility_elements(self.CAREER_LIST)[0].click()
+        self.get_clickable_element(self.CAREER_LIST).click()
 
     def add_job(self, str):
         self.put_job(str)
         self.select_job()
 
     def put_job(self, str):
-        unit = self.get_visibility_element(self.JOB)
+        unit = self.get_clickable_element(self.JOB)
+        unit.clear()
         unit.send_keys(str)
 
     def select_job(self):
-        self.get_visibility_elements(self.JOB_LIST)[0].click()
+        self.get_clickable_element(self.JOB_LIST).click()
 
     def button_ok(self):
         self.get_clickable_element(self.BUTTON_JOIN).click()
