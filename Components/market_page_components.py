@@ -10,13 +10,22 @@ class CatalogPopup(Component):
     ERROR_MESSAGE = '//div[contains(@class,"form_i__error")]/span[@class="input-e"]'
     UPLOAD_IMAGE = '//input[@class="html5-upload-link"]'
 
-    CREATE_BUTTON = '//a[@class="market-albums_new-lk"]'
+    CREATE_BUTTON_ON_CATALOG_PANEL = '//a[@class="market-albums_new-lk"]'
+    CREATE_BUTTON_ON_CATALOG_STUB = '//a[@class="button-pro"]'
+    CREATE_BUTTON_ON_PRODUCT_PANEL = '//div[@class="portlet_h_inf"]/a'
+
     SAVE_BUTTON = '//input[@id="hook_FormButton_button_save"]'
     CANCEL_BUTTON = '//a[@id="button_cancel"]'
     CLOSE_BUTTON = '//a[@id="nohook_modal_close"]'
 
-    def open_popup(self):
-        super(CatalogPopup, self).click_element(self.CREATE_BUTTON)
+    def open_popup_from_catalog_panel(self):
+        super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_CATALOG_PANEL)
+
+    def open_popup_from_catalog_stub(self):
+        super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_CATALOG_STUB)
+
+    def open_popup_from_product_panel(self):
+        super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_PRODUCT_PANEL)
 
     def set_catalog_name(self, name=u'Каталог'):
         super(CatalogPopup, self).input_text_to_element(self.CATALOG_NAME, name)
@@ -146,6 +155,10 @@ class ProductCounter(Component):
 
 class CatalogStub(Component):
     STUB = '//div[@class="stub-empty  __without-icon"]'
+    CREATE_LATER = u'//a[text()="Позже"]'
 
     def is_exist_catalog_stub(self):
         return super(CatalogStub, self).is_exist_element(self.STUB)
+
+    def create_catalog_later(self):
+        return super(CatalogStub, self).click_element(self.CREATE_LATER)

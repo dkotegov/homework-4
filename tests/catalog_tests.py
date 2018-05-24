@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from Components.market_page_components import RemoveCatalogPopup
+from Components.market_page_components import RemoveCatalogPopup, CatalogStub
 from PageObjects.page_objects import ShopMarketPage, CatalogPage
 from tests.common import getDriver, Auth, Main, Shop
 
@@ -28,7 +28,7 @@ class CatalogTests(unittest.TestCase):
         self.check_catalog_stub(catalog_stub)
 
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.cancel_saving()
         catalog_popup.waiting_until_close()
 
@@ -41,7 +41,7 @@ class CatalogTests(unittest.TestCase):
         self.check_catalog_stub(catalog_stub)
 
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.close_popup()
         catalog_popup.waiting_until_close()
 
@@ -50,7 +50,7 @@ class CatalogTests(unittest.TestCase):
     def test_create_catalog_without_name(self):
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.save()
 
         error_message = catalog_popup.get_error_message()
@@ -66,7 +66,7 @@ class CatalogTests(unittest.TestCase):
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.set_catalog_name(spaces_name)
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.save()
 
         error_message = catalog_popup.get_error_message()
@@ -81,7 +81,7 @@ class CatalogTests(unittest.TestCase):
 
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name(very_long_catalog_name)
         catalog_popup.save()
 
@@ -97,7 +97,7 @@ class CatalogTests(unittest.TestCase):
 
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name(long_catalog_name)
         catalog_popup.save()
         catalog_popup.waiting_until_close()
@@ -111,7 +111,7 @@ class CatalogTests(unittest.TestCase):
 
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name(spec_name)
         catalog_popup.save()
         catalog_popup.waiting_until_close()
@@ -126,7 +126,7 @@ class CatalogTests(unittest.TestCase):
 
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name(original_catalog_name)
         catalog_popup.save()
         catalog_popup.waiting_until_close()
@@ -135,16 +135,14 @@ class CatalogTests(unittest.TestCase):
         widget_catalog_name = catalog_widget.get_catalog_name()
         self.assertEqual(expected_catalog_name, widget_catalog_name)
 
-    def test_create_empty_catalog(self):
+    def create_and_check_empty_catalog(self, popup):
         # creating catalog
-        shop_market_page = ShopMarketPage(self.driver)
-        catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
-        catalog_popup.set_catalog_name(self.CATALOG_NAME)
-        catalog_popup.save()
-        catalog_popup.waiting_until_close()
+        popup.set_catalog_name(self.CATALOG_NAME)
+        popup.save()
+        popup.waiting_until_close()
 
         # checks
+        shop_market_page = ShopMarketPage(self.driver)
         catalog_widget = shop_market_page.catalog_widget
         self.check_catalog_widget(catalog_widget)
 
@@ -154,11 +152,35 @@ class CatalogTests(unittest.TestCase):
         number_of_products = catalog_widget.get_number_of_products()
         self.assertEqual(u'0', number_of_products)
 
+    def test_create_empty_catalog_from_catalog_panel(self):
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup_from_catalog_panel()
+
+        self.create_and_check_empty_catalog(catalog_popup)
+
+    def test_create_empty_catalog_from_product_stub(self):
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup_from_catalog_stub()
+
+        self.create_and_check_empty_catalog(catalog_popup)
+
+    def test_create_empty_catalog_from_product_panel(self):
+        catalog_stub = CatalogStub(self.driver)
+        catalog_stub.create_catalog_later()
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_popup = shop_market_page.catalog_popup
+        catalog_popup.open_popup_from_product_panel()
+
+        self.create_and_check_empty_catalog(catalog_popup)
+
     def test_create_catalog_with_image(self):
         # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name()
         catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
         catalog_popup.waiting_until_image_upload()
@@ -177,7 +199,7 @@ class CatalogTests(unittest.TestCase):
         # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name(self.CATALOG_NAME)
         catalog_popup.save()
         catalog_popup.waiting_until_close()
@@ -207,7 +229,7 @@ class CatalogTests(unittest.TestCase):
         # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name()
         catalog_popup.save()
         catalog_popup.waiting_until_close()
@@ -244,7 +266,7 @@ class CatalogTests(unittest.TestCase):
 
         # creating catalog
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup()
+        catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name()
         catalog_popup.save()
         catalog_popup.waiting_until_close()
