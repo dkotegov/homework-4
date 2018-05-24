@@ -30,7 +30,7 @@ class CatalogPopup(Component):
     def set_catalog_name(self, name=u'Каталог'):
         super(CatalogPopup, self).input_text_to_element(self.CATALOG_NAME, name)
 
-    def upload_catalog_image(self, file_name):
+    def upload_catalog_image(self, file_name='image_512x512.jpg'):
         super(CatalogPopup, self).upload_image(self.UPLOAD_IMAGE, file_name)
 
     def waiting_until_image_upload(self):

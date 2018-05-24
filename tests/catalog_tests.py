@@ -8,7 +8,6 @@ from tests.common import getDriver, Auth, Main, Shop
 
 class CatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
-    CATALOG_IMAGE = 'catalog-icon.png'
     CHARS_IN_SUBSTRING = 83
 
     def setUp(self):
@@ -176,13 +175,13 @@ class CatalogTests(unittest.TestCase):
 
         self.create_and_check_empty_catalog(catalog_popup)
 
-    def test_create_catalog_with_image(self):
+    def create_and_check_catalog_with_image(self, image_name):
         # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
         catalog_popup.open_popup_from_catalog_panel()
         catalog_popup.set_catalog_name()
-        catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
+        catalog_popup.upload_catalog_image(image_name)
         catalog_popup.waiting_until_image_upload()
 
         upload_image_src = catalog_popup.get_image_src()
@@ -194,6 +193,33 @@ class CatalogTests(unittest.TestCase):
         catalog_widget = shop_market_page.catalog_widget
         widget_image_src = catalog_widget.get_image_src()
         self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], widget_image_src[:self.CHARS_IN_SUBSTRING])
+
+    def test_create_catalog_with_small_jpg_image(self):
+        self.create_and_check_catalog_with_image('image_64x64.jpg')
+
+    def test_create_catalog_with_small_png_image(self):
+        self.create_and_check_catalog_with_image('image_64x64.png')
+
+    def test_create_catalog_with_small_gif_image(self):
+        self.create_and_check_catalog_with_image('image_64x64.gif')
+
+    def test_create_catalog_with_medium_jpg_image(self):
+        self.create_and_check_catalog_with_image('image_512x512.jpg')
+
+    def test_create_catalog_with_medium_png_image(self):
+        self.create_and_check_catalog_with_image('image_512x512.png')
+
+    def test_create_catalog_with_medium_gif_image(self):
+        self.create_and_check_catalog_with_image('image_512x512.gif')
+
+    def test_create_catalog_with_large_jpg_image(self):
+        self.create_and_check_catalog_with_image('image_4K.jpg')
+
+    def test_create_catalog_with_large_png_image(self):
+        self.create_and_check_catalog_with_image('image_4K.png')
+
+    def test_create_catalog_with_large_gif_image(self):
+        self.create_and_check_catalog_with_image('image_4K.gif')
 
     def test_edit_catalog_name(self):
         # creating catalog
@@ -248,7 +274,7 @@ class CatalogTests(unittest.TestCase):
 
         # editing catalog
         catalog_panel.edit_catalog()
-        catalog_popup.upload_catalog_image(self.CATALOG_IMAGE)
+        catalog_popup.upload_catalog_image()
         catalog_popup.waiting_until_image_upload()
         upload_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
