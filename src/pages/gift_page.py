@@ -141,6 +141,21 @@ class GiftPage(BaseElement):
 
         return GiftPage(self.driver)
 
+    def send_gift_by_receivers_name_big_str(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   finding receiver
+        text_input = ''
+        for i in range(0, 1000):
+            text_input += 'big str'
+        edit_text_find_reciever = self._gift_element.get_edit_text_find_receiver()
+        edit_text_find_reciever.send_keys(text_input)
+
+        return GiftPage(self.driver)
+
+
     def open_self_gifts(self):
         self._gift_element.get_self_gifts_button().click()
         return
