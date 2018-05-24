@@ -3,6 +3,7 @@ from enum import Enum
 from typing import List, Optional
 from urllib import parse
 
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -10,8 +11,10 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 from pages import waits
+from pages.images_components import ImageCard, ConfirmMakeMainModal
 from pages.page import Component
-from pages.waits import web_element_locator
+from pages.photo_components import AlbumCreateModalForm
+from pages.waits import web_element_locator, button_locator
 
 
 class AlbumDeleteConfirmModal(Component):
@@ -144,57 +147,9 @@ class Like(Component):
         return self.driver.find_element_by_css_selector(self.LABEL)
 
 
-class ImageCard(Component):
-    EDIT_TEMPLATE: str = '//div[@id="trigger_{}"]'
-    DELETE_BUTTON_TEMPLATE: str = '#popup_{} .ic_delete'
-    MAKE_MAIN_TEMPLATE: str = '#popup_{} .ic_make-main'
-    EDIT_DESCRIPTION_TEMPLATE: str = '//[@id=descrInp{}]'
-    IMAGE_TEMPLATE: str = '#img_{}'
-    RESTORE_BUTTON_TEMPLATE: str = '#hook_Block_DeleteRestorePhotoMRB{} a'
-
-    def __init__(self, driver, img_id: str):
-        super().__init__(driver)
-        self.id: str = img_id
-        self.IMAGE = self.IMAGE_TEMPLATE.format(self.id)
-        self.EDIT_DESCRIPTION: str = self.EDIT_DESCRIPTION_TEMPLATE.format(self.id)
-        self.EDIT: str = self.EDIT_TEMPLATE.format(self.id)
-        self.DELETE: str = self.DELETE_BUTTON_TEMPLATE.format(self.id)
-        self.MAKE_MAIN: str = self.MAKE_MAIN_TEMPLATE.format(self.id)
-        self.RESTORE: str = self.RESTORE_BUTTON_TEMPLATE.format(self.id)
-
-    @property
-    def description(self) -> str:
-        return self.driver.find_element_by_xpath(self.EDIT_DESCRIPTION).get_attribute('value')
-
-    @property
-    def edit(self) -> WebElement:
-        return self.driver.find_element_by_xpath(self.EDIT)
-
-    @property
-    def delete_button(self) -> WebElement:
-        return self.driver.find_element_by_css_selector(self.DELETE)
-
-    @description.setter
-    def description(self, value) -> None:
-        self.driver.find_element_by_xpath(self.EDIT_DESCRIPTION).send_keys(value)
-
-    def make_main(self):
-        self.driver.execute_script('''
-            document.querySelector(`{}`).click()
-        '''.format(self.MAKE_MAIN))
-
-    def delete_image_card(self) -> None:
-        self.driver.execute_script('''
-            document.querySelector(`{}`).click()
-        '''.format(self.DELETE))
-        waits.wait(self.driver).until(
-            expected_conditions.presence_of_element_located((By.CSS_SELECTOR, self.RESTORE))
-        )
-
-
 class AlbumControlPanel(Component):
     DELETE: str = 'ul.controls-list > li:nth-child(2) > a'
-    EDIT: str = '.ic12_edit'
+    EDIT: str = '.photo-menu_edit a'
     BACK: str = '.ic12.ic12_answer'
     TITLE: str = 'span.photo-h_cnt_t'
     TITLE_EDIT: str = '.it.h-mod'
@@ -210,20 +165,25 @@ class AlbumControlPanel(Component):
         AlbumDeleteConfirmModal(self.driver).confirm()
 
     @property
-    @web_element_locator((By.CSS_SELECTOR, DELETE))
+    @button_locator((By.CSS_SELECTOR, DELETE))
     def delete_button(self) -> WebElement:
         return self.driver.find_element_by_css_selector(self.DELETE)
 
     @property
-    @web_element_locator((By.CSS_SELECTOR, EDIT))
+    @button_locator((By.CSS_SELECTOR, EDIT))
     def edit_button(self) -> WebElement:
         return self.driver.find_element_by_css_selector(self.EDIT)
+
+    @property
+    @button_locator((By.CSS_SELECTOR, BACK))
+    def back_button(self) -> WebElement:
+        return self.driver.find_element_by_css_selector(self.BACK)
 
     def enable_edit(self):
         edit_button_wrapper: List[WebElement] = self.driver.find_elements_by_css_selector(self.EDIT)
         if len(edit_button_wrapper) == 0:
             return
-        edit_button_wrapper[0].click()
+        self.edit_button.click()
         waits.wait(self.driver) \
             .until(
             expected_conditions.presence_of_element_located((By.CSS_SELECTOR, self.BACK))
@@ -259,7 +219,7 @@ class AlbumControlPanel(Component):
         back_button_wrapper: List[WebElement] = self.driver.find_elements_by_css_selector(self.BACK)
         if len(back_button_wrapper) == 0:
             return
-        back_button_wrapper[0].click()
+        self.back_button.click()
         waits.wait(self.driver) \
             .until(
             expected_conditions.presence_of_element_located((By.CSS_SELECTOR, self.EDIT))
@@ -275,8 +235,77 @@ class AlbumControlPanel(Component):
         img_id: str = id_from_src(self.main_img_raw.get_attribute('src'))
         return ImageCard(self.driver, img_id)
 
+    @main_photo.setter
+    def main_photo(self, new_main_photo: ImageCard):
+        self.request_main_photo(new_main_photo).confirm()
+
+    def request_main_photo(self, new_main_photo: ImageCard) -> ConfirmMakeMainModal:
+        modal: ConfirmMakeMainModal = new_main_photo.make_main()
+
+        main_photo_change = self.create_main_photo_change_waiter(new_main_photo.id)
+
+        modal.on_confirm = lambda: waits.wait(self.driver).until(main_photo_change)
+        return modal
+
     def commit_changes(self) -> None:
         self.disable_edit()
+
+    def create_main_photo_change_waiter(self, new_id):
+        def waiter(driver):
+            main_photo: WebElement = driver.find_element_by_css_selector(self.MAIN_PHOTO)
+            try:
+                found_id: str = id_from_src(main_photo.get_attribute('src'))
+                if found_id == new_id:
+                    return main_photo
+            except StaleElementReferenceException:
+                return False
+            return False
+
+        return waiter
+
+
+class TransferAlbumDropdown(Component):
+    TRANSFER_TARGET_TEMPLATE: str = '//div[@class="custom-isl_drop-lst"]/descendant::a[text()="{}"]'
+    DROPDOWN: str = '.dropDownListContentWrapper'
+    CREATE_TRANSFER_TARGET: str = '.custom-isl_drop-lst a.custom-isl_i_l.al.ellip'
+    START_TRANSFER: str = '.js-button_move'
+    ACKNOWLEDGEMENT: str = '.iblock.__ok'
+
+    def choose(self, album_name: str):
+        self.dropdown.click()
+        transfer_target = self.get_transfer_target(album_name)
+        transfer_target.click()
+        self.start_transfer()
+        waits.wait(self.driver).until(
+            expected_conditions.presence_of_element_located((By.CSS_SELECTOR, self.ACKNOWLEDGEMENT))
+        )
+
+    @property
+    @web_element_locator((By.CSS_SELECTOR, CREATE_TRANSFER_TARGET))
+    def create_new_album_button(self) -> WebElement:
+        return self.driver.find_element_by_css_selector(self.CREATE_TRANSFER_TARGET)
+
+    @property
+    @web_element_locator((By.CSS_SELECTOR, DROPDOWN))
+    def dropdown(self) -> WebElement:
+        return self.driver.find_element_by_css_selector(self.DROPDOWN)
+
+    def get_transfer_target(self, album_name) -> WebElement:
+        transfer_target = self.TRANSFER_TARGET_TEMPLATE.format(album_name)
+        waits.wait(self.driver).until(expected_conditions.presence_of_element_located((By.XPATH, transfer_target)))
+        return self.driver.find_element_by_xpath(transfer_target)
+
+    def choose_new(self, album_description: dict):
+        self.create_new_album_button.click()
+        AlbumCreateModalForm(self.driver, album_description).submit()
+
+    def start_transfer(self):
+        self.start_transfer_button.click()
+
+    @property
+    @button_locator((By.CSS_SELECTOR, START_TRANSFER))
+    def start_transfer_button(self) -> WebElement:
+        return self.driver.find_element_by_css_selector(self.START_TRANSFER)
 
 
 class PhotosPanel(Component):
@@ -284,7 +313,7 @@ class PhotosPanel(Component):
 
     PHOTOS: str = '.photo-card_cnt img'
     UPLOADED_PHOTOS: str = '//li[@class="ugrid_i"]/div[starts-with(@id, "hook_Block_UploadedGroupPhotoCardBlock")]'
-
+    SELECT_ALL: str = '#checkboxSelAll'
     UPLOAD: str = '//input[@name="photo"]'
     IMAGE_LOCATOR: str = '#img_{}'
 
@@ -298,15 +327,32 @@ class PhotosPanel(Component):
     def upload_input(self) -> WebElement:
         return self.driver.find_element_by_xpath(self.UPLOAD)
 
-    def get_last(self):
-        id_img: str = id_from_web_element(self.images[0])
+    def get_first(self):
+        id_img: str = ''
+        if self.driver.name.lower() == 'firefox':
+            id_img = id_from_web_element(self.images[-1])
+        else:
+            id_img = id_from_web_element(self.images[0])
         return ImageCard(self.driver, id_img)
 
-    def upload(self, path: str) -> ImageCard:
+    def get_last(self):
+        id_img: str = ''
+        if self.driver.name.lower() == 'firefox':
+            id_img = id_from_web_element(self.images[0])
+        else:
+            id_img = id_from_web_element(self.images[-1])
+        return ImageCard(self.driver, id_img)
+
+    def transfer_images(self, images: List[ImageCard], dest: str):
+        for image in images:
+            image.check()
+        TransferAlbumDropdown(self.driver).choose(dest)
+
+    def upload(self, path: str, current=0) -> ImageCard:
         path = os.path.abspath(path)
         self.upload_input.send_keys(path)
-        self.wait_uploading()
-        return self.get_last()
+        self.wait_uploading(current + 1)
+        return self.get_first()
 
     def wait_uploading(self, count=1) -> None:
         waits.wait(self.driver).until(
@@ -314,6 +360,14 @@ class PhotosPanel(Component):
         )
 
     def bulk_upload(self, images: List[str]) -> List[ImageCard]:
+        if self.driver.name.lower() == 'firefox':
+            uploading = 0
+            uploaded = []
+            for path in images:
+                uploaded.append(self.upload(os.path.abspath(path), uploading))
+                uploading = uploading + 1
+            return uploaded
+
         paths: str = '\n'.join([os.path.abspath(path) for path in images])
         self.upload_input.send_keys(paths)
         self.wait_uploading(len(images))
@@ -324,6 +378,15 @@ class PhotosPanel(Component):
         if len(image_wrapper) == 0:
             return None
         return image_wrapper[0]
+
+    def transfer_all_images(self, dest):
+        self.select_all_checkbox.click()
+        TransferAlbumDropdown(self.driver).choose(dest)
+
+    @property
+    @button_locator((By.CSS_SELECTOR, SELECT_ALL))
+    def select_all_checkbox(self) -> WebElement:
+        return self.driver.find_element_by_css_selector(self.SELECT_ALL)
 
 
 def id_from_web_element(img: WebElement) -> str:

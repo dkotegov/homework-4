@@ -5,10 +5,10 @@ from typing import List
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 
-from pages.album_components import ImageCard
 from pages.album_page import AlbumPage
 from pages.auth_page import AuthPage
 from pages.group_page import GroupPage
+from pages.images_components import ExpandedImageCard, ImageCard, ConfirmMakeMainModal
 from pages.my_groups_components import GroupSubcategory, AgeRestriction
 from pages.photo_components import AlbumType
 from pages.photo_page import PhotoPage
@@ -27,11 +27,14 @@ class AlbumPageImagesManagementTest(unittest.TestCase):
         'admins_only': False,
         'sticky_album': False,
     }
+    SAMPLE_IMAGE_DESCRIPTION: str = 'test-image-description'
 
     SAMPLE_IMAGE_PATH: str = 'assets/sample_image.jpg'
     SAMPLE_BIG_IMAGE_PATH: str = 'assets/sample_big_image.jpg'
     SAMPLE_SMALL_IMAGE_PATH: str = 'assets/sample_small_image.jpg'
-    SAMPLE_BULK_IMAGES: List[str] = ['assets/sample_image.jpg' for x in range(0, 10)]
+    SAMPLE_IMAGES_PACK_BIG: List[str] = ['assets/sample_image.jpg' for x in range(0, 10)]
+    SAMPLE_IMAGES_PACK_SMALL: List[str] = ['assets/sample_image.jpg' for x in range(0, 3)]
+    SAMPLE_IMAGES_PACK_MEDIUM: List[str] = ['assets/sample_image.jpg' for x in range(0, 5)]
 
     @classmethod
     def setUpClass(cls):
@@ -52,6 +55,8 @@ class AlbumPageImagesManagementTest(unittest.TestCase):
     def setUp(self):
         self.album: AlbumPage = self.photo_page.open() \
             .create_album(AlbumType.ALBUM, self.ALBUM)
+        self.album_control_panel = self.album.control_panel
+        self.album_photos_panel = self.album.photos_panel
 
     def tearDown(self):
         self.album.open()
@@ -65,37 +70,82 @@ class AlbumPageImagesManagementTest(unittest.TestCase):
 
     def test_image_upload(self):
         image: ImageCard = self.album.upload_photo(self.SAMPLE_IMAGE_PATH)
-        uploaded: ImageCard = self.album.photos_panel.get_last()
+        uploaded: ImageCard = self.album_photos_panel.get_first()
         self.assertEqual(image.id, uploaded.id)
 
     def test_big_image_upload(self):
         image: ImageCard = self.album.upload_photo(self.SAMPLE_BIG_IMAGE_PATH)
-        uploaded: ImageCard = self.album.photos_panel.get_last()
+        uploaded: ImageCard = self.album_photos_panel.get_first()
         self.assertEqual(image.id, uploaded.id)
 
     def test_small_image_upload(self):
         image: ImageCard = self.album.upload_photo(self.SAMPLE_SMALL_IMAGE_PATH)
-        uploaded: ImageCard = self.album.photos_panel.get_last()
+        uploaded: ImageCard = self.album_photos_panel.get_first()
         self.assertEqual(image.id, uploaded.id)
 
     def test_image_delete(self):
         image: ImageCard = self.album.upload_photo(self.SAMPLE_IMAGE_PATH)
         image.delete_image_card()
-        self.album.control_panel.commit_changes()
-
+        self.album_control_panel.commit_changes()
         self.assertIsNone(self.album.image(image.id))
 
-    @unittest.skip("under development")
-    def test_image_make_main(self):
-        self.album.upload_photo(self.SAMPLE_IMAGE_PATH)
-        final: ImageCard = self.album.upload_photo(self.SAMPLE_IMAGE_PATH)
-        final.make_main()
-        main: ImageCard = self.album.control_panel.main_photo
-        self.assertEqual(final.id, main.id)
+    def test_set_image_description(self):
+        image: ImageCard = self.album.upload_photo(self.SAMPLE_IMAGE_PATH)
+        self.album_control_panel.enable_edit()
+        image.description = self.SAMPLE_IMAGE_DESCRIPTION
+        self.album_control_panel.disable_edit()
+        expanded: ExpandedImageCard = image.expand()
+        self.assertEquals(self.SAMPLE_IMAGE_DESCRIPTION, expanded.description)
 
-    @unittest.skipIf(os.getenv('BROWSER', 'CHROME') == 'FIREFOX',
-                     "simple multiply images upload way was not working in firefox")
+    def test_make_main_image(self):
+        self.album.upload_photos([self.SAMPLE_IMAGE_PATH, self.SAMPLE_IMAGE_PATH])
+        self.album_control_panel.disable_edit()
+
+        new_main_image: ImageCard = self.album_photos_panel.get_last()
+        self.album_control_panel.main_photo = new_main_image
+        main: ImageCard = self.album_control_panel.main_photo
+        self.assertEqual(new_main_image.id, main.id)
+
+    def test_cancel_make_main_image(self):
+        self.album.upload_photos([self.SAMPLE_IMAGE_PATH, self.SAMPLE_IMAGE_PATH])
+        self.album_control_panel.disable_edit()
+
+        main_photo_candidate: ImageCard = self.album_photos_panel.get_last()
+        current_main_id: str = self.album_control_panel.main_photo.id
+
+        modal: ConfirmMakeMainModal = self.album_control_panel.request_main_photo(main_photo_candidate)
+        modal.cancel()
+
+        main_id: str = self.album_control_panel.main_photo.id
+
+        self.assertEqual(main_id, current_main_id)
+
     def test_bulk_image_upload(self):
-        images: List[ImageCard] = self.album.upload_photos(self.SAMPLE_BULK_IMAGES)
-        uploaded: List[ImageCard] = self.album.photos_panel.images
+        images: List[ImageCard] = self.album.upload_photos(self.SAMPLE_IMAGES_PACK_BIG)
+        uploaded: List[ImageCard] = self.album_photos_panel.images
         self.assertEqual(len(images), len(uploaded))
+
+    @unittest.expectedFailure
+    def test_restore_single_image(self):
+        image: ImageCard = self.album_photos_panel.upload(self.SAMPLE_IMAGE_PATH)
+        image_id = image.id
+        image.delete_image_card()
+        image.restore()
+        self.album_control_panel.disable_edit()
+        self.assertIsNotNone(self.album_photos_panel.find_image(image_id))
+
+    def test_restore_one_image(self):
+        images: List[ImageCard] = self.album.upload_photos(self.SAMPLE_IMAGES_PACK_BIG)
+        images[0].delete_image_card()
+        images[0].restore()
+        self.album_control_panel.disable_edit()
+        self.assertEquals(1, len(self.album_photos_panel.images))
+
+    @unittest.expectedFailure
+    def test_restore_all_images(self):
+        images: List[ImageCard] = self.album.upload_photos(self.SAMPLE_IMAGES_PACK_SMALL)
+        for image in images:
+            image.delete_image_card()
+            image.restore()
+        self.album_control_panel.disable_edit()
+        self.assertEquals(1, len(self.album_photos_panel.images))
