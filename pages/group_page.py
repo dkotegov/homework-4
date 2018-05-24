@@ -10,11 +10,11 @@ from constants import profiles
 
 
 class GroupPage(Page):
+    PAGE = 'group/54182734987425'
 
     def __init__(self, driver):
         super(GroupPage, self).__init__(driver)
         self.group_form = GroupForm(self.driver)
-        self.PAGE = "/carsguru"
 
     def group_add(self):
         self.group_form.group_add().click()

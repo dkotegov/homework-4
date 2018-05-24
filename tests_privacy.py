@@ -10,7 +10,7 @@ from constants import profiles
 from constants import photos
 from pages.auth_page import AuthPage
 from pages.privacy_page import PrivacyPage
-from pages.friends_page import FriendsPage
+from pages.friends_user_page import FriendsUserPage
 from pages.main_page import MainPage
 from pages.user_page import UserPage
 from pages.games_page import GamesPage
@@ -423,10 +423,10 @@ class TestsPrivacy(unittest.TestCase):
         auth_page.logout()
         auth_page.add_profile(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
 
-        friends_page = FriendsPage(self.driver, profiles.PROFILE_URL_TECHNOPARK42)
-        friends_page.open()
-        self.assertTrue(not friends_page.subscribers_visibility())
-        self.assertTrue(not friends_page.subscriptions_visibility())
+        friends_user_page = FriendsUserPage(self.driver, profiles.PROFILE_URL_TECHNOPARK42)
+        friends_user_page.open()
+        self.assertTrue(not friends_user_page.subscribers_visibility())
+        self.assertTrue(not friends_user_page.subscriptions_visibility())
 
         auth_page.logout()
         auth_page.add_profile(profiles.PROFILE_TECHNOPARK42, profiles.PROFILE_PASSWORD)
