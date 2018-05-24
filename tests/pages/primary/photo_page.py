@@ -1,6 +1,5 @@
 import os
 
-import time
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -11,10 +10,8 @@ from tests.pages.primary.page import Page
 
 
 class PhotoPage(Page):
-    PHOTO = '//a[@class="card_wrp"]'
-
     def goto_photo_comment(self):
-        self.redirect('kadyr.akhmatov/pphotos/865862332740')
+        self.redirect('kadyr.akhmatov/pphotos/839046221380')
         progress_roll = '.photo-layer_process'
         WebDriverWait(self.driver, 30, 0.1).until(
             EC.invisibility_of_element_located((By.CSS_SELECTOR, progress_roll))
