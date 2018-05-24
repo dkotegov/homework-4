@@ -77,18 +77,20 @@ class GroupPortlet(Component):
 
 
 class CreateTopicPopup(Component):
-    MESSAGE = '//*[@id="hook_Block_pfnull"]/div[2]/div[1]/div/div[2]'
+    MESSAGE = '//div[@data-module="postingForm/mediaText"]'
     SEND_BUTTON = 'posting_submit'
-    TOPIC_POPUP = '//*[@id="mtLayer"]/div[1]'
+    TOPIC_POPUP = 'media-layer_close_ovr'
 
     def enter_message(self, msg: str):
-        self.driver.find_element_by_xpath(self.MESSAGE).click()
+        el = self.driver.find_element_by_xpath(self.MESSAGE)
+        self.driver.execute_script('arguments[0].click()', el)
         self.driver.find_element_by_xpath(self.MESSAGE).send_keys(msg)
-        self.driver.find_element_by_xpath(self.MESSAGE).click()
 
     def send(self):
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, self.SEND_BUTTON)))
-        self.driver.find_element_by_class_name(self.SEND_BUTTON).click()
+        el = self.driver.find_element_by_xpath(self.MESSAGE)
+        self.driver.execute_script('arguments[0].click()', el)
+        el = self.driver.find_element_by_class_name(self.SEND_BUTTON)
+        self.driver.execute_script('arguments[0].click();', el)
 
 
 class CommentPopup(Component):
@@ -96,6 +98,7 @@ class CommentPopup(Component):
     SEND_BUTTON = '//*[@id="ok-e-d_button"]'
     FIRST_COMMENT = 'd_comment_text'
     DISABLED_MESSAGE = 'disc_simple_input__im'
+    POPLAYER = '//*[@id="hook_PopLayer_popLayer"]'
 
     def enter_message(self, msg: str):
         self.driver.find_element_by_xpath(self.MESSAGE).send_keys(msg)
@@ -112,9 +115,16 @@ class CommentPopup(Component):
         el = self.driver.find_element_by_class_name(self.FIRST_COMMENT)
         return el.find_element_by_tag_name("div").text
 
-    def is_disabled_leave_comment(self):
+    def is_disabled_leave_comment_at_all(self):
         try:
             self.driver.find_element_by_class_name(self.DISABLED_MESSAGE)
+        except WebDriverException:
+            return False
+        return True
+
+    def is_disabled_leave_comments_not_members(self):
+        try:
+            self.driver.find_element_by_xpath(self.POPLAYER)
         except WebDriverException:
             return False
         return True

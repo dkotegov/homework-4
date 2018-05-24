@@ -51,11 +51,14 @@ class GeneralForm(Component):
     POPUP = '//*[@id="popLayer_mo"]'
     POPUP_CONFIRM_BUTTON = '//*[@id="hook_FormButton_button_change_type"]'
 
-    class Categories(Enum):
+    class Category(Enum):
         BRAND = 'BRAND'
         LOCAL = 'LOCAL'
         STAR = 'STAR'
         PUBLIC = 'PUBLIC'
+
+    class Subcategory(Enum):
+        HUMORIST = 'subcatVal11022'
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -83,15 +86,15 @@ class GeneralForm(Component):
     @property
     def category(self):
         if self.type == "Страница":
-            return self.driver.find_element_by_xpath(self.CATEGORY_AFTER_SAVE).text
+            return Select(self.driver.find_element_by_xpath(self.PAGE_CATEGORY)).first_selected_option.text
         else:
             return Select(self.driver.find_element_by_xpath(self.GROUP_CATEGORY)).first_selected_option.text
 
     @category.setter
-    def category(self, category: str):
+    def category(self, category: Category):
         if self.type == "Страница":
             select_category = Select(self.driver.find_element_by_xpath(self.PAGE_CATEGORY))
-            select_category.select_by_value(category)
+            select_category.select_by_value(category.value)
         else:
             select_category = Select(self.driver.find_element_by_xpath(self.GROUP_CATEGORY))
             select_category.select_by_index(1)
@@ -102,13 +105,13 @@ class GeneralForm(Component):
         return select_subcategory.first_selected_option.text
 
     @subcategory.setter
-    def subcategory(self, subcategory: str):
+    def subcategory(self, subcategory: Subcategory):
         if subcategory is not None:
             select_category = Select(self.driver.find_element_by_xpath(self.PAGE_SUBCATEGORY))
-            if subcategory not in [o.get_attribute('value') for o in select_category.options]:
+            if subcategory.value not in [o.get_attribute('value') for o in select_category.options]:
                 select_category.select_by_index(0)
             else:
-                select_category.deselect_by_value(subcategory)
+                select_category.select_by_value(subcategory.value)
 
     @property
     def type(self):
@@ -183,6 +186,7 @@ class ManagmentForm(Component):
     OBSCENE_LANGUAGE = '//*[@id="field_opt_ConcealObsceneWordsInCommentsEnabled"]'
     PHOTO_SECTION = '//*[@id="field_opt_PhotosTabHidden"]'
     VIDEO_SECTION = '//*[@id="field_opt_VideoTabHidden"]'
+    GOODS_SECTION = '//*[@id="field_opt_advertPage"]'
     COMMENT = '//*[@id="field_opt_whoCanComment"]'
     SAVE_BUTTON = '//*[@id="hook_FormButton_button_save_settings"]'
     TIP = '//*[@id="hook_Block_TipBlock"]/div/div'
@@ -202,6 +206,10 @@ class ManagmentForm(Component):
         select = Select(self.driver.find_element_by_xpath(self.VIDEO_SECTION))
         select.select_by_value("on")
 
+    def show_goods_section(self):
+        select = Select(self.driver.find_element_by_xpath(self.GOODS_SECTION))
+        select.select_by_value("SHOW")
+
     def hide_obscene(self):
         select_obscene = Select(self.driver.find_element_by_xpath(self.OBSCENE_LANGUAGE))
         select_obscene.select_by_value("on")
@@ -213,7 +221,6 @@ class ManagmentForm(Component):
 
     def save_settings(self):
         self.driver.find_element_by_xpath(self.SAVE_BUTTON).click()
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, self.TIP)))
 
 
 class PopupUserMenu(Component):

@@ -26,6 +26,11 @@ class ManagmentPage(Page):
         form.hide_video_section()
         form.save_settings()
 
+    def show_goods_section(self):
+        form = self.form
+        form.show_goods_section()
+        form.save_settings()
+
     def forbid_leave_comments(self, who: WhoCanLeaveComments):
         form = self.form
         form.forbid_leave_comments(who)

@@ -34,8 +34,8 @@ class GroupPage(Page):
         return CreateTopicPopup(self.driver)
 
     def comment_popup(self):
-        WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.CLASS_NAME, self.COMMENT_DIALOG)))
-        self.driver.find_element_by_xpath(self.COMMENT).click()
+        el = self.driver.find_element_by_xpath(self.COMMENT)
+        self.driver.execute_script("arguments[0].click()", el)
         popup = CommentPopup(self.driver)
         return popup
 
