@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from Components.market_page_components import CatalogStub, CatalogCounter
-from PageObjects.page_objects import ShopMarketPage
+from Components.market_page_components import CatalogStub, CatalogCounter, RemoveCatalogPopup
+from PageObjects.page_objects import ShopMarketPage, CatalogPage
 from tests.common import getDriver, Auth, Main, Shop
 
 
@@ -180,6 +180,24 @@ class CreateCatalogTests(unittest.TestCase):
         catalog_popup.open_popup_from_product_panel()
 
         self.create_and_check_empty_catalog(catalog_popup, name)
+
+    def test_delete_catalog_after_creating_later(self):
+        self.test_create_catalog_later_from_product_panel()
+
+        shop_market_page = ShopMarketPage(self.driver)
+        catalog_widget = shop_market_page.catalog_widget
+        catalog_widget.open_catalog()
+        catalog_page = CatalogPage(self.driver)
+        catalog_panel = catalog_page.catalog_panel
+
+        catalog_panel.remove_catalog()
+        remove_catalog_popup = RemoveCatalogPopup(self.driver)
+        remove_catalog_popup.submit_remove()
+        remove_catalog_popup.waiting_until_close()
+
+        catalog_stub = CatalogStub(self.driver)
+        self.check_catalog_stub_is_not_exist(catalog_stub)
+        self.check_catalog_widget_is_not_exist(catalog_widget)
 
     def test_create_several_catalogs(self, number_of_catalogs=10):
         for i in xrange(number_of_catalogs):
