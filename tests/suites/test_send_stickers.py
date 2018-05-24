@@ -8,7 +8,6 @@ from tests.pages.message import MessagePage
 from tests.pages.dialog import DialogPage
 from tests.pages.dialog_menu import DialogMenuPage
 from tests.pages.confirm import ConfirmPage
-from time import sleep
 from selenium.webdriver import DesiredCapabilities, Remote
 
 
@@ -90,33 +89,19 @@ class TestsStickers(unittest.TestCase):
     # You have my respect, Stark. When I'm done, half of
     # humanity will still be alive. I hope they remember you. (c) Thanos
 
-    def test_add_stickers_set(self):
-        set_id = self.STICKERS_NEW_SET_ID
-        self.assertFalse(
-            self.dialog_page.check_stickers_set(set_id),
-            "testing stickers set already exists")
+    def test_add_and_delete_sticker_set(self):
+        set_id = self.STICKERS_OLD_SET_ID
         self.dialog_page.install_stickers_set(set_id)
         self.assertTrue(
             self.dialog_page.check_stickers_set(set_id),
             "can't add new sticker set #" + set_id)
         self.dialog_page.uninstall_stickers_set(set_id)
-
-    def test_delete_sticker_set(self):
-        set_id = self.STICKERS_OLD_SET_ID
-        self.assertTrue(
-            self.dialog_page.check_stickers_set(set_id),
-            "default stickers set is not exist")
-        self.dialog_page.uninstall_stickers_set(set_id)
         self.assertFalse(
             self.dialog_page.check_stickers_set(set_id),
             "Can't delete sticker set #" + set_id)
-        self.dialog_page.install_stickers_set(set_id)
 
     def test_add_paid_stickers_set(self):
         set_id = self.STICKERS_PAY_SET_ID
-        self.assertFalse(
-            self.dialog_page.check_stickers_set(set_id),
-            "pay stickers set already exists #" + set_id)
         self.dialog_page.install_stickers_set(set_id)
         self.assertTrue(
             self.dialog_page.check_stickers_set(set_id),
@@ -127,8 +112,8 @@ class TestsStickers(unittest.TestCase):
         set_id = self.STICKERS_NEW_SET_ID
         self.dialog_page.install_stickers_set(set_id)
         self.dialog_page.uninstall_stickers_set(set_id)
-        self.assertTrue(
-            not self.dialog_page.check_stickers_set(set_id),
+        self.assertFalse(
+            self.dialog_page.check_stickers_set(set_id),
             "test_delete_sticker_pack failed")
 
     def test_installx2_deletex2_sticker_pack(self):
@@ -136,15 +121,21 @@ class TestsStickers(unittest.TestCase):
         set_id2 = self.STICKERS_OLD_SET_ID
 
         self.dialog_page.install_stickers_set(set_id1)
+        self.assertTrue(
+            self.dialog_page.check_stickers_set(set_id1),
+            "test_delete_sticker_pack failed")
         self.dialog_page.install_stickers_set(set_id2)
+        self.assertTrue(
+            self.dialog_page.check_stickers_set(set_id2),
+            "test_delete_sticker_pack failed")
         self.dialog_page.uninstall_stickers_set(set_id1)
         self.dialog_page.uninstall_stickers_set(set_id2)
 
-        self.assertTrue(
-            not self.dialog_page.check_stickers_set(set_id1),
+        self.assertFalse(
+            self.dialog_page.check_stickers_set(set_id1),
             "test_delete_sticker_pack failed")
-        self.assertTrue(
-            not self.dialog_page.check_stickers_set(set_id2),
+        self.assertFalse(
+            self.dialog_page.check_stickers_set(set_id2),
             "test_delete_sticker_pack failed")
 
     def test_install_delete_x2_sticker_pack(self):
@@ -152,15 +143,18 @@ class TestsStickers(unittest.TestCase):
         set_id2 = self.STICKERS_OLD_SET_ID
 
         self.dialog_page.install_stickers_set(set_id1)
-        self.dialog_page.uninstall_stickers_set(set_id1)
         self.assertTrue(
-            not self.dialog_page.check_stickers_set(set_id1),
+            self.dialog_page.check_stickers_set(set_id1),
+            "test_delete_sticker_pack failed")
+        self.dialog_page.uninstall_stickers_set(set_id1)
+        self.assertFalse(
+            self.dialog_page.check_stickers_set(set_id1),
             "test_delete_sticker_pack failed")
 
         self.dialog_page.install_stickers_set(set_id2)
         self.dialog_page.uninstall_stickers_set(set_id2)
-        self.assertTrue(
-            not self.dialog_page.check_stickers_set(set_id2),
+        self.assertFalse(
+            self.dialog_page.check_stickers_set(set_id2),
             "test_delete_sticker_pack failed")
 
     def test_sticker_bar(self):
@@ -237,16 +231,6 @@ class TestsStickers(unittest.TestCase):
         self.assertTrue(
             self.dialog_page.sticker_bar_exists(),
             "test_send_sticker_from_hide_bar failed")
-        self.assertTrue(
-            not self.dialog_page.sticker_in_bar_exists(),
+        self.assertFalse(
+            self.dialog_page.sticker_in_bar_exists(),
             "test_send_sticker_from_hide_bar failed")
-
-    def test_send_sticker_x2_from_bar(self):
-        self.dialog_page.send_sticker1_from_bar()
-        self.assertTrue(
-            self.dialog_page.message_with_sticker_exists(),
-            "test_send_sticker_x2_from_bar failed")
-        self.dialog_page.send_sticker2_from_bar()
-        self.assertTrue(
-            self.dialog_page.message_with_sticker_exists(),
-            "test_send_sticker_x2_from_bar failed")

@@ -117,7 +117,6 @@ class TestsGroupDialogs(unittest.TestCase):
         self.CURRENT_DIALOG_URL = self.driver.current_url
         self.dialog_page.pin_message()
         self.dialog_page.unpin_message()
-        self.driver.refresh()
         self.assertFalse(
             self.dialog_page.exsistance_of_pinned_message(),
             "test_unpin_message failed")

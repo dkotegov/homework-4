@@ -11,7 +11,6 @@ from tests.pages.dialog_menu import DialogMenuPage
 from tests.pages.confirm import ConfirmPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from time import sleep
 
 
 class TestsFindDialogMsg(unittest.TestCase):

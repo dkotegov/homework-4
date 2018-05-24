@@ -41,5 +41,5 @@ class DialogMenuPage(BasePage):
         self.dialog_menu_form.get_change_photo_button().click()
         attach_form = AttachForm(self.driver)
         attach_form.get_dialog_photo().send_keys(photo_url)
-        if (attach_form.existence_ready_photo_button()):
-            attach_form.get_ready_photo_button().click()
+        attach_form.existence_ready_photo_button()
+        attach_form.get_ready_photo_button().click()

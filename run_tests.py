@@ -39,12 +39,15 @@ if __name__ == '__main__':
         unittest.makeSuite(TestsGroupDialogs),
     ))
 
-    # result = unittest.TextTestRunner().run(suite)
-    # result1 = unittest.TextTestRunner().run(testsSendDocumentsSuite)
-    # result2 = unittest.TextTestRunner().run(testsSendStickersSuite)
-    result3 = unittest.TextTestRunner().run(twoAccauntsManagementSuite)
-    # result4 = unittest.TextTestRunner().run(testsSendMessagesSuite)
-    # result5 = unittest.TextTestRunner().run(testsFindDialogMsgSuite)
-    # result6 = unittest.TextTestRunner().run(testsGroupDialogsSuite)
+    result = unittest.TextTestRunner().run(suite).wasSuccessful()
+    result1 = unittest.TextTestRunner().run(testsSendDocumentsSuite).wasSuccessful()
+    result2 = unittest.TextTestRunner().run(testsSendStickersSuite).wasSuccessful()
+    result3 = unittest.TextTestRunner().run(
+        twoAccauntsManagementSuite).wasSuccessful()
+    result4 = unittest.TextTestRunner().run(testsSendMessagesSuite).wasSuccessful()
+    result5 = unittest.TextTestRunner().run(testsFindDialogMsgSuite).wasSuccessful()
+    result6 = unittest.TextTestRunner().run(testsGroupDialogsSuite).wasSuccessful()
 
-    sys.exit(not result3.wasSuccessful())
+    sys.exit(
+        not (
+            result and result1 and result2 and result3 and result4 and result5 and result6))

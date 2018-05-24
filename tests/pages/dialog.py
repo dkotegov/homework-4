@@ -53,15 +53,15 @@ class DialogPage(BasePage):
     def send_photo(self, pwd):
         self.dialog_form.get_attach_button().click()
         self.attach_form.get_photo_input().send_keys(pwd)
-        if(self.attach_form.get_loader()):
-            self.dialog_form.get_send_message_button().click()
+        self.attach_form.get_loader()  # wait until loader
+        self.dialog_form.get_send_message_button().click()
 
     def send_video(self, pwd):
         self.dialog_form.get_attach_button().click()
         self.attach_form.get_video_button().click()
         self.attach_form.get_video_input().send_keys(pwd)
-        if(self.attach_form.get_loader()):
-            self.dialog_form.get_send_message_button().click()
+        self.attach_form.get_loader()  # wait until loader
+        self.dialog_form.get_send_message_button().click()
 
     def wait_for_loader(self):
         self.dialog_form.wait_dialog_loader()
