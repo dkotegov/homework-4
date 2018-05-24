@@ -74,8 +74,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         army_form = about_form.army_form()
@@ -100,8 +100,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         army_form = about_form.army_form()
@@ -125,8 +125,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         army_form = about_form.army_form()
@@ -156,8 +156,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         army_form = about_form.army_form()
@@ -181,8 +181,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         career_form = about_form.career_form()
@@ -206,8 +206,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         career_form = about_form.career_form()
@@ -232,8 +232,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         career_form = about_form.career_form()
@@ -261,8 +261,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         career_form = about_form.career_form()
@@ -286,8 +286,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         study_form = about_form.study_form()
@@ -311,8 +311,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         study_form = about_form.study_form()
@@ -337,8 +337,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         study_form = about_form.study_form()
@@ -366,8 +366,8 @@ class TestsMikeGus(unittest.TestCase):
 
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
-        about_page = AboutPage(self.driver)
-        about_page.open_page_by_url(profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
 
         about_form = about_page.about_form()
         study_form = about_form.study_form()
