@@ -1,9 +1,6 @@
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
+from tests.pages.mobile.like_component import LikeComponent
 from tests.pages.mobile.page import Page, Component
+from tests.utils.waits import wait_until_url_changes
 
 
 class UserAlbumsPage(Page):
@@ -17,15 +14,11 @@ class UserAlbumsPage(Page):
     def header(self):
         return AlbumsHeader(self.driver)
 
-    def like_album(self, album_name):
-        self.open()
-        album_item = self.albums_list.find(album_name)
-        album_item.like()
-
 
 class AlbumsHeader(Component):
     CREATE_BUTTON = 'addition-button'
 
+    @wait_until_url_changes
     def create_album(self):
         self.driver.find_element_by_class_name(self.CREATE_BUTTON).click()
 
@@ -41,28 +34,22 @@ class AlbumsList(Component):
                 return True
         return False
 
-    def find(self, album_name):
-        albums = self.driver.find_elements_by_class_name(self.ITEM)
-        for album in albums:
-            if album.find_element_by_class_name(self.TITLE).text == album_name:
-                return AlbumItem(album)
-        raise KeyError
+    @property
+    def first(self):
+        return AlbumItem(self.driver, 2)
 
 
 class AlbumItem(Component):
-    LIKE = 'widget_like'
-    LIKES_COUNT = 'ecnt'
-    TITLE = 'albm'
+    BASE = '//ul[@id="user-albums"]/li[{}]'
+    LIKE = '//a[@data-func="performLike"]'
+    CANCEL_LIKE = '//a[@data-func="unReact"]'
+    LIKES_COUNT = '//span[@class="ecnt"]'
 
-    def like(self):
-        self.driver.find_element_by_class_name(self.LIKE).click()
+    def __init__(self, driver, id):
+        super().__init__(driver)
+        self.id = id
+        self.base = self.BASE.format(id)
 
     @property
-    def likes_count(self):
-        try:
-            likes_count = WebDriverWait(self.driver, 2).until(
-                EC.presence_of_element_located((By.CLASS_NAME, self.LIKES_COUNT))
-            )
-            return int(likes_count.text)
-        except TimeoutException:
-            return 0
+    def like(self):
+        return LikeComponent(self.driver, self.base)

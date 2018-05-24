@@ -24,9 +24,16 @@ class MobileAlbumCreateTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
+        self.album_url = None
+
         AuthPage(self.driver).auth(self.LOGIN, self.PASSWORD)
 
     def tearDown(self):
+        if self.album_url:
+            album_page = UserAlbumPage(self.driver)
+            album_page.open_url(self.album_url)
+            album_page.remove_album()
+
         self.driver.quit()
 
     def test_create_album(self):
@@ -39,8 +46,11 @@ class MobileAlbumCreateTest(unittest.TestCase):
         create_form.set_name(album_name)
         create_form.submit()
 
-        album = UserAlbumPage(self.driver).empty_album
-        self.assertEqual(album_name, album.title)
+        album_page = UserAlbumPage(self.driver)
+        album_page.parse_album_id()
+        self.assertEqual(album_name, album_page.empty_album.title)
+
+        self.album_url = album_page.current_url
 
         albums_page.open()
         self.assertTrue(albums_page.albums_list.includes(album_name))
@@ -56,8 +66,28 @@ class MobileAlbumCreateTest(unittest.TestCase):
         create_form.set_name(album_name)
         create_form.submit()
 
-        album = UserAlbumPage(self.driver).empty_album
-        self.assertEqual(album_name, album.title)
+        album_page = UserAlbumPage(self.driver)
+        self.assertEqual(album_name, album_page.empty_album.title)
+
+        self.album_url = album_page.current_url
+
+    def test_empty_album_name(self):
+        create_page = UserAlbumEditPage(self.driver)
+        create_page.create_album('')
+        create_form = create_page.form
+        self.assertTrue(create_form.is_name_error())
+
+    def test_xss(self):
+        album_name = '<h1 id="xss">XSS</h1>'
+        UserAlbumEditPage(self.driver).create_album(album_name)
+
+        album_page = UserAlbumPage(self.driver)
+        self.album_url = album_page.current_url
+        self.assertFalse(album_page.is_xss)
+
+        albums_page = UserAlbumsPage(self.driver)
+        albums_page.open()
+        self.assertFalse(albums_page.is_xss)
 
     def test_album_shows(self):
         album_name = 'Best friends and colleagues'
@@ -81,6 +111,8 @@ class MobileAlbumCreateTest(unittest.TestCase):
 
         album_page = UserAlbumPage(self.driver)
         self.assertEqual(album_name, album_page.empty_album.title)
+
+        self.album_url = album_page.current_url
 
         toolbar = album_page.toolbar
         toolbar.open()

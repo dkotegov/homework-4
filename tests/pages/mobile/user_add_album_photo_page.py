@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from os.path import abspath
 
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
-
 from tests.pages.mobile.page import Page, Component
+from tests.utils.waits import wait_until_url_changes
 
 
 class UserAddAlbumPhotoPage(Page):
@@ -33,10 +31,18 @@ class AddPhotoForm(Component):
     FILE_INPUT = 'field_file'
     UPLOAD_PHOTO_BUTTON = 'upload_photo_btn'
     EDIT_ALBUM_PHOTO_URL = 'st.cmd=userEditAlbumPhoto'
+    ERROR = '//label[@id="field_file_label" and @role="alert"]'
 
+    @wait_until_url_changes
     def upload_photo(self, photo):
         self.driver.execute_script("arguments[0].className=''", self.driver.find_element_by_id(self.FILE_INPUT))
         file_input = self.driver.find_element_by_id(self.FILE_INPUT)
         file_input.send_keys(photo)
         self.driver.execute_script("arguments[0].submit()", self.driver.find_element_by_id(self.FORM))
-        WebDriverWait(self.driver, 4).until(EC.url_contains(self.EDIT_ALBUM_PHOTO_URL))
+
+    @property
+    def is_error(self):
+        try:
+            return self.driver.find_element_by_xpath(self.ERROR)
+        except:
+            return False
