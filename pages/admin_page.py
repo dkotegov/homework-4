@@ -1,12 +1,10 @@
-from selenium.common.exceptions import WebDriverException, NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.page import Page
-from pages.settings_components import PopupUserMenu, RoleRadioButtons, Role
-from pages.waits import web_element_locator
+from pages.settings_components import PopupUserMenu, Role
+from pages.waits import dynamic_web_element_locator
 
 
 class AdminPage(Page):
@@ -14,7 +12,7 @@ class AdminPage(Page):
     ADMINISTRATION_LIST_PAGE = '//*[@id="GroupMembersMenu"]/div/div/a[2]'
     ADMINISTRATION_LIST = '//*[@id="hook_Block_GroupMembersResultsBlock"]/div/ul'
     ROLE = '//a[text()="{}"]/../../div[contains(@class, "fs-11")]'
-    POPUP = 'gwt-shortcutMenu-content'
+    POPUP = '.gwt-shortcutMenu-content'
     link_text = ''
 
     def add_moderator(self, name, role):
@@ -25,14 +23,14 @@ class AdminPage(Page):
         PopupUserMenu(self.driver).assign_as_moderator.add_grant(role)
         return self
 
-    @web_element_locator((By.XPATH, '//a[text()="{}"]'.format(link_text)))
+    @dynamic_web_element_locator(lambda self: (By.XPATH, '//div[@class="ellip"]/a[text()="{}"]'.format(self.link_text)))
     def show_element_by_class(self, c: str, name):
         self.driver.execute_script('''
                     let mouseover = new Event('mouseover');    
-                    let node = document.evaluate('//a[text()="{}"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue;
-                    node.dispatchEvent(mouseover);'''.format(name))
-        self.driver.execute_script(
-            "document.getElementsByClassName('{}')[0].style.display = 'block';".format(c))
+                    let node = document.evaluate('//div[@class="ellip"]/a[text()="{}"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue;
+                    node.parentNode.dispatchEvent(mouseover);
+                    document.querySelector('{}').style.display = 'block';
+                    '''.format(name, c))
 
     def to_administration_list(self):
         # WebDriverWait(self.driver, 10).until(
