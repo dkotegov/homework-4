@@ -3,6 +3,7 @@ from selenium.webdriver.remote.webelement import WebElement
 
 from src.components.base_element import BaseElement
 from src.components.elements.gift_element import GiftElement
+from src.components.elements.gift_not_sent_element import GiftNotSentElement
 from src.components.elements.gift_sent_element import GiftSentElement
 from src.components.elements.search_gift_element import SearchGiftElement
 from src.pages.actual_gift_page import ActualGiftPage
@@ -27,6 +28,7 @@ class GiftPage(BaseElement):
         self._gift_element = GiftElement(driver)
         self._auth_page = AuthPage(driver)
         self._gift_sent_element = GiftSentElement(driver)
+        self._gift_not_sent_element = GiftNotSentElement(driver)
         self._search_gift_element = SearchGiftElement(driver)
         self._driver = driver
 
@@ -35,6 +37,9 @@ class GiftPage(BaseElement):
 
     def is_gift_sent(self):
         return self._gift_sent_element.is_gift_sent()
+
+    def is_gift_not_sent(self):
+        return self._gift_not_sent_element.is_gift_not_sent()
 
     def is_search_done(self):
         return self._search_gift_element.is_search_done()
@@ -116,12 +121,24 @@ class GiftPage(BaseElement):
         present.click()
 
         #   finding receiver
-        text_input = 'Космос'
+        text_input = 'kosmos'
         edit_text_find_reciever = self._gift_element.get_edit_text_find_receiver()
         edit_text_find_reciever.send_keys(text_input)
 
         receiver = self._gift_element.get_receiver()
         receiver.click()
+        return GiftPage(self.driver)
+
+    def send_gift_by_receivers_name_not_exists(self):
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   finding receiver
+        text_input = 'reciever that not exists'
+        edit_text_find_reciever = self._gift_element.get_edit_text_find_receiver()
+        edit_text_find_reciever.send_keys(text_input)
+
         return GiftPage(self.driver)
 
     def open_self_gifts(self):
