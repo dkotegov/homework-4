@@ -47,7 +47,7 @@ class Tests(unittest.TestCase):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         main_page = MainPage(self.driver)
         main_page.open_friends_list()
@@ -63,7 +63,7 @@ class Tests(unittest.TestCase):
         auth_page.logout()
 
         auth_page.add_profile()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         main_page.open_friends_list()
         friends_page.open_message_dialog_with_55()
@@ -73,7 +73,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         main_page.open_friends_list()
         friends_page.open_message_dialog_with_46()
@@ -89,7 +89,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         main_page.open_friends_list()
         friends_page.open_message_dialog_with_55()
@@ -100,7 +100,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         main_page.open_friends_list()
         friends_page.open_message_dialog_with_46()
@@ -113,7 +113,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         main_page.open_friends_list()
         friends_page.open_message_dialog_with_55()
@@ -123,7 +123,7 @@ class Tests(unittest.TestCase):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         main_page = MainPage(self.driver)
         main_page.open_games_list()
@@ -135,7 +135,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         main_page.open_notification()
         main_page.update()
@@ -156,7 +156,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         main_page.open_games_list()
 
@@ -166,7 +166,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         # delete
         settings_game_page = SettingsGamePage(self.driver)
@@ -177,7 +177,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         main_page.open_games_list()
 
@@ -187,7 +187,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         main_page.open_notification()
 
@@ -197,7 +197,7 @@ class Tests(unittest.TestCase):
     def test_current_fake_password_and_new_are_the_same(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         settings_page = SettingsPage(self.driver)
         settings_page.open()
@@ -222,7 +222,7 @@ class Tests(unittest.TestCase):
     def test_current_password_and_new_are_fake_the_same(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         settings_page = SettingsPage(self.driver)
         settings_page.open()
@@ -247,7 +247,7 @@ class Tests(unittest.TestCase):
     def test_unallowed_symbols_in_password(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         settings_page = SettingsPage(self.driver)
         settings_page.open()
@@ -272,7 +272,7 @@ class Tests(unittest.TestCase):
     def test_hide_groups_from_news(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         group_page = GroupPage(self.driver)
         group_page.open()
@@ -283,7 +283,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         main_page = MainPage(self.driver)
         main_page.go_to_group_news()
@@ -317,7 +317,7 @@ class Tests(unittest.TestCase):
 
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         group_page.open()
         group_page.delete_post()
@@ -325,7 +325,7 @@ class Tests(unittest.TestCase):
     def test_hide_man_from_news(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         notes_page = NotesPage(self.driver)
         notes_page.open()
@@ -336,7 +336,7 @@ class Tests(unittest.TestCase):
         auth_page.logout()
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         main_page = MainPage(self.driver)
 
@@ -359,7 +359,7 @@ class Tests(unittest.TestCase):
         auth_page.logout()
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK55, profiles.PROFILE_PASSWORD2)
 
         notes_page.open()
         notes_page.delete_note()
@@ -370,7 +370,7 @@ class Tests(unittest.TestCase):
         auth_page.logout()
         auth_page.add_profile()
         auth_page.clear_inputs()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         notes_page.open_friends_list()
 
@@ -381,7 +381,7 @@ class Tests(unittest.TestCase):
     def test_add_and_delete_the_game(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
-        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK46, profiles.PROFILE_PASSWORD2)
 
         games_vitrine = GamesVitrine(self.driver)
         games_list = GamesList(self.driver)
