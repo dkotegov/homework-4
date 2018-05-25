@@ -317,14 +317,14 @@ class DialogPage(BasePage):
     def support_window_exists(self):
         return self.dialog_form.get_support_window()
 
-    def hide_sticker_bar(self):
-        return self.dialog_form.get_sticker_bar_button().click()
-
     def open_sticker_bar(self):
-        return self.dialog_form.get_sticker_bar_close().click()
+        return self.dialog_form.get_sticker_bar_toggle().click()
 
-    def sticker_bar_exists(self):
-        return self.dialog_form.get_sticker_bar_close()
+    def close_sticker_bar(self):
+        return self.dialog_form.get_sticker_bar_toggle().click()
+
+    def is_sticker_bar_closed(self):
+        return self.dialog_form.is_sticker_bar_closed()
 
     def go_to_present_page(self):
         self.dialog_form.get_attach_button().click()
@@ -367,9 +367,6 @@ class DialogPage(BasePage):
 
     def send_sticker1_from_bar(self):
         self.dialog_form.get_sticker1_from_bar().click()
-
-    def sticker_in_bar_exists(self):
-        return self.dialog_form.get_existance_of_sticker1_in_bar()
 
     def send_sticker2_from_bar(self):
         self.dialog_form.get_sticker2_from_bar().click()

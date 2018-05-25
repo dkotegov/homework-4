@@ -96,6 +96,7 @@ class TestsStickers(unittest.TestCase):
             self.dialog_page.check_stickers_set(set_id),
             "can't add new sticker set #" + set_id)
         self.dialog_page.uninstall_stickers_set(set_id)
+
         self.assertFalse(
             self.dialog_page.check_stickers_set(set_id),
             "Can't delete sticker set #" + set_id)
@@ -158,18 +159,17 @@ class TestsStickers(unittest.TestCase):
             "test_delete_sticker_pack failed")
 
     def test_sticker_bar(self):
-        self.dialog_page.hide_sticker_bar()
+        self.dialog_page.close_sticker_bar()
         self.assertTrue(
-            self.dialog_page.sticker_bar_exists(),
+            self.dialog_page.is_sticker_bar_closed(),
             "test_sticker_bar failed")
 
-    def test_hidex2_sticker_bar(self):
-        self.dialog_page.hide_sticker_bar()
+    def test_reopen_sticker_bar(self):
+        self.dialog_page.close_sticker_bar()
         self.dialog_page.open_sticker_bar()
-        self.dialog_page.hide_sticker_bar()
-        self.assertTrue(
-            self.dialog_page.sticker_bar_exists(),
-            "test_sticker_bar failed")
+        self.assertFalse(
+            self.dialog_page.is_sticker_bar_closed(),
+            "test_hidex2_sticker_bar failed")
 
     ##
     def test_send_animation_smile(self):
@@ -225,12 +225,3 @@ class TestsStickers(unittest.TestCase):
         self.assertTrue(
             self.dialog_page.message_with_sticker_exists(),
             "test_send_sticker2_from_bar failed")
-
-    def test_send_sticker_from_hide_bar(self):
-        self.dialog_page.hide_sticker_bar()
-        self.assertTrue(
-            self.dialog_page.sticker_bar_exists(),
-            "test_send_sticker_from_hide_bar failed")
-        self.assertFalse(
-            self.dialog_page.sticker_in_bar_exists(),
-            "test_send_sticker_from_hide_bar failed")

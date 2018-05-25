@@ -183,10 +183,6 @@ class TestsGroupDialogs(unittest.TestCase):
         title = dialog_menu_page.get_title()
         self.assertEqual(self.NEW_ENG_TITLE, title)
 
-    # I know what it’s like to lose. To feel so desperately that you’re right,
-    # yet to fail nonetheless. Dread it, run from it, destiny arrives all the
-    # same. (c) Thanos
-
     def test_set_dialog_photo_of_mad_titan(self):
         self.dialog_page.wait_for_loader()
         self.CURRENT_DIALOG_URL = self.driver.current_url
