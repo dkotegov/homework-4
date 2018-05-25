@@ -25,13 +25,3 @@ class PhotoSharingTest(PhotoManipulationTest):
         self.driver.get(photos)
         self.assertEquals(shares_before, likes_after_cancel)
 
-    def photo_sharing_list(self):
-        photo_page = PhotoPage(self.driver)
-        photo_page.goto()
-        photos = self.driver.current_url
-        photo = photo_page.get_photo()
-        photo.open_overlay()
-        toolbar = photo.toolbar()
-        shares_before = toolbar.get_left_toolbar().shares_count()
-        toolbar.get_left_toolbar().share()
-        shares_after = toolbar.get_left_toolbar().shares_count()

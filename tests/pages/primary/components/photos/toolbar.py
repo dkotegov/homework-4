@@ -111,14 +111,6 @@ class PhotoLeftToolbar(Component):
             expected_conditions.element_to_be_clickable((By.XPATH, self.RESHARE_BUTTON_XPATH)))
         return self.driver.find_element_by_xpath(self.RESHARE_COUNTER_XPATH).text
 
-    # wip
-    def get_sharers(self):
-        if self.shares_count() == 0:
-            return []
-        ActionChains(self.driver).move_to_element(
-            self.driver.find_element_by_xpath(self.RESHARE_COUNTER_XPATH)).pause(config.WAITING_TIME).perform()
-
-    # to fix
     def put_like(self):
         WebDriverWait(self.driver, config.WAITING_TIME_LONG, 0.1).until(
             expected_conditions.element_to_be_clickable((By.XPATH, self.PUT_LIKE_XPATH)))
@@ -128,7 +120,6 @@ class PhotoLeftToolbar(Component):
             expected_conditions.element_to_be_clickable((By.XPATH, self.PUT_LIKE_XPATH)))
         self.driver.refresh()
 
-    # to fix
     def put_unlike(self):
         WebDriverWait(self.driver, config.WAITING_TIME_LONG, 0.1).until(
             expected_conditions.element_to_be_clickable((By.XPATH, self.PUT_LIKE_XPATH)))

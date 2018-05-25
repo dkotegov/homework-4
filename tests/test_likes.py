@@ -12,8 +12,7 @@ class LikesTest(PhotoManipulationTest):
         self.driver.back()
         super(LikesTest, self).tearDown()
 
-    # wip test
-    def button_like(self):
+    def test_button_like(self):
         toolbar = PhotoPage(self.driver).get_photo().toolbar().get_left_toolbar()
 
         old_likes_count = toolbar.get_likes_count()
