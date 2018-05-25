@@ -11,10 +11,10 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 from pages import waits
-from pages.images_components import ImageCard, ConfirmMakeMainModal
+from pages.images_components import ConfirmMakeMainModal, ImageCard
 from pages.page import Component
 from pages.photo_components import AlbumCreateModalForm
-from pages.waits import web_element_locator, button_locator
+from pages.waits import button_locator, web_element_locator
 
 
 class AlbumDeleteConfirmModal(Component):
@@ -309,8 +309,7 @@ class TransferAlbumDropdown(Component):
 
 
 class PhotosPanel(Component):
-    LOADER: str = "//div[@class='photo-card_loading']"
-
+    LOADER: str = '//div[@class="photo-card_loading"]'
     PHOTOS: str = '.photo-card_cnt img'
     UPLOADED_PHOTOS: str = '//li[@class="ugrid_i"]/div[starts-with(@id, "hook_Block_UploadedGroupPhotoCardBlock")]'
     SELECT_ALL: str = '#checkboxSelAll'
