@@ -420,7 +420,7 @@ class TestsAddStuff(unittest.TestCase):
 
     def test_add_super_moderator(self):
         admin_page = self.setting_page.to_admin_page()
-        admin_page.add_moderator(self.profile_user_2.name, Role.SUPERMODERATOR)
+        admin_page.add_moderator(self.profile_user_2.name, RoleRadioButtons.SUPERMODERATOR)
         admin_page.to_administration_list()
         self.assertTrue(admin_page.is_moder_added(self.profile_user_2.name, Role.SUPERMODERATOR))
 
