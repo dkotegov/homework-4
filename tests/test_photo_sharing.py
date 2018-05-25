@@ -1,5 +1,5 @@
 from tests.pages.primary.photo_page import PhotoPage
-from tests.photo_manipulation import PhotoManipulationTest
+from tests.test_photo_manipulation import PhotoManipulationTest
 
 import unittest
 

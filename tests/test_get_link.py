@@ -1,4 +1,4 @@
-from tests.photo_manipulation import PhotoManipulationTest
+from tests.test_photo_manipulation import PhotoManipulationTest
 from tests.pages.primary.components.photos.photo_overlay import PhotoComponent
 from tests.pages.primary.photo_page import PhotoPage
 from tests.pages.primary.main_page import MainPage
