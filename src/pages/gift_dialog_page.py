@@ -58,6 +58,9 @@ class GiftDialogPage(BaseElement):
         self._gift_dialog_element.get_send_button().click()
         return
 
+    def comment_is_exist(self):
+        return self._gift_dialog_element.check_comment_body_exist()
+
     def delete_comment(self):
         actions = ActionChains(self.driver)
         comment_body = self._gift_dialog_element.get_comment_body()

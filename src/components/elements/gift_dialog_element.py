@@ -140,6 +140,9 @@ class GiftDialogElement(BaseElement):
     def get_comment_body(self):
         return self.get_button_by_xpath(self.COMMENT_BODY)
 
+    def check_comment_body_exist(self):
+        return self.existence_of_element_by_xpath(self.COMMENT_BODY)
+
     def get_delete_comment_button(self):
         button = self.get_button_by_xpath(self.DELETE_COMMENT_BUTTON)
         # WebElement
