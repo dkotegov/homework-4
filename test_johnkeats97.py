@@ -16,7 +16,7 @@ from pages.main_page import MainPage
 class TestsBaseSettings(unittest.TestCase):
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get('BROWSER', profiles.BROWSER)
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -476,7 +476,7 @@ class TestsBaseSettings(unittest.TestCase):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
-        auth_page.login(profiles.PROFILE_TECHNOPARK43, profiles.PROFILE_PASSWORD)
+        auth_page.login(profiles.PROFILE_TECHNOPARK49, profiles.PROFILE_PASSWORD)
 
         base_settings_page = BaseSettingsPage(self.driver)
         base_settings_page.open()

@@ -33,7 +33,7 @@ from pages.settings_page import SettingsPage
 class Tests(unittest.TestCase):
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get('BROWSER', profiles.BROWSER)
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
