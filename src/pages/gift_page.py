@@ -268,6 +268,20 @@ class GiftPage(BaseElement):
         btn.click()
         return VipGiftPage(self.driver)
 
+    def open_vip_gifts_and_send(self):
+        btn = self._gift_element.get_vip_gift_button()
+        btn.click()
+
+        #   clicking on gift
+        present = self._gift_element.get_present()
+        present.click()
+
+        #   choose receiver
+        receiver = self._gift_element.get_receiver()
+        receiver.click()
+
+        return VipGiftPage(self.driver)
+
     def open_create_gift(self):
         btn = self._gift_element.get_create_gift_button()
         btn.click()

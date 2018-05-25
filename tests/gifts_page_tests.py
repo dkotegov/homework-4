@@ -136,18 +136,25 @@ class GiftsPageTests(unittest.TestCase):
     #     postcards_page = self.gift_page.open_postcards()
     #     ok = postcards_page.is_loaded()
     #     self.assertTrue(ok)
+    #
+    # #   Переход на страницу открыток и отправка открытки
+    # def test_open_postcards_and_send(self):
+    #     postcards_page = self.gift_page.open_postcards_and_send()
+    #     ok = postcards_page.is_gift_sent()
+    #     self.assertTrue(ok)
 
-    #   Переход на страницу открыток и отправка открытки
-    def test_open_postcards_and_send(self):
-        postcards_page = self.gift_page.open_postcards_and_send()
-        ok = postcards_page.is_gift_sent()
+    #   Переход на страницу VIP-подарков
+    def test_open_vip_gifts(self):
+        vip_gift_page = self.gift_page.open_vip_gifts()
+        ok = vip_gift_page.is_loaded()
         self.assertTrue(ok)
 
-    # def test_open_vip_gifts(self):
-    #     vip_gift_page = self.gift_page.open_vip_gifts()
-    #     ok = vip_gift_page.is_loaded()
-    #     self.assertTrue(ok)
-    #
+    #   Переход на страницу VIP-подарков и отправка подарка
+    def test_open_vip_gifts_and_send(self):
+        vip_gift_page = self.gift_page.open_vip_gifts()
+        ok = vip_gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
     # def test_create_gift(self):
     #     create_gift_page = self.gift_page.open_create_gift()
     #     ok = create_gift_page.is_loaded()
