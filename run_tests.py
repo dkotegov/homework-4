@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 
+import os
 import sys
 import unittest
 
-from tests.comments_test import CommentsTest
-from tests.mobile_album_create_test import MobileAlbumCreateTest
-from tests.mobile_album_test import MobileAlbumTest
+from util import config
 
 
 if __name__ == '__main__':
-    suite = unittest.TestSuite((
-        unittest.makeSuite(MobileAlbumCreateTest),
-        unittest.makeSuite(MobileAlbumTest),
-        unittest.makeSuite(CommentsTest),
-    ))
+    os.environ[config.PREFERRED_BROWSER_KEY] = config.PREF_CHROME
+    suite = unittest.TestLoader().discover(config.TEST_DIR)
+    result = unittest.TextTestRunner().run(suite)
+    os.environ[config.PREFERRED_BROWSER_KEY] = config.PREF_FIREFOX
+    suite = unittest.TestLoader().discover(config.TEST_DIR)
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
