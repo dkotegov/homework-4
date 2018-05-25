@@ -61,6 +61,8 @@ class GiftElement(BaseElement):
     NEW_PRESENTS_GRID = '//div[@class="ugrid __xxxl __actualGifts __type_default"]'
     PRESENT_CLASS_NAME = 'gift_a'
 
+    AUTHORS_PRESENTS_GRID = '//div[@class="ugrid __xxxl __authorGifts __type-authorGifts"]'
+
     POSTCARDS_GRID = '//div[@class="ugrid __xxxl __liveGifts __type-postcards"]'
     POSTCARD_CLASS_NAME = 'gift_a'
 
@@ -158,6 +160,13 @@ class GiftElement(BaseElement):
     def get_present(self):
         #   getting grid with new presents
         new_presents_grid = self.get_button_by_xpath(self.NEW_PRESENTS_GRID)
+        #   finding first element with class gift_a
+        present = new_presents_grid.find_element_by_class_name(self.PRESENT_CLASS_NAME)
+        return present
+
+    def get_authors_present(self):
+        #   getting grid with new presents
+        new_presents_grid = self.get_button_by_xpath(self.AUTHORS_PRESENTS_GRID)
         #   finding first element with class gift_a
         present = new_presents_grid.find_element_by_class_name(self.PRESENT_CLASS_NAME)
         return present

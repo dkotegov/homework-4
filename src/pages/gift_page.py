@@ -235,7 +235,7 @@ class GiftPage(BaseElement):
         btn.click()
 
         #   clicking on gift
-        present = self._gift_element.get_present()
+        present = self._gift_element.get_authors_present()
         present.click()
 
         #   choose receiver
