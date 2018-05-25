@@ -118,25 +118,31 @@ class GiftsPageTests(unittest.TestCase):
     #     actual_gift_page = self.gift_page.open_actual_gifts_and_send()
     #     ok = actual_gift_page.is_gift_sent()
     #     self.assertTrue(ok)
-
-    #    Переход на страницу авторских подарков
-    def test_open_authors_gifts(self):
-        authors_gift_page = self.gift_page.open_authors_gifts()
-        ok = authors_gift_page.is_loaded()
-        self.assertTrue(ok)
-
-    #    Переход на страницу акуальных подарков и отправка подарка
-    def test_open_authors_gifts_and_send_gift(self):
-        authors_gift_page = self.gift_page.open_authors_gifts_and_send()
-        ok = authors_gift_page.is_gift_sent()
-        self.assertTrue(ok)
-
     #
+    # #    Переход на страницу авторских подарков
+    # def test_open_authors_gifts(self):
+    #     authors_gift_page = self.gift_page.open_authors_gifts()
+    #     ok = authors_gift_page.is_loaded()
+    #     self.assertTrue(ok)
+    #
+    # #    Переход на страницу акуальных подарков и отправка подарка
+    # def test_open_authors_gifts_and_send_gift(self):
+    #     authors_gift_page = self.gift_page.open_authors_gifts_and_send()
+    #     ok = authors_gift_page.is_gift_sent()
+    #     self.assertTrue(ok)
+    #
+    # #   Переход на страницу открыток
     # def test_open_postcards(self):
     #     postcards_page = self.gift_page.open_postcards()
     #     ok = postcards_page.is_loaded()
     #     self.assertTrue(ok)
-    #
+
+    #   Переход на страницу открыток и отправка открытки
+    def test_open_postcards_and_send(self):
+        postcards_page = self.gift_page.open_postcards_and_send()
+        ok = postcards_page.is_gift_sent()
+        self.assertTrue(ok)
+
     # def test_open_vip_gifts(self):
     #     vip_gift_page = self.gift_page.open_vip_gifts()
     #     ok = vip_gift_page.is_loaded()

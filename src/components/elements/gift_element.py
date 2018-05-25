@@ -49,6 +49,9 @@ class GiftElement(BaseElement):
     NEW_PRESENTS_GRID = '//div[@class="ugrid __xxxl __actualGifts __type_default"]'
     PRESENT_CLASS_NAME = 'gift_a'
 
+    POSTCARDS_GRID = '//div[@class="ugrid __xxxl __liveGifts __type-postcards"]'
+    POSTCARD_CLASS_NAME = 'gift_a'
+
     SECRET_BUTTON = '//input[@class="irc js-simpleSendPresent_chbx"][@id="anonymLabel"]'
     PRIVATE_BUTTON = '//input[@class="irc js-simpleSendPresent_chbx"][@id="privateLabel"]'
 
@@ -107,6 +110,13 @@ class GiftElement(BaseElement):
         #   finding first element with class gift_a
         present = new_presents_grid.find_element_by_class_name(self.PRESENT_CLASS_NAME)
         return present
+
+    def get_postcard(self):
+        #   getting grid with postcards
+        postcard_grid = self.get_button_by_xpath(self.POSTCARDS_GRID)
+        #   finding first postcard
+        postcard = postcard_grid.find_element_by_class_name(self.POSTCARD_CLASS_NAME)
+        return postcard
 
     def get_secret_button(self):
         return self.get_button_by_xpath(self.SECRET_BUTTON)

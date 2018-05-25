@@ -249,6 +249,20 @@ class GiftPage(BaseElement):
         btn.click()
         return PostCardPage(self.driver)
 
+    def open_postcards_and_send(self):
+        btn = self._gift_element.get_postcard_button()
+        btn.click()
+
+        #   clicking on postcard
+        postcard = self._gift_element.get_postcard()
+        postcard.click()
+
+        #   choose receiver
+        receiver = self._gift_element.get_receiver()
+        receiver.click()
+
+        return PostCardPage(self.driver)
+
     def open_vip_gifts(self):
         btn = self._gift_element.get_vip_gift_button()
         btn.click()
