@@ -29,38 +29,33 @@ class CommentsTest(unittest.TestCase):
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
         self.photo_page = PhotoPage(self.driver)
+        self.photo_page.goto_photo_comment()
 
     def tearDown(self):
         self.driver.quit()
 
-##############################################################################
-
     def test_add_comment_base(self):
         text = 'hello QA'
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
         input_comment.add_comment_text(text)
         comment_text = self.photo_page.comments.get_newest_comment_text()
         self.assertEqual(text, comment_text)
 
-    def test_comment_to_much_not_send(self):
+    def test_comment_too_much_not_send(self):
         text = str_comments.str_after_limit_11
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
-        err = input_comment.add_comment_text(text)
+        err = input_comment.try_add_comment_text(text)
         self.assertFalse(0, err)
 
     def test_add_comment_empty_not_send(self):
         text = ''
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
         input_comment.add_comment_text(text)
         err = input_comment.add_comment_text(text)
         self.assertFalse(0, err)
 
-    def test_comment_to_much_err_msg(self):
+    def test_comment_too_much_err_msg(self):
         text = str_comments.str_after_limit_11
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
         input_comment.try_add_comment_text(text)
         err = input_comment.get_comments_add_err()
@@ -70,44 +65,39 @@ class CommentsTest(unittest.TestCase):
     def test_comment_counter_before_limit(self):
         text = str_comments.str_before_limit_43
         before_limit_counter = '43'
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
-        input_comment.input_text(text)
+        input_comment.insert_text(text)
         counter_symb = input_comment.get_comment_limit_counter()
         self.assertEqual(before_limit_counter, counter_symb)
 
     def test_comment_counter_limit(self):
         text = str_comments.str_limit_4096
         limit_counter = '0'
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
-        input_comment.input_text(text)
+        input_comment.insert_text(text)
         counter_symb = input_comment.get_comment_limit_counter()
         self.assertEqual(limit_counter, counter_symb)
 
     def test_comment_counter_marker_after_limit(self):
         text = str_comments.str_after_limit_11
         after_limit_counter = '-11'
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
-        input_comment.input_text(text)
+        input_comment.insert_text(text)
         counter_symb = input_comment.get_comment_limit_counter()
         self.assertEqual(after_limit_counter, counter_symb)
 
     def test_сomment_changing_counter_after_add_symbol(self):
         text = str_comments.str_after_limit_11
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
-        input_comment.input_text(text)
+        input_comment.insert_text(text)
         current_counter = input_comment.get_comment_limit_counter()
         interaction = input_comment.counter_interact_add(current_counter)
         self.assertTrue(interaction)
 
     def test_сomment_changing_counter_after_del_symbol(self):
         text = str_comments.str_after_limit_11
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
-        input_comment.input_text(text)
+        input_comment.insert_text(text)
         current_counter = input_comment.get_comment_limit_counter()
         interaction = input_comment.counter_interact_del(current_counter)
         self.assertTrue(interaction)
@@ -115,7 +105,6 @@ class CommentsTest(unittest.TestCase):
     def test_add_comment_html_injejction(self):
         text_html = '<i>hello QA</i>'
         text_ans = 'hello QA'
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
         input_comment.add_comment_text(text_html)
         comment_text = self.photo_page.comments.get_newest_comment_text()
@@ -123,19 +112,13 @@ class CommentsTest(unittest.TestCase):
 
     def test_add_comment_empty_html_not_send(self):
         text = '<br><br>'
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
-        input_comment.add_comment_text(text)
         err = input_comment.add_comment_text(text)
         self.assertFalse(0, err)
 
-##############################################################################
-
     def test_answer_comment(self):
         answer_text = 'answer'
-        self.photo_page.goto_photo_comment()
         comments = self.photo_page.comments
-
         comments.click_answer()
 
         input_comment = self.photo_page.input_comment
@@ -145,11 +128,8 @@ class CommentsTest(unittest.TestCase):
         self.assertTrue(ans)
 
     def test_add_video(self):
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
-
         input_comment.add_video()
-
         input_comment.send()
 
         comments = self.photo_page.comments
@@ -157,7 +137,6 @@ class CommentsTest(unittest.TestCase):
         self.assertEqual(1, video_in_attach_number)
 
     def test_add_video_by_url(self):
-        self.photo_page.goto_photo_comment()
         url = 'https://www.youtube.com/watch?v=Ep6SQcMg3Jk&list=PLPOCJi2Sznkr2p-HenHsOQ384fkek4QB5&index=1 '
         input_comment = self.photo_page.input_comment
         input_comment.input_text(url)
@@ -169,7 +148,6 @@ class CommentsTest(unittest.TestCase):
         self.assertEqual(1, video_in_attach_number)
 
     def test_add_video_by_url_link(self):
-        self.photo_page.goto_photo_comment()
         url = 'https://www.youtube.com/watch?v=Ep6SQcMg3Jk&list=PLPOCJi2Sznkr2p-HenHsOQ384fkek4QB5&index=1 '
         input_comment = self.photo_page.input_comment
         input_comment.input_text(url)
@@ -180,10 +158,7 @@ class CommentsTest(unittest.TestCase):
         video_in_attach_link = comments.get_newest_comment_video_attach_url()
         self.assertEqual(url.strip(), video_in_attach_link)
 
-##############################################################################
-
     def test_add_one_photo(self):
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
 
         input_comment.add_one_photo()
@@ -196,7 +171,6 @@ class CommentsTest(unittest.TestCase):
         self.assertEqual(1, photo_in_attach_number)
 
     def test_add_two_photo(self):
-        self.photo_page.goto_photo_comment()
         input_comment = self.photo_page.input_comment
 
         input_comment.add_one_photo()
@@ -213,7 +187,6 @@ class CommentsTest(unittest.TestCase):
         self.assertEqual(2, photo_in_attach_number)
 
     def test_add_photo_by_url(self):
-        self.photo_page.goto_photo_comment()
         url = 'https://img.getbg.net/upload/small/www.GetBg.net_Cartoons_Homer_Simpson_quickly_runs_away_095322_.jpg '
         input_comment = self.photo_page.input_comment
         input_comment.input_text(url)
@@ -225,11 +198,7 @@ class CommentsTest(unittest.TestCase):
 
         self.assertEqual(1, photo_in_attach_number)
 
-##############################################################################
-
     def test_add_comment_sticker(self):
-        self.photo_page.goto_photo_comment()
-
         input_comment = self.photo_page.input_comment
         sticker_data_code = input_comment.add_comment_sticker()
 
@@ -241,8 +210,6 @@ class CommentsTest(unittest.TestCase):
 
     def test_add_comment_smile(self):
         smile_class = "emoji_ok_04"
-        self.photo_page.goto_photo_comment()
-
         input_comment = self.photo_page.input_comment
         input_comment.add_comment_smile(smile_class)
 
@@ -253,7 +220,6 @@ class CommentsTest(unittest.TestCase):
         self.assertIn(smile_class, content)
 
     def test_undelete_comment(self):
-        self.photo_page.goto_photo_comment()
         comments = self.photo_page.comments
 
         count_first = comments.count_comments()
@@ -267,10 +233,7 @@ class CommentsTest(unittest.TestCase):
         self.assertEqual(delta, 0)
 
     def test_delete_comment(self):
-        self.photo_page.goto_photo_comment()
-
         comments = self.photo_page.comments
-
         count_first = comments.count_comments()
 
         comments.delete_comment()
