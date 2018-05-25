@@ -6,6 +6,7 @@ from urllib import parse
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
@@ -160,8 +161,8 @@ class AlbumControlPanel(Component):
         super().__init__(driver)
 
     def delete_album(self) -> None:
-        self.edit_button.click()
-        self.delete_button.click()
+        self.edit_button.send_keys(Keys.ENTER)
+        self.delete_button.send_keys(Keys.ENTER)
         AlbumDeleteConfirmModal(self.driver).confirm()
 
     @property
