@@ -40,11 +40,21 @@ class GiftElement(BaseElement):
 
     ACTUAL_GIFTS_BUTTON = '//i[@class="tico_img ic ic_nav_gifts"]'
 
-    POSTACARDS_BUTTON = '//i[@class="tico_img ic ic_nav_flower"]'
+    POSTCARDS_BUTTON = '//i[@class="tico_img ic ic_nav_flower"]'
 
     VIP_GIFT_BUTTON = '//i[@class="tico_img ic ic_nav_vipsale"]'
 
     CREATE_GIFT_BUTTON = '//a[@hrefattrs="st.cmd=appMain&st.appId=5738496"]'
+
+    XPATH_I_FRAME_CREATE_GIFT = '//iframe[@id="appMain_Div"]'
+    READY_TEMPLATE_BUTTON = '//div[@id="id-start_choose_template_btn"]'
+
+    GIFT_TYPE_BUTTON = '//div[@data-album-id="template_albumall"]'
+
+    CREATE_GIFT_PRESENTS_LIST = '//ul[@id="ph_container"]'
+    CREATE_GIFT_CURRENT_PRESENT_CLASS = 'pm-elem'
+
+    CREATE_GIFT_GIFT_READY_BUTTON = '//div[@class="con-btn_back"]'
 
     NEW_PRESENTS_GRID = '//div[@class="ugrid __xxxl __actualGifts __type_default"]'
     PRESENT_CLASS_NAME = 'gift_a'
@@ -96,13 +106,38 @@ class GiftElement(BaseElement):
         return self.get_button_by_xpath(self.ACTUAL_GIFTS_BUTTON)
 
     def get_postcard_button(self):
-        return self.get_button_by_xpath(self.POSTACARDS_BUTTON)
+        return self.get_button_by_xpath(self.POSTCARDS_BUTTON)
 
     def get_vip_gift_button(self):
         return self.get_button_by_xpath(self.VIP_GIFT_BUTTON)
 
     def get_create_gift_button(self):
         return self.get_button_by_xpath(self.CREATE_GIFT_BUTTON)
+
+    def click_template_button(self):
+        self.driver.switch_to_frame(self.get_field_by_xpath(self.XPATH_I_FRAME_CREATE_GIFT))
+        btn = self.get_button_by_xpath(self.READY_TEMPLATE_BUTTON)
+        btn.click()
+        self.driver.switch_to_default_content()
+
+    def click_gift_type_button(self):
+        self.driver.switch_to_frame(self.get_field_by_xpath(self.XPATH_I_FRAME_CREATE_GIFT))
+        btn = self.get_button_by_xpath(self.GIFT_TYPE_BUTTON)
+        btn.click()
+        self.driver.switch_to_default_content()
+
+    def click_present_button(self):
+        self.driver.switch_to_frame(self.get_field_by_xpath(self.XPATH_I_FRAME_CREATE_GIFT))
+        list_of_gifts = self.get_field_by_xpath(self.CREATE_GIFT_PRESENTS_LIST)
+        present = list_of_gifts.find_element_by_class_name(self.CREATE_GIFT_CURRENT_PRESENT_CLASS)
+        present.click()
+        self.driver.switch_to_default_content()
+
+    def click_gift_ready_button(self):
+        self.driver.switch_to_frame(self.get_field_by_xpath(self.XPATH_I_FRAME_CREATE_GIFT))
+        btn = self.get_button_by_xpath(self.CREATE_GIFT_GIFT_READY_BUTTON)
+        btn.click()
+        self.driver.switch_to_default_content()
 
     def get_present(self):
         #   getting grid with new presents

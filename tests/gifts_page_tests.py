@@ -142,24 +142,31 @@ class GiftsPageTests(unittest.TestCase):
     #     postcards_page = self.gift_page.open_postcards_and_send()
     #     ok = postcards_page.is_gift_sent()
     #     self.assertTrue(ok)
-
-    #   Переход на страницу VIP-подарков
-    def test_open_vip_gifts(self):
-        vip_gift_page = self.gift_page.open_vip_gifts()
-        ok = vip_gift_page.is_loaded()
-        self.assertTrue(ok)
-
-    #   Переход на страницу VIP-подарков и отправка подарка
-    def test_open_vip_gifts_and_send(self):
-        vip_gift_page = self.gift_page.open_vip_gifts()
-        ok = vip_gift_page.is_gift_sent()
-        self.assertTrue(ok)
-
-    # def test_create_gift(self):
+    #
+    # #   Переход на страницу VIP-подарков
+    # def test_open_vip_gifts(self):
+    #     vip_gift_page = self.gift_page.open_vip_gifts()
+    #     ok = vip_gift_page.is_loaded()
+    #     self.assertTrue(ok)
+    #
+    # #   Переход на страницу VIP-подарков и отправка подарка
+    # def test_open_vip_gifts_and_send(self):
+    #     vip_gift_page = self.gift_page.open_vip_gifts()
+    #     ok = vip_gift_page.is_gift_sent()
+    #     self.assertTrue(ok)
+    #
+    # #   Переход на страницу "Создать свой подарок"
+    # def test_oepn_create_gift(self):
     #     create_gift_page = self.gift_page.open_create_gift()
     #     ok = create_gift_page.is_loaded()
     #     self.assertTrue(ok)
-    #
+
+    #   Переход на страницу "Создать свой подарок" и создание подарка
+    def test_create_gift(self):
+        create_gift_page = self.gift_page.create_gift()
+        ok = create_gift_page.is_gift_created()
+        self.assertTrue(ok)
+
     # #grigorevpv
     # def open_self_gifts(self):
     #     self.gift_page.open_self_gifts()

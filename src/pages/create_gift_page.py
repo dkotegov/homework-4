@@ -11,3 +11,6 @@ class CreateGiftPage(BaseElement):
 
     def is_loaded(self):
         return self._element.is_exists_grid()
+
+    def is_gift_created(self):
+        return self._element.if_gift_created()
