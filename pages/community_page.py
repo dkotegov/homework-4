@@ -6,13 +6,10 @@ from components.community_form import CommunityForm
 
 class CommunityPage(Page):
 
-    PAGE = "community"
-
-    def open_page_by_url(self, path):
-        url = urlparse.urljoin(self.BASE_URL, self.PAGE)
-        url = urlparse.urljoin(url, path)
-        self.driver.get(url)
-        self.driver.maximize_window()
+    def __init__(self, driver, url):
+        super(CommunityPage, self).__init__(driver)
+        self.community_form = CommunityForm(self.driver)
+        self.PAGE = "community/" + url
 
     def community_form(self):
         return CommunityForm(self.driver)

@@ -7,13 +7,18 @@ class ArmyForm(BaseComponent):
     CITY = "//input[@name='st.layer.city']"
     UNIT = "//input[@name='st.layer.armyText']"
     UNIT_LIST = "//div[@class='sug_it_txt-div ellip']"
+    CITY_LIST = "//div[@class='sug_it_txt-div ellip']"
     BUTTON_JOIN = "//input[@name='button_join']"
 
     ARMY_ERROR = "//span[@id='st.layer.armyValMess']"
 
     def add_city_unit(self, city, unit):
-        self.put_city(city)
+        self.add_city(city)
         self.add_unit(unit)
+
+    def add_city(self, str):
+        self.put_city(str)
+        self.select_city()
 
     def put_city(self, str):
         city = self.get_clickable_element(self.CITY)
@@ -31,6 +36,9 @@ class ArmyForm(BaseComponent):
 
     def select_unit(self):
         self.get_clickable_element(self.UNIT_LIST).click()
+
+    def select_city(self):
+        self.get_clickable_element(self.CITY_LIST).click()
 
     def button_ok(self):
         self.get_clickable_element(self.BUTTON_JOIN).click()

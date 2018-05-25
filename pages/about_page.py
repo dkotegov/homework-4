@@ -1,16 +1,7 @@
-
-import sys
-import re
-from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
-import constants
-from components.base_component import BaseComponent
-import urlparse
 from components.about_form import AboutForm
-from components.page import Page
-from constants import profiles
-
+from pages.page import Page
 
 
 class AboutPage(Page):

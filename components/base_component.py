@@ -80,6 +80,6 @@ class BaseComponent(object):
             return False
 
     def get_visibility_elements(self, path):
-        return WebDriverWait(self.driver, 30, 0.5).until(
+        return WebDriverWait(self.driver, 30, 0.7).until(
             lambda d: d.find_elements_by_xpath(path)
         )       
