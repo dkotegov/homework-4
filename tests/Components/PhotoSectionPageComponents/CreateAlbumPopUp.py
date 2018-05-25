@@ -24,13 +24,13 @@ class CreateAlbumPopUp(Component):
 
     def submit_album_creation(self):
         self.driver.find_element_by_xpath(self.CREATE_ALBUM_BUTTON).click()
-        WebDriverWait(self.driver, 2, 0.5).until(
+        WebDriverWait(self.driver, 5, 0.2).until(
             lambda d: d.find_element_by_xpath(AlbumActionPanel.CONFIRM_ALBUM_OPENED)
         )
 
     def close_create_album_popup(self):
         self.driver.find_element_by_xpath(self.CLOSE_POPUP_LINK).click()
-        WebDriverWait(self.driver, 2, 0.5).until_not(
+        WebDriverWait(self.driver, 5, 0.2).until_not(
             lambda d: d.find_element_by_xpath(AlbumActionPanel.CONFIRM_ALBUM_OPENED)
         )
 
