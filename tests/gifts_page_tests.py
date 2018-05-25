@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import unittest
 
@@ -35,64 +36,143 @@ class GiftsPageTests(unittest.TestCase):
         self.driver.quit()
 
     #pitikdmitry
-    def test_open_authors_gifts(self):
-        authors_gift_page = self.gift_page.open_authors_gifts()
-        ok = authors_gift_page.is_loaded()
-        self.assertTrue(ok)
-
-    def test_open_actual_gifts(self):
-        # opening actual gifts page
-        # actual_gift_page = self.gift_page.open_actual_gifts()
-        # ok = actual_gift_page.is_loaded()
-
-        # opening authors gifts page
-        # authors_gift_page = self.gift_page.open_authors_gifts()
-
-        #trying to open actual gifts page second time
-        actual_gift_page = self.gift_page.open_actual_gifts()
-        ok = actual_gift_page.is_loaded()
-        self.assertTrue(ok)
-
-    def test_open_postcards(self):
-        postcards_page = self.gift_page.open_postcards()
-        ok = postcards_page.is_loaded()
-        self.assertTrue(ok)
-
-    def test_open_vip_gifts(self):
-        vip_gift_page = self.gift_page.open_vip_gifts()
-        ok = vip_gift_page.is_loaded()
-        self.assertTrue(ok)
-
-    def test_create_gift(self):
-        create_gift_page = self.gift_page.open_create_gift()
-        ok = create_gift_page.is_loaded()
-        self.assertTrue(ok)
-
-    def test_send_gift_secretly(self):
-        gift_page = self.gift_page.send_gift_secretly()
-        ok = gift_page.is_gift_sent()
-        self.assertTrue(ok)
-
-    def test_send_gift_private(self):
-        gift_page = self.gift_page.send_gift_private()
-        ok = gift_page.is_gift_sent()
-        self.assertTrue(ok)
-
+    #   Отправка подарка другу обычно
     def test_send_gift_usual(self):
         gift_page = self.gift_page.send_gift_usual()
         ok = gift_page.is_gift_sent()
         self.assertTrue(ok)
 
-    def test_search_gift(self):
-        search_gift_page = self.gift_page.search_gift()
-        ok = search_gift_page.is_search_done()
-        self.assertTrue(ok)
-
+    #    Отправка подарка по имени друга(такой друг есть)
     def test_send_gift_by_receivers_name(self):
         gift_page = self.gift_page.send_gift_by_receivers_name()
         ok = gift_page.is_gift_sent()
         self.assertTrue(ok)
 
+    #   Отправка подарка по имени друга(такого друга нет)
+    def test_send_gift_by_receivers_name_not_exists(self):
+        gift_page = self.gift_page.send_gift_by_receivers_name_not_exists()
+        ok = gift_page.is_gift_not_sent()
+        self.assertTrue(ok)
+
+    #   Отправка подарка по имени друга(очень большая строка)
+    def test_send_gift_by_receivers_name_big_str(self):
+        gift_page = self.gift_page.send_gift_by_receivers_name_big_str()
+        ok = gift_page.is_gift_not_sent()
+        self.assertTrue(ok)
+
+    #    Отправка подарка другу приватно
+    def test_send_gift_private(self):
+        gift_page = self.gift_page.send_gift_private()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    #    Отправка подарка приватно по имени друга(такой друг есть)
+    def test_send_gift_private_by_receivers_name(self):
+        gift_page = self.gift_page.send_gift_private_by_receivers_name()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    #   Отправка подарка приватно по имени друга(такого друга нет)
+    def test_send_gift_private_by_receivers_name_not_exists(self):
+        gift_page = self.gift_page.send_gift_private_by_receivers_name_not_exists()
+        ok = gift_page.is_gift_not_sent()
+        self.assertTrue(ok)
+
+    #   Отправка подарка приватно по имени друга(очень большая строка)
+    def test_send_gift_private_by_receivers_name_big_str(self):
+        gift_page = self.gift_page.send_gift_private_by_receivers_name_big_str()
+        ok = gift_page.is_gift_not_sent()
+        self.assertTrue(ok)
+
+    #   Отправка подарка другу тайно
+    def test_send_gift_secretly(self):
+        gift_page = self.gift_page.send_gift_secretly()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    #   Поиск подарка по названию(такой подарок есть)
+    def test_search_gift(self):
+        gift_page = self.gift_page.search_gift()
+        ok = gift_page.is_search_done()
+        self.assertTrue(ok)
+
+    #   Поиск подарка по названию(такой такой подарок отстуствует)
+    def test_search_gift_not_exists(self):
+        gift_page = self.gift_page.search_gift_not_exists()
+        ok = gift_page.is_search_not_done()
+        self.assertTrue(ok)
+
+    #   Поиск подарка по названию и отправка
+    def test_search_gift_and_send(self):
+        gift_page = self.gift_page.search_gift_and_send()
+        ok = gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    #    Переход на страницу акуальных подарков
+    def test_open_actual_gifts(self):
+        actual_gift_page = self.gift_page.open_actual_gifts()
+        ok = actual_gift_page.is_loaded()
+        self.assertTrue(ok)
+
+    #    Переход на страницу акуальных подарков и отправка подарка
+    def test_open_actual_gifts_and_send_gift(self):
+        actual_gift_page = self.gift_page.open_actual_gifts_and_send()
+        ok = actual_gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    #    Переход на страницу авторских подарков
+    def test_open_authors_gifts(self):
+        authors_gift_page = self.gift_page.open_authors_gifts()
+        ok = authors_gift_page.is_loaded()
+        self.assertTrue(ok)
+
+    #    Переход на страницу акуальных подарков и отправка подарка
+    def test_open_authors_gifts_and_send_gift(self):
+        authors_gift_page = self.gift_page.open_authors_gifts_and_send()
+        ok = authors_gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    #   Переход на страницу открыток
+    def test_open_postcards(self):
+        postcards_page = self.gift_page.open_postcards()
+        ok = postcards_page.is_loaded()
+        self.assertTrue(ok)
+
+    #   Переход на страницу открыток и отправка открытки
+    def test_open_postcards_and_send(self):
+        postcards_page = self.gift_page.open_postcards_and_send()
+        ok = postcards_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    #   Переход на страницу VIP-подарков
+    def test_open_vip_gifts(self):
+        vip_gift_page = self.gift_page.open_vip_gifts()
+        ok = vip_gift_page.is_loaded()
+        self.assertTrue(ok)
+
+    #   Переход на страницу VIP-подарков и отправка подарка
+    def test_open_vip_gifts_and_send(self):
+        vip_gift_page = self.gift_page.open_vip_gifts()
+        ok = vip_gift_page.is_gift_sent()
+        self.assertTrue(ok)
+
+    #   Переход на страницу "Создать свой подарок"
+    def test_oepn_create_gift(self):
+        create_gift_page = self.gift_page.open_create_gift()
+        ok = create_gift_page.is_loaded()
+        self.assertTrue(ok)
+
+    #   Переход на страницу "Создать свой подарок" и создание подарка
+    def test_create_gift(self):
+        create_gift_page = self.gift_page.create_gift()
+        ok = create_gift_page.is_gift_created()
+        self.assertTrue(ok)
+
+    #   Создание собсвенного подарка и его отправка
+    def test_create_gift_and_send(self):
+        create_gift_page = self.gift_page.create_gift_and_send()
+        ok = create_gift_page.is_gift_sent()
+        self.assertTrue(ok)
 
     #grigorevpv
     def open_self_gifts(self):
