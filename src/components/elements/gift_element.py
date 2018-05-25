@@ -56,6 +56,8 @@ class GiftElement(BaseElement):
 
     CREATE_GIFT_GIFT_READY_BUTTON = '//div[@class="con-btn_back"]'
 
+    SEND_GIFT_BUTTON = '//div[@id="id-send128"]'
+
     NEW_PRESENTS_GRID = '//div[@class="ugrid __xxxl __actualGifts __type_default"]'
     PRESENT_CLASS_NAME = 'gift_a'
 
@@ -67,6 +69,9 @@ class GiftElement(BaseElement):
 
     RECEIVERS_GRID = '//ul[@class="ugrid_cnt"]'
     RECEIVER = 'photo_img'
+
+    RECEIVERS_GRID_AFTER_CREATE_GIFT = '//div[@id="hook_Block_FriendsContentContainerBlock"]'
+    RECEIVER_AFTER_CRATE_GIFT = 'photo_img'
 
     EDIT_TEXT_SEARCH_GIFT = '//input[@class="it search-input_it"][@id="gf-search-input"]'
     SEARCH_BUTTON = '//div[@id="gf-search-lupa"]'
@@ -138,6 +143,17 @@ class GiftElement(BaseElement):
         btn = self.get_button_by_xpath(self.CREATE_GIFT_GIFT_READY_BUTTON)
         btn.click()
         self.driver.switch_to_default_content()
+
+    def click_make_present_button(self):
+        self.driver.switch_to_frame(self.get_field_by_xpath(self.XPATH_I_FRAME_CREATE_GIFT))
+        btn = self.get_button_by_xpath(self.SEND_GIFT_BUTTON)
+        btn.click()
+        self.driver.switch_to_default_content()
+
+    def click_get_receiver_create_gift(self):
+        receivers_grid = self.get_button_by_xpath(self.RECEIVERS_GRID_AFTER_CREATE_GIFT)
+        receiver = receivers_grid.find_element_by_class_name(self.RECEIVER_AFTER_CRATE_GIFT)
+        receiver.click()
 
     def get_present(self):
         #   getting grid with new presents

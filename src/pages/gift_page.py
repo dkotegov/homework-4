@@ -305,6 +305,30 @@ class GiftPage(BaseElement):
 
         return CreateGiftPage(self.driver)
 
+    def create_gift_and_send(self):
+        btn = self._gift_element.get_create_gift_button()
+        btn.click()
+
+        # Выбрать "готовый шаблон"
+        self._gift_element.click_template_button()
+
+        # Выбрать "Все"
+        self._gift_element.click_gift_type_button()
+
+        # Кликнуть на подарок
+        self._gift_element.click_present_button()
+
+        # Кликнуть подарок готов
+        self._gift_element.click_gift_ready_button()
+
+        # Кликнуть подарить
+        self._gift_element.click_make_present_button()
+
+        #   choose receiver
+        self._gift_element.click_get_receiver_create_gift()
+
+        return CreateGiftPage(self.driver)
+
     def open_self_gifts(self):
         self._gift_element.get_self_gifts_button().click()
         return

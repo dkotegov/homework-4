@@ -160,11 +160,17 @@ class GiftsPageTests(unittest.TestCase):
     #     create_gift_page = self.gift_page.open_create_gift()
     #     ok = create_gift_page.is_loaded()
     #     self.assertTrue(ok)
+    #
+    # #   Переход на страницу "Создать свой подарок" и создание подарка
+    # def test_create_gift(self):
+    #     create_gift_page = self.gift_page.create_gift()
+    #     ok = create_gift_page.is_gift_created()
+    #     self.assertTrue(ok)
 
-    #   Переход на страницу "Создать свой подарок" и создание подарка
-    def test_create_gift(self):
-        create_gift_page = self.gift_page.create_gift()
-        ok = create_gift_page.is_gift_created()
+    #   Создание собсвенного подарка и его отправка
+    def test_create_gift_and_send(self):
+        create_gift_page = self.gift_page.create_gift_and_send()
+        ok = create_gift_page.is_gift_sent()
         self.assertTrue(ok)
 
     # #grigorevpv
