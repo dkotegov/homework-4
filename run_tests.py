@@ -3,13 +3,13 @@
 import sys
 import unittest
 
+from tests.add_products_to_catalog_tests import AddProductsToCatalogTests
 from tests.auth_test import AuthTest
 from tests.create_catalog_tests import CreateCatalogTests
 from tests.create_shop_test import CreateShopTest
 from tests.delete_catalog_tests import DeleteCatalogTests
 from tests.edit_catalog_tests import EditCatalogTests
 from tests.post_tests import PostTests
-from tests.product_tests import ProductTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite([
@@ -18,7 +18,7 @@ if __name__ == '__main__':
         unittest.makeSuite(CreateCatalogTests),
         unittest.makeSuite(EditCatalogTests),
         unittest.makeSuite(DeleteCatalogTests),
-        unittest.makeSuite(ProductTests),
+        unittest.makeSuite(AddProductsToCatalogTests),
         unittest.makeSuite(PostTests)
     ])
 

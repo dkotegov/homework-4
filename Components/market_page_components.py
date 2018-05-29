@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import re
+
 from Components.component import Component
 
 
@@ -73,17 +75,17 @@ class ProductPopup(Component):
     def open_popup(self):
         super(ProductPopup, self).click_element(self.CREATE_PRODUCT_BUTTON)
 
+    def waiting_opening(self):
+        super(ProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
+
     def set_product_name(self, name=u'Товар'):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_NAME, name)
-
-    def set_product_price(self, price='100'):
-        super(ProductPopup, self).input_text_to_element(self.PRODUCT_PRICE, price)
 
     def set_product_about(self, about=u'Описание товара'):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_ABOUT, about)
 
-    def waiting_product_catalog(self):
-        super(ProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
+    def set_product_price(self, price='100'):
+        super(ProductPopup, self).input_text_to_element(self.PRODUCT_PRICE, price)
 
     def submit(self):
         super(ProductPopup, self).click_element(self.SUBMIT_BUTTON)
@@ -125,20 +127,58 @@ class CatalogWidget(Component):
         return super(CatalogWidget, self).is_exist_element(self.CATALOG_IMAGE_STUB)
 
 
+class ProductWidget(Component):
+    WIDGET_PANEL = '//div[contains(@class,"market-compact-list")]'
+
+    PRODUCT_NAME = '//div[@class="market-card_n"]/a'
+
+    MARK_PRODUCT_AS_OUT_OF_STOCK = '//a[contains(@hrefattrs,"MARK_AS_OUT_OF_STOCK")]'
+    MARK_PRODUCT_AS_NOT_SOLD = '//a[contains(@hrefattrs,"MARK_AS_NOT_SOLD")]'
+    DELETE_PRODUCT = '//a[contains(@hrefattrs,"DELETE")]'
+    PIN_PRODUCT = '//a[contains(@class,"market-card_pin")]'
+
+    def is_exist_catalog_widget(self):
+        return super(ProductWidget, self).is_exist_element(self.WIDGET_PANEL)
+
+    def is_not_exist_catalog_widget(self):
+        return super(ProductWidget, self).is_not_exist_element(self.WIDGET_PANEL)
+
+    def get_product_name(self):
+        return super(ProductWidget, self).get_element_text(self.PRODUCT_NAME)
+
+    def mark_product_as_out_of_stock(self):
+        super(ProductWidget, self).click_element(self.MARK_PRODUCT_AS_OUT_OF_STOCK)
+
+    def delete_product(self):
+        super(ProductWidget, self).click_element(self.DELETE_PRODUCT)
+
+    def pin_product(self):
+        super(ProductWidget, self).click_element(self.PIN_PRODUCT)
+
+    def unpin_product(self):
+        super(ProductWidget, self).click_element(self.PIN_PRODUCT)
+
+
 class CatalogPanel(Component):
-    CATALOG_NAME = '//div[@class="fs-14"]'
-    NUMBER_OF_PRODUCTS = '//div[@class="mt-x lstp-t"]'
+    CATALOG_PANEL = '//div[contains(@class,"market-panel")]'
+
+    CATALOG_NAME = '//div[@class="caption"]/div[contains(@class,"fs-14")]'
+    NUMBER_OF_PRODUCTS = '//div[@class="caption"]/div[contains(@class,"mt-x")]'
     CATALOG_IMAGE = '//div[contains(@class,"market-panel")]//img[@class="photo_img"]'
     CATALOG_IMAGE_STUB = '//div[@class="photo"]/div[contains(@class,"stub-img")]'
 
     EDIT_BUTTON = '//a[contains(@hrefattrs,"SelectionManage")]'
     REMOVE_BUTTON = '//a[contains(@hrefattrs,"SelectionRemove")]'
 
+    def waiting_opening(self):
+        return super(CatalogPanel, self).is_exist_element(self.CATALOG_PANEL)
+
     def get_catalog_name(self):
         return super(CatalogPanel, self).get_element_text(self.CATALOG_NAME)
 
     def get_number_of_products(self):
-        return super(CatalogPanel, self).get_element_text(self.NUMBER_OF_PRODUCTS)
+        number_of_products_str = super(CatalogPanel, self).get_element_text(self.NUMBER_OF_PRODUCTS)
+        return int(re.search(r'\d+', number_of_products_str).group())
 
     def get_image_src(self):
         return super(CatalogPanel, self).find_element(self.CATALOG_IMAGE).get_attribute("src")
@@ -211,3 +251,13 @@ class CatalogStub(Component):
 
     def create_catalog_later(self):
         return super(CatalogStub, self).click_element(self.CREATE_LATER)
+
+
+class ProductStub(Component):
+    STUB = '//div[@class="stub-empty __adverts "]'
+
+    def is_exist_product_stub(self):
+        return super(ProductStub, self).is_exist_element(self.STUB)
+
+    def is_not_exist_product_stub(self):
+        return super(ProductStub, self).is_not_exist_element(self.STUB)

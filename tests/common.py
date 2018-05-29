@@ -4,7 +4,8 @@ import os
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from Components.component import Component
-from PageObjects.page_objects import AuthPage, MainPage, GroupsPage, ShopFeedPage, ShopForumPage, ShopMarketPage
+from PageObjects.page_objects import AuthPage, MainPage, GroupsPage, ShopFeedPage, ShopForumPage, ShopMarketPage, \
+    CatalogPage
 
 
 def get_driver():
@@ -69,3 +70,39 @@ class Shop(Component):
         shop_market_page = ShopMarketPage(self.driver)
         shop_market_page.top_menu.open_market_page()
         return shop_market_page
+
+
+class Catalog(object):
+    def __init__(self, driver):
+        self.shop_market_page = ShopMarketPage(driver)
+        self.catalog_page = CatalogPage(driver)
+
+    def create(self, name=u'Каталог'):
+        catalog_popup = self.shop_market_page.catalog_popup
+        catalog_popup.open_popup_from_catalog_panel()
+
+        catalog_popup.set_catalog_name(name)
+        catalog_popup.save()
+        catalog_popup.waiting_until_close()
+
+    def open(self):
+        catalog_widget = self.shop_market_page.catalog_widget
+        catalog_widget.open_catalog()
+        self.catalog_page.catalog_panel.waiting_opening()
+
+
+class Product(object):
+    def __init__(self, driver):
+        self.catalog_page = CatalogPage(driver)
+
+    def create(self, name=u'Товар', about=u'Описание товара', price='100'):
+        product_popup = self.catalog_page.product_popup
+        product_popup.open_popup()
+        product_popup.waiting_opening()
+
+        product_popup.set_product_name(name)
+        product_popup.set_product_about(about)
+        product_popup.set_product_price(price)
+
+        product_popup.submit()
+        product_popup.waiting_until_close()
