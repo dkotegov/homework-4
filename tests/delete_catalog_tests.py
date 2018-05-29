@@ -3,12 +3,12 @@ import unittest
 
 from Components.market_page_components import RemoveCatalogPopup
 from PageObjects.page_objects import ShopMarketPage, CatalogPage
-from tests.common import getDriver, Auth, Main, Shop
+from tests.common import get_driver, Auth, Main, Shop
 
 
 class DeleteCatalogTests(unittest.TestCase):
     def setUp(self):
-        self.driver = getDriver()
+        self.driver = get_driver()
         Auth(self.driver).sign_in()
         Main(self.driver).open_groups_page()
         Shop(self.driver).create()

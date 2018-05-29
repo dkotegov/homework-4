@@ -2,7 +2,7 @@
 import unittest
 
 from PageObjects.page_objects import ShopMarketPage
-from tests.common import getDriver, Auth, Main, Shop
+from tests.common import get_driver, Auth, Main, Shop
 
 
 class ProductTests(unittest.TestCase):
@@ -11,7 +11,7 @@ class ProductTests(unittest.TestCase):
     PRODUCT_ABOUT = u'Описание товара'
 
     def setUp(self):
-        self.driver = getDriver()
+        self.driver = get_driver()
 
         Auth(self.driver).sign_in()
         Main(self.driver).open_groups_page()

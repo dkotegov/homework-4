@@ -2,7 +2,7 @@
 import unittest
 
 from PageObjects.page_objects import ShopFeedPage
-from tests.common import getDriver, Auth, Shop, Main
+from tests.common import get_driver, Auth, Shop, Main
 
 
 class CreateShopTest(unittest.TestCase):
@@ -10,7 +10,7 @@ class CreateShopTest(unittest.TestCase):
     SHOP_CATEGORY = u'Страница, Игры'
 
     def setUp(self):
-        self.driver = getDriver()
+        self.driver = get_driver()
 
         Auth(self.driver).sign_in()
         Main(self.driver).open_groups_page()

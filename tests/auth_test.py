@@ -2,7 +2,7 @@
 import unittest
 
 from PageObjects.page_objects import MainPage
-from tests.common import getDriver, Auth
+from tests.common import get_driver, Auth
 
 
 class AuthTest(unittest.TestCase):
@@ -10,7 +10,7 @@ class AuthTest(unittest.TestCase):
     USERNAME = u'Феофан Лампер'
 
     def setUp(self):
-        self.driver = getDriver()
+        self.driver = get_driver()
 
     def tearDown(self):
         self.driver.quit()

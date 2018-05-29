@@ -7,7 +7,7 @@ from Components.component import Component
 from PageObjects.page_objects import AuthPage, MainPage, GroupsPage, ShopFeedPage, ShopForumPage, ShopMarketPage
 
 
-def getDriver():
+def get_driver():
     browser = os.environ.get('BROWSER', 'CHROME')
     return Remote(
         command_executor='http://127.0.0.1:4444/wd/hub',
