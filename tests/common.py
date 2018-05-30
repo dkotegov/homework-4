@@ -40,13 +40,13 @@ class Shop(Component):
     def create(self, shop_name=u'Ларек-Марек'):
         groups_page = GroupsPage(self.driver)
         popup = groups_page.popup
-        popup.open_popup()
+        popup.open()
 
         popup.create_shop()
 
         popup.set_shop_name(shop_name)
         popup.set_subcategory()
-        popup.submit_creation()
+        popup.submit()
 
     def remove(self):
         shop_feed_page = self.open_feed_page()
@@ -54,7 +54,7 @@ class Shop(Component):
         left_menu = shop_feed_page.left_menu
         left_menu.other_actions()
         left_menu.remove_shop()
-        left_menu.submit_remove()
+        left_menu.submit_removing()
 
     def open_feed_page(self):
         shop_feed_page = ShopFeedPage(self.driver)
@@ -79,11 +79,11 @@ class Catalog(object):
 
     def create(self, name=u'Каталог'):
         catalog_popup = self.shop_market_page.catalog_popup
-        catalog_popup.open_popup_from_catalog_panel()
+        catalog_popup.open_from_catalog_panel()
 
-        catalog_popup.set_catalog_name(name)
+        catalog_popup.set_name(name)
         catalog_popup.save()
-        catalog_popup.waiting_until_close()
+        catalog_popup.waiting_closing()
 
     def open(self):
         catalog_widget = self.shop_market_page.catalog_widget
@@ -94,11 +94,11 @@ class Catalog(object):
         self.open()
 
         catalog_panel = self.catalog_page.catalog_panel
-        catalog_panel.remove_catalog()
+        catalog_panel.remove()
 
         remove_catalog_popup = self.catalog_page.remove_popup
-        remove_catalog_popup.submit_remove()
-        remove_catalog_popup.waiting_until_close()
+        remove_catalog_popup.submit_removing()
+        remove_catalog_popup.waiting_closing()
 
 
 class Product(object):
@@ -107,12 +107,12 @@ class Product(object):
 
     def create(self, name=u'Товар', price='100', about=u'Описание'):
         product_popup = self.catalog_page.product_popup
-        product_popup.open_popup()
+        product_popup.open()
         product_popup.waiting_opening()
 
-        product_popup.set_product_name(name)
-        product_popup.set_product_price(price)
-        product_popup.set_product_about(about)
+        product_popup.set_name(name)
+        product_popup.set_price(price)
+        product_popup.set_about(about)
 
         product_popup.submit()
-        product_popup.waiting_until_close()
+        product_popup.waiting_closing()

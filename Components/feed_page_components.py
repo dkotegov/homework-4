@@ -28,7 +28,7 @@ class LeftMenuOnShopFeedPage(Component):
     def remove_shop(self):
         super(LeftMenuOnShopFeedPage, self).click_element(self.REMOVE_SHOP_BUTTON)
 
-    def submit_remove(self):
+    def submit_removing(self):
         super(LeftMenuOnShopFeedPage, self).click_element(self.SUBMIT_REMOVE_BUTTON)
 
 

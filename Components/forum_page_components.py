@@ -7,7 +7,7 @@ class TopicPopup(Component):
     THEME_TEXT = '//div[@data-module="postingForm/mediaText"]'
     SUBMIT = '//div[@data-action="submit"]'
 
-    def open_popup(self):
+    def open(self):
         super(TopicPopup, self).click_element(self.CREATE_THEME)
 
     def set_text(self, text="Default text"):

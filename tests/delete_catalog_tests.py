@@ -21,7 +21,7 @@ class DeleteCatalogTests(unittest.TestCase):
 
         # check stub
         catalog_stub = shop_market_page.catalog_stub
-        is_exist_catalog_stub = catalog_stub.is_exist_catalog_stub()
+        is_exist_catalog_stub = catalog_stub.is_exist()
         self.assertTrue(is_exist_catalog_stub)
 
         catalog = Catalog(self.driver)
@@ -29,7 +29,7 @@ class DeleteCatalogTests(unittest.TestCase):
 
         # check widget
         catalog_widget = shop_market_page.catalog_widget
-        is_exist_catalog_widget = catalog_widget.is_exist_catalog_widget()
+        is_exist_catalog_widget = catalog_widget.is_exist()
         self.assertTrue(is_exist_catalog_widget)
 
         # check counter
@@ -40,9 +40,9 @@ class DeleteCatalogTests(unittest.TestCase):
         catalog.remove()
 
         # check stub
-        is_exist_catalog_stub = catalog_stub.is_exist_catalog_stub()
+        is_exist_catalog_stub = catalog_stub.is_exist()
         self.assertTrue(is_exist_catalog_stub)
 
         # check counter
-        is_not_exist_counter = catalog_counter.is_not_exist_counter()
+        is_not_exist_counter = catalog_counter.is_not_exist()
         self.assertTrue(is_not_exist_counter)

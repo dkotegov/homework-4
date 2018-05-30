@@ -30,10 +30,10 @@ class AddProductsToCatalogTests(unittest.TestCase):
         catalog_page = CatalogPage(self.driver)
         product_widget = catalog_page.product_widget
 
-        product_name = product_widget.get_product_name()
+        product_name = product_widget.get_name()
         self.assertEqual(name, product_name)
 
-        product_price = product_widget.get_product_price()
+        product_price = product_widget.get_price()
         self.assertEqual(price, product_price)
 
         actual_number_of_products = catalog_page.catalog_panel.get_number_of_products()

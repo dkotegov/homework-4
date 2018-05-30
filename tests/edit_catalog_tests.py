@@ -23,10 +23,10 @@ class EditCatalogTests(unittest.TestCase):
         # creating catalog
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup_from_catalog_panel()
-        catalog_popup.set_catalog_name(self.CATALOG_NAME)
+        catalog_popup.open_from_catalog_panel()
+        catalog_popup.set_name(self.CATALOG_NAME)
         catalog_popup.save()
-        catalog_popup.waiting_until_close()
+        catalog_popup.waiting_closing()
 
         # check name before
         catalog_widget = shop_market_page.catalog_widget
@@ -34,29 +34,29 @@ class EditCatalogTests(unittest.TestCase):
         catalog_page = CatalogPage(self.driver)
         catalog_panel = catalog_page.catalog_panel
 
-        catalog_name_before_edit = catalog_panel.get_catalog_name()
+        catalog_name_before_edit = catalog_panel.get_name()
         self.assertEquals(self.CATALOG_NAME, catalog_name_before_edit)
 
         # editing catalog name
         other_catalog_name = u'Другой каталог'
 
-        catalog_panel.edit_catalog()
-        catalog_popup.set_catalog_name(other_catalog_name)
+        catalog_panel.edit()
+        catalog_popup.set_name(other_catalog_name)
         catalog_popup.save()
-        catalog_popup.waiting_until_close()
+        catalog_popup.waiting_closing()
 
         # check name after
-        catalog_name_after_edit = catalog_panel.get_catalog_name()
+        catalog_name_after_edit = catalog_panel.get_name()
         self.assertEquals(other_catalog_name, catalog_name_after_edit)
 
     def test_upload_image_after_creating_catalog(self):
         # creating catalog without image
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup_from_catalog_panel()
-        catalog_popup.set_catalog_name()
+        catalog_popup.open_from_catalog_panel()
+        catalog_popup.set_name()
         catalog_popup.save()
-        catalog_popup.waiting_until_close()
+        catalog_popup.waiting_closing()
 
         # check image stub
         catalog_widget = shop_market_page.catalog_widget
@@ -71,12 +71,12 @@ class EditCatalogTests(unittest.TestCase):
         self.assertTrue(is_exist_image_stub_on_panel)
 
         # editing catalog
-        catalog_panel.edit_catalog()
+        catalog_panel.edit()
         catalog_popup.upload_catalog_image()
-        catalog_popup.waiting_until_image_upload()
+        catalog_popup.waiting_image_upload()
         upload_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
-        catalog_popup.waiting_until_close()
+        catalog_popup.waiting_closing()
 
         # check upload image
         panel_image_src = catalog_panel.get_image_src()
@@ -86,13 +86,13 @@ class EditCatalogTests(unittest.TestCase):
         # creating catalog with image
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_popup_from_catalog_panel()
-        catalog_popup.set_catalog_name()
+        catalog_popup.open_from_catalog_panel()
+        catalog_popup.set_name()
         catalog_popup.upload_catalog_image('image_64x64.jpg')
-        catalog_popup.waiting_until_image_upload()
+        catalog_popup.waiting_image_upload()
         creating_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
-        catalog_popup.waiting_until_close()
+        catalog_popup.waiting_closing()
 
         # check image
         catalog_widget = shop_market_page.catalog_widget
@@ -107,12 +107,12 @@ class EditCatalogTests(unittest.TestCase):
         self.assertEqual(creating_image_src[:self.CHARS_IN_SUBSTRING], panel_creating_image_src[:self.CHARS_IN_SUBSTRING])
 
         # editing catalog
-        catalog_panel.edit_catalog()
+        catalog_panel.edit()
         catalog_popup.upload_catalog_image('image_512x512.jpg')
-        catalog_popup.waiting_until_image_upload()
+        catalog_popup.waiting_image_upload()
         editing_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
-        catalog_popup.waiting_until_close()
+        catalog_popup.waiting_closing()
 
         # check upload image
         panel_editing_image_src = catalog_panel.get_image_src()

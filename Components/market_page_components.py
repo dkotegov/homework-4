@@ -21,25 +21,25 @@ class CatalogPopup(Component):
     CANCEL_BUTTON = '//a[@id="button_cancel"]'
     CLOSE_BUTTON = '//a[@id="nohook_modal_close"]'
 
-    def open_popup_from_catalog_panel(self):
+    def open_from_catalog_panel(self):
         super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_CATALOG_PANEL)
 
     def is_disabled_creation(self):
         return super(CatalogPopup, self).is_exist_element(self.DISABLED_CREATE_BUTTON_ON_CATALOG_PANEL)
 
-    def open_popup_from_catalog_stub(self):
+    def open_from_catalog_stub(self):
         super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_CATALOG_STUB)
 
-    def open_popup_from_product_panel(self):
+    def open_from_product_panel(self):
         super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_PRODUCT_PANEL)
 
-    def set_catalog_name(self, name=u'Каталог'):
+    def set_name(self, name=u'Каталог'):
         super(CatalogPopup, self).input_text_to_element(self.CATALOG_NAME, name)
 
     def upload_catalog_image(self, file_name='image_512x512.jpg'):
         super(CatalogPopup, self).upload_image(self.UPLOAD_IMAGE, file_name)
 
-    def waiting_until_image_upload(self):
+    def waiting_image_upload(self):
         super(CatalogPopup, self).is_exist_element(self.IMAGE)
 
     def get_image_src(self):
@@ -51,13 +51,13 @@ class CatalogPopup(Component):
     def save(self):
         super(CatalogPopup, self).click_element(self.SAVE_BUTTON)
 
-    def waiting_until_close(self):
+    def waiting_closing(self):
         super(CatalogPopup, self).waiting_until_invisible(self.POPUP)
 
     def cancel_saving(self):
         super(CatalogPopup, self).click_element(self.CANCEL_BUTTON)
 
-    def close_popup(self):
+    def close(self):
         super(CatalogPopup, self).click_element(self.CLOSE_BUTTON)
 
 
@@ -72,25 +72,25 @@ class ProductPopup(Component):
     CREATE_PRODUCT_BUTTON = '//a[contains(@href,"post")]'
     SUBMIT_BUTTON = '//input[contains(@id,"submit")]'
 
-    def open_popup(self):
+    def open(self):
         super(ProductPopup, self).click_element(self.CREATE_PRODUCT_BUTTON)
 
     def waiting_opening(self):
         super(ProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
 
-    def set_product_name(self, name):
+    def set_name(self, name):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_NAME, name)
 
-    def set_product_about(self, about):
+    def set_about(self, about):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_ABOUT, about)
 
-    def set_product_price(self, price):
+    def set_price(self, price):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_PRICE, price)
 
     def submit(self):
         super(ProductPopup, self).click_element(self.SUBMIT_BUTTON)
 
-    def waiting_until_close(self):
+    def waiting_closing(self):
         super(ProductPopup, self).waiting_until_invisible(self.POPUP)
 
 
@@ -102,13 +102,13 @@ class CatalogWidget(Component):
     CATALOG_IMAGE = '//img[@class="photo-crop_img"]'
     CATALOG_IMAGE_STUB = '//a[@class="photo-crop_cnt"]/div[contains(@class,"stub-img")]'
 
-    def is_exist_catalog_widget(self):
+    def is_exist(self):
         return super(CatalogWidget, self).is_exist_element(self.WIDGET_PANEL)
 
-    def is_not_exist_catalog_widget(self):
+    def is_not_exist(self):
         return super(CatalogWidget, self).is_not_exist_element(self.WIDGET_PANEL)
 
-    def get_catalog_name(self):
+    def get_name(self):
         return super(CatalogWidget, self).get_element_text(self.CATALOG_NAME)
 
     def get_number_of_products(self):
@@ -138,29 +138,29 @@ class ProductWidget(Component):
     DELETE_PRODUCT = '//a[contains(@hrefattrs,"DELETE")]'
     PIN_PRODUCT = '//a[contains(@class,"market-card_pin")]'
 
-    def is_exist_product_widget(self):
+    def is_exist(self):
         return super(ProductWidget, self).is_exist_element(self.WIDGET_PANEL)
 
-    def is_not_exist_product_widget(self):
+    def is_not_exist(self):
         return super(ProductWidget, self).is_not_exist_element(self.WIDGET_PANEL)
 
-    def get_product_name(self):
+    def get_name(self):
         return super(ProductWidget, self).get_element_text(self.PRODUCT_NAME)
 
-    def get_product_price(self):
+    def get_price(self):
         product_price_str = super(ProductWidget, self).get_element_text(self.PRODUCT_PRICE)
         return int(re.search(r'\d+', product_price_str).group())
 
-    def mark_product_as_out_of_stock(self):
+    def mark_as_out_of_stock(self):
         super(ProductWidget, self).click_element(self.MARK_PRODUCT_AS_OUT_OF_STOCK)
 
-    def delete_product(self):
+    def remove(self):
         super(ProductWidget, self).click_element(self.DELETE_PRODUCT)
 
-    def pin_product(self):
+    def pin(self):
         super(ProductWidget, self).click_element(self.PIN_PRODUCT)
 
-    def unpin_product(self):
+    def unpin(self):
         super(ProductWidget, self).click_element(self.PIN_PRODUCT)
 
 
@@ -178,7 +178,7 @@ class CatalogPanel(Component):
     def waiting_opening(self):
         return super(CatalogPanel, self).is_exist_element(self.CATALOG_PANEL)
 
-    def get_catalog_name(self):
+    def get_name(self):
         return super(CatalogPanel, self).get_element_text(self.CATALOG_NAME)
 
     def get_number_of_products(self):
@@ -188,10 +188,10 @@ class CatalogPanel(Component):
     def get_image_src(self):
         return super(CatalogPanel, self).find_element(self.CATALOG_IMAGE).get_attribute("src")
 
-    def edit_catalog(self):
+    def edit(self):
         super(CatalogPanel, self).click_element(self.EDIT_BUTTON)
 
-    def remove_catalog(self):
+    def remove(self):
         super(CatalogPanel, self).click_element(self.REMOVE_BUTTON)
 
     def is_exist_image(self):
@@ -217,23 +217,23 @@ class RemoveCatalogPopup(Component):
     def remove_products(self):
         super(RemoveCatalogPopup, self).click_element(self.REMOVE_PRODUCTS)
 
-    def submit_remove(self):
+    def submit_removing(self):
         super(RemoveCatalogPopup, self).click_element(self.REMOVE_BUTTON)
 
-    def cancel_saving(self):
+    def cancel_removing(self):
         super(RemoveCatalogPopup, self).click_element(self.CANCEL_BUTTON)
 
-    def close_popup(self):
+    def close(self):
         super(RemoveCatalogPopup, self).click_element(self.CLOSE_BUTTON)
 
-    def waiting_until_close(self):
+    def waiting_closing(self):
         super(RemoveCatalogPopup, self).waiting_until_invisible(self.POPUP)
 
 
 class CatalogCounter(Component):
     CATALOGS_COUNTER = '//span[@class="portlet_h_count"]'
 
-    def is_not_exist_counter(self):
+    def is_not_exist(self):
         return super(CatalogCounter, self).is_not_exist_element(self.CATALOGS_COUNTER)
 
     def get_number_of_catalogs(self):
@@ -252,10 +252,10 @@ class CatalogStub(Component):
     STUB = '//div[@class="stub-empty  __without-icon"]'
     CREATE_LATER = u'//a[text()="Позже"]'
 
-    def is_exist_catalog_stub(self):
+    def is_exist(self):
         return super(CatalogStub, self).is_exist_element(self.STUB)
 
-    def is_not_exist_catalog_stub(self):
+    def is_not_exist(self):
         return super(CatalogStub, self).is_not_exist_element(self.STUB)
 
     def create_catalog_later(self):
@@ -265,8 +265,8 @@ class CatalogStub(Component):
 class ProductStub(Component):
     STUB = '//div[@class="stub-empty __adverts "]'
 
-    def is_exist_product_stub(self):
+    def is_exist(self):
         return super(ProductStub, self).is_exist_element(self.STUB)
 
-    def is_not_exist_product_stub(self):
+    def is_not_exist(self):
         return super(ProductStub, self).is_not_exist_element(self.STUB)

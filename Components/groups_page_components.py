@@ -10,7 +10,7 @@ class CreateGroupsPopup(Component):
     GAMES_SUBCATEGORY = '//select[@id="field_pageMixedCategory"]/option[@value="subcatVal12006"]'
     SUBMIT = '//input[@id="hook_FormButton_button_create"]'
 
-    def open_popup(self):
+    def open(self):
         super(CreateGroupsPopup, self).click_element(self.CREATE_GROUP)
 
     def create_shop(self):
@@ -22,5 +22,5 @@ class CreateGroupsPopup(Component):
     def set_subcategory(self):
         super(CreateGroupsPopup, self).click_element(self.GAMES_SUBCATEGORY)
 
-    def submit_creation(self):
+    def submit(self):
         super(CreateGroupsPopup, self).click_element(self.SUBMIT)

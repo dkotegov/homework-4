@@ -28,6 +28,6 @@ class PostTests(unittest.TestCase):
     def test_create_delete_theme(self):
         shop_forum_page = ShopForumPage(self.driver)
         topic_popup = shop_forum_page.topic_popup
-        topic_popup.open_popup()
+        topic_popup.open()
         topic_popup.set_text()
         topic_popup.submit()
