@@ -95,14 +95,14 @@ class Product(object):
     def __init__(self, driver):
         self.catalog_page = CatalogPage(driver)
 
-    def create(self, name=u'Товар', about=u'Описание товара', price='100'):
+    def create(self, name=u'Товар', price='100', about=u'Описание'):
         product_popup = self.catalog_page.product_popup
         product_popup.open_popup()
         product_popup.waiting_opening()
 
         product_popup.set_product_name(name)
-        product_popup.set_product_about(about)
         product_popup.set_product_price(price)
+        product_popup.set_product_about(about)
 
         product_popup.submit()
         product_popup.waiting_until_close()

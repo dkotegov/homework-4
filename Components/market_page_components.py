@@ -78,13 +78,13 @@ class ProductPopup(Component):
     def waiting_opening(self):
         super(ProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
 
-    def set_product_name(self, name=u'Товар'):
+    def set_product_name(self, name):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_NAME, name)
 
-    def set_product_about(self, about=u'Описание товара'):
+    def set_product_about(self, about):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_ABOUT, about)
 
-    def set_product_price(self, price='100'):
+    def set_product_price(self, price):
         super(ProductPopup, self).input_text_to_element(self.PRODUCT_PRICE, price)
 
     def submit(self):
@@ -131,6 +131,7 @@ class ProductWidget(Component):
     WIDGET_PANEL = '//div[contains(@class,"market-compact-list")]'
 
     PRODUCT_NAME = '//div[@class="market-card_n"]/a'
+    PRODUCT_PRICE = '//div[@class="media-price_cnt"]'
 
     MARK_PRODUCT_AS_OUT_OF_STOCK = '//a[contains(@hrefattrs,"MARK_AS_OUT_OF_STOCK")]'
     MARK_PRODUCT_AS_NOT_SOLD = '//a[contains(@hrefattrs,"MARK_AS_NOT_SOLD")]'
@@ -145,6 +146,10 @@ class ProductWidget(Component):
 
     def get_product_name(self):
         return super(ProductWidget, self).get_element_text(self.PRODUCT_NAME)
+
+    def get_product_price(self):
+        product_price_str = super(ProductWidget, self).get_element_text(self.PRODUCT_PRICE)
+        return int(re.search(r'\d+', product_price_str).group())
 
     def mark_product_as_out_of_stock(self):
         super(ProductWidget, self).click_element(self.MARK_PRODUCT_AS_OUT_OF_STOCK)

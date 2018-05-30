@@ -7,6 +7,7 @@ from tests.common import get_driver, Auth, Main, Shop, Catalog, Product
 
 class AddProductsToCatalogTests(unittest.TestCase):
     PRODUCT_NAME = u'Товар'
+    PRODUCT_PRICE = 100
 
     def setUp(self):
         self.driver = get_driver()
@@ -23,21 +24,26 @@ class AddProductsToCatalogTests(unittest.TestCase):
         Shop(self.driver).remove()
         self.driver.quit()
 
-    def test_add_one_product(self):
-        Product(self.driver).create(self.PRODUCT_NAME)
+    def test_add_product(self, name=PRODUCT_NAME, price=PRODUCT_PRICE, index=0):
+        Product(self.driver).create(name, price)
 
         catalog_page = CatalogPage(self.driver)
         product_widget = catalog_page.product_widget
 
         product_name = product_widget.get_product_name()
-        self.assertEqual(self.PRODUCT_NAME, product_name)
+        self.assertEqual(name, product_name)
 
-        number_of_products = catalog_page.catalog_panel.get_number_of_products()
-        self.assertEqual(1, number_of_products)
+        product_price = product_widget.get_product_price()
+        self.assertEqual(price, product_price)
+
+        actual_number_of_products = catalog_page.catalog_panel.get_number_of_products()
+        expected_number_of_products = index + 1
+        self.assertEqual(expected_number_of_products, actual_number_of_products)
 
     def test_add_several_products(self):
-        number_of_products = 100
+        number_of_products = 25
 
         for i in xrange(number_of_products):
             product_name = str(i)
-            Product(self.driver).create(product_name)
+            product_price = self.PRODUCT_PRICE + i
+            self.test_add_product(product_name, product_price, i)
