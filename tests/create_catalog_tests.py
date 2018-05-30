@@ -205,7 +205,7 @@ class CreateCatalogTests(unittest.TestCase):
 
         catalog_counter = CatalogCounter(self.driver)
         actual_catalog_count = catalog_counter.get_number_of_catalogs()
-        self.assertEquals(number_of_catalogs, int(actual_catalog_count))
+        self.assertEquals(number_of_catalogs, actual_catalog_count)
 
     def test_create_maximum_catalogs(self):
         self.test_create_several_catalogs(100)

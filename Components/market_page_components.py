@@ -138,10 +138,10 @@ class ProductWidget(Component):
     DELETE_PRODUCT = '//a[contains(@hrefattrs,"DELETE")]'
     PIN_PRODUCT = '//a[contains(@class,"market-card_pin")]'
 
-    def is_exist_catalog_widget(self):
+    def is_exist_product_widget(self):
         return super(ProductWidget, self).is_exist_element(self.WIDGET_PANEL)
 
-    def is_not_exist_catalog_widget(self):
+    def is_not_exist_product_widget(self):
         return super(ProductWidget, self).is_not_exist_element(self.WIDGET_PANEL)
 
     def get_product_name(self):
@@ -233,8 +233,12 @@ class RemoveCatalogPopup(Component):
 class CatalogCounter(Component):
     CATALOGS_COUNTER = '//span[@class="portlet_h_count"]'
 
+    def is_not_exist_counter(self):
+        return super(CatalogCounter, self).is_not_exist_element(self.CATALOGS_COUNTER)
+
     def get_number_of_catalogs(self):
-        return super(CatalogCounter, self).get_element_text(self.CATALOGS_COUNTER)
+        number_of_catalogs_str = super(CatalogCounter, self).get_element_text(self.CATALOGS_COUNTER)
+        return int(number_of_catalogs_str)
 
 
 class ProductCounter(Component):

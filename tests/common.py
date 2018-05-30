@@ -90,6 +90,16 @@ class Catalog(object):
         catalog_widget.open_catalog()
         self.catalog_page.catalog_panel.waiting_opening()
 
+    def remove(self):
+        self.open()
+
+        catalog_panel = self.catalog_page.catalog_panel
+        catalog_panel.remove_catalog()
+
+        remove_catalog_popup = self.catalog_page.remove_popup
+        remove_catalog_popup.submit_remove()
+        remove_catalog_popup.waiting_until_close()
+
 
 class Product(object):
     def __init__(self, driver):
