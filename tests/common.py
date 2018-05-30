@@ -90,13 +90,20 @@ class Catalog(object):
         catalog_widget.open_catalog()
         self.catalog_page.catalog_panel.waiting_opening()
 
-    def remove(self):
-        self.open()
-
+    def remove_saving_products(self):
         catalog_panel = self.catalog_page.catalog_panel
         catalog_panel.remove()
 
         remove_catalog_popup = self.catalog_page.remove_popup
+        remove_catalog_popup.submit_removing()
+        remove_catalog_popup.waiting_closing()
+
+    def remove_with_products(self):
+        catalog_panel = self.catalog_page.catalog_panel
+        catalog_panel.remove()
+
+        remove_catalog_popup = self.catalog_page.remove_popup
+        remove_catalog_popup.remove_products()
         remove_catalog_popup.submit_removing()
         remove_catalog_popup.waiting_closing()
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Components.feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
 from Components.market_page_components import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup, \
-    CatalogCounter, ProductCounter, CatalogStub, ProductPopup, ProductWidget
+    CatalogCounter, ProductCounter, CatalogStub, ProductPopup, ProductWidget, ProductStub
 from PageObjects.page import Page
 from Components.auth_form import AuthForm
 from Components.groups_page_components import CreateGroupsPopup
@@ -79,6 +79,14 @@ class ShopMarketPage(Page):
     @property
     def catalog_stub(self):
         return CatalogStub(self.driver)
+
+    @property
+    def product_stub(self):
+        return ProductStub(self.driver)
+
+    @property
+    def product_widget(self):
+        return ProductWidget(self.driver)
 
 
 class CatalogPage(Page):

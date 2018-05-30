@@ -244,8 +244,12 @@ class CatalogCounter(Component):
 class ProductCounter(Component):
     PRODUCTS_COUNTER = '//span[@class="filter_count"]'
 
+    def is_not_exist(self):
+        return super(ProductCounter, self).is_not_exist_element(self.PRODUCTS_COUNTER)
+
     def get_number_of_all_products(self):
-        return super(ProductCounter, self).get_element_text(self.PRODUCTS_COUNTER)
+        number_of_products_str = super(ProductCounter, self).get_element_text(self.PRODUCTS_COUNTER)
+        return int(number_of_products_str)
 
 
 class CatalogStub(Component):
