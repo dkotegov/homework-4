@@ -3,7 +3,7 @@
 import sys
 import unittest
 
-from tests.add_products_to_catalog_tests import AddProductsToCatalogTests
+from tests.products_tests import ProductsTests
 from tests.auth_test import AuthTest
 from tests.create_catalog_tests import CreateCatalogTests
 from tests.create_shop_test import CreateShopTest
@@ -18,7 +18,7 @@ if __name__ == '__main__':
         unittest.makeSuite(CreateCatalogTests),
         unittest.makeSuite(EditCatalogTests),
         unittest.makeSuite(DeleteCatalogTests),
-        unittest.makeSuite(AddProductsToCatalogTests),
+        unittest.makeSuite(ProductsTests),
         unittest.makeSuite(PostTests)
     ])
 

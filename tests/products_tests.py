@@ -5,7 +5,7 @@ from PageObjects.page_objects import CatalogPage
 from tests.common import get_driver, Auth, Main, Shop, Catalog, Product
 
 
-class AddProductsToCatalogTests(unittest.TestCase):
+class ProductsTests(unittest.TestCase):
     PRODUCT_NAME = u'Товар'
     PRODUCT_PRICE = 100
 
@@ -41,7 +41,7 @@ class AddProductsToCatalogTests(unittest.TestCase):
         self.assertEqual(expected_number_of_products, actual_number_of_products)
 
     def test_add_several_products(self):
-        number_of_products = 25
+        number_of_products = 10
 
         for i in xrange(number_of_products):
             product_name = str(i)
@@ -63,3 +63,24 @@ class AddProductsToCatalogTests(unittest.TestCase):
 
         number_of_products = catalog_page.catalog_panel.get_number_of_products()
         self.assertEqual(0, number_of_products)
+
+    def test_mark_product_as_out_of_stock_and_return_on_sale(self):
+        product = Product(self.driver)
+        product.create(self.PRODUCT_NAME, self.PRODUCT_PRICE)
+
+        catalog_page = CatalogPage(self.driver)
+        product_widget = catalog_page.product_widget
+
+        product_price = product_widget.get_price()
+        self.assertEqual(self.PRODUCT_PRICE, product_price)
+
+        product.mark_as_out_of_stock()
+
+        expected_price_text = u'Нет в наличии'
+        product_price_text = product_widget.get_price_text()
+        self.assertEqual(expected_price_text, product_price_text)
+
+        product.return_on_sale()
+
+        product_price = product_widget.get_price()
+        self.assertEqual(self.PRODUCT_PRICE, product_price)

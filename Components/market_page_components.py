@@ -61,7 +61,7 @@ class CatalogPopup(Component):
         super(CatalogPopup, self).click_element(self.CLOSE_BUTTON)
 
 
-class ProductPopup(Component):
+class CreateProductPopup(Component):
     POPUP = '//div[@id="mtLayerMain"]'
 
     PRODUCT_NAME = '//div[@class="posting-form_itx_w"]/input'
@@ -73,25 +73,25 @@ class ProductPopup(Component):
     SUBMIT_BUTTON = '//input[contains(@id,"submit")]'
 
     def open(self):
-        super(ProductPopup, self).click_element(self.CREATE_PRODUCT_BUTTON)
+        super(CreateProductPopup, self).click_element(self.CREATE_PRODUCT_BUTTON)
 
     def waiting_opening(self):
-        super(ProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
+        super(CreateProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
 
     def set_name(self, name):
-        super(ProductPopup, self).input_text_to_element(self.PRODUCT_NAME, name)
+        super(CreateProductPopup, self).input_text_to_element(self.PRODUCT_NAME, name)
 
     def set_about(self, about):
-        super(ProductPopup, self).input_text_to_element(self.PRODUCT_ABOUT, about)
+        super(CreateProductPopup, self).input_text_to_element(self.PRODUCT_ABOUT, about)
 
     def set_price(self, price):
-        super(ProductPopup, self).input_text_to_element(self.PRODUCT_PRICE, price)
+        super(CreateProductPopup, self).input_text_to_element(self.PRODUCT_PRICE, price)
 
     def submit(self):
-        super(ProductPopup, self).click_element(self.SUBMIT_BUTTON)
+        super(CreateProductPopup, self).click_element(self.SUBMIT_BUTTON)
 
     def waiting_closing(self):
-        super(ProductPopup, self).waiting_until_invisible(self.POPUP)
+        super(CreateProductPopup, self).waiting_until_invisible(self.POPUP)
 
 
 class CatalogWidget(Component):
@@ -134,7 +134,7 @@ class ProductWidget(Component):
     PRODUCT_PRICE = '//div[@class="media-price_cnt"]'
 
     MARK_PRODUCT_AS_OUT_OF_STOCK = '//a[contains(@hrefattrs,"MARK_AS_OUT_OF_STOCK")]'
-    MARK_PRODUCT_AS_NOT_SOLD = '//a[contains(@hrefattrs,"MARK_AS_NOT_SOLD")]'
+    RETURN_ON_SALE = '//a[contains(@hrefattrs,"MARK_AS_NOT_SOLD")]'
     DELETE_PRODUCT = '//a[contains(@hrefattrs,"DELETE")]'
     PIN_PRODUCT = '//a[contains(@class,"market-card_pin")]'
 
@@ -151,13 +151,23 @@ class ProductWidget(Component):
         product_price_str = super(ProductWidget, self).get_element_text(self.PRODUCT_PRICE)
         return int(re.search(r'\d+', product_price_str).group())
 
+    def get_price_text(self):
+        return super(ProductWidget, self).get_element_text(self.PRODUCT_PRICE)
+
     def make_actions_visible(self):
         self.driver.execute_script(
             'document.getElementsByClassName("market-card_popup")[0].style = "visibility: visible; opacity: 1;";'
         )
 
     def mark_as_out_of_stock(self):
+        self.make_actions_visible()
+        super(ProductWidget, self).waiting_until_visible(self.MARK_PRODUCT_AS_OUT_OF_STOCK)
         super(ProductWidget, self).click_element(self.MARK_PRODUCT_AS_OUT_OF_STOCK)
+
+    def return_on_sale(self):
+        self.make_actions_visible()
+        super(ProductWidget, self).waiting_until_visible(self.RETURN_ON_SALE)
+        super(ProductWidget, self).click_element(self.RETURN_ON_SALE)
 
     def remove(self):
         self.make_actions_visible()
@@ -237,24 +247,24 @@ class RemoveCatalogPopup(Component):
         super(RemoveCatalogPopup, self).waiting_until_invisible(self.POPUP)
 
 
-class RemoveProductPopup(Component):
+class SubmitProductActionPopup(Component):
     POPUP = '//div[@class="modal-new_center"]'
 
     REMOVE_BUTTON = '//input[@id="hook_FormButton_save"]'
     CANCEL_BUTTON = '//a[@id="cancel"]'
     CLOSE_BUTTON = '//a[@id="nohook_modal_close"]'
 
-    def submit_removing(self):
-        super(RemoveProductPopup, self).click_element(self.REMOVE_BUTTON)
+    def submit(self):
+        super(SubmitProductActionPopup, self).click_element(self.REMOVE_BUTTON)
 
-    def cancel_removing(self):
-        super(RemoveProductPopup, self).click_element(self.CANCEL_BUTTON)
+    def cancel(self):
+        super(SubmitProductActionPopup, self).click_element(self.CANCEL_BUTTON)
 
     def close(self):
-        super(RemoveProductPopup, self).click_element(self.CLOSE_BUTTON)
+        super(SubmitProductActionPopup, self).click_element(self.CLOSE_BUTTON)
 
     def waiting_closing(self):
-        super(RemoveProductPopup, self).waiting_until_invisible(self.POPUP)
+        super(SubmitProductActionPopup, self).waiting_until_invisible(self.POPUP)
 
 
 class CatalogCounter(Component):

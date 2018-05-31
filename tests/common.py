@@ -113,21 +113,37 @@ class Product(object):
         self.catalog_page = CatalogPage(driver)
 
     def create(self, name=u'Товар', price='100', about=u'Описание'):
-        product_popup = self.catalog_page.product_popup
-        product_popup.open()
-        product_popup.waiting_opening()
+        create_product_popup = self.catalog_page.create_product_popup
+        create_product_popup.open()
+        create_product_popup.waiting_opening()
 
-        product_popup.set_name(name)
-        product_popup.set_price(price)
-        product_popup.set_about(about)
+        create_product_popup.set_name(name)
+        create_product_popup.set_price(price)
+        create_product_popup.set_about(about)
 
-        product_popup.submit()
-        product_popup.waiting_closing()
+        create_product_popup.submit()
+        create_product_popup.waiting_closing()
 
     def remove(self):
         product_widget = self.catalog_page.product_widget
         product_widget.remove()
 
-        remove_product_popup = self.catalog_page.remove_product_popup
-        remove_product_popup.submit_removing()
-        remove_product_popup.waiting_closing()
+        submit_product_action_popup = self.catalog_page.submit_product_action_popup
+        submit_product_action_popup.submit()
+        submit_product_action_popup.waiting_closing()
+
+    def mark_as_out_of_stock(self):
+        product_widget = self.catalog_page.product_widget
+        product_widget.mark_as_out_of_stock()
+
+        submit_product_action_popup = self.catalog_page.submit_product_action_popup
+        submit_product_action_popup.submit()
+        submit_product_action_popup.waiting_closing()
+
+    def return_on_sale(self):
+        product_widget = self.catalog_page.product_widget
+        product_widget.return_on_sale()
+
+        submit_product_action_popup = self.catalog_page.submit_product_action_popup
+        submit_product_action_popup.submit()
+        submit_product_action_popup.waiting_closing()
