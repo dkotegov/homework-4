@@ -84,3 +84,34 @@ class ProductsTests(unittest.TestCase):
 
         product_price = product_widget.get_price()
         self.assertEqual(self.PRODUCT_PRICE, product_price)
+
+    def test_pin_unpin_product(self):
+        Product(self.driver).create('0')
+
+        catalog_page = CatalogPage(self.driver)
+        first_product_widget = catalog_page.product_widget
+
+        first_product_name = first_product_widget.get_name()
+        self.assertEqual('0', first_product_name)
+
+        pined_product = Product(self.driver)
+        pined_product.create('1')
+        pined_product.pin()
+
+        first_product_name = first_product_widget.get_name()
+        self.assertEqual('1', first_product_name)
+
+        Product(self.driver).create('2')
+
+        first_product_name = first_product_widget.get_name()
+        self.assertEqual('1', first_product_name)
+
+        pined_product.unpin()
+
+        first_product_name = first_product_widget.get_name()
+        self.assertEqual('1', first_product_name)
+
+        Product(self.driver).create('3')
+
+        first_product_name = first_product_widget.get_name()
+        self.assertEqual('3', first_product_name)

@@ -138,6 +138,10 @@ class ProductWidget(Component):
     DELETE_PRODUCT = '//a[contains(@hrefattrs,"DELETE")]'
     PIN_PRODUCT = '//a[contains(@class,"market-card_pin")]'
 
+    PIN_TIP_BLOCK = '//div[@id="hook_Block_TipBlock"]/div[contains(@class, "__active")]'
+    PIN_TEXT = u'//div[text()="Товар закреплён"]'
+    UNPIN_TEXT = u'//div[text()="Товар откреплён"]'
+
     def is_exist(self):
         return super(ProductWidget, self).is_exist_element(self.WIDGET_PANEL)
 
@@ -174,11 +178,26 @@ class ProductWidget(Component):
         super(ProductWidget, self).waiting_until_visible(self.DELETE_PRODUCT)
         super(ProductWidget, self).click_element(self.DELETE_PRODUCT)
 
+    def make_pin_button_visible(self):
+        self.driver.execute_script(
+            'document.getElementsByClassName("market-card_pin")[0].style = "visibility: visible; opacity: 1;";'
+        )
+
     def pin(self):
+        self.make_pin_button_visible()
+        super(ProductWidget, self).waiting_until_visible(self.PIN_PRODUCT)
         super(ProductWidget, self).click_element(self.PIN_PRODUCT)
 
     def unpin(self):
         super(ProductWidget, self).click_element(self.PIN_PRODUCT)
+
+    def waiting_pin(self):
+        super(ProductWidget, self).is_exist_element(self.PIN_TEXT)
+        super(ProductWidget, self).waiting_until_invisible(self.PIN_TIP_BLOCK)
+
+    def waiting_unpin(self):
+        super(ProductWidget, self).is_exist_element(self.UNPIN_TEXT)
+        super(ProductWidget, self).waiting_until_invisible(self.PIN_TIP_BLOCK)
 
 
 class CatalogPanel(Component):

@@ -147,3 +147,13 @@ class Product(object):
         submit_product_action_popup = self.catalog_page.submit_product_action_popup
         submit_product_action_popup.submit()
         submit_product_action_popup.waiting_closing()
+
+    def pin(self):
+        product_widget = self.catalog_page.product_widget
+        product_widget.pin()
+        product_widget.waiting_pin()
+
+    def unpin(self):
+        product_widget = self.catalog_page.product_widget
+        product_widget.unpin()
+        product_widget.waiting_unpin()
