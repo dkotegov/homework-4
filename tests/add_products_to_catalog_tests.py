@@ -47,3 +47,19 @@ class AddProductsToCatalogTests(unittest.TestCase):
             product_name = str(i)
             product_price = self.PRODUCT_PRICE + i
             self.test_add_product(product_name, product_price, i)
+
+    def test_add_remove_one_product(self):
+        catalog_page = CatalogPage(self.driver)
+        number_of_products = catalog_page.catalog_panel.get_number_of_products()
+        self.assertEqual(0, number_of_products)
+
+        product = Product(self.driver)
+        product.create()
+
+        number_of_products = catalog_page.catalog_panel.get_number_of_products()
+        self.assertEqual(1, number_of_products)
+
+        product.remove()
+
+        number_of_products = catalog_page.catalog_panel.get_number_of_products()
+        self.assertEqual(0, number_of_products)

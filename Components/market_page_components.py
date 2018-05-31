@@ -151,10 +151,17 @@ class ProductWidget(Component):
         product_price_str = super(ProductWidget, self).get_element_text(self.PRODUCT_PRICE)
         return int(re.search(r'\d+', product_price_str).group())
 
+    def make_actions_visible(self):
+        self.driver.execute_script(
+            'document.getElementsByClassName("market-card_popup")[0].style = "visibility: visible; opacity: 1;";'
+        )
+
     def mark_as_out_of_stock(self):
         super(ProductWidget, self).click_element(self.MARK_PRODUCT_AS_OUT_OF_STOCK)
 
     def remove(self):
+        self.make_actions_visible()
+        super(ProductWidget, self).waiting_until_visible(self.DELETE_PRODUCT)
         super(ProductWidget, self).click_element(self.DELETE_PRODUCT)
 
     def pin(self):
@@ -228,6 +235,26 @@ class RemoveCatalogPopup(Component):
 
     def waiting_closing(self):
         super(RemoveCatalogPopup, self).waiting_until_invisible(self.POPUP)
+
+
+class RemoveProductPopup(Component):
+    POPUP = '//div[@class="modal-new_center"]'
+
+    REMOVE_BUTTON = '//input[@id="hook_FormButton_save"]'
+    CANCEL_BUTTON = '//a[@id="cancel"]'
+    CLOSE_BUTTON = '//a[@id="nohook_modal_close"]'
+
+    def submit_removing(self):
+        super(RemoveProductPopup, self).click_element(self.REMOVE_BUTTON)
+
+    def cancel_removing(self):
+        super(RemoveProductPopup, self).click_element(self.CANCEL_BUTTON)
+
+    def close(self):
+        super(RemoveProductPopup, self).click_element(self.CLOSE_BUTTON)
+
+    def waiting_closing(self):
+        super(RemoveProductPopup, self).waiting_until_invisible(self.POPUP)
 
 
 class CatalogCounter(Component):

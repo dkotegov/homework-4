@@ -49,3 +49,7 @@ class Component(object):
     def waiting_until_invisible(self, element):
         wait = WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY)
         wait.until(ec.invisibility_of_element_located((By.XPATH, element)))
+
+    def waiting_until_visible(self, element):
+        wait = WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY)
+        wait.until(ec.visibility_of_element_located((By.XPATH, element)))

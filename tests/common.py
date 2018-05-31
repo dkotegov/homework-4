@@ -94,7 +94,7 @@ class Catalog(object):
         catalog_panel = self.catalog_page.catalog_panel
         catalog_panel.remove()
 
-        remove_catalog_popup = self.catalog_page.remove_popup
+        remove_catalog_popup = self.catalog_page.remove_catalog_popup
         remove_catalog_popup.submit_removing()
         remove_catalog_popup.waiting_closing()
 
@@ -102,7 +102,7 @@ class Catalog(object):
         catalog_panel = self.catalog_page.catalog_panel
         catalog_panel.remove()
 
-        remove_catalog_popup = self.catalog_page.remove_popup
+        remove_catalog_popup = self.catalog_page.remove_catalog_popup
         remove_catalog_popup.remove_products()
         remove_catalog_popup.submit_removing()
         remove_catalog_popup.waiting_closing()
@@ -123,3 +123,11 @@ class Product(object):
 
         product_popup.submit()
         product_popup.waiting_closing()
+
+    def remove(self):
+        product_widget = self.catalog_page.product_widget
+        product_widget.remove()
+
+        remove_product_popup = self.catalog_page.remove_product_popup
+        remove_product_popup.submit_removing()
+        remove_product_popup.waiting_closing()
