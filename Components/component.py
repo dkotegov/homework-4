@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -40,7 +42,8 @@ class Component(object):
         input_element.send_keys(text)
 
     def upload_image(self, xpath, file_name):
-        image_path = '../images/' + file_name
+        image_folder = os.environ.get('IMAGES', 'images/')
+        image_path = image_folder + file_name
         self.find_element(xpath).send_keys(image_path)
 
     def get_element_text(self, xpath):
