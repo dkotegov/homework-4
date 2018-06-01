@@ -3,6 +3,8 @@ from Components.component import Component
 
 
 class CreateGroupsPopup(Component):
+    POPUP = '//div[@class="modal-new_center"]'
+
     CREATE_GROUP = '//div[@class="create-group"]//a'
     CREATE_SHOP = '//a[contains(@href,"SHOP")]'
 
@@ -24,3 +26,7 @@ class CreateGroupsPopup(Component):
 
     def submit(self):
         super(CreateGroupsPopup, self).click_element(self.SUBMIT)
+        self.waiting_closing()
+
+    def waiting_closing(self):
+        super(CreateGroupsPopup, self).waiting_until_invisible(self.POPUP)

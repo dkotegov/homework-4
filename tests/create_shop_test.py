@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from PageObjects.page_objects import ShopFeedPage
 from tests.common import get_driver, Auth, Shop, Main
 
 
@@ -16,19 +15,17 @@ class CreateShopTest(unittest.TestCase):
         Main(self.driver).open_groups_page()
 
     def tearDown(self):
-        Shop(self.driver).remove()
         self.driver.quit()
 
-    def test(self):
+    def test_create_remove_shop(self):
         shop = Shop(self.driver)
         shop.create(self.SHOP_NAME)
 
         shop.open_feed_page()
-
-        header = ShopFeedPage(self.driver).header
-
-        shop_name = header.get_shop_name()
-        shop_category = header.get_shop_category()
+        shop_name = shop.get_name()
+        shop_category = shop.get_category()
 
         self.assertEqual(self.SHOP_NAME, shop_name)
         self.assertEqual(self.SHOP_CATEGORY, shop_category)
+
+        shop.remove()

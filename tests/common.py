@@ -30,16 +30,41 @@ class Auth(Component):
         auth_form.submit()
 
 
-class Main(Component):
+class Main(object):
+    def __init__(self, driver):
+        self.main_page = MainPage(driver)
+
+    def get_username(self):
+        return self.main_page.left_menu.get_username()
+
     def open_groups_page(self):
-        main_page = MainPage(self.driver)
-        main_page.left_menu.open_groups_page()
+        self.main_page.left_menu.open_groups_page()
 
 
-class Shop(Component):
+class Shop(object):
+    def __init__(self, driver):
+        self.shop_feed_page = ShopFeedPage(driver)
+        self.shop_forum_page = ShopForumPage(driver)
+        self.shop_market_page = ShopMarketPage(driver)
+        self.groups_page = GroupsPage(driver)
+
+    def open_feed_page(self):
+        self.shop_feed_page.top_menu.open_feed_page()
+
+    def open_forum_page(self):
+        self.shop_forum_page.top_menu.open_forum_page()
+
+    def open_market_page(self):
+        self.shop_market_page.top_menu.open_market_page()
+
+    def get_name(self):
+        return self.shop_feed_page.header.get_shop_name()
+
+    def get_category(self):
+        return self.shop_feed_page.header.get_shop_category()
+
     def create(self, shop_name=u'Ларек-Марек'):
-        groups_page = GroupsPage(self.driver)
-        popup = groups_page.popup
+        popup = self.groups_page.popup
         popup.open()
 
         popup.create_shop()
@@ -49,27 +74,11 @@ class Shop(Component):
         popup.submit()
 
     def remove(self):
-        shop_feed_page = self.open_feed_page()
+        self.open_feed_page()
+        left_menu = self.shop_feed_page.left_menu
 
-        left_menu = shop_feed_page.left_menu
-        left_menu.other_actions()
         left_menu.remove_shop()
         left_menu.submit_removing()
-
-    def open_feed_page(self):
-        shop_feed_page = ShopFeedPage(self.driver)
-        shop_feed_page.top_menu.open_feed_page()
-        return shop_feed_page
-
-    def open_forum_page(self):
-        shop_forum_page = ShopForumPage(self.driver)
-        shop_forum_page.top_menu.open_forum_page()
-        return shop_forum_page
-
-    def open_market_page(self):
-        shop_market_page = ShopMarketPage(self.driver)
-        shop_market_page.top_menu.open_market_page()
-        return shop_market_page
 
 
 class Catalog(object):

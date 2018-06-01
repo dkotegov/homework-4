@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from PageObjects.page_objects import MainPage
-from tests.common import get_driver, Auth
+from tests.common import get_driver, Auth, Main
 
 
 class AuthTest(unittest.TestCase):
-    # TODO проставить нужные credentials
     USERNAME = u'Феофан Лампер'
 
     def setUp(self):
@@ -15,10 +13,8 @@ class AuthTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test(self):
+    def test_auth(self):
         Auth(self.driver).sign_in()
 
-        main_page = MainPage(self.driver)
-        username = main_page.left_menu.get_username()
-
+        username = Main(self.driver).get_username()
         self.assertEqual(self.USERNAME, username)
