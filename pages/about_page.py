@@ -28,3 +28,43 @@ class AboutPage(Page):
                 self.about_form.reletionship_cansel_request().click()
             except TimeoutException:
                 self.break_reletionship()
+
+    def add_army_correct(self, city, unit):
+        army_form = self.about_form.army_form()
+        army_form.add_city_unit(city, unit)
+        army_form.button_ok()
+        self.about_form.close_popup()
+
+    def add_army_no_city_correct_unit(self, unit):
+        army_form = self.about_form.army_form()
+        army_form.put_city('')
+        army_form.add_unit(unit)
+        army_form.button_ok()
+        self.about_form.close_popup()
+
+    def add_army_correct_city_incorrect_unit(self, city, unit):
+        army_form = self.about_form.army_form()
+        army_form.add_city(city)
+        army_form.put_unit(unit)
+
+        error = army_form.army_error()
+        army_form.button_close()
+
+        return error
+
+    def add_army_duplicate(self, city, unit):
+
+        self.add_army_correct(city, unit)
+
+        army_form = self.about_form.army_form()
+        army_form.add_city_unit(city, unit)
+        error = army_form.army_error()
+
+        return error
+
+    def check_army_presence(self):
+        try:
+            self.about_form.get_top_unit()
+            return True
+        except TimeoutException:
+            return False

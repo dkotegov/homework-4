@@ -13,3 +13,6 @@ class CommunityPage(Page):
 
     def community_form(self):
         return CommunityForm(self.driver)
+
+    def leave_community(self):
+        self.community_form.leave()

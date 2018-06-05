@@ -9,6 +9,7 @@ class ArmyForm(BaseComponent):
     UNIT_LIST = "//div[@class='sug_it_txt-div ellip']"
     CITY_LIST = "//div[@class='sug_it_txt-div ellip']"
     BUTTON_JOIN = "//input[@name='button_join']"
+    BUTTON_CLOSE = "//div[@class='layerPanelClose ic ic_close']"
 
     ARMY_ERROR = "//span[@id='st.layer.armyValMess']"
 
@@ -45,3 +46,6 @@ class ArmyForm(BaseComponent):
 
     def army_error(self):
         return self.get_visibility_element(self.ARMY_ERROR).text
+
+    def button_close(self):
+        self.get_clickable_element(self.BUTTON_CLOSE).click()
