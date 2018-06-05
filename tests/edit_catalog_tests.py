@@ -7,7 +7,6 @@ from tests.common import get_driver, Auth, Main, Shop
 
 class EditCatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
-    CHARS_IN_SUBSTRING = 83
 
     def setUp(self):
         self.driver = get_driver()
@@ -80,7 +79,7 @@ class EditCatalogTests(unittest.TestCase):
 
         # check upload image
         panel_image_src = catalog_panel.get_image_src()
-        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], panel_image_src[:self.CHARS_IN_SUBSTRING])
+        self.assertEqual(upload_image_src, panel_image_src)
 
     def test_edit_catalog_image(self):
         # creating catalog with image
@@ -97,14 +96,14 @@ class EditCatalogTests(unittest.TestCase):
         # check image
         catalog_widget = shop_market_page.catalog_widget
         widget_creating_image_src = catalog_widget.get_image_src()
-        self.assertEqual(creating_image_src[:self.CHARS_IN_SUBSTRING], widget_creating_image_src[:self.CHARS_IN_SUBSTRING])
+        self.assertEqual(creating_image_src, widget_creating_image_src)
 
         catalog_widget.open_catalog()
         catalog_page = CatalogPage(self.driver)
         catalog_panel = catalog_page.catalog_panel
 
         panel_creating_image_src = catalog_panel.get_image_src()
-        self.assertEqual(creating_image_src[:self.CHARS_IN_SUBSTRING], panel_creating_image_src[:self.CHARS_IN_SUBSTRING])
+        self.assertEqual(creating_image_src, panel_creating_image_src)
 
         # editing catalog
         catalog_panel.edit()
@@ -116,4 +115,4 @@ class EditCatalogTests(unittest.TestCase):
 
         # check upload image
         panel_editing_image_src = catalog_panel.get_image_src()
-        self.assertEqual(editing_image_src[:self.CHARS_IN_SUBSTRING], panel_editing_image_src[:self.CHARS_IN_SUBSTRING])
+        self.assertEqual(editing_image_src, panel_editing_image_src)

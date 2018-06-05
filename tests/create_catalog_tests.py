@@ -8,7 +8,6 @@ from tests.common import get_driver, Auth, Main, Shop
 
 class CreateCatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
-    CHARS_IN_SUBSTRING = 83
 
     def setUp(self):
         self.driver = get_driver()
@@ -232,7 +231,7 @@ class CreateCatalogTests(unittest.TestCase):
         # check
         catalog_widget = shop_market_page.catalog_widget
         widget_image_src = catalog_widget.get_image_src()
-        self.assertEqual(upload_image_src[:self.CHARS_IN_SUBSTRING], widget_image_src[:self.CHARS_IN_SUBSTRING])
+        self.assertEqual(upload_image_src, widget_image_src)
 
     def test_create_catalog_with_small_jpg_image(self):
         self.create_and_check_catalog_with_image('image_64x64.jpg')

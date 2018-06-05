@@ -12,9 +12,15 @@ class Component(object):
     TIMEOUT = 30
     FREQUENCY = 0.1
 
+    NUMBER_OF_FIRST_CHARS = 83
+
     @staticmethod
     def get_number_from_string(string):
         return int(re.search(r'\d+', string).group())
+
+    @staticmethod
+    def get_first_part_of_image_src(src):
+        return src[:Component.NUMBER_OF_FIRST_CHARS]
 
     def __init__(self, driver):
         self.driver = driver
