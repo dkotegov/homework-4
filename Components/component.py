@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -10,6 +11,10 @@ from selenium.webdriver.support import expected_conditions as ec
 class Component(object):
     TIMEOUT = 30
     FREQUENCY = 0.1
+
+    @staticmethod
+    def get_number_from_string(string):
+        return int(re.search(r'\d+', string).group())
 
     def __init__(self, driver):
         self.driver = driver

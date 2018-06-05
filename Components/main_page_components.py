@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
-
 from Components.component import Component
 
 
@@ -21,4 +19,4 @@ class LeftMenuOnMainPage(Component):
 
     def get_number_of_groups(self):
         number_of_groups_str = super(LeftMenuOnMainPage, self).get_element_text(self.NUMBER_OF_GROUPS)
-        return int(re.search(r'\d+', number_of_groups_str).group())
+        return Component.get_number_from_string(number_of_groups_str)

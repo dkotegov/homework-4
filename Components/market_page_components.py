@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
-
 from Components.component import Component
 
 
@@ -153,7 +151,7 @@ class ProductWidget(Component):
 
     def get_price(self):
         product_price_str = super(ProductWidget, self).get_element_text(self.PRODUCT_PRICE)
-        return int(re.search(r'\d+', product_price_str).group())
+        return Component.get_number_from_string(product_price_str)
 
     def get_price_text(self):
         return super(ProductWidget, self).get_element_text(self.PRODUCT_PRICE)
@@ -219,7 +217,7 @@ class CatalogPanel(Component):
 
     def get_number_of_products(self):
         number_of_products_str = super(CatalogPanel, self).get_element_text(self.NUMBER_OF_PRODUCTS)
-        return int(re.search(r'\d+', number_of_products_str).group())
+        return Component.get_number_from_string(number_of_products_str)
 
     def get_image_src(self):
         return super(CatalogPanel, self).find_element(self.CATALOG_IMAGE).get_attribute("src")
