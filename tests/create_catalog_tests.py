@@ -63,8 +63,8 @@ class CreateCatalogTests(unittest.TestCase):
 
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.set_name(spaces_name)
         catalog_popup.open_from_catalog_panel()
+        catalog_popup.set_name(spaces_name)
         catalog_popup.save()
 
         error_message = catalog_popup.get_error_message()
