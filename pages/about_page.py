@@ -103,3 +103,40 @@ class AboutPage(Page):
             return True
         except TimeoutException:
             return False
+
+    def add_school_correct(self, city, school):
+        study_form = self.about_form.study_form()
+        study_form.add_city_school(city, school)
+        study_form.button_ok()
+        self.about_form.close_popup()
+
+    def add_school_no_city_correct_school(self, school):
+        study_form = self.about_form.study_form()
+        study_form.put_city('')
+        study_form.add_school(school)
+        study_form.button_ok()
+        self.about_form.close_popup()
+
+    def add_school_incorrect_city_correct_school(self, city):
+        study_form = self.about_form.study_form()
+        study_form.put_city(city)
+        return study_form.city_error()
+
+    def add_school_correct_city_incorrect_school(self, city, school):
+        study_form = self.about_form.study_form()
+        study_form.add_city(city)
+        study_form.put_school(school)
+        return study_form.school_error()
+
+    def add_school_duplicate(self, city, school):
+        self.add_school_correct(city, school)
+        study_form = self.about_form.study_form()
+        study_form.add_city_school(city, school)
+        return study_form.school_error()
+
+    def check_school_presence(self):
+        try:
+            self.about_form.get_top_school()
+            return True
+        except TimeoutException:
+            return False

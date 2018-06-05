@@ -33,4 +33,22 @@ class BaseSettingsPage(Page):
         baseSettingsForm = BaseSettingsForm(self.driver)
         baseSettingsForm.profile_click()
 
+    def make_female(self):
+        personal_data = self.personal_data()
+        personal_data.check_female()
+        personal_data.save()
+        personal_data.close_save()
 
+    def make_male(self):
+        personal_data = self.personal_data()
+        personal_data.check_male()
+        personal_data.save()
+        personal_data.close_save()
+
+    def male_on_form(self):
+        personal_data = self.personal_data()
+        return personal_data.is_male()
+
+    def female_on_form(self):
+        personal_data = self.personal_data()
+        return personal_data.is_female()
