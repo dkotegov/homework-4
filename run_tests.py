@@ -10,9 +10,9 @@ from test_johnkeats97 import TestsBaseSettings
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(TestsMikeGus),
-        unittest.makeSuite(Tests),
-        unittest.makeSuite(TestsPrivacy),
+        # unittest.makeSuite(TestsMikeGus),
+        # unittest.makeSuite(Tests),
+        # unittest.makeSuite(TestsPrivacy),
         unittest.makeSuite(TestsBaseSettings),
     ))
     result = unittest.TextTestRunner().run(suite)
