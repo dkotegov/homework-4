@@ -9,7 +9,6 @@ from tests.create_catalog_tests import CreateCatalogTests
 from tests.create_remove_shop_test import CreateRemoveShopTest
 from tests.delete_catalog_tests import DeleteCatalogTests
 from tests.edit_catalog_tests import EditCatalogTests
-from tests.post_tests import PostTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite([
@@ -18,8 +17,7 @@ if __name__ == '__main__':
         unittest.makeSuite(CreateCatalogTests),
         unittest.makeSuite(EditCatalogTests),
         unittest.makeSuite(DeleteCatalogTests),
-        unittest.makeSuite(ProductsTests),
-        unittest.makeSuite(PostTests)
+        unittest.makeSuite(ProductsTests)
     ])
 
     result = unittest.TextTestRunner().run(suite)
