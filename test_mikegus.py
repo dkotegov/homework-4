@@ -101,153 +101,120 @@ class TestsMikeGus(unittest.TestCase):
     #     community_page = CommunityPage(self.driver, army.CORRECT_ARMY_REFERENCE)
     #     community_page.open()
     #     community_page.leave_community()
+    #
+    # def test_army_incorrect_city_unit(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+    #
+    #     about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+    #     about_page.open()
+    #
+    #     error = about_page.add_army_correct_city_incorrect_unit(army.CORRECT_CITY,
+    #                                                             army.INCORRECT_UNIT)
+    #     self.assertEqual(error, army.ERROR_INVALID_UNIT)
+    #
+    # def test_army_incorrect_city_unit_presence(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+    #
+    #     about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+    #     about_page.open()
+    #
+    #     about_page.add_army_correct_city_incorrect_unit(army.CORRECT_CITY,
+    #                                                             army.INCORRECT_UNIT)
+    #
+    #     self.assertEqual(about_page.check_army_presence(), False)
+    #
+    # def test_army_duplicate(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #
+    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+    #
+    #     about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+    #     about_page.open()
+    #
+    #     error = about_page.add_army_duplicate(army.CORRECT_CITY, army.CORRECT_UNIT)
+    #
+    #     self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
+    #
+    #     community_page = CommunityPage(self.driver, army.CORRECT_ARMY_REFERENCE)
+    #     community_page.open()
+    #     community_page.leave_community()
 
-    def test_army_incorrect_city_unit(self):
+    def test_career_correct_city_job(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
-
         auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
 
         about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
         about_page.open()
 
-        error = about_page.add_army_correct_city_incorrect_unit(army.CORRECT_CITY,
-                                                                army.INCORRECT_UNIT)
-        self.assertEqual(error, army.ERROR_INVALID_UNIT)
+        about_page.add_career_correct(career.CORRECT_CITY_COUNTRY, career.CORRECT_JOB)
+        self.assertEqual(about_page.check_job_presence(), True)
 
-    def test_army_incorrect_city_unit_presence(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-
-        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-
-        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
-        about_page.open()
-
-        about_page.add_army_correct_city_incorrect_unit(army.CORRECT_CITY,
-                                                                army.INCORRECT_UNIT)
-
-        self.assertEqual(about_page.check_army_presence(), False)
-
-    def test_army_duplicate(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-
-        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-
-        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
-        about_page.open()
-
-        error = about_page.add_army_duplicate(army.CORRECT_CITY, army.CORRECT_UNIT)
-
-        self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
-
-        community_page = CommunityPage(self.driver, army.CORRECT_ARMY_REFERENCE)
+        community_page = CommunityPage(self.driver, career.CORRECT_CAREER_REFERENCE)
         community_page.open()
         community_page.leave_community()
 
-    # def test_career_correct_city_job(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
-    #     about_page.open()
-    #
-    #     about_form = about_page.about_form
-    #     career_form = about_form.career_form()
-    #     career_form.add_city_job(career.CORRECT_CITY_COUNTRY, career.CORRECT_JOB)
-    #     career_form.button_ok()
-    #     about_form.close_popup()
-    #
-    #     try:
-    #         about_form.get_top_job()
-    #     except NoSuchElementException:
-    #         self.fail('место работы не добавлено')
-    #
-    #     community_page = CommunityPage(self.driver, career.CORRECT_CAREER_REFERENCE)
-    #     community_page.open()
-    #     community_page.community_form.leave()
-    #
-    # def test_career_no_city_correct_job(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
-    #     about_page.open()
-    #
-    #     about_form = about_page.about_form
-    #     career_form = about_form.career_form()
-    #     career_form.put_city('')
-    #     career_form.add_job(career.CORRECT_JOB)
-    #     career_form.button_ok()
-    #     about_form.close_popup()
-    #
-    #     try:
-    #         about_form.get_top_job()
-    #     except NoSuchElementException:
-    #         self.fail('место работы не добавлено')
-    #
-    #     community_page = CommunityPage(self.driver, career.CORRECT_CAREER_REFERENCE)
-    #     community_page.open()
-    #     community_page.community_form.leave()
-    #
-    # def test_career_incorrect_city_job(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
-    #     about_page.open()
-    #
-    #     about_form = about_page.about_form
-    #     career_form = about_form.career_form()
-    #     career_form.put_city(career.INCORRECT_CITY_COUNTRY)
-    #     error = career_form.city_error()
-    #     self.assertEqual(error, career.ERROR_INVALID_CITY)
-    #
-    #     about_page.open()
-    #     about_form = about_page.about_form
-    #     career_form = about_form.career_form()
-    #
-    #     career_form.add_city(career.CORRECT_CITY_COUNTRY)
-    #     career_form.put_job(career.INCORRECT_JOB)
-    #     error = career_form.job_error()
-    #     self.assertEqual(error, career.ERROR_INVALID_JOB)
-    #
-    #     career_form.put_job('')
-    #     career_form.put_city(career.INCORRECT_CITY_COUNTRY)
-    #     error = career_form.city_error()
-    #     self.assertEqual(error, career.ERROR_INVALID_CITY)
-    #
-    # def test_career_duplicate(self):
-    #     auth_page = AuthPage(self.driver)
-    #     auth_page.open()
-    #
-    #     auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
-    #
-    #     about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
-    #     about_page.open()
-    #
-    #     about_form = about_page.about_form
-    #     career_form = about_form.career_form()
-    #     career_form.add_city_job(career.CORRECT_CITY_COUNTRY, career.CORRECT_JOB)
-    #     career_form.button_ok()
-    #     about_form.close_popup()
-    #
-    #     career_form = about_form.career_form()
-    #     career_form.add_city_job(career.CORRECT_CITY_COUNTRY, career.CORRECT_JOB)
-    #     error = career_form.job_error()
-    #     self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
-    #
-    #     community_page = CommunityPage(self.driver, career.CORRECT_CAREER_REFERENCE)
-    #     community_page.open()
-    #     community_page.community_form.leave()
-    #
+    def test_career_no_city_correct_job(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
+
+        about_page.add_career_no_city_correct_job(career.CORRECT_JOB)
+        self.assertEqual(about_page.check_job_presence(), True)
+
+        community_page = CommunityPage(self.driver, career.CORRECT_CAREER_REFERENCE)
+        community_page.open()
+        community_page.leave_community()
+
+    def test_career_incorrect_city_correct_job(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
+
+        error = about_page.add_career_incorrect_city_correct_job(career.INCORRECT_CITY_COUNTRY)
+        self.assertEqual(error, career.ERROR_INVALID_CITY)
+
+    def test_career_correct_city_incorrect_job(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
+
+        error = about_page.add_career_correct_city_incorrect_job(career.CORRECT_CITY_COUNTRY,
+                                                                 career.INCORRECT_JOB)
+        self.assertEqual(error, career.ERROR_INVALID_JOB)
+
+    def test_career_duplicate(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+        auth_page.login(profiles.PROFILE_TECHNOPARK11, profiles.PROFILE_PASSWORD)
+
+        about_page = AboutPage(self.driver, profiles.PROFILE_TECHNOPARK11_SLUG)
+        about_page.open()
+
+        error = about_page.add_career_duplicate(career.CORRECT_CITY_COUNTRY,
+                                                career.CORRECT_JOB)
+        self.assertEqual(error, comminity.ERROR_DUPLICATE_COMMUNITY)
+
+        community_page = CommunityPage(self.driver, career.CORRECT_CAREER_REFERENCE)
+        community_page.open()
+        community_page.leave_community()
+
     # def test_study_correct_city_school(self):
     #     auth_page = AuthPage(self.driver)
     #     auth_page.open()
