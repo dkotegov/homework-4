@@ -86,32 +86,37 @@ class ProductsTests(unittest.TestCase):
         self.assertEqual(self.PRODUCT_PRICE, product_price)
 
     def test_pin_unpin_product(self):
-        Product(self.driver).create('0')
+        name_of_zero_product = '0'
+        name_of_first_product = '1'
+        name_of_second_product = '2'
+        name_of_third_product = '3'
+
+        Product(self.driver).create(name_of_zero_product)
 
         catalog_page = CatalogPage(self.driver)
-        first_product_widget = catalog_page.product_widget
+        first_product_widget_on_panel = catalog_page.product_widget
 
-        first_product_name = first_product_widget.get_name()
-        self.assertEqual('0', first_product_name)
+        first_product_name_on_panel = first_product_widget_on_panel.get_name()
+        self.assertEqual(name_of_zero_product, first_product_name_on_panel)
 
         pined_product = Product(self.driver)
-        pined_product.create('1')
+        pined_product.create(name_of_first_product)
         pined_product.pin()
 
-        first_product_name = first_product_widget.get_name()
-        self.assertEqual('1', first_product_name)
+        first_product_name_on_panel = first_product_widget_on_panel.get_name()
+        self.assertEqual(name_of_first_product, first_product_name_on_panel)
 
-        Product(self.driver).create('2')
+        Product(self.driver).create(name_of_second_product)
 
-        first_product_name = first_product_widget.get_name()
-        self.assertEqual('1', first_product_name)
+        first_product_name_on_panel = first_product_widget_on_panel.get_name()
+        self.assertEqual(name_of_first_product, first_product_name_on_panel)
 
         pined_product.unpin()
 
-        first_product_name = first_product_widget.get_name()
-        self.assertEqual('1', first_product_name)
+        first_product_name_on_panel = first_product_widget_on_panel.get_name()
+        self.assertEqual(name_of_first_product, first_product_name_on_panel)
 
-        Product(self.driver).create('3')
+        Product(self.driver).create(name_of_third_product)
 
-        first_product_name = first_product_widget.get_name()
-        self.assertEqual('3', first_product_name)
+        first_product_name_on_panel = first_product_widget_on_panel.get_name()
+        self.assertEqual(name_of_third_product, first_product_name_on_panel)
