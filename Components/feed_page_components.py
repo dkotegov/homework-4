@@ -33,6 +33,7 @@ class LeftMenuOnShopFeedPage(Component):
 
     def remove_shop(self):
         self.other_actions()
+        # TODO check on Mac
         # self.make_actions_visible()
         # super(LeftMenuOnShopFeedPage, self).is_exist_element(self.OTHER_ACTIONS_BLOCK)
         # super(LeftMenuOnShopFeedPage, self).waiting_until_visible(self.OTHER_ACTIONS_BLOCK)

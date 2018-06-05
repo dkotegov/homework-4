@@ -40,6 +40,12 @@ class Main(object):
     def open_groups_page(self):
         self.main_page.left_menu.open_groups_page()
 
+    def are_there_any_groups(self):
+        return self.main_page.left_menu.are_there_any_groups()
+
+    def get_number_of_groups(self):
+        return self.main_page.left_menu.get_number_of_groups()
+
 
 class Shop(object):
     def __init__(self, driver):
