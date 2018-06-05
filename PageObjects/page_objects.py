@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from Components.feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
-from Components.market_page_components import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup, \
-    CatalogCounter, ProductCounter, CatalogStub, CreateProductPopup, ProductWidget, ProductStub, SubmitProductActionPopup
-from PageObjects.page import Page
 from Components.auth_form import AuthForm
+from Components.feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
+from Components.forum_page_components import TopicPopup
 from Components.groups_page_components import CreateGroupsPopup
 from Components.main_page_components import LeftMenuOnMainPage
-from Components.forum_page_components import TopicPopup
+from Components.market_page_components import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup, \
+    CatalogCounter, ProductCounter, CatalogStub, CreateProductPopup, ProductWidget, ProductStub, \
+    SubmitProductActionPopup
+from PageObjects.page import Page
 
 
 class AuthPage(Page):

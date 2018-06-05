@@ -105,7 +105,7 @@ class CreateCatalogTests(unittest.TestCase):
         self.assertEqual(long_catalog_name, widget_catalog_name)
 
     def test_create_catalog_with_name_consist_of_spec_chars(self):
-        spec_name = u'~`!@#№$;%:^?&*()-_+=/.,|\"\'\\<>[]{}'
+        spec_name = u'~`!@#№$;%:^?&*()-_+=/.,|\"\'\\<>[]{}1234567890'
 
         shop_market_page = ShopMarketPage(self.driver)
         catalog_popup = shop_market_page.catalog_popup
