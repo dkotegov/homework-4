@@ -18,25 +18,20 @@ class TopMenuOnShopPage(Component):
 
 
 class LeftMenuOnShopFeedPage(Component):
-    OTHER_ACTIONS_BUTTON = '//em[@class="tico_simb_txt"]'
-    OTHER_ACTIONS_BLOCK = '//ul[contains(@class,"u-menu_li_ul__show")]'
+    OTHER_ACTIONS_BLOCK = '//ul[contains(@class,"u-menu_li_ul")]'
     REMOVE_SHOP_BUTTON = '//a[contains(@hrefattrs,"RemoveAltGroup")]'
     SUBMIT_REMOVE_BUTTON = '//input[@name="button_delete"]'
+    MESSAGES_BUTTON = '//a[text()="Сообщения"]'
 
-    def other_actions(self):
-        super(LeftMenuOnShopFeedPage, self).click_element(self.OTHER_ACTIONS_BUTTON)
-
-    def make_actions_visible(self):
+    def make_other_actions_visible(self):
         self.driver.execute_script(
             'document.getElementsByClassName("u-menu_li_ul")[0].style = "visibility: visible; opacity: 1;";'
         )
 
     def remove_shop(self):
-        self.other_actions()
-        # TODO check on Mac
-        # self.make_actions_visible()
-        # super(LeftMenuOnShopFeedPage, self).is_exist_element(self.OTHER_ACTIONS_BLOCK)
-        # super(LeftMenuOnShopFeedPage, self).waiting_until_visible(self.OTHER_ACTIONS_BLOCK)
+        super(LeftMenuOnShopFeedPage, self).is_exist_element(self.MESSAGES_BUTTON)
+        self.make_other_actions_visible()
+        super(LeftMenuOnShopFeedPage, self).waiting_until_visible(self.OTHER_ACTIONS_BLOCK)
         super(LeftMenuOnShopFeedPage, self).click_element(self.REMOVE_SHOP_BUTTON)
 
     def submit_removing(self):
