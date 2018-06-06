@@ -3,7 +3,6 @@ import os
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from Components.component import Component
 from PageObjects.page_objects import AuthPage, MainPage, GroupsPage, ShopFeedPage, ShopForumPage, ShopMarketPage, \
     CatalogPage
 
@@ -16,15 +15,16 @@ def get_driver():
     )
 
 
-class Auth(Component):
+class Auth(object):
     LOGIN = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
 
-    def sign_in(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
+    def __init__(self, driver):
+        self.auth_page = AuthPage(driver)
 
-        auth_form = auth_page.form
+    def sign_in(self):
+        self.auth_page.open()
+        auth_form = self.auth_page.form
         auth_form.set_login(self.LOGIN)
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
