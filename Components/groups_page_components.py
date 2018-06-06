@@ -2,7 +2,7 @@
 from Components.component import Component
 
 
-class CreateGroupsPopup(Component):
+class CreateGroupPopup(Component):
     POPUP = '//div[@class="modal-new_center"]'
 
     CREATE_GROUP = '//div[@class="create-group"]//a'
@@ -13,20 +13,20 @@ class CreateGroupsPopup(Component):
     SUBMIT = '//input[@id="hook_FormButton_button_create"]'
 
     def open(self):
-        super(CreateGroupsPopup, self).click_element(self.CREATE_GROUP)
+        super(CreateGroupPopup, self).click_element(self.CREATE_GROUP)
 
     def create_shop(self):
-        super(CreateGroupsPopup, self).click_element(self.CREATE_SHOP)
+        super(CreateGroupPopup, self).click_element(self.CREATE_SHOP)
 
     def set_shop_name(self, shop_name):
-        super(CreateGroupsPopup, self).input_text_to_element(self.SHOP_NAME, shop_name)
+        super(CreateGroupPopup, self).input_text_to_element(self.SHOP_NAME, shop_name)
 
     def set_subcategory(self):
-        super(CreateGroupsPopup, self).click_element(self.GAMES_SUBCATEGORY)
+        super(CreateGroupPopup, self).click_element(self.GAMES_SUBCATEGORY)
 
     def submit(self):
-        super(CreateGroupsPopup, self).click_element(self.SUBMIT)
+        super(CreateGroupPopup, self).click_element(self.SUBMIT)
         self.waiting_closing()
 
     def waiting_closing(self):
-        super(CreateGroupsPopup, self).waiting_until_invisible(self.POPUP)
+        super(CreateGroupPopup, self).waiting_until_invisible(self.POPUP)

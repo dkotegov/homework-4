@@ -23,16 +23,17 @@ class LeftMenuOnShopFeedPage(Component):
     SUBMIT_REMOVE_BUTTON = '//input[@name="button_delete"]'
     MESSAGES_BUTTON = '//a[text()="Сообщения"]'
 
-    def make_other_actions_visible(self):
-        self.driver.execute_script(
-            'document.getElementsByClassName("u-menu_li_ul")[0].style = "visibility: visible; opacity: 1;";'
-        )
-
     def remove_shop(self):
         super(LeftMenuOnShopFeedPage, self).is_exist_element(self.MESSAGES_BUTTON)
         self.make_other_actions_visible()
         super(LeftMenuOnShopFeedPage, self).waiting_until_visible(self.OTHER_ACTIONS_BLOCK)
         super(LeftMenuOnShopFeedPage, self).click_element(self.REMOVE_SHOP_BUTTON)
+        self.submit_removing()
+
+    def make_other_actions_visible(self):
+        self.driver.execute_script(
+            'document.getElementsByClassName("u-menu_li_ul")[0].style = "visibility: visible; opacity: 1;";'
+        )
 
     def submit_removing(self):
         super(LeftMenuOnShopFeedPage, self).click_element(self.SUBMIT_REMOVE_BUTTON)

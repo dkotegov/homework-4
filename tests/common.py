@@ -67,28 +67,25 @@ class Shop(object):
     def open_market_page(self):
         self.shop_market_page.top_menu.open_market_page()
 
-    def get_name(self):
-        return self.shop_feed_page.header.get_shop_name()
-
-    def get_category(self):
-        return self.shop_feed_page.header.get_shop_category()
-
     def create(self, shop_name=u'Ларек-Марек'):
         popup = self.groups_page.popup
         popup.open()
-
         popup.create_shop()
 
         popup.set_shop_name(shop_name)
         popup.set_subcategory()
         popup.submit()
 
+    def get_name(self):
+        return self.shop_feed_page.header.get_shop_name()
+
+    def get_category(self):
+        return self.shop_feed_page.header.get_shop_category()
+
     def remove(self):
         self.open_feed_page()
         left_menu = self.shop_feed_page.left_menu
-
         left_menu.remove_shop()
-        left_menu.submit_removing()
 
 
 class Catalog(object):
@@ -173,14 +170,11 @@ class Product(object):
     def create(self, name=u'Товар', price='100', about=u'Описание'):
         create_product_popup = self.catalog_page.create_product_popup
         create_product_popup.open()
-        create_product_popup.waiting_opening()
 
         create_product_popup.set_name(name)
         create_product_popup.set_price(price)
         create_product_popup.set_about(about)
-
         create_product_popup.submit()
-        create_product_popup.waiting_closing()
 
     def get_name(self):
         return self.catalog_page.product_widget.get_name()
@@ -197,7 +191,6 @@ class Product(object):
 
         submit_product_action_popup = self.catalog_page.submit_product_action_popup
         submit_product_action_popup.submit()
-        submit_product_action_popup.waiting_closing()
 
     def mark_as_out_of_stock(self):
         product_widget = self.catalog_page.product_widget
@@ -205,7 +198,6 @@ class Product(object):
 
         submit_product_action_popup = self.catalog_page.submit_product_action_popup
         submit_product_action_popup.submit()
-        submit_product_action_popup.waiting_closing()
 
     def return_on_sale(self):
         product_widget = self.catalog_page.product_widget
@@ -213,14 +205,11 @@ class Product(object):
 
         submit_product_action_popup = self.catalog_page.submit_product_action_popup
         submit_product_action_popup.submit()
-        submit_product_action_popup.waiting_closing()
 
     def pin(self):
         product_widget = self.catalog_page.product_widget
         product_widget.pin()
-        product_widget.waiting_pin()
 
     def unpin(self):
         product_widget = self.catalog_page.product_widget
         product_widget.unpin()
-        product_widget.waiting_unpin()

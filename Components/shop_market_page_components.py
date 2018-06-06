@@ -73,6 +73,7 @@ class CreateProductPopup(Component):
 
     def open(self):
         super(CreateProductPopup, self).click_element(self.CREATE_PRODUCT_BUTTON)
+        self.waiting_opening()
 
     def waiting_opening(self):
         super(CreateProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
@@ -88,6 +89,7 @@ class CreateProductPopup(Component):
 
     def submit(self):
         super(CreateProductPopup, self).click_element(self.SUBMIT_BUTTON)
+        self.waiting_closing()
 
     def waiting_closing(self):
         super(CreateProductPopup, self).waiting_until_invisible(self.POPUP)
@@ -159,11 +161,6 @@ class ProductWidget(Component):
     def get_price_text(self):
         return super(ProductWidget, self).get_element_text(self.PRODUCT_PRICE)
 
-    def make_actions_visible(self):
-        self.driver.execute_script(
-            'document.getElementsByClassName("market-card_popup")[0].style = "visibility: visible; opacity: 1;";'
-        )
-
     def mark_as_out_of_stock(self):
         self.make_actions_visible()
         super(ProductWidget, self).waiting_until_visible(self.MARK_PRODUCT_AS_OUT_OF_STOCK)
@@ -179,22 +176,29 @@ class ProductWidget(Component):
         super(ProductWidget, self).waiting_until_visible(self.REMOVE_PRODUCT)
         super(ProductWidget, self).click_element(self.REMOVE_PRODUCT)
 
-    def make_pin_button_visible(self):
+    def make_actions_visible(self):
         self.driver.execute_script(
-            'document.getElementsByClassName("market-card_pin")[0].style = "visibility: visible; opacity: 1;";'
+            'document.getElementsByClassName("market-card_popup")[0].style = "visibility: visible; opacity: 1;";'
         )
 
     def pin(self):
         self.make_pin_button_visible()
         super(ProductWidget, self).waiting_until_visible(self.PIN_PRODUCT)
         super(ProductWidget, self).click_element(self.PIN_PRODUCT)
+        self.waiting_pin()
 
-    def unpin(self):
-        super(ProductWidget, self).click_element(self.PIN_PRODUCT)
+    def make_pin_button_visible(self):
+        self.driver.execute_script(
+            'document.getElementsByClassName("market-card_pin")[0].style = "visibility: visible; opacity: 1;";'
+        )
 
     def waiting_pin(self):
         super(ProductWidget, self).is_exist_element(self.PIN_TEXT)
         super(ProductWidget, self).waiting_until_invisible(self.PIN_TIP_BLOCK)
+
+    def unpin(self):
+        super(ProductWidget, self).click_element(self.PIN_PRODUCT)
+        self.waiting_unpin()
 
     def waiting_unpin(self):
         super(ProductWidget, self).is_exist_element(self.UNPIN_TEXT)
@@ -277,6 +281,7 @@ class SubmitProductActionPopup(Component):
 
     def submit(self):
         super(SubmitProductActionPopup, self).click_element(self.REMOVE_BUTTON)
+        self.waiting_closing()
 
     def cancel(self):
         super(SubmitProductActionPopup, self).click_element(self.CANCEL_BUTTON)
