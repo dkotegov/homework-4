@@ -54,6 +54,10 @@ class Shop(object):
         self.shop_market_page = ShopMarketPage(driver)
         self.groups_page = GroupsPage(driver)
 
+    @property
+    def market_page(self):
+        return self.shop_market_page
+
     def open_feed_page(self):
         self.shop_feed_page.top_menu.open_feed_page()
 

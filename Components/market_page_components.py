@@ -50,14 +50,14 @@ class CatalogPopup(Component):
     def save(self):
         super(CatalogPopup, self).click_element(self.SAVE_BUTTON)
 
-    def waiting_closing(self):
-        super(CatalogPopup, self).waiting_until_invisible(self.POPUP)
-
     def cancel_saving(self):
         super(CatalogPopup, self).click_element(self.CANCEL_BUTTON)
 
     def close(self):
         super(CatalogPopup, self).click_element(self.CLOSE_BUTTON)
+
+    def waiting_closing(self):
+        super(CatalogPopup, self).waiting_until_invisible(self.POPUP)
 
 
 class CreateProductPopup(Component):
@@ -111,7 +111,8 @@ class CatalogWidget(Component):
         return super(CatalogWidget, self).get_element_text(self.CATALOG_NAME)
 
     def get_number_of_products(self):
-        return super(CatalogWidget, self).get_element_text(self.NUMBER_OF_PRODUCTS)
+        number_of_products_str = super(CatalogWidget, self).get_element_text(self.NUMBER_OF_PRODUCTS)
+        return Component.get_number_from_string(number_of_products_str)
 
     def get_image_src(self):
         image_src = super(CatalogWidget, self).find_element(self.CATALOG_IMAGE).get_attribute("src")

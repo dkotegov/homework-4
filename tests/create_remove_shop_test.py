@@ -10,9 +10,7 @@ class CreateRemoveShopTest(unittest.TestCase):
 
     def setUp(self):
         self.driver = get_driver()
-
         Auth(self.driver).sign_in()
-
         self.main_page = Main(self.driver)
         self.main_page.open_groups_page()
 
