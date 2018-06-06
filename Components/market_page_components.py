@@ -136,7 +136,7 @@ class ProductWidget(Component):
 
     MARK_PRODUCT_AS_OUT_OF_STOCK = '//a[contains(@hrefattrs,"MARK_AS_OUT_OF_STOCK")]'
     RETURN_ON_SALE = '//a[contains(@hrefattrs,"MARK_AS_NOT_SOLD")]'
-    DELETE_PRODUCT = '//a[contains(@hrefattrs,"DELETE")]'
+    REMOVE_PRODUCT = '//a[contains(@hrefattrs,"DELETE")]'
     PIN_PRODUCT = '//a[contains(@class,"market-card_pin")]'
 
     PIN_TIP_BLOCK = '//div[@id="hook_Block_TipBlock"]/div[contains(@class, "__active")]'
@@ -176,8 +176,8 @@ class ProductWidget(Component):
 
     def remove(self):
         self.make_actions_visible()
-        super(ProductWidget, self).waiting_until_visible(self.DELETE_PRODUCT)
-        super(ProductWidget, self).click_element(self.DELETE_PRODUCT)
+        super(ProductWidget, self).waiting_until_visible(self.REMOVE_PRODUCT)
+        super(ProductWidget, self).click_element(self.REMOVE_PRODUCT)
 
     def make_pin_button_visible(self):
         self.driver.execute_script(

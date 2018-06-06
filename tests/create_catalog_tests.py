@@ -166,7 +166,7 @@ class CreateCatalogTests(unittest.TestCase):
         number_of_products = catalog_widget.get_number_of_products()
         self.assertEqual(0, number_of_products)
 
-    def test_delete_catalog_after_creating_later(self):
+    def test_remove_catalog_after_creating_later(self):
         self.test_create_catalog_later_from_product_panel()
 
         catalog = Catalog(self.driver)
