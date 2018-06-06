@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from PageObjects.page_objects import ShopMarketPage, CatalogPage
-from tests.common import get_driver, Auth, Main, Shop
+from tests.common import get_driver, Auth, Main, Shop, Catalog
 
 
 class EditCatalogTests(unittest.TestCase):
@@ -12,70 +11,45 @@ class EditCatalogTests(unittest.TestCase):
         self.driver = get_driver()
         Auth(self.driver).sign_in()
         Main(self.driver).open_groups_page()
-        Shop(self.driver).create()
+        self.shop = Shop(self.driver)
+        self.shop.create()
 
     def tearDown(self):
-        Shop(self.driver).remove()
+        self.shop.remove()
         self.driver.quit()
 
     def test_edit_catalog_name(self):
-        # creating catalog
-        shop_market_page = ShopMarketPage(self.driver)
-        catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_from_catalog_panel()
-        catalog_popup.set_name(self.CATALOG_NAME)
-        catalog_popup.save()
-        catalog_popup.waiting_closing()
+        catalog = Catalog(self.driver)
+        catalog.create(self.CATALOG_NAME)
+        catalog.open()
 
-        # check name before
-        catalog_widget = shop_market_page.catalog_widget
-        catalog_widget.open_catalog()
-        catalog_page = CatalogPage(self.driver)
-        catalog_panel = catalog_page.catalog_panel
-
-        catalog_name_before_edit = catalog_panel.get_name()
+        catalog_name_before_edit = catalog.get_name()
         self.assertEquals(self.CATALOG_NAME, catalog_name_before_edit)
 
-        # editing catalog name
         other_catalog_name = u'Другой каталог'
+        catalog.set_name(other_catalog_name)
 
-        catalog_panel.edit()
-        catalog_popup.set_name(other_catalog_name)
-        catalog_popup.save()
-        catalog_popup.waiting_closing()
-
-        # check name after
-        catalog_name_after_edit = catalog_panel.get_name()
+        catalog_name_after_edit = catalog.get_name()
         self.assertEquals(other_catalog_name, catalog_name_after_edit)
 
     def test_upload_image_after_creating_catalog(self):
         # creating catalog without image
-        shop_market_page = ShopMarketPage(self.driver)
-        catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_from_catalog_panel()
-        catalog_popup.set_name()
-        catalog_popup.save()
-        catalog_popup.waiting_closing()
+        catalog = Catalog(self.driver)
+        catalog.create()
 
-        # check image stub
-        catalog_widget = shop_market_page.catalog_widget
+        # check image stub on widget
+        catalog_widget = self.shop.market_page.catalog_widget
         is_exist_image_stub_on_widget = catalog_widget.is_exist_image_stub()
         self.assertTrue(is_exist_image_stub_on_widget)
 
-        catalog_widget.open_catalog()
-        catalog_page = CatalogPage(self.driver)
+        # check image stub on panel
+        catalog_page = catalog.open()
         catalog_panel = catalog_page.catalog_panel
-
         is_exist_image_stub_on_panel = catalog_panel.is_exist_image_stub()
         self.assertTrue(is_exist_image_stub_on_panel)
 
-        # editing catalog
-        catalog_panel.edit()
-        catalog_popup.upload_catalog_image()
-        catalog_popup.waiting_image_upload()
-        upload_image_src = catalog_popup.get_image_src()
-        catalog_popup.save()
-        catalog_popup.waiting_closing()
+        # upload image
+        upload_image_src = catalog.set_image()
 
         # check upload image
         panel_image_src = catalog_panel.get_image_src()
@@ -83,35 +57,22 @@ class EditCatalogTests(unittest.TestCase):
 
     def test_edit_catalog_image(self):
         # creating catalog with image
-        shop_market_page = ShopMarketPage(self.driver)
-        catalog_popup = shop_market_page.catalog_popup
-        catalog_popup.open_from_catalog_panel()
-        catalog_popup.set_name()
-        catalog_popup.upload_catalog_image('image_64x64.jpg')
-        catalog_popup.waiting_image_upload()
-        creating_image_src = catalog_popup.get_image_src()
-        catalog_popup.save()
-        catalog_popup.waiting_closing()
+        catalog = Catalog(self.driver)
+        creating_image_src = catalog.create_with_image('image_64x64.jpg')
 
-        # check image
-        catalog_widget = shop_market_page.catalog_widget
+        # check image on widget
+        catalog_widget = self.shop.market_page.catalog_widget
         widget_creating_image_src = catalog_widget.get_image_src()
         self.assertEqual(creating_image_src, widget_creating_image_src)
 
-        catalog_widget.open_catalog()
-        catalog_page = CatalogPage(self.driver)
+        # check image on panel
+        catalog_page = catalog.open()
         catalog_panel = catalog_page.catalog_panel
-
         panel_creating_image_src = catalog_panel.get_image_src()
         self.assertEqual(creating_image_src, panel_creating_image_src)
 
-        # editing catalog
-        catalog_panel.edit()
-        catalog_popup.upload_catalog_image('image_512x512.jpg')
-        catalog_popup.waiting_image_upload()
-        editing_image_src = catalog_popup.get_image_src()
-        catalog_popup.save()
-        catalog_popup.waiting_closing()
+        # upload other image
+        editing_image_src = catalog.set_image('image_512x512.jpg')
 
         # check upload image
         panel_editing_image_src = catalog_panel.get_image_src()

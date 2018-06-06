@@ -96,6 +96,10 @@ class CatalogPage(Page):
         return CatalogPanel(self.driver)
 
     @property
+    def catalog_popup(self):
+        return CatalogPopup(self.driver)
+
+    @property
     def remove_catalog_popup(self):
         return RemoveCatalogPopup(self.driver)
 

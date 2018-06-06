@@ -104,10 +104,46 @@ class Catalog(object):
         catalog_popup.save()
         catalog_popup.waiting_closing()
 
+    def create_with_image(self, image_name='image_512x512.jpg'):
+        catalog_popup = self.shop_market_page.catalog_popup
+        catalog_popup.open_from_catalog_panel()
+
+        catalog_popup.set_name()
+        catalog_popup.upload_catalog_image(image_name)
+        catalog_popup.waiting_image_upload()
+        creating_image_src = catalog_popup.get_image_src()
+        catalog_popup.save()
+        catalog_popup.waiting_closing()
+
+        return creating_image_src
+
     def open(self):
         catalog_widget = self.shop_market_page.catalog_widget
         catalog_widget.open_catalog()
         self.catalog_page.catalog_panel.waiting_opening()
+        return self.catalog_page
+
+    def get_name(self):
+        return self.catalog_page.catalog_panel.get_name()
+
+    def set_name(self, other_name=u'Другой каталог'):
+        self.catalog_page.catalog_panel.edit()
+        catalog_popup = self.catalog_page.catalog_popup
+        catalog_popup.set_name(other_name)
+        catalog_popup.save()
+        catalog_popup.waiting_closing()
+
+    def set_image(self, image_name='image_512x512.jpg'):
+        self.catalog_page.catalog_panel.edit()
+        catalog_popup = self.catalog_page.catalog_popup
+
+        catalog_popup.upload_catalog_image(image_name)
+        catalog_popup.waiting_image_upload()
+        upload_image_src = catalog_popup.get_image_src()
+        catalog_popup.save()
+        catalog_popup.waiting_closing()
+
+        return upload_image_src
 
     def remove_saving_products(self):
         catalog_panel = self.catalog_page.catalog_panel
