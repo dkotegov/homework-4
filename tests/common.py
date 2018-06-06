@@ -126,6 +126,9 @@ class Catalog(object):
     def get_name(self):
         return self.catalog_page.catalog_panel.get_name()
 
+    def get_number_of_products(self):
+        return self.catalog_page.catalog_panel.get_number_of_products()
+
     def set_name(self, other_name=u'Другой каталог'):
         self.catalog_page.catalog_panel.edit()
         catalog_popup = self.catalog_page.catalog_popup
@@ -178,6 +181,15 @@ class Product(object):
 
         create_product_popup.submit()
         create_product_popup.waiting_closing()
+
+    def get_name(self):
+        return self.catalog_page.product_widget.get_name()
+
+    def get_price(self):
+        return self.catalog_page.product_widget.get_price()
+
+    def get_price_text(self):
+        return self.catalog_page.product_widget.get_price_text()
 
     def remove(self):
         product_widget = self.catalog_page.product_widget
