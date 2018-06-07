@@ -25,9 +25,9 @@ class CreateRemoveShopTest(unittest.TestCase):
 
         shop.open_feed_page()
         shop_name = shop.get_name()
-        shop_category = shop.get_category()
-
         self.assertEqual(self.SHOP_NAME, shop_name)
+
+        shop_category = shop.get_category()
         self.assertEqual(self.SHOP_CATEGORY, shop_category)
 
         shop.remove()

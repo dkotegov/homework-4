@@ -3,7 +3,6 @@ import os
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from Components.component import Component
 from PageObjects.page_objects import AuthPage, MainPage, GroupsPage, ShopFeedPage, ShopForumPage, ShopMarketPage, \
     CatalogPage
 
@@ -59,6 +58,10 @@ class Shop(object):
     def market_page(self):
         return self.shop_market_page
 
+    @property
+    def forum_page(self):
+        return self.shop_forum_page
+
     def open_feed_page(self):
         self.shop_feed_page.top_menu.open_feed_page()
 
@@ -91,11 +94,11 @@ class Shop(object):
 
 class Catalog(object):
     def __init__(self, driver):
-        self.shop_market_page = ShopMarketPage(driver)
+        self.market_page = ShopMarketPage(driver)
         self.catalog_page = CatalogPage(driver)
 
     def create(self, name=u'Каталог'):
-        catalog_popup = self.shop_market_page.catalog_popup
+        catalog_popup = self.market_page.catalog_popup
         catalog_popup.open_from_catalog_panel()
 
         catalog_popup.set_name(name)
@@ -103,7 +106,7 @@ class Catalog(object):
         catalog_popup.waiting_closing()
 
     def create_with_image(self, image_name='image_512x512.jpg'):
-        catalog_popup = self.shop_market_page.catalog_popup
+        catalog_popup = self.market_page.catalog_popup
         catalog_popup.open_from_catalog_panel()
 
         catalog_popup.set_name()
@@ -116,7 +119,7 @@ class Catalog(object):
         return creating_image_src
 
     def open(self):
-        catalog_widget = self.shop_market_page.catalog_widget
+        catalog_widget = self.market_page.catalog_widget
         catalog_widget.open_catalog()
         self.catalog_page.catalog_panel.waiting_opening()
         return self.catalog_page
@@ -216,18 +219,21 @@ class Product(object):
         product_widget.unpin()
 
 
-class Topic(Component):
-    def create(self, text="topic text"):
-        shop_forum_page = ShopForumPage(self.driver)
-        topic_creation_popup = shop_forum_page.topic_creation_popup
-        topic_creation_popup.open_popup()
+class Topic(object):
+    def __init__(self, driver):
+        self.forum_page = ShopForumPage(driver)
+
+    def create(self, text=u'topic text'):
+        topic_creation_popup = self.forum_page.topic_popup
+        topic_creation_popup.open()
         topic_creation_popup.set_text(text)
         topic_creation_popup.submit()
 
-    def remove(self):
-        shop_forum_page = ShopForumPage(self.driver)
-        shop_forum_page.topic_list_element.open_topic_popup()
-        topic_popup = shop_forum_page.topic_popup
-        topic_popup.open_right_menu()
-        topic_popup.remove_topic()
-        topic_popup.close_topic_popup()
+    def get_text(self):
+        return self.forum_page.topic_widget.get_topic_text()
+
+    def get_shop_name(self):
+        return self.forum_page.topic_widget.get_topic_shop_name()
+
+    def get_author(self):
+        return self.forum_page.topic_widget.get_topic_author()

@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from PageObjects.page_objects import ShopForumPage
-from tests.common import get_driver, Auth, Shop, Main
+from tests.common import get_driver, Auth, Shop, Main, Topic
 
 
-class CreateDeleteTopicTest(unittest.TestCase):
+class CreateTopicTest(unittest.TestCase):
     SHOP_NAME = u'Shop'
-    TOPIC_TEXT = u'my topic text'
-    REMOVE_TOPIC_INFO = u"Тема удалена"
-    REMOVE_TOPIC_MSG = u"Этот объект уже удалён или заблокирован."
+    USERNAME = u'Феофан Лампер'
+    TOPIC_TEXT = u'My topic text'
 
     def setUp(self):
         self.driver = get_driver()
@@ -17,46 +15,23 @@ class CreateDeleteTopicTest(unittest.TestCase):
         Auth(self.driver).sign_in()
         Main(self.driver).open_groups_page()
 
-        shop = Shop(self.driver)
-        shop.create(self.SHOP_NAME)
-        shop.open_forum_page()
+        self.shop = Shop(self.driver)
+        self.shop.create(self.SHOP_NAME)
+        self.shop.open_forum_page()
 
     def tearDown(self):
-        Shop(self.driver).remove()
+        self.shop.remove()
         self.driver.quit()
 
-    def test(self):
-        shop_forum_page = ShopForumPage(self.driver)
-        topic_creation_popup = shop_forum_page.topic_creation_popup
-        topic_creation_popup.open_popup()
-        topic_creation_popup.set_text(self.TOPIC_TEXT)
-        topic_creation_popup.submit()
+    def test_create_topic(self):
+        topic = Topic(self.driver)
+        topic.create(self.TOPIC_TEXT)
 
-        topic_list_element = shop_forum_page.topic_list_element
+        topic_text = topic.get_text()
+        self.assertEqual(self.TOPIC_TEXT, topic_text)
 
-        topic_text = topic_list_element.get_topic_text()
-        self.assertEqual(topic_text, self.TOPIC_TEXT)
+        topic_shop_name = topic.get_shop_name()
+        self.assertEqual(self.SHOP_NAME, topic_shop_name)
 
-        topic_owner = topic_list_element.get_topic_owner()
-        self.assertEqual(topic_owner, self.SHOP_NAME)
-
-        topic_list_element.open_topic_popup()
-
-        topic_popup = shop_forum_page.topic_popup
-        topic_popup.open_right_menu()
-        topic_popup.remove_topic()
-
-        remove_topic_info = topic_popup.remove_topic_info()
-        self.assertEqual(self.REMOVE_TOPIC_INFO, remove_topic_info)
-
-        topic_popup.close_topic_popup()
-        topic_list_element.open_topic_popup()
-
-        notify_panel = shop_forum_page.notify_panel
-        message = notify_panel.get_message()
-
-        self.assertEqual(self.REMOVE_TOPIC_MSG, message)
-
-        notify_panel.close_panel()
-
-#         TODO проверить то что топика нет на странице
+        topic_author = topic.get_author()
+        self.assertEqual(self.USERNAME, topic_author)
