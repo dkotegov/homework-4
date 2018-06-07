@@ -3,6 +3,7 @@ import os
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+from Components.component import Component
 from PageObjects.page_objects import AuthPage, MainPage, GroupsPage, ShopFeedPage, ShopForumPage, ShopMarketPage, \
     CatalogPage
 
@@ -213,3 +214,20 @@ class Product(object):
     def unpin(self):
         product_widget = self.catalog_page.product_widget
         product_widget.unpin()
+
+
+class Topic(Component):
+    def create(self, text="topic text"):
+        shop_forum_page = ShopForumPage(self.driver)
+        topic_creation_popup = shop_forum_page.topic_creation_popup
+        topic_creation_popup.open_popup()
+        topic_creation_popup.set_text(text)
+        topic_creation_popup.submit()
+
+    def remove(self):
+        shop_forum_page = ShopForumPage(self.driver)
+        shop_forum_page.topic_list_element.open_topic_popup()
+        topic_popup = shop_forum_page.topic_popup
+        topic_popup.open_right_menu()
+        topic_popup.remove_topic()
+        topic_popup.close_topic_popup()
