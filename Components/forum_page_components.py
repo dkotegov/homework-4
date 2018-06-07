@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from Components.component import Component
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+
+from Components.component import Component
 
 
 class TopicCreationPopup(Component):
@@ -31,7 +31,6 @@ class TopicCreationPopup(Component):
 
     def add_photo_from_computer(self):
         super(TopicCreationPopup, self).click_element(self.ADD_PHOTO_FROM_COMPUTER_BTN)
-
 
 
 class TopicPopup(Component):
@@ -134,11 +133,9 @@ class TopicPopup(Component):
         ).clear()
 
 
-
 class TopicListElement(Component):
     TOPIC_TEXT = '//div[contains(@class,"media-text_cnt_tx")]'
     TOPIC_OWNER = '//span[@class="shortcut-wrap"]/a[contains(@hrefattrs,"GroupTopicLayer_VisitProfile")]'
-
 
     ADD_KEYWORD_BTN = '//a[contains(text(),"ключевые слова")]'
     KEYWORD_FIELD = '//input[@name="st.newTag"]'
@@ -159,7 +156,6 @@ class TopicListElement(Component):
     def get_topic_owner(self):
         return super(TopicListElement, self).get_element_text(self.TOPIC_OWNER)
 
-
     def open_keyword_field(self):
         super(TopicListElement, self).click_element(self.ADD_KEYWORD_BTN)
 
@@ -174,7 +170,6 @@ class TopicListElement(Component):
             lambda d: d.find_element_by_xpath(self.KEYWORD)
         ).text
 
-
     def open_keyword_edit_field(self):
         super(TopicListElement, self).click_element(self.KEYWORD_EDIT_BTN)
 
@@ -187,6 +182,7 @@ class TopicListElement(Component):
         super(TopicListElement, self).click_element(self.KEYWORD_DELETE_BTN)
 
         # LIKE
+
     def click_class(self):
         super(TopicListElement, self).click_element(self.CLASS)
 
@@ -209,4 +205,4 @@ class NotifyPanel(Component):
         return super(NotifyPanel, self).get_element_text(self.MESSAGE)
 
     def close_panel(self):
-        super(NotifyPanel,self).click_element(self.CLOSE_BTN)
+        super(NotifyPanel, self).click_element(self.CLOSE_BTN)

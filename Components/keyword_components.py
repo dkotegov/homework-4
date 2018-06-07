@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from Components.component import Component
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+
+from Components.component import Component
+
 
 class KeywordsComponent(Component):
     ADD_KEYWORD_BTN = '//a[contains(text(),"ключевые слова")]'
@@ -19,7 +19,6 @@ class KeywordsComponent(Component):
     KEYWORD_ERROR_TOO_MUCH_WORDS = '//span[contains(text(), "слов достаточно")]'
 
     KEYWORD_LENGTH_COUNTER = '//span[contains(@class,"txt-counter")]'
-
 
     def open_keyword_field(self):
         super(KeywordsComponent, self).click_element(self.ADD_KEYWORD_BTN)

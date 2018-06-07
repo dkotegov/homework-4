@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import time
 import unittest
 
 from PageObjects.page_objects import ShopForumPage
 from tests.common import getDriver, Auth, Shop, Main, Topic
-import time
 
 
 class HashTagTests(unittest.TestCase):
@@ -50,7 +50,7 @@ class HashTagTests(unittest.TestCase):
         self.driver.refresh()
 
         hashtag = keyword_component.get_hashtag()
-        self.assertEqual('#'+self.SIMPLE_HASHTAG, hashtag)
+        self.assertEqual('#' + self.SIMPLE_HASHTAG, hashtag)
 
         keyword_component.open_keyword_field()
         keyword_component.delete_keyword()

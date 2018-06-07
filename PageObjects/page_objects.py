@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-from Components.feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
-from Components.market_page_components import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup
-from PageObjects.page import Page
 from Components.auth_form import AuthForm
-from Components.groups_page_components import CreateGroupsPopup
-from Components.main_page_components import LeftMenuOnMainPage
+from Components.feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
 from Components.forum_page_components import (TopicCreationPopup,
                                               TopicListElement,
                                               TopicPopup,
                                               NotifyPanel)
+from Components.groups_page_components import CreateGroupsPopup
 from Components.keyword_components import KeywordsComponent
+from Components.main_page_components import LeftMenuOnMainPage
+from Components.market_page_components import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup
+from PageObjects.page import Page
 
 
 class AuthPage(Page):

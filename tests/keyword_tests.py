@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import time
 import unittest
 
 from PageObjects.page_objects import ShopForumPage
 from tests.common import getDriver, Auth, Shop, Main, Topic
-import time
 
 
 class SetDeleteKeyWordTests(unittest.TestCase):
@@ -12,14 +12,14 @@ class SetDeleteKeyWordTests(unittest.TestCase):
     SHOP_NAME = u'Shop'
 
     SIMPLE_KEYWORD = u'ключевое_слово'
-    LONG_KEYWORD_CASE = {'word':u'слишком_слишком_длинное_слово',
+    LONG_KEYWORD_CASE = {'word': u'слишком_слишком_длинное_слово',
                          'extra_length': u'-4'}
     EMPTY_KEYWORD = u''
     SHORT_KEYWORD = u'ъ'
 
-    KEYWORD_WITH_SPACE= u'слово с пробелом'
+    KEYWORD_WITH_SPACE = u'слово с пробелом'
     WRONG_KEYWORD = u'#плохое_слово'
-    DIGIT_KEYWORD=u'1234'
+    DIGIT_KEYWORD = u'1234'
 
     ENTER = u'\n'
     SOME_WORDS_CASE = {'first_word': u'первое_слово',
@@ -146,7 +146,7 @@ class SetDeleteKeyWordTests(unittest.TestCase):
         keyword_component = ShopForumPage(self.driver).keyword_component
         keyword_component.open_keyword_field()
         # тут придется сделать цикл
-        for i in range(1,9):
+        for i in range(1, 9):
             keyword_component.set_keyword(self.EIGHT_WORD_CASE[i])
             keyword_component.set_keyword(self.ENTER)
         keyword_component.submit_keyword()
@@ -163,16 +163,3 @@ class SetDeleteKeyWordTests(unittest.TestCase):
         keyword_component.submit_keyword()
     #     TODO посчитать кочилество слов
     #     assert
-
-
-
-
-
-
-
-
-
-
-
-
-
