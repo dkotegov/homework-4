@@ -34,7 +34,7 @@ class HashTagTests(unittest.TestCase):
     def test_simple_keyword_creation_and_delete(self):
         """Позитивный тест на создание и удаление простого хэштега"""
         keyword_component = ShopForumPage(self.driver).topic_tags
-        keyword_component.add_tag()
+        keyword_component.open_tags_input()
         keyword_component.set_tag(self.SIMPLE_HASHTAG)
         keyword_component.submit()
 
@@ -43,7 +43,7 @@ class HashTagTests(unittest.TestCase):
         hashtag = keyword_component.get_hashtag()
         self.assertEqual('#' + self.SIMPLE_HASHTAG, hashtag)
 
-        keyword_component.add_tag()
+        keyword_component.open_tags_input()
         keyword_component.remove_tag()
         keyword_component.submit()
 
@@ -54,7 +54,7 @@ class HashTagTests(unittest.TestCase):
     def test_hashtag_with_space_creation(self):
         """Позитивный тест на создание хэштега из ключевого слова с пробелом"""
         keyword_component = ShopForumPage(self.driver).topic_tags
-        keyword_component.add_tag()
+        keyword_component.open_tags_input()
         keyword_component.set_tag(self.HASHTAG_WITH_SPACE_CASE['keyword'])
         keyword_component.submit()
 
@@ -66,7 +66,7 @@ class HashTagTests(unittest.TestCase):
     def test_hashtag_with_dots_creation(self):
         """Позитивный тест на создание хэштега из ключевого слова с точками и слешами"""
         keyword_component = ShopForumPage(self.driver).topic_tags
-        keyword_component.add_tag()
+        keyword_component.open_tags_input()
         keyword_component.set_tag(self.HASHTAG_WITH_DOTS_CASE['keyword'])
         keyword_component.submit()
 
@@ -78,7 +78,7 @@ class HashTagTests(unittest.TestCase):
     def test_some_hashtag_creation(self):
         """Позитивный тест на создание хэштега из ключевого слова с точками и слешами"""
         keyword_component = ShopForumPage(self.driver).topic_tags
-        keyword_component.add_tag()
+        keyword_component.open_tags_input()
         keyword_component.set_tag(self.HASHTAG_WITH_DOTS_CASE['keyword'])
         keyword_component.submit()
 

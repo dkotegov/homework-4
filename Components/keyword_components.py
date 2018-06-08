@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
 from Components.component import Component
 
 
 class TopicTags(Component):
-    ADD_TAG = '//a[contains(@href,"AddTopicTag")]'
+    ADD_TAGS_BUTTON = '//a[contains(@href,"AddTopicTag")]'
     EDIT_TAG = '//a[contains(@href,"EditTopicTag")]'
-    REMOVE_TAG = '//span[contains(@class,"tag_del")]'
+
+    REMOVE_TAG_BUTTON_TEMPLATE = '//div[@class="tag"]//span[../../span="{}"]'
     SUBMIT = '//span[contains(@class,"tag-box_button")]'
 
     TAG = '//a[contains(@hrefattrs,"_TopicTag")]'
-    TAG_INPUT = '//input[@name="st.newTag"]'
+    TAGS_INPUT = '//input[@name="st.newTag"]'
 
     HASHTAG = '//a[contains(@class,"__hashtag")]'
     OPEN_TOPIC_POPUP = '//a[contains(@class,"media-text_a")]'
@@ -21,23 +22,25 @@ class TopicTags(Component):
     KEYWORD_ERROR_TOO_MUCH_WORDS = '//span[contains(text(), "слов достаточно")]'
     KEYWORD_LENGTH_COUNTER = '//span[contains(@class,"txt-counter")]'
 
-    def add_tag(self):
-        super(TopicTags, self).click_element(self.ADD_TAG)
+    def open_tags_input(self):
+        super(TopicTags, self).click_element(self.ADD_TAGS_BUTTON)
+
+    def set_tag(self, tag):
+        super(TopicTags, self).input_text_to_element(self.TAGS_INPUT, tag)
+        super(TopicTags, self).input_key(self.TAGS_INPUT, Keys.ENTER)
+
+    def remove_tag(self, tag):
+        remove_tag_button = self.REMOVE_TAG_BUTTON_TEMPLATE.format(tag)
+        super(TopicTags, self).click_element(remove_tag_button)
 
     def edit_tag(self):
         super(TopicTags, self).click_element(self.EDIT_TAG)
-
-    def set_tag(self, tag):
-        super(TopicTags, self).input_text_to_element(self.TAG_INPUT, tag)
 
     def get_tag(self):
         return super(TopicTags, self).get_element_text(self.TAG)
 
     def submit(self):
         super(TopicTags, self).click_element(self.SUBMIT)
-
-    def remove_tag(self):
-        super(TopicTags, self).click_element(self.REMOVE_TAG)
 
     def is_exists_tag(self):
         return super(TopicTags, self).is_exist_element(self.TAG)

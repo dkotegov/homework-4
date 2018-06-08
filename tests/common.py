@@ -243,18 +243,24 @@ class Tag(object):
     def __init__(self, driver):
         self.topic_tags = ShopForumPage(driver).topic_tags
 
-    def create(self, tag=u'tag'):
-        self.topic_tags.add_tag()
+    def add_tag(self, tag):
+        self.topic_tags.open_tags_input()
         self.topic_tags.set_tag(tag)
+        self.topic_tags.submit()
+
+    def add_tags(self, tags):
+        self.topic_tags.open_tags_input()
+        for tag in tags:
+            self.topic_tags.set_tag(tag)
+        self.topic_tags.submit()
+
+    def remove_tag(self, tag):
+        self.topic_tags.open_tags_input()
+        self.topic_tags.remove_tag(tag)
         self.topic_tags.submit()
 
     def get(self):
         return self.topic_tags.get_tag()
-
-    def remove(self):
-        self.topic_tags.edit_tag()
-        self.topic_tags.remove_tag()
-        self.topic_tags.submit()
 
     def is_exist(self):
         return self.topic_tags.is_exists_tag()

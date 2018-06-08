@@ -5,9 +5,10 @@ from Components.component import Component
 
 
 class TopicPopup(Component):
+    POPUP = '//div[@id="mtLayerMain"]'
     CREATE_TOPIC = '//a[contains(@data-l, "OpenPostingPopup")]'
     TOPIC_TEXT = '//div[@data-module="postingForm/mediaText"]'
-    SUBMIT = '//div[@data-action="submit"]'
+    SUBMIT = '//div[@class="posting_submit button-pro"]'
 
     def open(self):
         super(TopicPopup, self).click_element(self.CREATE_TOPIC)
@@ -17,6 +18,10 @@ class TopicPopup(Component):
 
     def submit(self):
         super(TopicPopup, self).click_element(self.SUBMIT)
+        self.waiting_closing()
+
+    def waiting_closing(self):
+        super(TopicPopup, self).waiting_until_invisible(self.POPUP)
 
 
 class TopicWidget(Component):

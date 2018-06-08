@@ -52,6 +52,10 @@ class Component(object):
         input_element.clear()
         input_element.send_keys(text)
 
+    def input_key(self, xpath, key):
+        input_element = self.find_element(xpath)
+        input_element.send_keys(key)
+
     def upload_image(self, xpath, file_name):
         image_folder = os.environ.get('IMAGES', 'images/')
         image_path = image_folder + file_name
