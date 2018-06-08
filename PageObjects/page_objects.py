@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Components.auth_form import AuthForm
 from Components.groups_page_components import CreateGroupPopup
-from Components.keyword_components import KeywordsComponent
+from Components.keyword_components import TopicTags
 from Components.main_page_components import LeftMenuOnMainPage
 from Components.shop_feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
 from Components.shop_forum_page_components import TopicPopup, TopicWidget
@@ -57,8 +57,8 @@ class ShopForumPage(Page):
         return TopicWidget(self.driver)
 
     @property
-    def keyword_component(self):
-        return KeywordsComponent(self.driver)
+    def topic_tags(self):
+        return TopicTags(self.driver)
 
 
 class ShopMarketPage(Page):

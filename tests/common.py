@@ -237,3 +237,24 @@ class Topic(object):
 
     def get_author(self):
         return self.forum_page.topic_widget.get_topic_author()
+
+
+class Tag(object):
+    def __init__(self, driver):
+        self.topic_tags = ShopForumPage(driver).topic_tags
+
+    def create(self, tag=u'tag'):
+        self.topic_tags.add_tag()
+        self.topic_tags.set_tag(tag)
+        self.topic_tags.submit()
+
+    def get(self):
+        return self.topic_tags.get_tag()
+
+    def remove(self):
+        self.topic_tags.edit_tag()
+        self.topic_tags.remove_tag()
+        self.topic_tags.submit()
+
+    def is_exist(self):
+        return self.topic_tags.is_exists_tag()
