@@ -8,7 +8,7 @@ from tests.create_remove_shop_test import CreateRemoveShopTest
 from tests.create_topic_test import CreateTopicTest
 from tests.edit_catalog_tests import EditCatalogTests
 from tests.hashtag_tests import HashTagTests
-from tests.keyword_tests import SetDeleteKeyWordTests
+from tests.topic_hashtag_tests import TopicHashTagsTests
 from tests.products_tests import ProductsTests
 from tests.remove_catalog_tests import RemoveCatalogTests
 
@@ -21,7 +21,7 @@ if __name__ == '__main__':
         unittest.makeSuite(RemoveCatalogTests),
         unittest.makeSuite(ProductsTests),
         unittest.makeSuite(CreateTopicTest),
-        unittest.makeSuite(SetDeleteKeyWordTests),
+        unittest.makeSuite(TopicHashTagsTests),
         unittest.makeSuite(HashTagTests),
     ])
 

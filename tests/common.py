@@ -222,6 +222,7 @@ class Product(object):
 class Topic(object):
     def __init__(self, driver):
         self.forum_page = ShopForumPage(driver)
+        self.topic_tags = self.forum_page.topic_tags
 
     def create(self, text=u'topic text'):
         topic_creation_popup = self.forum_page.topic_popup
@@ -237,11 +238,6 @@ class Topic(object):
 
     def get_author(self):
         return self.forum_page.topic_widget.get_topic_author()
-
-
-class Tag(object):
-    def __init__(self, driver):
-        self.topic_tags = ShopForumPage(driver).topic_tags
 
     def add_tag(self, tag):
         self.topic_tags.open_tags_input()
@@ -259,8 +255,17 @@ class Tag(object):
         self.topic_tags.remove_tag(tag)
         self.topic_tags.submit()
 
-    def get(self):
-        return self.topic_tags.get_tag()
+    def is_exist_tag(self, tag):
+        return self.topic_tags.is_exist_tag(tag)
 
-    def is_exist(self):
-        return self.topic_tags.is_exists_tag()
+    def is_exist_hashtag(self, hashtag):
+        return self.topic_tags.is_exist_hashtag(hashtag)
+
+    def no_one_hashtags(self):
+        return self.topic_tags.no_one_hashtags()
+
+    def get_tag_error(self):
+        return self.topic_tags.get_error_text()
+
+    def get_remaining_tag_length(self):
+        return self.topic_tags.get_remaining_tag_length()

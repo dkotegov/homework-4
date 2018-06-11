@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from Components.auth_form import AuthForm
-from Components.groups_page_components import CreateGroupPopup
-from Components.keyword_components import TopicTags
-from Components.main_page_components import LeftMenuOnMainPage
-from Components.shop_feed_page_components import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
-from Components.shop_forum_page_components import TopicPopup, TopicWidget
-from Components.shop_market_page_components import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup, \
+from Components.groups_page import CreateGroupPopup
+from Components.main_page import LeftMenuOnMainPage
+from Components.shop_feed_page import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
+from Components.shop_topic_page import TopicPopup, TopicWidget, TopicTags
+from Components.shop_market_page import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup, \
     CatalogCounter, ProductCounter, CatalogStub, CreateProductPopup, ProductWidget, ProductStub, \
     SubmitProductActionPopup
 from PageObjects.page import Page
