@@ -244,7 +244,7 @@ class Topic(object):
         self.topic_tags.set_tag(tag)
         self.topic_tags.submit()
 
-    def add_tags(self, tags):
+    def add_all_tags(self, tags):
         self.topic_tags.open_tags_input()
         for tag in tags:
             self.topic_tags.set_tag(tag)
