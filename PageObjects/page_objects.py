@@ -3,10 +3,10 @@ from Components.auth_form import AuthForm
 from Components.groups_page import CreateGroupPopup
 from Components.main_page import LeftMenuOnMainPage
 from Components.shop_feed_page import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
-from Components.shop_topic_page import TopicPopup, TopicWidget, TopicTags
 from Components.shop_market_page import CatalogPopup, CatalogWidget, CatalogPanel, RemoveCatalogPopup, \
     CatalogCounter, ProductCounter, CatalogStub, CreateProductPopup, ProductWidget, ProductStub, \
     SubmitProductActionPopup
+from Components.shop_topic_page import TopicPopup, TopicWidget, TopicTags
 from PageObjects.page import Page
 
 

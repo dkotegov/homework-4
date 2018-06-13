@@ -7,9 +7,9 @@ from tests.create_catalog_tests import CreateCatalogTests
 from tests.create_remove_shop_test import CreateRemoveShopTest
 from tests.create_topic_test import CreateTopicTest
 from tests.edit_catalog_tests import EditCatalogTests
-from tests.topic_hashtag_tests import TopicHashTagsTests
 from tests.products_tests import ProductsTests
 from tests.remove_catalog_tests import RemoveCatalogTests
+from tests.topic_hashtag_tests import TopicHashTagsTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite([
