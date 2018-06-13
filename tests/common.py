@@ -255,6 +255,12 @@ class Topic(object):
         self.topic_tags.remove_tag(tag)
         self.topic_tags.submit()
 
+    def remove_all_tags(self, tags):
+        self.topic_tags.open_tags_input()
+        for tag in tags:
+            self.topic_tags.remove_tag(tag)
+        self.topic_tags.submit()
+
     def is_exist_tag(self, tag):
         return self.topic_tags.is_exist_tag(tag)
 
@@ -269,3 +275,9 @@ class Topic(object):
 
     def get_remaining_tag_length(self):
         return self.topic_tags.get_remaining_tag_length()
+
+    def get_number_of_tags(self):
+        return self.topic_tags.get_number_of_tags()
+
+    def get_number_of_hashtags(self):
+        return self.topic_tags.get_number_of_hashtags()

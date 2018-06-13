@@ -30,6 +30,14 @@ class Component(object):
             lambda d: d.find_element_by_xpath(xpath)
         )
 
+    def find_elements(self, xpath):
+        return WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
+            lambda d: d.find_elements_by_xpath(xpath)
+        )
+
+    def get_number_of_elements(self, xpath):
+        return len(self.find_elements(xpath))
+
     def is_exist_element(self, xpath):
         try:
             self.find_element(xpath)

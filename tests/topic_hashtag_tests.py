@@ -5,22 +5,9 @@ from tests.common import get_driver, Auth, Shop, Main, Topic
 
 
 class TopicHashTagsTests(unittest.TestCase):
-
     TAG_WITH_SPEC_SYMBOL_ERROR_MESSAGE = u'В ключевых словах содержатся запрещенные символы'
-
-    ENTER = u'\n'
-    SOME_WORDS_CASE = {'first_word': u'первое_слово',
-                       'second_word': u'второе_слово'}
-    EIGHT_WORD_CASE = {1: u'первое_слово',
-                       2: u'второе_слово',
-                       3: u'третье_слово',
-                       4: u'четвертое_слово',
-                       5: u'пятое_слово',
-                       6: u'шестое_слово',
-                       7: u'седьмое_слово',
-                       8: u'восьмое_слово'}
-
-    TWICE_WORD = u'такое_же_слово'
+    TAGS_ARE_ENOUGH_WARNING_MESSAGE = u'Ключевых слов достаточно, спасибо'
+    MINIMUM_LENGTH_OF_TAG_WARNING_MESSAGE = u'Минимальная длина ключевого слова 2 символа'
 
     def setUp(self):
         self.driver = get_driver()
@@ -67,7 +54,7 @@ class TopicHashTagsTests(unittest.TestCase):
         self.topic.add_tag(too_short_tag)
 
         error_message = self.topic.get_tag_error()
-        self.assertEqual(u'Минимальная длина ключевого слова 2 символа', error_message)
+        self.assertEqual(self.MINIMUM_LENGTH_OF_TAG_WARNING_MESSAGE, error_message)
 
     def test_add_remove_short_tag(self):
         self.assertTrue(self.topic.no_one_hashtags())
@@ -157,6 +144,16 @@ class TopicHashTagsTests(unittest.TestCase):
         error_message = self.topic.get_tag_error()
         self.assertEqual(self.TAG_WITH_SPEC_SYMBOL_ERROR_MESSAGE, error_message)
 
+    def test_add_tag_with_spec_symbols(self):
+        tag_with_spec_symbols = '.@!/my-hash_tag()\":\'&?'
+        self.topic.add_tag(tag_with_spec_symbols)
+
+        self.driver.refresh()
+        number_of_hashtags = self.topic.get_number_of_hashtags()
+        self.assertEqual(1, number_of_hashtags)
+        is_exist_hashtag = self.topic.is_exist_hashtag('MyHash_tag')
+        self.assertTrue(is_exist_hashtag)
+
     def test_add_remove_tag_with_digits(self):
         self.assertTrue(self.topic.no_one_hashtags())
 
@@ -186,33 +183,72 @@ class TopicHashTagsTests(unittest.TestCase):
         self.driver.refresh()
         self.assertTrue(self.topic.no_one_hashtags())
 
-    # def test_some_keywords_creation(self):
-    #     """Позитивный тест на создание нескольких слов"""
-    #     keyword_component = ShopForumPage(self.driver).topic_tags
-    #     keyword_component.open_tags_input()
-    #     keyword_component.set_tag(self.SOME_WORDS_CASE['first_word'])
-    #     keyword_component.set_tag(self.ENTER)
-    #     keyword_component.set_tag(self.SOME_WORDS_CASE['second_word'])
-    #     keyword_component.submit()
-    #     # assert
-    #
-    # def test_too_much_keyword_creation(self):
-    #     """Негативный тест на создание слишком большого количества слов"""
-    #     keyword_component = ShopForumPage(self.driver).topic_tags
-    #     keyword_component.open_tags_input()
-    #     # тут придется сделать цикл
-    #     for i in range(1, 9):
-    #         keyword_component.set_tag(self.EIGHT_WORD_CASE[i])
-    #         keyword_component.set_tag(self.ENTER)
-    #     keyword_component.submit()
-    #     self.assertTrue(keyword_component.is_keyword_error_too_much_words())
-    #     self.assertFalse(keyword_component.is_exists_tag())
-    #
-    # def test_two_same_keyword_creation(self):
-    #     """Позитивный тест на создание только одного слова из двух одинаковых"""
-    #     keyword_component = ShopForumPage(self.driver).topic_tags
-    #     keyword_component.open_tags_input()
-    #     keyword_component.set_tag(self.TWICE_WORD)
-    #     keyword_component.set_tag(self.ENTER)
-    #     keyword_component.set_tag(self.TWICE_WORD)
-    #     keyword_component.submit()
+    def test_add_remove_two_different_tags(self):
+        there_are_no_hashtags = self.topic.no_one_hashtags()
+        self.assertTrue(there_are_no_hashtags)
+
+        tags = ['first', 'second']
+        self.topic.add_tags(tags)
+
+        number_of_tags = self.topic.get_number_of_tags()
+        self.assertEqual(len(tags), number_of_tags)
+        is_exist_first_tag = self.topic.is_exist_tag(tags[0])
+        self.assertTrue(is_exist_first_tag)
+        is_exist_second_tag = self.topic.is_exist_tag(tags[1])
+        self.assertTrue(is_exist_second_tag)
+
+        self.driver.refresh()
+        number_of_hashtags = self.topic.get_number_of_hashtags()
+        self.assertEqual(len(tags), number_of_hashtags)
+        is_exist_first_hashtag = self.topic.is_exist_hashtag(tags[0])
+        self.assertTrue(is_exist_first_hashtag)
+        is_exist_second_hashtag = self.topic.is_exist_hashtag(tags[1])
+        self.assertTrue(is_exist_second_hashtag)
+
+        self.topic.remove_all_tags(tags)
+        self.driver.refresh()
+        there_are_no_hashtags = self.topic.no_one_hashtags()
+        self.assertTrue(there_are_no_hashtags)
+
+    def test_add_two_same_tags(self):
+        tags = ['same', 'same']
+        self.topic.add_tags(tags)
+
+        number_of_tags = self.topic.get_number_of_tags()
+        self.assertEqual(1, number_of_tags)
+
+        self.driver.refresh()
+        number_of_hashtags = self.topic.get_number_of_hashtags()
+        self.assertEqual(1, number_of_hashtags)
+
+    def test_add_remove_maximum_tags(self):
+        there_are_no_hashtags = self.topic.no_one_hashtags()
+        self.assertTrue(there_are_no_hashtags)
+
+        tags = ['11', '22', '33', '44', '55', '66', '77']
+        self.topic.add_tags(tags)
+
+        number_of_tags = self.topic.get_number_of_tags()
+        self.assertEqual(len(tags), number_of_tags)
+        for tag in tags:
+            is_exist_tag = self.topic.is_exist_tag(tag)
+            self.assertTrue(is_exist_tag)
+
+        self.driver.refresh()
+        number_of_hashtags = self.topic.get_number_of_hashtags()
+        self.assertEqual(len(tags), number_of_hashtags)
+        for tag in tags:
+            is_exist_hashtag = self.topic.is_exist_hashtag(tag)
+            self.assertTrue(is_exist_hashtag)
+
+        self.topic.remove_all_tags(tags)
+        self.driver.refresh()
+        there_are_no_hashtags = self.topic.no_one_hashtags()
+        self.assertTrue(there_are_no_hashtags)
+
+    def test_add_too_much_tags(self):
+        tags = ['11', '22', '33', '44', '55', '66', '77', '88']
+        self.topic.add_tags(tags)
+
+        error_message = self.topic.get_tag_error()
+        self.assertEqual(self.TAGS_ARE_ENOUGH_WARNING_MESSAGE, error_message)
