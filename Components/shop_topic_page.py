@@ -67,13 +67,10 @@ class TopicTags(Component):
         remove_tag_button = self.REMOVE_TAG_BUTTON_TEMPLATE.format(tag)
         super(TopicTags, self).click_element(remove_tag_button)
 
-    def edit_tag(self):
+    def edit_tags(self):
         super(TopicTags, self).click_element(self.EDIT_TAG)
 
-    def no_one_tags(self):
-        return super(TopicTags, self).is_not_exist_element(self.TAG)
-
-    def is_exist_tag(self, tag):
+    def is_exist_temp_tag(self, tag):
         tag_element = self.TAG_TEMPLATE.format(tag)
         return super(TopicTags, self).is_exist_element(tag_element)
 
@@ -83,10 +80,6 @@ class TopicTags(Component):
     def is_exist_hashtag(self, hashtag):
         hashtag_element = self.HASHTAG_TEMPLATE.format(hashtag)
         return super(TopicTags, self).is_exist_element(hashtag_element)
-
-    def is_not_exist_hashtag(self, hashtag):
-        hashtag_element = self.HASHTAG_TEMPLATE.format(hashtag)
-        return super(TopicTags, self).is_not_exist_element(hashtag_element)
 
     def submit(self):
         super(TopicTags, self).click_element(self.SUBMIT)
@@ -98,7 +91,7 @@ class TopicTags(Component):
         remaining_tag_length_str = super(TopicTags, self).get_element_text(self.TAG_LENGTH_COUNTER)
         return int(remaining_tag_length_str)
 
-    def get_number_of_tags(self):
+    def get_number_of_temp_tags(self):
         return super(TopicTags, self).get_number_of_elements(self.TAG)
 
     def get_number_of_hashtags(self):

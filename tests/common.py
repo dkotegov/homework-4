@@ -261,8 +261,22 @@ class Topic(object):
             self.topic_tags.remove_tag(tag)
         self.topic_tags.submit()
 
-    def is_exist_tag(self, tag):
-        return self.topic_tags.is_exist_tag(tag)
+    def edit_tag(self, tag, new_tag):
+        self.topic_tags.edit_tags()
+        self.topic_tags.remove_tag(tag)
+        self.topic_tags.set_tag(new_tag)
+        self.topic_tags.submit()
+
+    def edit_all_tags(self, tags, new_tags):
+        self.topic_tags.edit_tags()
+        for tag in tags:
+            self.topic_tags.remove_tag(tag)
+        for tag in new_tags:
+            self.topic_tags.set_tag(tag)
+        self.topic_tags.submit()
+
+    def is_exist_temp_tag(self, tag):
+        return self.topic_tags.is_exist_temp_tag(tag)
 
     def is_exist_hashtag(self, hashtag):
         return self.topic_tags.is_exist_hashtag(hashtag)
@@ -276,8 +290,8 @@ class Topic(object):
     def get_remaining_tag_length(self):
         return self.topic_tags.get_remaining_tag_length()
 
-    def get_number_of_tags(self):
-        return self.topic_tags.get_number_of_tags()
+    def get_number_of_temp_tags(self):
+        return self.topic_tags.get_number_of_temp_tags()
 
     def get_number_of_hashtags(self):
         return self.topic_tags.get_number_of_hashtags()

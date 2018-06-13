@@ -26,28 +26,16 @@ class TopicHashTagsTests(unittest.TestCase):
         self.shop.remove()
         self.driver.quit()
 
-    def check_one_tag(self, tag_name):
-        number_of_tags = self.topic.get_number_of_tags()
-        self.assertEqual(1, number_of_tags)
-        is_exist_tag = self.topic.is_exist_tag(tag_name)
-        self.assertTrue(is_exist_tag)
-
-    def check_one_hashtag(self, hashtag_name):
-        number_of_hashtags = self.topic.get_number_of_hashtags()
-        self.assertEqual(1, number_of_hashtags)
-        is_exist_hashtag = self.topic.is_exist_hashtag(hashtag_name)
-        self.assertTrue(is_exist_hashtag)
-
-    def test_add_remove_simple_tag(self):
+    def test_add_remove_one_tag(self):
         no_one_hashtags = self.topic.no_one_hashtags()
         self.assertTrue(no_one_hashtags)
 
         tag = 'hashtag'
         self.topic.add_tag(tag)
 
-        self.check_one_tag(tag)
+        self.check_temp_tag(tag)
         self.driver.refresh()
-        self.check_one_hashtag(tag)
+        self.check_hashtag(tag)
 
         self.topic.remove_tag(tag)
 
@@ -79,9 +67,9 @@ class TopicHashTagsTests(unittest.TestCase):
         short_tag = 'ab'
         self.topic.add_tag(short_tag)
 
-        self.check_one_tag(short_tag)
+        self.check_temp_tag(short_tag)
         self.driver.refresh()
-        self.check_one_hashtag(short_tag)
+        self.check_hashtag(short_tag)
 
         self.topic.remove_tag(short_tag)
 
@@ -97,9 +85,9 @@ class TopicHashTagsTests(unittest.TestCase):
         max_length_tag = 'x' * max_length
         self.topic.add_tag(max_length_tag)
 
-        self.check_one_tag(max_length_tag)
+        self.check_temp_tag(max_length_tag)
         self.driver.refresh()
-        self.check_one_hashtag(max_length_tag)
+        self.check_hashtag(max_length_tag)
 
         self.topic.remove_tag(max_length_tag)
 
@@ -122,9 +110,9 @@ class TopicHashTagsTests(unittest.TestCase):
         tag_with_space = 'hash tag'
         self.topic.add_tag(tag_with_space)
 
-        self.check_one_tag(tag_with_space)
+        self.check_temp_tag(tag_with_space)
         self.driver.refresh()
-        self.check_one_hashtag('HashTag')
+        self.check_hashtag('HashTag')
 
         self.topic.remove_tag(tag_with_space)
 
@@ -140,9 +128,9 @@ class TopicHashTagsTests(unittest.TestCase):
         self.topic.add_tag(tag_with_spaces)
 
         trimmed_tag_with_spaces = tag_with_spaces.strip()
-        self.check_one_tag(trimmed_tag_with_spaces)
+        self.check_temp_tag(trimmed_tag_with_spaces)
         self.driver.refresh()
-        self.check_one_hashtag('MyHashTag')
+        self.check_hashtag('MyHashTag')
 
         self.topic.remove_tag(trimmed_tag_with_spaces)
 
@@ -169,7 +157,7 @@ class TopicHashTagsTests(unittest.TestCase):
         self.topic.add_tag(tag_with_spec_symbols)
 
         self.driver.refresh()
-        self.check_one_hashtag('MyHash_tag')
+        self.check_hashtag('MyHash_tag')
 
     def test_add_remove_tag_with_digits(self):
         no_one_hashtags = self.topic.no_one_hashtags()
@@ -178,9 +166,9 @@ class TopicHashTagsTests(unittest.TestCase):
         tag_with_digits = '1234567890'
         self.topic.add_tag(tag_with_digits)
 
-        self.check_one_tag(tag_with_digits)
+        self.check_temp_tag(tag_with_digits)
         self.driver.refresh()
-        self.check_one_hashtag(tag_with_digits)
+        self.check_hashtag(tag_with_digits)
 
         self.topic.remove_tag(tag_with_digits)
 
@@ -196,9 +184,9 @@ class TopicHashTagsTests(unittest.TestCase):
         self.topic.add_tag(tag_with_different_case)
 
         tag_lower_case = tag_with_different_case.lower()
-        self.check_one_tag(tag_lower_case)
+        self.check_temp_tag(tag_lower_case)
         self.driver.refresh()
-        self.check_one_hashtag('DifferentCase')
+        self.check_hashtag('DifferentCase')
 
         self.topic.remove_tag(tag_lower_case)
 
@@ -213,10 +201,10 @@ class TopicHashTagsTests(unittest.TestCase):
         tags = ['first', 'second']
         self.topic.add_all_tags(tags)
 
-        number_of_tags = self.topic.get_number_of_tags()
+        number_of_tags = self.topic.get_number_of_temp_tags()
         self.assertEqual(len(tags), number_of_tags)
         for tag in tags:
-            is_exist_tag = self.topic.is_exist_tag(tag)
+            is_exist_tag = self.topic.is_exist_temp_tag(tag)
             self.assertTrue(is_exist_tag)
 
         self.driver.refresh()
@@ -236,9 +224,9 @@ class TopicHashTagsTests(unittest.TestCase):
         tags = ['same', 'same']
         self.topic.add_all_tags(tags)
 
-        self.check_one_tag(tags[0])
+        self.check_temp_tag(tags[0])
         self.driver.refresh()
-        self.check_one_hashtag(tags[0])
+        self.check_hashtag(tags[0])
 
     def test_add_remove_maximum_tags(self):
         no_one_hashtags = self.topic.no_one_hashtags()
@@ -247,10 +235,10 @@ class TopicHashTagsTests(unittest.TestCase):
         tags = ['11', '22', '33', '44', '55', '66', '77']
         self.topic.add_all_tags(tags)
 
-        number_of_tags = self.topic.get_number_of_tags()
+        number_of_tags = self.topic.get_number_of_temp_tags()
         self.assertEqual(len(tags), number_of_tags)
         for tag in tags:
-            is_exist_tag = self.topic.is_exist_tag(tag)
+            is_exist_tag = self.topic.is_exist_temp_tag(tag)
             self.assertTrue(is_exist_tag)
 
         self.driver.refresh()
@@ -272,3 +260,76 @@ class TopicHashTagsTests(unittest.TestCase):
 
         error_message = self.topic.get_tag_error()
         self.assertEqual(self.TAGS_ARE_ENOUGH_WARNING_MESSAGE, error_message)
+
+    def test_add_edit_one_tag(self):
+        tag = 'tag'
+        self.topic.add_tag(tag)
+        self.check_temp_tag(tag)
+
+        new_tag = 'new_tag'
+        self.topic.edit_tag(tag, new_tag)
+
+        self.check_temp_tag(new_tag)
+        self.driver.refresh()
+        self.check_hashtag(new_tag)
+
+    def test_add_two_tags_edit_first(self):
+        tags = ['first', 'last']
+        self.topic.add_all_tags(tags)
+
+        new_tag = 'new_tag'
+        self.topic.edit_tag(tags[0], new_tag)
+
+        new_tags = [tags[1], new_tag]
+        self.check_all_temp_tags(new_tags)
+        self.driver.refresh()
+        self.check_all_hashtags(new_tags)
+
+    def test_add_two_tags_edit_last(self):
+        tags = ['first', 'last']
+        self.topic.add_all_tags(tags)
+
+        new_tag = 'new_tag'
+        self.topic.edit_tag(tags[1], new_tag)
+
+        new_tags = [tags[0], new_tag]
+        self.check_all_temp_tags(new_tags)
+        self.driver.refresh()
+        self.check_all_hashtags(new_tags)
+
+    def test_add_several_tags_edit_all(self):
+        tags = ['11', '22', '33', '44']
+        self.topic.add_all_tags(tags)
+
+        new_tags = ['00', '100']
+        self.topic.edit_all_tags(tags, new_tags)
+
+        self.check_all_temp_tags(new_tags)
+        self.driver.refresh()
+        self.check_all_hashtags(new_tags)
+
+    def check_temp_tag(self, tag):
+        number_of_tags = self.topic.get_number_of_temp_tags()
+        self.assertEqual(1, number_of_tags)
+        is_exist_tag = self.topic.is_exist_temp_tag(tag)
+        self.assertTrue(is_exist_tag)
+
+    def check_all_temp_tags(self, tags):
+        number_of_tags = self.topic.get_number_of_temp_tags()
+        self.assertEqual(len(tags), number_of_tags)
+        for tag in tags:
+            is_exist_tag = self.topic.is_exist_temp_tag(tag)
+            self.assertTrue(is_exist_tag)
+
+    def check_hashtag(self, hashtag):
+        number_of_hashtags = self.topic.get_number_of_hashtags()
+        self.assertEqual(1, number_of_hashtags)
+        is_exist_hashtag = self.topic.is_exist_hashtag(hashtag)
+        self.assertTrue(is_exist_hashtag)
+
+    def check_all_hashtags(self, hashtags):
+        number_of_hashtags = self.topic.get_number_of_hashtags()
+        self.assertEqual(len(hashtags), number_of_hashtags)
+        for tag in hashtags:
+            is_exist_hashtag = self.topic.is_exist_hashtag(tag)
+            self.assertTrue(is_exist_hashtag)
