@@ -6,6 +6,8 @@ from tests.common import get_driver, Auth, Main, Shop, Catalog
 
 class CreateCatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
+    EMPTY_CATALOG_NAME_WARNING = u'Введите название каталога'
+    VERY_LONG_CATALOG_NAME_WARNING = u'Название каталога не должно превышать 50 знаков'
 
     def setUp(self):
         self.driver = get_driver()
@@ -18,7 +20,7 @@ class CreateCatalogTests(unittest.TestCase):
         self.shop.remove()
         self.driver.quit()
 
-    def test_cancel_creating_catalog(self):
+    def test_cancel_and_close_creating_catalog(self):
         market_page = self.shop.market_page
 
         catalog_stub = market_page.catalog_stub
@@ -30,17 +32,6 @@ class CreateCatalogTests(unittest.TestCase):
         catalog_popup.cancel_saving()
         catalog_popup.waiting_closing()
 
-        is_exist_catalog_stub = catalog_stub.is_exist()
-        self.assertTrue(is_exist_catalog_stub)
-
-    def test_close_creating_catalog(self):
-        market_page = self.shop.market_page
-
-        catalog_stub = market_page.catalog_stub
-        is_exist_catalog_stub = catalog_stub.is_exist()
-        self.assertTrue(is_exist_catalog_stub)
-
-        catalog_popup = market_page.catalog_popup
         catalog_popup.open_from_catalog_panel()
         catalog_popup.close()
         catalog_popup.waiting_closing()
@@ -48,43 +39,40 @@ class CreateCatalogTests(unittest.TestCase):
         is_exist_catalog_stub = catalog_stub.is_exist()
         self.assertTrue(is_exist_catalog_stub)
 
-    def test_create_catalog_without_name(self):
+    def test_create_catalog_with_wrong_names(self):
+        # empty name
         catalog_popup = self.shop.market_page.catalog_popup
         catalog_popup.open_from_catalog_panel()
         catalog_popup.save()
 
         error_message = catalog_popup.get_error_message()
-        self.assertEqual(u'Введите название каталога', error_message)
+        self.assertEqual(self.EMPTY_CATALOG_NAME_WARNING, error_message)
 
         catalog_popup.cancel_saving()
         catalog_popup.waiting_closing()
 
-    def test_create_catalog_with_name_consist_of_spaces(self):
-        name_length = 10
-        spaces_name = ' ' * name_length
-
-        catalog_popup = self.shop.market_page.catalog_popup
+        # name consist o spaces
+        NUMBER_OF_SPACES = 10
+        SPACES_NAME = ' ' * NUMBER_OF_SPACES
         catalog_popup.open_from_catalog_panel()
-        catalog_popup.set_name(spaces_name)
+        catalog_popup.set_name(SPACES_NAME)
         catalog_popup.save()
 
         error_message = catalog_popup.get_error_message()
-        self.assertEqual(u'Введите название каталога', error_message)
+        self.assertEqual(self.EMPTY_CATALOG_NAME_WARNING, error_message)
 
         catalog_popup.cancel_saving()
         catalog_popup.waiting_closing()
 
-    def test_create_catalog_with_very_long_name(self):
-        name_length = 51
-        very_long_catalog_name = 'x' * name_length
-
-        catalog_popup = self.shop.market_page.catalog_popup
+        # very long name
+        NAME_LENGTH = 51
+        VERY_LONG_NAME = 'x' * NAME_LENGTH
         catalog_popup.open_from_catalog_panel()
-        catalog_popup.set_name(very_long_catalog_name)
+        catalog_popup.set_name(VERY_LONG_NAME)
         catalog_popup.save()
 
         error_message = catalog_popup.get_error_message()
-        self.assertEqual(u'Название каталога не должно превышать 50 знаков', error_message)
+        self.assertEqual(self.VERY_LONG_CATALOG_NAME_WARNING, error_message)
 
         catalog_popup.cancel_saving()
         catalog_popup.waiting_closing()
