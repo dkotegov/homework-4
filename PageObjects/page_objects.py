@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Components.auth_form import AuthForm
+from Components.auth_page import AuthForm
 from Components.groups_page import CreateGroupPopup
 from Components.main_page import LeftMenuOnMainPage
 from Components.shop_feed_page import TopMenuOnShopPage, LeftMenuOnShopFeedPage, HeaderOnShopFeedPage
