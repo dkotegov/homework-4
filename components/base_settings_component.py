@@ -26,6 +26,15 @@ class PersonalDataForm(BaseComponent):
     def close_save(self):
         self.get_clickable_element(self.CLOSE_BUTTON).click()
 
+    def set_name_surname_all(self, my_name, my_surname):
+        self.name_surname(my_name, my_surname)
+        self.save()
+        self.close_save()
+
+    def set_name_surname(self, my_name, my_surname):
+        self.name_surname(my_name, my_surname)
+        self.save()
+
     ERROR_NAME = "//div[@class='form form__gl-2-2']/div[1]/span[2]"
     ERROR_SURNAME = "//div[@class='form form__gl-2-2']/div[2]/span[2]"
 
@@ -138,6 +147,10 @@ class ProneNumberForm(BaseComponent):
 
     def ok_button_click(self):
         self.get_clickable_element(self.OK_BUTTON).click()
+
+    def set_number_all(self, my_number):
+        self.set_number(my_number)
+        self.ok_button_click()
 
     def ok_button2(self):
         return self.get_visibility_element(self.OK_BUTTON2)
