@@ -109,9 +109,6 @@ class CatalogWidget(Component):
     def is_exist(self):
         return super(CatalogWidget, self).is_exist_element(self.WIDGET_PANEL)
 
-    def is_not_exist(self):
-        return not super(CatalogWidget, self).is_exist_element(self.WIDGET_PANEL)
-
     def get_name(self):
         return super(CatalogWidget, self).get_element_text(self.CATALOG_NAME)
 
@@ -149,9 +146,6 @@ class ProductWidget(Component):
 
     def is_exist(self):
         return super(ProductWidget, self).is_exist_element(self.WIDGET_PANEL)
-
-    def is_not_exist(self):
-        return not super(ProductWidget, self).is_exist_element(self.WIDGET_PANEL)
 
     def get_name(self):
         return super(ProductWidget, self).get_element_text(self.PRODUCT_NAME)
@@ -297,8 +291,8 @@ class SubmitProductActionPopup(Component):
 class CatalogCounter(Component):
     CATALOGS_COUNTER = '//span[@class="portlet_h_count"]'
 
-    def is_not_exist(self):
-        return not super(CatalogCounter, self).is_exist_element(self.CATALOGS_COUNTER)
+    def is_exist(self):
+        return super(CatalogCounter, self).is_exist_element(self.CATALOGS_COUNTER)
 
     def get_number_of_catalogs(self):
         number_of_catalogs_str = super(CatalogCounter, self).get_element_text(self.CATALOGS_COUNTER)
@@ -308,8 +302,8 @@ class CatalogCounter(Component):
 class ProductCounter(Component):
     PRODUCTS_COUNTER = '//span[@class="filter_count"]'
 
-    def is_not_exist(self):
-        return not super(ProductCounter, self).is_exist_element(self.PRODUCTS_COUNTER)
+    def is_exist(self):
+        return super(ProductCounter, self).is_exist_element(self.PRODUCTS_COUNTER)
 
     def get_number_of_all_products(self):
         number_of_products_str = super(ProductCounter, self).get_element_text(self.PRODUCTS_COUNTER)
@@ -323,9 +317,6 @@ class CatalogStub(Component):
     def is_exist(self):
         return super(CatalogStub, self).is_exist_element(self.STUB)
 
-    def is_not_exist(self):
-        return not super(CatalogStub, self).is_exist_element(self.STUB)
-
     def create_catalog_later(self):
         return super(CatalogStub, self).click_element(self.CREATE_LATER)
 
@@ -335,6 +326,3 @@ class ProductStub(Component):
 
     def is_exist(self):
         return super(ProductStub, self).is_exist_element(self.STUB)
-
-    def is_not_exist(self):
-        return not super(ProductStub, self).is_exist_element(self.STUB)

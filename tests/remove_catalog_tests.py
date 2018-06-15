@@ -47,8 +47,8 @@ class RemoveCatalogTests(unittest.TestCase):
         self.assertTrue(is_exist_catalog_stub)
 
         # check counter
-        is_not_exist_counter = catalog_counter.is_not_exist()
-        self.assertTrue(is_not_exist_counter)
+        is_exist_counter = catalog_counter.is_exist()
+        self.assertFalse(is_exist_counter)
 
     def test_remove_catalog_with_products(self):
         catalog = Catalog(self.driver)
@@ -74,12 +74,12 @@ class RemoveCatalogTests(unittest.TestCase):
 
         # check counters
         catalog_counter = market_page.catalog_counter
-        is_not_exist_catalog_counter = catalog_counter.is_not_exist()
-        self.assertTrue(is_not_exist_catalog_counter)
+        is_exist_catalog_counter = catalog_counter.is_exist()
+        self.assertFalse(is_exist_catalog_counter)
 
         product_counter = market_page.product_counter
-        is_not_exist_product_counter = product_counter.is_not_exist()
-        self.assertTrue(is_not_exist_product_counter)
+        is_exist_product_counter = product_counter.is_exist()
+        self.assertFalse(is_exist_product_counter)
 
     def test_remove_catalog_saving_products(self):
         catalog = Catalog(self.driver)
@@ -106,8 +106,8 @@ class RemoveCatalogTests(unittest.TestCase):
 
         # check counters
         catalog_counter = market_page.catalog_counter
-        is_not_exist_catalog_counter = catalog_counter.is_not_exist()
-        self.assertTrue(is_not_exist_catalog_counter)
+        is_exist_catalog_counter = catalog_counter.is_exist()
+        self.assertFalse(is_exist_catalog_counter)
 
         product_counter = market_page.product_counter
         number_of_products = product_counter.get_number_of_all_products()

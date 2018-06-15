@@ -123,11 +123,10 @@ class CreateCatalogTests(unittest.TestCase):
         self.assertTrue(is_exist_catalog_stub)
 
         catalog_stub.create_catalog_later()
-        is_not_exist_catalog_stub = catalog_stub.is_not_exist()
-        self.assertTrue(is_not_exist_catalog_stub)
-
-        is_not_exist_catalog_widget = self.catalog_widget.is_not_exist()
-        self.assertTrue(is_not_exist_catalog_widget)
+        is_exist_catalog_stub = catalog_stub.is_exist()
+        self.assertFalse(is_exist_catalog_stub)
+        is_exist_catalog_widget = self.catalog_widget.is_exist()
+        self.assertFalse(is_exist_catalog_widget)
 
         catalog_popup = market_page.catalog_popup
         catalog_popup.open_from_product_panel()
@@ -160,11 +159,11 @@ class CreateCatalogTests(unittest.TestCase):
         market_page = self.shop.market_page
 
         catalog_stub = market_page.catalog_stub
-        is_not_exist_catalog_stub = catalog_stub.is_not_exist()
-        self.assertTrue(is_not_exist_catalog_stub)
+        is_exist_catalog_stub = catalog_stub.is_exist()
+        self.assertTrue(is_exist_catalog_stub)
 
-        is_not_exist_catalog_widget = self.catalog_widget.is_not_exist()
-        self.assertTrue(is_not_exist_catalog_widget)
+        is_exist_catalog_widget = self.catalog_widget.is_exist()
+        self.assertFalse(is_exist_catalog_widget)
 
     def test_create_several_catalogs(self, number_of_catalogs=10):
         for i in xrange(number_of_catalogs):
