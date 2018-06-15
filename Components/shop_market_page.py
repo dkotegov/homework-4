@@ -38,7 +38,7 @@ class CatalogPopup(Component):
         catalog_name = super(CatalogPopup, self).find_element(self.CATALOG_NAME)
         catalog_name.clear()
 
-    def upload_catalog_image(self, file_name='image_512x512.jpg'):
+    def upload_catalog_image(self, file_name):
         super(CatalogPopup, self).upload_image(self.UPLOAD_IMAGE, file_name)
 
     def waiting_image_upload(self):

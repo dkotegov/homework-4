@@ -7,6 +7,7 @@ from tests.common import get_driver, Auth, Main, Shop, Catalog, Product
 
 class ProductsTests(unittest.TestCase):
     PRODUCT_NAME = u'Товар'
+    PRODUCT_OUT_OF_STOCK = u'Нет в наличии'
     PRODUCT_PRICE = 100
 
     def setUp(self):
@@ -40,8 +41,8 @@ class ProductsTests(unittest.TestCase):
         self.assertEqual(expected_number_of_products, actual_number_of_products)
 
     def test_add_several_products(self):
-        number_of_products = 10
-        for i in xrange(number_of_products):
+        NUMBER_OF_PRODUCTS = 10
+        for i in xrange(NUMBER_OF_PRODUCTS):
             product_name = str(i)
             product_price = self.PRODUCT_PRICE + i
             self.test_add_product(product_name, product_price, i)
@@ -70,9 +71,8 @@ class ProductsTests(unittest.TestCase):
 
         product.mark_as_out_of_stock()
 
-        expected_price_text = u'Нет в наличии'
         product_price_text = product.get_price_text()
-        self.assertEqual(expected_price_text, product_price_text)
+        self.assertEqual(self.PRODUCT_OUT_OF_STOCK, product_price_text)
 
         product.return_on_sale()
 
@@ -80,39 +80,39 @@ class ProductsTests(unittest.TestCase):
         self.assertEqual(self.PRODUCT_PRICE, product_price)
 
     def test_pin_unpin_product(self):
-        names = {
+        NAMES = {
             0: '0',
             1: '1',
             2: '2',
             3: '3',
         }
 
-        Product(self.driver).create(names[0])
+        Product(self.driver).create(NAMES[0])
 
         catalog_page = CatalogPage(self.driver)
         first_product_widget_on_panel = catalog_page.product_widget
 
         first_product_name_on_panel = first_product_widget_on_panel.get_name()
-        self.assertEqual(names[0], first_product_name_on_panel)
+        self.assertEqual(NAMES[0], first_product_name_on_panel)
 
         pined_product = Product(self.driver)
-        pined_product.create(names[1])
+        pined_product.create(NAMES[1])
         pined_product.pin()
 
         first_product_name_on_panel = first_product_widget_on_panel.get_name()
-        self.assertEqual(names[1], first_product_name_on_panel)
+        self.assertEqual(NAMES[1], first_product_name_on_panel)
 
-        Product(self.driver).create(names[2])
+        Product(self.driver).create(NAMES[2])
 
         first_product_name_on_panel = first_product_widget_on_panel.get_name()
-        self.assertEqual(names[1], first_product_name_on_panel)
+        self.assertEqual(NAMES[1], first_product_name_on_panel)
 
         pined_product.unpin()
 
         first_product_name_on_panel = first_product_widget_on_panel.get_name()
-        self.assertEqual(names[1], first_product_name_on_panel)
+        self.assertEqual(NAMES[1], first_product_name_on_panel)
 
-        Product(self.driver).create(names[3])
+        Product(self.driver).create(NAMES[3])
 
         first_product_name_on_panel = first_product_widget_on_panel.get_name()
-        self.assertEqual(names[3], first_product_name_on_panel)
+        self.assertEqual(NAMES[3], first_product_name_on_panel)

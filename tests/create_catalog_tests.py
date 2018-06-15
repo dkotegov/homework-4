@@ -79,30 +79,30 @@ class CreateCatalogTests(unittest.TestCase):
         catalog_popup.waiting_closing()
 
     def test_create_catalog_with_long_name(self):
-        name_length = 50
-        long_catalog_name = 'x' * name_length
+        NAME_LENGTH = 50
+        LONG_NAME = 'x' * NAME_LENGTH
 
-        Catalog(self.driver).create(long_catalog_name)
+        Catalog(self.driver).create(LONG_NAME)
 
         widget_catalog_name = self.catalog_widget.get_name()
-        self.assertEqual(long_catalog_name, widget_catalog_name)
+        self.assertEqual(LONG_NAME, widget_catalog_name)
 
     def test_create_catalog_with_name_consist_of_spec_chars(self):
-        spec_name = u'~`!@#№$;%:^?&*()-_+=/.,|\"\'\\<>[]{}1234567890'
+        SPEC_NAME = u'~`!@#№$;%:^?&*()-_+=/.,|\"\'\\<>[]{}1234567890'
 
-        Catalog(self.driver).create(spec_name)
+        Catalog(self.driver).create(SPEC_NAME)
 
         widget_catalog_name = self.catalog_widget.get_name()
-        self.assertEqual(spec_name, widget_catalog_name)
+        self.assertEqual(SPEC_NAME, widget_catalog_name)
 
     def test_create_catalog_with_name_include_space_chars(self):
-        original_catalog_name = u'   А Б  В     Г Д  Е Ж   З И К    '
-        expected_catalog_name = u'А Б В Г Д Е Ж З И К'
+        ORIGINAL_CATALOG_NAME = u'   А Б  В     Г Д  Е Ж   З И К    '
+        EXPECTED_CATALOG_NAME = u'А Б В Г Д Е Ж З И К'
 
-        Catalog(self.driver).create(original_catalog_name)
+        Catalog(self.driver).create(ORIGINAL_CATALOG_NAME)
 
         widget_catalog_name = self.catalog_widget.get_name()
-        self.assertEqual(expected_catalog_name, widget_catalog_name)
+        self.assertEqual(EXPECTED_CATALOG_NAME, widget_catalog_name)
 
     def test_create_empty_catalog_from_catalog_panel(self, name=CATALOG_NAME):
         catalog_popup = self.shop.market_page.catalog_popup
