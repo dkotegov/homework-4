@@ -26,26 +26,27 @@ class ProductsTests(unittest.TestCase):
         self.shop.remove()
         self.driver.quit()
 
-    def test_add_product(self, name=PRODUCT_NAME, price=PRODUCT_PRICE, index=0):
+    def test_add_one_product(self):
         product = Product(self.driver)
-        product.create(name, price)
+        product.create(self.PRODUCT_NAME, self.PRODUCT_PRICE)
 
         product_name = product.get_name()
-        self.assertEqual(name, product_name)
+        self.assertEqual(self.PRODUCT_NAME, product_name)
 
         product_price = product.get_price()
-        self.assertEqual(price, product_price)
+        self.assertEqual(self.PRODUCT_PRICE, product_price)
 
         actual_number_of_products = self.catalog.get_number_of_products()
-        expected_number_of_products = index + 1
-        self.assertEqual(expected_number_of_products, actual_number_of_products)
+        self.assertEqual(1, actual_number_of_products)
 
     def test_add_several_products(self):
         NUMBER_OF_PRODUCTS = 10
         for i in xrange(NUMBER_OF_PRODUCTS):
-            product_name = str(i)
-            product_price = self.PRODUCT_PRICE + i
-            self.test_add_product(product_name, product_price, i)
+            product = Product(self.driver)
+            product.create()
+
+        actual_number_of_products = self.catalog.get_number_of_products()
+        self.assertEqual(NUMBER_OF_PRODUCTS, actual_number_of_products)
 
     def test_add_remove_one_product(self):
         number_of_products = self.catalog.get_number_of_products()
