@@ -44,7 +44,11 @@ class Main(object):
         return self.main_page.left_menu.are_there_any_groups()
 
     def get_number_of_groups(self):
-        return self.main_page.left_menu.get_number_of_groups()
+        are_there_any_groups = self.main_page.left_menu.are_there_any_groups()
+        if are_there_any_groups:
+            return self.main_page.left_menu.get_number_of_groups()
+        else:
+            return 0
 
 
 class Shop(object):

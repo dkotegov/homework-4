@@ -18,7 +18,7 @@ class CreateRemoveShopTest(unittest.TestCase):
         self.driver.quit()
 
     def test_create_remove_shop(self):
-        number_of_groups_before = self.get_current_number_of_groups()
+        number_of_groups_before = self.main_page.get_number_of_groups()
 
         shop = Shop(self.driver)
         shop.create(self.SHOP_NAME)
@@ -30,14 +30,10 @@ class CreateRemoveShopTest(unittest.TestCase):
         shop_category = shop.get_category()
         self.assertEqual(self.SHOP_CATEGORY, shop_category)
 
+        number_of_groups = self.main_page.get_number_of_groups()
+        self.assertNotEqual(number_of_groups, number_of_groups_before)
+
         shop.remove()
 
-        number_of_groups_after = self.get_current_number_of_groups()
+        number_of_groups_after = self.main_page.get_number_of_groups()
         self.assertEqual(number_of_groups_before, number_of_groups_after)
-
-    def get_current_number_of_groups(self):
-        are_there_any_groups = self.main_page.are_there_any_groups()
-        if are_there_any_groups:
-            return self.main_page.get_number_of_groups()
-        else:
-            return 0
