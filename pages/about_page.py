@@ -1,4 +1,4 @@
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import TimeoutException
 
 from components.about_form import AboutForm
 from pages.page import Page
@@ -37,7 +37,6 @@ class AboutPage(Page):
 
     def add_army_no_city_correct_unit(self, unit):
         army_form = self.about_form.army_form()
-        army_form.put_city('')
         army_form.add_unit(unit)
         army_form.button_ok()
         self.about_form.close_popup()
@@ -74,7 +73,6 @@ class AboutPage(Page):
 
     def add_career_no_city_correct_job(self, job):
         career_form = self.about_form.career_form()
-        career_form.put_city('')
         career_form.add_job(job)
         career_form.button_ok()
         self.about_form.close_popup()
@@ -112,7 +110,6 @@ class AboutPage(Page):
 
     def add_school_no_city_correct_school(self, school):
         study_form = self.about_form.study_form()
-        study_form.put_city('')
         study_form.add_school(school)
         study_form.button_ok()
         self.about_form.close_popup()

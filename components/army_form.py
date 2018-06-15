@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from constants.about import ERASE_ALL_SEQUENCE
 
 from components.base_component import BaseComponent
 
@@ -23,7 +24,7 @@ class ArmyForm(BaseComponent):
 
     def put_city(self, str):
         city = self.get_clickable_element(self.CITY)
-        city.clear()
+        city.send_keys(ERASE_ALL_SEQUENCE)
         city.send_keys(str)
 
     def add_unit(self, str):
@@ -32,7 +33,7 @@ class ArmyForm(BaseComponent):
 
     def put_unit(self, str):
         unit = self.get_clickable_element(self.UNIT)
-        unit.clear()
+        unit.send_keys(ERASE_ALL_SEQUENCE)
         unit.send_keys(str)
 
     def select_unit(self):
