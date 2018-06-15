@@ -75,7 +75,7 @@ class TopicTags(Component):
         return super(TopicTags, self).is_exist_element(tag_element)
 
     def no_one_hashtags(self):
-        return super(TopicTags, self).is_not_exist_element(self.HASHTAG)
+        return not super(TopicTags, self).is_exist_element(self.HASHTAG)
 
     def is_exist_hashtag(self, hashtag):
         hashtag_element = self.HASHTAG_TEMPLATE.format(hashtag)

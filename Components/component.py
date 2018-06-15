@@ -37,15 +37,8 @@ class Component(object):
 
     def is_exist_element(self, xpath):
         try:
-            self.find_element(xpath)
-        except TimeoutException:
-            return False
-        return True
-
-    def is_not_exist_element(self, xpath):
-        try:
-            self.waiting_until_invisible(xpath)
-        except TimeoutException:
+            self.driver.find_element_by_xpath(xpath)
+        except NoSuchElementException:
             return False
         return True
 
