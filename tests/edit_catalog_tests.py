@@ -14,6 +14,7 @@ class EditCatalogTests(unittest.TestCase):
         Main(self.driver).open_groups_page()
         self.shop = Shop(self.driver)
         self.shop.create()
+        self.catalog_widget = self.shop.market_page.catalog_widget
 
     def tearDown(self):
         self.shop.remove()
@@ -38,8 +39,7 @@ class EditCatalogTests(unittest.TestCase):
         catalog.create()
 
         # check image stub on widget
-        catalog_widget = self.shop.market_page.catalog_widget
-        is_exist_image_stub_on_widget = catalog_widget.is_exist_image_stub()
+        is_exist_image_stub_on_widget = self.catalog_widget.is_exist_image_stub()
         self.assertTrue(is_exist_image_stub_on_widget)
 
         # check image stub on panel
@@ -61,8 +61,7 @@ class EditCatalogTests(unittest.TestCase):
         creating_image_src = catalog.create_with_image('image_64x64.jpg')
 
         # check image on widget
-        catalog_widget = self.shop.market_page.catalog_widget
-        widget_creating_image_src = catalog_widget.get_image_src()
+        widget_creating_image_src = self.catalog_widget.get_image_src()
         self.assertEqual(creating_image_src, widget_creating_image_src)
 
         # check image on panel

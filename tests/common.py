@@ -112,11 +112,11 @@ class Catalog(object):
         catalog_popup.set_name()
         catalog_popup.upload_catalog_image(image_name)
         catalog_popup.waiting_image_upload()
-        creating_image_src = catalog_popup.get_image_src()
+        upload_image_src = catalog_popup.get_image_src()
         catalog_popup.save()
         catalog_popup.waiting_closing()
 
-        return creating_image_src
+        return upload_image_src
 
     def open(self):
         catalog_widget = self.market_page.catalog_widget

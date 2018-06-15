@@ -45,8 +45,7 @@ class CatalogPopup(Component):
         super(CatalogPopup, self).is_exist_element(self.IMAGE)
 
     def get_image_src(self):
-        image_src = super(CatalogPopup, self).find_element(self.IMAGE).get_attribute("src")
-        return Component.get_first_part_of_image_src(image_src)
+        return super(CatalogPopup, self).get_image_source(self.IMAGE)
 
     def get_error_message(self):
         return super(CatalogPopup, self).get_element_text(self.ERROR_MESSAGE)
@@ -121,8 +120,7 @@ class CatalogWidget(Component):
         return Component.get_number_from_string(number_of_products_str)
 
     def get_image_src(self):
-        image_src = super(CatalogWidget, self).find_element(self.CATALOG_IMAGE).get_attribute("src")
-        return Component.get_first_part_of_image_src(image_src)
+        return super(CatalogWidget, self).get_image_source(self.CATALOG_IMAGE)
 
     def open_catalog(self):
         super(CatalogWidget, self).click_element(self.CATALOG_NAME)
@@ -231,8 +229,7 @@ class CatalogPanel(Component):
         return Component.get_number_from_string(number_of_products_str)
 
     def get_image_src(self):
-        image_src = super(CatalogPanel, self).find_element(self.CATALOG_IMAGE).get_attribute("src")
-        return Component.get_first_part_of_image_src(image_src)
+        return super(CatalogPanel, self).get_image_source(self.CATALOG_IMAGE)
 
     def edit(self):
         super(CatalogPanel, self).click_element(self.EDIT_BUTTON)
