@@ -2,17 +2,17 @@
 import os
 import re
 
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 
 class Component(object):
+    NUMBER_OF_FIRST_CHARS = 83
+    TIME_TO_IMPLICIT_WAIT = 1
     TIMEOUT = 30
     FREQUENCY = 0.1
-
-    NUMBER_OF_FIRST_CHARS = 83
 
     @staticmethod
     def get_number_from_string(string):
@@ -24,16 +24,13 @@ class Component(object):
 
     def __init__(self, driver):
         self.driver = driver
+        driver.implicitly_wait(self.TIME_TO_IMPLICIT_WAIT)
 
     def find_element(self, xpath):
-        return WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
-            lambda d: d.find_element_by_xpath(xpath)
-        )
+        return self.driver.find_element_by_xpath(xpath)
 
     def find_elements(self, xpath):
-        return WebDriverWait(self.driver, self.TIMEOUT, self.FREQUENCY).until(
-            lambda d: d.find_elements_by_xpath(xpath)
-        )
+        return self.driver.find_elements_by_xpath(xpath)
 
     def get_number_of_elements(self, xpath):
         return len(self.find_elements(xpath))
