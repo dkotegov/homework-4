@@ -15,20 +15,20 @@ class CreateCatalogTests(unittest.TestCase):
         Main(self.driver).open_groups_page()
         self.shop = Shop(self.driver)
         self.shop.create()
-        self.catalog_widget = self.shop.market_page.catalog_widget
+
+        self.market_page = self.shop.market_page
+        self.catalog_widget = self.market_page.catalog_widget
 
     def tearDown(self):
         self.shop.remove()
         self.driver.quit()
 
     def test_cancel_and_close_creating_catalog(self):
-        market_page = self.shop.market_page
-
-        catalog_stub = market_page.catalog_stub
+        catalog_stub = self.market_page.catalog_stub
         is_exist_catalog_stub = catalog_stub.is_exist()
         self.assertTrue(is_exist_catalog_stub)
 
-        catalog_popup = market_page.catalog_popup
+        catalog_popup = self.market_page.catalog_popup
         catalog_popup.open_from_catalog_panel()
         catalog_popup.cancel_saving()
         catalog_popup.waiting_closing()
@@ -42,7 +42,7 @@ class CreateCatalogTests(unittest.TestCase):
 
     def test_create_catalog_with_wrong_names(self):
         # empty name
-        catalog_popup = self.shop.market_page.catalog_popup
+        catalog_popup = self.market_page.catalog_popup
         catalog_popup.open_from_catalog_panel()
         catalog_popup.save()
 
@@ -104,21 +104,32 @@ class CreateCatalogTests(unittest.TestCase):
         widget_catalog_name = self.catalog_widget.get_name()
         self.assertEqual(EXPECTED_CATALOG_NAME, widget_catalog_name)
 
-    def test_create_empty_catalog_from_catalog_panel(self, name=CATALOG_NAME):
-        catalog_popup = self.shop.market_page.catalog_popup
-        catalog_popup.open_from_catalog_panel()
+    def test_create_empty_catalog_from_catalog_panel(self):
+        Catalog(self.driver).create(self.CATALOG_NAME)
 
-        self.create_and_check_empty_catalog(catalog_popup, name)
+        is_exist_catalog_widget = self.catalog_widget.is_exist()
+        self.assertTrue(is_exist_catalog_widget)
 
-    def test_create_empty_catalog_from_product_stub(self, name=CATALOG_NAME):
-        catalog_popup = self.shop.market_page.catalog_popup
-        catalog_popup.open_from_catalog_stub()
+        widget_catalog_name = self.catalog_widget.get_name()
+        self.assertEqual(self.CATALOG_NAME, widget_catalog_name)
 
-        self.create_and_check_empty_catalog(catalog_popup, name)
+        number_of_products = self.catalog_widget.get_number_of_products()
+        self.assertEqual(0, number_of_products)
 
-    def test_create_catalog_later_from_product_panel(self, name=CATALOG_NAME):
-        market_page = self.shop.market_page
-        catalog_stub = market_page.catalog_stub
+    def test_create_empty_catalog_from_product_stub(self):
+        Catalog(self.driver).create_from_catalog_product_stub(self.CATALOG_NAME)
+
+        is_exist_catalog_widget = self.catalog_widget.is_exist()
+        self.assertTrue(is_exist_catalog_widget)
+
+        widget_catalog_name = self.catalog_widget.get_name()
+        self.assertEqual(self.CATALOG_NAME, widget_catalog_name)
+
+        number_of_products = self.catalog_widget.get_number_of_products()
+        self.assertEqual(0, number_of_products)
+
+    def test_create_catalog_later_from_product_panel(self):
+        catalog_stub = self.market_page.catalog_stub
         is_exist_catalog_stub = catalog_stub.is_exist()
         self.assertTrue(is_exist_catalog_stub)
 
@@ -128,54 +139,51 @@ class CreateCatalogTests(unittest.TestCase):
         is_exist_catalog_widget = self.catalog_widget.is_exist()
         self.assertFalse(is_exist_catalog_widget)
 
-        catalog_popup = market_page.catalog_popup
-        catalog_popup.open_from_product_panel()
+        Catalog(self.driver).create_from_catalog_product_panel(self.CATALOG_NAME)
 
-        self.create_and_check_empty_catalog(catalog_popup, name)
-
-    def create_and_check_empty_catalog(self, popup, name):
-        # creating catalog
-        popup.set_name(name)
-        popup.save()
-        popup.waiting_closing()
-
-        # checks
         is_exist_catalog_widget = self.catalog_widget.is_exist()
         self.assertTrue(is_exist_catalog_widget)
 
         widget_catalog_name = self.catalog_widget.get_name()
-        self.assertEqual(name, widget_catalog_name)
+        self.assertEqual(self.CATALOG_NAME, widget_catalog_name)
 
         number_of_products = self.catalog_widget.get_number_of_products()
         self.assertEqual(0, number_of_products)
 
     def test_remove_catalog_after_creating_later(self):
-        self.test_create_catalog_later_from_product_panel()
+        catalog_stub = self.market_page.catalog_stub
+        catalog_stub.create_catalog_later()
 
         catalog = Catalog(self.driver)
+        catalog.create_from_catalog_product_panel()
         catalog.open()
         catalog.remove_saving_products()
 
-        market_page = self.shop.market_page
-
-        catalog_stub = market_page.catalog_stub
+        catalog_stub = self.market_page.catalog_stub
         is_exist_catalog_stub = catalog_stub.is_exist()
-        self.assertTrue(is_exist_catalog_stub)
+        self.assertFalse(is_exist_catalog_stub)
 
         is_exist_catalog_widget = self.catalog_widget.is_exist()
         self.assertFalse(is_exist_catalog_widget)
 
-    def test_create_several_catalogs(self, number_of_catalogs=10):
-        for i in xrange(number_of_catalogs):
-            self.test_create_empty_catalog_from_catalog_panel(str(i))
+    def test_create_several_catalogs(self):
+        NUMBER_OF_CATALOGS = 10
+        for i in xrange(NUMBER_OF_CATALOGS):
+            Catalog(self.driver).create()
 
-        catalog_counter = self.shop.market_page.catalog_counter
+        catalog_counter = self.market_page.catalog_counter
         actual_catalog_count = catalog_counter.get_number_of_catalogs()
-        self.assertEquals(number_of_catalogs, actual_catalog_count)
+        self.assertEquals(NUMBER_OF_CATALOGS, actual_catalog_count)
 
     def test_create_maximum_catalogs(self):
-        self.test_create_several_catalogs(100)
+        NUMBER_OF_CATALOGS = 100
+        for i in xrange(NUMBER_OF_CATALOGS):
+            Catalog(self.driver).create()
 
-        catalog_popup = self.shop.market_page.catalog_popup
+        catalog_counter = self.market_page.catalog_counter
+        actual_catalog_count = catalog_counter.get_number_of_catalogs()
+        self.assertEquals(NUMBER_OF_CATALOGS, actual_catalog_count)
+
+        catalog_popup = self.market_page.catalog_popup
         is_disabled_creation = catalog_popup.is_disabled_creation()
         self.assertTrue(is_disabled_creation)

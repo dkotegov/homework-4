@@ -109,6 +109,22 @@ class Catalog(object):
         catalog_popup.save()
         catalog_popup.waiting_closing()
 
+    def create_from_catalog_product_stub(self, name=u'Каталог'):
+        catalog_popup = self.market_page.catalog_popup
+        catalog_popup.open_from_catalog_stub()
+
+        catalog_popup.set_name(name)
+        catalog_popup.save()
+        catalog_popup.waiting_closing()
+
+    def create_from_catalog_product_panel(self, name=u'Каталог'):
+        catalog_popup = self.market_page.catalog_popup
+        catalog_popup.open_from_product_panel()
+
+        catalog_popup.set_name(name)
+        catalog_popup.save()
+        catalog_popup.waiting_closing()
+
     def create_with_image(self, image_name='image_512x512.jpg'):
         catalog_popup = self.market_page.catalog_popup
         catalog_popup.open_from_catalog_panel()

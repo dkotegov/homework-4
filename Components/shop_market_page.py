@@ -318,7 +318,11 @@ class CatalogStub(Component):
         return super(CatalogStub, self).is_exist_element(self.STUB)
 
     def create_catalog_later(self):
-        return super(CatalogStub, self).click_element(self.CREATE_LATER)
+        super(CatalogStub, self).click_element(self.CREATE_LATER)
+        self.waiting_until_stub_disappear()
+
+    def waiting_until_stub_disappear(self):
+        super(CatalogStub, self).waiting_until_invisible(self.STUB)
 
 
 class ProductStub(Component):
