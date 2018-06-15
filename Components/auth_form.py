@@ -8,10 +8,10 @@ class AuthForm(Component):
     SUBMIT = '//input[contains(@data-l,"sign_in")]'
 
     def set_login(self, login):
-        super(AuthForm, self).input_text_to_element(self.LOGIN, login)
+        super(AuthForm, self).input_text(self.LOGIN, login)
 
     def set_password(self, password):
-        super(AuthForm, self).input_text_to_element(self.PASSWORD, password)
+        super(AuthForm, self).input_text(self.PASSWORD, password)
 
     def submit(self):
         super(AuthForm, self).click_element(self.SUBMIT)

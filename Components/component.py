@@ -45,18 +45,15 @@ class Component(object):
     def click_element(self, xpath):
         self.find_element(xpath).click()
 
-    def input_text_to_element(self, xpath, text):
-        input_element = self.find_element(xpath)
-        input_element.clear()
-        input_element.send_keys(text)
+    def input_text(self, xpath, text):
+        self.input_key(xpath, text)
 
     def input_key(self, xpath, key):
-        input_element = self.find_element(xpath)
-        input_element.send_keys(key)
+        self.find_element(xpath).send_keys(key)
 
     def upload_image(self, xpath, file_name):
         image_folder = os.environ.get('IMAGES', 'images/')
-        image_path = image_folder + file_name
+        image_path = os.path.abspath(image_folder + file_name)
         self.find_element(xpath).send_keys(image_path)
 
     def get_element_text(self, xpath):

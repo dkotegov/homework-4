@@ -19,7 +19,7 @@ class CreateGroupPopup(Component):
         super(CreateGroupPopup, self).click_element(self.CREATE_SHOP)
 
     def set_shop_name(self, shop_name):
-        super(CreateGroupPopup, self).input_text_to_element(self.SHOP_NAME, shop_name)
+        super(CreateGroupPopup, self).input_text(self.SHOP_NAME, shop_name)
 
     def set_subcategory(self):
         super(CreateGroupPopup, self).click_element(self.GAMES_SUBCATEGORY)

@@ -32,7 +32,11 @@ class CatalogPopup(Component):
         super(CatalogPopup, self).click_element(self.CREATE_BUTTON_ON_PRODUCT_PANEL)
 
     def set_name(self, name=u'Каталог'):
-        super(CatalogPopup, self).input_text_to_element(self.CATALOG_NAME, name)
+        super(CatalogPopup, self).input_text(self.CATALOG_NAME, name)
+
+    def clear_name(self):
+        catalog_name = super(CatalogPopup, self).find_element(self.CATALOG_NAME)
+        catalog_name.clear()
 
     def upload_catalog_image(self, file_name='image_512x512.jpg'):
         super(CatalogPopup, self).upload_image(self.UPLOAD_IMAGE, file_name)
@@ -79,13 +83,13 @@ class CreateProductPopup(Component):
         super(CreateProductPopup, self).is_exist_element(self.PRODUCT_CATALOG)
 
     def set_name(self, name):
-        super(CreateProductPopup, self).input_text_to_element(self.PRODUCT_NAME, name)
+        super(CreateProductPopup, self).input_text(self.PRODUCT_NAME, name)
 
     def set_about(self, about):
-        super(CreateProductPopup, self).input_text_to_element(self.PRODUCT_ABOUT, about)
+        super(CreateProductPopup, self).input_text(self.PRODUCT_ABOUT, about)
 
     def set_price(self, price):
-        super(CreateProductPopup, self).input_text_to_element(self.PRODUCT_PRICE, price)
+        super(CreateProductPopup, self).input_text(self.PRODUCT_PRICE, price)
 
     def submit(self):
         super(CreateProductPopup, self).click_element(self.SUBMIT_BUTTON)

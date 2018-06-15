@@ -130,10 +130,11 @@ class Catalog(object):
     def get_number_of_products(self):
         return self.catalog_page.catalog_panel.get_number_of_products()
 
-    def set_name(self, other_name=u'Другой каталог'):
+    def reset_name(self, new_name):
         self.catalog_page.catalog_panel.edit()
         catalog_popup = self.catalog_page.catalog_popup
-        catalog_popup.set_name(other_name)
+        catalog_popup.clear_name()
+        catalog_popup.set_name(new_name)
         catalog_popup.save()
         catalog_popup.waiting_closing()
 

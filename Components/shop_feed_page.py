@@ -24,7 +24,7 @@ class LeftMenuOnShopFeedPage(Component):
     MESSAGES_BUTTON = '//a[text()="Сообщения"]'
 
     def remove_shop(self):
-        super(LeftMenuOnShopFeedPage, self).is_exist_element(self.MESSAGES_BUTTON)
+        super(LeftMenuOnShopFeedPage, self).find_element(self.MESSAGES_BUTTON)
         self.make_other_actions_visible()
         super(LeftMenuOnShopFeedPage, self).waiting_until_visible(self.OTHER_ACTIONS_BLOCK)
         super(LeftMenuOnShopFeedPage, self).click_element(self.REMOVE_SHOP_BUTTON)

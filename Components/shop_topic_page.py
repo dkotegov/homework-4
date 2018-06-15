@@ -14,7 +14,7 @@ class TopicPopup(Component):
         super(TopicPopup, self).click_element(self.CREATE_TOPIC)
 
     def set_text(self, text):
-        super(TopicPopup, self).input_text_to_element(self.TOPIC_TEXT, text)
+        super(TopicPopup, self).input_text(self.TOPIC_TEXT, text)
 
     def submit(self):
         super(TopicPopup, self).click_element(self.SUBMIT)
@@ -60,7 +60,7 @@ class TopicTags(Component):
         super(TopicTags, self).click_element(self.ADD_TAGS_BUTTON)
 
     def set_tag(self, tag):
-        super(TopicTags, self).input_text_to_element(self.TAGS_INPUT, tag)
+        super(TopicTags, self).input_text(self.TAGS_INPUT, tag)
         super(TopicTags, self).input_key(self.TAGS_INPUT, Keys.ENTER)
 
     def remove_tag(self, tag):

@@ -6,6 +6,7 @@ from tests.common import get_driver, Auth, Main, Shop, Catalog
 
 class EditCatalogTests(unittest.TestCase):
     CATALOG_NAME = u'Каталог'
+    OTHER_CATALOG_NAME = u'Другой каталог'
 
     def setUp(self):
         self.driver = get_driver()
@@ -26,11 +27,10 @@ class EditCatalogTests(unittest.TestCase):
         catalog_name_before_edit = catalog.get_name()
         self.assertEquals(self.CATALOG_NAME, catalog_name_before_edit)
 
-        other_catalog_name = u'Другой каталог'
-        catalog.set_name(other_catalog_name)
+        catalog.reset_name(self.OTHER_CATALOG_NAME)
 
         catalog_name_after_edit = catalog.get_name()
-        self.assertEquals(other_catalog_name, catalog_name_after_edit)
+        self.assertEquals(self.OTHER_CATALOG_NAME, catalog_name_after_edit)
 
     def test_upload_image_after_creating_catalog(self):
         # creating catalog without image
