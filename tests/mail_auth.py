@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-
-import unittest
 import urlparse
-
-from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support.ui import WebDriverWait
 
 class Page(object):
     BASE_URL = 'https://mail.ru/'
@@ -27,10 +22,6 @@ class AuthPage(Page):
     @property
     def form(self):
         return AuthForm(self.driver)
-
-    # @property
-    # def top_menu(self):
-    #     return TopMenu(self.driver)   
 
 class Component(object):
     def __init__(self, driver):
