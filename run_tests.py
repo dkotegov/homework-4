@@ -3,11 +3,11 @@ import sys
 import unittest
 
 
-from tests import Tests
+from letter_formatting_tests import LetterFormattingTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(Tests)
+        unittest.makeSuite(LetterFormattingTests)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())()
