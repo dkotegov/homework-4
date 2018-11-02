@@ -2,7 +2,7 @@
 
 import sys
 import unittest
-from tests.mail_auth import ExampleTest
+from tests.first_test import ExampleTest
 
 
 if __name__ == '__main__':

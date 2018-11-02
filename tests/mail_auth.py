@@ -50,22 +50,14 @@ class AuthForm(Component):
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
-class ExampleTest(unittest.TestCase):
+class Authentification(object):
     USEREMAIL = 'ttexnopark@mail.ru'
     PASSWORD = os.environ['PASSWORD']
 
-    def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
+    def __init__(self, driver):
+        self.driver = driver
 
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
-
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
+    def auth(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -73,7 +65,3 @@ class ExampleTest(unittest.TestCase):
         auth_form.set_login(self.USEREMAIL)
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
-        #should be replaced by wait
-        import time
-        time.sleep(5)
-        #end(should be replaced by wait)
