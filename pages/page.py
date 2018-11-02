@@ -1,8 +1,5 @@
 import urlparse
 
-from selenium import webdriver
-from selenium.webdriver import ActionChains
-
 
 class Page(object):
     BASE_URL = 'https://octavius.mail.ru/'
