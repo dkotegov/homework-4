@@ -2,8 +2,7 @@
 import sys
 import unittest
 
-
-from letter_formatting_tests import LetterFormattingTests
+from tests.letter_formatting_tests import LetterFormattingTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
