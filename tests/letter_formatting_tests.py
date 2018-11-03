@@ -3,7 +3,6 @@ import os
 import unittest
 
 from components.login_and_write import login_and_write
-from selenium.webdriver import DesiredCapabilities, Remote
 from pages.letter_formatting_page import LetterFormattingPage
 from tests.base_test import BaseTest
 
