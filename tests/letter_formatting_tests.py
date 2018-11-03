@@ -9,9 +9,6 @@ from tests.base_test import BaseTest
 
 
 class LetterFormattingTests(BaseTest):
-    USEREMAIL = 'park.test.testovich@mail.ru'
-    PASSWORD = 'rha_the_best_team'
-    # PASSWORD = os.environ['PASSWORD']
 
     BOLD_TEXT = '<strong>​​​​​​​hello</strong><br>'
 
