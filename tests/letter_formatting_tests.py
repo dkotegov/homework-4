@@ -5,30 +5,15 @@ import unittest
 from components.login_and_write import login_and_write
 from selenium.webdriver import DesiredCapabilities, Remote
 from pages.letter_formatting_page import LetterFormattingPage
-from selenium.webdriver.chrome.options import Options
+from tests.base_test import BaseTest
 
 
-class LetterFormattingTests(unittest.TestCase):
+class LetterFormattingTests(BaseTest):
     USEREMAIL = 'park.test.testovich@mail.ru'
     PASSWORD = 'rha_the_best_team'
     # PASSWORD = os.environ['PASSWORD']
 
     BOLD_TEXT = '<strong>​​​​​​​hello</strong><br>'
-
-    def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-
-        options = Options()
-        options.add_argument("--start-maximized")
-
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
-            options=options
-        )
-
-    def tearDown(self):
-        self.driver.quit()
 
     def test(self):
         login_and_write(self.driver, self.USEREMAIL, self.PASSWORD)
