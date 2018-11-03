@@ -11,12 +11,13 @@ class Page(object):
     def open(self):
         url = urlparse.urljoin(self.BASE_URL, self.PAGE)
         self.driver.get(url)
-        self.driver.maximize_window()
+        self.driver.set_window_size(1800, 800)
+        # self.driver.maximize_window()
 
     def open_page_by_url(self, path):
         url = urlparse.urljoin(self.BASE_URL, path)
         self.driver.get(url)
-        self.driver.maximize_window()
+        # self.driver.maximize_window()
 
     def set_page(self, path):
         self.PAGE = path

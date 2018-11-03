@@ -1,10 +1,11 @@
 # coding=utf-8
 import os
 import unittest
-from pages.auth_page import AuthPage
-from selenium.webdriver import DesiredCapabilities, Remote
 
+from components.login_and_write import login_and_write
+from selenium.webdriver import DesiredCapabilities, Remote
 from pages.letter_formatting_page import LetterFormattingPage
+from selenium.webdriver.chrome.options import Options
 
 
 class LetterFormattingTests(unittest.TestCase):
@@ -17,21 +18,20 @@ class LetterFormattingTests(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 
+        options = Options()
+        options.add_argument("--start-maximized")
+
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
+            options=options
         )
 
     def tearDown(self):
         self.driver.quit()
 
     def test(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_form = auth_page.form
-        auth_form.set_login(self.USEREMAIL)
-        auth_form.set_password(self.PASSWORD)
-        auth_form.submit()
+        login_and_write(self.driver, self.USEREMAIL, self.PASSWORD)
 
         # форматирование письма
         letter_formatting_page = LetterFormattingPage(self.driver)
