@@ -64,6 +64,6 @@ target/
 
 .idea/
 
-.chromedriver
+chromedriver
 
-.geckodriver
+geckodriver
