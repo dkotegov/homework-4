@@ -2,7 +2,7 @@ from components.file_attaching_form import FileAttachingForm
 from pages.page import Page
 
 
-class FileAttaching(Page):
+class FileAttachingPage(Page):
     PATH = ''
 
     @property

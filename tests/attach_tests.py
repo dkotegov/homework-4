@@ -1,9 +1,8 @@
 # coding=utf-8
 from components.login_and_write import login_and_write
 
-from pages.letter_formatting_page import LetterFormattingPage
+from pages.file_attaching_page import FileAttachingPage
 from tests.base_test import BaseTest
-
 
 
 class AttachTests(BaseTest):
@@ -14,10 +13,12 @@ class AttachTests(BaseTest):
     def test(self):
         login_and_write(self.driver, self.USEREMAIL, self.PASSWORD)
         # форматирование письма
-        letter_formatting_page = LetterFormattingPage(self.driver)
-        letter_formatting_form = letter_formatting_page.form
-        letter_formatting_form.open_writing_letter()
-        letter_formatting_form.get_file_attach_input().send_keys(self.TEST_FILE_XLSX)
-        letter_formatting_form
+        file_attaching_page = FileAttachingPage(self.driver)
+        file_attaching_form = file_attaching_page.form
+        file_attaching_form.open_writing_letter()
+        file_attaching_form.set_file_attach_input()
+        file_attaching_form.send_keys_to_input(self.TEST_FILE_XLSX)
+        file_attaching_form.set_destionation_email()
+        file_attaching_form.click_send_button()
 
-        self.assertEqual(1,1)
+        self.assertEqual(file_attaching_form.checkMessageSent(), True)
