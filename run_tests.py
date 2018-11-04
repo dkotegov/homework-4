@@ -1,6 +1,12 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python2
 
 import unittest
+from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 if __name__ == '__main__':
-    pass
+	driver = webdriver.Remote(
+		command_executor='http://127.0.0.1:4444/wd/hub',
+	desired_capabilities=DesiredCapabilities.CHROME )
+	driver.get("https://park.mail.ru/")
+	driver.quit()
