@@ -11,7 +11,8 @@ class Page(object):
     def open(self):
         url = urlparse.urljoin(self.BASE_URL, self.PAGE)
         self.driver.get(url)
-        self.driver.fullscreen_window()
+        # self.driver.fullscreen_window()
+        self.driver.maximize_window()
 
     def open_page_by_url(self, path):
         url = urlparse.urljoin(self.BASE_URL, path)
