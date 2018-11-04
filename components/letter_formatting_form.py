@@ -10,6 +10,7 @@ from components.base_form import BaseForm
 
 class LetterFormattingForm(BaseForm):
     # text formatting elements
+    TEST_FILE_DIR = './test_files/'
     MESSAGE_FIELD = '//div[@role="textbox"]/div/div'
     BOLD_BUTTON = '//button[@title="Жирный текст"]'
     ITALIC_BUTTON = '//button[@title="Наклонный текст"]'
@@ -21,7 +22,7 @@ class LetterFormattingForm(BaseForm):
 
     BACKGROUND_COLOR_BUTTON = '//button[@title="Цвет фона"]'
     BACKGROUND_COLOR_VALUE = '//div[@class="cell--3K4W6"]/div[6]/div[2]/div/div[4]'
-    FORMATTER_TEXT = '//div[@role="textbox"]/div/div/span'
+    FORMATTED_TEXT = '//div[@role="textbox"]/div/div/span'
 
     FONT_BUTTON = '//button[@title="Шрифт"]'
     FONT_VALUE = '//div[@class="cell--3K4W6"]/div[7]/div[2]/div/div[2]'
@@ -31,7 +32,29 @@ class LetterFormattingForm(BaseForm):
     TEXT_ALIGN_VALUE_RIGHT = '//div[@class="cell--3K4W6"]/div[8]/div[2]/div/div[3]'
 
     TEXT_MARGIN = '//button[@title="Отступ"]'
-    TEXT_MARGIN_VALUE = '//div[@class="cell--3K4W6"]/div[9]/div[2]/div/div[2]'
+    TEXT_MARGIN_INC = '//div[@class="cell--3K4W6"]/div[9]/div[2]/div/div[2]'
+    TEXT_MARGIN_DEC = '//div[@class="cell--3K4W6"]/div[9]/div[2]/div/div[1]'
+
+    LIST_BUTTON = '//button[@title="Список"]'
+    NUMBERED_LIST = '//div[@class="cell--3K4W6"]/div[10]/div[2]/div/div[1]'
+    BULLETED_LIST = '//div[@class="cell--3K4W6"]/div[10]/div[2]/div/div[2]'
+    LISTED_TEXT = '//div[@role="textbox"]/div/ol'
+    BULLETED_TEXT = '//div[@role="textbox"]/div/ul'
+
+    CANCEL_BUTTON = '//button[@title="Отменить"]'
+    REPEAT_BUTTON = '//button[@title="Повторить"]'
+
+    LINK_BUTTON = '//div[@class="cell--3K4W6"]/div[13]'
+    OK_LINK_BUTTON = '//button[@tabindex="520"]'
+    LINK_IN_MESSAGE_FIELD = '//div[@role="textbox"]/div/div/a'
+
+    PICTURE_BUTTON = '//button[@title="Вставить картинку"]/input'
+    TEST_PICTURE = TEST_FILE_DIR + 'pict.png'
+
+    # Клик на поле ввода
+    def click_on_message_field(self):
+        element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
+        ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Жирный шрифт
     def click_on_bold_icon(self):
@@ -92,37 +115,89 @@ class LetterFormattingForm(BaseForm):
         elem = self.driver.find_element_by_xpath(self.TEXT_MARGIN)
         ActionChains(self.driver).move_to_element(elem).click().perform()
 
-    # Значение отступа
-    def click_on_text_margin_value_icon(self):
-        elem = self.driver.find_element_by_xpath(self.TEXT_MARGIN_VALUE)
+    # Увеличить отступ
+    def click_on_text_margin_inc(self):
+        elem = self.driver.find_element_by_xpath(self.TEXT_MARGIN_INC)
         ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Уменьшить отступ
+    def click_on_text_margin_dec(self):
+        elem = self.driver.find_element_by_xpath(self.TEXT_MARGIN_DEC)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Список
+    def click_on_list_icon(self):
+        elem = self.driver.find_element_by_xpath(self.LIST_BUTTON)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Нумерованный список
+    def click_on_numbered_list(self):
+        elem = self.driver.find_element_by_xpath(self.NUMBERED_LIST)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Маркированный список
+    def click_on_bulleted_list(self):
+        elem = self.driver.find_element_by_xpath(self.BULLETED_LIST)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Отменить действие
+    def click_on_cancel_icon(self):
+        elem = self.driver.find_element_by_xpath(self.CANCEL_BUTTON)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Повторить действие
+    def click_on_repeat_icon(self):
+        elem = self.driver.find_element_by_xpath(self.REPEAT_BUTTON)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Вставить ссылку
+    def click_on_link_icon(self):
+        elem = self.driver.find_element_by_xpath(self.LINK_BUTTON)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Подтверждение вставки ссылки
+    def click_on_ok_link_button(self):
+        elem = self.driver.find_element_by_xpath(self.OK_LINK_BUTTON)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    # Нажатие TAB
+    def click_on_tab_key(self):
+        ActionChains(self.driver).key_down(Keys.TAB).perform()
+
+    # Вставка картинки
+    def send_picture(self):
+        elem = self.driver.find_element_by_xpath(self.PICTURE_BUTTON)
+        elem.send_keys(self.TEST_PICTURE)
 
     # Ввод текста
     def write_some_text(self, text):
-        element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
-        ActionChains(self.driver).move_to_element(element).click().perform()
         ActionChains(self.driver).key_down(text).perform()
 
     # Получение innerHTML элемента
     def get_text(self):
         return self.driver.find_element_by_xpath(self.MESSAGE_FIELD).get_attribute('innerHTML')
 
+    # Получение ссылки
+    def get_link(self):
+        return self.driver.find_element_by_xpath(self.LINK_IN_MESSAGE_FIELD).get_attribute('href'), \
+               self.driver.find_element_by_xpath(self.LINK_IN_MESSAGE_FIELD).get_attribute('innerHTML')
+
     # Получение цвета элемента
     def get_text_color(self):
-        return self.driver.find_element_by_xpath(self.FORMATTER_TEXT) \
+        return self.driver.find_element_by_xpath(self.FORMATTED_TEXT) \
             .value_of_css_property("color")
 
     # Получение цвета фона элемента
     def get_background_color(self):
-        return self.driver.find_element_by_xpath(self.FORMATTER_TEXT).value_of_css_property("background-color")
+        return self.driver.find_element_by_xpath(self.FORMATTED_TEXT).value_of_css_property("background-color")
 
     # Получение свойства font-size
     def get_size_of_text(self):
-        return self.driver.find_element_by_xpath(self.FORMATTER_TEXT).value_of_css_property("font-size")
+        return self.driver.find_element_by_xpath(self.FORMATTED_TEXT).value_of_css_property("font-size")
 
     # Получение свойства line-height
     def get_line_height_of_text(self):
-        return self.driver.find_element_by_xpath(self.FORMATTER_TEXT).value_of_css_property("line-height")
+        return self.driver.find_element_by_xpath(self.FORMATTED_TEXT).value_of_css_property("line-height")
 
     # Получение свойства text-align
     def get_align_of_text(self):
@@ -131,22 +206,43 @@ class LetterFormattingForm(BaseForm):
     # Получение свойства margin
     def get_margin_of_text(self):
         return self.driver.find_element_by_xpath(self.MESSAGE_FIELD).value_of_css_property("margin-left")
-        # return self.driver.find_element_by_xpath(self.MESSAGE_FIELD).get_attribute('innerHTML')
+
+    # Получение нумерованного списка
+    def get_numbered_text(self):
+        return self.driver.find_element_by_xpath(self.LISTED_TEXT).get_attribute('innerHTML')
+
+    # Получение маркированного списка
+    def get_bulleted_text(self):
+        return self.driver.find_element_by_xpath(self.BULLETED_TEXT).get_attribute('innerHTML')
 
     # Выделение текста
     def text_selection(self):
-        self.driver.find_element_by_xpath(self.MESSAGE_FIELD).click()
+        elem = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
         ActionChains(self.driver).key_down(Keys.LEFT_CONTROL).perform()
         ActionChains(self.driver).key_down(Keys.LEFT_SHIFT).perform()
         ActionChains(self.driver).key_down(Keys.LEFT).perform()
+
         ActionChains(self.driver).key_up(Keys.LEFT).perform()
+        ActionChains(self.driver).key_up(Keys.LEFT_SHIFT).perform()
+        ActionChains(self.driver).key_up(Keys.LEFT_CONTROL).perform()
+
+        ActionChains(self.driver).key_down(Keys.LEFT).perform()
+        ActionChains(self.driver).key_up(Keys.LEFT).perform()
+
+        ActionChains(self.driver).key_down(Keys.LEFT_CONTROL).perform()
+        ActionChains(self.driver).key_down(Keys.LEFT_SHIFT).perform()
+        ActionChains(self.driver).key_down(Keys.RIGHT).perform()
+
+        ActionChains(self.driver).key_up(Keys.RIGHT).perform()
         ActionChains(self.driver).key_up(Keys.LEFT_SHIFT).perform()
         ActionChains(self.driver).key_up(Keys.LEFT_CONTROL).perform()
 
     # Очищение поля ввода
     def clear_field(self):
         self.text_selection()
-        ActionChains(self.driver).key_down(Keys.DELETE).perform()
+        ActionChains(self.driver).key_down(Keys.BACK_SPACE).perform()
 
     # Очищение поля + сброс выравнивания
     def full_clear_field(self):
@@ -160,3 +256,4 @@ class LetterFormattingForm(BaseForm):
         ActionChains(self.driver).move_to_element(val).click().perform()
 
         ActionChains(self.driver).key_down(Keys.DELETE).perform()
+        ActionChains(self.driver).key_up(Keys.DELETE).perform()

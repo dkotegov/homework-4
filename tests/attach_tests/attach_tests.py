@@ -20,7 +20,7 @@ class AttachTest_document(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+        self.assertEqual(self.file_attaching_form.check_message_sent(), True)
         # file_attaching_form.closeMessageSent()
 
 
@@ -37,7 +37,7 @@ class AttachTest_Media(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+        self.assertEqual(self.file_attaching_form.check_message_sent(), True)
         # file_attaching_form.closeMessageSent()
 
 
@@ -54,5 +54,5 @@ class AttachTest_Executable(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+        self.assertEqual(self.file_attaching_form.check_message_sent(), True)
         # file_attaching_form.closeMessageSent()

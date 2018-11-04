@@ -1,7 +1,6 @@
 # coding=utf-8
 import os
 import unittest
-
 from components.login_and_write import login_and_write
 from pages.letter_formatting_page import LetterFormattingPage
 from tests.base_test import BaseTest
@@ -18,6 +17,9 @@ class LetterFormattingTests(BaseTest):
     LINE_HEIGHT = '40px'
     TEXT_ALIGN = 'right'
     MARGIN_LEFT = '40px'
+    LISTED_TEXT = '<li style="text-align: left;">' + SAMPLE_TEXT + '</li>'
+    EMPTY_FIELD = '<br>'
+    LINK = 'https://vk.com/'
 
     def test(self):
         login_and_write(self.driver, self.USEREMAIL, self.PASSWORD)
@@ -28,6 +30,7 @@ class LetterFormattingTests(BaseTest):
 
         # проверка жирного шрифта
         letter_formatting_form.click_on_bold_icon()
+        letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         # letter_formatting_form.text_selection()
         bold_text = letter_formatting_form.get_text()
@@ -38,6 +41,7 @@ class LetterFormattingTests(BaseTest):
 
         # проверка курсивного шрифта
         letter_formatting_form.click_on_italic_icon()
+        letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         italic_text = letter_formatting_form.get_text()
         self.assertEqual(self.ITALIC_TEXT.decode('utf-8'), italic_text)
@@ -47,6 +51,7 @@ class LetterFormattingTests(BaseTest):
 
         # проверка подчёркнутого текста
         letter_formatting_form.click_on_underlined_icon()
+        letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         underlined_text = letter_formatting_form.get_text()
         self.assertEqual(self.UNDERLINED_TEXT.decode('utf-8'), underlined_text)
@@ -56,6 +61,7 @@ class LetterFormattingTests(BaseTest):
 
         # проверка зачёркнутого текста
         letter_formatting_form.click_on_strikethrough_icon()
+        letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         strikethrough_text = letter_formatting_form.get_text()
         self.assertEqual(self.STRIKETHROUGH_TEXT.decode('utf-8'), strikethrough_text)
@@ -66,6 +72,7 @@ class LetterFormattingTests(BaseTest):
         # проверка цвета текста
         letter_formatting_form.click_on_color_text_icon()
         letter_formatting_form.click_on_color_value()
+        letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         color_value = letter_formatting_form.get_text_color()
         self.assertEqual(self.TEXT_COLOR, color_value)
@@ -76,6 +83,7 @@ class LetterFormattingTests(BaseTest):
         # проверка цвета фона
         letter_formatting_form.click_on_background_color_icon()
         letter_formatting_form.click_on_background_color_value()
+        letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         color_value = letter_formatting_form.get_background_color()
         self.assertEqual(self.TEXT_COLOR, color_value)
@@ -86,6 +94,7 @@ class LetterFormattingTests(BaseTest):
         # проверка шрифта
         letter_formatting_form.click_on_font_icon()
         letter_formatting_form.click_on_font_value()
+        letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         size_of_text = letter_formatting_form.get_size_of_text()
         line_height_of_text = letter_formatting_form.get_line_height_of_text()
@@ -96,6 +105,7 @@ class LetterFormattingTests(BaseTest):
         letter_formatting_form.clear_field()
 
         # проверка выравнивания текста
+        # letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         letter_formatting_form.text_selection()
         letter_formatting_form.click_on_text_align_icon()
@@ -107,9 +117,67 @@ class LetterFormattingTests(BaseTest):
         letter_formatting_form.full_clear_field()
 
         # проверка отступа текста
+        # letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         letter_formatting_form.text_selection()
+        # увеличение отступа
         letter_formatting_form.click_on_text_margin_icon()
-        letter_formatting_form.click_on_text_margin_value_icon()
+        letter_formatting_form.click_on_text_margin_inc()
         margin_of_text = letter_formatting_form.get_margin_of_text()
         self.assertEqual(self.MARGIN_LEFT, margin_of_text)
+        # уменьшение отступа
+        letter_formatting_form.click_on_text_margin_icon()
+        letter_formatting_form.click_on_text_margin_dec()
+        margin_of_text = letter_formatting_form.get_margin_of_text()
+        self.assertEqual('0px', margin_of_text)
+
+        # очистка поля ввода сообещния
+        letter_formatting_form.clear_field()
+
+        # проверка списка
+        # нумерованный список
+        letter_formatting_form.click_on_list_icon()
+        letter_formatting_form.click_on_numbered_list()
+        # letter_formatting_form.click_on_message_field()
+        letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
+        numberred_list = letter_formatting_form.get_numbered_text()
+        self.assertEqual(self.LISTED_TEXT, numberred_list)
+        # маркированный список
+        letter_formatting_form.click_on_list_icon()
+        letter_formatting_form.click_on_bulleted_list()
+        bulleted_list = letter_formatting_form.get_bulleted_text()
+        self.assertEqual(self.LISTED_TEXT, bulleted_list)
+
+        # проверка работы кнопки отменить
+        letter_formatting_form.click_on_cancel_icon()
+        self.assertEqual(self.LISTED_TEXT, numberred_list)
+        letter_formatting_form.click_on_cancel_icon()
+        letter_formatting_form.click_on_cancel_icon()
+        empty_field = letter_formatting_form.get_text()
+        self.assertEqual(self.EMPTY_FIELD, empty_field)
+
+        # проверка работы кнопки отменить
+        letter_formatting_form.click_on_repeat_icon()
+        letter_formatting_form.click_on_repeat_icon()
+        self.assertEqual(self.LISTED_TEXT, numberred_list)
+
+        # очистка поля ввода сообещния
+        letter_formatting_form.click_on_cancel_icon()
+        letter_formatting_form.click_on_cancel_icon()
+
+        # проверка вствки ссылки
+        letter_formatting_form.click_on_link_icon()
+        letter_formatting_form.write_some_text(self.LINK)
+        letter_formatting_form.click_on_tab_key()
+        letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
+        letter_formatting_form.click_on_ok_link_button()
+        href, linked_text = letter_formatting_form.get_link()
+        self.assertEqual(self.SAMPLE_TEXT, linked_text)
+        self.assertEqual(self.LINK.decode('utf-8'), href)
+
+        # очистка поля ввода сообещния
+        letter_formatting_form.clear_field()
+
+        # проверка вставки картинки
+        letter_formatting_form.send_picture()
+        print '1'
