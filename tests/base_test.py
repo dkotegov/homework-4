@@ -7,6 +7,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 class BaseTest(unittest.TestCase):
     USEREMAIL = 'park.test.testovich@mail.ru'
     PASSWORD = 'rha_the_best_team'
+    TEST_FILE_DIR = './test_files/'
 
     # PASSWORD = os.environ['PASSWORD']
     def setUp(self):
