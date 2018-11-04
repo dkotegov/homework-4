@@ -27,7 +27,7 @@ class LetterFormattingForm(BaseForm):
     FONT_VALUE = '//div[@class="cell--3K4W6"]/div[7]/div[2]/div/div[2]'
 
     TEXT_ALIGN = '//button[@title="Выравнивание"]'
-    TEXT_ALIGN_VALUE_LEFT = '//div[@class="cell--3K4W6"]/div[8]/div[2]/div/div[3]'
+    TEXT_ALIGN_VALUE_LEFT = '//div[@class="cell--3K4W6"]/div[8]/div[2]/div/div[1]'
     TEXT_ALIGN_VALUE_RIGHT = '//div[@class="cell--3K4W6"]/div[8]/div[2]/div/div[3]'
 
     TEXT_MARGIN = '//button[@title="Отступ"]'

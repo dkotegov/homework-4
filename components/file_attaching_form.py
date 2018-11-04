@@ -1,5 +1,5 @@
 # coding=utf-8
-from StdSuites import null
+# from StdSuites import null
 
 import selenium
 from selenium.common.exceptions import WebDriverException
@@ -14,7 +14,7 @@ from components.base_form import BaseForm
 class FileAttachingForm(BaseForm):
     # file attach elements
     FILE_ATTACH_INPUT = '//button[@class="container--1mFoS type_wide--2rZSG color_base--3bx-5 hoverable--ys0Ko"]/input'
-    file_attach_input_element = null
+    # file_attach_input_element = null
 
     # / html / body / div[10] / div[3] / div / div[1] / div[2] / div[3] / div[3]/div/div/div/button[1]/input
 
