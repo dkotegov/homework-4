@@ -9,10 +9,12 @@ from tests.letter_formatting_tests import LetterFormattingTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(LetterFormattingTests),
+        # unittest.makeSuite(LetterFormattingTests),
         # unittest.makeSuite(AttachTest_document),
         # unittest.makeSuite(AttachTest_Media),
-        # unittest.makeSuite(AttachTest_Executable)
+        # unittest.makeSuite(AttachTest_Executable),
+        # unittest.makeSuite(AttachTestAlmostTwoGigFile),
+        unittest.makeSuite(AttachTest99Photos)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())()

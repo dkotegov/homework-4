@@ -1,13 +1,8 @@
 # coding=utf-8
-from components.login_and_write import login_and_write
-
-from pages.file_attaching_page import FileAttachingPage
 from tests.attach_tests.base_attach import BaseAttach
-from tests.base_test import BaseTest
 
 
 class AttachTest_document(BaseAttach):
-
     TEST_FILE_XLSX = BaseAttach.TEST_FILE_DIR + 'АДАМОВА!.xlsx'
 
     def test(self):
@@ -20,8 +15,9 @@ class AttachTest_document(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.check_message_sent(), True)
-        # file_attaching_form.closeMessageSent()
+        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+
+        self.file_attaching_form.closeMessageSent()
 
 
 class AttachTest_Media(BaseAttach):
@@ -37,8 +33,7 @@ class AttachTest_Media(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.check_message_sent(), True)
-        # file_attaching_form.closeMessageSent()
+        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
 
 
 class AttachTest_Executable(BaseAttach):
@@ -54,5 +49,37 @@ class AttachTest_Executable(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.check_message_sent(), True)
-        # file_attaching_form.closeMessageSent()
+        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+
+
+class AttachTest99Photos(BaseAttach):
+    TEST_FILE_IMG = BaseAttach.TEST_FILE_DIR + 'IMG__1.JPG'
+
+    def test(self):
+        BaseAttach.test(self)
+
+        # вложение 99 изображений
+        self.file_attaching_form.open_writing_letter()
+        self.file_attaching_form.set_file_attach_input()
+        for _ in range(1, 99):
+            self.file_attaching_form.send_keys_to_input(self.TEST_FILE_IMG)
+        self.file_attaching_form.set_destionation_email()
+        self.file_attaching_form.click_send_button()
+
+        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+
+
+class AttachTestAlmostTwoGigFile(BaseAttach):
+
+    TEST_FILE_ALMOST_2_GIGS = BaseAttach.TEST_FILE_DIR + '1_99_GIG_FILE.txt'
+
+    def test(self):
+        BaseAttach.test(self)
+
+        self.file_attaching_form.open_writing_letter()
+        self.file_attaching_form.set_file_attach_input()
+        self.file_attaching_form.send_keys_to_input(self.TEST_FILE_ALMOST_2_GIGS)
+        self.file_attaching_form.set_destionation_email()
+        self.file_attaching_form.click_send_button()
+
+        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)

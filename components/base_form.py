@@ -1,6 +1,6 @@
 # coding=utf-8
 import selenium
-from selenium.common.exceptions import WebDriverException, StaleElementReferenceException, NoSuchElementException
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
@@ -14,9 +14,8 @@ class BaseForm(Component):
     SEND_LETTER_BTN = '//span[@title="Отправить"]'
     MSG_SENT_DIV = '//div[@class="layer__header"]'
     DESTINATION_INPUT = '//div[@class="contactsContainer--3RMuQ"]/div/label/div/div/input'
-    CLOSE_MSG_SENT = '//div[@class="layer__controls"]/span/span/span/*/*'
-    CLOSE_WINDOW_WRITTING = '//button[@title="Закрыть"]'
-    # CLOSE_MSG_SENT = '/html/body/div[7]/div/div'
+    # CLOSE_MSG_SENT = '//div[@class="layer__controls"]/span/span/span/*/*'
+    CLOSE_MSG_SENT = '//div[@class="layer-window__block"]'
 
     DESTINATION_MAIL = 'park.test.testovich@mail.ru'
 
@@ -31,18 +30,7 @@ class BaseForm(Component):
     def open_writing_letter(self):
         try:
             WebDriverWait(self.driver, 50) \
-                .until(lambda driver: driver.find_element_by_xpath(self.WRITING_LETTER_BTN))
-            elem = self.driver.find_element_by_xpath(self.WRITING_LETTER_BTN)
-            ActionChains(self.driver).move_to_element(elem).click().perform()
-        except WebDriverException:
-            print 'is not clickable element'
-
-    def close_writting_letter(self):
-        try:
-            WebDriverWait(self.driver, 50) \
-                .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_WINDOW_WRITTING))
-            elem = self.driver.find_element_by_xpath(self.CLOSE_WINDOW_WRITTING)
-            ActionChains(self.driver).move_to_element(elem).click().perform()
+                .until(lambda driver: driver.find_element_by_xpath(self.WRITING_LETTER_BTN).click())
         except WebDriverException:
             print 'is not clickable element'
 
@@ -55,7 +43,7 @@ class BaseForm(Component):
         except WebDriverException:
             print 'no send msg button'
 
-    def check_message_sent(self):
+    def checkMessageSent(self):
         try:
             WebDriverWait(self.driver, 10) \
                 .until(lambda driver: driver.find_element_by_xpath(self.MSG_SENT_DIV))
@@ -64,10 +52,10 @@ class BaseForm(Component):
             print 'message not sent'
             return False
 
-    def close_message_sent(self):
+    def closeMessageSent(self):
         try:
             print 'trying to close msg sent'
             WebDriverWait(self.driver, 20) \
-                .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT))
+            .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT).send_keys(Keys.ESCAPE))
         except WebDriverException:
             print 'msg_sent unable to close'

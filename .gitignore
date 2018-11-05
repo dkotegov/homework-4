@@ -64,6 +64,8 @@ target/
 
 .idea/
 
-chromedriver
+./chromedriver
 
-geckodriver
+./geckodriver
+
+./test_files/1_99_GIG_FILE.txt
