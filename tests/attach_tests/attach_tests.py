@@ -70,7 +70,6 @@ class AttachTest99Photos(BaseAttach):
 
 
 class AttachTestAlmostTwoGigFile(BaseAttach):
-
     TEST_FILE_ALMOST_2_GIGS = BaseAttach.TEST_FILE_DIR + '1_99_GIG_FILE.txt'
 
     def test(self):
@@ -83,3 +82,17 @@ class AttachTestAlmostTwoGigFile(BaseAttach):
         self.file_attaching_form.click_send_button()
 
         self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+
+
+class AttachTest25MbAndMoreThroughCloud(BaseAttach):
+    TEST_FILE_MORE_25_MB = BaseAttach.TEST_FILE_DIR + 'More_25_mb.png'
+
+    def test(self):
+        BaseAttach.test(self)
+
+        # вложение файла размером больше 25 Мб (должен загрузиться через облако)
+        self.file_attaching_form.open_writing_letter()
+        self.file_attaching_form.set_file_attach_input()
+        self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MORE_25_MB)
+
+        self.assertEqual(self.file_attaching_form.check_loaded_through_cloud() is not None, True)

@@ -12,27 +12,21 @@ class FileAttachingForm(BaseForm):
     FILE_ATTACH_INPUT = '//button[@class="container--1mFoS type_wide--2rZSG color_base--3bx-5 hoverable--ys0Ko"]/input'
     # FILE_ATTACH_CHECK = '//div[@class="items--2iyAh"]/div[{}]'
     FILE_ATTACH_CHECK = '//div[@class="container_progress--2uptg"]'
-
+    FILE_ATTACH_CLOUD_SIGN = '//div[@class="container_link--bxJaw"]'
 
     def send_keys_to_input(self, data):
         print 'sending keys to file attach input'
         self.file_attach_input_element.send_keys(data)
 
         class waiter(object):
-
             def __call__(self, driver):
-                result = driver.find_element_by_xpath(FileAttachingForm.FILE_ATTACH_CHECK)
-                print result
-                return result
+                return not driver.find_element_by_xpath(FileAttachingForm.FILE_ATTACH_CHECK)
 
-        WebDriverWait(self.driver, 10) \
-            .until(waiter())
-
-        # WebDriverWait(self.driver, 5) \
-        #     .until(lambda driver: not driver.find_element_by_xpath(self.FILE_ATTACH_CHECK))
-
-        # WebDriverWait(self.driver, 10) \
-        #     .until(EC.presence_of_element_located((By.XPATH, self.FILE_ATTACH_CHECK)))
+        try:
+            WebDriverWait(self.driver, 10) \
+                .until(waiter())
+        except WebDriverException:
+            print 'unable to send keys to input'
 
 
     def set_file_attach_input(self):
@@ -44,4 +38,13 @@ class FileAttachingForm(BaseForm):
             print 'file attach input element not found'
 
 
+    def check_loaded_through_cloud(self):
+        try:
+            result = WebDriverWait(self.driver, 10) \
+                .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_CLOUD_SIGN))
+            print result
+            return result
 
+        except WebDriverException:
+            print 'file loaded not through cloud'
+            return None
