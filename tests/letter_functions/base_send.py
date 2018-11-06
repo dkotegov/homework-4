@@ -1,6 +1,7 @@
 from pages.letter_formatting_page import LetterFormattingPage
 from tests.base_test import BaseTest
 
+
 class BaseSend(BaseTest):
     def test(self):
         BaseTest.test(self)

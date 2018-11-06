@@ -96,3 +96,33 @@ class AttachTest25MbAndMoreThroughCloud(BaseAttach):
         self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MORE_25_MB)
 
         self.assertEqual(self.file_attaching_form.check_loaded_through_cloud() is not None, True)
+
+
+class AttachTestMore2GigFile(BaseAttach):
+    TEST_FILE_MORE_2_GB = BaseAttach.TEST_FILE_DIR + '3gig.dmg'
+
+    def test(self):
+        BaseAttach.test(self)
+
+        # файлы размером больше 2 Гб нельзя отправить
+        self.file_attaching_form.open_writing_letter()
+        self.file_attaching_form.set_file_attach_input()
+        self.file_attaching_form.send_large_keys_to_input(self.TEST_FILE_MORE_2_GB)
+        self.driver.implicitly_wait(5)  # так делать плохо!!!
+        # TODO разобраться с загрузкой большого файла
+        self.assertEqual(self.file_attaching_form.check_file_attach_preview() is None, True)
+
+
+class AttachTestLess25MbWithoutCloud(BaseAttach):
+
+    TEST_FILE_LESS_25MB = BaseAttach.TEST_FILE_DIR + './pict.png'
+
+    def test(self):
+        BaseAttach.test(self)
+
+        # файлы размером меньше 25 Мб отправляются без облака
+        self.file_attaching_form.open_writing_letter()
+        self.file_attaching_form.set_file_attach_input()
+        self.file_attaching_form.send_keys_to_input(self.TEST_FILE_LESS_25MB)
+
+        self.assertEqual(self.file_attaching_form.check_loaded_without_cloud(), True)
