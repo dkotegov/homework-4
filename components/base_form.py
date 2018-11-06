@@ -30,7 +30,9 @@ class BaseForm(Component):
     def open_writing_letter(self):
         try:
             WebDriverWait(self.driver, 50) \
-                .until(lambda driver: driver.find_element_by_xpath(self.WRITING_LETTER_BTN).click())
+                .until(lambda driver: driver.find_element_by_xpath(self.WRITING_LETTER_BTN))
+            elem = self.driver.find_element_by_xpath(self.WRITING_LETTER_BTN)
+            ActionChains(self.driver).move_to_element(elem).click().perform()
         except WebDriverException:
             print 'is not clickable element'
 
