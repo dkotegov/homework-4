@@ -12,6 +12,9 @@ class BaseForm(Component):
     # base elements
     WRITING_LETTER_BTN = '//span[text()="Написать письмо"]'
     SEND_LETTER_BTN = '//span[@title="Отправить"]'
+    SAVE_LETTER_BTN = '//span[@title="Сохранить"]'
+    CANCEL_LETTER_BTN = '//span[@title="Отменить"]'
+
     MSG_SENT_DIV = '//div[@class="layer__header"]'
     DESTINATION_INPUT = '//div[@class="contactsContainer--3RMuQ"]/div/label/div/div/input'
     # CLOSE_MSG_SENT = '//div[@class="layer__controls"]/span/span/span/*/*'
@@ -44,6 +47,20 @@ class BaseForm(Component):
 
         except WebDriverException:
             print 'no send msg button'
+
+    def click_cancel_button(self):
+        try:
+            elem=self.driver.find_element_by_xpath(self.CANCEL_LETTER_BTN)
+            ActionChains(self.driver).move_to_element(elem).click().perform()
+        except WebDriverException:
+            print 'no cancel button'
+
+    def click_save_button(self):
+        try:
+            elem=self.driver.find_element_by_xpath(self.SAVE_LETTER_BTN)
+            ActionChains(self.driver).move_to_element(elem).click().perform()
+        except WebDriverException:
+            print 'no save msg button'
 
     def checkMessageSent(self):
         try:
