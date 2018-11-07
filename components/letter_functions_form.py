@@ -30,27 +30,39 @@ class LetterFunctionsForm(BaseForm):
 
     DELAYED_MARK = '//div[class = "compose-app__widgets" ]/div[3]/div/div'
 
+    FIRST_LETTER = '//div[class = "dataset_items"]/a[0]'
+
+    FIRST_LETTER_IMPORTANT = '//div[class = "dataset_items"]/a[0]/div[class = "llc__content"]/div[class="llc__item_bage"]/div[class="letter-category_important"]'
+
     # Клик на отметке важного письма
-    def important_mark_klick(self):
+    def click_on_important_mark(self):
         element = self.driver.find_element_by_xpath(self.IMPORTANT_MARK)
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Клик на отметке письма с уведомлением
-    def notification_mark_klick(self):
+    def click_on_notification_mark(self):
         element = self.driver.find_element_by_xpath(self.NOTIFICATION_MARK)
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Клик на отметке письма с напоминанием об ответе
-    def reminder_mark_klick(self):
+    def click_on_reminder_mark(self):
         element = self.driver.find_element_by_xpath(self.REMINDER_MARK)
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Клик на отметке письма с напоминанием об ответе через 2 часа
-    def reminder2_mark_klick(self):
+    def click_on_reminder2_mark(self):
         element = self.driver.find_element_by_xpath(self.REMINDER_MARK_THOUR)
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Клик на отметке письма с отложенным отправлением
-    def reminder2_mark_klick(self):
+    def click_on_reminder2_mark(self):
         element = self.driver.find_element_by_xpath(self.DELAYED_MARK)
         ActionChains(self.driver).move_to_element(element).click().perform()
+
+    # Проверка важного письма
+    def check_important_letter(self):
+        element = self.driver.find_element_by_xpath(self.FIRST_LETTER_IMPORTANT)
+        if element:
+            return True
+        else:
+            return False

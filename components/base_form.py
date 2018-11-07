@@ -20,6 +20,11 @@ class BaseForm(Component):
     # CLOSE_MSG_SENT = '//div[@class="layer__controls"]/span/span/span/*/*'
     CLOSE_MSG_SENT = '//div[@class="layer-window__block"]'
 
+    SENT_MSG_HREF = '//div[@title="Отправленные"]'
+    DRAFT_MSG_HREF = '//div[@title="Черновики"]'
+
+
+
     DESTINATION_MAIL = 'park.test.testovich@mail.ru'
 
     def set_destionation_email(self):
