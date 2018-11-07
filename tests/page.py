@@ -100,14 +100,16 @@ class AuthMail(Component):
         return MailPage(self.driver)
 
 class OpenFilterSettings(Component):
+    USEREMAIL = 'it-berries'
+    PASSWORD = os.environ['PASSWORD']
 
-    def open(self, username, password):
+    def open(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
         auth_mail = auth_page.form
-        auth_mail.set_login(username)
-        auth_mail.set_password(password)
+        auth_mail.set_login(self.USEREMAIL)
+        auth_mail.set_password(self.PASSWORD)
         auth_mail.submit()
         
         mail_page = MailPage(self.driver)
