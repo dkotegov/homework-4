@@ -1,12 +1,13 @@
 #!/usr/bin/env python2
 
+import sys
 import unittest
-from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from tests.createFilter import CreateNewFilterTest
+
 
 if __name__ == '__main__':
-	driver = webdriver.Remote(
-		command_executor='http://127.0.0.1:4444/wd/hub',
-	desired_capabilities=DesiredCapabilities.CHROME )
-	driver.get("https://park.mail.ru/")
-	driver.quit()
+	suite = unittest.TestSuite((
+        unittest.makeSuite(CreateNewFilterTest),
+    ))
+	result = unittest.TextTestRunner().run(suite)
+    #sys.exit(not result.wasSuccessful())
