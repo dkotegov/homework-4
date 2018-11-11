@@ -83,3 +83,12 @@ class BaseForm(Component):
             .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT).send_keys(Keys.ESCAPE))
         except WebDriverException:
             print 'msg_sent unable to close'
+
+    def show_message_sent(self):
+        elem = self.driver.find_element_by_xpath(self.SENT_MSG_HREF)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
+    def show_message_draft(self):
+        elem = self.driver.find_element_by_xpath(self.DRAFT_MSG_HREF)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+

@@ -4,12 +4,14 @@ import unittest
 
 from tests.attach_tests.attach_tests import *
 from tests.letter_formatting_tests import LetterFormattingTests
+from tests.letter_functions.functions_tests import *
 
 # TODO комментьте чужие тесты, если не хотите страдать! 😇
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(LetterFormattingTests),
+        unittest.makeSuite(ImportantMarkTest),
+        # unittest.makeSuite(LetterFormattingTests),
         # unittest.makeSuite(AttachTest_document)
         # unittest.makeSuite(AttachTest_Media)
         # unittest.makeSuite(AttachTest_Executable),

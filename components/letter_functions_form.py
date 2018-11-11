@@ -1,3 +1,9 @@
+# coding=utf-8
+# coding=utf-8
+# coding=utf-8
+# coding=utf-8
+# coding=utf-8
+# coding=utf-8
 import selenium
 from selenium.common.exceptions import WebDriverException, ElementNotVisibleException
 from selenium.webdriver import ActionChains
