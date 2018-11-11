@@ -10,14 +10,14 @@ from tests.letter_formatting_tests import LetterFormattingTests
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         # unittest.makeSuite(LetterFormattingTests),
-        # unittest.makeSuite(AttachTest_document)
-        # unittest.makeSuite(AttachTest_Media)
-        # unittest.makeSuite(AttachTest_Executable),
-        # unittest.makeSuite(AttachTestAlmostTwoGigFile),
-        # unittest.makeSuite(AttachTest99Photos)
-        # unittest.makeSuite(AttachTest25MbAndMoreThroughCloud)
-        # unittest.makeSuite(AttachTestMore2GigFile)
-        unittest.makeSuite(AttachTestLess25MbWithoutCloud)
+        # unittest.makeSuite(AttachTest_document) #done!
+        # unittest.makeSuite(AttachTest_Media) #done!
+        # unittest.makeSuite(AttachTest_Executable)
+        # unittest.makeSuite(AttachTestAlmostTwoGigFile) #может быть не стоит его запускать
+        # unittest.makeSuite(AttachTest99Photos) #тест не проходит из-за баги!
+        # unittest.makeSuite(AttachTest25MbAndMoreThroughCloud) #done
+        # unittest.makeSuite(AttachTestMore2GigFile) #тест не нужен!
+        # unittest.makeSuite(AttachTestLess25MbWithoutCloud) #done! но есть проблема
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())()
