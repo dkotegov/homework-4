@@ -18,6 +18,7 @@ if __name__ == '__main__':
         # unittest.makeSuite(AttachTest25MbAndMoreThroughCloud) #done
         # unittest.makeSuite(AttachTestMore2GigFile) #тест не нужен!
         # unittest.makeSuite(AttachTestLess25MbWithoutCloud) #done! но есть проблема
+
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())()

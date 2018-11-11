@@ -19,6 +19,11 @@ class BaseForm(Component):
     # CLOSE_MSG_SENT = '//div[@class="layer__controls"]/span/span/span/*/*'
     CLOSE_MSG_SENT = '//div[@class="layer-window__block"]'
 
+    SENT_MSG_HREF = '//div[@title="Отправленные"]'
+    DRAFT_MSG_HREF = '//div[@title="Черновики"]'
+
+
+
     DESTINATION_MAIL = 'park.test.testovich@mail.ru'
 
     def set_destionation_email(self):
@@ -49,6 +54,20 @@ class BaseForm(Component):
             print 'clicked!'
         except WebDriverException:
             print 'no send msg button'
+
+    def click_cancel_button(self):
+        try:
+            elem=self.driver.find_element_by_xpath(self.CANCEL_LETTER_BTN)
+            ActionChains(self.driver).move_to_element(elem).click().perform()
+        except WebDriverException:
+            print 'no cancel button'
+
+    def click_save_button(self):
+        try:
+            elem=self.driver.find_element_by_xpath(self.SAVE_LETTER_BTN)
+            ActionChains(self.driver).move_to_element(elem).click().perform()
+        except WebDriverException:
+            print 'no save msg button'
 
     def checkMessageSent(self):
         try:

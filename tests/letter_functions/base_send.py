@@ -1,9 +1,9 @@
-from pages.letter_formatting_page import LetterFormattingPage
+from pages.letter_function_page import LetterFunctionsPage
 from tests.base_test import BaseTest
 
 
 class BaseSend(BaseTest):
     def test(self):
         BaseTest.test(self)
-        self.file_attaching_page = LetterFormattingPage(self.driver)
-        self.file_attaching_form = self.file_attaching_page.form
+        self.functions_page = LetterFunctionsPage(self.driver)
+        self.functions_form = self.functions_page.form
