@@ -7,3 +7,4 @@ class BaseSend(BaseTest):
         BaseTest.test(self)
         self.functions_page = LetterFunctionsPage(self.driver)
         self.functions_form = self.functions_page.form
+        self.functions_page.redirectQA()

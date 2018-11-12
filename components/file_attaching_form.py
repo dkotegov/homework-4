@@ -19,6 +19,11 @@ class FileAttachingForm(BaseForm):
 
     FILE_ATTACHED = '//div[@data-test-id="attach:{}:loaded]'
 
+    FILE_ATTACH_CLOUD_BTN = '//button[@data-test-id="attach-cloud"]'
+    FILE_ATTACH_CLOUD_ELEMENT = '//div[@data-id="/{}"]'
+    FILE_ATTACH_CLOUD_ATTACH = '//span[@data-qa-id="attach"]'
+    FILE_ATTACH_CHECK_LOADED = '//div[@data-test-id="attach:{}:loaded"]'
+
     def send_keys_to_input(self, data, time_to_wait=10):
         print 'sending keys to file attach input'
         self.file_attach_input_element.send_keys(data)
@@ -65,6 +70,15 @@ class FileAttachingForm(BaseForm):
             print 'file loaded not through cloud'
             return None
 
+    def check_loaded(self, filename, timeout=2):
+        try:
+            WebDriverWait(self.driver, timeout) \
+                .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_CHECK_LOADED.format(filename)))
+            return True
+        except Exception, e:
+            print 'file not attached: ' + str(e)
+            return False
+
     def check_loaded_without_cloud(self):
 
         # try:
@@ -92,3 +106,19 @@ class FileAttachingForm(BaseForm):
         except WebDriverException:
             print 'file attach preview not found'
             return None
+
+    def click_cloud_button(self):
+        button = WebDriverWait(self.driver, 1) \
+            .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_CLOUD_BTN))
+        button.click()
+
+    def select_cloud_file(self, filename):
+        print self.FILE_ATTACH_CLOUD_ELEMENT.format(filename)
+        fileElement = WebDriverWait(self.driver, 2) \
+            .until(lambda driver: driver.find_elements_by_xpath(self.FILE_ATTACH_CLOUD_ELEMENT.format(filename))[0])
+        fileElement.click()
+
+    def do_cloud_attach(self):
+        button = WebDriverWait(self.driver, 1) \
+            .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_CLOUD_ATTACH))
+        button.click()
