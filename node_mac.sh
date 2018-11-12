@@ -1,0 +1,1 @@
+java -Dwebdriver.chrome.driver="./chromedriver_mac" -Dwebdriver.gecko.driver="./geckodriver_mac" -jar selenium-server-standalone-3.141.0.jar -role node -hub http://localhost:4444/grid/register -browser browserName=chrome,maxInstances=2 -browser browserName=firefox,maxInstances=2
