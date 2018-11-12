@@ -12,7 +12,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 
-        self.driver = webdriver.Chrome('./chromedriver')
+        self.driver = webdriver.Chrome('./chromedriver_mac')
 
         # self.driver = Remote(
         #     command_executor='http://127.0.0.1:4444/wd/hub',

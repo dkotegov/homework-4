@@ -13,7 +13,7 @@ if __name__ == '__main__':
         unittest.makeSuite(RM_Test),
         unittest.makeSuite(TG_Test),
         unittest.makeSuite(DP_Test),
-        unittest.makeSuite(NP_Test),
+        unittest.makeSuite(NP_Test)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
