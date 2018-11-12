@@ -1,4 +1,4 @@
-from Component import Component
+from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 
 class Sidebar(Component):

@@ -1,4 +1,4 @@
-from Component import Component
+from component import Component
 
 class AuthForm(Component):
     LOGIN = '//input[@id="mailbox:login"]'
