@@ -33,8 +33,15 @@ class Test(unittest.TestCase):
         auth_form.submit()
 
         main_page = MainPage(self.driver)
-
+        # main_page.waitLoading()
         sidebar = main_page.sidebar
+        sidebar.waitForVisible()
+        main_page.redirectToQa()
+        sidebar.click_to_inbox()
+
+        # import time
+        # time.sleep(1000)
+
         sidebar.create_new_dir()
         sidebar.set_dir_name("Test_Timur")
         sidebar.submit_new_dir()

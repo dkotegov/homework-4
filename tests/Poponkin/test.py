@@ -36,6 +36,10 @@ class Test(unittest.TestCase):
         main_page = MainPage(self.driver)
 
         sidebar = main_page.sidebar
+        sidebar.waitForVisible()
+        main_page.redirectToQa()
+        sidebar.click_to_inbox()
+
         sidebar.create_new_dir()
         sidebar.set_dir_name("Test_Dima")
         sidebar.submit_new_dir()

@@ -2,7 +2,11 @@ from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 
 class Sidebar(Component):
-    NEW_DIR = '//div[@class="new-folder-btn__button-wrapper"]'
+    BASE = '//div[@data-qa-id="full"] '
+    BASE_WITHOUT_QA_ID = '//div[contains(@class,"sidebar__full")]'
+
+    INBOX_BUTTON = BASE + '//a[@data-qa-id="0"]'
+    NEW_DIR =  BASE + '//div[@class="new-folder-btn__button-wrapper"]'
     DIR_NAME = '//input[@class="c2146 c2148"]'
     ADD_DIR_BUTTON = '//button[@class="c2181 c2164 c2186 c2169 c2192 c2176"]'
 
@@ -20,3 +24,12 @@ class Sidebar(Component):
 
     def submit_new_dir(self):
         self.driver.find_element_by_xpath(self.ADD_DIR_BUTTON).click()
+    
+    def click_to_inbox(self):
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.INBOX_BUTTON)
+        ).click()
+
+    def waitForVisible(self):
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.BASE_WITHOUT_QA_ID))
