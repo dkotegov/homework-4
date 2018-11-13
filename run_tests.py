@@ -4,7 +4,7 @@ import sys
 import unittest
 
 from tests.QA_72_Migranov.test import Test as RM_Test
-from tests.Garifullin.test import Test as TG_Test
+from tests.Garifullin.test import FolderDeleteTest as TG_Test
 from tests.Poponkin.test import Test as DP_Test
 from tests.Parpibaeva.test import Test as NP_Test
 
