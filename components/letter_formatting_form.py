@@ -11,7 +11,7 @@ from components.base_form import BaseForm
 class LetterFormattingForm(BaseForm):
     # text formatting elements
     TEST_FILE_DIR = './test_files/'
-    MESSAGE_FIELD = '//div[@role="textbox"]/div/div'
+
     BOLD_BUTTON = '//button[@title="Жирный текст"]'
     ITALIC_BUTTON = '//button[@title="Наклонный текст"]'
     UNDERLINED_BUTTON = '//button[@title="Подчёркнутый текст"]'
@@ -51,10 +51,7 @@ class LetterFormattingForm(BaseForm):
     PICTURE_BUTTON = '//button[@title="Вставить картинку"]/input'
     TEST_PICTURE = TEST_FILE_DIR + 'pict.png'
 
-    # Клик на поле ввода
-    def click_on_message_field(self):
-        element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
-        ActionChains(self.driver).move_to_element(element).click().perform()
+
 
     # Жирный шрифт
     def click_on_bold_icon(self):
@@ -169,13 +166,7 @@ class LetterFormattingForm(BaseForm):
         elem = self.driver.find_element_by_xpath(self.PICTURE_BUTTON)
         elem.send_keys(self.TEST_PICTURE)
 
-    # Ввод текста
-    def write_some_text(self, text):
-        ActionChains(self.driver).key_down(text).perform()
 
-    # Получение innerHTML элемента
-    def get_text(self):
-        return self.driver.find_element_by_xpath(self.MESSAGE_FIELD).get_attribute('innerHTML')
 
     # Получение ссылки
     def get_link(self):

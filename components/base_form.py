@@ -15,10 +15,10 @@ class BaseForm(Component):
 
     MSG_SENT_LINK = '//a[@data-qa-id="is-sent"]'
     # DESTINATION_INPUT = '//div[@class="contactsContainer--3RMuQ"]/div/label/div/div/input'
-    DESTINATION_INPUT = '//input[@data-test-id="input"]'  # defines 2 elements. First is needed
+    DESTINATION_INPUT = '//input[@data-type="to"]'  # defines 1 element. First is needed
     # CLOSE_MSG_SENT = '//div[@class="layer__controls"]/span/span/span/*/*'
     CLOSE_MSG_SENT = '//div[@class="layer-window__block"]'
-
+    MESSAGE_FIELD = '//div[@role="textbox"]/div/div'
     SENT_MSG_HREF = '//div[@title="Отправленные"]'
     DRAFT_MSG_HREF = '//div[@title="Черновики"]'
 
@@ -28,8 +28,9 @@ class BaseForm(Component):
 
     def set_destionation_email(self):
         try:
-            dest_input = WebDriverWait(self.driver, 1) \
-                .until(lambda driver: driver.find_elements_by_xpath(self.DESTINATION_INPUT)[0])
+            WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_elements_by_xpath(self.DESTINATION_INPUT))
+            dest_input = self.driver.find_element_by_xpath(self.DESTINATION_INPUT)
             dest_input.send_keys(self.DESTINATION_MAIL)
             print 'destination email is set'
         except WebDriverException:
@@ -95,4 +96,18 @@ class BaseForm(Component):
         elem = self.driver.find_element_by_xpath(self.DRAFT_MSG_HREF)
         ActionChains(self.driver).move_to_element(elem).click().perform()
 
+
+    # Клик на поле ввода
+    def click_on_message_field(self):
+        element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
+        ActionChains(self.driver).move_to_element(element).click().perform()
+
+
+    # Ввод текста
+    def write_some_text(self, text):
+        ActionChains(self.driver).key_down(text).perform()
+
+    # Получение innerHTML элемента
+    def get_text(self):
+        return self.driver.find_element_by_xpath(self.MESSAGE_FIELD).get_attribute('innerHTML')
 

@@ -37,4 +37,16 @@ class NotificationMarkTest(BaseSend):
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_sent()
+
+
+class ReminderMarkTest(BaseSend):
+    def test(self):
+        self.functions_form.open_writing_letter()
+
+
+
+class DelayedMarkTest(BaseSend):
+    def test(self):
+        self.functions_form.open_writing_letter()
+
         
