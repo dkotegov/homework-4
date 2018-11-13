@@ -10,6 +10,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 class Test(unittest.TestCase):
     USEREMAIL = 'ttexnopark@mail.ru'
     PASSWORD = os.environ['PASSWORD']
+    FOLDER_NAME = 'Test_Timur'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -33,7 +34,6 @@ class Test(unittest.TestCase):
         auth_form.submit()
 
         main_page = MainPage(self.driver)
-        # main_page.waitLoading()
         sidebar = main_page.sidebar
         sidebar.waitForVisible()
         main_page.redirectToQa()
@@ -43,5 +43,8 @@ class Test(unittest.TestCase):
         # time.sleep(1000)
 
         sidebar.create_new_dir()
-        sidebar.set_dir_name("Test_Timur")
-        sidebar.submit_new_dir()
+        folder_create = main_page.folder_create
+        folder_create.set_name(self.FOLDER_NAME)
+        folder_create.submit()
+        # sidebar.set_dir_name("Test_Timur")
+        # sidebar.submit_new_dir()

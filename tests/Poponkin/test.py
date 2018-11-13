@@ -41,5 +41,6 @@ class Test(unittest.TestCase):
         sidebar.click_to_inbox()
 
         sidebar.create_new_dir()
-        sidebar.set_dir_name("Test_Dima")
-        sidebar.submit_new_dir()
+        folder_create = main_page.folder_create
+        folder_create.set_name("Test_Dima")
+        folder_create.submit()
