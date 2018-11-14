@@ -3,11 +3,13 @@
 from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
+from selenium.common.exceptions import WebDriverException
 
 
 class Sidebar(Component):
     BASE = '//div[@data-qa-id="full"] '
     BASE_WITHOUT_QA_ID = '//div[contains(@class,"sidebar__full")]'
+    CONTEXTMENU = '//div[@data-qa-id="contextmenu"] '
 
     INBOX_BUTTON = BASE + '//a[@data-qa-id="0"]'
     NEW_DIR =  BASE + '//div[@class="new-folder-btn__button-wrapper"]'
@@ -19,6 +21,9 @@ class Sidebar(Component):
     FOLDER_DIV = './/a[@title="{}"]'
     SUBMIT_DELETE = '//div[@class="layer__submit-button"]'
     LINK_TRASH = '//a[@title="Корзина"]'
+    LOCK_FOLDER = CONTEXTMENU + '//span[contains(text(), "Заблокировать")]'
+    UNLOCK_FOLDER = CONTEXTMENU + '//span[contains(text(), "Разблокировать")]'
+    
 
     def create_new_dir(self):
         create_dir_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -66,11 +71,28 @@ class Sidebar(Component):
         actionChains = ActionChains(self.driver)
         actionChains.context_click(folder).perform()
     
+    def click_by_folder(self, folder_name):
+        FOLDER_EL = self.FOLDER_ELEM.format(folder_name)
+        folder = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(FOLDER_EL)
+        )
+        folder.click()
+    
     def click_delete(self):
         button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.DELETE_BUT)
         )
         button.click()
+
+    def try_click_delete (self):
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.DELETE_BUT)
+        )
+        try:
+            button.click()
+            return True
+        except WebDriverException:
+            return False
     
     def submit_delete(self):
         submit = WebDriverWait(self.driver, 30, 0.1).until(
@@ -90,4 +112,17 @@ class Sidebar(Component):
             return False
 
     def go_to_trash(self):
-        self.driver.find_element_by_xpath(self.LINK_TRASH).click()
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.LINK_TRASH)).click()
+
+    def click_block_folder(self):
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.LOCK_FOLDER)
+        )
+        button.click()
+    
+    def click_unlock_folder(self):
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.UNLOCK_FOLDER)
+        )
+        button.click()

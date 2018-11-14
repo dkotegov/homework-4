@@ -6,6 +6,7 @@ class AuthForm(Component):
     SUBMIT = '//input[@class="o-control"]'
 
     def set_login(self, login):
+        self.driver.find_element_by_xpath(self.LOGIN).click()
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):

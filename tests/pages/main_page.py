@@ -7,6 +7,7 @@ from page import Page
 from tests.components.sidebar import Sidebar
 from tests.components.folder_create import FolderCreate
 from tests.components.letters import Letters
+from tests.components.folder_unlock import FolderUnlock
 
 
 from selenium.webdriver.support.ui import WebDriverWait
@@ -26,6 +27,10 @@ class MainPage(Page):
     @property
     def letters(self):
         return Letters(self.driver)
+
+    @property
+    def forlder_unlock(self):
+        return FolderUnlock(self.driver)
 
     def redirectToQa(self):
         url = urlparse.urljoin(self.BASE_URL, '/bundles/page.qa.html')
