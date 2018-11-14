@@ -11,6 +11,7 @@ from tests.letter_functions.functions_tests import *
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         unittest.makeSuite(ImportantMarkTest),
+        unittest.makeSuite(NotificationMarkTest),
         # unittest.makeSuite(LetterFormattingTests),
         # unittest.makeSuite(AttachTest_document)
         # unittest.makeSuite(AttachTest_Media)

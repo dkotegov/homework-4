@@ -15,19 +15,19 @@ from components.base_form import BaseForm
 class LetterFunctionsForm(BaseForm):
     IMPORTANT_MARK = '//div[@data-qa-id = "priority" ]'
 
-    NOTIFICATION_MARK = '[data-qa-id = "receipt" ]'
+    NOTIFICATION_MARK = '//div[@data-qa-id = "receipt" ]'
 
-    REMINDER_MARK = '[data-qa-id = "remind" ]'
-    REMINDER_MARK_OHOUR = '[data-qa-id = "remind" ] div[class="c0116"]/div[0]'
-    REMINDER_MARK_THOUR = '[data-qa-id = "remind" ] div[class="c0116"]/div[1]'
-    REMINDER_MARK_ODAY = '[data-qa-id = "remind" ] div[class="c0116"]/div[2]'
-    REMINDER_MARK_TDAY = '[data-qa-id = "remind" ] div[class="c0116"]/div[3]'
-    REMINDER_MARK_FDAY = '[data-qa-id = "remind" ] div[class="c0116"]/div[4]'
+    REMINDER_MARK = '//div[@data-qa-id = "remind" ]'
+    REMINDER_MARK_OHOUR = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[0]'
+    REMINDER_MARK_THOUR = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[1]'
+    REMINDER_MARK_ODAY = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[2]'
+    REMINDER_MARK_TDAY = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[3]'
+    REMINDER_MARK_FDAY = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[4]'
 
-    DELAYED_MARK = '[data-qa-id = "schedule" ]'
+    DELAYED_MARK = '//div[@data-qa-id = "schedule" ]'
 
-    FIRST_LETTER = '[data-qa-id  = "letter-item:subject:Вход с нового устройства"]'
-    FIRST_LETTER_IMPORTANT = '//a[@data-qa-id = "letter-item:subject:Important"]'
+    FIRST_LETTER = '//div[@data-qa-id  = "letter-item:subject:Вход с нового устройства"]'
+    FIRST_LETTER_IMPORTANT = '//a[@data-qa-id = "letter-item:subject:{}"]'
 
     # Клик на отметке важного письма
     def click_on_important_mark(self):
@@ -55,9 +55,11 @@ class LetterFunctionsForm(BaseForm):
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Проверка важного письма
-    def check_important_letter(self):
-        element = self.driver.find_element_by_xpath(self.FIRST_LETTER_IMPORTANT)
+    def check_letter_by_subj(self, subject):
+        element = self.driver.find_element_by_xpath(self.FIRST_LETTER_IMPORTANT.format(subject))
         if element:
             return True
         else:
             return False
+
+        # letter-item:subject:ImportantS

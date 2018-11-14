@@ -102,8 +102,11 @@ class BaseForm(Component):
             print 'Messages are unnable to open.'
 
     def show_message_draft(self):
-        elem = self.driver.find_element_by_xpath(self.DRAFT_MSG_HREF)
-        ActionChains(self.driver).move_to_element(elem).click().perform()
+        try:
+            elem = self.driver.find_element_by_xpath(self.DRAFT_MSG_HREF)
+            ActionChains(self.driver).move_to_element(elem).click().click().perform()
+        except WebDriverException:
+            print 'Drafts are unnable to open.'
 
 
     # Клик на поле ввода
