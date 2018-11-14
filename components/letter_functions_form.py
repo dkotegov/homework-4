@@ -27,8 +27,7 @@ class LetterFunctionsForm(BaseForm):
     DELAYED_MARK = '[data-qa-id = "schedule" ]'
 
     FIRST_LETTER = '[data-qa-id  = "letter-item:subject:Вход с нового устройства"]'
-
-    FIRST_LETTER_IMPORTANT = '//div[class = "dataset_items"]/a[0]/div[class = "llc__content"]/div[class="llc__item_bage"]/div[class="letter-category_important"]'
+    FIRST_LETTER_IMPORTANT = '//a[@data-qa-id = "letter-item:subject:Important"]'
 
     # Клик на отметке важного письма
     def click_on_important_mark(self):

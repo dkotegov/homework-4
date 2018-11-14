@@ -12,25 +12,28 @@ class BaseForm(Component):
     # base elements
     WRITING_LETTER_BTN = '//span[@data-qa-id="compose"]'
     SEND_LETTER_BTN = '//span[@data-qa-id="send"]'
+    SAVE_LETTER_BTN = '//span[@data-qa-id="save"]'
+    CANCEL_LETTER_BTN = '//span[@data-qa-id="cancel"]'
 
     MSG_SENT_LINK = '//a[@data-qa-id="is-sent"]'
     # DESTINATION_INPUT = '//div[@class="contactsContainer--3RMuQ"]/div/label/div/div/input'
-    DESTINATION_INPUT = '//input[@data-type="to"]'  # defines 1 element. First is needed
+    DESTINATION_INPUT ='//input[@data-test-id="input"]'  # defines 1 element. First is needed
     # CLOSE_MSG_SENT = '//div[@class="layer__controls"]/span/span/span/*/*'
     CLOSE_MSG_SENT = '//div[@class="layer-window__block"]'
     MESSAGE_FIELD = '//div[@role="textbox"]/div/div'
-    SENT_MSG_HREF = '//div[@title="Отправленные"]'
-    DRAFT_MSG_HREF = '//div[@title="Черновики"]'
+    SUBJECT_FIELD = '//div[@data-test-id="subject"]'
+    SENT_MSG_HREF = '//a[@data-qa-id="0"]'
+    DRAFT_MSG_HREF = '//a[@data-qa-id="500001"]'
+    CLOSE_MSG_BTN ='//button[@data-test-id="close"]'
 
 
-
-    DESTINATION_MAIL = 'park.test.testovich@mail.ru'
+    DESTINATION_MAIL = 'park.test.testovich@mail.ru\n'
 
     def set_destionation_email(self):
         try:
-            WebDriverWait(self.driver, 1) \
-                .until(lambda driver: driver.find_elements_by_xpath(self.DESTINATION_INPUT))
-            dest_input = self.driver.find_element_by_xpath(self.DESTINATION_INPUT)
+            dest_input = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_elements_by_xpath(self.DESTINATION_INPUT)[0])
+
             dest_input.send_keys(self.DESTINATION_MAIL)
             print 'destination email is set'
         except WebDriverException:
@@ -83,14 +86,20 @@ class BaseForm(Component):
     def closeMessageSent(self):
         try:
             print 'trying to close msg sent'
-            WebDriverWait(self.driver, 20) \
-                .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT).send_keys(Keys.ESCAPE))
+            elem = WebDriverWait(self.driver, 20) \
+                .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT))
+            ActionChains(self.driver).move_to_element(elem).click().send_keys(Keys.ESCAPE).perform()
         except WebDriverException:
             print 'msg_sent unable to close'
 
+        # ico:16-close
+
     def show_message_sent(self):
-        elem = self.driver.find_element_by_xpath(self.SENT_MSG_HREF)
-        ActionChains(self.driver).move_to_element(elem).click().perform()
+        try:
+            elem = self.driver.find_element_by_xpath(self.SENT_MSG_HREF)
+            ActionChains(self.driver).move_to_element(elem).click().perform()
+        except WebDriverException:
+            print 'Messages are unnable to open.'
 
     def show_message_draft(self):
         elem = self.driver.find_element_by_xpath(self.DRAFT_MSG_HREF)
@@ -100,6 +109,11 @@ class BaseForm(Component):
     # Клик на поле ввода
     def click_on_message_field(self):
         element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
+        ActionChains(self.driver).move_to_element(element).click().perform()
+
+        # Клик на поле темы
+    def click_on_subject_field(self):
+        element = self.driver.find_element_by_xpath(self.SUBJECT_FIELD)
         ActionChains(self.driver).move_to_element(element).click().perform()
 
 
