@@ -15,7 +15,7 @@ class ImportantMarkTest(BaseSend):
         self.functions_form.click_on_important_mark()
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
-        self.functions_form.show_message_sent()
+        self.functions_form.show_message_incoming()
         self.assertEqual(self.functions_form.check_letter_by_subj("Important"), True)
 
         # Тестирование отметки сохраненного важного сообщения.
@@ -45,7 +45,7 @@ class NotificationMarkTest(BaseSend):
         self.functions_form.click_on_notification_mark()
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
-        self.functions_form.show_message_sent()
+        self.functions_form.show_message_incoming()
         self.assertEqual(self.functions_form.check_letter_by_subj("Notified"), True)
 
         # Тестирование сохранения отметки сообщения с оповещением
@@ -63,12 +63,62 @@ class NotificationMarkTest(BaseSend):
 
 class ReminderMarkTest(BaseSend):
     def test(self):
+        # Тестирование отметки сообщения с оповещением
+        BaseSend.test(self)
         self.functions_form.open_writing_letter()
+        self.functions_form.set_destionation_email()
+        self.functions_form.click_on_subject_field()
+        self.functions_form.write_some_text("Remind")
+        self.functions_form.click_on_message_field()
+        self.functions_form.write_some_text("Remind mark letter Test")
+        self.functions_form.click_on_notification_mark()
+        self.functions_form.click_send_button()
+        self.functions_form.closeMessageSent()
+        self.functions_form.show_message_incoming()
+        self.assertEqual(self.functions_form.check_letter_by_subj("Remind"), True)
 
+        # Тестирование сохранения отметки сообщения с оповещением
+        self.functions_form.open_writing_letter()
+        self.functions_form.set_destionation_email()
+        self.functions_form.click_on_subject_field()
+        self.functions_form.write_some_text("RemindS")
+        self.functions_form.click_on_message_field()
+        self.functions_form.write_some_text("Remind mark letter Test")
+        self.functions_form.click_on_notification_mark()
+        self.functions_form.click_save_button()
+        self.functions_form.click_cancel_button()
+        self.functions_form.show_message_draft()
+        self.assertEqual(self.functions_form.check_letter_by_subj("RemindS"), True)
 
 
 class DelayedMarkTest(BaseSend):
     def test(self):
+        # Тестирование отметки сообщения с оповещением
+        BaseSend.test(self)
         self.functions_form.open_writing_letter()
+        self.functions_form.set_destionation_email()
+        self.functions_form.click_on_subject_field()
+        self.functions_form.write_some_text("Remind")
+        self.functions_form.click_on_message_field()
+        self.functions_form.write_some_text("Remind mark letter Test")
+        self.functions_form.click_on_notification_mark()
+        self.functions_form.click_send_button()
+        self.functions_form.closeMessageSent()
+        self.functions_form.show_message_sent()
+        self.assertEqual(self.functions_form.check_letter_by_subj("Remind"), True)
+
+        # Тестирование сохранения отметки сообщения с оповещением
+        self.functions_form.open_writing_letter()
+        self.functions_form.set_destionation_email()
+        self.functions_form.click_on_subject_field()
+        self.functions_form.write_some_text("RemindS")
+        self.functions_form.click_on_message_field()
+        self.functions_form.write_some_text("Remind mark letter Test")
+        self.functions_form.click_on_notification_mark()
+        self.functions_form.click_save_button()
+        self.functions_form.click_cancel_button()
+        self.functions_form.show_message_draft()
+        self.assertEqual(self.functions_form.check_letter_by_subj("RemindS"), True)
+
 
 

@@ -22,7 +22,8 @@ class BaseForm(Component):
     CLOSE_MSG_SENT = '//div[@class="layer-window__block"]'
     MESSAGE_FIELD = '//div[@role="textbox"]/div/div'
     SUBJECT_FIELD = '//div[@data-test-id="subject"]'
-    SENT_MSG_HREF = '//a[@data-qa-id="0"]'
+    INCOMING_MSG_HREF = '//a[@data-qa-id="0"]'
+    SENT_MSG_HREF = '//a[@data-qa-id="500000"]'
     DRAFT_MSG_HREF = '//a[@data-qa-id="500001"]'
     CLOSE_MSG_BTN ='//button[@data-test-id="close"]'
 
@@ -94,12 +95,20 @@ class BaseForm(Component):
 
         # ico:16-close
 
+    def show_message_incoming(self):
+        try:
+            elem = self.driver.find_element_by_xpath(self.INCOMING_MSG_HREF)
+            ActionChains(self.driver).move_to_element(elem).click().perform()
+        except WebDriverException:
+            print 'Messages are unnable to open.'
+
     def show_message_sent(self):
         try:
             elem = self.driver.find_element_by_xpath(self.SENT_MSG_HREF)
             ActionChains(self.driver).move_to_element(elem).click().perform()
         except WebDriverException:
             print 'Messages are unnable to open.'
+
 
     def show_message_draft(self):
         try:
