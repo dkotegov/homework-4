@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 import os
+import time
 from selenium import webdriver
 
 from tests.pages.auth_page import AuthPage
@@ -34,7 +37,7 @@ class Test(unittest.TestCase):
 
         main_page = MainPage(self.driver)
 
-        sidebar = main_page.sidebar
-        sidebar.create_new_dir()
-        sidebar.set_dir_name("Test_Rustam")
-        sidebar.submit_new_dir()
+        letters = main_page.letters
+        letters.drag_and_drop_letter_to_dir('Вход с нового устройства', 'Спам')
+
+        time.sleep(20)
