@@ -35,6 +35,11 @@ class Test(unittest.TestCase):
         main_page = MainPage(self.driver)
 
         sidebar = main_page.sidebar
+        sidebar.waitForVisible()
+        main_page.redirectToQa()
+        sidebar.click_to_inbox()
+
         sidebar.create_new_dir()
-        sidebar.set_dir_name("Test_Nadya")
-        sidebar.submit_new_dir()
+        folder_create = main_page.folder_create
+        folder_create.set_name("Test_Nadya")
+        folder_create.submit()

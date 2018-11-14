@@ -37,7 +37,12 @@ class Test(unittest.TestCase):
 
         main_page = MainPage(self.driver)
 
-        letters = main_page.letters
-        letters.drag_and_drop_letter_to_dir('Вход с нового устройства', 'Спам')
+        sidebar = main_page.sidebar
+        sidebar.waitForVisible()
+        main_page.redirectToQa()
+        sidebar.click_to_inbox()
 
-        time.sleep(20)
+        sidebar.create_new_dir()
+        folder_create = main_page.folder_create
+        folder_create.set_name("Test_Rustam")
+        folder_create.submit()
