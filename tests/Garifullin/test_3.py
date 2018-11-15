@@ -56,7 +56,7 @@ class FolderDeleteTest(unittest.TestCase):
         mailFrom = letters.get_mail_from()
         mailText = letters.get_mail_text()
         mailTime = letters.get_mail_time()
-        letters.move_letters_to_folder(self.FOLDER_NAME)
+        letters.move_letter_to_folder(self.FOLDER_NAME)
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_delete()
         sidebar.submit_delete()
