@@ -4,7 +4,7 @@ from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import WebDriverException
-
+from selenium.webdriver.common.keys import Keys
 
 class Sidebar(Component):
     BASE = '//div[@data-qa-id="full"] '
@@ -20,10 +20,13 @@ class Sidebar(Component):
     DELETE_BUT = '//div[@data-qa-id="delete"]'
     FOLDER_DIV = './/a[@title="{}"]'
     SUBMIT_DELETE = '//div[@class="layer__submit-button"]'
+    SUBMIT_ACTION = '//div[@class="layer__submit-button"]'
     LINK_TRASH = '//a[@title="Корзина"]'
     LOCK_FOLDER = CONTEXTMENU + '//span[contains(text(), "Заблокировать")]'
     UNLOCK_FOLDER = CONTEXTMENU + '//span[contains(text(), "Разблокировать")]'
     
+    CONTEXT_MENU_FOLDER = '//div[@data-qa-id="contextmenu" and @class="contextmenu-folder"] '
+    ELEMENT_OF_FOLDER_CONTEXT_MENU = CONTEXT_MENU_FOLDER + '//span[@class="list-item__text" and contains(text(),"{}")]/parent::*'
 
     def create_new_dir(self):
         create_dir_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -63,13 +66,42 @@ class Sidebar(Component):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT_REMOVE_FROM_TRASH)).click()
 
+    def clear_folder(self, folder_name):
+        if (self.is_folder_empty(folder_name)):
+            return
+        self.right_click_by_folder(folder_name)
+        self.click_context_menu_element('Очистить содержимое')
+        self.submit_action()
+
+    def is_folder_empty(self, folder_name):
+        self.right_click_by_folder(folder_name)
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.CONTEXT_MENU_FOLDER)
+        )
+
+        button = self.driver.find_element_by_xpath(self.ELEMENT_OF_FOLDER_CONTEXT_MENU.format('Очистить содержимое'))
+
+        action_chains = ActionChains(self.driver)
+        action_chains.send_keys(Keys.ESCAPE).perform()
+
+        isButtonDisabled = button.get_attribute('disabled')
+        if (isButtonDisabled):
+            return True
+        return False
+    
+    def click_context_menu_element(self, element_name):
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.ELEMENT_OF_FOLDER_CONTEXT_MENU.format(element_name))
+        )
+        button.click()
+
     def right_click_by_folder(self, folder_name):
         FOLDER_EL = self.FOLDER_ELEM.format(folder_name)
         folder = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(FOLDER_EL)
         )
-        actionChains = ActionChains(self.driver)
-        actionChains.context_click(folder).perform()
+        action_chains = ActionChains(self.driver)
+        action_chains.context_click(folder).perform()
     
     def click_by_folder(self, folder_name):
         FOLDER_EL = self.FOLDER_ELEM.format(folder_name)
@@ -100,6 +132,12 @@ class Sidebar(Component):
         )
         submit.click()
 
+    def submit_action(self):
+        submit = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SUBMIT_ACTION)
+        )
+        submit.click()
+
     def is_folder_deleted(self, f_name):
         F_DIV = self.FOLDER_DIV.format(f_name)
         self.driver.refresh()
@@ -126,3 +164,7 @@ class Sidebar(Component):
             lambda d: d.find_element_by_xpath(self.UNLOCK_FOLDER)
         )
         button.click()
+        self.driver.find_element_by_xpath(self.LINK_TRASH).click()
+
+    def go_to_folder(self, folder_name):
+        self.driver.find_element_by_xpath(self.FOLDER_ELEM.format(folder_name)).click()
