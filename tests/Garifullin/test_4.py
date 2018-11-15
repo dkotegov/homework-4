@@ -25,14 +25,9 @@ class FolderDeleteTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
         folder_create = main_page.folder_create
-        folder_unlock = main_page.forlder_unlock
 
         auth_page = AuthPage(self.driver)
         auth_page.open()
@@ -45,8 +40,6 @@ class FolderDeleteTest(unittest.TestCase):
         main_page.redirectToQa()
         sidebar.click_to_inbox()
 
-        #  new
-        #  prepare
         sidebar.create_new_dir()
         folder_create.set_name(self.FOLDER_NAME)
         folder_create.click_more_settings()
@@ -62,18 +55,10 @@ class FolderDeleteTest(unittest.TestCase):
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_block_folder()
 
-        #  begin
-        main_page.redirectToQa()
-        sidebar.click_to_inbox()
-        sidebar.right_click_by_folder(self.FOLDER_NAME)
-        try_delete = sidebar.try_click_delete()
-        self.assertFalse(try_delete)
-        #  end
-        
-        # import time
-        # time.sleep(50)
-        
-        #  cleaning
+    def tearDown(self):
+        main_page = MainPage(self.driver)
+        sidebar = main_page.sidebar
+        folder_unlock = main_page.forlder_unlock
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_unlock_folder()
         folder_unlock.set_password(self.FOLDER_PASSWORD)
@@ -81,3 +66,14 @@ class FolderDeleteTest(unittest.TestCase):
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_delete()
         sidebar.submit_delete()
+        self.driver.quit()
+
+    def test(self):
+        main_page = MainPage(self.driver)
+        sidebar = main_page.sidebar
+
+        main_page.redirectToQa()
+        sidebar.click_to_inbox()
+        sidebar.right_click_by_folder(self.FOLDER_NAME)
+        try_delete = sidebar.try_click_delete()
+        self.assertFalse(try_delete)

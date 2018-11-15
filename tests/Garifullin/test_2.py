@@ -24,18 +24,11 @@ class FolderDeleteTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
         auth_page = AuthPage(self.driver)
         main_page = MainPage(self.driver)
-        folders_setting_page_old = SettingsFolders(self.driver)
-        sidebar = main_page.sidebar
         folder_create = main_page.folder_create
-        letters = main_page.letters
-        folder_settings = folders_setting_page_old.settings_form
-
+        sidebar = main_page.sidebar
+        
         auth_page.open()
         auth_form = auth_page.form
         auth_form.set_login(self.USEREMAIL)
@@ -45,15 +38,22 @@ class FolderDeleteTest(unittest.TestCase):
         sidebar.waitForVisible()
         main_page.redirectToQa()
         sidebar.click_to_inbox()
-
-        #  new
-        #  begin
         sidebar.create_new_dir()
         folder_create.set_name(self.FOLDER_NAME)
         folder_create.click_more_settings()
         folder_create.click_select_parent_inbox()
         folder_create.select_parent_inbox()
         folder_create.submit()
+
+    def tearDown(self):
+        self.driver.quit()
+
+    def test(self):
+        main_page = MainPage(self.driver)
+        folders_setting_page_old = SettingsFolders(self.driver)
+        sidebar = main_page.sidebar
+        folder_settings = folders_setting_page_old.settings_form
+
         folders_setting_page_old.open()
         folder_settings.click_delete()
         folder_settings.click_submit_delete()
@@ -61,4 +61,3 @@ class FolderDeleteTest(unittest.TestCase):
         sidebar.click_to_inbox()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted)
-        #  end

@@ -24,14 +24,9 @@ class FolderDeleteTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
         folder_create = main_page.folder_create
-        letters = main_page.letters
 
         auth_page = AuthPage(self.driver)
         auth_page.open()
@@ -43,9 +38,6 @@ class FolderDeleteTest(unittest.TestCase):
         sidebar.waitForVisible()
         main_page.redirectToQa()
         sidebar.click_to_inbox()
-
-        #  new
-        #  begin
         sidebar.clear_trash()
         sidebar.create_new_dir()
         folder_create.set_name(self.FOLDER_NAME)
@@ -53,6 +45,16 @@ class FolderDeleteTest(unittest.TestCase):
         folder_create.click_select_parent_inbox()
         folder_create.select_parent_inbox()
         folder_create.submit()
+
+    def tearDown(self):
+        MainPage(self.driver).sidebar.clear_trash()
+        self.driver.quit()
+
+    def test(self):
+        main_page = MainPage(self.driver)
+        sidebar = main_page.sidebar
+        letters = main_page.letters
+
         mailFrom = letters.get_mail_from()
         mailText = letters.get_mail_text()
         mailTime = letters.get_mail_time()
@@ -70,5 +72,3 @@ class FolderDeleteTest(unittest.TestCase):
         self.assertEqual(mailFrom, mailFromInTrash)
         self.assertEqual(mailText, mailTextInTrash)
         self.assertEqual(mailTime, mailTimeInTrash)
-
-        sidebar.clear_trash()

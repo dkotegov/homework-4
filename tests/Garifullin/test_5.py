@@ -25,10 +25,6 @@ class FolderDeleteTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
         folder_create = main_page.folder_create
@@ -44,8 +40,6 @@ class FolderDeleteTest(unittest.TestCase):
         main_page.redirectToQa()
         sidebar.click_to_inbox()
 
-        #  new
-        #  prepare
         sidebar.create_new_dir()
         folder_create.set_name(self.FOLDER_NAME)
         folder_create.submit()
@@ -58,16 +52,9 @@ class FolderDeleteTest(unittest.TestCase):
         folder_create.submit()
         sidebar.click_by_folder(self.FOLDER_NAME_CHILD)
 
-        #  begin
-        main_page.redirectToQa()
-        sidebar.click_to_inbox()
-        sidebar.right_click_by_folder(self.FOLDER_NAME)
-        try_delete = sidebar.try_click_delete()
-        self.assertFalse(try_delete)
-        #  end
-
-        
-        #  cleaning
+    def tearDown(self):
+        main_page = MainPage(self.driver)
+        sidebar = main_page.sidebar
         sidebar.right_click_by_folder(self.FOLDER_NAME_CHILD)
         sidebar.click_delete()
         sidebar.submit_delete()
@@ -76,3 +63,14 @@ class FolderDeleteTest(unittest.TestCase):
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_delete()
         sidebar.submit_delete()
+        self.driver.quit()
+
+    def test(self):
+        main_page = MainPage(self.driver)
+        sidebar = main_page.sidebar
+
+        main_page.redirectToQa()
+        sidebar.click_to_inbox()
+        sidebar.right_click_by_folder(self.FOLDER_NAME)
+        try_delete = sidebar.try_click_delete()
+        self.assertFalse(try_delete)

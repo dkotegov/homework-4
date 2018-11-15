@@ -26,16 +26,6 @@ class FolderDeleteTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
-        folder_create = main_page.folder_create
-        letters = main_page.letters
-
-
         auth_page = AuthPage(self.driver)
         auth_page.open()
         auth_form = auth_page.form
@@ -43,12 +33,13 @@ class FolderDeleteTest(unittest.TestCase):
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
 
+        main_page = MainPage(self.driver)
+        sidebar = main_page.sidebar
+        folder_create = main_page.folder_create
+
         sidebar.waitForVisible()
         main_page.redirectToQa()
         sidebar.click_to_inbox()
-
-        #  create a simple folder
-        #  begin
         sidebar.create_new_dir()
         folder_create.set_name(self.FOLDER_NAME)
         folder_create.click_more_settings()
@@ -63,12 +54,17 @@ class FolderDeleteTest(unittest.TestCase):
         sidebar.click_by_folder(self.FOLDER_NAME)
         folder_name = sidebar.get_text_by_folder_name(self.FOLDER_NAME)
         self.assertEqual(self.FOLDER_NAME, folder_name)
-        #  end
-        
         sidebar.clear_trash()
 
-        #  delete a folder and then check letters in a trash
-        #  begin
+    def tearDown(self):
+        MainPage(self.driver).sidebar.clear_trash()
+        self.driver.quit()
+
+    def test(self):
+        main_page = MainPage(self.driver)
+        sidebar = main_page.sidebar
+        letters = main_page.letters
+
         sidebar.click_to_inbox()
         mailFrom = letters.get_mail_from()
         mailText = letters.get_mail_text()
@@ -87,8 +83,3 @@ class FolderDeleteTest(unittest.TestCase):
         self.assertEqual(mailFrom, mailFromInTrash)
         self.assertEqual(mailText, mailTextInTrash)
         self.assertEqual(mailTime, mailTimeInTrash)
-        
-        sidebar.clear_trash()
-
-        #  end
-
