@@ -171,5 +171,7 @@ class TemplateTest(BaseSend):
         self.functions_form.click_on_important_mark()
         self.functions_form.click_on_delayed_mark()
         self.functions_form.click_template_mark()
-        # self.assertEqual(self.functions_form.check_letter_by_subj("Remind"), True)
+        self.functions_form.click_save_template()
+        self.functions_form.click_template_mark()
+        self.assertEqual(self.functions_form.get_first_template(), "Template")
 

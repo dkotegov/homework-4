@@ -29,22 +29,34 @@ class LetterFunctionsForm(BaseForm):
     FIRST_LETTER = '//div[@data-qa-id  = "letter-item:subject:Вход с нового устройства"]'
     FIRST_LETTER_IMPORTANT = '//a[@data-qa-id = "letter-item:subject:{}"]'
 
-    TEMPLATE_MARK = '//div[@data-test-id = "button" ]'
-    TEMPLATE_MARK_SAVE = '//div[@class ="checked--1gJVx" ]'
+    TEMPLATE_MARK = '//div[@class="container--m44Tk relative--3LYxp"]/button[@data-test-id = "button" ]'
+    TEMPLATE_MARK_SAVE = '//div[@class ="control--3U0pa" ]'
+    TEMPLATE_FIRST = '//div[@class="container--2hzoN"]/div'
 
+
+    def get_first_template(self):
+        # try:
+            elem = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_elements_by_xpath(self.TEMPLATE_FIRST)[0])
+            print 'template found'
+            return elem.text
+        # except WebDriverException:
+        #     print 'template not found'
 
     def click_template_mark(self):
         try:
             elem = WebDriverWait(self.driver, 1) \
                 .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK))
-            element = WebDriverWait(self.driver, 1) \
-                .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK_SAVE))
             ActionChains(self.driver).move_to_element(elem).click().perform()
-            ActionChains(self.driver).move_to_element(element).click().perform()
-            print 'destination email is set'
+            print 'template clicked'
         except WebDriverException:
-            print 'destination input not found'
+            print 'template is not clicked'
 
+    def click_save_template(self):
+        element = WebDriverWait(self.driver, 1) \
+            .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK_SAVE))
+        ActionChains(self.driver).move_to_element(element).click().perform()
+        print 'template saved'
 
     # Клик на отметке важного письма
     def click_on_important_mark(self):

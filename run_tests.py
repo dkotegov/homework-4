@@ -10,11 +10,11 @@ from tests.letter_functions.functions_tests import *
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(ImportantMarkTest),
-        unittest.makeSuite(NotificationMarkTest),
-        unittest.makeSuite(ReminderMarkTest),
-        unittest.makeSuite(DelayedMarkTest),
-        unittest.makeSuite(CrossFuncsTest),
+        # unittest.makeSuite(ImportantMarkTest),
+        # unittest.makeSuite(NotificationMarkTest),
+        # unittest.makeSuite(ReminderMarkTest),
+        # unittest.makeSuite(DelayedMarkTest),
+        # unittest.makeSuite(CrossFuncsTest),
         unittest.makeSuite(TemplateTest)
         # unittest.makeSuite(LetterFormattingTests),
         # unittest.makeSuite(AttachTest_document)
