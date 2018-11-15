@@ -29,6 +29,23 @@ class LetterFunctionsForm(BaseForm):
     FIRST_LETTER = '//div[@data-qa-id  = "letter-item:subject:Вход с нового устройства"]'
     FIRST_LETTER_IMPORTANT = '//a[@data-qa-id = "letter-item:subject:{}"]'
 
+    TEMPLATE_MARK = '//div[@data-test-id = "button" ]'
+    TEMPLATE_MARK_SAVE = '//div[@class ="checked--1gJVx" ]'
+
+
+    def click_template_mark(self):
+        try:
+            elem = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK))
+            element = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK_SAVE))
+            ActionChains(self.driver).move_to_element(elem).click().perform()
+            ActionChains(self.driver).move_to_element(element).click().perform()
+            print 'destination email is set'
+        except WebDriverException:
+            print 'destination input not found'
+
+
     # Клик на отметке важного письма
     def click_on_important_mark(self):
         element = self.driver.find_element_by_xpath(self.IMPORTANT_MARK)
