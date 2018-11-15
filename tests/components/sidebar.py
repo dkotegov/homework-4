@@ -164,7 +164,6 @@ class Sidebar(Component):
             lambda d: d.find_element_by_xpath(self.UNLOCK_FOLDER)
         )
         button.click()
-        self.driver.find_element_by_xpath(self.LINK_TRASH).click()
 
     def go_to_folder(self, folder_name):
         self.driver.find_element_by_xpath(self.FOLDER_ELEM.format(folder_name)).click()

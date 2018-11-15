@@ -9,16 +9,14 @@ from tests.pages.main_page import MainPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-class FolderDeleteTest(unittest.TestCase):
+class FolderWithSubdirDeleteTest(unittest.TestCase):
     USEREMAIL = 'ttexnopark@mail.ru'
     PASSWORD = os.environ['PASSWORD']
-    FOLDER_NAME = 'Test_Timur'
-    FOLDER_NAME_CHILD = 'Test_Timur_C'
+    FOLDER_NAME = '_TEST_DIR'
+    FOLDER_NAME_CHILD = '_TEST_DIR_C'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
-
-        # self.driver = webdriver.Chrome('./chromedriver')
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -65,7 +63,7 @@ class FolderDeleteTest(unittest.TestCase):
         sidebar.submit_delete()
         self.driver.quit()
 
-    def test(self):
+    def test_folder_with_subdir(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
 
