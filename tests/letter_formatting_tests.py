@@ -26,6 +26,7 @@ class LetterFormattingTests(BaseTest):
 
         letter_formatting_page = LetterFormattingPage(self.driver)
         letter_formatting_form = letter_formatting_page.form
+        letter_formatting_page.redirectQA()
         letter_formatting_form.open_writing_letter()
 
         # проверка жирного шрифта
