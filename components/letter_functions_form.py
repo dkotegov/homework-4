@@ -13,32 +13,50 @@ from selenium.webdriver.support.wait import WebDriverWait
 from components.base_form import BaseForm
 
 class LetterFunctionsForm(BaseForm):
-    IMPORTANT_MARK = '//div[class = "compose-app__widgets" ]/div[0]/div/div'
+    IMPORTANT_MARK = '//div[@data-qa-id = "priority" ]'
 
-    NOTIFICATION_MARK = '//div[class = "compose-app__widgets" ]/div[1]/div/div'
+    NOTIFICATION_MARK = '//div[@data-qa-id = "receipt" ]'
 
-    REMINDER_MARK = '//div[class = "compose-app__widgets" ]/div[2]/div/div'
-    REMINDER_MARK_OHOUR = '//div[class = "compose-app__widgets" ]/div' \
-                          '[2]/div/div/div/div/div[class="c0126"]/div' \
-                          '/div/div/div[class="c0116"]/div[0]'
-    REMINDER_MARK_THOUR = '//div[class = "compose-app__widgets" ]/div[2]' \
-                          '/div/div/div/div/div[class="c0126"]/div/div/' \
-                          'div/div[class="c0116"]/div[1]'
-    REMINDER_MARK_ODAY = '//div[class = "compose-app__widgets" ]/div[2]' \
-                         '/div/div/div/div/div[class="c0126"]/div/div/' \
-                         'div/div[class="c0116"]/div[2]'
-    REMINDER_MARK_TDAY = '//div[class = "compose-app__widgets" ]/div[2]' \
-                         '/div/div/div/div/div[class="c0126"]/div/div/' \
-                         'div/div[class="c0116"]/div[3]'
-    REMINDER_MARK_FDAY = '//div[class = "compose-app__widgets" ]/div[2]' \
-                         '/div/div/div/div/div[class="c0126"]/div/div/' \
-                         'div/div[class="c0164"]/div[4]'
+    REMINDER_MARK = '//div[@data-qa-id = "remind" ]'
+    REMINDER_MARK_OHOUR = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[0]'
+    REMINDER_MARK_THOUR = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[1]'
+    REMINDER_MARK_ODAY = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[2]'
+    REMINDER_MARK_TDAY = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[3]'
+    REMINDER_MARK_FDAY = '//div[@data-qa-id = "remind" ] div[class="c0116"]/div[4]'
 
-    DELAYED_MARK = '//div[class = "compose-app__widgets" ]/div[3]/div/div'
+    DELAYED_MARK = '//div[@data-qa-id = "schedule" ]'
 
-    FIRST_LETTER = '//div[class = "dataset_items"]/a[0]'
+    FIRST_LETTER = '//div[@data-qa-id  = "letter-item:subject:Вход с нового устройства"]'
+    FIRST_LETTER_IMPORTANT = '//a[@data-qa-id = "letter-item:subject:{}"]'
 
-    FIRST_LETTER_IMPORTANT = '//div[class = "dataset_items"]/a[0]/div[class = "llc__content"]/div[class="llc__item_bage"]/div[class="letter-category_important"]'
+    TEMPLATE_MARK = '//div[@class="container--m44Tk relative--3LYxp"]/button[@data-test-id = "button" ]'
+    TEMPLATE_MARK_SAVE = '//div[@class ="control--3U0pa" ]'
+    TEMPLATE_FIRST = '//div[@class="container--2hzoN"]/div'
+
+
+    def get_first_template(self):
+        # try:
+            elem = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_elements_by_xpath(self.TEMPLATE_FIRST)[0])
+            print 'template found'
+            return elem.text
+        # except WebDriverException:
+        #     print 'template not found'
+
+    def click_template_mark(self):
+        try:
+            elem = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK))
+            ActionChains(self.driver).move_to_element(elem).click().perform()
+            print 'template clicked'
+        except WebDriverException:
+            print 'template is not clicked'
+
+    def click_save_template(self):
+        element = WebDriverWait(self.driver, 1) \
+            .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK_SAVE))
+        ActionChains(self.driver).move_to_element(element).click().perform()
+        print 'template saved'
 
     # Клик на отметке важного письма
     def click_on_important_mark(self):
@@ -61,14 +79,16 @@ class LetterFunctionsForm(BaseForm):
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Клик на отметке письма с отложенным отправлением
-    def click_on_reminder2_mark(self):
+    def click_on_delayed_mark(self):
         element = self.driver.find_element_by_xpath(self.DELAYED_MARK)
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Проверка важного письма
-    def check_important_letter(self):
-        element = self.driver.find_element_by_xpath(self.FIRST_LETTER_IMPORTANT)
+    def check_letter_by_subj(self, subject):
+        element = self.driver.find_element_by_xpath(self.FIRST_LETTER_IMPORTANT.format(subject))
         if element:
             return True
         else:
             return False
+
+        # letter-item:subject:ImportantS
