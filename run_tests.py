@@ -23,7 +23,6 @@ if __name__ == '__main__':
         # unittest.makeSuite(AttachTestAlmostTwoGigFile),
         unittest.makeSuite(AttachTest99Photos)
         # unittest.makeSuite(AttachTest25MbAndMoreThroughCloud)
-        # unittest.makeSuite(AttachTestMore2GigFile)
         # unittest.makeSuite(AttachTestLess25MbWithoutCloud)
     ))
     result = unittest.TextTestRunner().run(suite)
