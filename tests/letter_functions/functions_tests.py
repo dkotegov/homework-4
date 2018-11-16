@@ -1,18 +1,8 @@
 # coding=utf-8
 from tests.letter_functions.base_send import BaseSend
 
-class FunctionTests(BaseSend):
-    def writeLetter(self,subject, message):
-        self.functions_form.open_writing_letter()
-        self.functions_form.set_destionation_email()
-        self.functions_form.click_on_subject_field()
-        self.functions_form.write_some_text(subject)
-        self.functions_form.click_on_message_field()
-        self.functions_form.write_some_text(message)
 
-
-
-class ImportantMarkTest(FunctionTests):
+class ImportantMarkTest(BaseSend):
 
 
         def test(self):
@@ -34,7 +24,7 @@ class ImportantMarkTest(FunctionTests):
             self.assertEqual(self.functions_form.check_letter_by_subj("ImportantS"), True)
 
 
-class NotificationMarkTest(FunctionTests):
+class NotificationMarkTest(BaseSend):
         def test(self):
             # Тестирование отметки сообщения с оповещением
             BaseSend.test(self)
@@ -53,7 +43,7 @@ class NotificationMarkTest(FunctionTests):
             self.functions_form.show_message_draft()
             self.assertEqual(self.functions_form.check_letter_by_subj("NotifiedS"), True)
 
-class ReminderMarkTest(FunctionTests):
+class ReminderMarkTest(BaseSend):
         def test(self):
             # Тестирование отметки сообщения с оповещением
             BaseSend.test(self)
@@ -73,7 +63,7 @@ class ReminderMarkTest(FunctionTests):
             self.assertEqual(self.functions_form.check_letter_by_subj("RemindS"), True)
 
 
-class DelayedMarkTest(FunctionTests):
+class DelayedMarkTest(BaseSend):
         def test(self):
             # Тестирование отметки сообщения с отложенным отправлением
             BaseSend.test(self)
@@ -92,7 +82,7 @@ class DelayedMarkTest(FunctionTests):
             self.functions_form.show_message_draft()
             self.assertEqual(self.functions_form.check_letter_by_subj("DelayedS"), True)
 
-class CrossFuncsTest(FunctionTests):
+class CrossFuncsTest(BaseSend):
         def test(self):
             # Тестирование отметки сообщения с разными функциями
             BaseSend.test(self)
@@ -121,7 +111,7 @@ class CrossFuncsTest(FunctionTests):
             self.assertEqual(self.functions_form.check_letter_by_subj("CrossFuncsS"), True)
 
 
-class TemplateTest(FunctionTests):
+class TemplateTest(BaseSend):
         def test(self):
             # Тестирование отметки сообщения с отложенным отправлением
             BaseSend.test(self)
