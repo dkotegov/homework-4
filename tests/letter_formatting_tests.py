@@ -8,10 +8,10 @@ from tests.base_test import BaseTest
 
 class LetterFormattingTests(BaseTest):
     SAMPLE_TEXT = 'hello'
-    BOLD_TEXT = '<strong>​​​​​​​' + SAMPLE_TEXT + '</strong><br>'
-    ITALIC_TEXT = '<em>​​​​​​​' + SAMPLE_TEXT + '</em><br>'
-    UNDERLINED_TEXT = '<u>​​​​​​​' + SAMPLE_TEXT + '</u><br>'
-    STRIKETHROUGH_TEXT = '<s>​​​​​​​' + SAMPLE_TEXT + '</s><br>'
+    BOLD_TEXT = '<strong>​​​​​​​' + SAMPLE_TEXT + '</strong>'
+    ITALIC_TEXT = '<em>​​​​​​​' + SAMPLE_TEXT + '</em>'
+    UNDERLINED_TEXT = '<u>​​​​​​​' + SAMPLE_TEXT + '</u>'
+    STRIKETHROUGH_TEXT = '<s>​​​​​​​' + SAMPLE_TEXT + '</s>'
     TEXT_COLOR = 'rgba(202, 242, 245, 1)'
     FONT_SIZE = '32px'
     LINE_HEIGHT = '40px'
@@ -26,7 +26,11 @@ class LetterFormattingTests(BaseTest):
 
         letter_formatting_page = LetterFormattingPage(self.driver)
         letter_formatting_form = letter_formatting_page.form
+        letter_formatting_page.redirectQA()
         letter_formatting_form.open_writing_letter()
+
+        # очистка поля ввода сообещния
+        letter_formatting_form.clear_field()
 
         # проверка жирного шрифта
         letter_formatting_form.click_on_bold_icon()

@@ -69,3 +69,5 @@ chromedriver
 geckodriver
 
 ./test_files/
+
+./pages/page.py

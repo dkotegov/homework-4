@@ -12,24 +12,26 @@ class LetterFormattingForm(BaseForm):
     # text formatting elements
     TEST_FILE_DIR = './test_files/'
 
-    BOLD_BUTTON = '//button[@title="Жирный текст"]'
+    BOLD_BUTTON = '//div[@data-test-id="bold"]'
     ITALIC_BUTTON = '//button[@title="Наклонный текст"]'
     UNDERLINED_BUTTON = '//button[@title="Подчёркнутый текст"]'
     STRIKETHROUGH_BUTTON = '//button[@title="Зачёркнутый текст"]'
 
     TEXT_COLOR_BUTTON = '//button[@title="Цвет текста"]'
-    COLOR_VALUE = '//div[@style="background-color: rgb(202, 242, 245);"]'
+    COLOR_VALUE = '//div[@data-test-id="#CAF2F5"]'
 
     BACKGROUND_COLOR_BUTTON = '//button[@title="Цвет фона"]'
-    BACKGROUND_COLOR_VALUE = '//div[@class="cell--3K4W6"]/div[6]/div[2]/div/div[4]'
+    # BACKGROUND_COLOR_VALUE = '//div[@class="cell--3K4W6"]/div[6]/div[2]/div/div[4]'
+    BACKGROUND_COLOR_VALUE = '//div[@data-test-id="highlight"]//div[@data-test-id="#CAF2F5"]'
     FORMATTED_TEXT = '//div[@role="textbox"]/div/div/span'
 
     FONT_BUTTON = '//button[@title="Шрифт"]'
     FONT_VALUE = '//div[@class="cell--3K4W6"]/div[7]/div[2]/div/div[2]'
 
     TEXT_ALIGN = '//button[@title="Выравнивание"]'
-    TEXT_ALIGN_VALUE_LEFT = '//div[@class="cell--3K4W6"]/div[8]/div[2]/div/div[1]'
-    TEXT_ALIGN_VALUE_RIGHT = '//div[@class="cell--3K4W6"]/div[8]/div[2]/div/div[3]'
+    # TEXT_ALIGN_VALUE_LEFT = '//div[@class="cell--3K4W6"]/div[8]/div[2]/div/div[1]'
+    # TEXT_ALIGN_VALUE_RIGHT = '//div[@data-test-id="align"]//div[@data-test-id="right"]'
+    TEXT_ALIGN_VALUE_RIGHT = '//div[@data-test-id="align"]//div[3]'
 
     TEXT_MARGIN = '//button[@title="Отступ"]'
     TEXT_MARGIN_INC = '//div[@class="cell--3K4W6"]/div[9]/div[2]/div/div[2]'
@@ -232,8 +234,10 @@ class LetterFormattingForm(BaseForm):
 
     # Очищение поля ввода
     def clear_field(self):
-        self.text_selection()
-        ActionChains(self.driver).key_down(Keys.BACK_SPACE).perform()
+        # self.text_selection()
+        # ActionChains(self.driver).key_down(Keys.BACK_SPACE).perform()
+        elem = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
+        elem.clear()
 
     # Очищение поля + сброс выравнивания
     def full_clear_field(self):
