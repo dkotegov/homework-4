@@ -4,7 +4,10 @@ from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
 
+import time
+
 class Letters(Component):
+    BASE = '//div[@data-qa-id="dataset-letters"] '
     MAIL_FROM = '//span[@class="ll-crpt"]'
     MAIL_TEXT = '//span[@class="ll-sp__normal"]'
     MAIL_TIME = '//div[@class="llc__item llc__item_date"]'
@@ -14,11 +17,13 @@ class Letters(Component):
     NEW_FOLDER_FOR_LETTER = '//div[@title="{}"]'
     SELECT_ALL_MESSAGES_BUTTON = '//span[contains(text(), "Выделить все письма")]'
 
-    @property
+    MESSAGE_BY_SUBJECT = BASE + '//a[@data-qa-id="letter-item:subject:{}"]'
+
     def get_letters(self):
-        return WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_elements_by_xpath(self.SELECT_MESSAGE)
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SELECT_MESSAGE)
         )
+        return self.driver.find_elements_by_xpath(self.SELECT_MESSAGE)
 
     def get_mail_from(self):
         return WebDriverWait(self.driver, 10, 0.1).until(
@@ -49,7 +54,7 @@ class Letters(Component):
         self.select_all_messages()
         topbar.move_to_folder(folder_name)
         
-
+    # Перемещает первое письмо в папку @folder_name
     def move_letter_to_folder(self, folder_name):
         letter = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SELECT_MESSAGE)
@@ -62,4 +67,45 @@ class Letters(Component):
         
         new_folder = self.NEW_FOLDER_FOR_LETTER.format(folder_name)
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(new_folder)).click()    
+            lambda d: d.find_element_by_xpath(new_folder)).click()
+
+    def get_letter_id_by_subject(self, subject):
+        return WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.MESSAGE_BY_SUBJECT.format(subject))
+        ).get_attribute('data-id')
+
+    def has_letter_by_subject(self, subject):
+        try:
+            self.driver.find_element_by_xpath(self.MESSAGE_BY_SUBJECT.format(subject))
+            return True
+        except self.driver.NoSuchElementException:
+            return False
+    
+    def open_letter_by_subject(self, subject):
+        return WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.MESSAGE_BY_SUBJECT.format(subject))
+        ).click()
+
+    def select_several_messages(self, number):
+        messages = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_elements_by_xpath(self.MAIL_IMAGE)
+        )
+        for i in range(number):
+            messages[i].click()
+        return messages[0]
+
+    def select_message(self):
+        message = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.MAIL_IMAGE)
+        )
+        return message
+
+    def drag_and_drop_message(self, sidebar, target_dirname):
+        message_element = self.select_message()
+        folder_element = sidebar.get_folder_element(target_dirname)
+        ActionChains(self.driver).drag_and_drop(message_element, folder_element).perform()
+
+    def drag_and_drop_several_messages(self, sidebar, messages_number, target_dirname):
+        first_message_element = self.select_several_messages(messages_number)
+        folder_element = sidebar.get_folder_element(target_dirname)
+        ActionChains(self.driver).drag_and_drop(first_message_element, folder_element).perform()
