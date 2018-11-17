@@ -56,7 +56,7 @@ class LockedFolderDeleteTest(unittest.TestCase):
     def tearDown(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
-        folder_unlock = main_page.forlder_unlock
+        folder_unlock = main_page.folder_unlock
         
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_unlock_folder()
