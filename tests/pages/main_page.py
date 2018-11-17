@@ -35,13 +35,25 @@ class MainPage(Page):
         return Letters(self.driver)
 
     @property
-    def forlder_unlock(self):
+    def folder_unlock(self):
         return FolderUnlock(self.driver)
 
     @property
     def logout(self):
         return Logout(self.driver)
-
+    
     def redirectToQa(self):
         url = urlparse.urljoin(self.BASE_URL, '/bundles/page.qa.html')
         self.driver.get(url)
+
+    # Ждём загрузки страницы по элементу. В данном случае по сайдбару.
+    def waitForVisible(self):
+        sidebar = self.sidebar
+        sidebar.waitForVisible()
+
+    # Вход в папку "Входящие"
+    def go_to_inbox(self):
+        sidebar = self.sidebar
+        sidebar.click_to_inbox()
+
+
