@@ -131,6 +131,8 @@ class BaseForm(Component):
 
     # Ввод текста
     def write_some_text(self, text):
+        # element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
+        # ActionChains(self.driver).move_to_element(element).send_keys(text).perform()
         ActionChains(self.driver).key_down(text).perform()
 
     # Получение innerHTML элемента
