@@ -77,4 +77,4 @@ class LockedFolderDeleteTest(unittest.TestCase):
         sidebar.click_to_inbox()
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         try_delete = sidebar.try_click_delete()
-        self.assertFalse(try_delete)
+        self.assertFalse(try_delete, "Folder can be deleted. Must be protected.")
