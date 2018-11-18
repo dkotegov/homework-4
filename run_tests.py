@@ -16,12 +16,12 @@ if __name__ == '__main__':
         # unittest.makeSuite(DelayedMarkTest),
         # unittest.makeSuite(CrossFuncsTest),
         # unittest.makeSuite(TemplateTest)
-        # unittest.makeSuite(LetterFormattingTests),
+        unittest.makeSuite(LetterFormattingTests),
         # unittest.makeSuite(AttachTest_document)
         # unittest.makeSuite(AttachTest_Media)
         # unittest.makeSuite(AttachTest_Executable),
         # unittest.makeSuite(AttachTestAlmostTwoGigFile),
-        unittest.makeSuite(AttachTest99Photos)
+        # unittest.makeSuite(AttachTest99Photos)
         # unittest.makeSuite(AttachTest25MbAndMoreThroughCloud)
         # unittest.makeSuite(AttachTestLess25MbWithoutCloud)
     ))
