@@ -60,7 +60,7 @@ class SubFolderDeleteTest(unittest.TestCase):
         main_page.redirectToQa()
         sidebar.click_to_inbox()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
-        self.assertTrue(isFolderDeleted, "Folder wasn't created")
+        self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
     def test_subdir_context_menu(self):
         main_page = MainPage(self.driver)
@@ -76,7 +76,7 @@ class SubFolderDeleteTest(unittest.TestCase):
         sidebar.click_delete()
         sidebar.submit_delete()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
-        self.assertTrue(isFolderDeleted, "Folder wasn't created")
+        self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
         main_page.redirectToQa()
         sidebar.go_to_trash()
         mailFromInTrash = letters.get_mail_from()
