@@ -9,6 +9,13 @@ class FolderUnlock(Component):
     INPUT_PASSWORD = BASE + '//input[@data-qa-id="input"]'
     SUBMIT = BASE + '//span[@data-qa-id="submit"]'
 
+    def is_created(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.BASE)
+        )
+        element = self.driver.find_elements_by_xpath(self.BASE)
+        return len(element) != 0
+
     def set_password(self, password):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.INPUT_PASSWORD)

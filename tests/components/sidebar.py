@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from component import Component
-from write_letter import WriteLetter
+ # from write_letter import WriteLetter
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
+from selenium.common.exceptions import WebDriverException, TimeoutException
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+
 
 class Sidebar(Component):
     BASE = '//div[@data-qa-id="full"] '
@@ -14,7 +16,7 @@ class Sidebar(Component):
     CONTEXTMENU = '//div[@data-qa-id="contextmenu"] '
 
     INBOX_BUTTON = BASE + '//a[@data-qa-id="0"]'
-    NEW_DIR =  BASE + '//div[@class="new-folder-btn__button-wrapper"]'
+    NEW_DIR = BASE + '//div[@class="new-folder-btn__button-wrapper"]'
     FOLDER_NAME_TEXT = BASE + '//a[@title="{}"]//div[@class="nav__folder-name__txt"]'
     REMOVE_FROM_TRASH = BASE + '//a[@data-qa-id="500002"]//div[@class="nav__folder-clear"]'
     SUBMIT_REMOVE_FROM_TRASH = '//div[@class="layer__submit-button"]'
@@ -27,7 +29,10 @@ class Sidebar(Component):
     LOCK_FOLDER = CONTEXTMENU + '//span[contains(text(), "Заблокировать")]'
     UNLOCK_FOLDER = CONTEXTMENU + '//span[contains(text(), "Разблокировать")]'
     WRITE_LETTER_BUTTON = BASE + '//span[@data-qa-id="compose"]'
-    
+
+    FOLDER_ARROW = '//div[@data-qa-id="folder-arrow"]'
+    NESTED_FOLDER_DIV = '//a[@class="nav__item_child" and @title="{}"]'
+
     CONTEXT_MENU_FOLDER = '//div[@data-qa-id="contextmenu" and @class="contextmenu-folder"] '
     ELEMENT_OF_FOLDER_CONTEXT_MENU = CONTEXT_MENU_FOLDER + '//span[@class="list-item__text" and contains(text(),"{}")]/parent::*'
     FOLDER = BASE + '//a[@title="{}"]'
@@ -42,12 +47,14 @@ class Sidebar(Component):
         )
         write_letter_button.click()
 
+    EDIT_FOLDER = '//span[contains(text(), "Редактировать папку")]'
+
     def create_new_dir(self):
         create_dir_button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.NEW_DIR)
         )
         create_dir_button.click()
-    
+
     def click_to_inbox(self):
         WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: d.find_element_by_xpath(self.INBOX_BUTTON)
@@ -104,7 +111,7 @@ class Sidebar(Component):
         if (isButtonDisabled):
             return True
         return False
-    
+
     def click_context_menu_element(self, element_name):
         button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.ELEMENT_OF_FOLDER_CONTEXT_MENU.format(element_name))
@@ -118,7 +125,7 @@ class Sidebar(Component):
         )
         action_chains = ActionChains(self.driver)
         action_chains.context_click(folder).perform()
-    
+
     def click_by_folder(self, folder_name):
         FOLDER_EL = self.FOLDER_ELEM.format(folder_name)
         folder = WebDriverWait(self.driver, 30, 0.1).until(
@@ -126,18 +133,19 @@ class Sidebar(Component):
         )
         folder.click()
 
+
     def get_folder_element(self, folder_name):
         return WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.FOLDER.format(folder_name))
         )
-        
+
     def click_delete(self):
         button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.DELETE_BUT)
         )
         button.click()
 
-    def try_click_delete (self):
+    def try_click_delete(self):
         button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.DELETE_BUT)
         )
@@ -146,7 +154,7 @@ class Sidebar(Component):
             return True
         except WebDriverException:
             return False
-    
+
     def submit_delete(self):
         submit = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT_DELETE)
@@ -163,7 +171,7 @@ class Sidebar(Component):
         F_DIV = self.FOLDER_DIV.format(f_name)
         self.driver.refresh()
         WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.BASE_WITHOUT_QA_ID))    
+            lambda d: d.find_element_by_xpath(self.BASE_WITHOUT_QA_ID))
         folders = self.driver.find_elements_by_xpath(F_DIV)
         if len(folders) == 0:
             return True
@@ -179,7 +187,7 @@ class Sidebar(Component):
             lambda d: d.find_element_by_xpath(self.LOCK_FOLDER)
         )
         button.click()
-    
+
     def click_unlock_folder(self):
         button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.UNLOCK_FOLDER)
@@ -203,4 +211,52 @@ class Sidebar(Component):
             return True
         except NoSuchElementException:
             return False
-            
+
+
+    def is_folder_created(self, folder_name):
+        folder_div = self.FOLDER_DIV.format(folder_name)
+        self.driver.refresh()
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.BASE_WITHOUT_QA_ID))
+        folders = self.driver.find_elements_by_xpath(folder_div)
+        if len(folders) == 0:
+            return False
+
+        return True
+
+    def open_folder_wrapper(self):
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.FOLDER_ARROW)
+        ).click()
+
+    def is_folder_locked(self):
+        try:
+            WebDriverWait(self.driver, 2, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.UNLOCK_FOLDER)
+            )
+        except TimeoutException:
+            return False
+        return True
+
+    def is_folder_unlocked(self):
+        try:
+            WebDriverWait(self.driver, 2, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.LOCK_FOLDER)
+            )
+        except TimeoutException:
+            return False
+        return True
+
+    def click_edit(self):
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDIT_FOLDER)
+        )
+        button.click()
+
+    def is_folder_nested(self, folder_name):
+        nested_folder_div = self.NESTED_FOLDER_DIV.format(folder_name)
+        self.driver.refresh()
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.BASE_WITHOUT_QA_ID))
+        folders = self.driver.find_elements_by_xpath(nested_folder_div)
+        return folders != 0

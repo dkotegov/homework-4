@@ -7,6 +7,7 @@ from page import Page
 from tests.components.sidebar import Sidebar
 from tests.components.topbar import Topbar
 from tests.components.folder_create import FolderCreate
+from tests.components.folder_edit import FolderEdit
 from tests.components.letters import Letters
 from tests.components.folder_unlock import FolderUnlock
 from tests.components.logout import Logout
@@ -41,7 +42,12 @@ class MainPage(Page):
     @property
     def logout(self):
         return Logout(self.driver)
-    
+
+    @property
+    def folder_edit(self):
+        return FolderEdit(self.driver)
+
+
     def redirectToQa(self):
         url = urlparse.urljoin(self.BASE_URL, '/bundles/page.qa.html')
         self.driver.get(url)

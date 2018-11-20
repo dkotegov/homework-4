@@ -2,12 +2,11 @@ from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class FolderCreate(Component):
+class FolderEdit(Component):
     BASE = '//div[@data-qa-id="layer-window-block"] '
 
     INPUT_FOLDER_NAME = BASE + '//input[@data-test-id="name"]'
     SUBMIT = BASE + '//button[@data-test-id="submit"]'
-    MORE_SETTINGS = BASE + '//a[@data-test-id="moreSettings"]'
     SELECT_PARENT_FOLDER = BASE + '//span[@data-test-id="createFolder-select-value"]'
     SELECT_INBOX_AS_PARENT = BASE + '//div[@data-test-id="select-value:0"]'
     SELECT_INBOX_AS_PARENT_FOLDER_WITH_PASSWORD = BASE + '//div[@data-test-id="select-value:1"]'
@@ -30,11 +29,6 @@ class FolderCreate(Component):
             lambda d: d.find_element_by_xpath(self.SUBMIT)
         )
         submit.click()
-
-    def click_more_settings(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.MORE_SETTINGS)
-        ).click()
 
     def click_select_parent_inbox(self):
         WebDriverWait(self.driver, 30, 0.1).until(
@@ -87,4 +81,9 @@ class FolderCreate(Component):
             lambda d: d.find_element_by_xpath(self.SELECT_INBOX_AS_PARENT_FOLDER_WITH_PASSWORD)
         ).click()
 
+    def clear_old_name(self):
+        name_input = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.INPUT_FOLDER_NAME)
+        )
+        name_input.clear()
 
