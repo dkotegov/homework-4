@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from steps.steps import OpenFilterSettings
+from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork
 
 class CreateFilterTest(unittest.TestCase):
     def setUp(self):
@@ -14,3 +16,25 @@ class CreateFilterTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+
+    def test_from_move_to_folder(self):
+        '''
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0;
+        create_new_filter.change_condition_value(condition_index, 'it-berries')
+        create_new_filter.move_to_folder('Рассылки')
+        create_new_filter.save_filter()
+        '''
+        write_letter = WriteLetter(self.driver)
+        write_letter.open()
+        write_letter.setAddressee('it-berries@mail.ru')
+        write_letter.setSubject('Технопарк')
+        write_letter.setCopies('it-berries@mail.ru')
+        write_letter.send()
+
+        check_filter_work = CheckFilterWork(self.driver)
+        check_filter_work.check('Рассылки', 'Технопарк')
+        #open_filter_settings = OpenFilterSettings(self.driver)
+        #open_filter_settings.open()
+        input()
