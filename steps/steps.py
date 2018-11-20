@@ -1,5 +1,14 @@
 import os
-from pages.pages import AuthPage, MailPage, SettingsPage, CreateFilterPage
+from pages.pages import AuthPage, MailPage, SettingsPage, CreateFilterPage, WriteMailPage
+
+class Rule():
+    field_from = 'From'
+    field_to = 'To'
+    field_subject = 'Subject'
+    field_copy = 'Cc'
+    field_redirected_from = 'Resent-From'
+    field_redirected_to = 'Resent-To'
+    size_KB = 'Size'
 
 class Step(object):
 
@@ -29,8 +38,42 @@ class OpenFilterSettings(Step):
         settings_page = SettingsPage(self.driver)
         settings_page.open_filters()
 
-class CreateNewFilter(Step):
+class CheckFilterWork(Step):
 
+    def check(self, folder, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.open_folder(folder)
+        mail_page.open_msg_by_subject(subject)
+        self.driver.close()
+        mail_window = self.driver.window_handles[0]
+        self.driver.switch_to_window(mail_window)
+        mail_page = MailPage(self.driver)
+        mail_page.open_settings_page()
+        window_after = self.driver.window_handles[1]
+        self.driver.switch_to_window(window_after)
+        settings_page = SettingsPage(self.driver)
+        settings_page.open_filters()
+
+class WriteLetter(Step):
+
+    def open(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.write_letter_click()
+        self.form = WriteMailPage(self.driver).form
+
+    def setAddressee(self, mail):
+        self.form.setAddressee(mail)
+
+    def setSubject(self, subject):
+        self.form.setSubject(subject)
+
+    def setCopies(self, copies):
+        self.form.setCopies(copies)
+    
+    def send(self):
+        self.form.send()
+
+class CreateNewFilter(Step):
     
     #Opens the creation of a filter from the settings page (https://e.mail.ru/settings/filters?octaviusMode=1).
     def open(self):

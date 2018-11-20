@@ -49,8 +49,11 @@ class AuthMail(Component):
 
 class MailPage(Page):
 
-    SETTINGS_MENU = '//span[@class="button2__wrapper"][1]'
-    SETTINGS_ROW = '//div[@class="list list_hover-support"]/div[13]'
+    SETTINGS_MENU = '//span[@class="button2 button2_has-ico button2_setting button2_pure button2_short button2_hover-support"]'
+    SETTINGS_ROW = '//div[@class="list-item list-item_hover-support"][contains(text(), "Настройки")]'
+    FOLDER_ROW = '//div[@id="b-nav_folders"]//span[contains(text(), "'
+    OPEN_MSG =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
+    #WRITE_LETTER = '//span[@class="compose-button__txt"][contains(text(), "Написать письмо")]'
 
     def open_settings_menu(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
@@ -60,10 +63,25 @@ class MailPage(Page):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.SETTINGS_ROW)
         elem.click()
 
+    def open_folder(self, folder):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FOLDER_ROW + folder +'")]')
+        elem.click()
+    
+    def open_msg_by_subject(self, subject):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_MSG + subject +'")]')
+        elem.click()
+
+    '''
+    def write_letter_click(self):
+        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
+        elem.click()
+    '''
+
 class SettingsPage(Page):
 
     FILTERING_RULES = '//div[@class="b-nav__item"][7]'
     CREATE_NEW_FILTERING = '//div[@class="form__row form__row_super-narrow js-add-filter-super-narrow"]/a[@class="btn js-button"]'
+    WRITE_LETTER = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Написать письмо")]'
 
     def open_filters(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTERING_RULES)
@@ -73,11 +91,55 @@ class SettingsPage(Page):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CREATE_NEW_FILTERING)
         elem.click()
 
-class CreateFilterPage(Page):
+    def write_letter_click(self):
+        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
+        elem.click()
+
+class WriteMailPage(Page):
+
+    WRITE_MAIL_FORM = '//form[@name="Compose"]'
 
     @property
     def form(self):
-        return NewFilterForm(self.driver, '//form[@id="settings-form-edit-filter"]')
+        return WriteMailForm(self.driver, self.WRITE_MAIL_FORM)
+
+class WriteMailForm(Component):
+
+    ADDRESSEE = '//textarea[@tabindex="4"]'
+    SUBJECT = '//input[@tabindex="7"]'
+    COPIES_LINK = '//div[@class="compose__controls js-row-controls"]//label[@data-for="compose_cc"]//span[@class="compose-label__text"][contains(text(), "Копия")]'
+    COPIES = '//textarea[@tabindex="5"]'
+    SEND = '//span[@class="b-toolbar__btn__text"][contains(text(), "Отправить")]'
+    IS_EMPTY = '//div[@class="is-compose-empty_in"]//button[@class="btn btn_stylish btn_main confirm-ok"][@type="submit"]'
+
+    def setAddressee(self, mail):
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.ADDRESSEE)
+        elem.send_keys(mail.decode('utf-8'))
+    
+    def setSubject(self, subject):
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SUBJECT)
+        elem.send_keys(subject.decode('utf-8'))
+
+    def setCopies(self, mail):
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.COPIES_LINK)
+        if elem.is_displayed():
+            elem.click()
+        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.COPIES)
+        elem.send_keys(mail.decode('utf-8'))
+
+    def send(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SEND)
+        elem.click()
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.IS_EMPTY)
+        elem.click()
+
+class CreateFilterPage(Page):
+
+    NEW_FILTER_FORM = '//form[@id="settings-form-edit-filter"]'
+
+    @property
+    def form(self):
+        return NewFilterForm(self.driver, self.NEW_FILTER_FORM)
 
 class NewFilterForm(Component):
 
