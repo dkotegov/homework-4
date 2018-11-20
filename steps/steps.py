@@ -43,7 +43,8 @@ class CheckFilterWork(Step):
     def check(self, folder, subject):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
-        mail_page.open_msg_by_subject(subject)
+        if not mail_page.open_msg_by_subject(subject):
+            return False
         self.driver.close()
         mail_window = self.driver.window_handles[0]
         self.driver.switch_to_window(mail_window)
@@ -53,6 +54,8 @@ class CheckFilterWork(Step):
         self.driver.switch_to_window(window_after)
         settings_page = SettingsPage(self.driver)
         settings_page.open_filters()
+        return True
+
 
 class WriteLetter(Step):
 
@@ -161,13 +164,13 @@ class CreateNewFilter(Step):
     def save_filter(self):
         self.create_filter_form.save_filter_click()
 
+    def delete(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delelte_filter()
+
 class ChangeFilter(CreateNewFilter):
 
     def open(self):
         settings_page = SettingsPage(self.driver)
         settings_page.change_filter()
         self.create_filter_form = CreateFilterPage(self.driver).form
-    
-    def delete(self):
-        settings_page = SettingsPage(self.driver)
-        settings_page.delelte_filter()

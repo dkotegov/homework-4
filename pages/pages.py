@@ -71,7 +71,10 @@ class MailPage(Page):
     
     def open_msg_by_subject(self, subject):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_MSG + subject +'")]')
+        if elem == None:
+            return False
         elem.click()
+        return True
 
     '''
     def write_letter_click(self):
