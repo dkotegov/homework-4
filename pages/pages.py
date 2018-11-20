@@ -41,6 +41,7 @@ class AuthMail(Component):
     SUBMIT = '//input[@class="o-control"][@type="submit"][1]'
 
     def set_login(self, login):
+        self.container.find_element_by_id(self.LOGIN).click()
         self.container.find_element_by_id(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):
