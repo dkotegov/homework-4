@@ -68,8 +68,6 @@ class TestMovingLettersInFolders(unittest.TestCase):
         letters_in_target_expected = 1
         letters_in_target_actual = len(self.letters.get_letters())
 
-        print(letters_in_target_actual)
-
         self.assertEqual(
             letters_in_target_expected, 
             letters_in_target_actual, 
