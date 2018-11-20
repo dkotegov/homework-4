@@ -3,7 +3,7 @@ import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 from steps.steps import OpenFilterSettings
 
-class CreateFilterTest(unittest.TestCase):
+class ChangeFilterTest(unittest.TestCase):
     def setUp(self):
         self.driver = Remote(
 		    command_executor='http://127.0.0.1:4444/wd/hub',
@@ -14,3 +14,5 @@ class CreateFilterTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+
+    #TODO: create tests functions

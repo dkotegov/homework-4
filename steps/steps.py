@@ -1,6 +1,15 @@
 import os
 from pages.pages import AuthPage, MailPage, SettingsPage, CreateFilterPage
 
+class Rule():
+    field_from = 'From'
+    field_to = 'To'
+    field_subject = 'Subject'
+    field_copy = 'Cc'
+    field_redirected_from = 'Resent-From'
+    field_redirected_to = 'Resent-To'
+    size_KB = 'Size'
+
 class Step(object):
 
     def __init__(self, driver):
