@@ -49,8 +49,8 @@ class AuthMail(Component):
 
 class MailPage(Page):
 
-    SETTINGS_MENU = '//span[@class="button2__wrapper"][1]'
-    SETTINGS_ROW = '//div[@class="list list_hover-support"]/div[13]'
+    SETTINGS_MENU = '//span[@class="button2 button2_has-ico button2_setting button2_pure button2_short button2_hover-support"]'
+    SETTINGS_ROW = '//div[@class="list-item list-item_hover-support"][contains(text(), "Настройки")]'
 
     def open_settings_menu(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)

@@ -24,9 +24,7 @@ class CreateNewFilterTest(unittest.TestCase):
         self.driver.quit()
     
     def test(self):
-        
-        #self.driver.set_window_size(1920, 1080)
-        
+        self.driver.set_window_size(1920, 1080)
         open_filter_settings = OpenFilterSettings(self.driver)
         open_filter_settings.open()
         
