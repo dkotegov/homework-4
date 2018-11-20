@@ -63,7 +63,7 @@ class FolderWithSubdirDeleteTest(unittest.TestCase):
         sidebar.submit_delete()
         self.driver.quit()
 
-    def test_folder_with_subdir(self):
+    def test_delete_folder_with_subdir(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
 

@@ -69,7 +69,7 @@ class LockedFolderDeleteTest(unittest.TestCase):
         sidebar.submit_delete()
         self.driver.quit()
 
-    def test_locked_folder_delete(self):
+    def test_delete_locked_folder(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
 
