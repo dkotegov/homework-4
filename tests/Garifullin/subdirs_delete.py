@@ -48,7 +48,7 @@ class SubFolderDeleteTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_subdir_old_menu(self):
+    def test_delete_subdir_old_menu(self):
         main_page = MainPage(self.driver)
         folders_setting_page_old = SettingsFolders(self.driver)
         sidebar = main_page.sidebar
@@ -62,12 +62,12 @@ class SubFolderDeleteTest(unittest.TestCase):
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
-    def test_subdir_context_menu(self):
+    def test_delete_subdir_context_menu(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
         letters = main_page.letters
 
-
+        sidebar.clear_trash()
         mailFrom = letters.get_mail_from()
         mailText = letters.get_mail_text()
         mailTime = letters.get_mail_time()

@@ -56,7 +56,7 @@ class UnlockedFolderDeleteTest(unittest.TestCase):
         MainPage(self.driver).sidebar.clear_trash()
         self.driver.quit()
 
-    def test_unlocked_dir_delete(self):
+    def test_delete_unlocked_folder(self):
         main_page = MainPage(self.driver)
         sidebar = main_page.sidebar
         letters = main_page.letters
