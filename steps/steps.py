@@ -160,3 +160,14 @@ class CreateNewFilter(Step):
 
     def save_filter(self):
         self.create_filter_form.save_filter_click()
+
+class ChangeFilter(CreateNewFilter):
+
+    def open(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.change_filter()
+        self.create_filter_form = CreateFilterPage(self.driver).form
+    
+    def delete(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delelte_filter()

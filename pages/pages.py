@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+
 
 import urlparse
 from support.waiter import ElementWaiter
@@ -82,6 +84,8 @@ class SettingsPage(Page):
     FILTERING_RULES = '//div[@class="b-nav__item"][7]'
     CREATE_NEW_FILTERING = '//div[@class="form__row form__row_super-narrow js-add-filter-super-narrow"]/a[@class="btn js-button"]'
     WRITE_LETTER = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Написать письмо")]'
+    CHANGE_FILTER = '//i[@class="icon icon_form icon_form_change"]'
+    DELETE_FILTER = '//i[@class="icon icon_form icon_form_remove_big"]'
 
     def open_filters(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTERING_RULES)
@@ -93,6 +97,18 @@ class SettingsPage(Page):
 
     def write_letter_click(self):
         elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
+        elem.click()
+    
+    def change_filter(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CHANGE_FILTER)
+        hov = ActionChains(self.driver).move_to_element(elem)
+        hov.perform()
+        elem.click()
+
+    def delelte_filter(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
+        hov = ActionChains(self.driver).move_to_element(elem)
+        hov.perform()
         elem.click()
 
 class WriteMailPage(Page):
