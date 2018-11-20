@@ -63,11 +63,12 @@ class TestMovingLettersInFolders(unittest.TestCase):
         self.sidebar.delete_folder(self.TARGET_DIR_NAME)
         self.letters.open_letter_by_subject(self.LETTER_SUBJECT)
         self.topbar.move_to_new_folder(self.TARGET_DIR_NAME)
-        self.main_page.redirectToQa()
         self.sidebar.go_to_folder(self.TARGET_DIR_NAME)
 
         letters_in_target_expected = 1
         letters_in_target_actual = len(self.letters.get_letters())
+
+        print(letters_in_target_actual)
 
         self.assertEqual(
             letters_in_target_expected, 
