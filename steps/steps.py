@@ -17,8 +17,10 @@ class Step(object):
 
 class OpenFilterSettings(Step):
 
-    USEREMAIL = 'it-berries'
-    PASSWORD = os.environ['PASSWORD']
+    # USEREMAIL = 'it-berries'
+    # PASSWORD = os.environ['PASSWORD']
+    USEREMAIL = 'lova-95'
+    PASSWORD = ''
 
     def open(self):
         auth_page = AuthPage(self.driver)
@@ -160,3 +162,22 @@ class CreateNewFilter(Step):
 
     def save_filter(self):
         self.create_filter_form.save_filter_click()
+
+    def get_alert(self):
+        return self.create_filter_form.get_alert_message()
+
+    def set_value_contains_form(self, text):
+        self.create_filter_form.set_value_to_contains_form(text)
+
+class ChangeFilter(CreateNewFilter):
+
+    def open(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.change_filter()
+        self.create_filter_form = CreateFilterPage(self.driver).form
+    
+    def delete(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delelte_filter()
+    
+

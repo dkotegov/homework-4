@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+
 
 import urlparse
 from support.waiter import ElementWaiter
@@ -82,6 +84,8 @@ class SettingsPage(Page):
     FILTERING_RULES = '//div[@class="b-nav__item"][7]'
     CREATE_NEW_FILTERING = '//div[@class="form__row form__row_super-narrow js-add-filter-super-narrow"]/a[@class="btn js-button"]'
     WRITE_LETTER = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Написать письмо")]'
+    CHANGE_FILTER = '//i[@class="icon icon_form icon_form_change"]'
+    DELETE_FILTER = '//i[@class="icon icon_form icon_form_remove_big"]'
 
     def open_filters(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTERING_RULES)
@@ -93,6 +97,18 @@ class SettingsPage(Page):
 
     def write_letter_click(self):
         elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
+        elem.click()
+    
+    def change_filter(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CHANGE_FILTER)
+        hov = ActionChains(self.driver).move_to_element(elem)
+        hov.perform()
+        elem.click()
+
+    def delelte_filter(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
+        hov = ActionChains(self.driver).move_to_element(elem)
+        hov.perform()
         elem.click()
 
 class WriteMailPage(Page):
@@ -142,7 +158,7 @@ class CreateFilterPage(Page):
         return NewFilterForm(self.driver, self.NEW_FILTER_FORM)
 
 class NewFilterForm(Component):
-
+    FORM_CONTAINS = '//a[@class="filters__dropdown__link js-link"][1]'
     CHANGE_CONDITION_OPEN = '//a[@class="filters__dropdown__link js-link"]'
     SET_RILE = '//a[@class="form__dropdown__item"]'
     CHANGE_VALUE_EFFECT = '//a[@class="pseudo-link js-link"]'
@@ -277,3 +293,12 @@ class NewFilterForm(Component):
     def save_filter_click(self):
         elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.SAVE_FILTER_BUTTON)
         elem.click()
+
+    def get_alert_message(self):
+        message = ElementWaiter.wait_by_xpath(driver=self.driver, locator='//span[@class="form__top-message__text"]')
+        return message.text
+
+    def set_value_to_contains_form(self, text):
+        form = ElementWaiter.wait_by_xpath(driver=self.container, locator=self.FORM_CONTAINS)
+        form.click()
+        form.send_keys(text)

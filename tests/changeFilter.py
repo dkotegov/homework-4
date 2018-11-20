@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from steps.steps import OpenFilterSettings
+from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, ChangeFilter
 
 class ChangeFilterTest(unittest.TestCase):
     def setUp(self):
@@ -15,4 +17,17 @@ class ChangeFilterTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
+    def test_change(self):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0;
+        create_new_filter.change_condition_value(condition_index, 'it-berries')
+        create_new_filter.move_to_folder('Рассылки')
+        create_new_filter.save_filter()
+
+        change_filter = ChangeFilter(self.driver)
+        change_filter.open()
+        change_filter.move_to_folder('Социальные сети')
+        change_filter.save_filter()
+        change_filter.delete()
     #TODO: create tests functions
