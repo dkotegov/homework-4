@@ -29,7 +29,8 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.open()
         change_filter.delete_message()
         change_filter.save_filter()
-
+        change_filter.delete()
+        
         # TODO: can not find write letter almost all the time
         #write_letter = WriteLetter(self.driver)
         #write_letter.open()
@@ -41,8 +42,6 @@ class ChangeFilterTest(unittest.TestCase):
         #check_filter_work.check_if_letter_not_exists('Рассылки', 'Тест - Замена Поместить в папку на Удалить')
 
         # TODO: if writing letter need to add open_filters()
-        change_filter.delete()
-    
 
 '''
     def test_change_delete_to_move_and_read(self):

@@ -185,4 +185,4 @@ class ChangeFilter(CreateNewFilter):
     
     def delete(self):
         settings_page = SettingsPage(self.driver)
-        settings_page.delelte_filter()
+        settings_page.delele_filter()
