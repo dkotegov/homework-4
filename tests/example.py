@@ -4,49 +4,38 @@ from os import environ
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from webdriver_manager.firefox import GeckoDriverManager
-
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 if __name__ == '__main__':
 
-    # print environ["BROWSER"]
-
-
     driver = webdriver.Firefox()
+    user_data = {
+        'login': 'tarados_feroces',
+        'password': 'Welc0me_to_Tarad0s!'
+    }
 
     try:
-        driver.get("https://www.github.com/")
+        driver.get('https://e.mail.ru/login')
 
-        # print driver.current_url
-
-
-        log_in_button = list(filter(
-            lambda elem: elem.text == "Sign in",
-            driver.find_elements_by_class_name('HeaderMenu-link')
-        ))[0]
         
-        # print log_in_button.text
-        log_in_button.click()
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.frame_to_be_available_and_switch_to_it(driver.find_element_by_xpath('//iframe[@class="ag-popup__frame__layout__iframe"]')))
 
-        login = driver.find_element_by_id("login_field")
-        password = driver.find_element_by_id("password")
+        login_input = driver.find_element_by_name('Login')
+        login_input.send_keys(user_data['login'])
 
-        login.send_keys("ap.kuznecov.3b@Yandex.ur")
-        password.send_keys("Not a my password :(")
+        continue_button = driver.find_element_by_tag_name('button')
+        continue_button.click()
+
+        password_input = wait.until(EC.visibility_of_element_located((By.NAME, 'Password')))
+        password_input.send_keys(user_data['password'])
+
+        continue_button.click()
         
-        
-
-        submit_button = driver.find_element_by_name("commit")
-
-        submit_button.click()
-
-        error_window = driver.find_elements_by_class_name("container")
-
-        assert error_window[1].text == "Incorrect username or password."
-
-
-        assert "No results found." not in driver.page_source
+        time.sleep(3)
     
     finally:
         driver.close()
