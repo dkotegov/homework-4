@@ -56,9 +56,11 @@ class MailPage(Page):
     SETTINGS_ROW = '//div[@class="list-item list-item_hover-support"][contains(text(), "Настройки")]'
     FOLDER_ROW = '//div[@id="b-nav_folders"]//span[contains(text(), "'
     OPEN_MSG =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
+    APP_LOADER = '//div[@id="app-loader"][contains(@style,"display: none")]'
     #WRITE_LETTER = '//span[@class="compose-button__txt"][contains(text(), "Написать письмо")]'
 
     def open_settings_menu(self):
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
         elem.click()
 
@@ -88,6 +90,7 @@ class SettingsPage(Page):
     CHANGE_FILTER = '//i[@class="icon icon_form icon_form_change"]'
     DELETE_FILTER = '//i[@class="icon icon_form icon_form_remove_big"]'
     CONFIRM_POPUP = '//button[@class="btn btn_main confirm-ok"]'
+    FILTER_LIST_HEADER = '//div[@class="b-content__head__title"][contains(text(), "Правила фильтрации")]'
 
     def open_filters(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTERING_RULES)
@@ -98,8 +101,7 @@ class SettingsPage(Page):
         elem.click()
 
     def write_letter_click(self):
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
-        elem.click()
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.WRITE_LETTER).click()
     
     def change_filter(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CHANGE_FILTER)
@@ -113,6 +115,10 @@ class SettingsPage(Page):
         hov.perform()
         elem.click()
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CONFIRM_POPUP).click()
+    
+    def check_if_filter_list_exists(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTER_LIST_HEADER)
+
 
 class WriteMailPage(Page):
 
@@ -295,6 +301,4 @@ class NewFilterForm(Component):
 
     def save_filter_click(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SAVE_FILTER_BUTTON)
-        #actionChains = ActionChains(self.driver)
-        #actionChains.double_click(elem).perform() # Don't work too for one test
         elem.click()

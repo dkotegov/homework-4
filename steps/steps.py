@@ -186,3 +186,7 @@ class ChangeFilter(CreateNewFilter):
     def delete(self):
         settings_page = SettingsPage(self.driver)
         settings_page.delete_filter()
+
+    def check_if_filter_list_exists(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.check_if_filter_list_exists()
