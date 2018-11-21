@@ -18,6 +18,7 @@ class Letters(Component):
     SELECT = BASE + '//*[@data-qa-id="avatar"]'
 
     MESSAGE_BY_SUBJECT = BASE + '//a[@data-qa-id="letter-item:subject:{}"]'
+    RANDOM_MESSAGE = BASE + '//a[contains(@data-qa-id, "letter-item:subject:")]'
 
     def get_letters(self):
         WebDriverWait(self.driver, 10, 0.1).until(
@@ -43,6 +44,11 @@ class Letters(Component):
     def select_one(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             ec.element_to_be_clickable((By.XPATH, self.SELECT))
+        ).click()
+
+    def open_rand(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            ec.element_to_be_clickable((By.XPATH, self.RANDOM_MESSAGE))
         ).click()
         
     # Перемещает первое письмо в папку @folder_name

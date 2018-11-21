@@ -47,6 +47,8 @@ class WriteLetter(Component):
     ATTACHED_FILES = BASE + '//*[@data-test-id="attach-slider"]'
     ATTACH_FILE_CHECK = ATTACHED_FILES + '//*[@data-test-id="attach:{}:loaded"]'
 
+    NOTIFICATION = '//*[@data-qa-id="message"][contains(text(), "{}")]'
+
     def set_theme(self, theme):
         set_theme_input = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.THEME_INPUT)
@@ -55,10 +57,19 @@ class WriteLetter(Component):
         set_theme_input.send_keys(theme)
 
     def save(self):
-        save_button = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.SAVE_BUTTON)
-        )
-        save_button.click()
+        try_again = True
+        while try_again:
+            save_button = WebDriverWait(self.driver, 30, 0.1).until(
+                ec.element_to_be_clickable((By.XPATH, self.SAVE_BUTTON))
+            )
+            save_button.click()
+            try:
+                WebDriverWait(self.driver, 5, 0.1).until(
+                    lambda d: d.find_element_by_xpath(self.NOTIFICATION.format('Сохранено'))
+                )
+                try_again = False
+            except:
+                try_again = True
 
     def close(self):
         close_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -110,6 +121,7 @@ class WriteLetter(Component):
         )
         whom_copy_input.clear()
         whom_copy_input.send_keys(whom_copy)
+        self.driver.find_element_by_xpath(self.THEME_INPUT).click()
 
     def check_whom_copy(self, whom_copy):
         WebDriverWait(self.driver, 30, 0.1).until(
@@ -173,7 +185,9 @@ class WriteLetter(Component):
         add_file_mail_button.click()
 
     def wait_for_save(self, seconds):
-        time.sleep(seconds)
+        WebDriverWait(self.driver, seconds, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.NOTIFICATION.format('Сохранено'))
+        )
 
     def set_text(self, text):
         text_input = WebDriverWait(self.driver, 30, 0.1).until(
