@@ -6,4 +6,4 @@
 test: test-firefox
 
 test-firefox:
-	BROWSER=FIREFOX ./tests/example.py
+	BROWSER=CHROME ./run_tests.py
