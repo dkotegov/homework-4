@@ -14,6 +14,7 @@ class BaseForm(Component):
     SEND_LETTER_BTN = '//span[@data-qa-id="send"]'
     SAVE_LETTER_BTN = '//span[@data-qa-id="save"]'
     CANCEL_LETTER_BTN = '//span[@data-qa-id="cancel"]'
+    CLOSE_MSG_SENT_BTN = '//span[@data-qa-id="close"]'
 
     MSG_SENT_LINK = '//a[@data-qa-id="is-sent"]'
     # DESTINATION_INPUT = '//div[@class="contactsContainer--3RMuQ"]/div/label/div/div/input'
@@ -26,7 +27,10 @@ class BaseForm(Component):
     SENT_MSG_HREF = '//a[@data-qa-id="500000"]'
     DRAFT_MSG_HREF = '//a[@data-qa-id="500001"]'
     CLOSE_MSG_BTN ='//button[@data-test-id="close"]'
+    ADD_COPY_EMAIL_BTN = '//button[@data-test-id="cc"]'
+    COPY_FIELD = '//div[@data-test-id="cc"]'
 
+    MSG_SUBJECT = '//a[@data-qa-id="letter-item:subject:{}"]'
 
     DESTINATION_MAIL = 'park.test.testovich@mail.ru\n'
 
@@ -40,6 +44,16 @@ class BaseForm(Component):
         except WebDriverException:
             print 'destination input not found'
 
+    def add_destionation_email(self, destination_email):
+        try:
+            dest_input = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_elements_by_xpath(self.DESTINATION_INPUT)[0])
+
+            dest_input.send_keys(destination_email)
+            print 'destination email is added'
+        except WebDriverException:
+            print 'destination input not found'
+
     def open_writing_letter(self):
         try:
             WebDriverWait(self.driver, 5) \
@@ -50,7 +64,6 @@ class BaseForm(Component):
             print 'is not clickable element'
 
     def click_send_button(self):
-
         try:
             print 'clicking send message button'
             button = WebDriverWait(self.driver, 1) \
@@ -74,6 +87,36 @@ class BaseForm(Component):
         except WebDriverException:
             print 'no save msg button'
 
+    def click_copy_button(self):
+        try:
+            print 'clicking copy email button'
+            button = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_element_by_xpath(self.ADD_COPY_EMAIL_BTN))
+            button.click()
+            print 'clicked!'
+        except WebDriverException:
+            print 'no copy email button'
+
+    def click_incoming_emails_button(self):
+        try:
+            print 'clicking incoming emails button'
+            button = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_element_by_xpath(self.INCOMING_MSG_HREF))
+            button.click()
+            print 'clicked!'
+        except WebDriverException:
+            print 'no incoming emails button'
+
+    def click_close_msg_sent_button(self):
+        try:
+            print 'clicking close msg sent button'
+            button = WebDriverWait(self.driver, 1) \
+                .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT_BTN))
+            button.click()
+            print 'clicked!'
+        except WebDriverException:
+            print 'no  close msg sent button'
+
     def checkMessageSent(self):
         try:
             WebDriverWait(self.driver, 20) \
@@ -93,8 +136,7 @@ class BaseForm(Component):
         except WebDriverException:
             print 'msg_sent unable to close'
 
-        # ico:16-close
-
+    # shit that does not work
     def show_message_incoming(self):
         try:
             elem = self.driver.find_element_by_xpath(self.INCOMING_MSG_HREF)
@@ -123,19 +165,28 @@ class BaseForm(Component):
         element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
         ActionChains(self.driver).move_to_element(element).click().perform()
 
-        # Клик на поле темы
+    # Клик на поле темы
     def click_on_subject_field(self):
         element = self.driver.find_element_by_xpath(self.SUBJECT_FIELD)
         ActionChains(self.driver).move_to_element(element).click().perform()
 
+    # Клик на поле копии письма
+    def click_on_copy_field(self):
+        element = self.driver.find_element_by_xpath(self.COPY_FIELD)
+        ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Ввод текста
     def write_some_text(self, text):
-        # element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
-        # ActionChains(self.driver).move_to_element(element).send_keys(text).perform()
         ActionChains(self.driver).key_down(text).perform()
 
     # Получение innerHTML элемента
     def get_text(self):
         return self.driver.find_element_by_xpath(self.MESSAGE_FIELD).get_attribute('innerHTML')
 
+    def find_letter_by_subject(self, subject): 
+        try:
+            self.driver.find_element_by_xpath(self.MSG_SUBJECT.format(subject))
+            return True
+        except WebDriverException:
+            print 'not find letter with subject: ' + subject
+            return False
