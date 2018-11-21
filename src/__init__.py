@@ -1,1 +1,2 @@
 from page_object import PageObject
+from message_activities import MessageActivities

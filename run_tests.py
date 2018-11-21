@@ -3,16 +3,15 @@
 
 import time
 import unittest
-from src.page_object import PageObject
+from src.message_activities import MessageActivities
 
 
 if __name__ == '__main__':
-    page = PageObject()
-
+    page = MessageActivities()
     try:
         page.open('https://e.mail.ru/login/')
         page.login()
-        
+    
         page.move_all_msgs('Спам')
         time.sleep(3)
 
