@@ -99,7 +99,7 @@ class SettingsPage(Page):
         elem.click()
 
     def write_letter_click(self):
-        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
         elem.click()
     
     def change_filter(self):

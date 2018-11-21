@@ -33,4 +33,4 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-         self.assertEqual(check_filter_work.check('Рассылки', 'Технопарк'), True)
+        self.assertEqual(check_filter_work.check('Рассылки', 'Технопарк'), True)
