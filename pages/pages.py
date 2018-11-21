@@ -107,7 +107,7 @@ class SettingsPage(Page):
         hov.perform()
         elem.click()
 
-    def delele_filter(self):
+    def delete_filter(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
         hov = ActionChains(self.driver).move_to_element(elem)
         hov.perform()
@@ -294,5 +294,7 @@ class NewFilterForm(Component):
         elem.click()
 
     def save_filter_click(self):
-        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.SAVE_FILTER_BUTTON)
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SAVE_FILTER_BUTTON)
+        #actionChains = ActionChains(self.driver)
+        #actionChains.double_click(elem).perform() # Don't work too for one test
         elem.click()
