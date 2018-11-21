@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import os
 import urlparse
+
 
 class Page(object):
     BASE_URL = 'https://mail.ru/'

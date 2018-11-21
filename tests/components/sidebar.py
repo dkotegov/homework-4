@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from component import Component
- # from write_letter import WriteLetter
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import WebDriverException, TimeoutException
@@ -36,10 +35,6 @@ class Sidebar(Component):
     CONTEXT_MENU_FOLDER = '//div[@data-qa-id="contextmenu" and @class="contextmenu-folder"] '
     ELEMENT_OF_FOLDER_CONTEXT_MENU = CONTEXT_MENU_FOLDER + '//span[@class="list-item__text" and contains(text(),"{}")]/parent::*'
     FOLDER = BASE + '//a[@title="{}"]'
-
-    @property
-    def write_letter_component(self):
-        return WriteLetter(self.driver)
 
     def write_letter(self):
         write_letter_button = WebDriverWait(self.driver, 30, 0.1).until(

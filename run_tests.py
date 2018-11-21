@@ -13,7 +13,9 @@ from tests.Garifullin.unlocked_dirs_delete import UnlockedFolderDeleteTest as TG
 from tests.Garifullin.subdirs_delete import SubFolderDeleteTest as TG_Test_2
 from tests.Garifullin.locked_folder_delete import LockedFolderDeleteTest as TG_Test_3
 from tests.Garifullin.folder_with_subdir_delete import FolderWithSubdirDeleteTest as TG_Test_4
-from tests.Poponkin.test import Test as DP_Test
+
+from tests.Poponkin.draft_create_test import Test as DP_Test
+
 from tests.Parpibaeva.test_unlocked_folder import Test as NP_Test
 from tests.Parpibaeva.test_encrypted_folder import Test as NP_Test_encr
 from tests.Parpibaeva.test_edit_folder import Test as NP_Test_edit

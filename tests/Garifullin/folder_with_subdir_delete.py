@@ -9,6 +9,7 @@ from tests.pages.main_page import MainPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+
 class FolderWithSubdirDeleteTest(unittest.TestCase):
     USEREMAIL = 'ttexnopark@mail.ru'
     PASSWORD = os.environ['PASSWORD']

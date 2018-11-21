@@ -3,9 +3,8 @@
 from component import Component
 from folder_create import FolderCreate
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver import ActionChains
-
-import time
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.common.by import By
 
 """ 
     Бар над списком писем.
@@ -18,6 +17,9 @@ class Topbar(Component):
     TO_FOLDER_CONTEXT_MENU = BASE + '//div[@data-qa-id="folders"]'
     FOLDER_ELEM = TO_FOLDER_CONTEXT_MENU + '//a[@title="{}"]'
     NEW_DIR_ELEM = TO_FOLDER_CONTEXT_MENU + '//div[@data-qa-id="new-folder-btn"]'
+
+    DELETE = BASE + '//*[@data-qa-id="delete"]'
+    SELECT_ALL_MESSAGES_BUTTON = '//*[@data-qa-id="select-all"]'
 
     def move_to_folder(self, folder_name):
         top_bar_button = 'В папку'
@@ -49,6 +51,16 @@ class Topbar(Component):
         top_bar_button = 'В архив'
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.TOPBAR_BUTTONS.format(top_bar_button))
+        ).click()
+
+    def delete(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.DELETE)
+        ).click()
+
+    def select_all(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            ec.element_to_be_clickable((By.XPATH, self.SELECT_ALL_MESSAGES_BUTTON))
         ).click()
 
 
