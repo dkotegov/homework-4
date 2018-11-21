@@ -34,3 +34,11 @@ class CreateFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertEqual(check_filter_work.check('Рассылки', 'Технопарк'), True)
+
+    def test_who_delete_forever(self):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0;
+        create_new_filter.change_condition_value(condition_index, 'it-berries')
+        create_new_filter.delete_message()
+        create_new_filter.save_filter()
