@@ -50,7 +50,7 @@ class AuthMail(Component):
         self.container.find_element_by_xpath(self.SUBMIT).click()
 
 class MailPage(Page):
-
+    APP_LOADER = '//div[@id="app-loader"][contains(@style,"display: none")]'
     SETTINGS_MENU = '//span[@class="button2 button2_has-ico button2_setting button2_pure button2_short button2_hover-support"]'
     SETTINGS_ROW = '//div[@class="list-item list-item_hover-support"][contains(text(), "Настройки")]'
     FOLDER_ROW = '//div[@id="b-nav_folders"]//span[contains(text(), "'
@@ -58,6 +58,7 @@ class MailPage(Page):
     #WRITE_LETTER = '//span[@class="compose-button__txt"][contains(text(), "Написать письмо")]'
 
     def open_settings_menu(self):
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
         elem.click()
 
@@ -296,6 +297,10 @@ class NewFilterForm(Component):
 
     def get_alert_message(self):
         message = ElementWaiter.wait_by_xpath(driver=self.driver, locator='//span[@class="form__top-message__text"]')
+        return message.text
+    
+    def get_alert_pop_up_message(self):
+        message = ElementWaiter.wait_by_xpath(driver=self.driver, locator='//span[@class="js-txt _js-title notify-message__title__text notify-message__title__text_error"]')
         return message.text
 
     def set_value_to_contains_form(self, text):
