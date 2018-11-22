@@ -3,7 +3,6 @@ import urlparse
 
 
 class Page(object):
-    # BASE_URL = 'https://octavius.mail.ru/'
     BASE_URL = 'https://octavius.mail.ru/'
     PAGE = ''
     REDIRECT_QA = 'bundles/page.qa.html'
