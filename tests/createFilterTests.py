@@ -9,6 +9,7 @@ from tests.config import USEREMAIL_1, USEREMAIL_2
 
 class CreateFilterTest(unittest.TestCase):
 
+    TEST_1_SUBJECT = 'CreateFilter. Test 1'
     TEST_2_SUBJECT = 'CreateFilter. Test 2'
     TEST_3_SUBJECT = 'CreateFilter. Test 3'
 
@@ -30,11 +31,11 @@ class CreateFilterTest(unittest.TestCase):
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee(USEREMAIL_1 + '@mail.ru')
-        write_letter.setSubject('Технопарк')
+        write_letter.setSubject(self.TEST_1_SUBJECT)
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', 'Технопарк'), True)
+        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_1_SUBJECT), True)
 
         check_filter_work.open_filters_page_in_new_window()
         create_filter.delete_created_filter()

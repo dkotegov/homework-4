@@ -63,7 +63,10 @@ class MailPage(Page):
     OPEN_LETTER =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
     APP_LOADER = '//div[@id="app-loader"][contains(@style,"display: none")]'
     #WRITE_LETTER = '//span[@class="compose-button__txt"][contains(text(), "Написать письмо")]'
-    LETTER_FLAG = '//div[@class="js-hover b-flag b-flag_yes b-flag_onhover"]'
+    LETTER_PROPERTIES = '//div[@class="b-datalist__item__subj"][contains(text(), "'
+    LETTER_FLAG = '")]/./../../../../div[@class="b-datalist__item__flag"]/div[@title="Снять флажок"]'
+    WHICH_READ = '")]/./../../../../div[@class="b-datalist__item__status"]'
+    WHICH_READ_STATUS = '//span[@class="b-datalist__item__status-read"]'
     LETTER_HEADER_SUBJECT = '//div[@class="b-letter__head__subj__text"][contains(text(), "'
     DELETE_LETTER = '//div[@data-name="remove"]'
     LOG_OUT = '//a[@id="PH_logoutLink"]'
@@ -96,11 +99,24 @@ class MailPage(Page):
             return False
         return True
 
+    def find_msg_by_subject_with_flag(self, subject):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LETTER_PROPERTIES + subject  + self.WHICH_READ + self.WHICH_READ_STATUS)
+        if elem == None:
+            return False
+        return True
+
+    def find_msg_by_subject_which_read(self, subject):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LETTER_PROPERTIES + subject + self.WHICH_READ + self.WHICH_READ_STATUS)
+        if elem == None:
+            return False
+        return True
+
     def check_if_letter_is_open(self, subject):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LETTER_HEADER_SUBJECT + subject +'")]')
 
     def delete_letter(self):
-        ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.DELETE_LETTER)[1]
+        elem = ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.DELETE_LETTER)[1]
+        elem.click()
         
     def log_out(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LOG_OUT)
