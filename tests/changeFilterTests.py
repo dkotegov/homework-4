@@ -25,8 +25,7 @@ class ChangeFilterTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-
-    '''
+    
     # TODO: camel case style?
     # TESTS THAT WORK:
     def test_change_move_to_delete(self):
@@ -69,12 +68,11 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
+        self.assertEqual(check_filter_work.check_if_letter_already_read('Рассылки', self.TEST_2_SUBJECT), True)
         self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_2_SUBJECT), True)
-        #TODO: check that letter is read
         check_filter_work.open_filters_page_in_new_window()
 
         change_filter.delete()
-
 
     def test_change_add_condition_and_send_notification(self):
         create_filter = CreateFilter(self.driver)
@@ -136,8 +134,6 @@ class ChangeFilterTest(unittest.TestCase):
         check_filter_work.open_filters_page_in_new_window()
 
         change_filter.delete()
-
-    '''
 
     def test_redirected_and_continue_filter(self):
         # Create filter in USERMAIL_2 that redirect letter with this subject back to USERMAIL1
