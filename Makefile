@@ -1,12 +1,12 @@
 
 
-test: test-firefox
+test: test-firefox test-chrome
 
 
 #----------------------------------------------
 
 test-firefox:
-	BROWSER=FIREFOX PASSWORD="333" LOGIN="keker" python ./run_tests.py
+	BROWSER=FIREFOX PASSWORD="Welc0me_to_Tarad0s!" LOGIN="tarados_feroces" python ./run_tests.py
 
 test-chrome:
-	BROWSER=CHROME PASSWORD="333" LOGIN="keker" python ./run_tests.py
+	BROWSER=CHROME PASSWORD="Welc0me_to_Tarad0s!" LOGIN="tarados_feroces" python ./run_tests.py
