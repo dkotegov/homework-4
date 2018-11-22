@@ -3,7 +3,7 @@
 
 import unittest
 
-from tests import get_webdriver, get_credentials, FiltersApplyingPageObject, LOGIN_PAGE_URL
+from tests import get_webdriver, get_credentials, FiltersApplyingPageObject, SECRET_PAGE_URL, LOGIN_PAGE_URL
 
 
 class TestApplyingFilters(unittest.TestCase):
@@ -15,9 +15,15 @@ class TestApplyingFilters(unittest.TestCase):
         self.page.open(LOGIN_PAGE_URL)
         self.page.login()
 
-        self.page.click_to_search_panel()
+        self.page.open(SECRET_PAGE_URL)
+        self.page.click_inbox()
+
+        self.page.click_filter_flag()
+
+        #self.page.click_to_search_panel()
+
         
-        self.assertNotEquals(self.page.state, None)
+        self.assertEqual(self.page.state, None)
 
     def tearDown(self):
         self.page.close()
