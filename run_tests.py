@@ -9,7 +9,7 @@ from tests.changeFilterTests import ChangeFilterTest
 from tests.errorChecking import ErrorCheckingTest
 
 if __name__ == '__main__':
-    filter_example = unittest.TestLoader().loadTestsFromTestCase(CreateFilterExample)
+    #filter_example = unittest.TestLoader().loadTestsFromTestCase(CreateFilterExample)
     create_filters_test = unittest.TestLoader().loadTestsFromTestCase(CreateFilterTest)
     change_filter_test = unittest.TestLoader().loadTestsFromTestCase(ChangeFilterTest)
     error_checking_test = unittest.TestLoader().loadTestsFromTestCase(ErrorCheckingTest)
