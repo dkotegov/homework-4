@@ -70,6 +70,7 @@ class ChangeFilterTest(unittest.TestCase):
         check_filter_work = CheckFilterWork(self.driver)
         self.assertEqual(check_filter_work.check_if_letter_already_read('Рассылки', self.TEST_2_SUBJECT), True)
         self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_2_SUBJECT), True)
+        check_filter_work.delete_letter(self.TEST_2_SUBJECT)
         check_filter_work.open_filters_page_in_new_window()
 
         change_filter.delete()
@@ -101,6 +102,7 @@ class ChangeFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         check_filter_work.check_if_letter_exists_and_open_it('Входящие', self.TEST_3_SUBJECT)
+        check_filter_work.delete_letter(self.TEST_3_SUBJECT)
         # TODO: check if itberries2@mail.ru get the letter #оно приходит, но надо проверять здесь
         check_filter_work.open_filters_page_in_new_window()
 
@@ -131,6 +133,7 @@ class ChangeFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         check_filter_work.check_if_letter_exists_and_open_it('Входящие', self.TEST_4_SUBJECT)
+        check_filter_work.delete_letter(self.TEST_4_SUBJECT)
         check_filter_work.open_filters_page_in_new_window()
 
         change_filter.delete()
