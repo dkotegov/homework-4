@@ -3,38 +3,76 @@
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork
+from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, ChangeFilter, Step
 
-class CreateFilterTest(unittest.TestCase):
-    def setUp(self):
-        self.driver = Remote(
-		    command_executor='http://127.0.0.1:4444/wd/hub',
-	        desired_capabilities=DesiredCapabilities.CHROME )
-        self.driver.set_window_size(1920, 1080)
-        open_filter_settings = OpenFilterSettings(self.driver)
-        open_filter_settings.open()
+class CreateFilter(Step):
 
-    def tearDown(self):
-        self.driver.quit()
-
-    def test_from_move_to_folder(self):
-        '''
+    def create_to_cond_and_move_to_folter(self, folderName):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
-        condition_index = 0;
+        condition_index = 0
         create_new_filter.change_condition_value(condition_index, 'it-berries')
-        create_new_filter.move_to_folder('Рассылки')
+        create_new_filter.move_to_folder(folderName)
         create_new_filter.save_filter()
-        '''
-        write_letter = WriteLetter(self.driver)
-        write_letter.open()
-        write_letter.setAddressee('it-berries@mail.ru')
-        write_letter.setSubject('Технопарк')
-        write_letter.setCopies('it-berries@mail.ru')
-        write_letter.send()
+        create_new_filter.check_if_filter_list_exists()
 
-        check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check('Рассылки', 'Технопарк')
-        #open_filter_settings = OpenFilterSettings(self.driver)
-        #open_filter_settings.open()
-        input()
+    def create_subject_cond_and_delete(self, subject):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_subject, condition_index)
+        create_new_filter.change_condition_value(condition_index, subject)
+        create_new_filter.delete_message()
+        create_new_filter.save_filter()
+        create_new_filter.check_if_filter_list_exists()
+
+    def create_subject_cond_and_forward_to(self, subject, email):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_subject, condition_index)
+        create_new_filter.change_condition_value(condition_index, subject)
+        create_new_filter.show_other_actions()
+        create_new_filter.forward_to(email)
+        create_new_filter.save_filter()
+        try:
+            create_new_filter.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
+        except:
+            print("Password confirmation exception!") # little trick to confirm password
+
+    def create_copy_cond_and_autoreply(self, copyValue):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_copy, condition_index)
+        create_new_filter.change_condition_effect(condition_index)
+        create_new_filter.change_condition_value(condition_index, copyValue)
+        create_new_filter.show_other_actions()
+        self.driver.execute_script("window.scrollTo(0, 200)") 
+        create_new_filter.reply_not_found()
+        create_new_filter.save_filter()
+
+    def create_subject_cond_and_flag(self, subject):
+        create_filter = CreateNewFilter(self.driver)
+        create_filter.open()
+        condition_index = 0
+        create_filter.change_condition(Rule.field_subject, condition_index)
+        create_filter.change_condition_value(condition_index, subject)
+        create_filter.action_flag()
+        create_filter.save_filter()
+
+    def create_redirect_from_cond_and_continue(self, email):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_redirected_from, condition_index)
+        create_new_filter.change_condition_value(condition_index, email)
+        create_new_filter.show_other_actions()
+        self.driver.execute_script("window.scrollTo(0, 200)") 
+        create_new_filter.continue_to_filter()
+        create_new_filter.save_filter()
+
+    #TODO: check where to place this??? 
+    def delete_created_filter(self):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.delete()

@@ -28,6 +28,16 @@ class ElementWaiter(object):
             return None
 
     @staticmethod
+    def wait_by_xpath_with_delay(driver, locator, delay):
+        try:
+            elem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, locator)))
+            print "Page is ready!"
+            return elem
+        except TimeoutException:
+            print "Loading took too much time! Locator is " + locator
+            return None
+
+    @staticmethod
     def wait_elements_by_xpath(driver, locator):
         try:
             delay = 30

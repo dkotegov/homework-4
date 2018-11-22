@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 from pages.pages import AuthPage, MailPage, SettingsPage, CreateFilterPage, WriteMailPage
 
@@ -15,17 +17,25 @@ class Step(object):
     def __init__(self, driver):
         self.driver = driver
 
+class LogOut(Step):
+
+    def log_out(self):
+        self.driver.close()
+        mail_window = self.driver.window_handles[0]
+        self.driver.switch_to_window(mail_window)
+        mail_page = MailPage(self.driver)
+        mail_page.log_out()
+
 class OpenFilterSettings(Step):
 
-    USEREMAIL = 'it-berries'
     PASSWORD = os.environ['PASSWORD']
 
-    def open(self):
+    def open(self, usermail):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
         auth_mail = auth_page.form
-        auth_mail.set_login(self.USEREMAIL)
+        auth_mail.set_login(usermail)
         auth_mail.set_password(self.PASSWORD)
         auth_mail.submit()
 
@@ -40,10 +50,45 @@ class OpenFilterSettings(Step):
 
 class CheckFilterWork(Step):
 
-    def check(self, folder, subject):
+    def check_if_letter_exists_and_open_it(self, folder, subject):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
-        mail_page.open_msg_by_subject(subject)
+        if not mail_page.open_msg_by_subject(subject):
+            mail_page.open_folder('Корзина')
+            mail_page.open_folder(folder)
+            if not mail_page.open_msg_by_subject(subject):
+                return False
+        return True
+
+    def check_if_letter_not_exists(self, folder, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.open_folder(folder)
+        result = mail_page.find_msg_by_subject(subject)
+        return not result
+
+    def check_if_letter_have_flag(self, folder, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.open_folder(folder)
+        result = mail_page.find_msg_by_subject_with_flag(subject)
+        if not result:
+            mail_page.open_folder('Корзина')
+            mail_page.open_folder(folder)
+            if not mail_page.find_msg_by_subject_with_flag(subject):
+                return False
+        return result
+
+    def check_if_letter_already_read(self, folder, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.open_folder(folder)
+        result = mail_page.find_msg_by_subject_which_read(subject)
+        return result
+        
+    def delete_letter(self, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.check_if_letter_is_open(subject)
+        mail_page.delete_letter()
+
+    def open_filters_page_in_new_window(self):
         self.driver.close()
         mail_window = self.driver.window_handles[0]
         self.driver.switch_to_window(mail_window)
@@ -53,6 +98,9 @@ class CheckFilterWork(Step):
         self.driver.switch_to_window(window_after)
         settings_page = SettingsPage(self.driver)
         settings_page.open_filters()
+
+    def check_if_flag_is_set(self, subject):
+        pass
 
 class WriteLetter(Step):
 
@@ -75,6 +123,8 @@ class WriteLetter(Step):
 
 class CreateNewFilter(Step):
     
+    PASSWORD = os.environ['PASSWORD']
+    
     #Opens the creation of a filter from the settings page (https://e.mail.ru/settings/filters?octaviusMode=1).
     def open(self):
         settings_page = SettingsPage(self.driver)
@@ -91,7 +141,7 @@ class CreateNewFilter(Step):
         self.create_filter_form.change_value_effect(id)
 
     def change_condition_value(self, id, value):
-        self.create_filter_form.change_condition_vale(id, value)
+        self.create_filter_form.change_condition_value(id, value)
 
     def add_condition(self):
         self.create_filter_form.add_condition()
@@ -132,16 +182,20 @@ class CreateNewFilter(Step):
     def forward_change_contex(self):
         self.create_filter_form.forward_change_contex()
 
+    #Auto reply switch
+    def reply_switch(self):
+        self.create_filter_form.reply_click()
+
     #Auto reply with message
-    def repley_with_mesg(self, message):
-        self.create_filter_form.repley_click()
-        self.create_filter_form.repley_with_mesg_click()
-        self.create_filter_form.repley_mesg_set(message)
+    def reply_with_mesg(self, message):
+        self.create_filter_form.reply_click()
+        self.create_filter_form.reply_with_mesg_click()
+        self.create_filter_form.reply_mesg_set(message)
 
     #Automatically reply "There is no such addressee"
-    def repley_not_found(self):
-        self.create_filter_form.repley_click()
-        self.create_filter_form.repley_not_found_click()
+    def reply_not_found(self):
+        self.create_filter_form.reply_click()
+        self.create_filter_form.reply_not_found_click()
 
     #After this filter triggers, apply other filters.
     def continue_to_filter(self):
@@ -169,6 +223,21 @@ class CreateNewFilter(Step):
 
     def set_value_contains_form(self, text):
         self.create_filter_form.set_value_to_contains_form(text)
+    def confirm_password(self):
+        self.create_filter_form.confirm_form_set_password(self.PASSWORD)
+        self.create_filter_form.confirm_form_submit_password('Продолжить')
+
+    def delete(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delete_filter()
+
+    def delete_all(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delete_all_filters()
+        
+    def check_if_filter_list_exists(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.check_if_filter_list_exists()
 
 class ChangeFilter(CreateNewFilter):
 
@@ -179,6 +248,8 @@ class ChangeFilter(CreateNewFilter):
     
     def delete(self):
         settings_page = SettingsPage(self.driver)
-        settings_page.delelte_filter()
-    
+        settings_page.delete_filter()
 
+    def confirm_password(self):
+        self.create_filter_form.confirm_form_set_password(self.PASSWORD)
+        self.create_filter_form.confirm_form_submit_password('Принять')
