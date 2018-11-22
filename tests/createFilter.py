@@ -34,7 +34,7 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check('Рассылки', 'Технопарк')
+        check_filter_work.check_if_letter_exists('Рассылки', 'Технопарк')
         #open_filter_settings = OpenFilterSettings(self.driver)
         #open_filter_settings.open()
         input()

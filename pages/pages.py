@@ -55,9 +55,12 @@ class MailPage(Page):
     SETTINGS_MENU = '//span[@class="button2 button2_has-ico button2_setting button2_pure button2_short button2_hover-support"]'
     SETTINGS_ROW = '//div[@class="list-item list-item_hover-support"][contains(text(), "Настройки")]'
     FOLDER_ROW = '//div[@id="b-nav_folders"]//span[contains(text(), "'
-    OPEN_MSG =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
+    OPEN_LETTER =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
     APP_LOADER = '//div[@id="app-loader"][contains(@style,"display: none")]'
     #WRITE_LETTER = '//span[@class="compose-button__txt"][contains(text(), "Написать письмо")]'
+    LETTER_FLAG = '//div[@class="js-hover b-flag b-flag_yes b-flag_onhover"]'
+    LETTER_HEADER_SUBJECT = '//div[@class="b-letter__head__subj__text"][contains(text(), "'
+    DELETE_LETTER = '//div[@data-name="remove"]'
 
     def open_settings_menu(self):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
@@ -73,7 +76,14 @@ class MailPage(Page):
         elem.click()
     
     def open_msg_by_subject(self, subject):
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_MSG + subject +'")]')
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_LETTER + subject +'")]')
+        elem.click()
+
+    def check_if_letter_is_open(self, subject):
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LETTER_HEADER_SUBJECT + subject +'")]')
+
+    def delete_letter(self):
+        elem = ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.DELETE_LETTER)[1]
         elem.click()
 
     '''
@@ -213,6 +223,7 @@ class NewFilterForm(Component):
 
     def change_condition_value(self, id, value):
         elem = ElementWaiter.wait_elements_by_xpath(driver = self.container, locator = self.CHANGE_CONDITION_VALUE)[id]
+        elem.clear()
         elem.send_keys(value)
     
     def add_condition(self):

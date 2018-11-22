@@ -42,11 +42,23 @@ class OpenFilterSettings(Step):
 
 class CheckFilterWork(Step):
 
-    #TODO: rename to check_if_letter_exists ?
-    def check(self, folder, subject):
+    def check_if_letter_exists_and_open_it(self, folder, subject):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         mail_page.open_msg_by_subject(subject)
+
+    def check_if_letter_not_exists(self, folder, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.open_folder(folder)
+        #mail_page.open_msg_by_subject(subject)
+        self.driver.close()
+        
+    def delete_letter(self, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.check_if_letter_is_open(subject)
+        mail_page.delete_letter()
+
+    def open_filters_page_in_new_window(self):
         self.driver.close()
         mail_window = self.driver.window_handles[0]
         self.driver.switch_to_window(mail_window)
@@ -57,19 +69,8 @@ class CheckFilterWork(Step):
         settings_page = SettingsPage(self.driver)
         settings_page.open_filters()
 
-    def check_if_letter_not_exists(self, folder, subject):
-        mail_page = MailPage(self.driver)
-        mail_page.open_folder(folder)
-        #mail_page.open_msg_by_subject(subject)
-        self.driver.close()
-        mail_window = self.driver.window_handles[0]
-        self.driver.switch_to_window(mail_window)
-        mail_page = MailPage(self.driver)
-        mail_page.open_settings_page()
-        window_after = self.driver.window_handles[1]
-        self.driver.switch_to_window(window_after)
-        settings_page = SettingsPage(self.driver)
-        settings_page.open_filters()
+    def check_if_flag_is_set(self, subject):
+        pass
 
 class WriteLetter(Step):
 
@@ -187,6 +188,10 @@ class CreateNewFilter(Step):
     def confirm_password(self):
         self.create_filter_form.confirm_form_set_password(self.PASSWORD)
         self.create_filter_form.confirm_form_submit_password('Продолжить')
+
+    def delete(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delete_filter()
 
 class ChangeFilter(CreateNewFilter):
 
