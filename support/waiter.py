@@ -53,7 +53,7 @@ class ElementWaiter(object):
     def wait_clickable_by_xpath(driver, locator):
         try:
             delay = 30
-            elem = WebDriverWait(driver, delay).until(EC.visibility_of_element_located((By.XPATH, locator)))
+            elem = WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, locator)))
             print "Page is ready!"
             return elem
         except TimeoutException:
