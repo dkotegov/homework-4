@@ -3,6 +3,7 @@ from page_object import PageObject
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+
 class MessageActivities(PageObject):
     
     def move_all_msgs(self, destination):
