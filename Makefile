@@ -1,6 +1,6 @@
 
 
-test: test-firefox test-chrome
+test: test-chrome
 
 
 #----------------------------------------------

@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from src.message_activities import MessageActivities
 
-
-from tests import TestApplyingFilters
+from tests import TestApplyingFilters, TestMessageActivities
 
 
 if __name__ == '__main__':
