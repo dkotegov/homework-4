@@ -31,7 +31,6 @@ class AttachTest_Media(BaseAttach):
 
         # вложение медиафайла
         self.file_attaching_form.open_writing_letter()
-        self.file_attaching_form.set_file_attach_input()
         self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MEDIA)
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
@@ -49,7 +48,6 @@ class AttachTest_Executable(BaseAttach):
 
         # вложение исполняемого файла
         self.file_attaching_form.open_writing_letter()
-        self.file_attaching_form.set_file_attach_input()
         self.file_attaching_form.send_keys_to_input(self.TEST_FILE_EXECUTABLE)
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
@@ -100,8 +98,7 @@ class AttachTest25MbAndMoreThroughCloud(BaseAttach):
 
         # вложение файла размером больше 25 Мб (должен загрузиться через облако)
         self.file_attaching_form.open_writing_letter()
-        self.file_attaching_form.set_file_attach_input()
-        self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MORE_25_MB)
+        self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MORE_25_MB, 10)
 
         self.assertEqual(self.file_attaching_form.check_loaded_through_cloud() is not None, True)
 
@@ -113,8 +110,7 @@ class AttachTestLess25MbWithoutCloud(BaseAttach):
         BaseAttach.test(self)
 
         self.file_attaching_form.open_writing_letter()
-        self.file_attaching_form.set_file_attach_input()
-        self.file_attaching_form.send_keys_to_input(self.TEST_FILE_LESS_25MB, 2)
+        self.file_attaching_form.send_keys_to_input(self.TEST_FILE_LESS_25MB, 10)
 
         self.assertEqual(self.file_attaching_form.check_loaded_without_cloud(), True)
 
