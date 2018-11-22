@@ -42,7 +42,7 @@ class CreateFilterTest(unittest.TestCase):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
         condition_index = 0
-        create_new_filter.change_condition(condition_index, Rule.field_subject)
+        create_new_filter.change_condition(Rule.field_subject, condition_index)
         create_new_filter.change_condition_value(condition_index, self.TEST_2_SUBJECT)
         create_new_filter.delete_message()
         create_new_filter.save_filter()
