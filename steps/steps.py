@@ -60,8 +60,9 @@ class CheckFilterWork(Step):
     def check_if_letter_not_exists(self, folder, subject):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
-        #mail_page.open_msg_by_subject(subject)
+        result = mail_page.find_msg_by_subject(subject)
         self.driver.close()
+        return not result
         
     def delete_letter(self, subject):
         mail_page = MailPage(self.driver)
