@@ -41,11 +41,15 @@ class AuthMail(Component):
     SUBMIT = '//input[@class="o-control"][@type="submit"][1]'
 
     def set_login(self, login):
-        self.container.find_element_by_id(self.LOGIN).click()
-        self.container.find_element_by_id(self.LOGIN).send_keys(login)
+        elem = self.container.find_element_by_id(self.LOGIN)
+        elem.click()
+        elem.clear()
+        elem.send_keys(login)
 
     def set_password(self, pwd):
-        self.container.find_element_by_id(self.PASSWORD).send_keys(pwd)
+         elem = self.container.find_element_by_id(self.PASSWORD)
+         elem.clear()
+         elem.send_keys(pwd)
 
     def submit(self):
         self.container.find_element_by_xpath(self.SUBMIT).click()
@@ -86,6 +90,7 @@ class MailPage(Page):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_LETTER + subject +'")]')
         if elem == None:
             return False
+        elem.click() #TODO: check that everything still works
         return True
 
     def find_msg_by_subject(self, subject):
@@ -129,6 +134,7 @@ class SettingsPage(Page):
 
     def open_filters(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTERING_RULES)
+        
         elem.click()
     
     def create_new_filter(self):
@@ -136,7 +142,7 @@ class SettingsPage(Page):
         elem.click()
 
     def write_letter_click(self):
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.WRITE_LETTER).click()
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.WRITE_LETTER).click()
     
     def change_filter(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CHANGE_FILTER)
@@ -149,10 +155,20 @@ class SettingsPage(Page):
         hov = ActionChains(self.driver).move_to_element(elem)
         hov.perform()
         elem.click()
-        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CONFIRM_POPUP).click()
+        popup = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CONFIRM_POPUP)
+        popup.click()
+
+    def delete_all_filters(self):
+        elems = ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
+        for elem in elems:
+            hov = ActionChains(self.driver).move_to_element(elem)
+            hov.perform()
+            elem.click()
+            popup = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CONFIRM_POPUP)
+            popup.click()
     
     def check_if_filter_list_exists(self):
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTER_LIST_HEADER)
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTER_LIST_HEADER)
 
 
 class WriteMailPage(Page):

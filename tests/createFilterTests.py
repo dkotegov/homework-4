@@ -5,11 +5,13 @@ import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork
 from tests.createFilter import CreateFilter
+from tests.config import USEREMAIL_1, USEREMAIL_2
 
 class CreateFilterTest(unittest.TestCase):
 
     TEST_1_SUBJECT = 'CreateFilter. Test 1'
     TEST_2_SUBJECT = 'CreateFilter. Test 2'
+    TEST_3_SUBJECT = 'CreateFilter. Test 3'
 
     def setUp(self):
         self.driver = Remote(
@@ -17,7 +19,7 @@ class CreateFilterTest(unittest.TestCase):
 	        desired_capabilities=DesiredCapabilities.CHROME )
         self.driver.set_window_size(1920, 1080)
         open_filter_settings = OpenFilterSettings(self.driver)
-        open_filter_settings.open()
+        open_filter_settings.open(USEREMAIL_1)
 
     def tearDown(self):
         self.driver.quit()
@@ -28,7 +30,7 @@ class CreateFilterTest(unittest.TestCase):
 
         write_letter = WriteLetter(self.driver)
         write_letter.open()
-        write_letter.setAddressee('it-berries@mail.ru')
+        write_letter.setAddressee(USEREMAIL_1 + '@mail.ru')
         write_letter.setSubject(self.TEST_1_SUBJECT)
         write_letter.send()
 
@@ -44,7 +46,7 @@ class CreateFilterTest(unittest.TestCase):
         
         write_letter = WriteLetter(self.driver)
         write_letter.open()
-        write_letter.setAddressee('it-berries@mail.ru')
+        write_letter.setAddressee(USEREMAIL_1'@mail.ru')
         write_letter.setSubject(self.TEST_2_SUBJECT)
         write_letter.send()
 
@@ -53,3 +55,13 @@ class CreateFilterTest(unittest.TestCase):
 
         check_filter_work.open_filters_page_in_new_window()
         create_filter.delete_created_filter()
+
+    def test_subject_cond_and_forward_to(self):
+        create_filter = CreateFilter(self.driver)
+        create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, USEREMAIL_2 + '@mail.ru')
+        # TODO: add write letter, check and delete
+    
+    def test_copy_and_autoreply(self):
+        create_filter = CreateFilter(self.driver)
+        create_filter.create_copy_cond_and_autoreply(USEREMAIL_2)
+         # TODO: add write letter, check and delete
