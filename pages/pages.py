@@ -14,7 +14,7 @@ class Page(object):
 
     BASE_URL = 'https://mail.ru/'
     PATH = ''
-
+    
     def __init__(self, driver):
         self.driver = driver
 
@@ -52,7 +52,8 @@ class AuthMail(Component):
 
 class MailPage(Page):
 
-    SETTINGS_MENU = '//span[@class="button2 button2_has-ico button2_setting button2_pure button2_short button2_hover-support"]'
+    APP_LOADER = '//div[@id="app-loader"][contains(@style,"display: none")]'
+    SETTINGS_MENU = '//div[@class="settings"]'
     SETTINGS_ROW = '//div[@class="list-item list-item_hover-support"][contains(text(), "Настройки")]'
     FOLDER_ROW = '//div[@id="b-nav_folders"]//span[contains(text(), "'
     OPEN_LETTER =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
@@ -61,10 +62,11 @@ class MailPage(Page):
     LETTER_FLAG = '//div[@class="js-hover b-flag b-flag_yes b-flag_onhover"]'
     LETTER_HEADER_SUBJECT = '//div[@class="b-letter__head__subj__text"][contains(text(), "'
     DELETE_LETTER = '//div[@data-name="remove"]'
+    LOG_OUT = '//a[@id="PH_logoutLink"]'
 
     def open_settings_menu(self):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
+        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
         elem.click()
 
     def open_settings_page(self):
@@ -77,20 +79,20 @@ class MailPage(Page):
     
     def open_msg_by_subject(self, subject):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_LETTER + subject +'")]')
+        if elem == None:
+            return False
         elem.click()
+        return True
 
     def check_if_letter_is_open(self, subject):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LETTER_HEADER_SUBJECT + subject +'")]')
 
     def delete_letter(self):
         elem = ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.DELETE_LETTER)[1]
+        
+    def log_out(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LOG_OUT)
         elem.click()
-
-    '''
-    def write_letter_click(self):
-        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
-        elem.click()
-    '''
 
 class SettingsPage(Page):
 

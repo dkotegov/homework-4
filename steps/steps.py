@@ -17,6 +17,14 @@ class Step(object):
     def __init__(self, driver):
         self.driver = driver
 
+class LogOut(Step):
+
+    def log_out(self):
+        mail_window = self.driver.window_handles[0]
+        self.driver.switch_to_window(mail_window)
+        mail_page = MailPage(self.driver)
+        mail_page.log_out()
+
 class OpenFilterSettings(Step):
 
     USEREMAIL = 'it-berries'
@@ -45,7 +53,9 @@ class CheckFilterWork(Step):
     def check_if_letter_exists_and_open_it(self, folder, subject):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
-        mail_page.open_msg_by_subject(subject)
+        if not mail_page.open_msg_by_subject(subject):
+            return False
+        return True
 
     def check_if_letter_not_exists(self, folder, subject):
         mail_page = MailPage(self.driver)
