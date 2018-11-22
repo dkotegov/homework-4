@@ -215,6 +215,14 @@ class CreateNewFilter(Step):
     def save_filter(self):
         self.create_filter_form.save_filter_click()
 
+    def get_alert(self):
+        return self.create_filter_form.get_alert_message()
+   
+    def get_pop_up_alert(self):
+        return self.create_filter_form.get_alert_pop_up_message()
+
+    def set_value_contains_form(self, text):
+        self.create_filter_form.set_value_to_contains_form(text)
     def confirm_password(self):
         self.create_filter_form.confirm_form_set_password(self.PASSWORD)
         self.create_filter_form.confirm_form_submit_password('Продолжить')
