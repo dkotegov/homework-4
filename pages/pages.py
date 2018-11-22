@@ -170,10 +170,10 @@ class NewFilterForm(Component):
 
     CHANGE_CONDITION_OPEN = '//a[@class="filters__dropdown__link js-link"]'
     SET_RILE = '//a[@class="form__dropdown__item"]'
-    CHANGE_VALUE_EFFECT = '//a[@class="pseudo-link js-link"]'
+    CHANGE_VALUE_EFFECT = '//a[@class="pseudo-link js-link"][contains(text(),"содержит") or contains(text(),"не содержит")]'
     CHANGE_CONDITION_VALUE = '//textarea[@data-base-name="Condition"]'
     ADD_CONDITION = '//button[@class="btn js-add-condition"]'
-    SWITCH_INTERACTION_CONDITIONS = '//a[contains(text(), "если выполнено одно из условий")]'
+    SWITCH_INTERACTION_CONDITIONS = '//a[@class="pseudo-link js-link"][contains(text(),"если выполнено одно из условий") or contains(text(),"если выполнены все условия")]'
     MOVE_TO_CHECKBOX = '//input[@class="form__checkbox__checkbox js-action-moveto"][@value="moveto"]'
     MOVE_TO_FOLDER = '//div[@class="dropdown form__row__subwidget_inline form__select form__select_medium form__select_custom-dropdown form__row__shift form__row__shift_inline"]//div[@class="form__select__box form__select__box_static"]'
     CHANGE_FOLDER_LIST = '//div[@class="dropdown form__row__subwidget_inline form__select form__select_medium form__select_custom-dropdown form__row__shift form__row__shift_inline dropdown_expanded"]'
@@ -184,7 +184,7 @@ class NewFilterForm(Component):
     OTHER_ACTIONS_LINK = '//div[@class="form__row__subwidget js-otherActions"]/a'
     FORWARD_CHECKBOX = '//input[@class="form__checkbox__checkbox js-action-forward"]'
     FOWARRD_SET_MAIL = '//div[@class="form__row__subwidget_inline form__row__shift form__row__shift_inline form__row__subwidget_top js-forward-email-container"]//textarea[@class="form__field form__field_expandable js-action-forward-input"]'
-    CHANGE_FORWARD_CONTEXT = '//a[@class="pseudo-link js-link"]'
+    CHANGE_FORWARD_CONTEXT = '//a[@class="pseudo-link js-link"][contains(text(),"копию сообщения") or contains(text(),"уведомление")]'
     REPLY_CHECKBOX = '//input[@class="form__checkbox__checkbox js-action-reply"]'
     REPLY_WITH_MESSAGE_CHECKBOX = '//input[@class="form__checkbox__checkbox js-replywith-message"]'
     REPLEY_WITH_MESSAGE_TEXTAREA = '//textarea[@class="form__field form__field_editor form__field_wide"]'
@@ -196,6 +196,8 @@ class NewFilterForm(Component):
     FILTERS_FOLDERS_LIST = '//div[@class="form__dropdown__list filters__dropdown__menu js-menu"][not(contains(@style, "display: none"))]'
     FILTERS_FOLDER = '//label[@class="form__dropdown__item form__checkbox form__checkbox_flat js-dropdown-item"]//span[contains(text(), "'
     SAVE_FILTER_BUTTON = '//button[@class="btn btn_main btn_stylish"]//span[contains(text(), "Сохранить")]'
+    POPUP_CONFIRM_PASSWORD_INPUT = '//div[@class="form__row js-password-field"]//input[@class="form__field"]'
+    POPUP_CONFIRM_SUBMIT_BUTTON = '//div[@class="popup__controls"]//button//span[contains(text(), "'
 
     def change_condition_open(self, id):
         elem = ElementWaiter.wait_elements_by_xpath(driver = self.container, locator = self.CHANGE_CONDITION_OPEN)[id]
@@ -206,9 +208,10 @@ class NewFilterForm(Component):
         elem.click()
 
     def change_value_effect(self, id):
-        elem = ElementWaiter.wait_elements_by_xpath(driver = self.container, locator = self.CHANGE_VALUE_EFFECT)[id]
+        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.CHANGE_VALUE_EFFECT)[id]
         elem.click()
 
+    #TODO: rename (otchepyatka)
     def change_condition_vale(self, id, value):
         elem = ElementWaiter.wait_elements_by_xpath(driver = self.container, locator = self.CHANGE_CONDITION_VALUE)[id]
         elem.send_keys(value)
@@ -218,7 +221,7 @@ class NewFilterForm(Component):
         elem.click()
 
     def switch_interaction_conditions_click(self):
-        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SWITCH_INTERACTION_CONDITIONS)
+        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.SWITCH_INTERACTION_CONDITIONS)
         elem.click()
 
     def move_to_checkbox_click(self):
@@ -259,7 +262,7 @@ class NewFilterForm(Component):
         elem.send_keys(mail)
 
     def forward_change_contex(self):
-        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.CHANGE_FORWARD_CONTEXT)
+        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.CHANGE_FORWARD_CONTEXT)
         elem.click()
 
     def repley_click(self):
@@ -301,4 +304,14 @@ class NewFilterForm(Component):
 
     def save_filter_click(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SAVE_FILTER_BUTTON)
+        elem.click()
+
+    def confirm_form_set_password(self, value):
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.POPUP_CONFIRM_PASSWORD_INPUT)
+        elem.click()
+        elem.send_keys(value)
+
+    def confirm_form_submit_password(self, buttonText):
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, 
+            locator = self.POPUP_CONFIRM_SUBMIT_BUTTON + buttonText + '")]')
         elem.click()

@@ -17,40 +17,51 @@ class ChangeFilterTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-'''
     # I DON'T CHECK THIS TEST:
     def test_change_add_condition_and_send_notification(self):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
         condition_index = 0
-        create_new_filter.change_condition('Subject', condition_index)
-        create_new_filter.change_condition_value(condition_index, 'it-berries')
+        create_new_filter.change_condition(Rule.field_subject, condition_index)
+        create_new_filter.change_condition_value(condition_index, 'Test')
         create_new_filter.show_other_actions()
-        create_new_filter.forward_to('nastya.puchnina@mail.ru') # TODO: what mail address to use?
+        create_new_filter.forward_to('itberries2@mail.ru')
         create_new_filter.save_filter()
+        try:
+            create_new_filter.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
+        except:
+            print("No password confirmation exception!") # little trick to confirm password
 
         change_filter = ChangeFilter(self.driver)
         change_filter.open()
         change_filter.add_condition()
         condition_index = 1
-        change_filter.change_condition('Size', 1)
-        change_filter.change_condition_value(condition_index, '100')
-        change_filter.switch_interaction_conditions()
+        change_filter.change_condition(Rule.size_KB, 1)
+        change_filter.change_condition_value(condition_index, '10000')
+        self.driver.execute_script("window.scrollTo(0, 200)") 
+        change_filter.forward_change_contex()
         change_filter.save_filter()
+        try:
+            change_filter.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
+        except:
+            print("No password confirmation exception!") # little trick to confirm password
+        change_filter.check_if_filter_list_exists()
 
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee('it-berries@mail.ru')
-        write_letter.setSubject('Тест - Добавить условие размера и переслать уведомление')
+        write_letter.setSubject('Test - Добавить условие размера и переслать уведомление')
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check('Входящие', 'Тест - Добавить условие размера и переслать уведомление')
+        check_filter_work.check('Входящие', 'Test - Добавить условие размера и переслать уведомление')
+        # TODO: check if itberries2@mail.ru get the letter
+        change_filter.delete()
 
     #TODO: create tests functions
 
-
-    # TESTS THAT WORK:
+'''
+    # TEST THAT WORK:
     def test_change_move_to_delete(self):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
@@ -63,15 +74,16 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.open()
         change_filter.delete_message()
         change_filter.save_filter()
+        change_filter.check_if_filter_list_exists()
 
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee('it-berries@mail.ru')
-        write_letter.setSubject('Тест - Замена Поместить в папку на Удалить')
+        write_letter.setSubject('Test - Замена Поместить в папку на Удалить')
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check_if_letter_not_exists('Рассылки', 'Тест - Замена Поместить в папку на Удалить')
+        check_filter_work.check_if_letter_not_exists('Рассылки', 'Test - Замена Поместить в папку на Удалить')
 
         change_filter.delete()
 
@@ -94,11 +106,11 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee('it-berries@mail.ru')
-        write_letter.setSubject('Тест - Замена Удалить на Поместить в папку')
+        write_letter.setSubject('Test - Замена Удалить на Поместить в папку')
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check('Рассылки', 'Тест - Замена Удалить на Поместить в папку')
+        check_filter_work.check('Рассылки', 'Test - Замена Удалить на Поместить в папку')
         #TODO: check that letter is read
 
         change_filter.delete()

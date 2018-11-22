@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 from pages.pages import AuthPage, MailPage, SettingsPage, CreateFilterPage, WriteMailPage
 
@@ -90,6 +92,8 @@ class WriteLetter(Step):
 
 class CreateNewFilter(Step):
     
+    PASSWORD = os.environ['PASSWORD']
+    
     #Opens the creation of a filter from the settings page (https://e.mail.ru/settings/filters?octaviusMode=1).
     def open(self):
         settings_page = SettingsPage(self.driver)
@@ -176,6 +180,10 @@ class CreateNewFilter(Step):
     def save_filter(self):
         self.create_filter_form.save_filter_click()
 
+    def confirm_password(self):
+        self.create_filter_form.confirm_form_set_password(self.PASSWORD)
+        self.create_filter_form.confirm_form_submit_password('Продолжить')
+
 class ChangeFilter(CreateNewFilter):
 
     def open(self):
@@ -190,3 +198,7 @@ class ChangeFilter(CreateNewFilter):
     def check_if_filter_list_exists(self):
         settings_page = SettingsPage(self.driver)
         settings_page.check_if_filter_list_exists()
+
+    def confirm_password(self):
+        self.create_filter_form.confirm_form_set_password(self.PASSWORD)
+        self.create_filter_form.confirm_form_submit_password('Принять')
