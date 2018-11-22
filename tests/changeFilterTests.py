@@ -3,8 +3,9 @@
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, ChangeFilter
+from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, ChangeFilter, LogOut
 from tests.createFilter import CreateFilter
+from tests.config import USEREMAIL_1, USEREMAIL_2
 
 class ChangeFilterTest(unittest.TestCase):
 
@@ -20,11 +21,12 @@ class ChangeFilterTest(unittest.TestCase):
 	        desired_capabilities=DesiredCapabilities.CHROME )
         self.driver.set_window_size(1400, 1080)
         open_filter_settings = OpenFilterSettings(self.driver)
-        open_filter_settings.open()
+        open_filter_settings.open(USEREMAIL_1)
 
     def tearDown(self):
         self.driver.quit()
 
+    '''
     # TODO: camel case style?
     # TESTS THAT WORK:
     def test_change_move_to_delete(self):
@@ -72,20 +74,11 @@ class ChangeFilterTest(unittest.TestCase):
         check_filter_work.open_filters_page_in_new_window()
 
         change_filter.delete()
-'''
+
+
     def test_change_add_condition_and_send_notification(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        condition_index = 0
-        create_new_filter.change_condition(Rule.field_subject, condition_index)
-        create_new_filter.change_condition_value(condition_index, 'Test')
-        create_new_filter.show_other_actions()
-        create_new_filter.forward_to('itberries2@mail.ru')
-        create_new_filter.save_filter()
-        try:
-            create_new_filter.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
-        except:
-            print("Password confirmation exception!") # little trick to confirm password
+        create_filter = CreateFilter(self.driver)
+        create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, 'itberries2@mail.ru')
 
         change_filter = ChangeFilter(self.driver)
         change_filter.open()
@@ -115,17 +108,10 @@ class ChangeFilterTest(unittest.TestCase):
 
         change_filter.delete()
 
+    
     def test_add_condition_and_revert_autoreply(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        condition_index = 0
-        create_new_filter.change_condition(Rule.field_copy, condition_index)
-        create_new_filter.change_condition_effect(condition_index)
-        create_new_filter.change_condition_value(condition_index, 'itberries2')
-        create_new_filter.show_other_actions()
-        self.driver.execute_script("window.scrollTo(0, 200)") 
-        create_new_filter.reply_not_found()
-        create_new_filter.save_filter()
+        create_filter = CreateFilter(self.driver)
+        create_filter.create_copy_cond_and_autoreply('itberries2')
 
         change_filter = ChangeFilter(self.driver)
         change_filter.open()
@@ -151,32 +137,32 @@ class ChangeFilterTest(unittest.TestCase):
 
         change_filter.delete()
 
+    '''
+
     def test_redirected_and_continue_filter(self):
-        # There is filter in itberries2@mail.ru that redirect letter with this subject back to it-berries@mail.ru
+        # Create filter in USERMAIL_2 that redirect letter with this subject back to USERMAIL1
+        # And login back to main account
+        log_out = LogOut(self.driver)
+        log_out.log_out()
+        open_filter_settings = OpenFilterSettings(self.driver)
+        open_filter_settings.open(USEREMAIL_2)
+        create_account2_filter = CreateFilter(self.driver)
+        create_account2_filter.create_subject_cond_and_forward_to(self.TEST_5_SUBJECT, USEREMAIL_1+'@mail.ru')
+        log_out.log_out()
+        open_filter_settings = OpenFilterSettings(self.driver)
+        open_filter_settings.open(USEREMAIL_1)
 
-        create_additional_filter = CreateNewFilter(self.driver)
-        create_additional_filter.open()
-        condition_index = 0
-        create_additional_filter.change_condition(Rule.field_subject, condition_index)
-        create_additional_filter.change_condition_value(condition_index, self.TEST_5_SUBJECT)
-        create_additional_filter.action_flag()
-        create_additional_filter.save_filter()
+        create_additional_filter = CreateFilter(self.driver)
+        create_additional_filter.create_subject_cond_and_flag(self.TEST_5_SUBJECT)
 
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        condition_index = 0
-        create_new_filter.change_condition(Rule.field_redirected_from, condition_index)
-        create_new_filter.change_condition_value(condition_index, 'it-berries')
-        create_new_filter.show_other_actions()
-        self.driver.execute_script("window.scrollTo(0, 200)") 
-        create_new_filter.continue_to_filter()
-        create_new_filter.save_filter()
+        create_redirect_filter = CreateFilter(self.driver)
+        create_redirect_filter.create_redirect_from_cond_and_continue(USEREMAIL_1)
 
         change_filter = ChangeFilter(self.driver)
         change_filter.open()
         condition_index = 0
         change_filter.change_condition(Rule.field_redirected_to, condition_index)
-        change_filter.change_condition_value(condition_index, 'itberries2')
+        change_filter.change_condition_value(condition_index, USEREMAIL_2)
         self.driver.execute_script("window.scrollTo(0, 200)") 
         change_filter.spam_on()
         change_filter.save_filter()
@@ -184,18 +170,22 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.check_if_filter_list_exists()
         write_letter = WriteLetter(self.driver)
         write_letter.open()
-        write_letter.setAddressee('itberries2@mail.ru')
+        write_letter.setAddressee(USEREMAIL_2 + '@mail.ru')
         write_letter.setSubject(self.TEST_5_SUBJECT)
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check_if_letter_exists_and_open_it('Входящие', self.TEST_5_SUBJECT)
+        
+        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Входящие', self.TEST_5_SUBJECT), True)
         #TODO: check that additional filter works (check that letter has red flag)
         check_filter_work.delete_letter(self.TEST_5_SUBJECT)
         check_filter_work.open_filters_page_in_new_window()
 
         # delete main and additional filters
-        change_filter.delete()
-        # change_filter.delete() # TODO: can not delete second time (additional filter): Element is not interactable
+        change_filter.delete_all()
 
-'''
+        # delete filter in USERMAIL_2 account
+        log_out.log_out()
+        open_filter_settings = OpenFilterSettings(self.driver)
+        open_filter_settings.open(USEREMAIL_2)
+        create_account2_filter.delete_created_filter()

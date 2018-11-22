@@ -20,6 +20,7 @@ class Step(object):
 class LogOut(Step):
 
     def log_out(self):
+        self.driver.close()
         mail_window = self.driver.window_handles[0]
         self.driver.switch_to_window(mail_window)
         mail_page = MailPage(self.driver)
@@ -27,15 +28,14 @@ class LogOut(Step):
 
 class OpenFilterSettings(Step):
 
-    USEREMAIL = 'it-berries'
     PASSWORD = os.environ['PASSWORD']
 
-    def open(self):
+    def open(self, usermail):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
         auth_mail = auth_page.form
-        auth_mail.set_login(self.USEREMAIL)
+        auth_mail.set_login(usermail)
         auth_mail.set_password(self.PASSWORD)
         auth_mail.submit()
 
@@ -54,7 +54,9 @@ class CheckFilterWork(Step):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         if not mail_page.open_msg_by_subject(subject):
-            return False
+            mail_page.open_folder(folder)
+            if not mail_page.open_msg_by_subject(subject):
+                return False
         return True
 
     def check_if_letter_not_exists(self, folder, subject):
@@ -202,6 +204,10 @@ class CreateNewFilter(Step):
     def delete(self):
         settings_page = SettingsPage(self.driver)
         settings_page.delete_filter()
+
+    def delete_all(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delete_all_filters()
         
     def check_if_filter_list_exists(self):
         settings_page = SettingsPage(self.driver)

@@ -26,6 +26,52 @@ class CreateFilter(Step):
         create_new_filter.save_filter()
         create_new_filter.check_if_filter_list_exists()
 
+    def create_subject_cond_and_forward_to(self, subject, email):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_subject, condition_index)
+        create_new_filter.change_condition_value(condition_index, subject)
+        create_new_filter.show_other_actions()
+        create_new_filter.forward_to(email)
+        create_new_filter.save_filter()
+        try:
+            create_new_filter.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
+        except:
+            print("Password confirmation exception!") # little trick to confirm password
+
+    def create_copy_cond_and_autoreply(self, copyValue):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_copy, condition_index)
+        create_new_filter.change_condition_effect(condition_index)
+        create_new_filter.change_condition_value(condition_index, copyValue)
+        create_new_filter.show_other_actions()
+        self.driver.execute_script("window.scrollTo(0, 200)") 
+        create_new_filter.reply_not_found()
+        create_new_filter.save_filter()
+
+    def create_subject_cond_and_flag(self, subject):
+        create_filter = CreateNewFilter(self.driver)
+        create_filter.open()
+        condition_index = 0
+        create_filter.change_condition(Rule.field_subject, condition_index)
+        create_filter.change_condition_value(condition_index, subject)
+        create_filter.action_flag()
+        create_filter.save_filter()
+
+    def create_redirect_from_cond_and_continue(self, email):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_redirected_from, condition_index)
+        create_new_filter.change_condition_value(condition_index, email)
+        create_new_filter.show_other_actions()
+        self.driver.execute_script("window.scrollTo(0, 200)") 
+        create_new_filter.continue_to_filter()
+        create_new_filter.save_filter()
+
     #TODO: check where to place this??? 
     def delete_created_filter(self):
         create_new_filter = CreateNewFilter(self.driver)

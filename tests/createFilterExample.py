@@ -4,6 +4,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, LogOut
+from tests.config import USEREMAIL_1, USEREMAIL_2
 
 class CreateFilterExample(unittest.TestCase):
     def setUp(self):
@@ -12,7 +13,7 @@ class CreateFilterExample(unittest.TestCase):
 	        desired_capabilities=DesiredCapabilities.CHROME )
         self.driver.set_window_size(1920, 1080)
         open_filter_settings = OpenFilterSettings(self.driver)
-        open_filter_settings.open()
+        open_filter_settings.open(USEREMAIL_1)
 
     def tearDown(self):
         self.driver.quit()
