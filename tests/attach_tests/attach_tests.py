@@ -34,7 +34,6 @@ class AttachTest_Media(BaseAttach):
         self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MEDIA)
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
-
         self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
 
 

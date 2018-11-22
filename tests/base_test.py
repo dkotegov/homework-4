@@ -8,12 +8,9 @@ from components.login_and_write import login_and_write
 
 class BaseTest(unittest.TestCase):
     USEREMAIL = 'park.test.testovich@mail.ru'
-    # PASSWORD = 'rha_the_best_team'
-
     PASSWORD = os.environ['PASSWORD']
 
     def setUp(self):
-        print os.environ
         browser = os.environ.get('BROWSER', 'CHROME')
 
         self.driver = Remote(
