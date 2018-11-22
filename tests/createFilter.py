@@ -23,11 +23,12 @@ class CreateFilterTest(unittest.TestCase):
     def test_from_move_to_folder(self):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
-        condition_index = 0;
+        condition_index = 0
         create_new_filter.change_condition_value(condition_index, 'it-berries')
         create_new_filter.move_to_folder('Рассылки')
         create_new_filter.save_filter()
 
+        create_new_filter.check_if_filter_list_exists()
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee('it-berries@mail.ru')
@@ -35,17 +36,18 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check('Рассылки', 'Технопарк'), True)
+        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', 'Технопарк'), True)
 
     def test_who_delete_forever(self):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
-        condition_index = 0;
-        create_new_filter.change_condition(condition_index, Rule.field_subject)
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_subject, condition_index)
         create_new_filter.change_condition_value(condition_index, self.TEST_2_SUBJECT)
         create_new_filter.delete_message()
         create_new_filter.save_filter()
 
+        create_new_filter.check_if_filter_list_exists()
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee('it-berries@mail.ru')
@@ -53,4 +55,4 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check('Рассылки', self.TEST_2_SUBJECT), True)
+        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_2_SUBJECT), True)
