@@ -146,7 +146,8 @@ class BaseForm(Component):
 
     def show_message_sent(self):
         try:
-            elem = self.driver.find_element_by_xpath(self.SENT_MSG_HREF)
+            elem =  WebDriverWait(self.driver, 10) \
+                .until(lambda driver: self.driver.find_element_by_xpath(self.SENT_MSG_HREF))
             ActionChains(self.driver).move_to_element(elem).click().perform()
         except WebDriverException:
             print 'Messages are unnable to open.'
@@ -162,12 +163,14 @@ class BaseForm(Component):
 
     # Клик на поле ввода
     def click_on_message_field(self):
-        element = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
+        element =  WebDriverWait(self.driver, 10) \
+                .until(lambda driver: self.driver.find_element_by_xpath(self.MESSAGE_FIELD))
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Клик на поле темы
     def click_on_subject_field(self):
-        element = self.driver.find_element_by_xpath(self.SUBJECT_FIELD)
+        element =  WebDriverWait(self.driver, 10) \
+                .until(lambda driver: self.driver.find_element_by_xpath(self.SUBJECT_FIELD))
         ActionChains(self.driver).move_to_element(element).click().perform()
 
     # Клик на поле копии письма
