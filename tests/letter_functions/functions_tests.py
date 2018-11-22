@@ -13,6 +13,8 @@ class ImportantMarkTest(BaseSend):
         self.functions_form.show_message_incoming()
         self.assertEqual(self.functions_form.check_letter_by_subj("Important"), True)
 
+        self.functions_page.redirectQA()
+
         # Тестирование отметки сохраненного важного сообщения.
         self.writeLetter("ImportantS", "Important mark letter Test")
         self.functions_form.click_on_important_mark()
@@ -32,6 +34,8 @@ class NotificationMarkTest(BaseSend):
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_incoming()
         self.assertEqual(self.functions_form.check_letter_by_subj("Notified"), True)
+
+        self.functions_page.redirectQA()
 
         # Тестирование сохранения отметки сообщения с оповещением
         self.writeLetter("NotifiedS", "Notify mark letter Test")
@@ -53,6 +57,8 @@ class ReminderMarkTest(BaseSend):
         self.functions_form.show_message_incoming()
         self.assertEqual(self.functions_form.check_letter_by_subj("Remind"), True)
 
+        self.functions_page.redirectQA()
+
         # Тестирование сохранения отметки сообщения с оповещением
         self.writeLetter("RemindS", "Remind mark letter Test")
         self.functions_form.click_on_reminder_mark()
@@ -72,6 +78,9 @@ class DelayedMarkTest(BaseSend):
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_sent()
         self.assertEqual(self.functions_form.check_letter_by_subj("Delayed"), True)
+
+        self.functions_page.redirectQA()
+
 
         # Тестирование сохранения сообщения с отложенным отправлением
         self.writeLetter("DelayedS", "Delayed mark letter Test")
@@ -95,7 +104,9 @@ class CrossFuncsTest(BaseSend):
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_sent()
-        self.assertEqual(self.functions_form.check_letter_by_subj("CrossFuncs"), True) #TODO вот тут падает!!!
+        self.assertEqual(self.functions_form.check_letter_by_subj("CrossFuncs"), True)
+
+        self.functions_page.redirectQA()
 
         # Тестирование сохранения сообщения с разными функциями
 

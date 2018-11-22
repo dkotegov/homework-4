@@ -2,6 +2,7 @@
 
 from tests.send_tests.base_send import BaseSend
 
+
 class SendTestEmailToMe(BaseSend):
     def test(self):
         BaseSend.test(self)
@@ -18,6 +19,7 @@ class SendTestEmailToMe(BaseSend):
         self.email_sending_form.click_incoming_emails_button()
         self.assertEqual(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT), True)
 
+
 class SendTestEmailToCorrectEmail(BaseSend):
     def test(self):
         BaseSend.test(self)
@@ -31,6 +33,7 @@ class SendTestEmailToCorrectEmail(BaseSend):
 
         self.assertEqual(self.email_sending_form.checkMessageSent(), True)
         self.assertEqual(self.email_sending_form.check_correct_recipient(), True)
+
 
 class SendTestEmailToGroupCorrectEmails(BaseSend):
     def test(self):
@@ -46,6 +49,7 @@ class SendTestEmailToGroupCorrectEmails(BaseSend):
         self.assertEqual(self.email_sending_form.checkMessageSent(), True)
         self.assertEqual(self.email_sending_form.check_group_correct_recipients(), True)
 
+
 class SendTestEmailToWrongEmail(BaseSend):
     def test(self):
         BaseSend.test(self)
@@ -59,6 +63,7 @@ class SendTestEmailToWrongEmail(BaseSend):
 
         self.assertEqual(self.email_sending_form.check_wrong_emails(), True)
 
+
 class SendTestEmailToGroupWrongEmails(BaseSend):
     def test(self):
         BaseSend.test(self)
@@ -71,6 +76,7 @@ class SendTestEmailToGroupWrongEmails(BaseSend):
         self.email_sending_form.click_send_button()
 
         self.assertEqual(self.email_sending_form.check_wrong_emails(), True)
+
 
 class SendTestEmailToMeWithCopy(BaseSend):
     def test(self):
