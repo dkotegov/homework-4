@@ -63,6 +63,7 @@ class MailPage(Page):
     LETTER_HEADER_SUBJECT = '//div[@class="b-letter__head__subj__text"][contains(text(), "'
     DELETE_LETTER = '//div[@data-name="remove"]'
     LOG_OUT = '//a[@id="PH_logoutLink"]'
+    FOLDER_OPENED = '//div[contains(@class, "b-nav__item_active")]//span[contains(text(), "'
 
     def open_settings_menu(self):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
@@ -76,12 +77,18 @@ class MailPage(Page):
     def open_folder(self, folder):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FOLDER_ROW + folder +'")]')
         elem.click()
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FOLDER_OPENED + folder + '")]')
     
     def open_msg_by_subject(self, subject):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_LETTER + subject +'")]')
         if elem == None:
             return False
-        elem.click()
+        return True
+
+    def find_msg_by_subject(self, subject):
+        elem = ElementWaiter.wait_by_xpath_with_delay(driver = self.driver, locator = self.OPEN_LETTER + subject +'")]', delay = 5)
+        if elem == None:
+            return False
         return True
 
     def check_if_letter_is_open(self, subject):

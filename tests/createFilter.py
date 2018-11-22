@@ -20,6 +20,7 @@ class CreateFilterTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
+    '''
     def test_from_move_to_folder(self):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
@@ -37,7 +38,7 @@ class CreateFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', 'Технопарк'), True)
-
+    '''
     def test_who_delete_forever(self):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
@@ -55,4 +56,4 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_2_SUBJECT), True)
+        self.assertEqual(check_filter_work.check_if_letter_not_exists('Входящие', self.TEST_2_SUBJECT), True)
