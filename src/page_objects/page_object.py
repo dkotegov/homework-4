@@ -14,6 +14,8 @@ class PageObject(object):
 
     def __init__(self):
         self.driver = get_webdriver()
+        self.driver.set_window_size(1920, 1080)
+        self.driver.implicitly_wait(2)
         self.state = None
 
     def open(self, url):

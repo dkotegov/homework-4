@@ -3,7 +3,7 @@
 
 import unittest
 
-from tests import TestApplyingFilters, TestMessageActivities
+from tests import TestMessageActivities
 
 
 if __name__ == '__main__':

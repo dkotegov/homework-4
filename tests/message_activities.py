@@ -16,14 +16,22 @@ class TestMessageActivities(unittest.TestCase):
     def test_example(self):
         self.page.open(LOGIN_PAGE_URL)
         self.page.login()
+
+        n = 3
+
+        messages_to_move = self.page.move_n_msgs_to(n, 'Спам')
         
-        self.page.move_all_msgs('Спам')
-
         self.page.go_to('Спам')
+        # time.sleep(1)
 
-        time.sleep(3)
+        moved_correctly = self.page.check_moved_messages(messages_to_move)
 
-        self.page.move_all_msgs('Входящие')
+        self.page.move_n_msgs_to(n, 'Входящие')
+        self.page.go_to('Входящие')
+
+        time.sleep(2)
+
+        self.assertEqual(moved_correctly, True)
     
 
     def tearDown(self):
