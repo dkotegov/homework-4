@@ -44,7 +44,7 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check_if_letter_not_exists('Рассылки', self.TEST_1_SUBJECT)
+        self.assertEqual(check_filter_work.check_if_letter_not_exists('Рассылки', self.TEST_1_SUBJECT), True)
         check_filter_work.open_filters_page_in_new_window()
 
         change_filter.delete()
@@ -67,7 +67,7 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_2_SUBJECT)
+        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_2_SUBJECT), True)
         #TODO: check that letter is read
         check_filter_work.open_filters_page_in_new_window()
 

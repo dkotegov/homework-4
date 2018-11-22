@@ -48,7 +48,7 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_not_exists('Рассылки', self.TEST_2_SUBJECT), True)
+        self.assertEqual(check_filter_work.check_if_letter_not_exists('Входящие', self.TEST_2_SUBJECT), True)
 
         check_filter_work.open_filters_page_in_new_window()
         create_filter.delete_created_filter()
