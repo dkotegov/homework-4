@@ -68,7 +68,8 @@ class BaseForm(Component):
             print 'clicking send message button'
             button = WebDriverWait(self.driver, 10) \
                 .until(lambda driver: driver.find_element_by_xpath(self.SEND_LETTER_BTN))
-            button.click()
+            # button.click()
+            ActionChains(self.driver).move_to_element(button).click().perform()
             print 'clicked!'
         except WebDriverException:
             print 'no send msg button'
