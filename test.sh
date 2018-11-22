@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python3 test_1.py && python3 test_2.py && echo "  " && echo "Tests OK"
+python3 formsValidate.py && python3 addingUsers.py && echo "  " && echo "Tests OK"
