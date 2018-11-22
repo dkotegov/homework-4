@@ -24,10 +24,16 @@ class FileAttachingForm(BaseForm):
     FILE_ATTACH_CLOUD_ATTACH = '//span[@data-qa-id="attach"]'
     FILE_ATTACH_CHECK_LOADED = '//div[@data-test-id="attach:{}:loaded"]'
 
-    def send_keys_to_input(self, data, time_to_wait=10):
+    def send_keys_to_input(self, data, time_to_wait=3):
         print 'sending keys to file attach input'
-        self.file_attach_input_element.send_keys(data)
+
+        file_attach_input_element = WebDriverWait(self.driver, time_to_wait) \
+            .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_INPUT))
+
+        file_attach_input_element.send_keys(data)
+
         print 'sent!'
+
         # try:
         #     WebDriverWait(self.driver, time_to_wait) \
         #         .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACHED.format(data)))
@@ -55,7 +61,7 @@ class FileAttachingForm(BaseForm):
 
     def set_file_attach_input(self):
         try:
-            self.file_attach_input_element = WebDriverWait(self.driver, 1) \
+            self.file_attach_input_element = WebDriverWait(self.driver, 3) \
                 .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_INPUT))
             print 'file attach input found'
         except WebDriverException:
@@ -108,15 +114,19 @@ class FileAttachingForm(BaseForm):
             return None
 
     def click_cloud_button(self):
-        button = WebDriverWait(self.driver, 1) \
+        button = WebDriverWait(self.driver, 10) \
             .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_CLOUD_BTN))
         button.click()
 
     def select_cloud_file(self, filename):
         print self.FILE_ATTACH_CLOUD_ELEMENT.format(filename)
-        fileElement = WebDriverWait(self.driver, 2) \
-            .until(lambda driver: driver.find_elements_by_xpath(self.FILE_ATTACH_CLOUD_ELEMENT.format(filename))[0])
-        fileElement.click()
+        try:
+            fileElements = WebDriverWait(self.driver, 100) \
+                .until(lambda driver: driver.find_elements_by_xpath(self.FILE_ATTACH_CLOUD_ELEMENT.format(filename)))
+            fileElements[0].click()
+        except Exception, e:
+            print e.message
+
 
     def do_cloud_attach(self):
         button = WebDriverWait(self.driver, 1) \
