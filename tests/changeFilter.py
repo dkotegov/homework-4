@@ -17,7 +17,99 @@ class ChangeFilterTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    # I DON'T CHECK THIS TEST:
+    def test_add_condition_and_revert_autoreply(self):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_copy, condition_index)
+        create_new_filter.change_condition_effect(condition_index)
+        create_new_filter.change_condition_value(condition_index, 'itberries2')
+        create_new_filter.show_other_actions()
+        self.driver.execute_script("window.scrollTo(0, 200)") 
+        create_new_filter.reply_not_found()
+        create_new_filter.save_filter()
+
+        change_filter = ChangeFilter(self.driver)
+        change_filter.open()
+        change_filter.add_condition()
+        condition_index = 1
+        change_filter.change_condition(Rule.field_copy, condition_index)
+        change_filter.change_condition_value(condition_index, 'it-berries')
+        self.driver.execute_script("window.scrollTo(0, 200)") 
+        change_filter.reply_switch()
+        change_filter.switch_interaction_conditions()
+        change_filter.save_filter()
+
+        change_filter.check_if_filter_list_exists()
+        write_letter = WriteLetter(self.driver)
+        write_letter.open()
+        write_letter.setAddressee('it-berries@mail.ru')
+        write_letter.setSubject('Test - Добавить условие и отменить автоответ')
+        write_letter.send()
+
+        check_filter_work = CheckFilterWork(self.driver)
+        check_filter_work.check('Входящие', 'Test - Добавить условие и отменить автоответ')
+
+        change_filter.delete()
+    
+
+    #TODO: create tests functions
+
+'''
+    # TEST THAT WORK:
+    def test_change_move_to_delete(self):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition_value(condition_index, 'it-berries')
+        create_new_filter.move_to_folder('Рассылки')
+        create_new_filter.save_filter()
+
+        change_filter = ChangeFilter(self.driver)
+        change_filter.open()
+        change_filter.delete_message()
+        change_filter.save_filter()
+        
+        change_filter.check_if_filter_list_exists()
+        write_letter = WriteLetter(self.driver)
+        write_letter.open()
+        write_letter.setAddressee('it-berries@mail.ru')
+        write_letter.setSubject('Test - Замена Поместить в папку на Удалить')
+        write_letter.send()
+
+        check_filter_work = CheckFilterWork(self.driver)
+        check_filter_work.check_if_letter_not_exists('Рассылки', 'Test - Замена Поместить в папку на Удалить')
+
+        change_filter.delete()
+
+    def test_change_delete_to_move_and_read(self):
+        create_new_filter = CreateNewFilter(self.driver)
+        create_new_filter.open()
+        condition_index = 0
+        create_new_filter.change_condition(Rule.field_from, condition_index)
+        create_new_filter.change_condition_value(condition_index, 'it-berries')
+        create_new_filter.delete_message()
+        create_new_filter.save_filter()
+
+        change_filter = ChangeFilter(self.driver)
+        change_filter.open()
+        change_filter.move_to_folder('Рассылки')
+        change_filter.as_read()
+        change_filter.save_filter()
+        
+        change_filter.check_if_filter_list_exists()
+        write_letter = WriteLetter(self.driver)
+        write_letter.open()
+        write_letter.setAddressee('it-berries@mail.ru')
+        write_letter.setSubject('Test - Замена Удалить на Поместить в папку')
+        write_letter.send()
+
+        check_filter_work = CheckFilterWork(self.driver)
+        check_filter_work.check('Рассылки', 'Test - Замена Удалить на Поместить в папку')
+        #TODO: check that letter is read
+
+        change_filter.delete()
+
     def test_change_add_condition_and_send_notification(self):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
@@ -45,8 +137,8 @@ class ChangeFilterTest(unittest.TestCase):
             change_filter.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
         except:
             print("No password confirmation exception!") # little trick to confirm password
+        
         change_filter.check_if_filter_list_exists()
-
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee('it-berries@mail.ru')
@@ -55,63 +147,7 @@ class ChangeFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         check_filter_work.check('Входящие', 'Test - Добавить условие размера и переслать уведомление')
-        # TODO: check if itberries2@mail.ru get the letter
+        # TODO: check if itberries2@mail.ru get the letter #оно приходит, но надо проверять здесь
         change_filter.delete()
 
-    #TODO: create tests functions
-
-'''
-    # TEST THAT WORK:
-    def test_change_move_to_delete(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        condition_index = 0
-        create_new_filter.change_condition_value(condition_index, 'it-berries')
-        create_new_filter.move_to_folder('Рассылки')
-        create_new_filter.save_filter()
-
-        change_filter = ChangeFilter(self.driver)
-        change_filter.open()
-        change_filter.delete_message()
-        change_filter.save_filter()
-        change_filter.check_if_filter_list_exists()
-
-        write_letter = WriteLetter(self.driver)
-        write_letter.open()
-        write_letter.setAddressee('it-berries@mail.ru')
-        write_letter.setSubject('Test - Замена Поместить в папку на Удалить')
-        write_letter.send()
-
-        check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check_if_letter_not_exists('Рассылки', 'Test - Замена Поместить в папку на Удалить')
-
-        change_filter.delete()
-
-    def test_change_delete_to_move_and_read(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        condition_index = 0
-        create_new_filter.change_condition(Rule.field_from, condition_index)
-        create_new_filter.change_condition_value(condition_index, 'it-berries')
-        create_new_filter.delete_message()
-        create_new_filter.save_filter()
-
-        change_filter = ChangeFilter(self.driver)
-        change_filter.open()
-        change_filter.move_to_folder('Рассылки')
-        change_filter.as_read()
-        change_filter.save_filter()
-        change_filter.check_if_filter_list_exists()
-
-        write_letter = WriteLetter(self.driver)
-        write_letter.open()
-        write_letter.setAddressee('it-berries@mail.ru')
-        write_letter.setSubject('Test - Замена Удалить на Поместить в папку')
-        write_letter.send()
-
-        check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check('Рассылки', 'Test - Замена Удалить на Поместить в папку')
-        #TODO: check that letter is read
-
-        change_filter.delete()
 '''

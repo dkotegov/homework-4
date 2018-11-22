@@ -170,7 +170,7 @@ class NewFilterForm(Component):
 
     CHANGE_CONDITION_OPEN = '//a[@class="filters__dropdown__link js-link"]'
     SET_RILE = '//a[@class="form__dropdown__item"]'
-    CHANGE_VALUE_EFFECT = '//a[@class="pseudo-link js-link"][contains(text(),"содержит") or contains(text(),"не содержит")]'
+    CHANGE_VALUE_EFFECT = '//a[@class="pseudo-link js-link"]'
     CHANGE_CONDITION_VALUE = '//textarea[@data-base-name="Condition"]'
     ADD_CONDITION = '//button[@class="btn js-add-condition"]'
     SWITCH_INTERACTION_CONDITIONS = '//a[@class="pseudo-link js-link"][contains(text(),"если выполнено одно из условий") or contains(text(),"если выполнены все условия")]'
@@ -187,7 +187,7 @@ class NewFilterForm(Component):
     CHANGE_FORWARD_CONTEXT = '//a[@class="pseudo-link js-link"][contains(text(),"копию сообщения") or contains(text(),"уведомление")]'
     REPLY_CHECKBOX = '//input[@class="form__checkbox__checkbox js-action-reply"]'
     REPLY_WITH_MESSAGE_CHECKBOX = '//input[@class="form__checkbox__checkbox js-replywith-message"]'
-    REPLEY_WITH_MESSAGE_TEXTAREA = '//textarea[@class="form__field form__field_editor form__field_wide"]'
+    REPLY_WITH_MESSAGE_TEXTAREA = '//textarea[@class="form__field form__field_editor form__field_wide"]'
     REPLY_NOT_FOUND_CHECKBOX = '//input[@class="form__checkbox__checkbox"][@name="ReplyWith"][@value="notfound"]'
     CONTINUE_CHECKBOX = '//input[@class="form__checkbox__checkbox js-continue-checkbox"]'
     SPAM_CHECKBOX = '//input[@class="form__checkbox__checkbox"][@name="Spam"]'
@@ -208,11 +208,10 @@ class NewFilterForm(Component):
         elem.click()
 
     def change_value_effect(self, id):
-        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.CHANGE_VALUE_EFFECT)[id]
+        elem = ElementWaiter.wait_elements_by_xpath(driver = self.container, locator = self.CHANGE_VALUE_EFFECT)[id]
         elem.click()
 
-    #TODO: rename (otchepyatka)
-    def change_condition_vale(self, id, value):
+    def change_condition_value(self, id, value):
         elem = ElementWaiter.wait_elements_by_xpath(driver = self.container, locator = self.CHANGE_CONDITION_VALUE)[id]
         elem.send_keys(value)
     
@@ -221,7 +220,7 @@ class NewFilterForm(Component):
         elem.click()
 
     def switch_interaction_conditions_click(self):
-        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.SWITCH_INTERACTION_CONDITIONS)
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SWITCH_INTERACTION_CONDITIONS)
         elem.click()
 
     def move_to_checkbox_click(self):
@@ -262,22 +261,22 @@ class NewFilterForm(Component):
         elem.send_keys(mail)
 
     def forward_change_contex(self):
-        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.CHANGE_FORWARD_CONTEXT)
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.CHANGE_FORWARD_CONTEXT)
         elem.click()
 
-    def repley_click(self):
+    def reply_click(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.REPLY_CHECKBOX)
         elem.click()
 
-    def repley_with_mesg_click(self):
+    def reply_with_mesg_click(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.REPLY_WITH_MESSAGE_CHECKBOX)
         elem.click()
 
-    def repley_mesg_set(self, message):
-        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.REPLEY_WITH_MESSAGE_TEXTAREA)
+    def reply_mesg_set(self, message):
+        elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.REPLY_WITH_MESSAGE_TEXTAREA)
         elem.send_keys(message.decode('utf-8'))
 
-    def repley_not_found_click(self):
+    def reply_not_found_click(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.REPLY_NOT_FOUND_CHECKBOX)
         elem.click()
 

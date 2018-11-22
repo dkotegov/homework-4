@@ -110,7 +110,7 @@ class CreateNewFilter(Step):
         self.create_filter_form.change_value_effect(id)
 
     def change_condition_value(self, id, value):
-        self.create_filter_form.change_condition_vale(id, value)
+        self.create_filter_form.change_condition_value(id, value)
 
     def add_condition(self):
         self.create_filter_form.add_condition()
@@ -151,16 +151,20 @@ class CreateNewFilter(Step):
     def forward_change_contex(self):
         self.create_filter_form.forward_change_contex()
 
+    #Auto reply switch
+    def reply_switch(self):
+        self.create_filter_form.reply_click()
+
     #Auto reply with message
-    def repley_with_mesg(self, message):
-        self.create_filter_form.repley_click()
-        self.create_filter_form.repley_with_mesg_click()
-        self.create_filter_form.repley_mesg_set(message)
+    def reply_with_mesg(self, message):
+        self.create_filter_form.reply_click()
+        self.create_filter_form.reply_with_mesg_click()
+        self.create_filter_form.reply_mesg_set(message)
 
     #Automatically reply "There is no such addressee"
-    def repley_not_found(self):
-        self.create_filter_form.repley_click()
-        self.create_filter_form.repley_not_found_click()
+    def reply_not_found(self):
+        self.create_filter_form.reply_click()
+        self.create_filter_form.reply_not_found_click()
 
     #After this filter triggers, apply other filters.
     def continue_to_filter(self):
