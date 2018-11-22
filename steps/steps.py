@@ -15,6 +15,14 @@ class Step(object):
     def __init__(self, driver):
         self.driver = driver
 
+class LogOut(Step):
+
+    def log_out(self):
+        mail_window = self.driver.window_handles[0]
+        self.driver.switch_to_window(mail_window)
+        mail_page = MailPage(self.driver)
+        mail_page.log_out()
+
 class OpenFilterSettings(Step):
 
     USEREMAIL = 'it-berries'

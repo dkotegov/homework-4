@@ -14,7 +14,7 @@ class Page(object):
 
     BASE_URL = 'https://mail.ru/'
     PATH = ''
-
+    
     def __init__(self, driver):
         self.driver = driver
 
@@ -57,6 +57,7 @@ class MailPage(Page):
     FOLDER_ROW = '//div[@id="b-nav_folders"]//span[contains(text(), "'
     OPEN_MSG =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
     #WRITE_LETTER = '//span[@class="compose-button__txt"][contains(text(), "Написать письмо")]'
+    LOG_OUT = '//a[@id="PH_logoutLink"]'
 
     def open_settings_menu(self):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
@@ -78,11 +79,9 @@ class MailPage(Page):
         elem.click()
         return True
 
-    '''
-    def write_letter_click(self):
-        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
+    def log_out(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LOG_OUT)
         elem.click()
-    '''
 
 class SettingsPage(Page):
 
