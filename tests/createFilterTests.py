@@ -46,7 +46,7 @@ class CreateFilterTest(unittest.TestCase):
         
         write_letter = WriteLetter(self.driver)
         write_letter.open()
-        write_letter.setAddressee(USEREMAIL_1'@mail.ru')
+        write_letter.setAddressee(USEREMAIL_1 + '@mail.ru')
         write_letter.setSubject(self.TEST_2_SUBJECT)
         write_letter.send()
 
