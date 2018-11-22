@@ -199,6 +199,7 @@ class WriteMailForm(Component):
     COPIES = '//textarea[@tabindex="5"]'
     SEND = '//span[@class="b-toolbar__btn__text"][contains(text(), "Отправить")]'
     IS_EMPTY = '//div[@class="is-compose-empty_in"]//button[@class="btn btn_stylish btn_main confirm-ok"][@type="submit"]'
+    WAS_SENT = '//div[@class="b-compose__sent"]'
 
     def setAddressee(self, mail):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.ADDRESSEE)
@@ -220,6 +221,7 @@ class WriteMailForm(Component):
         elem.click()
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.IS_EMPTY)
         elem.click()
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.WAS_SENT)
 
 class CreateFilterPage(Page):
 
