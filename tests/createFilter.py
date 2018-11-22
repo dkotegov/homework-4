@@ -39,6 +39,7 @@ class CreateFilter(Step):
             create_new_filter.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
         except:
             print("Password confirmation exception!") # little trick to confirm password
+        create_new_filter.check_if_filter_list_exists()
 
     def create_copy_cond_and_autoreply(self, copyValue):
         create_new_filter = CreateNewFilter(self.driver)
@@ -51,6 +52,7 @@ class CreateFilter(Step):
         self.driver.execute_script("window.scrollTo(0, 200)") 
         create_new_filter.reply_not_found()
         create_new_filter.save_filter()
+        create_new_filter.check_if_filter_list_exists()
 
     def create_subject_cond_and_flag(self, subject):
         create_filter = CreateNewFilter(self.driver)
@@ -60,6 +62,7 @@ class CreateFilter(Step):
         create_filter.change_condition_value(condition_index, subject)
         create_filter.action_flag()
         create_filter.save_filter()
+        create_filter.check_if_filter_list_exists()
 
     def create_redirect_from_cond_and_continue(self, email):
         create_new_filter = CreateNewFilter(self.driver)
@@ -71,6 +74,7 @@ class CreateFilter(Step):
         self.driver.execute_script("window.scrollTo(0, 200)") 
         create_new_filter.continue_to_filter()
         create_new_filter.save_filter()
+        create_new_filter.check_if_filter_list_exists()
 
     #TODO: check where to place this??? 
     def delete_created_filter(self):
