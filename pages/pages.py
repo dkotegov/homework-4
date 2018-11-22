@@ -41,6 +41,7 @@ class AuthMail(Component):
     SUBMIT = '//input[@class="o-control"][@type="submit"][1]'
 
     def set_login(self, login):
+        self.container.find_element_by_id(self.LOGIN).click()
         self.container.find_element_by_id(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):
@@ -90,6 +91,7 @@ class SettingsPage(Page):
     WRITE_LETTER = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Написать письмо")]'
     CHANGE_FILTER = '//i[@class="icon icon_form icon_form_change"]'
     DELETE_FILTER = '//i[@class="icon icon_form icon_form_remove_big"]'
+    CONFIRM_POPUP = '//button[@class="btn btn_main confirm-ok"]'
 
     def open_filters(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTERING_RULES)
@@ -109,11 +111,12 @@ class SettingsPage(Page):
         hov.perform()
         elem.click()
 
-    def delelte_filter(self):
+    def delele_filter(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
         hov = ActionChains(self.driver).move_to_element(elem)
         hov.perform()
         elem.click()
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CONFIRM_POPUP).click()
 
 class WriteMailPage(Page):
 

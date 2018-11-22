@@ -48,6 +48,7 @@ class OpenFilterSettings(Step):
 
 class CheckFilterWork(Step):
 
+    #TODO: rename to check_if_letter_exists ?
     def check(self, folder, subject):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
@@ -64,6 +65,20 @@ class CheckFilterWork(Step):
         settings_page.open_filters()
         return True
 
+
+    def check_if_letter_not_exists(self, folder, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.open_folder(folder)
+        #mail_page.open_msg_by_subject(subject)
+        self.driver.close()
+        mail_window = self.driver.window_handles[0]
+        self.driver.switch_to_window(mail_window)
+        mail_page = MailPage(self.driver)
+        mail_page.open_settings_page()
+        window_after = self.driver.window_handles[1]
+        self.driver.switch_to_window(window_after)
+        settings_page = SettingsPage(self.driver)
+        settings_page.open_filters()
 
 class WriteLetter(Step):
 
@@ -182,3 +197,7 @@ class ChangeFilter(CreateNewFilter):
         settings_page = SettingsPage(self.driver)
         settings_page.change_filter()
         self.create_filter_form = CreateFilterPage(self.driver).form
+    
+    def delete(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delele_filter()
