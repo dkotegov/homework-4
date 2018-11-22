@@ -100,7 +100,7 @@ class MailPage(Page):
         return True
 
     def find_msg_by_subject_with_flag(self, subject):
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LETTER_PROPERTIES + subject  + self.WHICH_READ + self.WHICH_READ_STATUS)
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LETTER_PROPERTIES + subject  + self.LETTER_FLAG)
         if elem == None:
             return False
         return True
