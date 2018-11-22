@@ -15,6 +15,14 @@ class Step(object):
     def __init__(self, driver):
         self.driver = driver
 
+class LogOut(Step):
+
+    def log_out(self):
+        mail_window = self.driver.window_handles[0]
+        self.driver.switch_to_window(mail_window)
+        mail_page = MailPage(self.driver)
+        mail_page.log_out()
+
 class OpenFilterSettings(Step):
 
     USEREMAIL = 'it-berries'
@@ -44,7 +52,8 @@ class CheckFilterWork(Step):
     def check(self, folder, subject):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
-        mail_page.open_msg_by_subject(subject)
+        if not mail_page.open_msg_by_subject(subject):
+            return False
         self.driver.close()
         mail_window = self.driver.window_handles[0]
         self.driver.switch_to_window(mail_window)
@@ -54,6 +63,8 @@ class CheckFilterWork(Step):
         self.driver.switch_to_window(window_after)
         settings_page = SettingsPage(self.driver)
         settings_page.open_filters()
+        return True
+
 
     def check_if_letter_not_exists(self, folder, subject):
         mail_page = MailPage(self.driver)
@@ -175,6 +186,10 @@ class CreateNewFilter(Step):
 
     def save_filter(self):
         self.create_filter_form.save_filter_click()
+
+    def delete(self):
+        settings_page = SettingsPage(self.driver)
+        settings_page.delelte_filter()
 
 class ChangeFilter(CreateNewFilter):
 

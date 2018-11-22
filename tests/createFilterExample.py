@@ -3,7 +3,7 @@
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from steps.steps import OpenFilterSettings, CreateNewFilter, Rule
+from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, LogOut
 
 class CreateFilterExample(unittest.TestCase):
     def setUp(self):
@@ -16,7 +16,7 @@ class CreateFilterExample(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-    
+    '''
     def test_create_filter(self):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
@@ -71,3 +71,7 @@ class CreateFilterExample(unittest.TestCase):
         create_new_filter.folders_apply('Рассылки')
         create_new_filter.save_filter()
         self.assertEqual(True, True)
+    '''
+    def test_logut(self):
+        log_out = LogOut(self.driver)
+        log_out.log_out()

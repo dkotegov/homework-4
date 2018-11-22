@@ -14,7 +14,7 @@ class Page(object):
 
     BASE_URL = 'https://mail.ru/'
     PATH = ''
-
+    
     def __init__(self, driver):
         self.driver = driver
 
@@ -52,14 +52,17 @@ class AuthMail(Component):
 
 class MailPage(Page):
 
-    SETTINGS_MENU = '//span[@class="button2 button2_has-ico button2_setting button2_pure button2_short button2_hover-support"]'
+    APP_LOADER = '//div[@id="app-loader"][contains(@style,"display: none")]'
+    SETTINGS_MENU = '//div[@class="settings"]'
     SETTINGS_ROW = '//div[@class="list-item list-item_hover-support"][contains(text(), "Настройки")]'
     FOLDER_ROW = '//div[@id="b-nav_folders"]//span[contains(text(), "'
     OPEN_MSG =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
     #WRITE_LETTER = '//span[@class="compose-button__txt"][contains(text(), "Написать письмо")]'
+    LOG_OUT = '//a[@id="PH_logoutLink"]'
 
     def open_settings_menu(self):
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
+        ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
+        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
         elem.click()
 
     def open_settings_page(self):
@@ -72,13 +75,14 @@ class MailPage(Page):
     
     def open_msg_by_subject(self, subject):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_MSG + subject +'")]')
+        if elem == None:
+            return False
         elem.click()
+        return True
 
-    '''
-    def write_letter_click(self):
-        elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.WRITE_LETTER)
+    def log_out(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LOG_OUT)
         elem.click()
-    '''
 
 class SettingsPage(Page):
 
