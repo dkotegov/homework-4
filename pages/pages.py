@@ -149,19 +149,7 @@ class SettingsPage(Page):
         hov = ActionChains(self.driver).move_to_element(elem)
         hov.perform()
         elem.click()
-    
-    def change_filter(self):
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CHANGE_FILTER)
-        hov = ActionChains(self.driver).move_to_element(elem)
-        hov.perform()
-        elem.click()
-
-    def delelte_filter(self):
-        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
-        hov = ActionChains(self.driver).move_to_element(elem)
-        hov.perform()
-        elem.click()
-
+        
     def delete_filter(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
         hov = ActionChains(self.driver).move_to_element(elem)
