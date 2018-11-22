@@ -25,8 +25,7 @@ class ChangeFilterTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-
-    '''
+    
     # TODO: camel case style?
     # TESTS THAT WORK:
     def test_change_move_to_delete(self):
@@ -69,12 +68,11 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
+        self.assertEqual(check_filter_work.check_if_letter_already_read('Рассылки', self.TEST_2_SUBJECT), True)
         self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_2_SUBJECT), True)
-        #TODO: check that letter is read
         check_filter_work.open_filters_page_in_new_window()
 
         change_filter.delete()
-
 
     def test_change_add_condition_and_send_notification(self):
         create_filter = CreateFilter(self.driver)
@@ -137,8 +135,6 @@ class ChangeFilterTest(unittest.TestCase):
 
         change_filter.delete()
 
-    '''
-
     def test_redirected_and_continue_filter(self):
         # Create filter in USERMAIL_2 that redirect letter with this subject back to USERMAIL1
         # And login back to main account
@@ -147,7 +143,7 @@ class ChangeFilterTest(unittest.TestCase):
         open_filter_settings = OpenFilterSettings(self.driver)
         open_filter_settings.open(USEREMAIL_2)
         create_account2_filter = CreateFilter(self.driver)
-        create_account2_filter.create_subject_cond_and_forward_to(self.TEST_5_SUBJECT, USEREMAIL_1+'@mail.ru')
+        create_account2_filter.create_subject_cond_and_forward_to(self.TEST_5_SUBJECT, USEREMAIL_1 + '@mail.ru')
         log_out.log_out()
         open_filter_settings = OpenFilterSettings(self.driver)
         open_filter_settings.open(USEREMAIL_1)
@@ -175,9 +171,8 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        
+        self.assertEqual(check_filter_work.check_if_letter_have_flag('Входящие', self.TEST_5_SUBJECT), True)
         self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Входящие', self.TEST_5_SUBJECT), True)
-        #TODO: check that additional filter works (check that letter has red flag)
         check_filter_work.delete_letter(self.TEST_5_SUBJECT)
         check_filter_work.open_filters_page_in_new_window()
 

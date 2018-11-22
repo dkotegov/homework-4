@@ -46,7 +46,7 @@ class CreateFilterTest(unittest.TestCase):
         
         write_letter = WriteLetter(self.driver)
         write_letter.open()
-        write_letter.setAddressee(USEREMAIL_1'@mail.ru')
+        write_letter.setAddressee(USEREMAIL_1 + '@mail.ru')
         write_letter.setSubject(self.TEST_2_SUBJECT)
         write_letter.send()
 
@@ -64,4 +64,9 @@ class CreateFilterTest(unittest.TestCase):
     def test_copy_and_autoreply(self):
         create_filter = CreateFilter(self.driver)
         create_filter.create_copy_cond_and_autoreply(USEREMAIL_2)
+         # TODO: add write letter, check and delete
+
+    def test_redirect_from_and_continue_to_filter(self):
+        create_redirect_filter = CreateFilter(self.driver)
+        create_redirect_filter.create_redirect_from_cond_and_continue(USEREMAIL_1)
          # TODO: add write letter, check and delete

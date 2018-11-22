@@ -134,7 +134,6 @@ class SettingsPage(Page):
 
     def open_filters(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.FILTERING_RULES)
-        
         elem.click()
     
     def create_new_filter(self):

@@ -54,6 +54,7 @@ class CheckFilterWork(Step):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         if not mail_page.open_msg_by_subject(subject):
+            mail_page.open_folder('Корзина')
             mail_page.open_folder(folder)
             if not mail_page.open_msg_by_subject(subject):
                 return False
@@ -69,6 +70,11 @@ class CheckFilterWork(Step):
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         result = mail_page.find_msg_by_subject_with_flag(subject)
+        if not result:
+            mail_page.open_folder('Корзина')
+            mail_page.open_folder(folder)
+            if not mail_page.find_msg_by_subject_with_flag(subject):
+                return False
         return result
 
     def check_if_letter_already_read(self, folder, subject):
