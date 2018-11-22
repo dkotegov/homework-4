@@ -55,7 +55,7 @@ class EmailSendingForm(BaseForm):
 
     def check_wrong_emails(self):
         try:
-            div_error = WebDriverWait(self.driver, 2) \
+            div_error = WebDriverWait(self.driver, 10) \
                 .until(lambda driver: driver.find_element_by_xpath(self.INVALID_EMAIL))
             print 'error window found'
             return True
