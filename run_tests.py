@@ -4,8 +4,8 @@
 import sys
 import unittest
 from tests.createFilterExample import CreateFilterExample
-from tests.createFilter import CreateFilterTest
-from tests.changeFilter import ChangeFilterTest
+from tests.createFilterTests import CreateFilterTest
+from tests.changeFilterTests import ChangeFilterTest
 from tests.errorChecking import ErrorCheckingTest
 
 if __name__ == '__main__':

@@ -4,6 +4,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork
+from tests.createFilter import CreateFilter
 
 class CreateFilterTest(unittest.TestCase):
 
@@ -21,14 +22,9 @@ class CreateFilterTest(unittest.TestCase):
         self.driver.quit()
 
     def test_from_move_to_folder(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        condition_index = 0
-        create_new_filter.change_condition_value(condition_index, 'it-berries')
-        create_new_filter.move_to_folder('Рассылки')
-        create_new_filter.save_filter()
+        create_filter = CreateFilter(self.driver)
+        create_filter.create_to_cond_and_move_to_folter('Рассылки')
 
-        create_new_filter.check_if_filter_list_exists()
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee('it-berries@mail.ru')
@@ -38,16 +34,13 @@ class CreateFilterTest(unittest.TestCase):
         check_filter_work = CheckFilterWork(self.driver)
         self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', 'Технопарк'), True)
 
-    def test_who_delete_forever(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        condition_index = 0
-        create_new_filter.change_condition(Rule.field_subject, condition_index)
-        create_new_filter.change_condition_value(condition_index, self.TEST_2_SUBJECT)
-        create_new_filter.delete_message()
-        create_new_filter.save_filter()
+        check_filter_work.open_filters_page_in_new_window()
+        create_filter.delete_created_filter()
 
-        create_new_filter.check_if_filter_list_exists()
+    def test_who_delete_forever(self):
+        create_filter = CreateFilter(self.driver)
+        create_filter.create_subject_cond_and_delete(self.TEST_2_SUBJECT)
+        
         write_letter = WriteLetter(self.driver)
         write_letter.open()
         write_letter.setAddressee('it-berries@mail.ru')
@@ -55,4 +48,7 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it('Рассылки', self.TEST_2_SUBJECT), True)
+        self.assertEqual(check_filter_work.check_if_letter_not_exists('Рассылки', self.TEST_2_SUBJECT), True)
+
+        check_filter_work.open_filters_page_in_new_window()
+        create_filter.delete_created_filter()
