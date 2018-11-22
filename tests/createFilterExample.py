@@ -126,7 +126,7 @@ class CreateFilterExample(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_have_flag(folderName, self.TEST_READ), True)
+        self.assertEqual(check_filter_work.check_if_letter_already_read(folderName, self.TEST_READ), True)
 
         check_filter_work.open_filters_page_in_new_window()
         create_filter.delete_created_filter()

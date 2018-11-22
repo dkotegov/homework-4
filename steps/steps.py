@@ -68,6 +68,12 @@ class CheckFilterWork(Step):
         mail_page.open_folder(folder)
         result = mail_page.find_msg_by_subject_with_flag(subject)
         return result
+
+    def check_if_letter_already_read(self, folder, subject):
+        mail_page = MailPage(self.driver)
+        mail_page.open_folder(folder)
+        result = mail_page.find_msg_by_subject_which_read(subject)
+        return result
         
     def delete_letter(self, subject):
         mail_page = MailPage(self.driver)
