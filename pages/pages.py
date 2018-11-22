@@ -148,6 +148,18 @@ class SettingsPage(Page):
         hov = ActionChains(self.driver).move_to_element(elem)
         hov.perform()
         elem.click()
+    
+    def change_filter(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CHANGE_FILTER)
+        hov = ActionChains(self.driver).move_to_element(elem)
+        hov.perform()
+        elem.click()
+
+    def delelte_filter(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
+        hov = ActionChains(self.driver).move_to_element(elem)
+        hov.perform()
+        elem.click()
 
     def delete_filter(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
@@ -217,7 +229,7 @@ class CreateFilterPage(Page):
         return NewFilterForm(self.driver, self.NEW_FILTER_FORM)
 
 class NewFilterForm(Component):
-
+    FORM_CONTAINS = '//a[@class="filters__dropdown__link js-link"][1]'
     CHANGE_CONDITION_OPEN = '//a[@class="filters__dropdown__link js-link"]'
     SET_RILE = '//a[@class="form__dropdown__item"]'
     CHANGE_VALUE_EFFECT = '//a[@class="pseudo-link js-link"]'
@@ -355,6 +367,19 @@ class NewFilterForm(Component):
     def save_filter_click(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SAVE_FILTER_BUTTON)
         elem.click()
+
+    def get_alert_message(self):
+        message = ElementWaiter.wait_by_xpath(driver=self.driver, locator='//span[@class="form__top-message__text"]')
+        return message.text
+    
+    def get_alert_pop_up_message(self):
+        message = ElementWaiter.wait_by_xpath(driver=self.driver, locator='//span[@class="js-txt _js-title notify-message__title__text notify-message__title__text_error"]')
+        return message.text
+
+    def set_value_to_contains_form(self, text):
+        form = ElementWaiter.wait_by_xpath(driver=self.container, locator=self.FORM_CONTAINS)
+        form.click()
+        form.send_keys(text)
 
     def confirm_form_set_password(self, value):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.POPUP_CONFIRM_PASSWORD_INPUT)
