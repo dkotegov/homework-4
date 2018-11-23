@@ -124,7 +124,7 @@ class MailPage(Page):
 
 class SettingsPage(Page):
 
-    FILTERING_RULES = '//div[@class="b-nav__item"][7]'
+    FILTERING_RULES = '//div[@class="b-nav__item"]//a//span[contains(text(), "Правила фильтрации")]'
     CREATE_NEW_FILTERING = '//div[@class="form__row form__row_super-narrow js-add-filter-super-narrow"]/a[@class="btn js-button"]'
     WRITE_LETTER = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Написать письмо")]'
     CHANGE_FILTER = '//i[@class="icon icon_form icon_form_change"]'
