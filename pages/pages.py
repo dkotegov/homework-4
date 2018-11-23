@@ -199,8 +199,7 @@ class WriteMailForm(Component):
 
     def setCopies(self, mail):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.COPIES_LINK)
-        if elem.is_displayed():
-            elem.click()
+        elem.click()
         elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.COPIES)
         elem.send_keys(mail.decode('utf-8'))
 
