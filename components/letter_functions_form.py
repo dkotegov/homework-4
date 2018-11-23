@@ -37,25 +37,19 @@ class LetterFunctionsForm(BaseForm):
     def get_first_template(self):
             elem = WebDriverWait(self.driver, 1) \
                 .until(lambda driver: driver.find_elements_by_xpath(self.TEMPLATE_FIRST)[0])
-            print 'template found'
             return elem.text
 
     # Выведение списка шаблонов
     def click_template_mark(self):
-        try:
             elem = WebDriverWait(self.driver, 1) \
                 .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK))
             ActionChains(self.driver).move_to_element(elem).click().perform()
-            print 'template clicked'
-        except WebDriverException:
-            print 'template is not clicked'
 
     # Сохранение шаблона
     def click_save_template(self):
         element = WebDriverWait(self.driver, 1) \
             .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK_SAVE))
         ActionChains(self.driver).move_to_element(element).click().perform()
-        print 'template saved'
 
     # Клик на отметке важного письма
     def click_on_important_mark(self):

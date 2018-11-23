@@ -19,7 +19,6 @@ class AttachTest_document(BaseAttach):
 
         self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
 
-        self.file_attaching_form.closeMessageSent()
 
 
 # Выбрать медиафайл --> Получение сообщения с медиафайлом с возможностью воспроизведения по клику
@@ -34,6 +33,7 @@ class AttachTest_Media(BaseAttach):
         self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MEDIA)
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
+
         self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
 
 
@@ -99,7 +99,8 @@ class AttachTest25MbAndMoreThroughCloud(BaseAttach):
         self.file_attaching_form.open_writing_letter()
         self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MORE_25_MB, 10)
 
-        self.assertEqual(self.file_attaching_form.check_loaded_through_cloud() is not None, True)
+        self.assertIsNotNone(self.file_attaching_form.check_loaded_through_cloud())
+        # self.assertEqual(self.file_attaching_form.check_loaded_through_cloud() is not None, True)
 
 
 class AttachTestLess25MbWithoutCloud(BaseAttach):
@@ -174,70 +175,6 @@ class AttachCloudAlmost2GigFile(BaseAttach):
         self.file_attaching_form.do_cloud_attach()
 
         assert (self.file_attaching_form.check_loaded(self.TEST_FILE_ALMOST_2_GIGS))
-
-        # class AttachTestDragDropIMGasFile(BaseAttach):
-        #     TEST_FILE_IMG = BaseAttach.TEST_FILE_DIR + 'pict.png'
-        #
-        #     # JS_DROP_FILE = """
-        #     #     var target = arguments[0],
-        #     #         offsetX = arguments[1],
-        #     #         offsetY = arguments[2],
-        #     #         document = target.ownerDocument || document,
-        #     #         window = document.defaultView || window;
-        #     #
-        #     #     var input = document.createElement('INPUT');
-        #     #     input.type = 'file';
-        #     #     input.onchange = function () {
-        #     #       var rect = target.getBoundingClientRect(),
-        #     #           x = rect.left + (offsetX || (rect.width >> 1)),
-        #     #           y = rect.top + (offsetY || (rect.height >> 1)),
-        #     #           dataTransfer = { files: this.files };
-        #     #
-        #     #       ['dragenter', 'dragover', 'drop'].forEach(function (name) {
-        #     #         var evt = document.createEvent('MouseEvent');
-        #     #         evt.initMouseEvent(name, !0, !0, window, 0, 0, 0, x, y, !1, !1, !1, !1, 0, null);
-        #     #         evt.dataTransfer = dataTransfer;
-        #     #         target.dispatchEvent(evt);
-        #     #       });
-        #     #
-        #     #       setTimeout(function () { document.body.removeChild(input); }, 25);
-        #     #     };
-        #     #     target.appendChild(input);
-        #     #     return input;
-        #     # """
-        #
-        #     # JS_DROP_FILE = """
-        #     #     let container = arguments[0];
-        #     #     let img = document.createElement('img');
-        #     #     img.src = 'http://qaru.site/img/logo-dark.svg'
-        #     #     container.appendChild(img)
-        #     #     return img
-        #     # """
-        #     #
-        #     # def test(self):
-        #     #     BaseAttach.test(self)
-        #     #     self.file_attaching_form.open_writing_letter()
-        #     #
-        #     #     target = self.driver.find_element_by_xpath('//div[@class="scrollview--1Ltx2 scrollview_main--12OVu"]')
-        #     #
-        #     #     # driver = target.parent
-        #     #
-        #     #     file_input = self.driver.execute_script(self.JS_DROP_FILE, target, 0, 0)
-        #     #     # file_input.send_keys(self.TEST_FILE_IMG)
-        #     #
-        #     #     ActionChains(self.driver).drag_and_drop(file_input, target).perform()
-        #
-        #     def test(self):
-        #         BaseAttach.test(self)
-        #
-        #         self.file_attaching_form.open_writing_letter()
-        #         target = self.driver.find_element_by_xpath('//div[@class="scrollview--1Ltx2 scrollview_main--12OVu"]')
-        #         drag_file(self.TEST_FILE_IMG, to=target)
-        #
-        #         print 'yeah!'
-
-        # ––––––––––––––––––––
-        # –––––––––––––––––––––
 
         #
         # Прикрепление файла из компьютера:

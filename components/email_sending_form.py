@@ -28,9 +28,7 @@ class EmailSendingForm(BaseForm):
             clean_email_from_ui = re.sub('\s+', '', span.get_attribute('innerHTML'))
             clean_email_from_ui = re.sub(',', '', clean_email_from_ui)
             if clean_email_from_ui != self.CORRECT_EMAILS[i]:
-                print 'not correct recipients'
                 return False
-        print 'correct recipients'
         return True
 
     def set_correct_recipient(self):
@@ -42,9 +40,7 @@ class EmailSendingForm(BaseForm):
         clean_email_from_ui = re.sub('\s+', '', span.get_attribute('innerHTML'))
         clean_email_from_ui = re.sub(',', '', clean_email_from_ui)
         if clean_email_from_ui != self.CORRECT_EMAILS[0]:
-            print 'not correct recipient'
             return False
-        print 'correct recipient'
         return True
 
     def set_group_wrong_recipients(self):
@@ -57,10 +53,8 @@ class EmailSendingForm(BaseForm):
         try:
             div_error = WebDriverWait(self.driver, 10) \
                 .until(lambda driver: driver.find_element_by_xpath(self.INVALID_EMAIL))
-            print 'error window found'
             return True
         except WebDriverException:
-            print 'error window not found'
             return False
 
     def set_wrong_recipient(self):
