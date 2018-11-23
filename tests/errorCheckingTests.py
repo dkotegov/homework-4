@@ -4,14 +4,14 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, ChangeFilter
-from tests.config import USEREMAIL_1, USEREMAIL_2
+from tests.config import USEREMAIL_1, USEREMAIL_2, HUB_ADDRESS, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT
 
 class ErrorCheckingTest(unittest.TestCase):
     def setUp(self):
         self.driver = Remote(
-		    command_executor='http://127.0.0.1:4444/wd/hub',
+		    command_executor = HUB_ADDRESS,
 	        desired_capabilities=DesiredCapabilities.CHROME )
-        self.driver.set_window_size(1920, 1080)
+        self.driver.set_window_size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT)
         open_filter_settings = OpenFilterSettings(self.driver)
         open_filter_settings.open(USEREMAIL_1)
 

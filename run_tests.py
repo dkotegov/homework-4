@@ -5,7 +5,7 @@ import sys
 import unittest
 from tests.createFilterTests import CreateFilterTest
 from tests.changeFilterTests import ChangeFilterTest
-from tests.errorChecking import ErrorCheckingTest
+from tests.errorCheckingTests import ErrorCheckingTest
 
 if __name__ == '__main__':
     create_filters_test = unittest.TestLoader().loadTestsFromTestCase(CreateFilterTest)
