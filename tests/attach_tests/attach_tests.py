@@ -17,8 +17,7 @@ class AttachTest_document(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
-
+        self.assertTrue(self.file_attaching_form.checkMessageSent())
 
 
 # Выбрать медиафайл --> Получение сообщения с медиафайлом с возможностью воспроизведения по клику
@@ -34,7 +33,7 @@ class AttachTest_Media(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+        self.assertTrue(self.file_attaching_form.checkMessageSent())
 
 
 # Выбрать исполняемый файл --> Получение сообщения с исполняемым файлом. При попытке скачать файл должно появиться
@@ -51,7 +50,7 @@ class AttachTest_Executable(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+        self.assertTrue(self.file_attaching_form.checkMessageSent())
 
 
 # Тест под вопросом, нужно ли делать # вложение 99 изображений
@@ -69,7 +68,7 @@ class AttachTest99Photos(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+        self.assertTrue(self.file_attaching_form.checkMessageSent())
 
 
 # Выбрать файл размером (1.99 Гб) ---> Файл должен быть прикреплен и успешно отправлен
@@ -85,7 +84,7 @@ class AttachTestAlmostTwoGigFile(BaseAttach):
         self.file_attaching_form.set_destionation_email()
         self.file_attaching_form.click_send_button()
 
-        self.assertEqual(self.file_attaching_form.checkMessageSent(), True)
+        self.assertTrue(self.file_attaching_form.checkMessageSent())
 
 
 # Выбрать файл размером (25 Мб) --> Файл должен быть прикреплен и успешно отправлен (через облако)
@@ -100,7 +99,6 @@ class AttachTest25MbAndMoreThroughCloud(BaseAttach):
         self.file_attaching_form.send_keys_to_input(self.TEST_FILE_MORE_25_MB, 10)
 
         self.assertIsNotNone(self.file_attaching_form.check_loaded_through_cloud())
-        # self.assertEqual(self.file_attaching_form.check_loaded_through_cloud() is not None, True)
 
 
 class AttachTestLess25MbWithoutCloud(BaseAttach):
@@ -112,7 +110,7 @@ class AttachTestLess25MbWithoutCloud(BaseAttach):
         self.file_attaching_form.open_writing_letter()
         self.file_attaching_form.send_keys_to_input(self.TEST_FILE_LESS_25MB, 10)
 
-        self.assertEqual(self.file_attaching_form.check_loaded_without_cloud(), True)
+        self.assertTrue(self.file_attaching_form.check_loaded_without_cloud())
 
 
 # Выбрать документ из облака--> Получение сообщения с документом c возможностью просмотра из сообщения
@@ -127,7 +125,7 @@ class AttachCloudDocument(BaseAttach):
         self.file_attaching_form.select_cloud_file(self.TEST_FILE_XLSX)
         self.file_attaching_form.do_cloud_attach()
 
-        self.assertEqual(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_XLSX), True)
+        self.assertTrue(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_XLSX))
 
 
 # Выбрать медиафайл --> Получение сообщения с медиафайлом с возможностью воспроизведения по клику
@@ -142,7 +140,7 @@ class AttachCloudMedia(BaseAttach):
         self.file_attaching_form.select_cloud_file(self.TEST_FILE_MEDIA)
         self.file_attaching_form.do_cloud_attach()
 
-        self.assertEqual(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_MEDIA), True)
+        self.assertTrue(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_MEDIA))
 
 
 # Выбрать исполняемый файл из облака --> Получение сообщения с исполняемым файлом. При попытке скачать файл должно
@@ -159,7 +157,7 @@ class AttachCloudExecutable(BaseAttach):
         self.file_attaching_form.select_cloud_file(self.TEST_FILE_EXECUTABLE)
         self.file_attaching_form.do_cloud_attach()
 
-        self.assertEqual(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_EXECUTABLE), True)
+        self.assertTrue(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_EXECUTABLE))
 
 
 # Выбрать файл размером (1.99 Гб) из облака ---> Файл должен быть прикреплен и успешно отправлен
@@ -174,7 +172,7 @@ class AttachCloudAlmost2GigFile(BaseAttach):
         self.file_attaching_form.select_cloud_file(filename=self.TEST_FILE_ALMOST_2_GIGS)
         self.file_attaching_form.do_cloud_attach()
 
-        self.assertEqual(self.file_attaching_form.check_loaded(self.TEST_FILE_ALMOST_2_GIGS), True)
+        self.assertTrue(self.file_attaching_form.check_loaded(self.TEST_FILE_ALMOST_2_GIGS))
 
         #
         # Прикрепление файла из компьютера:
