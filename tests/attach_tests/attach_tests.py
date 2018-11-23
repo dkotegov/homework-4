@@ -127,7 +127,7 @@ class AttachCloudDocument(BaseAttach):
         self.file_attaching_form.select_cloud_file(self.TEST_FILE_XLSX)
         self.file_attaching_form.do_cloud_attach()
 
-        assert (self.file_attaching_form.check_loaded(filename=self.TEST_FILE_XLSX))
+        self.assertEqual(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_XLSX), True)
 
 
 # Выбрать медиафайл --> Получение сообщения с медиафайлом с возможностью воспроизведения по клику
@@ -142,7 +142,7 @@ class AttachCloudMedia(BaseAttach):
         self.file_attaching_form.select_cloud_file(self.TEST_FILE_MEDIA)
         self.file_attaching_form.do_cloud_attach()
 
-        assert (self.file_attaching_form.check_loaded(filename=self.TEST_FILE_MEDIA))
+        self.assertEqual(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_MEDIA), True)
 
 
 # Выбрать исполняемый файл из облака --> Получение сообщения с исполняемым файлом. При попытке скачать файл должно
@@ -159,7 +159,7 @@ class AttachCloudExecutable(BaseAttach):
         self.file_attaching_form.select_cloud_file(self.TEST_FILE_EXECUTABLE)
         self.file_attaching_form.do_cloud_attach()
 
-        assert (self.file_attaching_form.check_loaded(filename=self.TEST_FILE_EXECUTABLE))
+        self.assertEqual(self.file_attaching_form.check_loaded(filename=self.TEST_FILE_EXECUTABLE), True)
 
 
 # Выбрать файл размером (1.99 Гб) из облака ---> Файл должен быть прикреплен и успешно отправлен
@@ -174,7 +174,7 @@ class AttachCloudAlmost2GigFile(BaseAttach):
         self.file_attaching_form.select_cloud_file(filename=self.TEST_FILE_ALMOST_2_GIGS)
         self.file_attaching_form.do_cloud_attach()
 
-        assert (self.file_attaching_form.check_loaded(self.TEST_FILE_ALMOST_2_GIGS))
+        self.assertEqual(self.file_attaching_form.check_loaded(self.TEST_FILE_ALMOST_2_GIGS), True)
 
         #
         # Прикрепление файла из компьютера:
