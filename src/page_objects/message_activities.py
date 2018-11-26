@@ -9,50 +9,76 @@ from selenium.webdriver.support import expected_conditions as EC
 class MessageActivities(PageObject):
 
     def get_message_title(self, msg):
+        # try:
+        # result = msg.find_element_by_css_selector('.ll-sj__normal').text
         return msg.find_element_by_css_selector('.ll-sj__normal').text
+        # except:
+            # return ''
+        # return result
+
+    def get_all_titles(self, data):
+        titles = []
+        for item in data:
+            titles.append(self.get_message_title(item))
+
+        return titles
 
     def get_messages(self):
-        try:
-            data = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'dataset__items')))
-            messages = data.find_elements_by_css_selector('.llc_normal')
+        # try:
+        data = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'dataset__items')))
+        messages = data.find_elements_by_css_selector('.llc_normal')
 
-        except:
-            messages = []
-        
+        # except:
+        #     messages = []
+
         return messages, len(messages)
 
     def move_all_msgs_to(self, destination):
         messages, msg_count = self.get_messages()
-        
-        if msg_count > 0:
-            messages[0].click()
+        titles = self.get_all_titles(messages)
+
+        if msg_count:
+            messages[0].find_element_by_css_selector('.llc__avatar').click()
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Выделить все (Ctrl+A)"]'))).click()
             self.__move(destination)
-            
+            self.wait_until_moved(messages[0])
+
+        return messages, titles
+
     def move_n_msgs_to(self, n, destination):
         messages, msg_count = self.get_messages()
+        result = []
         titles = []
+
         if msg_count:
             for i in range(0, n):
-                titles.append(self.get_message_title(messages[msg_count - i - 1]))
+                result.append(messages[msg_count - i - 1])
+                titles.append(self.get_message_title(result[-1]))
                 messages[msg_count - i - 1].find_element_by_css_selector('.llc__avatar').click()
 
             self.__move(destination)
-        self.wait_until_moved(messages[-1])
-        return titles
+
+            self.wait_until_moved(result[0])
+        return result, titles
 
     def wait_until_moved(self, msg):
         msg_id = self.driver.execute_script('return arguments[0].attributes["data-id"].value', msg)
+        print msg_id
         try:
-            while (self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[data-id="{}"]'.format(msg_id))))):
-                pass
-        except:
+            while (self.driver.find_element_by_css_selector('a[data-id="{}"]').format(msg_id)):
+                print'waiting...'
+                continue
+        except Exception:
+            print 'messages moved'
             return True
+
+    def wait_until_appear(self):
+        self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.llc_normal')))
 
     def check_moved_messages(self, titles):
         messages = self.get_messages()[0]
-        print messages
-        message_titles = [self.get_message_title(msg) for msg in messages]
+        print 'msgs: ', messages
+        message_titles = self.get_all_titles(messages)
         print 'lol', message_titles
 
         result = True
@@ -60,7 +86,7 @@ class MessageActivities(PageObject):
             if not item in message_titles:
                 result = False
                 break
-        
+
         return result
 
     def __move(self, destination):
@@ -70,4 +96,30 @@ class MessageActivities(PageObject):
     def go_to(self, destination):
         folders = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.nav-folders')))
         folders.find_element_by_css_selector('a[title="{}"]'.format(destination)).click()
-        
+        self.wait_until_appear()
+        print 'changed'
+
+    def apply_flag_for_n(self, n, type):
+        messages, msg_count = self.get_messages()
+
+        if msg_count:
+            for i in range(0, n):
+                messages[i].find_element_by_css_selector('.llc__avatar').click()
+            print 'clicked'
+            self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Ещё (.)"]'))).click()
+            self.driver.find_element_by_css_selector('.dropdown__menu')
+            self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.list-item__ico_{}'.format(type)))).click()
+
+        return True
+
+    def apply_flag_for_all(self, type):
+        messages, msg_count = self.get_messages()
+
+        if msg_count:
+            messages[0].find_element_by_css_selector('.llc__avatar').click()
+            self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Выделить все (Ctrl+A)"]'))).click()
+            self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Ещё (.)"]'))).click()
+            self.driver.find_element_by_css_selector('.dropdown__menu')
+            self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.list-item__ico_{}'.format(type)))).click()
+
+        return True

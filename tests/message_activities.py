@@ -9,32 +9,44 @@ from tests import get_webdriver, get_credentials, PageObject, LOGIN_PAGE_URL, Me
 
 
 class TestMessageActivities(unittest.TestCase):
-    
+
     def setUp(self):
         self.page = MessageActivities()
-
-    def test_example(self):
         self.page.open(LOGIN_PAGE_URL)
         self.page.login()
 
-        n = 3
+    # def test_move_3_messages(self):
+    #     n = 3
+    #
+    #     messages_to_move, titles = self.page.move_n_msgs_to(n, 'Черновики')
+    #     print 'messages_to_move: ',  messages_to_move
+    #     print 'titles: ', titles
+    #
+    #     self.page.go_to('Черновики')
+    #
+    #     moved_correctly = self.page.check_moved_messages(titles)
+    #
+    #     self.page.move_n_msgs_to(n, 'Входящие')
+    #     self.page.go_to('Входящие')
+    #
+    #     self.assertEqual(moved_correctly, True)
+    #
+    # def test_move_all_messages(self):
+    #     messages_to_move, titles = self.page.move_all_msgs_to('Черновики')
+    #     print 'messages_to_move: ',  messages_to_move
+    #     print 'titles: ', titles
+    #
+    #     self.page.go_to('Черновики')
+    #
+    #     moved_correctly = self.page.check_moved_messages(titles)
+    #
+    #     self.page.move_all_msgs_to('Входящие')
+    #     self.page.go_to('Входящие')
+    #
+    #     self.assertEqual(moved_correctly, True)
 
-        messages_to_move = self.page.move_n_msgs_to(n, 'Спам')
-        
-        self.page.go_to('Спам')
-        # time.sleep(1)
-
-        moved_correctly = self.page.check_moved_messages(messages_to_move)
-
-        self.page.move_n_msgs_to(n, 'Входящие')
-        self.page.go_to('Входящие')
-
-        time.sleep(2)
-
-        self.assertEqual(moved_correctly, True)
-    
+    def test_apply_flag(self):
+        self.page.apply_flag_for_all('flag')
 
     def tearDown(self):
         self.page.close()
-    
-
