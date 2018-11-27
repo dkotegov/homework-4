@@ -85,7 +85,6 @@ class ChangeFilterTest(unittest.TestCase):
         condition_index = 1
         change_filter.change_condition(Rule.size_KB, 1)
         change_filter.change_condition_value(condition_index, '10000')
-        self.driver.execute_script("window.scrollTo(0, 200)") 
         change_filter.forward_change_contex()
         change_filter.save_filter()
         change_filter.confirm_password()
@@ -115,7 +114,6 @@ class ChangeFilterTest(unittest.TestCase):
         condition_index = 1
         change_filter.change_condition(Rule.field_copy, condition_index)
         change_filter.change_condition_value(condition_index, USEREMAIL_1)
-        self.driver.execute_script("window.scrollTo(0, 200)") 
         change_filter.reply_switch()
         change_filter.switch_interaction_conditions()
         change_filter.save_filter()
@@ -158,7 +156,6 @@ class ChangeFilterTest(unittest.TestCase):
         condition_index = 0
         change_filter.change_condition(Rule.field_redirected_to, condition_index)
         change_filter.change_condition_value(condition_index, USEREMAIL_2)
-        self.driver.execute_script("window.scrollTo(0, 200)") 
         change_filter.spam_on()
         change_filter.save_filter()
 

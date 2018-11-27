@@ -106,7 +106,6 @@ class ErrorCheckingTest(unittest.TestCase):
         create_new_filter = CreateNewFilter(self.driver)
         create_new_filter.open()
         create_new_filter.show_other_actions()
-        self.driver.execute_script("window.scrollTo(0, 200)") 
         create_new_filter.reply_with_mesg("            ")
         create_new_filter.save_filter()
         error_message = create_new_filter.get_alert()

@@ -314,10 +314,12 @@ class NewFilterForm(Component):
         elem.send_keys(mail)
 
     def forward_change_contex(self):
+        self.driver.execute_script("window.scrollTo(0, 200)") 
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.CHANGE_FORWARD_CONTEXT)
         elem.click()
 
     def reply_click(self):
+        self.driver.execute_script("window.scrollTo(0, 200)") 
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.REPLY_CHECKBOX)
         elem.click()
 
@@ -334,10 +336,12 @@ class NewFilterForm(Component):
         elem.click()
 
     def continue_to_filter_click(self):
+        self.driver.execute_script("window.scrollTo(0, 200)")
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.CONTINUE_CHECKBOX)
         elem.click()
 
     def spam_click(self):
+        self.driver.execute_script("window.scrollTo(0, 200)") 
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SPAM_CHECKBOX)
         elem.click()
 

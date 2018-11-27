@@ -99,7 +99,6 @@ class CreateFilterTest(unittest.TestCase):
         create_new_filter.change_condition_value(condition_index, USEREMAIL_1 + '@mail.ru')
         create_new_filter.change_condition_effect(condition_index)
         create_new_filter.show_other_actions()
-        self.driver.execute_script("window.scrollTo(0, 200)") 
         create_new_filter.continue_to_filter()
         create_new_filter.save_filter()
 
