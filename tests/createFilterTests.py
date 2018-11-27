@@ -38,7 +38,7 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_1_SUBJECT), True)
+        self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_1_SUBJECT))
 
         check_filter_work.open_filters_page_in_new_window()
         create_filter.delete_created_filter()
@@ -54,7 +54,7 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_not_exists(Folder.INBOX, self.TEST_2_SUBJECT), True)
+        self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.INBOX, self.TEST_2_SUBJECT))
 
         check_filter_work.open_filters_page_in_new_window()
         create_filter.delete_created_filter()
@@ -70,7 +70,7 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_3_SUBJECT), True)
+        self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_3_SUBJECT))
         
         check_filter_work.open_filters_page_in_new_window()
         create_filter.delete_created_filter()
@@ -86,7 +86,7 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_4_SUBJECT), True)
+        self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_4_SUBJECT))
         
         check_filter_work.open_filters_page_in_new_window()
         create_filter.delete_created_filter()
@@ -113,7 +113,7 @@ class CreateFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_5_SUBJECT), True)
+        self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_5_SUBJECT))
         
         check_filter_work.open_filters_page_in_new_window()
         create_additional_filter.delete_created_filter()

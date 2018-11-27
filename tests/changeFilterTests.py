@@ -45,7 +45,7 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_not_exists(Folder.NEWSLETTERS, self.TEST_1_SUBJECT), True)
+        self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.NEWSLETTERS, self.TEST_1_SUBJECT))
         check_filter_work.open_filters_page_in_new_window()
 
         change_filter.delete()
@@ -68,8 +68,8 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_already_read(Folder.NEWSLETTERS, self.TEST_2_SUBJECT), True)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_2_SUBJECT), True)
+        self.assertTrue(check_filter_work.check_if_letter_already_read(Folder.NEWSLETTERS, self.TEST_2_SUBJECT))
+        self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_2_SUBJECT))
         check_filter_work.delete_letter(self.TEST_2_SUBJECT)
         check_filter_work.open_filters_page_in_new_window()
 
@@ -98,7 +98,7 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_3_SUBJECT)
+        self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_3_SUBJECT))
         check_filter_work.delete_letter(self.TEST_3_SUBJECT)
         # TODO: check if itberries2@mail.ru get the letter #оно приходит, но надо проверять здесь
         check_filter_work.open_filters_page_in_new_window()
@@ -128,7 +128,7 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_4_SUBJECT)
+        self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_4_SUBJECT))
         check_filter_work.delete_letter(self.TEST_4_SUBJECT)
         check_filter_work.open_filters_page_in_new_window()
 
@@ -170,8 +170,8 @@ class ChangeFilterTest(unittest.TestCase):
         write_letter.send()
 
         check_filter_work = CheckFilterWork(self.driver)
-        self.assertEqual(check_filter_work.check_if_letter_have_flag(Folder.INBOX, self.TEST_5_SUBJECT), True)
-        self.assertEqual(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_5_SUBJECT), True)
+        self.assertTrue(check_filter_work.check_if_letter_have_flag(Folder.INBOX, self.TEST_5_SUBJECT))
+        self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_5_SUBJECT))
         check_filter_work.delete_letter(self.TEST_5_SUBJECT)
         check_filter_work.open_filters_page_in_new_window()
 
