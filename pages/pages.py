@@ -124,7 +124,7 @@ class MailPage(Page):
 
 class SettingsPage(Page):
 
-    FILTERING_RULES = '//div[@class="b-nav__item"][7]'
+    FILTERING_RULES = '//div[@class="b-nav__item"]//a//span[contains(text(), "Правила фильтрации")]'
     CREATE_NEW_FILTERING = '//div[@class="form__row form__row_super-narrow js-add-filter-super-narrow"]/a[@class="btn js-button"]'
     WRITE_LETTER = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Написать письмо")]'
     CHANGE_FILTER = '//i[@class="icon icon_form icon_form_change"]'
@@ -199,8 +199,7 @@ class WriteMailForm(Component):
 
     def setCopies(self, mail):
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.COPIES_LINK)
-        if elem.is_displayed():
-            elem.click()
+        elem.click()
         elem = ElementWaiter.wait_clickable_by_xpath(driver = self.container, locator = self.COPIES)
         elem.send_keys(mail.decode('utf-8'))
 
@@ -315,10 +314,12 @@ class NewFilterForm(Component):
         elem.send_keys(mail)
 
     def forward_change_contex(self):
+        self.driver.execute_script("window.scrollTo(0, 200)") 
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.CHANGE_FORWARD_CONTEXT)
         elem.click()
 
     def reply_click(self):
+        self.driver.execute_script("window.scrollTo(0, 200)") 
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.REPLY_CHECKBOX)
         elem.click()
 
@@ -335,10 +336,12 @@ class NewFilterForm(Component):
         elem.click()
 
     def continue_to_filter_click(self):
+        self.driver.execute_script("window.scrollTo(0, 200)")
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.CONTINUE_CHECKBOX)
         elem.click()
 
     def spam_click(self):
+        self.driver.execute_script("window.scrollTo(0, 200)") 
         elem = ElementWaiter.wait_by_xpath(driver = self.container, locator = self.SPAM_CHECKBOX)
         elem.click()
 

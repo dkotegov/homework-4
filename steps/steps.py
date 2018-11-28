@@ -99,9 +99,6 @@ class CheckFilterWork(Step):
         settings_page = SettingsPage(self.driver)
         settings_page.open_filters()
 
-    def check_if_flag_is_set(self, subject):
-        pass
-
 class WriteLetter(Step):
 
     def open(self):
