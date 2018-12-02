@@ -3,6 +3,7 @@
 from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 class FolderUnlock(Component):
     BASE = '//div[@data-qa-id="layer-secure-folder"] '
 
@@ -20,6 +21,10 @@ class FolderUnlock(Component):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.INPUT_PASSWORD)
         ).send_keys(password)
-    
+
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
+
+    def unlock_folder(self, password):
+        self.set_password(password)
+        self.submit()

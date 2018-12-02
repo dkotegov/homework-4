@@ -1,6 +1,7 @@
 from page import Page
 from tests.components.auth_form import AuthForm
 
+
 class AuthPage(Page):
     PATH = ''
 

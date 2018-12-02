@@ -6,6 +6,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 
+
 class Letters(Component):
     BASE = '//div[@data-qa-id="dataset-letters"] '
     MAIL_FROM = '//span[@class="ll-crpt"]'
@@ -18,7 +19,8 @@ class Letters(Component):
     SELECT = BASE + '//*[@data-qa-id="avatar"]'
 
     MESSAGE_BY_SUBJECT = BASE + '//a[@data-qa-id="letter-item:subject:{}"]'
-    RANDOM_MESSAGE = BASE + '//a[contains(@data-qa-id, "letter-item:subject:")]'
+    RANDOM_MESSAGE = BASE + \
+        '//a[contains(@data-qa-id, "letter-item:subject:")]'
 
     def get_letters(self):
         WebDriverWait(self.driver, 10, 0.1).until(
@@ -50,7 +52,7 @@ class Letters(Component):
         WebDriverWait(self.driver, 30, 0.1).until(
             ec.element_to_be_clickable((By.XPATH, self.RANDOM_MESSAGE))
         ).click()
-        
+
     # Перемещает первое письмо в папку @folder_name
     def move_letter_to_folder(self, folder_name):
         letter = WebDriverWait(self.driver, 30, 0.1).until(
@@ -61,19 +63,21 @@ class Letters(Component):
 
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.MOVE_TO_BUTTON)).click()
-        
+
         new_folder = self.NEW_FOLDER_FOR_LETTER.format(folder_name)
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(new_folder)).click()
 
     def get_letter_id_by_subject(self, subject):
         return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.MESSAGE_BY_SUBJECT.format(subject))
+            lambda d: d.find_element_by_xpath(
+                self.MESSAGE_BY_SUBJECT.format(subject))
         ).get_attribute('data-id')
-    
+
     def open_letter_by_subject(self, subject):
         WebDriverWait(self.driver, 30, 0.1).until(
-            ec.element_to_be_clickable((By.XPATH, self.MESSAGE_BY_SUBJECT.format(subject)))
+            ec.element_to_be_clickable(
+                (By.XPATH, self.MESSAGE_BY_SUBJECT.format(subject)))
         ).click()
 
     def has_letters(self):
@@ -102,9 +106,11 @@ class Letters(Component):
     def drag_and_drop_message(self, sidebar, target_dirname):
         message_element = self.get_message()
         folder_element = sidebar.get_folder_element(target_dirname)
-        ActionChains(self.driver).drag_and_drop(message_element, folder_element).perform()
+        ActionChains(self.driver).drag_and_drop(
+            message_element, folder_element).perform()
 
     def drag_and_drop_several_messages(self, sidebar, messages_number, target_dirname):
         first_message_element = self.get_several_messages(messages_number)
         folder_element = sidebar.get_folder_element(target_dirname)
-        ActionChains(self.driver).drag_and_drop(first_message_element, folder_element).perform()
+        ActionChains(self.driver).drag_and_drop(
+            first_message_element, folder_element).perform()

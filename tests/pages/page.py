@@ -14,4 +14,3 @@ class Page(object):
         url = urlparse.urljoin(self.BASE_URL, self.PATH)
         self.driver.get(url)
         self.driver.fullscreen_window()
-

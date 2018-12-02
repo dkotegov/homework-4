@@ -16,8 +16,10 @@ class Sidebar(Component):
 
     INBOX_BUTTON = BASE + '//a[@data-qa-id="0"]'
     NEW_DIR = BASE + '//div[@class="new-folder-btn__button-wrapper"]'
-    FOLDER_NAME_TEXT = BASE + '//a[@title="{}"]//div[@class="nav__folder-name__txt"]'
-    REMOVE_FROM_TRASH = BASE + '//a[@data-qa-id="500002"]//div[@class="nav__folder-clear"]'
+    FOLDER_NAME_TEXT = BASE + \
+        '//a[@title="{}"]//div[@class="nav__folder-name__txt"]'
+    REMOVE_FROM_TRASH = BASE + \
+        '//a[@data-qa-id="500002"]//div[@class="nav__folder-clear"]'
     SUBMIT_REMOVE_FROM_TRASH = '//div[@class="layer__submit-button"]'
     FOLDER_ELEM = './/a[@title="{}"]'
     DELETE_BUT = '//div[@data-qa-id="delete"]'
@@ -32,8 +34,10 @@ class Sidebar(Component):
     FOLDER_ARROW = '//div[@data-qa-id="folder-arrow"]'
     NESTED_FOLDER_DIV = '//a[@class="nav__item_child" and @title="{}"]'
 
-    CONTEXT_MENU_FOLDER = '//div[@data-qa-id="contextmenu" and @class="contextmenu-folder"] '
-    ELEMENT_OF_FOLDER_CONTEXT_MENU = CONTEXT_MENU_FOLDER + '//span[@class="list-item__text" and contains(text(),"{}")]/parent::*'
+    CONTEXT_MENU_FOLDER = '//div[@data-qa-id="contextmenu"' + \
+        ' and @class="contextmenu-folder"] '
+    ELEMENT_OF_FOLDER_CONTEXT_MENU = CONTEXT_MENU_FOLDER + \
+        '//span[@class="list-item__text" and contains(text(),"{}")]/parent::*'
     FOLDER = BASE + '//a[@title="{}"]'
 
     def write_letter(self):
@@ -68,7 +72,8 @@ class Sidebar(Component):
     def is_trash_empty(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.BASE))
-        clear_button = self.driver.find_elements_by_xpath(self.REMOVE_FROM_TRASH)
+        clear_button = self.driver.find_elements_by_xpath(
+            self.REMOVE_FROM_TRASH)
         if len(clear_button) == 0:
             return True
         else:
@@ -80,7 +85,8 @@ class Sidebar(Component):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.REMOVE_FROM_TRASH)).click()
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.SUBMIT_REMOVE_FROM_TRASH)).click()
+            lambda d: d.find_element_by_xpath(
+                self.SUBMIT_REMOVE_FROM_TRASH)).click()
 
     def clear_folder(self, folder_name):
         if (self.is_folder_exists(folder_name) == False):
@@ -97,7 +103,8 @@ class Sidebar(Component):
             lambda d: d.find_element_by_xpath(self.CONTEXT_MENU_FOLDER)
         )
 
-        button = self.driver.find_element_by_xpath(self.ELEMENT_OF_FOLDER_CONTEXT_MENU.format('Очистить содержимое'))
+        button = self.driver.find_element_by_xpath(
+            self.ELEMENT_OF_FOLDER_CONTEXT_MENU.format('Очистить содержимое'))
 
         action_chains = ActionChains(self.driver)
         action_chains.send_keys(Keys.ESCAPE).perform()
@@ -109,9 +116,15 @@ class Sidebar(Component):
 
     def click_context_menu_element(self, element_name):
         button = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.ELEMENT_OF_FOLDER_CONTEXT_MENU.format(element_name))
+            lambda d: d.find_element_by_xpath(
+                self.ELEMENT_OF_FOLDER_CONTEXT_MENU.format(element_name))
         )
         button.click()
+
+    def delete_folder_by_name(self, folder_name):
+        self.right_click_by_folder(folder_name)
+        self.click_delete()
+        self.submit_delete()
 
     def right_click_by_folder(self, folder_name):
         FOLDER_EL = self.FOLDER_ELEM.format(folder_name)
@@ -127,7 +140,6 @@ class Sidebar(Component):
             lambda d: d.find_element_by_xpath(FOLDER_EL)
         )
         folder.click()
-
 
     def get_folder_element(self, folder_name):
         return WebDriverWait(self.driver, 30, 0.1).until(
@@ -164,7 +176,6 @@ class Sidebar(Component):
 
     def is_folder_deleted(self, f_name):
         F_DIV = self.FOLDER_DIV.format(f_name)
-        self.driver.refresh()
         WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: d.find_element_by_xpath(self.BASE_WITHOUT_QA_ID))
         folders = self.driver.find_elements_by_xpath(F_DIV)
@@ -191,7 +202,7 @@ class Sidebar(Component):
 
     def go_to_folder(self, folder_name):
         WebDriverWait(self.driver, 30, 0.1).until(
-           lambda d: d.find_element_by_xpath(self.FOLDER.format(folder_name))).click()
+            lambda d: d.find_element_by_xpath(self.FOLDER.format(folder_name))).click()
 
     def delete_folder(self, folder_name):
         if (self.is_folder_exists(folder_name) == False):
@@ -202,11 +213,11 @@ class Sidebar(Component):
 
     def is_folder_exists(self, folder_name):
         try:
-            self.driver.find_element_by_xpath(self.FOLDER_ELEM.format(folder_name))
+            self.driver.find_element_by_xpath(
+                self.FOLDER_ELEM.format(folder_name))
             return True
         except NoSuchElementException:
             return False
-
 
     def is_folder_created(self, folder_name):
         folder_div = self.FOLDER_DIV.format(folder_name)
@@ -255,3 +266,11 @@ class Sidebar(Component):
             lambda d: d.find_element_by_xpath(self.BASE_WITHOUT_QA_ID))
         folders = self.driver.find_elements_by_xpath(nested_folder_div)
         return folders != 0
+
+    def block_folder_by_name(self, folder_name):
+        self.right_click_by_folder(folder_name)
+        self.click_block_folder()
+
+    def click_unlock_folder_by_name(self, folder_name):
+        self.right_click_by_folder(folder_name)
+        self.click_unlock_folder()

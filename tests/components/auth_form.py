@@ -1,5 +1,6 @@
 from component import Component
 
+
 class AuthForm(Component):
     LOGIN = '//input[@id="mailbox:login"]'
     PASSWORD = '//input[@id="mailbox:password"]'
@@ -16,3 +17,8 @@ class AuthForm(Component):
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
+
+    def authorize(self, login, password):
+        self.set_login(login)
+        self.set_password(password)
+        self.submit()

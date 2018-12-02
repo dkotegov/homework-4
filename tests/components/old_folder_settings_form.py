@@ -2,6 +2,7 @@ from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 
+
 class FoldersSettingsOld(Component):
     BASE = '//div[contains(@class,"b-panel_settings")] '
     SUBMIT_BASE = '//div[@class="is-folder-remove_in"] '
@@ -13,13 +14,15 @@ class FoldersSettingsOld(Component):
         delete_button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.DELETE_FOLDER_BUTTON)
         )
-        action=ActionChains(self.driver)
+        action = ActionChains(self.driver)
         action.move_to_element(delete_button)
         action.click().perform()
-
 
     def click_submit_delete(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT_DELETE)
         ).click()
 
+    def delete_my_folder(self):
+        self.click_delete()
+        self.click_submit_delete()
