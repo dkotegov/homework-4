@@ -17,9 +17,7 @@ class BaseForm(Component):
     CLOSE_MSG_SENT_BTN = '//span[@data-qa-id="close"]'
 
     MSG_SENT_LINK = '//a[@data-qa-id="is-sent"]'
-    # DESTINATION_INPUT = '//div[@class="contactsContainer--3RMuQ"]/div/label/div/div/input'
     DESTINATION_INPUT ='//input[@data-test-id="input"]'  # defines 1 element. First is needed
-    # CLOSE_MSG_SENT = '//div[@class="layer__controls"]/span/span/span/*/*'
     CLOSE_MSG_SENT = '//div[@class="layer-window__block"]'
     MESSAGE_FIELD = '//div[@role="textbox"]/div/div'
     SUBJECT_FIELD = '//div[@data-test-id="subject"]'
