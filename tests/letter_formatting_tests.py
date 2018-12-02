@@ -8,7 +8,6 @@ from tests.base_test import BaseTest
 
 class LetterFormattingTests(BaseTest):
     SAMPLE_TEXT = 'hello'
-    # SAMPLE_TEXT = unicode(SAMPLE_TEXT, errors='ignore')
     NOT_BOLD_TEXT = '</strong>​​​​​​​' + SAMPLE_TEXT
     BOLD_TEXT = '<strong>​​​​​​​' + SAMPLE_TEXT + '</strong>'
     ITALIC_TEXT = '<em>​​​​​​​' + SAMPLE_TEXT + '</em>'

@@ -8,7 +8,8 @@ from components.login_and_write import login_and_write
 
 class BaseTest(unittest.TestCase):
     USEREMAIL = 'park.test.testovich@mail.ru'
-    PASSWORD = os.environ['PASSWORD']
+    # PASSWORD = os.environ['PASSWORD']
+    PASSWORD = 'rha_the_best_team'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
