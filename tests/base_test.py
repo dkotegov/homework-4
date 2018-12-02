@@ -21,7 +21,6 @@ class BaseTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-        # pass
 
     def test(self):
         login_and_write(self.driver, self.USEREMAIL, self.PASSWORD)

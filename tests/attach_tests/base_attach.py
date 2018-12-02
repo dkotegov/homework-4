@@ -1,4 +1,3 @@
-from pages import file_attaching_page
 from pages.file_attaching_page import FileAttachingPage
 from tests.base_test import BaseTest
 
