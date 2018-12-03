@@ -27,14 +27,14 @@ if __name__ == '__main__':
         unittest.makeSuite(AttachCloudMedia),
         unittest.makeSuite(AttachCloudExecutable),
         unittest.makeSuite(AttachCloudAlmost2GigFile),
-        unittest.makeSuite(SendTestEmailToMe),
-        unittest.makeSuite(SendTestEmailToCorrectEmail),
-        unittest.makeSuite(SendTestEmailToGroupCorrectEmails),
-        unittest.makeSuite(SendTestEmailToWrongEmail),
-        unittest.makeSuite(SendTestEmailToGroupWrongEmails),
-        unittest.makeSuite(SendTestEmailToMeWithCopy),
-        unittest.makeSuite(SendTestEmailToCorrectEmailWithCopy),
-        unittest.makeSuite(SendTestEmailToGroupWrongEmailsWithCopy)
+        unittest.makeSuite(SendEmailToMeTest),
+        unittest.makeSuite(SendEmailToCorrectEmailTest),
+        unittest.makeSuite(SendEmailToGroupCorrectEmailsTest),
+        unittest.makeSuite(SendEmailToWrongEmailTest),
+        unittest.makeSuite(SendEmailToGroupWrongEmailsTest),
+        unittest.makeSuite(SendEmailToMeWithCopyTest),
+        unittest.makeSuite(SendEmailToCorrectEmailWithCopyTest),
+        unittest.makeSuite(SendEmailToGroupWrongEmailsWithCopyTest)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())()

@@ -2,13 +2,12 @@
 
 from tests.send_tests.base_send import BaseSend
 
-
-class SendTestEmailToMe(BaseSend):
+# Тестирование отправки сообщения самому себе
+class SendEmailToMeTest(BaseSend):
     def test(self):
         BaseSend.test(self)
 
         self.email_sending_form.open_writing_letter()
-
         self.email_sending_form.set_destionation_email()
         self.email_sending_form.set_subject_email(self.SUBJECT)
         self.email_sending_form.set_message_email(self.TEXT)
@@ -19,13 +18,12 @@ class SendTestEmailToMe(BaseSend):
         self.email_sending_form.click_incoming_emails_button()
         self.assertTrue(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT))
 
-
-class SendTestEmailToCorrectEmail(BaseSend):
+# Тестирование отправки сообщения на существующий email
+class SendEmailToCorrectEmailTest(BaseSend):
     def test(self):
         BaseSend.test(self)
 
         self.email_sending_form.open_writing_letter()
-
         self.email_sending_form.set_correct_recipient()
         self.email_sending_form.set_subject_email(self.SUBJECT)
         self.email_sending_form.set_message_email(self.TEXT)
@@ -34,13 +32,12 @@ class SendTestEmailToCorrectEmail(BaseSend):
         self.assertTrue(self.email_sending_form.checkMessageSent())
         self.assertTrue(self.email_sending_form.check_correct_recipient())
 
-
-class SendTestEmailToGroupCorrectEmails(BaseSend):
+# Тестирование отправки сообщения на группу существующих email'ов
+class SendEmailToGroupCorrectEmailsTest(BaseSend):
     def test(self):
         BaseSend.test(self)
 
         self.email_sending_form.open_writing_letter()
-
         self.email_sending_form.set_group_correct_recipients()
         self.email_sending_form.set_subject_email(self.SUBJECT)
         self.email_sending_form.set_message_email(self.TEXT)
@@ -49,13 +46,12 @@ class SendTestEmailToGroupCorrectEmails(BaseSend):
         self.assertTrue(self.email_sending_form.checkMessageSent())
         self.assertTrue(self.email_sending_form.check_group_correct_recipients())
 
-
-class SendTestEmailToWrongEmail(BaseSend):
+# Тестирование отправки сообщения на не существующий email
+class SendEmailToWrongEmailTest(BaseSend):
     def test(self):
         BaseSend.test(self)
 
         self.email_sending_form.open_writing_letter()
-
         self.email_sending_form.set_wrong_recipient()
         self.email_sending_form.set_subject_email(self.SUBJECT)
         self.email_sending_form.set_message_email(self.TEXT)
@@ -63,13 +59,12 @@ class SendTestEmailToWrongEmail(BaseSend):
 
         self.assertTrue(self.email_sending_form.check_wrong_emails())
 
-
-class SendTestEmailToGroupWrongEmails(BaseSend):
+# Тестирование отправки сообщения на группу не существующих email'ов
+class SendEmailToGroupWrongEmailsTest(BaseSend):
     def test(self):
         BaseSend.test(self)
 
         self.email_sending_form.open_writing_letter()
-
         self.email_sending_form.set_group_wrong_recipients()
         self.email_sending_form.set_subject_email(self.SUBJECT)
         self.email_sending_form.set_message_email(self.TEXT)
@@ -77,13 +72,13 @@ class SendTestEmailToGroupWrongEmails(BaseSend):
 
         self.assertTrue(self.email_sending_form.check_wrong_emails())
 
-
-class SendTestEmailToMeWithCopy(BaseSend):
+# Тестирование отправки сообщения самому себе 
+# с копией для самого себя
+class SendEmailToMeWithCopyTest(BaseSend):
     def test(self):
         BaseSend.test(self)
 
         self.email_sending_form.open_writing_letter()
-
         self.email_sending_form.set_destionation_email()
         self.email_sending_form.set_subject_email(self.SUBJECT)
         self.email_sending_form.set_message_email(self.TEXT)
@@ -96,13 +91,13 @@ class SendTestEmailToMeWithCopy(BaseSend):
         self.email_sending_form.click_incoming_emails_button()
         self.assertTrue(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT))
 
-
-class SendTestEmailToCorrectEmailWithCopy(BaseSend):
+# Тестирование отправки сообщения существующий email 
+# с копией для самого себя
+class SendEmailToCorrectEmailWithCopyTest(BaseSend):
     def test(self):
         BaseSend.test(self)
 
         self.email_sending_form.open_writing_letter()
-
         self.email_sending_form.set_correct_recipient()
         self.email_sending_form.set_subject_email(self.SUBJECT)
         self.email_sending_form.set_message_email(self.TEXT)
@@ -115,13 +110,13 @@ class SendTestEmailToCorrectEmailWithCopy(BaseSend):
         self.email_sending_form.click_incoming_emails_button()
         self.assertTrue(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT))
 
-
-class SendTestEmailToGroupWrongEmailsWithCopy(BaseSend):
+# Тестирование отправки сообщения на группу не существующий email'ов
+# с копией для самого себя
+class SendEmailToGroupWrongEmailsWithCopyTest(BaseSend):
     def test(self):
         BaseSend.test(self)
 
         self.email_sending_form.open_writing_letter()
-
         self.email_sending_form.set_group_wrong_recipients()
         self.email_sending_form.set_subject_email(self.SUBJECT)
         self.email_sending_form.set_message_email(self.TEXT)
