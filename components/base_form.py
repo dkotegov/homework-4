@@ -33,88 +33,54 @@ class BaseForm(Component):
     DESTINATION_MAIL = 'park.test.testovich@mail.ru\n'
 
     def set_destionation_email(self):
-        try:
-            dest_input = WebDriverWait(self.driver, 10) \
+        dest_input = WebDriverWait(self.driver, 10) \
                 .until(lambda driver: driver.find_elements_by_xpath(self.DESTINATION_INPUT))
 
-            dest_input[0].send_keys(self.DESTINATION_MAIL)
-            print 'destination email is set'
-        except WebDriverException:
-            print 'destination input not found'
+        dest_input[0].send_keys(self.DESTINATION_MAIL)
 
     def add_destionation_email(self, destination_email):
-        try:
-            dest_input = WebDriverWait(self.driver, 10) \
+        dest_input = WebDriverWait(self.driver, 10) \
                 .until(lambda driver: driver.find_elements_by_xpath(self.DESTINATION_INPUT))
+        dest_input[0].send_keys(destination_email)
 
-            dest_input[0].send_keys(destination_email)
-            print 'destination email is added'
-        except WebDriverException:
-            print 'destination input not found'
 
     def open_writing_letter(self):
-        try:
-            WebDriverWait(self.driver, 10) \
-                .until(lambda driver: driver.find_element_by_xpath(self.WRITING_LETTER_BTN))
-            elem = self.driver.find_element_by_xpath(self.WRITING_LETTER_BTN)
-            ActionChains(self.driver).move_to_element(elem).click().perform()
-        except WebDriverException:
-            print 'is not clickable element'
+        WebDriverWait(self.driver, 10) \
+            .until(lambda driver: driver.find_element_by_xpath(self.WRITING_LETTER_BTN))
+        elem = self.driver.find_element_by_xpath(self.WRITING_LETTER_BTN)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
 
     def click_send_button(self):
-        try:
-            print 'clicking send message button'
-            button = WebDriverWait(self.driver, 10) \
-                .until(lambda driver: driver.find_element_by_xpath(self.SEND_LETTER_BTN))
-            # button.click()
-            ActionChains(self.driver).move_to_element(button).click().perform()
-            print 'clicked!'
-        except WebDriverException:
-            print 'no send msg button'
+        button = WebDriverWait(self.driver, 10) \
+            .until(lambda driver: driver.find_element_by_xpath(self.SEND_LETTER_BTN))
+        ActionChains(self.driver).move_to_element(button).click().perform()
 
     def click_cancel_button(self):
-        try:
-            elem=self.driver.find_element_by_xpath(self.CANCEL_LETTER_BTN)
-            ActionChains(self.driver).move_to_element(elem).click().perform()
-        except WebDriverException:
-            print 'no cancel button'
+        elem=self.driver.find_element_by_xpath(self.CANCEL_LETTER_BTN)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
 
     def click_save_button(self):
-        try:
-            elem=self.driver.find_element_by_xpath(self.SAVE_LETTER_BTN)
-            ActionChains(self.driver).move_to_element(elem).click().perform()
-        except WebDriverException:
-            print 'no save msg button'
+        elem=self.driver.find_element_by_xpath(self.SAVE_LETTER_BTN)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
 
     def click_copy_button(self):
-        try:
-            print 'clicking copy email button'
-            button = WebDriverWait(self.driver, 10) \
-                .until(lambda driver: driver.find_element_by_xpath(self.ADD_COPY_EMAIL_BTN))
-            button.click()
-            print 'clicked!'
-        except WebDriverException:
-            print 'no copy email button'
+       button = WebDriverWait(self.driver, 10) \
+       .until(lambda driver: driver.find_element_by_xpath(self.ADD_COPY_EMAIL_BTN))
+       button.click()
+
 
     def click_incoming_emails_button(self):
-        try:
-            print 'clicking incoming emails button'
-            button = WebDriverWait(self.driver, 10) \
-                .until(lambda driver: driver.find_element_by_xpath(self.INCOMING_MSG_HREF))
-            button.click()
-            print 'clicked!'
-        except WebDriverException:
-            print 'no incoming emails button'
+        button = WebDriverWait(self.driver, 10) \
+             .until(lambda driver: driver.find_element_by_xpath(self.INCOMING_MSG_HREF))
+        button.click()
 
     def click_close_msg_sent_button(self):
-        try:
-            print 'clicking close msg sent button'
-            button = WebDriverWait(self.driver, 10) \
-                .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT_BTN))
-            button.click()
-            print 'clicked!'
-        except WebDriverException:
-            print 'no  close msg sent button'
+        button = WebDriverWait(self.driver, 10) \
+            .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT_BTN))
+        button.click()
+
 
     def checkMessageSent(self):
         try:
@@ -122,42 +88,29 @@ class BaseForm(Component):
                 .until(lambda driver: driver.find_element_by_xpath(self.MSG_SENT_LINK))
             return True
         except WebDriverException, e:
-            print 'exception ' + str(e)
-            print 'message not sent'
             return False
 
     def closeMessageSent(self):
-        try:
-            print 'trying to close msg sent'
-            elem = WebDriverWait(self.driver, 10) \
-                .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT))
-            ActionChains(self.driver).move_to_element(elem).click().send_keys(Keys.ESCAPE).perform()
-        except WebDriverException:
-            print 'msg_sent unable to close'
+        elem = WebDriverWait(self.driver, 10) \
+             .until(lambda driver: driver.find_element_by_xpath(self.CLOSE_MSG_SENT))
+        ActionChains(self.driver).move_to_element(elem).click().send_keys(Keys.ESCAPE).perform()
 
     # shit that does not work
     def show_message_incoming(self):
-        try:
-            elem = self.driver.find_element_by_xpath(self.INCOMING_MSG_HREF)
-            ActionChains(self.driver).move_to_element(elem).click().perform()
-        except WebDriverException:
-            print 'Messages are unnable to open.'
+        elem = self.driver.find_element_by_xpath(self.INCOMING_MSG_HREF)
+        ActionChains(self.driver).move_to_element(elem).click().perform()
+
 
     def show_message_sent(self):
-        try:
-            elem =  WebDriverWait(self.driver, 10) \
-                .until(lambda driver: self.driver.find_element_by_xpath(self.SENT_MSG_HREF))
-            ActionChains(self.driver).move_to_element(elem).click().perform()
-        except WebDriverException:
-            print 'Messages are unnable to open.'
+        elem =  WebDriverWait(self.driver, 10) \
+            .until(lambda driver: self.driver.find_element_by_xpath(self.SENT_MSG_HREF))
+        ActionChains(self.driver).move_to_element(elem).click().perform()
 
 
     def show_message_draft(self):
-        try:
-            elem = self.driver.find_element_by_xpath(self.DRAFT_MSG_HREF)
-            ActionChains(self.driver).move_to_element(elem).click().click().perform()
-        except WebDriverException:
-            print 'Drafts are unnable to open.'
+        elem = self.driver.find_element_by_xpath(self.DRAFT_MSG_HREF)
+        ActionChains(self.driver).move_to_element(elem).click().click().perform()
+
 
 
     # Клик на поле ввода
@@ -192,5 +145,4 @@ class BaseForm(Component):
                 .until(lambda driver: self.driver.find_element_by_xpath(self.MSG_SUBJECT.format(subject)))
             return True
         except WebDriverException:
-            print 'not find letter with subject: ' + subject
             return False
