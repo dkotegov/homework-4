@@ -23,31 +23,29 @@ class LetterFormattingForm(BaseForm):
     COLOR_VALUE = '//div[@data-test-id="#CAF2F5"]'
 
     BACKGROUND_COLOR_BUTTON = '//button[@title="Цвет фона"]'
-    # BACKGROUND_COLOR_VALUE = '//div[@class="cell--3K4W6"]/div[6]/div[2]/div/div[4]'
     BACKGROUND_COLOR_VALUE = '//div[@data-test-id="highlight"]//div[@data-test-id="#CAF2F5"]'
     FORMATTED_TEXT = '//div[@role="textbox"]/div/div/span'
 
     FONT_BUTTON = '//button[@title="Шрифт"]'
-    FONT_VALUE = '//div[@class="cell--3K4W6"]/div[7]/div[2]/div/div[2]'
+    FONT_VALUE = '(//div[@data-test-id="editor-toolbar"]//div[@data-test-id="data-list"])[3]/div[2]'
 
     TEXT_ALIGN = '//button[@title="Выравнивание"]'
-    # TEXT_ALIGN_VALUE_LEFT = '//div[@class="cell--3K4W6"]/div[8]/div[2]/div/div[1]'
     TEXT_ALIGN_VALUE_RIGHT = '//div[@data-test-id="align"]//div[@data-test-id="right"]'
 
     TEXT_MARGIN = '//button[@title="Отступ"]'
-    TEXT_MARGIN_INC = '//div[@class="cell--3K4W6"]/div[9]/div[2]/div/div[2]'
-    TEXT_MARGIN_DEC = '//div[@class="cell--3K4W6"]/div[9]/div[2]/div/div[1]'
+    TEXT_MARGIN_INC = '//div[@data-test-id="indent"]//div[@data-test-id="increase"]'
+    TEXT_MARGIN_DEC = '//div[@data-test-id="indent"]//div[@data-test-id="decrease"]'
 
     LIST_BUTTON = '//button[@title="Список"]'
-    NUMBERED_LIST = '//div[@class="cell--3K4W6"]/div[10]/div[2]/div/div[1]'
-    BULLETED_LIST = '//div[@class="cell--3K4W6"]/div[10]/div[2]/div/div[2]'
+    NUMBERED_LIST = '(//div[@data-test-id="editor-toolbar"]//div[@data-test-id="data-list"])[last()]/div[1]'
+    BULLETED_LIST = '(//div[@data-test-id="editor-toolbar"]//div[@data-test-id="data-list"])[last()]/div[2]'
     LISTED_TEXT = '//div[@role="textbox"]/div/ol'
     BULLETED_TEXT = '//div[@role="textbox"]/div/ul'
 
     CANCEL_BUTTON = '//button[@title="Отменить"]'
     REPEAT_BUTTON = '//button[@title="Повторить"]'
 
-    LINK_BUTTON = '//div[@class="cell--3K4W6"]/div[13]'
+    LINK_BUTTON = '(//div[@data-test-id="editor-toolbar"]//button[@data-test-id="button"])[13]'
     OK_LINK_BUTTON = '//button[@tabindex="520"]'
     LINK_IN_MESSAGE_FIELD = '//div[@role="textbox"]/div/div/a'
 
@@ -219,46 +217,8 @@ class LetterFormattingForm(BaseForm):
     def get_bulleted_text(self):
         return self.driver.find_element_by_xpath(self.BULLETED_TEXT).get_attribute('innerHTML')
 
-    def click_on_backspace(self):
-        ActionChains(self.driver).key_down(Keys.DELETE).perform()
-        ActionChains(self.driver).key_up(Keys.DELETE).perform()
-
-    # Выделение текста
-
-    def text_selection(self):
-        elem = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
-        ActionChains(self.driver).move_to_element(elem).click().perform()
-
-        ActionChains(self.driver).key_down(Keys.LEFT).perform()
-        ActionChains(self.driver).key_up(Keys.LEFT).perform()
-        ActionChains(self.driver).key_down(Keys.LEFT).perform()
-        ActionChains(self.driver).key_up(Keys.LEFT).perform()
-        ActionChains(self.driver).key_down(Keys.LEFT).perform()
-        ActionChains(self.driver).key_up(Keys.LEFT).perform()
-        ActionChains(self.driver).key_down(Keys.LEFT).perform()
-        ActionChains(self.driver).key_up(Keys.LEFT).perform()
-        ActionChains(self.driver).key_down(Keys.LEFT).perform()
-        ActionChains(self.driver).key_up(Keys.LEFT).perform()
-
-        ActionChains(self.driver).key_down(Keys.LEFT_SHIFT).perform()
-
-        ActionChains(self.driver).key_down(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_up(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_down(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_up(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_down(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_up(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_down(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_up(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_down(Keys.RIGHT).perform()
-        ActionChains(self.driver).key_up(Keys.RIGHT).perform()
-
-        ActionChains(self.driver).key_up(Keys.LEFT_SHIFT).perform()
-
     # Очищение поля ввода
     def clear_field(self):
-        # self.text_selection()
-        # ActionChains(self.driver).key_down(Keys.BACK_SPACE).perform()
         elem = self.driver.find_element_by_xpath(self.MESSAGE_FIELD)
         elem.clear()
 

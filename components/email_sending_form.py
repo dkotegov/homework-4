@@ -1,10 +1,7 @@
 # coding=utf-8
 import re
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from components.base_form import BaseForm
 
 
@@ -51,7 +48,7 @@ class EmailSendingForm(BaseForm):
 
     def check_wrong_emails(self):
         try:
-            div_error = WebDriverWait(self.driver, 10) \
+            WebDriverWait(self.driver, 10) \
                 .until(lambda driver: driver.find_element_by_xpath(self.INVALID_EMAIL))
             return True
         except WebDriverException:

@@ -30,11 +30,8 @@ class FileAttachingForm(BaseForm):
         self.send_keys_to_input('large_data.zip')
 
     def set_file_attach_input(self):
-        try:
-            self.file_attach_input_element = WebDriverWait(self.driver, 3) \
-                .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_INPUT))
-        except WebDriverException:
-            pass
+        self.file_attach_input_element = WebDriverWait(self.driver, 3) \
+            .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_INPUT))
 
     def check_loaded_through_cloud(self):
         try:
@@ -48,7 +45,7 @@ class FileAttachingForm(BaseForm):
             WebDriverWait(self.driver, timeout) \
                 .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_CHECK_LOADED.format(filename)))
             return True
-        except Exception, e:
+        except Exception:
             return False
 
     def check_loaded_without_cloud(self):

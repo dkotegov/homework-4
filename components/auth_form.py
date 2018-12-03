@@ -1,6 +1,5 @@
 # coding=utf-8
 from selenium.webdriver.support.wait import WebDriverWait
-
 from components.base_component import Component
 
 

@@ -14,12 +14,10 @@ class Page(object):
         url = urlparse.urljoin(self.BASE_URL, self.PAGE)
         self.driver.get(url)
         self.driver.fullscreen_window()
-        # self.driver.maximize_window()  # оставь фуллскрин, нормально же работает 😠
 
     def open_page_by_url(self, path):
         url = urlparse.urljoin(self.BASE_URL, path)
         self.driver.get(url)
-        # self.driver.maximize_window()
 
     def redirectQA(self):
         url = urlparse.urljoin(self.BASE_URL, self.REDIRECT_QA)

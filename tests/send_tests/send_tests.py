@@ -14,10 +14,10 @@ class SendTestEmailToMe(BaseSend):
         self.email_sending_form.set_message_email(self.TEXT)
         self.email_sending_form.click_send_button()
 
-        self.assertEqual(self.email_sending_form.checkMessageSent(), True)
+        self.assertTrue(self.email_sending_form.checkMessageSent())
         self.email_sending_form.click_close_msg_sent_button()
         self.email_sending_form.click_incoming_emails_button()
-        self.assertEqual(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT), True)
+        self.assertTrue(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT))
 
 
 class SendTestEmailToCorrectEmail(BaseSend):
@@ -31,8 +31,8 @@ class SendTestEmailToCorrectEmail(BaseSend):
         self.email_sending_form.set_message_email(self.TEXT)
         self.email_sending_form.click_send_button()
 
-        self.assertEqual(self.email_sending_form.checkMessageSent(), True)
-        self.assertEqual(self.email_sending_form.check_correct_recipient(), True)
+        self.assertTrue(self.email_sending_form.checkMessageSent())
+        self.assertTrue(self.email_sending_form.check_correct_recipient())
 
 
 class SendTestEmailToGroupCorrectEmails(BaseSend):
@@ -46,8 +46,8 @@ class SendTestEmailToGroupCorrectEmails(BaseSend):
         self.email_sending_form.set_message_email(self.TEXT)
         self.email_sending_form.click_send_button()
 
-        self.assertEqual(self.email_sending_form.checkMessageSent(), True)
-        self.assertEqual(self.email_sending_form.check_group_correct_recipients(), True)
+        self.assertTrue(self.email_sending_form.checkMessageSent())
+        self.assertTrue(self.email_sending_form.check_group_correct_recipients())
 
 
 class SendTestEmailToWrongEmail(BaseSend):
@@ -61,7 +61,7 @@ class SendTestEmailToWrongEmail(BaseSend):
         self.email_sending_form.set_message_email(self.TEXT)
         self.email_sending_form.click_send_button()
 
-        self.assertEqual(self.email_sending_form.check_wrong_emails(), True)
+        self.assertTrue(self.email_sending_form.check_wrong_emails())
 
 
 class SendTestEmailToGroupWrongEmails(BaseSend):
@@ -75,7 +75,7 @@ class SendTestEmailToGroupWrongEmails(BaseSend):
         self.email_sending_form.set_message_email(self.TEXT)
         self.email_sending_form.click_send_button()
 
-        self.assertEqual(self.email_sending_form.check_wrong_emails(), True)
+        self.assertTrue(self.email_sending_form.check_wrong_emails())
 
 
 class SendTestEmailToMeWithCopy(BaseSend):
@@ -91,10 +91,10 @@ class SendTestEmailToMeWithCopy(BaseSend):
         self.email_sending_form.set_copy_email()
         self.email_sending_form.click_send_button()
 
-        self.assertEqual(self.email_sending_form.checkMessageSent(), True)
+        self.assertTrue(self.email_sending_form.checkMessageSent())
         self.email_sending_form.click_close_msg_sent_button()
         self.email_sending_form.click_incoming_emails_button()
-        self.assertEqual(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT), True)
+        self.assertTrue(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT))
 
 
 class SendTestEmailToCorrectEmailWithCopy(BaseSend):
@@ -110,10 +110,10 @@ class SendTestEmailToCorrectEmailWithCopy(BaseSend):
         self.email_sending_form.set_copy_email_correct_recipient()
         self.email_sending_form.click_send_button()
 
-        self.assertEqual(self.email_sending_form.checkMessageSent(), True)
+        self.assertTrue(self.email_sending_form.checkMessageSent())
         self.email_sending_form.click_close_msg_sent_button()
         self.email_sending_form.click_incoming_emails_button()
-        self.assertEqual(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT), True)
+        self.assertTrue(self.email_sending_form.checkMessageSentBySubject(self.SUBJECT))
 
 
 class SendTestEmailToGroupWrongEmailsWithCopy(BaseSend):
@@ -129,4 +129,4 @@ class SendTestEmailToGroupWrongEmailsWithCopy(BaseSend):
         self.email_sending_form.set_copy_email()
         self.email_sending_form.click_send_button()
 
-        self.assertEqual(self.email_sending_form.check_wrong_emails(), True)
+        self.assertTrue(self.email_sending_form.check_wrong_emails())

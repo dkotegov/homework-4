@@ -11,7 +11,7 @@ class ImportantMarkTest(BaseSend):
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_incoming()
-        self.assertEqual(self.functions_form.check_letter_by_subj("Important"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("Important"))
 
         self.functions_page.redirectQA()
 
@@ -19,9 +19,10 @@ class ImportantMarkTest(BaseSend):
         self.writeLetter("ImportantS", "Important mark letter Test")
         self.functions_form.click_on_important_mark()
         self.functions_form.click_save_button()
-        self.functions_form.click_cancel_button()
+        # self.functions_form.click_cancel_button()
+        self.functions_form.click_cancel_writing_message()
         self.functions_form.show_message_draft()
-        self.assertEqual(self.functions_form.check_letter_by_subj("ImportantS"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("ImportantS"))
 
 
 class NotificationMarkTest(BaseSend):
@@ -33,7 +34,7 @@ class NotificationMarkTest(BaseSend):
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_incoming()
-        self.assertEqual(self.functions_form.check_letter_by_subj("Notified"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("Notified"))
 
         self.functions_page.redirectQA()
 
@@ -41,9 +42,10 @@ class NotificationMarkTest(BaseSend):
         self.writeLetter("NotifiedS", "Notify mark letter Test")
         self.functions_form.click_on_notification_mark()
         self.functions_form.click_save_button()
-        self.functions_form.click_cancel_button()
+        # self.functions_form.click_cancel_button()
+        self.functions_form.click_cancel_writing_message()
         self.functions_form.show_message_draft()
-        self.assertEqual(self.functions_form.check_letter_by_subj("NotifiedS"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("NotifiedS"))
 
 
 class ReminderMarkTest(BaseSend):
@@ -55,7 +57,7 @@ class ReminderMarkTest(BaseSend):
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_incoming()
-        self.assertEqual(self.functions_form.check_letter_by_subj("Remind"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("Remind"))
 
         self.functions_page.redirectQA()
 
@@ -63,9 +65,10 @@ class ReminderMarkTest(BaseSend):
         self.writeLetter("RemindS", "Remind mark letter Test")
         self.functions_form.click_on_reminder_mark()
         self.functions_form.click_save_button()
-        self.functions_form.click_cancel_button()
+        # self.functions_form.click_cancel_button()
+        self.functions_form.click_cancel_writing_message()
         self.functions_form.show_message_draft()
-        self.assertEqual(self.functions_form.check_letter_by_subj("RemindS"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("RemindS"))
 
 
 class DelayedMarkTest(BaseSend):
@@ -77,7 +80,7 @@ class DelayedMarkTest(BaseSend):
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_sent()
-        self.assertEqual(self.functions_form.check_letter_by_subj("Delayed"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("Delayed"))
 
         self.functions_page.redirectQA()
 
@@ -86,9 +89,10 @@ class DelayedMarkTest(BaseSend):
         self.writeLetter("DelayedS", "Delayed mark letter Test")
         self.functions_form.click_on_delayed_mark()
         self.functions_form.click_save_button()
-        self.functions_form.click_cancel_button()
+        # self.functions_form.click_cancel_button()
+        self.functions_form.click_cancel_writing_message()
         self.functions_form.show_message_draft()
-        self.assertEqual(self.functions_form.check_letter_by_subj("DelayedS"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("DelayedS"))
 
 
 class CrossFuncsTest(BaseSend):
@@ -104,7 +108,7 @@ class CrossFuncsTest(BaseSend):
         self.functions_form.click_send_button()
         self.functions_form.closeMessageSent()
         self.functions_form.show_message_sent()
-        self.assertEqual(self.functions_form.check_letter_by_subj("CrossFuncs"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("CrossFuncs"))
 
         self.functions_page.redirectQA()
 
@@ -116,10 +120,11 @@ class CrossFuncsTest(BaseSend):
         self.functions_form.click_on_delayed_mark()
         self.functions_form.click_on_reminder_mark()
         self.functions_form.click_save_button()
-        self.functions_form.click_cancel_button()
-        self.functions_form.closeMessageSent()
+        # self.functions_form.click_cancel_button()
+        self.functions_form.click_cancel_writing_message()
+        # self.functions_form.closeMessageSent()
         self.functions_form.show_message_draft()
-        self.assertEqual(self.functions_form.check_letter_by_subj("CrossFuncsS"), True)
+        self.assertTrue(self.functions_form.check_letter_by_subj("CrossFuncsS"))
 
 
 class TemplateTest(BaseSend):

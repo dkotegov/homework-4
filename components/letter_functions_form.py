@@ -1,9 +1,4 @@
 # coding=utf-8
-# coding=utf-8
-# coding=utf-8
-# coding=utf-8
-# coding=utf-8
-# coding=utf-8
 import selenium
 from selenium.common.exceptions import WebDriverException, ElementNotVisibleException
 from selenium.webdriver import ActionChains
@@ -11,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
 from components.base_form import BaseForm
+
 
 class LetterFunctionsForm(BaseForm):
     IMPORTANT_MARK = '//div[@data-qa-id = "priority" ]'
@@ -33,17 +29,17 @@ class LetterFunctionsForm(BaseForm):
     TEMPLATE_MARK_SAVE = '//div[@class ="control--3U0pa" ]'
     TEMPLATE_FIRST = '//div[@class="container--2hzoN"]/div'
 
-    #Получение первого шаблона из списка
+    # Получение первого шаблона из списка
     def get_first_template(self):
-            elem = WebDriverWait(self.driver, 1) \
-                .until(lambda driver: driver.find_elements_by_xpath(self.TEMPLATE_FIRST)[0])
-            return elem.text
+        elem = WebDriverWait(self.driver, 1) \
+            .until(lambda driver: driver.find_elements_by_xpath(self.TEMPLATE_FIRST)[0])
+        return elem.text
 
     # Выведение списка шаблонов
     def click_template_mark(self):
-            elem = WebDriverWait(self.driver, 1) \
-                .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK))
-            ActionChains(self.driver).move_to_element(elem).click().perform()
+        elem = WebDriverWait(self.driver, 1) \
+            .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK))
+        ActionChains(self.driver).move_to_element(elem).click().perform()
 
     # Сохранение шаблона
     def click_save_template(self):
@@ -83,5 +79,3 @@ class LetterFunctionsForm(BaseForm):
             return True
         else:
             return False
-
-        # letter-item:subject:ImportantS

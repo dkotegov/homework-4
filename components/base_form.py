@@ -1,10 +1,9 @@
 # coding=utf-8
-import selenium
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
-
+from selenium.webdriver.support import expected_conditions as ES
 from components.base_component import Component
 
 
@@ -17,7 +16,7 @@ class BaseForm(Component):
     CLOSE_MSG_SENT_BTN = '//span[@data-qa-id="close"]'
 
     MSG_SENT_LINK = '//a[@data-qa-id="is-sent"]'
-    DESTINATION_INPUT = '//input[@data-test-id="input"]'  # defines 1 element. First is needed
+    DESTINATION_INPUT = '//input[@data-test-id="input"]'
     CLOSE_MSG_SENT = '//div[@class="layer-window__block"]'
     MESSAGE_FIELD = '//div[@role="textbox"]/div/div'
     SUBJECT_FIELD = '//div[@data-test-id="subject"]'
@@ -100,6 +99,12 @@ class BaseForm(Component):
     def show_message_draft(self):
         elem = self.driver.find_element_by_xpath(self.DRAFT_MSG_HREF)
         ActionChains(self.driver).move_to_element(elem).click().click().perform()
+
+    def click_cancel_writing_message(self):
+        cancel_btn = self.driver.find_element_by_xpath(self.CANCEL_LETTER_BTN)
+        cancel_btn.click()
+        WebDriverWait(self.driver, 2) \
+            .until(ES.invisibility_of_element(cancel_btn))
 
     # Клик на поле ввода
     def click_on_message_field(self):
