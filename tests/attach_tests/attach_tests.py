@@ -5,7 +5,7 @@ from tests.attach_tests.base_attach import BaseAttach
 
 
 # Выбрать документ --> Получение сообщения с документом c возможностью просмотра из сообщения
-class AttachTest_document(BaseAttach):
+class AttachTestDocument(BaseAttach):
     TEST_FILE_XLSX = BaseAttach.TEST_FILE_DIR + 'АДАМОВА!.xlsx'
 
     def test(self):
@@ -21,7 +21,7 @@ class AttachTest_document(BaseAttach):
 
 
 # Выбрать медиафайл --> Получение сообщения с медиафайлом с возможностью воспроизведения по клику
-class AttachTest_Media(BaseAttach):
+class AttachTestMedia(BaseAttach):
     TEST_FILE_MEDIA = BaseAttach.TEST_FILE_DIR + 'Track01.mp3'
 
     def test(self):
@@ -38,7 +38,7 @@ class AttachTest_Media(BaseAttach):
 
 # Выбрать исполняемый файл --> Получение сообщения с исполняемым файлом. При попытке скачать файл должно появиться
 # предупреждение о потенциальной вредоносности файла. Если речь идет о нескольких файлах, можно комбинировать форматы
-class AttachTest_Executable(BaseAttach):
+class AttachTestExecutable(BaseAttach):
     TEST_FILE_EXECUTABLE = BaseAttach.TEST_FILE_DIR + 'hack.sh'
 
     def test(self):

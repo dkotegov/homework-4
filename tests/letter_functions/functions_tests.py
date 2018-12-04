@@ -84,7 +84,6 @@ class DelayedMarkTest(BaseSend):
 
         self.functions_page.redirectQA()
 
-
         # Тестирование сохранения сообщения с отложенным отправлением
         self.writeLetter("DelayedS", "Delayed mark letter Test")
         self.functions_form.click_on_delayed_mark()
