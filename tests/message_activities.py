@@ -46,7 +46,11 @@ class TestMessageActivities(unittest.TestCase):
     #     self.assertEqual(moved_correctly, True)
 
     def test_apply_flag(self):
-        self.page.apply_flag_for_all('flag')
+        msg = self.page.apply_flag_for_all('flag')
+        self.page.unflag('flag', msg)
+
+
+        time.sleep(2)
 
     def tearDown(self):
         self.page.close()

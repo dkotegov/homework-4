@@ -101,20 +101,22 @@ class MessageActivities(PageObject):
 
     def apply_flag_for_n(self, n, type):
         messages, msg_count = self.get_messages()
+        result = []
 
         if msg_count:
             for i in range(0, n):
                 messages[i].find_element_by_css_selector('.llc__avatar').click()
+                result.append(messages[i])
             print 'clicked'
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Ещё (.)"]'))).click()
             self.driver.find_element_by_css_selector('.dropdown__menu')
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.list-item__ico_{}'.format(type)))).click()
 
-        return True
+        return result
 
     def apply_flag_for_all(self, type):
         messages, msg_count = self.get_messages()
-
+        
         if msg_count:
             messages[0].find_element_by_css_selector('.llc__avatar').click()
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Выделить все (Ctrl+A)"]'))).click()
@@ -122,4 +124,13 @@ class MessageActivities(PageObject):
             self.driver.find_element_by_css_selector('.dropdown__menu')
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.list-item__ico_{}'.format(type)))).click()
 
-        return True
+        return messages
+
+    def unflag(self, type, messages):
+        if len(messages):
+            for i in range(0, len(messages)):
+                messages[i].find_element_by_css_selector('.llc__avatar').click()
+
+        self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Ещё (.)"]'))).click()
+        self.driver.find_element_by_css_selector('.dropdown__menu')
+        self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.list-item__ico_un{}'.format(type)))).click()
