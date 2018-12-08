@@ -2,6 +2,7 @@
 
 from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
+from sidebar import Sidebar
 
 
 class FolderUnlock(Component):
@@ -25,6 +26,8 @@ class FolderUnlock(Component):
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
-    def unlock_folder(self, password):
+    def unlock_folder(self, folder_name, password):
+        sidebar = Sidebar(self.driver)
+        sidebar.click_unlock_folder_by_name(folder_name)
         self.set_password(password)
         self.submit()

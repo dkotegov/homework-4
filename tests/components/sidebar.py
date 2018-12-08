@@ -175,6 +175,11 @@ class Sidebar(Component):
         except WebDriverException:
             return False
 
+    def try_delete_folder(self, folder_name):
+        self.right_click_by_folder(folder_name)
+        result = self.try_click_delete()
+        return result
+
     def submit_delete(self):
         submit = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT_DELETE)

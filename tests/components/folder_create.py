@@ -1,5 +1,6 @@
 from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
+from sidebar import Sidebar
 
 
 class FolderCreate(Component):
@@ -95,10 +96,14 @@ class FolderCreate(Component):
         ).click()
 
     def create_folder(self, folder_name):
+        sidebar = Sidebar(self.driver)
+        sidebar.create_new_dir()
         self.set_name(folder_name)
         self.submit()
 
     def create_folder_with_password(self, folder_name, folder_pwd, user_pwd):
+        sidebar = Sidebar(self.driver)
+        sidebar.create_new_dir()
         self.set_name(folder_name)
         self.click_more_settings()
         self.click_set_password()
@@ -111,6 +116,8 @@ class FolderCreate(Component):
         self.submit()
 
     def create_folder_in_inbox(self, folder_name):
+        sidebar = Sidebar(self.driver)
+        sidebar.create_new_dir()
         self.set_name(folder_name)
         self.click_more_settings()
         self.click_select_parent_inbox()
@@ -118,6 +125,8 @@ class FolderCreate(Component):
         self.submit()
 
     def create_folder_with_subfolder(self, folder_name, subfolder_name):
+        sidebar = Sidebar(self.driver)
+        sidebar.create_new_dir()
         self.set_name(subfolder_name)
         self.click_more_settings()
         self.click_select_parent_inbox()

@@ -39,22 +39,22 @@ class FolderDeleteTests(unittest.TestCase):
     def test_delete_unlocked_folder(self):
         sidebar = self.main_page.sidebar
         letters = self.main_page.letters
-        folder_create_form = self.main_page.folder_create
+        folder_create = self.main_page.folder_create
 
-        sidebar.create_new_dir()
-        folder_create_form.create_folder_with_password(
+        folder_create.create_folder_with_password(
             self.FOLDER_NAME1, self.FOLDER_PASSWORD, self.PASSWORD)
+        sidebar.click_by_folder(self.FOLDER_NAME1)
 
-        sidebar.clear_trash()
         sidebar.click_to_inbox()
         mailFrom = letters.get_mail_from()
         mailText = letters.get_mail_text()
         mailTime = letters.get_mail_time()
 
         letters.move_letter_to_folder(self.FOLDER_NAME1)
+        sidebar.clear_trash()
         sidebar.delete_folder_by_name(self.FOLDER_NAME1)
 
-        # удаленная папка не удаляется со страницы
+        # удаленная папка не удаляется со страницы (баг)
         self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME1)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
@@ -76,10 +76,9 @@ class FolderDeleteTests(unittest.TestCase):
 
     def test_delete_subdir_context_menu(self):
         sidebar = self.main_page.sidebar
-        folder_create_form = self.main_page.folder_create
+        folder_create = self.main_page.folder_create
 
-        sidebar.create_new_dir()
-        folder_create_form.create_folder_in_inbox(self.FOLDER_NAME2)
+        folder_create.create_folder_in_inbox(self.FOLDER_NAME2)
         sidebar.click_by_folder(self.FOLDER_NAME2)
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME2)
@@ -92,10 +91,9 @@ class FolderDeleteTests(unittest.TestCase):
         folders_setting_page_old = SettingsFolders(self.driver)
         sidebar = self.main_page.sidebar
         folder_settings = folders_setting_page_old.settings_form
-        folder_create_form = self.main_page.folder_create
+        folder_create = self.main_page.folder_create
 
-        sidebar.create_new_dir()
-        folder_create_form.create_folder_in_inbox(self.FOLDER_NAME3)
+        folder_create.create_folder_in_inbox(self.FOLDER_NAME3)
 
         folders_setting_page_old.open()
         folder_settings.delete_my_folder()
@@ -106,23 +104,20 @@ class FolderDeleteTests(unittest.TestCase):
 
     def test_delete_locked_folder(self):
         sidebar = self.main_page.sidebar
-        folder_unlock_form = self.main_page.folder_unlock
-        folder_create_form = self.main_page.folder_create
+        folder_unlock = self.main_page.folder_unlock
+        folder_create = self.main_page.folder_create
 
-        sidebar.create_new_dir()
-        folder_create_form.create_folder_with_password(
+        folder_create.create_folder_with_password(
             self.FOLDER_NAME4, self.FOLDER_PASSWORD, self.PASSWORD)
         sidebar.block_folder_by_name(self.FOLDER_NAME4)
 
         self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
-        sidebar.right_click_by_folder(self.FOLDER_NAME4)
-        try_delete = sidebar.try_click_delete()
+        try_delete = sidebar.try_delete_folder(self.FOLDER_NAME4)
         self.assertFalse(
-            try_delete, "Folder can be deleted. Must be protected.")
+            try_delete, "Folder was deleted. Must be protected.")
 
-        sidebar.click_unlock_folder_by_name(self.FOLDER_NAME4)
-        folder_unlock_form.unlock_folder(self.FOLDER_PASSWORD)
+        folder_unlock.unlock_folder(self.FOLDER_NAME4, self.FOLDER_PASSWORD)
         self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
         sidebar.delete_folder_by_name(self.FOLDER_NAME4)
@@ -132,23 +127,23 @@ class FolderDeleteTests(unittest.TestCase):
 
     def test_delete_folder_with_subdir(self):
         sidebar = self.main_page.sidebar
-        folder_create_form = self.main_page.folder_create
+        folder_create = self.main_page.folder_create
 
-        sidebar.create_new_dir()
-        folder_create_form.create_folder(self.FOLDER_NAME5)
+        folder_create.create_folder(self.FOLDER_NAME5)
         sidebar.click_by_folder(self.FOLDER_NAME5)
-        sidebar.create_new_dir()
-        folder_create_form.create_folder_with_subfolder(
+        folder_create.create_folder_with_subfolder(
             self.FOLDER_NAME5, self.FOLDER_NAME_CHILD1)
 
         self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
-        sidebar.right_click_by_folder(self.FOLDER_NAME5)
-        try_delete = sidebar.try_click_delete()
+        try_delete = sidebar.try_delete_folder(self.FOLDER_NAME5)
         self.assertFalse(
-            try_delete, "Folder can be deleted. Must be protected.")
+            try_delete, "Folder was deleted. Must be protected.")
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME_CHILD1)
         self.main_page._redirect_to_qa()
         sidebar.click_by_folder(self.FOLDER_NAME5)
         sidebar.delete_folder_by_name(self.FOLDER_NAME5)
+        self.main_page._redirect_to_qa()
+        isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME5)
+        self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
