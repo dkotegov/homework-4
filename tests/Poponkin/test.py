@@ -8,6 +8,7 @@ from tests.pages.main_page import MainPage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+
 class Test(unittest.TestCase):
     USEREMAIL = 'ttexnopark@mail.ru'
     PASSWORD = os.environ['PASSWORD']

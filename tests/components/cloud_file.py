@@ -15,7 +15,8 @@ class CloudFile(Component):
 
     def attach_cloud_file(self, filename):
         WebDriverWait(self.driver, 30, 0.1).until(
-            ec.element_to_be_clickable((By.XPATH, self.SAMPLE_IMAGE.format(filename)))
+            ec.element_to_be_clickable(
+                (By.XPATH, self.SAMPLE_IMAGE.format(filename)))
         ).click()
 
         WebDriverWait(self.driver, 30, 0.1).until(

@@ -41,18 +41,11 @@ class Test(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_form = auth_page.form
-        auth_form.set_login(self.USER_EMAIL)
-        auth_form.set_password(self.PASSWORD)
-        auth_form.submit()
+        auth_page = AuthPage(self.driver)  # Авторизация
+        auth_page.form.authorize(self.USER_EMAIL, self.PASSWORD)
 
-        main_page = MainPage(self.driver)
-        main_page.waitForVisible()
-        main_page.redirectToQa()
-        main_page.waitForVisible()
-        main_page.sidebar.go_to_folder('Черновики')
+        self.main_page = MainPage(self.driver)
+        self.main_page.sidebar.go_to_folder('Черновики')
         drafts_page = DraftsPage(self.driver)
         if drafts_page.letters.has_letters():
             drafts_page.letters.select_one()

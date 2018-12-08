@@ -29,23 +29,17 @@ class FolderDeleteTests(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_form = auth_page.form
-        auth_form.authorize(self.USEREMAIL, self.PASSWORD)
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
-        sidebar.waitForVisible()
-        main_page.redirectToQa()
+        auth_page = AuthPage(self.driver)  # Авторизация
+        auth_page.form.authorize(self.USEREMAIL, self.PASSWORD)
+        self.main_page = MainPage(self.driver)
 
     def tearDown(self):
         self.driver.quit()
 
     def test_delete_unlocked_folder(self):
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
-        letters = main_page.letters
-        folder_create_form = main_page.folder_create
+        sidebar = self.main_page.sidebar
+        letters = self.main_page.letters
+        folder_create_form = self.main_page.folder_create
 
         sidebar.create_new_dir()
         folder_create_form.create_folder_with_password(
@@ -60,7 +54,8 @@ class FolderDeleteTests(unittest.TestCase):
         letters.move_letter_to_folder(self.FOLDER_NAME1)
         sidebar.delete_folder_by_name(self.FOLDER_NAME1)
 
-        main_page.redirectToQa()  # удаленная папка не удаляется со страницы
+        # удаленная папка не удаляется со страницы
+        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME1)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
@@ -77,52 +72,49 @@ class FolderDeleteTests(unittest.TestCase):
         self.assertEqual(mailTime, mailTimeInTrash,
                          '''Time in letter from trash doesn't equal
                           with time from letter in a deleted folder''')
-        main_page.sidebar.clear_trash()
+        self.main_page.sidebar.clear_trash()
 
     def test_delete_subdir_context_menu(self):
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
-        folder_create_form = main_page.folder_create
+        sidebar = self.main_page.sidebar
+        folder_create_form = self.main_page.folder_create
 
         sidebar.create_new_dir()
         folder_create_form.create_folder_in_inbox(self.FOLDER_NAME2)
         sidebar.click_by_folder(self.FOLDER_NAME2)
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME2)
-        main_page.redirectToQa()
+        self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME2)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
     def test_delete_subdir_old_menu(self):
-        main_page = MainPage(self.driver)
         folders_setting_page_old = SettingsFolders(self.driver)
-        sidebar = main_page.sidebar
+        sidebar = self.main_page.sidebar
         folder_settings = folders_setting_page_old.settings_form
-        folder_create_form = main_page.folder_create
+        folder_create_form = self.main_page.folder_create
 
         sidebar.create_new_dir()
         folder_create_form.create_folder_in_inbox(self.FOLDER_NAME3)
 
         folders_setting_page_old.open()
         folder_settings.delete_my_folder()
-        main_page.redirectToQa()
+        self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME3)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
     def test_delete_locked_folder(self):
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
-        folder_unlock_form = main_page.folder_unlock
-        folder_create_form = main_page.folder_create
+        sidebar = self.main_page.sidebar
+        folder_unlock_form = self.main_page.folder_unlock
+        folder_create_form = self.main_page.folder_create
 
         sidebar.create_new_dir()
         folder_create_form.create_folder_with_password(
             self.FOLDER_NAME4, self.FOLDER_PASSWORD, self.PASSWORD)
         sidebar.block_folder_by_name(self.FOLDER_NAME4)
 
-        main_page.redirectToQa()
+        self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
         sidebar.right_click_by_folder(self.FOLDER_NAME4)
         try_delete = sidebar.try_click_delete()
@@ -131,17 +123,16 @@ class FolderDeleteTests(unittest.TestCase):
 
         sidebar.click_unlock_folder_by_name(self.FOLDER_NAME4)
         folder_unlock_form.unlock_folder(self.FOLDER_PASSWORD)
-        main_page.redirectToQa()
+        self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
         sidebar.delete_folder_by_name(self.FOLDER_NAME4)
-        main_page.redirectToQa()
+        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME4)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
     def test_delete_folder_with_subdir(self):
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
-        folder_create_form = main_page.folder_create
+        sidebar = self.main_page.sidebar
+        folder_create_form = self.main_page.folder_create
 
         sidebar.create_new_dir()
         folder_create_form.create_folder(self.FOLDER_NAME5)
@@ -150,7 +141,7 @@ class FolderDeleteTests(unittest.TestCase):
         folder_create_form.create_folder_with_subfolder(
             self.FOLDER_NAME5, self.FOLDER_NAME_CHILD1)
 
-        main_page.redirectToQa()
+        self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
         sidebar.right_click_by_folder(self.FOLDER_NAME5)
         try_delete = sidebar.try_click_delete()
@@ -158,6 +149,6 @@ class FolderDeleteTests(unittest.TestCase):
             try_delete, "Folder can be deleted. Must be protected.")
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME_CHILD1)
-        main_page.redirectToQa()
+        self.main_page._redirect_to_qa()
         sidebar.click_by_folder(self.FOLDER_NAME5)
         sidebar.delete_folder_by_name(self.FOLDER_NAME5)

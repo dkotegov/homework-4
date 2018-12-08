@@ -3,7 +3,9 @@ from tests.components.auth_form import AuthForm
 
 
 class AuthPage(Page):
-    PATH = ''
+    def __init__(self, driver):
+        Page.__init__(self, driver)
+        self.open()
 
     @property
     def form(self):

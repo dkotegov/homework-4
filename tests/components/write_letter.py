@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import time
 from os.path import normpath, join
 
 from component import Component
@@ -15,39 +14,53 @@ class WriteLetter(Component):
     # Inputs
     THEME_INPUT = BASE + '//*[@data-test-id="subject"]//input'
     TO_INPUT = BASE + '//*[@data-test-id="to"]//input'
-    WHOM_COPY_INPUT = BASE + '//*[@data-test-id="cc"]//*[@data-type="cc"]//input'
-    WHOM_HIDDEN_COPY_INPUT = BASE + '//*[@data-test-id="bcc"]//*[@data-type="bcc"]//input'
+    WHOM_COPY_INPUT = BASE + \
+        '//*[@data-test-id="cc"]//*[@data-type="cc"]//input'
+    WHOM_HIDDEN_COPY_INPUT = BASE + \
+        '//*[@data-test-id="bcc"]//*[@data-type="bcc"]//input'
     TEXT_INPUT = BASE + '//*[@data-test-id="editor"]' \
-        '//div[contains(concat(" ", normalize-space(@class), " "), " cke_editable ")]'
+        '//div[contains(concat(" ", normalize-space(@class), " "),' + \
+                        ' " cke_editable ")]'
     SIGNATURE_INPUT = TEXT_INPUT + \
-        '//div[contains(concat(" ", normalize-space(@class), " "), " cke_widget_editable ")]'
+        '//div[contains(concat(" ", normalize-space(@class), " "),' + \
+        ' " cke_widget_editable ")]'
 
     # Buttons
     SAVE_BUTTON = BASE + '//*[@data-qa-id="save"]'
+    SEND_BUTTON = BASE + '//*[@data-qa-id="send"]'
     CLOSE_BUTTON = BASE + '//*[@data-test-id="close"]'
     PRIORITY_BUTTON = BASE + '//*[@data-qa-id="priority"]'
-    PRIORITY_BUTTON_ACTIVE = PRIORITY_BUTTON + '//div[contains(concat(" ", normalize-space(@class), " "), " c0123 ")]'
+    PRIORITY_BUTTON_ACTIVE = PRIORITY_BUTTON + \
+        '//div[contains(concat(" ", normalize-space(@class), " "), " c0123 ")]'
     RECEIPT_BUTTON = BASE + '//*[@data-qa-id="receipt"]'
-    RECEIPT_BUTTON_ACTIVE = RECEIPT_BUTTON + '//div[contains(concat(" ", normalize-space(@class), " "), " c0123 ")]'
+    RECEIPT_BUTTON_ACTIVE = RECEIPT_BUTTON + \
+        '//div[contains(concat(" ", normalize-space(@class), " "), " c0123 ")]'
     ADD_WHOM_COPY_INPUT_BUTTON = BASE + '//*[@data-test-id="cc"]'
     REMIND_BUTTON = BASE + '//*[@data-qa-id="remind"]'
-    REMIND_BUTTON_ACTIVE = REMIND_BUTTON + '//div[contains(concat(" ", normalize-space(@class), " "), " c0113 ")]'
+    REMIND_BUTTON_ACTIVE = REMIND_BUTTON + \
+        '//div[contains(concat(" ", normalize-space(@class), " "), " c0113 ")]'
     SCHEDULE_BUTTON = BASE + '//*[@data-qa-id="schedule"]'
-    SCHEDULE_BUTTON_ACTIVE = SCHEDULE_BUTTON + '//div[contains(concat(" ", normalize-space(@class), " "), " c0113 ")]'
+    SCHEDULE_BUTTON_ACTIVE = SCHEDULE_BUTTON + \
+        '//div[contains(concat(" ", normalize-space(@class), " "), " c0113 ")]'
     ADD_WHOM_HIDDEN_COPY_INPUT_BUTTON = BASE + '//*[@data-test-id="bcc"]'
     ATTACH_CONTROLS = BASE + '//*[@data-test-id="attach-controls"]'
     FILE_ATTACH_BUTTON = ATTACH_CONTROLS + '//*[@data-test-id="attach-file"]'
     CLOUD_ATTACH_BUTTON = ATTACH_CONTROLS + '//*[@data-test-id="attach-cloud"]'
     MAIL_ATTACH_BUTTON = ATTACH_CONTROLS + '//*[@data-test-id="attach-mail"]'
 
-    TO_CHECK = BASE + '//*[@data-test-id="to"]//*[@data-test-id="operand:base:{}"]'
-    WHOM_COPY_CHECK = BASE + '//*[@data-test-id="cc"]//*[@data-test-id="operand:base:{}"]'
-    WHOM_HIDDEN_COPY_CHECK = BASE + '//*[@data-test-id="bcc"]//*[@data-test-id="operand:base:{}"]'
+    TO_CHECK = BASE + \
+        '//*[@data-test-id="to"]//*[@data-test-id="operand:base:{}"]'
+    WHOM_COPY_CHECK = BASE + \
+        '//*[@data-test-id="cc"]//*[@data-test-id="operand:base:{}"]'
+    WHOM_HIDDEN_COPY_CHECK = BASE + \
+        '//*[@data-test-id="bcc"]//*[@data-test-id="operand:base:{}"]'
 
     ATTACHED_FILES = BASE + '//*[@data-test-id="attach-slider"]'
-    ATTACH_FILE_CHECK = ATTACHED_FILES + '//*[@data-test-id="attach:{}:loaded"]'
+    ATTACH_FILE_CHECK = ATTACHED_FILES + \
+        '//*[@data-test-id="attach:{}:loaded"]'
 
     NOTIFICATION = '//*[@data-qa-id="message"][contains(text(), "{}")]'
+    CLOSE_WINDOW_AFTER_SENDING_LETTER = '//*[@data-qa-id="close"]'
 
     def set_theme(self, theme):
         set_theme_input = WebDriverWait(self.driver, 30, 0.1).until(
@@ -65,7 +78,8 @@ class WriteLetter(Component):
             save_button.click()
             try:
                 WebDriverWait(self.driver, 5, 0.1).until(
-                    lambda d: d.find_element_by_xpath(self.NOTIFICATION.format('Сохранено'))
+                    lambda d: d.find_element_by_xpath(
+                        self.NOTIFICATION.format('Сохранено'))
                 )
                 try_again = False
             except:
@@ -125,7 +139,8 @@ class WriteLetter(Component):
 
     def check_whom_copy(self, whom_copy):
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.WHOM_COPY_CHECK.format(whom_copy))
+            lambda d: d.find_element_by_xpath(
+                self.WHOM_COPY_CHECK.format(whom_copy))
         )
 
     def set_remind_after(self):
@@ -147,7 +162,8 @@ class WriteLetter(Component):
 
     def set_whom_hidden_copy(self, whom_hidden_copy):
         add_whom_hidden_copy_button = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.ADD_WHOM_HIDDEN_COPY_INPUT_BUTTON)
+            lambda d: d.find_element_by_xpath(
+                self.ADD_WHOM_HIDDEN_COPY_INPUT_BUTTON)
         )
         add_whom_hidden_copy_button.click()
         whom_hidden_copy_input = WebDriverWait(self.driver, 30, 0.1).until(
@@ -158,7 +174,8 @@ class WriteLetter(Component):
 
     def check_whom_hidden_copy(self, whom_hidden_copy):
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.WHOM_HIDDEN_COPY_CHECK.format(whom_hidden_copy))
+            lambda d: d.find_element_by_xpath(
+                self.WHOM_HIDDEN_COPY_CHECK.format(whom_hidden_copy))
         )
 
     def add_file(self, file_path):
@@ -169,7 +186,8 @@ class WriteLetter(Component):
 
     def check_added_file(self, filename):
         WebDriverWait(self.driver, 30, 0.1).until(
-            ec.element_to_be_clickable((By.XPATH, self.ATTACH_FILE_CHECK.format(filename)))
+            ec.element_to_be_clickable(
+                (By.XPATH, self.ATTACH_FILE_CHECK.format(filename)))
         )
 
     def open_add_cloud_file(self):
@@ -186,7 +204,8 @@ class WriteLetter(Component):
 
     def wait_for_save(self, seconds):
         WebDriverWait(self.driver, seconds, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.NOTIFICATION.format('Сохранено'))
+            lambda d: d.find_element_by_xpath(
+                self.NOTIFICATION.format('Сохранено'))
         )
 
     def set_text(self, text):
@@ -213,3 +232,16 @@ class WriteLetter(Component):
             lambda d: d.find_element_by_xpath(self.SIGNATURE_INPUT)
         )
         return signature_input.text
+
+    def send_letter(self):
+        send_letter = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SEND_BUTTON)
+        )
+        send_letter.click()
+
+    def close_window(self):
+        close_window = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(
+                self.CLOSE_WINDOW_AFTER_SENDING_LETTER)
+        )
+        close_window.click()

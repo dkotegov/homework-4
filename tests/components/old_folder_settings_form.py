@@ -7,7 +7,7 @@ class FoldersSettingsOld(Component):
     BASE = '//div[contains(@class,"b-panel_settings")] '
     SUBMIT_BASE = '//div[@class="is-folder-remove_in"] '
 
-    DELETE_FOLDER_BUTTON = BASE + '//div[@data-name="remove"][@data-id="1"]'
+    DELETE_FOLDER_BUTTON = BASE + '//div[@data-name="remove"][@data-id="2"]'
     SUBMIT_DELETE = SUBMIT_BASE + '//button[@type="submit"]'
 
     def click_delete(self):

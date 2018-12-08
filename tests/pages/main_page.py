@@ -11,7 +11,7 @@ from tests.components.folder_edit import FolderEdit
 from tests.components.letters import Letters
 from tests.components.folder_unlock import FolderUnlock
 from tests.components.logout import Logout
-
+from tests.components.write_letter import WriteLetter
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -19,6 +19,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class MainPage(Page):
     BASE_URL = 'https://octavius.mail.ru/'
+
+    def __init__(self, driver):
+        Page.__init__(self, driver)
+        self.sidebar.waitForVisible()
+        self._redirect_to_qa()
+        self.sidebar.click_to_inbox()
 
     @property
     def sidebar(self):
@@ -48,16 +54,10 @@ class MainPage(Page):
     def folder_edit(self):
         return FolderEdit(self.driver)
 
-    def redirectToQa(self):
+    @property
+    def write_letter(self):
+        return WriteLetter(self.driver)
+
+    def _redirect_to_qa(self):
         url = urlparse.urljoin(self.BASE_URL, '/bundles/page.qa.html')
         self.driver.get(url)
-
-    # Ждём загрузки страницы по элементу. В данном случае по сайдбару.
-    def waitForVisible(self):
-        sidebar = self.sidebar
-        sidebar.waitForVisible()
-
-    # Вход в папку "Входящие"
-    def go_to_inbox(self):
-        sidebar = self.sidebar
-        sidebar.click_to_inbox()

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 import os
 
@@ -25,25 +27,18 @@ class Test(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_form = auth_page.form
-        auth_form.set_login(self.USEREMAIL)
-        auth_form.set_password(self.PASSWORD)
-        auth_form.submit()
-        # CREATE FOLDER
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
-        sidebar.waitForVisible()
-        main_page.redirectToQa()
+        auth_page = AuthPage(self.driver)  # Авторизация
+        auth_page.form.authorize(self.USEREMAIL, self.PASSWORD)
+
+        self.main_page = MainPage(self.driver)
+        sidebar = self.main_page.sidebar
         sidebar.create_new_dir()
-        folder_create = main_page.folder_create
+        folder_create = self.main_page.folder_create
         folder_create.set_name(self.FOLDER_NAME)
         folder_create.submit()
 
     def tearDown(self):
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
+        sidebar = self.main_page.sidebar
         if sidebar.is_folder_created(self.FOLDER_NAME):
             sidebar.right_click_by_folder(self.FOLDER_NAME)
         else:
@@ -53,28 +48,29 @@ class Test(unittest.TestCase):
         self.driver.quit()
 
     def test_edit_folder_name(self):
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
+        sidebar = self.main_page.sidebar
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_edit()
 
-        folder_edit = main_page.folder_edit
+        folder_edit = self.main_page.folder_edit
         folder_edit.clear_old_name()
         folder_edit.set_name(self.FOLDER_NAME_EDITED)
         folder_edit.submit()
 
-        self.assertTrue(sidebar.is_folder_created(self.FOLDER_NAME_EDITED), "Folder not found after it was renamed")
+        self.assertTrue(sidebar.is_folder_created(
+            self.FOLDER_NAME_EDITED), "Folder not found after it was renamed")
 
     def test_edit_folder_nested(self):
-        main_page = MainPage(self.driver)
-        sidebar = main_page.sidebar
+        sidebar = self.main_page.sidebar
 
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_edit()
 
-        folder_edit = main_page.folder_edit
+        folder_edit = self.main_page.folder_edit
         folder_edit.click_select_parent_inbox()
         folder_edit.select_parent_inbox()
         folder_edit.submit()
-        self.assertTrue(sidebar.is_folder_exists(self.FOLDER_NAME), "Nested folder not found after it was created")
-        self.assertTrue(sidebar.is_folder_nested(self.FOLDER_NAME), "Folder is not nested")
+        self.assertTrue(sidebar.is_folder_exists(self.FOLDER_NAME),
+                        "Nested folder not found after it was created")
+        self.assertTrue(sidebar.is_folder_nested(
+            self.FOLDER_NAME), "Folder is not nested")

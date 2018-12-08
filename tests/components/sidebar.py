@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from component import Component
+from write_letter import WriteLetter
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import WebDriverException, TimeoutException
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+import time
 
 
 class Sidebar(Component):
@@ -39,6 +44,7 @@ class Sidebar(Component):
     ELEMENT_OF_FOLDER_CONTEXT_MENU = CONTEXT_MENU_FOLDER + \
         '//span[@class="list-item__text" and contains(text(),"{}")]/parent::*'
     FOLDER = BASE + '//a[@title="{}"]'
+    EDIT_FOLDER = '//span[contains(text(), "Редактировать папку")]'
 
     def write_letter(self):
         write_letter_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -46,7 +52,14 @@ class Sidebar(Component):
         )
         write_letter_button.click()
 
-    EDIT_FOLDER = '//span[contains(text(), "Редактировать папку")]'
+    def write_and_send_letter(self, whom, theme, letter):
+        self.write_letter()
+        write_letter = WriteLetter(self.driver)
+        write_letter.set_whom(whom)
+        write_letter.set_theme(theme)
+        write_letter.set_text(letter)
+        write_letter.send_letter()
+        write_letter.close_window()
 
     def create_new_dir(self):
         create_dir_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -89,7 +102,7 @@ class Sidebar(Component):
                 self.SUBMIT_REMOVE_FROM_TRASH)).click()
 
     def clear_folder(self, folder_name):
-        if (self.is_folder_exists(folder_name) == False):
+        if (not self.is_folder_exists(folder_name)):
             return
         if (self.is_folder_empty(folder_name)):
             return
@@ -178,7 +191,9 @@ class Sidebar(Component):
         F_DIV = self.FOLDER_DIV.format(f_name)
         WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: d.find_element_by_xpath(self.BASE_WITHOUT_QA_ID))
+
         folders = self.driver.find_elements_by_xpath(F_DIV)
+
         if len(folders) == 0:
             return True
         else:
@@ -201,11 +216,12 @@ class Sidebar(Component):
         button.click()
 
     def go_to_folder(self, folder_name):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.FOLDER.format(folder_name))).click()
+        folder = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.FOLDER.format(folder_name)))
+        folder.click()
 
     def delete_folder(self, folder_name):
-        if (self.is_folder_exists(folder_name) == False):
+        if (not self.is_folder_exists(folder_name)):
             return
         self.right_click_by_folder(folder_name)
         self.click_delete()
