@@ -47,17 +47,11 @@ class Test(unittest.TestCase):
         self.main_page = MainPage(self.driver)
         self.main_page.sidebar.go_to_folder('Черновики')
         drafts_page = DraftsPage(self.driver)
-        if drafts_page.letters.has_letters():
-            drafts_page.letters.select_one()
-            drafts_page.topbar.select_all()
-            drafts_page.topbar.delete()
+        drafts_page.clear_letters()
 
     def tearDown(self):
         drafts_page = DraftsPage(self.driver)
-        if drafts_page.letters.has_letters():
-            drafts_page.letters.select_one()
-            drafts_page.topbar.select_all()
-            drafts_page.topbar.delete()
+        drafts_page.clear_letters()
         self.driver.quit()
 
     def testAdditionsFromMail(self):
@@ -65,14 +59,14 @@ class Test(unittest.TestCase):
         drafts_page.sidebar.write_letter()
         write_letter = WriteLetter(self.driver)
         write_letter.set_theme(self.TEST_THEME)
-        write_letter.open_add_mail_file()
-        mail_file = MailFile(self.driver)
-        mail_file.change_folder(self.TEST_MAIL_FOLDER)
-        mail_file.attach_mail_file(self.TEST_MAIL_FILE)
+        write_letter.add_mail_file(self.TEST_MAIL_FOLDER, self.TEST_MAIL_FILE)
         write_letter.save()
         write_letter.close()
         drafts_page.letters.open_letter_by_subject(self.TEST_THEME)
-        write_letter.check_added_file(self.TEST_MAIL_FILE)
+        self.assertTrue(
+            write_letter.check_added_file(self.TEST_MAIL_FILE),
+            'No added file, expected {}'.format(self.TEST_MAIL_FILE)
+        )
         write_letter.close()
 
     def testAdditionsFromUser(self):
@@ -84,7 +78,10 @@ class Test(unittest.TestCase):
         write_letter.save()
         write_letter.close()
         drafts_page.letters.open_letter_by_subject(self.TEST_THEME)
-        write_letter.check_added_file(self.TEST_FILE)
+        self.assertTrue(
+            write_letter.check_added_file(self.TEST_FILE),
+            'No added file, expected {}'.format(self.TEST_FILE)
+        )
         write_letter.close()
 
     def testAdditionsFromCLoud(self):
@@ -92,13 +89,14 @@ class Test(unittest.TestCase):
         drafts_page.sidebar.write_letter()
         write_letter = WriteLetter(self.driver)
         write_letter.set_theme(self.TEST_THEME)
-        write_letter.open_add_cloud_file()
-        cloud_file = CloudFile(self.driver)
-        cloud_file.attach_cloud_file(self.TEST_CLOUD_FILE)
+        write_letter.add_cloud_file(self.TEST_CLOUD_FILE)
         write_letter.save()
         write_letter.close()
         drafts_page.letters.open_letter_by_subject(self.TEST_THEME)
-        write_letter.check_added_file(self.TEST_CLOUD_FILE)
+        self.assertTrue(
+            write_letter.check_added_file(self.TEST_CLOUD_FILE),
+            'No added file, expected {}'.format(self.TEST_CLOUD_FILE)
+        )
         write_letter.close()
 
     def testTheme(self):
@@ -110,7 +108,10 @@ class Test(unittest.TestCase):
         write_letter.save()
         write_letter.close()
         drafts_page.letters.open_letter_by_subject(self.TEST_THEME)
-        write_letter.check_important_is_set()
+        self.assertTrue(
+            write_letter.check_important_is_set(),
+            'Important mark is not set, but was set before saving the draft'
+        )
         write_letter.close()
 
     def testWhom(self):
@@ -124,7 +125,10 @@ class Test(unittest.TestCase):
         write_letter.close()
         drafts_page.letters.open_letter_by_subject(self.TEST_THEME)
         write_letter.check_whom(self.TEST_WHOM)
-        write_letter.check_notify_is_set()
+        self.assertTrue(
+            write_letter.check_notify_is_set(),
+            'Notify mark is not set, but was set before saving the draft'
+        )
         write_letter.close()
 
     def testCopy(self):
@@ -136,8 +140,14 @@ class Test(unittest.TestCase):
         write_letter.save()
         write_letter.close()
         drafts_page.letters.open_rand()
-        write_letter.check_whom_copy(self.TEST_WHOM_COPY)
-        write_letter.check_remind_after_is_set()
+        self.assertTrue(
+            write_letter.check_whom_copy(self.TEST_WHOM_COPY),
+            'Copy is addressed not to {}, but was set to it before saving the draft'.format(self.TEST_WHOM_COPY)
+        )
+        self.assertTrue(
+            write_letter.check_remind_after_is_set(),
+            'Remind mark is not set, but was set before saving the draft'
+        )
         write_letter.close()
 
     def testHiddenCopy(self):
@@ -150,7 +160,12 @@ class Test(unittest.TestCase):
         write_letter.save()
         write_letter.close()
         drafts_page.letters.open_letter_by_subject(self.TEST_THEME)
-        write_letter.check_whom_hidden_copy(self.TEST_WHOM_HIDDEN_COPY)
+        self.assertTrue(
+            write_letter.check_whom_hidden_copy(self.TEST_WHOM_HIDDEN_COPY),
+            'Hidden copy is addressed not to {}, but was set to it before saving the draft'.format(
+                self.TEST_WHOM_HIDDEN_COPY
+            )
+        )
         write_letter.close()
 
     def testText(self):

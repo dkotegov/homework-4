@@ -22,7 +22,7 @@ if __name__ == '__main__':
         unittest.makeSuite(NP_Test_encr),
         unittest.makeSuite(NP_Test_edit),
 
-        # unittest.makeSuite(DP_Test),
+        unittest.makeSuite(DP_Test),
     ))
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     sys.exit(not result.wasSuccessful())

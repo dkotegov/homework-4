@@ -19,3 +19,9 @@ class DraftsPage(Page):
     @property
     def topbar(self):
         return Topbar(self.driver)
+
+    def clear_letters(self):
+        if self.letters.has_letters():
+            self.letters.select_one()
+            self.topbar.select_all()
+            self.topbar.delete()

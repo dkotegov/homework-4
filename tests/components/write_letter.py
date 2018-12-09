@@ -2,10 +2,15 @@
 import os
 from os.path import normpath, join
 
+from selenium.common.exceptions import NoSuchElementException
+
 from component import Component
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
+
+from tests.components.cloud_file import CloudFile
+from tests.components.mail_file import MailFile
 
 
 class WriteLetter(Component):
@@ -31,17 +36,17 @@ class WriteLetter(Component):
     CLOSE_BUTTON = BASE + '//*[@data-test-id="close"]'
     PRIORITY_BUTTON = BASE + '//*[@data-qa-id="priority"]'
     PRIORITY_BUTTON_ACTIVE = PRIORITY_BUTTON + \
-        '//div[contains(concat(" ", normalize-space(@class), " "), " c0123 ")]'
+        '//div[contains(concat(" ", normalize-space(@class), " "), " b-selected-0-1-23 ")]'
     RECEIPT_BUTTON = BASE + '//*[@data-qa-id="receipt"]'
     RECEIPT_BUTTON_ACTIVE = RECEIPT_BUTTON + \
-        '//div[contains(concat(" ", normalize-space(@class), " "), " c0123 ")]'
+        '//div[contains(concat(" ", normalize-space(@class), " "), " b-selected-0-1-23 ")]'
     ADD_WHOM_COPY_INPUT_BUTTON = BASE + '//*[@data-test-id="cc"]'
     REMIND_BUTTON = BASE + '//*[@data-qa-id="remind"]'
     REMIND_BUTTON_ACTIVE = REMIND_BUTTON + \
-        '//div[contains(concat(" ", normalize-space(@class), " "), " c0113 ")]'
+        '//div[contains(concat(" ", normalize-space(@class), " "), " c-selected-0-1-13 ")]'
     SCHEDULE_BUTTON = BASE + '//*[@data-qa-id="schedule"]'
     SCHEDULE_BUTTON_ACTIVE = SCHEDULE_BUTTON + \
-        '//div[contains(concat(" ", normalize-space(@class), " "), " c0113 ")]'
+        '//div[contains(concat(" ", normalize-space(@class), " "), " b-selected-0-1-5 ")]'
     ADD_WHOM_HIDDEN_COPY_INPUT_BUTTON = BASE + '//*[@data-test-id="bcc"]'
     ATTACH_CONTROLS = BASE + '//*[@data-test-id="attach-controls"]'
     FILE_ATTACH_BUTTON = ATTACH_CONTROLS + '//*[@data-test-id="attach-file"]'
@@ -98,9 +103,13 @@ class WriteLetter(Component):
         important_button.click()
 
     def check_important_is_set(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.PRIORITY_BUTTON_ACTIVE)
-        )
+        try:
+            WebDriverWait(self.driver, 30, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.PRIORITY_BUTTON_ACTIVE)
+            )
+            return True
+        except NoSuchElementException:
+            return False
 
     def set_whom(self, whom):
         whom_input = WebDriverWait(self.driver, 30, 0.1).until(
@@ -121,9 +130,13 @@ class WriteLetter(Component):
         receipt_button.click()
 
     def check_notify_is_set(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.RECEIPT_BUTTON_ACTIVE)
-        )
+        try:
+            WebDriverWait(self.driver, 30, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.RECEIPT_BUTTON_ACTIVE)
+            )
+            return True
+        except NoSuchElementException:
+            return False
 
     def set_whom_copy(self, whom_copy):
         add_whom_copy_input_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -138,10 +151,14 @@ class WriteLetter(Component):
         self.driver.find_element_by_xpath(self.THEME_INPUT).click()
 
     def check_whom_copy(self, whom_copy):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(
-                self.WHOM_COPY_CHECK.format(whom_copy))
-        )
+        try:
+            WebDriverWait(self.driver, 30, 0.1).until(
+                lambda d: d.find_element_by_xpath(
+                    self.WHOM_COPY_CHECK.format(whom_copy))
+            )
+            return True
+        except NoSuchElementException:
+            return False
 
     def set_remind_after(self):
         remind_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -150,9 +167,13 @@ class WriteLetter(Component):
         remind_button.click()
 
     def check_remind_after_is_set(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.REMIND_BUTTON_ACTIVE)
-        )
+        try:
+            WebDriverWait(self.driver, 30, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.REMIND_BUTTON_ACTIVE)
+            )
+            return True
+        except NoSuchElementException:
+            return False
 
     def set_schedule(self):
         schedule_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -173,10 +194,14 @@ class WriteLetter(Component):
         whom_hidden_copy_input.send_keys(whom_hidden_copy)
 
     def check_whom_hidden_copy(self, whom_hidden_copy):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(
-                self.WHOM_HIDDEN_COPY_CHECK.format(whom_hidden_copy))
-        )
+        try:
+            WebDriverWait(self.driver, 30, 0.1).until(
+                lambda d: d.find_element_by_xpath(
+                    self.WHOM_HIDDEN_COPY_CHECK.format(whom_hidden_copy))
+            )
+            return True
+        except NoSuchElementException:
+            return False
 
     def add_file(self, file_path):
         add_file_input = WebDriverWait(self.driver, 30, 0.1).until(
@@ -185,10 +210,14 @@ class WriteLetter(Component):
         add_file_input.send_keys(normpath(join(os.getcwd(), file_path)))
 
     def check_added_file(self, filename):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            ec.element_to_be_clickable(
-                (By.XPATH, self.ATTACH_FILE_CHECK.format(filename)))
-        )
+        try:
+            WebDriverWait(self.driver, 30, 0.1).until(
+                ec.element_to_be_clickable(
+                    (By.XPATH, self.ATTACH_FILE_CHECK.format(filename)))
+            )
+            return True
+        except NoSuchElementException:
+            return False
 
     def open_add_cloud_file(self):
         add_file_cloud_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -245,3 +274,14 @@ class WriteLetter(Component):
                 self.CLOSE_WINDOW_AFTER_SENDING_LETTER)
         )
         close_window.click()
+
+    def add_mail_file(self, folder, file):
+        self.open_add_mail_file()
+        mail_file = MailFile(self.driver)
+        mail_file.change_folder(folder)
+        mail_file.attach_mail_file(file)
+
+    def add_cloud_file(self, file):
+        self.open_add_cloud_file()
+        cloud_file = CloudFile(self.driver)
+        cloud_file.attach_cloud_file(file)
