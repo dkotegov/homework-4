@@ -59,3 +59,13 @@ class ElementWaiter(object):
         except TimeoutException:
             print "Loading took too much time! Locator is " + locator
             return None
+
+    @staticmethod
+    def wait_clickable_by_xpath_with_delay(driver, locator, delay):
+        try:
+            elem = WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, locator)))
+            #print "Page is ready!"
+            return elem
+        except TimeoutException:
+            print "Loading took too much time! Locator is " + locator
+            return None

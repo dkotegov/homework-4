@@ -255,13 +255,9 @@ class ChangeFilter(CreateNewFilter):
 
 class Cleaner(Step):
     def delete_all_letters(self):
+        mail_window = self.driver.window_handles[0]
+        self.driver.switch_to_window(mail_window)
+        self.driver.get("https://octavius.mail.ru/inbox/")
         mail_page = MailPage(self.driver)
-        folders = mail_page.get_folders()
-        special_folders = (u'Входящие', u'Отправленные', u'Черновики', u'Архив', u'Спам', u'Корзина')
-        for folder in folders:
-            mail_page.open_folder(folder)
-            if folder in special_folders:
-                mail_page.open_select_label()
-                mail_page.click_delete_button()
-            else:
-                mail_page.click_clear_button()
+
+        mail_page.clear_folders()

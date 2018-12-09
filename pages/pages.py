@@ -74,8 +74,11 @@ class MailPage(Page):
     OPEN_SELECT_LABEL = '//div[@title="Выделить"]'
     SELECT_ALL_LETTERS = '//a[@data-name="all"]'
     DELETE_BUTTON = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Удалить")]'
-    SELECT_ALL_FOLDERS = '//div[@id="b-nav_folders"]//span[contains(@class, "b-nav__item__text")][not(div)]'
-    CLEAR_FOLDER_BUTTON = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Очистить папку")]'
+    SELECT_ALL_FOLDERS = '//div[@class="nav-folders"]//nav//a//div//div[@class="nav__folder-name"]'
+    CLEAR_FOLDER_ITEM_DISABLED = '//div[contains(@class, "contextmenu_expanded")]//div[contains(@class, "list-item_disabled") and .//span[@class="list-item__text" and contains(text(), "Очистить содержимое")]]'
+    CLEAR_FOLDER_BUTTON = '//div[contains(@class, "contextmenu_expanded")]//span[@class="list-item__text"][contains(text(), "Очистить содержимое")]'
+    CLEAR_FOLDER_SUBMIT_BUTTON = '//div[@class="layer__submit-button"]'
+    #CLEAR_FOLDER_BUTTON = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Очистить папку")]'
 
     def open_settings_menu(self):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
@@ -150,8 +153,20 @@ class MailPage(Page):
     def get_folders(self):
         result = []
         for elem in ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.SELECT_ALL_FOLDERS):
-            result.append(elem.text)
+            print('found folder: ' + elem.title)
+            result.append(elem.title)
         return result
+
+    def clear_folders(self):
+        for elem in ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.SELECT_ALL_FOLDERS):
+            actionChains = ActionChains(self.driver)
+            actionChains.context_click(elem).perform()
+            elem = ElementWaiter.wait(driver = self.driver, locator = self.CLEAR_FOLDER_ITEM_DISABLED) #доделать
+            elem.click()
+            elem = ElementWaiter.wait_clickable_by_xpath_with_delay(driver = self.driver, locator = self.CLEAR_FOLDER_BUTTON, delay = 5)
+            elem.click()
+            elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CLEAR_FOLDER_SUBMIT_BUTTON)
+            elem.click()
 
     def click_clear_button(self):
         for elem in ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.CLEAR_FOLDER_BUTTON):
