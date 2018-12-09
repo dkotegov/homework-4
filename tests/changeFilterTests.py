@@ -41,9 +41,7 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter = ChangeFilter(self.driver)
         change_filter.open()
         change_filter.delete_message()
-        change_filter.save_filter()
-        
-        change_filter.check_if_filter_list_exists()
+        change_filter.save()
 
         write_letter = WriteLetter(self.driver)
         write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_1_SUBJECT)
@@ -61,9 +59,7 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.open()
         change_filter.move_to_folder(Folder.NEWSLETTERS)
         change_filter.as_read()
-        change_filter.save_filter()
-        
-        change_filter.check_if_filter_list_exists()
+        change_filter.save()
 
         write_letter = WriteLetter(self.driver)
         write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_2_SUBJECT)
@@ -77,16 +73,11 @@ class ChangeFilterTest(unittest.TestCase):
         create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, USEREMAIL_2 + '@mail.ru')
 
         change_filter = ChangeFilter(self.driver)
-        change_filter.open()
-        change_filter.add_condition()
         condition_index = 1
-        change_filter.change_condition(Rule.size_KB, 1)
-        change_filter.change_condition_value(condition_index, '10000')
+        change_filter.change_filter_default(rule = Rule.size_KB, condition = '10000', index = condition_index, add = True)
         change_filter.forward_change_contex()
-        change_filter.save_filter()
-        change_filter.confirm_password()
+        change_filter.save(confirm_password = True)
         
-        change_filter.check_if_filter_list_exists()
 
         write_letter = WriteLetter(self.driver)
         write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_3_SUBJECT)
@@ -100,16 +91,11 @@ class ChangeFilterTest(unittest.TestCase):
         create_filter.create_copy_cond_and_autoreply(USEREMAIL_2)
 
         change_filter = ChangeFilter(self.driver)
-        change_filter.open()
-        change_filter.add_condition()
         condition_index = 1
-        change_filter.change_condition(Rule.field_copy, condition_index)
-        change_filter.change_condition_value(condition_index, USEREMAIL_1)
+        change_filter.change_filter_default(rule = Rule.field_copy, condition = USEREMAIL_1, index = condition_index, add = True)
         change_filter.reply_switch()
         change_filter.switch_interaction_conditions()
-        change_filter.save_filter()
-
-        change_filter.check_if_filter_list_exists()
+        change_filter.save()
 
         write_letter = WriteLetter(self.driver)
         write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_4_SUBJECT)
@@ -120,13 +106,16 @@ class ChangeFilterTest(unittest.TestCase):
     def test_redirected_and_continue_filter(self):
         # Create filter in USERMAIL_2 that redirect letter with this subject back to USERMAIL1
         # And login back to main account
-        log_out = LogOut(self.driver)
-        log_out.log_out()
-        open_filter_settings = OpenFilterSettings(self.driver)
-        open_filter_settings.open(USEREMAIL_2)
+        
+        change_filter = ChangeFilter(self.driver)
+        change_filter.switch_mail_box(USEREMAIL_2)
+
         create_account2_filter = CreateFilter(self.driver)
         create_account2_filter.create_subject_cond_and_forward_to(self.TEST_5_SUBJECT, USEREMAIL_1 + '@mail.ru')
+
+        log_out = LogOut(self.driver)
         log_out.log_out()
+
         open_filter_settings = OpenFilterSettings(self.driver)
         open_filter_settings.open(USEREMAIL_1)
 
@@ -136,15 +125,10 @@ class ChangeFilterTest(unittest.TestCase):
         create_redirect_filter = CreateFilter(self.driver)
         create_redirect_filter.create_redirect_from_cond_and_continue(USEREMAIL_1)
 
-        change_filter = ChangeFilter(self.driver)
-        change_filter.open()
         condition_index = 0
-        change_filter.change_condition(Rule.field_redirected_to, condition_index)
-        change_filter.change_condition_value(condition_index, USEREMAIL_2)
+        change_filter.change_filter_default(rule = Rule.field_copy, condition = USEREMAIL_1, index = condition_index)
         change_filter.spam_on()
-        change_filter.save_filter()
-
-        change_filter.check_if_filter_list_exists()
+        change_filter.save()
 
         write_letter = WriteLetter(self.driver)
         write_letter.send_letter(addressee = USEREMAIL_2 + '@mail.ru', subject = self.TEST_5_SUBJECT)
@@ -154,4 +138,4 @@ class ChangeFilterTest(unittest.TestCase):
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_5_SUBJECT))
 
         # delete filter in USERMAIL_2 account
-        log_out.log_out()
+        #log_out.log_out()

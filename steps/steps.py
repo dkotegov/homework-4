@@ -247,6 +247,15 @@ class CreateNewFilter(Step):
         settings_page = SettingsPage(self.driver)
         settings_page.check_if_filter_list_exists()
 
+    def save(self, confirm_password = False):
+        self.save_filter()
+        if confirm_password:
+            try:
+                self.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
+            except:
+                print("Password confirmation exception!") # little trick to confirm password
+        self.check_if_filter_list_exists()
+
 class ChangeFilter(CreateNewFilter):
 
     def open(self):
@@ -261,6 +270,19 @@ class ChangeFilter(CreateNewFilter):
     def confirm_password(self):
         self.create_filter_form.confirm_form_set_password(self.PASSWORD)
         self.create_filter_form.confirm_form_submit_password('Принять')
+
+    def switch_mail_box(self, usermail):
+        log_out = LogOut(self.driver)
+        log_out.log_out()
+        open_filter_settings = OpenFilterSettings(self.driver)
+        open_filter_settings.open(usermail)
+
+    def change_filter_default(self, rule, condition, index,  add = False):
+        self.open()
+        if add:
+            self.add_condition()
+        self.change_condition(rule, index)
+        self.change_condition_value(index, condition)
 
 class Cleaner(Step):
     def delete_all_letters(self):

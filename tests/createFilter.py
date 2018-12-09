@@ -30,8 +30,7 @@ class CreateFilter(Step):
         '''
         create_new_filter = self.create_filter('it-berries')
         create_new_filter.move_to_folder(folderName)
-        create_new_filter.save_filter()
-        create_new_filter.check_if_filter_list_exists()
+        create_new_filter.save()
 
     def create_subject_cond_and_delete(self, subject):
         '''
@@ -43,8 +42,7 @@ class CreateFilter(Step):
         '''
         create_new_filter = self.create_filter(condition_value = subject, rule = Rule.field_subject)
         create_new_filter.delete_message()
-        create_new_filter.save_filter()
-        create_new_filter.check_if_filter_list_exists()
+        create_new_filter.save()
 
     def create_subject_cond_and_forward_to(self, subject, email):
         '''
@@ -57,12 +55,7 @@ class CreateFilter(Step):
         '''
         create_new_filter = self.create_filter(condition_value = subject, rule = Rule.field_subject, other_actions = True)
         create_new_filter.forward_to(email)
-        create_new_filter.save_filter()
-        try:
-            create_new_filter.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
-        except:
-            print("Password confirmation exception!") # little trick to confirm password
-        create_new_filter.check_if_filter_list_exists()
+        create_new_filter.save(confirm_password = True)
 
     def create_copy_cond_and_autoreply(self, copyValue):
         '''
