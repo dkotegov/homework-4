@@ -3,7 +3,7 @@
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork
+from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, Cleaner
 from support.folders import Folder
 from tests.createFilter import CreateFilter
 from tests.config import USEREMAIL_1, USEREMAIL_2, HUB_ADDRESS, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT
@@ -15,6 +15,8 @@ class CreateFilterTest(unittest.TestCase):
     TEST_3_SUBJECT = 'CreateFilter. Test 3'
     TEST_4_SUBJECT = 'CreateFilter. Test 4'
     TEST_5_SUBJECT = 'CreateFilter. Test 5'
+    
+    current_test = 'ERROR'
 
     def setUp(self):
         self.driver = Remote(
@@ -25,6 +27,12 @@ class CreateFilterTest(unittest.TestCase):
         open_filter_settings.open(USEREMAIL_1)
 
     def tearDown(self):
+        create_filter = CreateFilter(self.driver)
+        cleaner = Cleaner(self.driver)
+        check_filter_work = CheckFilterWork(self.driver)
+        cleaner.delete_all_letters()
+        check_filter_work.open_filters_page_in_new_window()
+        create_filter.delete_created_filter()
         self.driver.quit()
 
     def test_from_move_to_folder(self):
@@ -40,9 +48,7 @@ class CreateFilterTest(unittest.TestCase):
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_1_SUBJECT))
 
-        check_filter_work.open_filters_page_in_new_window()
-        create_filter.delete_created_filter()
-
+    '''
     def test_who_delete_forever(self):
         create_filter = CreateFilter(self.driver)
         create_filter.create_subject_cond_and_delete(self.TEST_2_SUBJECT)
@@ -55,9 +61,6 @@ class CreateFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.INBOX, self.TEST_2_SUBJECT))
-
-        check_filter_work.open_filters_page_in_new_window()
-        create_filter.delete_created_filter()
     
     def test_subject_cond_and_forward_to(self):
         create_filter = CreateFilter(self.driver)
@@ -72,9 +75,6 @@ class CreateFilterTest(unittest.TestCase):
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_3_SUBJECT))
         
-        check_filter_work.open_filters_page_in_new_window()
-        create_filter.delete_created_filter()
-
     def test_copy_and_autoreply(self):
         create_filter = CreateFilter(self.driver)
         create_filter.create_copy_cond_and_autoreply(USEREMAIL_2)
@@ -87,9 +87,6 @@ class CreateFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_4_SUBJECT))
-        
-        check_filter_work.open_filters_page_in_new_window()
-        create_filter.delete_created_filter()
 
     def test_redirect_from_and_continue_to_filter(self):
         create_new_filter = CreateNewFilter(self.driver)
@@ -113,6 +110,4 @@ class CreateFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_5_SUBJECT))
-        
-        check_filter_work.open_filters_page_in_new_window()
-        create_additional_filter.delete_created_filter()
+        '''

@@ -3,7 +3,7 @@
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, ChangeFilter, LogOut
+from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, ChangeFilter, LogOut, Cleaner
 from support.folders import Folder
 from tests.createFilter import CreateFilter
 from tests.config import USEREMAIL_1, USEREMAIL_2, HUB_ADDRESS, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT
@@ -25,6 +25,12 @@ class ChangeFilterTest(unittest.TestCase):
         open_filter_settings.open(USEREMAIL_1)
 
     def tearDown(self):
+        create_filter = CreateFilter(self.driver)
+        cleaner = Cleaner(self.driver)
+        check_filter_work = CheckFilterWork(self.driver)
+        cleaner.delete_all_letters()
+        check_filter_work.open_filters_page_in_new_window()
+        create_filter.delete_created_filter()
         self.driver.quit()
     
     # TODO: camel case style?
@@ -70,10 +76,6 @@ class ChangeFilterTest(unittest.TestCase):
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_already_read(Folder.NEWSLETTERS, self.TEST_2_SUBJECT))
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_2_SUBJECT))
-        check_filter_work.delete_letter(self.TEST_2_SUBJECT)
-        check_filter_work.open_filters_page_in_new_window()
-
-        change_filter.delete()
 
     def test_change_add_condition_and_send_notification(self):
         create_filter = CreateFilter(self.driver)
@@ -98,11 +100,7 @@ class ChangeFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_3_SUBJECT))
-        check_filter_work.delete_letter(self.TEST_3_SUBJECT)
         # TODO: check if itberries2@mail.ru get the letter #оно приходит, но надо проверять здесь
-        check_filter_work.open_filters_page_in_new_window()
-
-        change_filter.delete()
     
     def test_add_condition_and_revert_autoreply(self):
         create_filter = CreateFilter(self.driver)
@@ -127,10 +125,6 @@ class ChangeFilterTest(unittest.TestCase):
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_4_SUBJECT))
-        check_filter_work.delete_letter(self.TEST_4_SUBJECT)
-        check_filter_work.open_filters_page_in_new_window()
-
-        change_filter.delete()
 
     def test_redirected_and_continue_filter(self):
         # Create filter in USERMAIL_2 that redirect letter with this subject back to USERMAIL1
@@ -169,14 +163,6 @@ class ChangeFilterTest(unittest.TestCase):
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_have_flag(Folder.INBOX, self.TEST_5_SUBJECT))
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_5_SUBJECT))
-        check_filter_work.delete_letter(self.TEST_5_SUBJECT)
-        check_filter_work.open_filters_page_in_new_window()
-
-        # delete main and additional filters
-        change_filter.delete_all()
 
         # delete filter in USERMAIL_2 account
         log_out.log_out()
-        open_filter_settings = OpenFilterSettings(self.driver)
-        open_filter_settings.open(USEREMAIL_2)
-        create_account2_filter.delete_created_filter()

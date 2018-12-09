@@ -71,6 +71,11 @@ class MailPage(Page):
     DELETE_LETTER = '//div[@data-name="remove"]'
     LOG_OUT = '//a[@id="PH_logoutLink"]'
     FOLDER_OPENED = '//div[contains(@class, "b-nav__item_active")]//span[contains(text(), "'
+    OPEN_SELECT_LABEL = '//div[@title="Выделить"]'
+    SELECT_ALL_LETTERS = '//a[@data-name="all"]'
+    DELETE_BUTTON = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Удалить")]'
+    SELECT_ALL_FOLDERS = '//div[@id="b-nav_folders"]//span[contains(@class, "b-nav__item__text")][not(div)]'
+    CLEAR_FOLDER_BUTTON = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Очистить папку")]'
 
     def open_settings_menu(self):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
@@ -121,6 +126,40 @@ class MailPage(Page):
     def log_out(self):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.LOG_OUT)
         elem.click()
+    
+    def open_select_label(self):
+        for elem in ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.OPEN_SELECT_LABEL):
+            try:
+                elem.click()
+                break
+            except Exception:
+                continue
+
+    def click_sellect_all_letters(self):
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.SELECT_ALL_LETTERS)
+        elem.click()
+
+    def click_delete_button(self):
+        for elem in ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.DELETE_BUTTON):
+            try:
+                elem.click()
+                break
+            except Exception:
+                continue
+
+    def get_folders(self):
+        result = []
+        for elem in ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.SELECT_ALL_FOLDERS):
+            result.append(elem.text)
+        return result
+
+    def click_clear_button(self):
+        for elem in ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.CLEAR_FOLDER_BUTTON):
+            try:
+                elem.click()
+                break
+            except Exception:
+                continue
 
 class SettingsPage(Page):
 

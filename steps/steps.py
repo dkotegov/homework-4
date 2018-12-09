@@ -58,6 +58,7 @@ class CheckFilterWork(Step):
             mail_page.open_folder(folder)
             if not mail_page.open_msg_by_subject(subject):
                 return False
+        mail_page.check_if_letter_is_open(subject)
         return True
 
     def check_if_letter_not_exists(self, folder, subject):
@@ -211,7 +212,7 @@ class CreateNewFilter(Step):
 
     def save_filter(self):
         self.create_filter_form.save_filter_click()
-
+       
     def get_alert(self):
         return self.create_filter_form.get_alert_message()
    
@@ -220,6 +221,7 @@ class CreateNewFilter(Step):
 
     def set_value_contains_form(self, text):
         self.create_filter_form.set_value_to_contains_form(text)
+
     def confirm_password(self):
         self.create_filter_form.confirm_form_set_password(self.PASSWORD)
         self.create_filter_form.confirm_form_submit_password('Продолжить')
@@ -250,3 +252,16 @@ class ChangeFilter(CreateNewFilter):
     def confirm_password(self):
         self.create_filter_form.confirm_form_set_password(self.PASSWORD)
         self.create_filter_form.confirm_form_submit_password('Принять')
+
+class Cleaner(Step):
+    def delete_all_letters(self):
+        mail_page = MailPage(self.driver)
+        folders = mail_page.get_folders()
+        special_folders = (u'Входящие', u'Отправленные', u'Черновики', u'Архив', u'Спам', u'Корзина')
+        for folder in folders:
+            mail_page.open_folder(folder)
+            if folder in special_folders:
+                mail_page.open_select_label()
+                mail_page.click_delete_button()
+            else:
+                mail_page.click_clear_button()
