@@ -105,6 +105,12 @@ class CheckFilterWork(Step):
 
 class WriteLetter(Step):
 
+    def send_letter(self, addressee, subject):
+        self.open()
+        self.setAddressee(addressee)
+        self.setSubject(subject)
+        self.send()
+
     def open(self):
         settings_page = SettingsPage(self.driver)
         settings_page.write_letter_click()

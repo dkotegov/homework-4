@@ -44,17 +44,14 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.save_filter()
         
         change_filter.check_if_filter_list_exists()
+
         write_letter = WriteLetter(self.driver)
-        write_letter.open()
-        write_letter.setAddressee(USEREMAIL_1 + '@mail.ru')
-        write_letter.setSubject(self.TEST_1_SUBJECT)
-        write_letter.send()
+        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_1_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.NEWSLETTERS, self.TEST_1_SUBJECT))
-        check_filter_work.open_filters_page_in_new_window()
-
-        change_filter.delete()
+        #check_filter_work.open_filters_page_in_new_window()
+        #change_filter.delete()
 
     def test_change_delete_to_move_and_read(self):
         create_filter = CreateFilter(self.driver)
@@ -67,11 +64,9 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.save_filter()
         
         change_filter.check_if_filter_list_exists()
+
         write_letter = WriteLetter(self.driver)
-        write_letter.open()
-        write_letter.setAddressee(USEREMAIL_1 + '@mail.ru')
-        write_letter.setSubject(self.TEST_2_SUBJECT)
-        write_letter.send()
+        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_2_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_already_read(Folder.NEWSLETTERS, self.TEST_2_SUBJECT))
@@ -92,11 +87,9 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.confirm_password()
         
         change_filter.check_if_filter_list_exists()
+
         write_letter = WriteLetter(self.driver)
-        write_letter.open()
-        write_letter.setAddressee(USEREMAIL_1 + '@mail.ru')
-        write_letter.setSubject(self.TEST_3_SUBJECT)
-        write_letter.send()
+        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_3_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_3_SUBJECT))
@@ -117,11 +110,9 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.save_filter()
 
         change_filter.check_if_filter_list_exists()
+
         write_letter = WriteLetter(self.driver)
-        write_letter.open()
-        write_letter.setAddressee(USEREMAIL_1 + '@mail.ru')
-        write_letter.setSubject(self.TEST_4_SUBJECT)
-        write_letter.send()
+        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_4_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_4_SUBJECT))
@@ -154,11 +145,9 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.save_filter()
 
         change_filter.check_if_filter_list_exists()
+
         write_letter = WriteLetter(self.driver)
-        write_letter.open()
-        write_letter.setAddressee(USEREMAIL_2 + '@mail.ru')
-        write_letter.setSubject(self.TEST_5_SUBJECT)
-        write_letter.send()
+        write_letter.send_letter(addressee = USEREMAIL_2 + '@mail.ru', subject = self.TEST_5_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_have_flag(Folder.INBOX, self.TEST_5_SUBJECT))

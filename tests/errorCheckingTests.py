@@ -5,6 +5,7 @@ import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, ChangeFilter
 from tests.config import USEREMAIL_1, USEREMAIL_2, HUB_ADDRESS, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT
+from tests.createFilter import CreateFilter
 
 class ErrorCheckingTest(unittest.TestCase):
     def setUp(self):
@@ -26,33 +27,20 @@ class ErrorCheckingTest(unittest.TestCase):
         self.assertEqual((error_message).encode('utf-8'), ("Не заполнены необходимые поля"))
    
     def test_create_filter_with_spaces_instead_of_text(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        index = 0
-        create_new_filter.change_condition(Rule.field_to, index)
-        create_new_filter.change_condition_effect(index)
-        create_new_filter.change_condition_value(index, '          ')
+        
+        create_filter = CreateFilter(self.driver)
+        create_new_filter = create_filter.create_filter(condition_value = '          ', rule = Rule.field_to, change_effect = True)
         create_new_filter.save_filter()
         error_message = create_new_filter.get_alert()
         self.assertEqual((error_message).encode('utf-8'), ("Не заполнены необходимые поля"))
     
     def test_create_dublicate_filter_test(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        index = 0
-        create_new_filter.change_condition(Rule.field_to, index)
-        create_new_filter.change_condition_effect(index)
-        create_new_filter.change_condition_value(index, 'test111111')
-        create_new_filter.save_filter()
         
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        index = 0
-        create_new_filter.change_condition(Rule.field_to, index)
-        create_new_filter.change_condition_effect(index)
-        create_new_filter.change_condition_value(index, 'test111111')
-        create_new_filter.save_filter()
-        
+        for i in range(2):
+            create_filter = CreateFilter(self.driver)
+            create_new_filter = create_filter.create_filter(condition_value = 'test111111', rule = Rule.field_to, change_effect = True)
+            create_new_filter.save_filter()
+
         error_message = create_new_filter.get_alert()
         #print(error_message)
         self.assertIsNotNone((error_message).encode('utf-8'))
@@ -60,35 +48,27 @@ class ErrorCheckingTest(unittest.TestCase):
         change_filter.delete()
 
     def test_filter_to_wrong_email(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        index = 0
-        create_new_filter.change_condition(Rule.field_to, index)
-        create_new_filter.change_condition_effect(index)
-        create_new_filter.change_condition_value(index, 'ata-ata-ata')
-        create_new_filter.show_other_actions()
+
+        create_filter = CreateFilter(self.driver)
+        create_new_filter = create_filter.create_filter(condition_value = 'ata-ata-ata', rule = Rule.field_to, change_effect = True, other_actions = True)
         create_new_filter.forward_to('ivan_nemshilov')
         create_new_filter.save_filter()
         error_message = create_new_filter.get_alert()
         self.assertIsNotNone((error_message).encode('utf-8'))
 
     def test_filter_with_wrong_value(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        index = 0
-        create_new_filter.change_condition(Rule.size_KB, index)
-        create_new_filter.change_condition_value(index, 'ata-ata-ata')
+
+        create_filter = CreateFilter(self.driver)
+        create_new_filter = create_filter.create_filter(condition_value = 'ata-ata-ata', rule = Rule.size_KB)
         create_new_filter.delete_message()
         create_new_filter.save_filter()
         error_message = create_new_filter.get_alert()
         self.assertIsNotNone((error_message).encode('utf-8'))
 
     def test_filter_with_small_value(self):
-        create_new_filter = CreateNewFilter(self.driver)
-        create_new_filter.open()
-        index = 0
-        create_new_filter.change_condition(Rule.size_KB, index)
-        create_new_filter.change_condition_value(index, '1')
+
+        create_filter = CreateFilter(self.driver)
+        create_new_filter = create_filter.create_filter(condition_value = 'ata-ata-ata', rule = Rule.size_KB)
         create_new_filter.delete_message()
         create_new_filter.save_filter()
         error_message = create_new_filter.get_pop_up_alert()
