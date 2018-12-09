@@ -31,3 +31,7 @@ class FolderUnlock(Component):
         sidebar.click_unlock_folder_by_name(folder_name)
         self.set_password(password)
         self.submit()
+
+    def unlock_folder_in_dialog(self, password):
+        self.set_password(password)
+        self.submit()

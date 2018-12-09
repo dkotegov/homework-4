@@ -14,7 +14,6 @@ class Test(unittest.TestCase):
     PASSWORD = os.environ['PASSWORD']
     FOLDER_NAME = "Test_Nadya"
     FOLDER_NAME_EDITED = "Test_Nadya_Edited"
-    FOLDER_NAME_NESTED = "Test_Nadya_Nested"
     FOLDER_PASSWORD = "kek_lol"
 
     def setUp(self):
@@ -31,46 +30,48 @@ class Test(unittest.TestCase):
         auth_page.form.authorize(self.USEREMAIL, self.PASSWORD)
 
         self.main_page = MainPage(self.driver)
-        sidebar = self.main_page.sidebar
-        sidebar.create_new_dir()
-        folder_create = self.main_page.folder_create
-        folder_create.set_name(self.FOLDER_NAME)
-        folder_create.submit()
 
     def tearDown(self):
-        sidebar = self.main_page.sidebar
-        if sidebar.is_folder_created(self.FOLDER_NAME):
-            sidebar.right_click_by_folder(self.FOLDER_NAME)
-        else:
-            sidebar.right_click_by_folder(self.FOLDER_NAME_EDITED)
-        sidebar.click_delete()
-        sidebar.submit_delete()
         self.driver.quit()
 
     def test_edit_folder_name(self):
         sidebar = self.main_page.sidebar
+        folder_create = self.main_page.folder_create
+        folder_create.create_folder(self.FOLDER_NAME)
+
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_edit()
 
         folder_edit = self.main_page.folder_edit
-        folder_edit.clear_old_name()
-        folder_edit.set_name(self.FOLDER_NAME_EDITED)
-        folder_edit.submit()
+        folder_edit.rename_folder(self.FOLDER_NAME_EDITED)
 
         self.assertTrue(sidebar.is_folder_created(
             self.FOLDER_NAME_EDITED), "Folder not found after it was renamed")
 
+        sidebar.delete_folder_by_name(self.FOLDER_NAME_EDITED)
+        # reload page for folder to disappear
+        self.main_page._redirect_to_qa()
+        isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME_EDITED)
+        self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
+
     def test_edit_folder_nested(self):
         sidebar = self.main_page.sidebar
+        folder_create = self.main_page.folder_create
+        folder_create.create_folder(self.FOLDER_NAME)
 
         sidebar.right_click_by_folder(self.FOLDER_NAME)
         sidebar.click_edit()
 
         folder_edit = self.main_page.folder_edit
-        folder_edit.click_select_parent_inbox()
-        folder_edit.select_parent_inbox()
-        folder_edit.submit()
+        folder_edit.put_folder_in_inbox()
+
         self.assertTrue(sidebar.is_folder_exists(self.FOLDER_NAME),
                         "Nested folder not found after it was created")
         self.assertTrue(sidebar.is_folder_nested(
             self.FOLDER_NAME), "Folder is not nested")
+
+        sidebar.delete_folder_by_name(self.FOLDER_NAME)
+        # reload page for folder to disappear
+        self.main_page._redirect_to_qa()
+        isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
+        self.assertTrue(isFolderDeleted, "Folder wasn't deleted")

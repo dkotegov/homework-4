@@ -93,3 +93,13 @@ class FolderEdit(Component):
             lambda d: d.find_element_by_xpath(self.INPUT_FOLDER_NAME)
         )
         name_input.clear()
+        
+    def rename_folder(self, new_name):
+        self.clear_old_name()
+        self.set_name(new_name)
+        self.submit()
+
+    def put_folder_in_inbox(self):
+        self.click_select_parent_inbox()
+        self.select_parent_inbox()
+        self.submit()

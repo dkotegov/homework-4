@@ -114,6 +114,21 @@ class FolderCreate(Component):
         self.set_answer(folder_pwd)
         self.set_user_password(user_pwd)
         self.submit()
+        
+    def create_nested_folder_in_encrypted_folder(self, main_page, nested_folder_name, folder_name, folder_pwd):
+        sidebar = Sidebar(self.driver)
+        sidebar.create_new_dir()
+        self.set_name(nested_folder_name)
+        self.click_more_settings()
+        self.click_select_parent_inbox()
+        self.select_parent_folder(folder_name)
+        self.submit()
+
+        folder_unlock = main_page.folder_unlock
+        folder_unlock.unlock_folder_in_dialog(folder_pwd)
+
+        folder_create = main_page.folder_create
+        folder_create.submit()
 
     def create_folder_in_inbox(self, folder_name):
         sidebar = Sidebar(self.driver)
