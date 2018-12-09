@@ -90,10 +90,13 @@ class CheckFilterWork(Step):
         mail_page.delete_letter()
 
     def open_filters_page_in_new_window(self):
+        mail_window = self.driver.window_handles[1]
+        self.driver.switch_to_window(mail_window)
         self.driver.close()
         mail_window = self.driver.window_handles[0]
         self.driver.switch_to_window(mail_window)
         mail_page = MailPage(self.driver)
+        mail_page.open_settings_menu()
         mail_page.open_settings_page()
         window_after = self.driver.window_handles[1]
         self.driver.switch_to_window(window_after)
