@@ -20,6 +20,8 @@ class Step(object):
 class LogOut(Step):
 
     def log_out(self):
+        #log out of the mailbox
+
         self.driver.close()
         mail_window = self.driver.window_handles[0]
         self.driver.switch_to_window(mail_window)
@@ -27,6 +29,7 @@ class LogOut(Step):
         mail_page.log_out()
 
 class OpenFilterSettings(Step):
+    #enter your mailbox and open the filter settings page
 
     PASSWORD = os.environ['PASSWORD']
 
@@ -51,6 +54,8 @@ class OpenFilterSettings(Step):
 class CheckFilterWork(Step):
 
     def check_if_letter_exists_and_open_it(self, folder, subject):
+        #check that the message is in the folder and open it
+
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         if not mail_page.open_msg_by_subject(subject):
@@ -62,12 +67,16 @@ class CheckFilterWork(Step):
         return True
 
     def check_if_letter_not_exists(self, folder, subject):
+        #check that the message is in the folder and open it
+
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         result = mail_page.find_msg_by_subject(subject)
         return not result
 
     def check_if_letter_have_flag(self, folder, subject):
+        #find a message the a topic with a flag
+
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         result = mail_page.find_msg_by_subject_with_flag(subject)
@@ -79,6 +88,8 @@ class CheckFilterWork(Step):
         return result
 
     def check_if_letter_already_read(self, folder, subject):
+        
+
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         result = mail_page.find_msg_by_subject_which_read(subject)
@@ -105,26 +116,32 @@ class CheckFilterWork(Step):
 
 class WriteLetter(Step):
 
+    #send message by parameters
     def send_letter(self, addressee, subject):
         self.open()
         self.setAddressee(addressee)
         self.setSubject(subject)
         self.send()
 
+    #open a new message window
     def open(self):
         settings_page = SettingsPage(self.driver)
         settings_page.write_letter_click()
         self.form = WriteMailPage(self.driver).form
 
+    #set the addressee
     def setAddressee(self, mail):
         self.form.setAddressee(mail)
 
+    #set the subject of the message
     def setSubject(self, subject):
         self.form.setSubject(subject)
 
+    #set the subject of the message
     def setCopies(self, copies):
         self.form.setCopies(copies)
     
+    #send message
     def send(self):
         self.form.send()
 
@@ -219,9 +236,10 @@ class CreateNewFilter(Step):
         self.create_filter_form.filters_folders_open()
         self.create_filter_form.filter_folder_click(folder)
 
+    #Save filter
     def save_filter(self):
         self.create_filter_form.save_filter_click()
-       
+
     def get_alert(self):
         return self.create_filter_form.get_alert_message()
    
@@ -235,18 +253,22 @@ class CreateNewFilter(Step):
         self.create_filter_form.confirm_form_set_password(self.PASSWORD)
         self.create_filter_form.confirm_form_submit_password('Продолжить')
 
+    #delete last filter
     def delete(self):
         settings_page = SettingsPage(self.driver)
         settings_page.delete_filter()
 
+    #delete all filters
     def delete_all(self):
         settings_page = SettingsPage(self.driver)
         settings_page.delete_all_filters()
-        
+    
+    #check if filter list exists
     def check_if_filter_list_exists(self):
         settings_page = SettingsPage(self.driver)
         settings_page.check_if_filter_list_exists()
 
+    #Save new filter
     def save(self, confirm_password = False):
         self.save_filter()
         if confirm_password:
@@ -258,6 +280,7 @@ class CreateNewFilter(Step):
 
 class ChangeFilter(CreateNewFilter):
 
+    #change filter
     def open(self):
         settings_page = SettingsPage(self.driver)
         settings_page.change_filter()
@@ -271,12 +294,14 @@ class ChangeFilter(CreateNewFilter):
         self.create_filter_form.confirm_form_set_password(self.PASSWORD)
         self.create_filter_form.confirm_form_submit_password('Принять')
 
+    #open the settings of the filters of another mailbox
     def switch_mail_box(self, usermail):
         log_out = LogOut(self.driver)
         log_out.log_out()
         open_filter_settings = OpenFilterSettings(self.driver)
         open_filter_settings.open(usermail)
 
+    #base filter change
     def change_filter_default(self, rule, condition, index,  add = False):
         self.open()
         if add:

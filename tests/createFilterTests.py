@@ -19,6 +19,8 @@ class CreateFilterTest(unittest.TestCase):
     current_test = 'ERROR'
 
     def setUp(self):
+        #open filter settings
+
         self.driver = Remote(
 		    command_executor = HUB_ADDRESS,
 	        desired_capabilities = DesiredCapabilities.CHROME )
@@ -27,6 +29,8 @@ class CreateFilterTest(unittest.TestCase):
         open_filter_settings.open(USEREMAIL_1)
 
     def tearDown(self):
+        #delete all messages and created filters
+
         create_filter = CreateFilter(self.driver)
         cleaner = Cleaner(self.driver)
         check_filter_work = CheckFilterWork(self.driver)
@@ -36,6 +40,8 @@ class CreateFilterTest(unittest.TestCase):
         self.driver.quit()
 
     def test_from_move_to_folder(self):
+        #create a filter that moves the message
+
         create_filter = CreateFilter(self.driver)
         create_filter.create_to_cond_and_move_to_folter(Folder.NEWSLETTERS)
 
@@ -46,6 +52,8 @@ class CreateFilterTest(unittest.TestCase):
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_1_SUBJECT))
 
     def test_who_delete_forever(self):
+        #create a filter that deletes messages
+
         create_filter = CreateFilter(self.driver)
         create_filter.create_subject_cond_and_delete(self.TEST_2_SUBJECT)
         
@@ -56,6 +64,8 @@ class CreateFilterTest(unittest.TestCase):
         self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.INBOX, self.TEST_2_SUBJECT))
 
     def test_subject_cond_and_forward_to(self):
+        #create a filter that deletes messages
+
         create_filter = CreateFilter(self.driver)
         create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, USEREMAIL_2 + '@mail.ru')
 
@@ -66,6 +76,8 @@ class CreateFilterTest(unittest.TestCase):
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_3_SUBJECT))
 
     def test_copy_and_autoreply(self):
+        #create a filter that deletes messages
+
         create_filter = CreateFilter(self.driver)
         create_filter.create_copy_cond_and_autoreply(USEREMAIL_2)
 
@@ -76,13 +88,14 @@ class CreateFilterTest(unittest.TestCase):
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_4_SUBJECT))
 
     def test_redirect_from_and_continue_to_filter(self):
+        #create a filter that redirects and enables the following filter
+
         create_filter = CreateFilter(self.driver)
 
         create_new_filter = create_filter.create_filter(condition_value = USEREMAIL_1 + '@mail.ru', rule = Rule.field_redirected_from, change_effect = True, other_actions = True)
         create_new_filter.continue_to_filter()
         create_new_filter.save_filter()
 
-        #create_additional_filter = CreateFilter(self.driver)
         create_filter.create_subject_cond_and_flag(self.TEST_5_SUBJECT)
 
         write_letter = WriteLetter(self.driver)

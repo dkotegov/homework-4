@@ -33,8 +33,10 @@ class ChangeFilterTest(unittest.TestCase):
         create_filter.delete_created_filter()
         self.driver.quit()
     
-    # TODO: camel case style?
     def test_change_move_to_delete(self):
+        # TODO: camel case style?
+        # create a filter that deletes messages
+        
         create_filter = CreateFilter(self.driver)
         create_filter.create_to_cond_and_move_to_folter(Folder.NEWSLETTERS)
 
@@ -52,6 +54,8 @@ class ChangeFilterTest(unittest.TestCase):
         #change_filter.delete()
 
     def test_change_delete_to_move_and_read(self):
+        # create a filter that deletes messages
+
         create_filter = CreateFilter(self.driver)
         create_filter.create_subject_cond_and_delete(self.TEST_2_SUBJECT)
 
@@ -69,6 +73,8 @@ class ChangeFilterTest(unittest.TestCase):
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_2_SUBJECT))
 
     def test_change_add_condition_and_send_notification(self):
+        # Modify the filter by adding a condition and forwarding
+
         create_filter = CreateFilter(self.driver)
         create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, USEREMAIL_2 + '@mail.ru')
 
@@ -77,7 +83,6 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.change_filter_default(rule = Rule.size_KB, condition = '10000', index = condition_index, add = True)
         change_filter.forward_change_contex()
         change_filter.save(confirm_password = True)
-        
 
         write_letter = WriteLetter(self.driver)
         write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_3_SUBJECT)
@@ -87,6 +92,8 @@ class ChangeFilterTest(unittest.TestCase):
         # TODO: check if itberries2@mail.ru get the letter #оно приходит, но надо проверять здесь
     
     def test_add_condition_and_revert_autoreply(self):
+        # add filter condition and change auto answer
+
         create_filter = CreateFilter(self.driver)
         create_filter.create_copy_cond_and_autoreply(USEREMAIL_2)
 
