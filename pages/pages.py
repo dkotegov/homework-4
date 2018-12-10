@@ -102,7 +102,7 @@ class MailPage(Page):
         return True
 
     def find_msg_by_subject(self, subject):
-        elem = ElementWaiter.wait_by_xpath_with_delay(driver = self.driver, locator = self.OPEN_LETTER + subject +'")]', delay = 5)
+        elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_LETTER + subject +'")]', delay = 5)
         if elem == None:
             return False
         return True
@@ -223,7 +223,9 @@ class SettingsPage(Page):
         popup.click()
 
     def delete_all_filters(self):
-        elems = ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.DELETE_FILTER)
+        elems = ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.DELETE_FILTER, delay = 5)
+        if not elems:
+            return
         for elem in elems:
             hov = ActionChains(self.driver).move_to_element(elem)
             hov.perform()

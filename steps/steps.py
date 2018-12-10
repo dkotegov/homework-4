@@ -88,8 +88,6 @@ class CheckFilterWork(Step):
         return result
 
     def check_if_letter_already_read(self, folder, subject):
-        
-
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
         result = mail_page.find_msg_by_subject_which_read(subject)
@@ -278,6 +276,13 @@ class CreateNewFilter(Step):
                 print("Password confirmation exception!") # little trick to confirm password
         self.check_if_filter_list_exists()
 
+    #open the settings of the filters of another mailbox
+    def switch_mail_box(self, usermail):
+        log_out = LogOut(self.driver)
+        log_out.log_out()
+        open_filter_settings = OpenFilterSettings(self.driver)
+        open_filter_settings.open(usermail)
+
 class ChangeFilter(CreateNewFilter):
 
     #change filter
@@ -293,13 +298,6 @@ class ChangeFilter(CreateNewFilter):
     def confirm_password(self):
         self.create_filter_form.confirm_form_set_password(self.PASSWORD)
         self.create_filter_form.confirm_form_submit_password('Принять')
-
-    #open the settings of the filters of another mailbox
-    def switch_mail_box(self, usermail):
-        log_out = LogOut(self.driver)
-        log_out.log_out()
-        open_filter_settings = OpenFilterSettings(self.driver)
-        open_filter_settings.open(usermail)
 
     #base filter change
     def change_filter_default(self, rule, condition, index,  add = False):
