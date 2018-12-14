@@ -43,8 +43,6 @@ class Test(unittest.TestCase):
             self.FOLDER_NAME), "Folder not found after it was created")
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME)
-        # reload page for folder to disappear
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
@@ -60,7 +58,5 @@ class Test(unittest.TestCase):
             self.FOLDER_NAME), "Folder is not nested")
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME)
-        # reload page for folder to disappear
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")

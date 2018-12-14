@@ -54,8 +54,6 @@ class FolderDeleteTests(unittest.TestCase):
         sidebar.clear_trash()
         sidebar.delete_folder_by_name(self.FOLDER_NAME1)
 
-        # удаленная папка не удаляется со страницы (баг)
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME1)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
@@ -82,7 +80,6 @@ class FolderDeleteTests(unittest.TestCase):
         sidebar.click_by_folder(self.FOLDER_NAME2)
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME2)
-        self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME2)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
@@ -121,7 +118,6 @@ class FolderDeleteTests(unittest.TestCase):
         self.main_page._redirect_to_qa()
         sidebar.click_to_inbox()
         sidebar.delete_folder_by_name(self.FOLDER_NAME4)
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME4)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
@@ -141,9 +137,7 @@ class FolderDeleteTests(unittest.TestCase):
             try_delete, "Folder was deleted. Must be protected.")
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME_CHILD1)
-        self.main_page._redirect_to_qa()
         sidebar.click_by_folder(self.FOLDER_NAME5)
         sidebar.delete_folder_by_name(self.FOLDER_NAME5)
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME5)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")

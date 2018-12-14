@@ -50,6 +50,8 @@ class Sidebar(Component):
 
     MOVING_LETTERS_NOTIFICATION = '//div[@class="notify__content"]'
 
+    SIDEBAR_DIRECTORIES = '//a[contains(@class,"nav__item")]'
+
     def write_letter(self):
         write_letter_button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.WRITE_LETTER_BUTTON)
@@ -139,9 +141,13 @@ class Sidebar(Component):
         button.click()
 
     def delete_folder_by_name(self, folder_name):
+        dirs_number = self.sidebar_elements_count()
         self.right_click_by_folder(folder_name)
         self.click_delete()
         self.submit_delete()
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: self.sidebar_elements_count() == dirs_number-1
+        )
 
     def right_click_by_folder(self, folder_name):
         FOLDER_EL = self.FOLDER_ELEM.format(folder_name)
@@ -228,6 +234,9 @@ class Sidebar(Component):
             lambda d: d.find_element_by_xpath(self.UNLOCK_FOLDER)
         )
         button.click()
+
+    def sidebar_elements_count(self):
+        return len(self.driver.find_elements_by_xpath(self.SIDEBAR_DIRECTORIES))
 
     def go_to_folder(self, folder_name, active_class='nav__item_active'):
         WebDriverWait(self.driver, 30, 0.1).until(

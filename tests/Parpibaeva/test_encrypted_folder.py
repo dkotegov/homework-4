@@ -43,8 +43,6 @@ class Test(unittest.TestCase):
                         "Encrypted folder not found after it was created")
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME)
-        # reload page for folder to disappear
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
@@ -66,15 +64,11 @@ class Test(unittest.TestCase):
 
         # delete nested
         sidebar.delete_folder_by_name(self.FOLDER_NAME_NESTED)
-        # reload page for folder to disappear
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME_NESTED)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
         # delete upper level
         sidebar.delete_folder_by_name(self.FOLDER_NAME)
-        # reload page for folder to disappear
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
@@ -97,8 +91,6 @@ class Test(unittest.TestCase):
         folder_unlock.submit()
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME)
-        # reload page for folder to disappear
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
@@ -121,7 +113,5 @@ class Test(unittest.TestCase):
                         )
 
         sidebar.delete_folder_by_name(self.FOLDER_NAME)
-        # reload page for folder to disappear
-        self.main_page._redirect_to_qa()
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
