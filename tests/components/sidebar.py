@@ -44,8 +44,11 @@ class Sidebar(Component):
     ELEMENT_OF_FOLDER_CONTEXT_MENU = CONTEXT_MENU_FOLDER + \
         '//span[@class="list-item__text" and contains(text(),"{}")]/parent::*'
     FOLDER = BASE + '//a[@title="{}"]'
-    FOLDER_ACTIVE = BASE + '//a[@title="{}" and contains(concat(" ", normalize-space(@class), " "), " {} ")]'
+    FOLDER_ACTIVE = BASE + \
+        '//a[@title="{}" and contains(concat(" ", normalize-space(@class), " "), " {} ")]'
     EDIT_FOLDER = '//span[contains(text(), "Редактировать папку")]'
+
+    MOVING_LETTERS_NOTIFICATION = '//div[@class="notify__content"]'
 
     def write_letter(self):
         write_letter_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -207,6 +210,11 @@ class Sidebar(Component):
 
     def go_to_trash(self):
         WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: len(d.find_elements_by_xpath(
+                self.MOVING_LETTERS_NOTIFICATION)) == 0
+        )
+
+        WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.LINK_TRASH)).click()
 
     def click_block_folder(self):
@@ -222,11 +230,17 @@ class Sidebar(Component):
         button.click()
 
     def go_to_folder(self, folder_name, active_class='nav__item_active'):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: len(d.find_elements_by_xpath(
+                self.MOVING_LETTERS_NOTIFICATION)) == 0
+        )
+
         folder = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.FOLDER.format(folder_name)))
         folder.click()
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.FOLDER_ACTIVE.format(folder_name, active_class))
+            lambda d: d.find_element_by_xpath(
+                self.FOLDER_ACTIVE.format(folder_name, active_class))
         )
 
     def delete_folder(self, folder_name):
