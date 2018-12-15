@@ -62,6 +62,9 @@ class TestMovingLettersInFolders(unittest.TestCase):
     def test_moving_several_letters(self):
         letters_number = 2
 
+        # отправленные нами во время теста письма
+        # иногда могут не приходить на наш ящик (нужно обновить страницу)
+        # (видимо баг в почте)
         for i in range(letters_number):
             self.sidebar.write_and_send_letter(
                 self.WHOM, self.SUBJECT, self.MESSAGE_TEXT)

@@ -20,6 +20,7 @@ class FolderDeleteTests(unittest.TestCase):
     FOLDER_NAME5 = '_TEST_DIR5'
     FOLDER_NAME_CHILD1 = '_TEST_DIR_C1'
     FOLDER_PASSWORD = '1234'
+    TRASH_FOLDER = 'Корзина'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -52,12 +53,14 @@ class FolderDeleteTests(unittest.TestCase):
 
         letters.move_letter_to_folder(self.FOLDER_NAME1)
         sidebar.clear_trash()
+        # папка иногда не исчезает со страницы после удаления
+        # (видимо баг в почте)
         sidebar.delete_folder_by_name(self.FOLDER_NAME1)
 
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME1)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
 
-        sidebar.go_to_trash()
+        sidebar.go_to_folder(self.TRASH_FOLDER)
         mailFromInTrash = letters.get_mail_from()
         mailTextInTrash = letters.get_mail_text()
         mailTimeInTrash = letters.get_mail_time()
