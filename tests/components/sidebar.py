@@ -51,6 +51,7 @@ class Sidebar(Component):
     MOVING_LETTERS_NOTIFICATION = '//div[@class="notify__content"]'
 
     SIDEBAR_DIRECTORIES = '//a[contains(@class,"nav__item")]'
+    LOCK_ICON = '/descendant::*[@data-qa-id="ico:16-status:lock_on_small"]'
 
     def write_letter(self):
         write_letter_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -139,6 +140,13 @@ class Sidebar(Component):
                 self.ELEMENT_OF_FOLDER_CONTEXT_MENU.format(element_name))
         )
         button.click()
+
+    def wait_folder_until_unlock(self, folder_name):
+        folder_lock_icon = self.FOLDER + self.LOCK_ICON
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: len(d.find_elements_by_xpath(
+                folder_lock_icon.format(folder_name))) == 0
+        )
 
     def delete_folder_by_name(self, folder_name):
         dirs_number = self.sidebar_elements_count()

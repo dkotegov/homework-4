@@ -90,6 +90,7 @@ class Test(unittest.TestCase):
         folder_unlock.set_password(self.FOLDER_PASSWORD)
         folder_unlock.submit()
 
+        sidebar.wait_folder_until_unlock(self.FOLDER_NAME)
         sidebar.delete_folder_by_name(self.FOLDER_NAME)
         isFolderDeleted = sidebar.is_folder_deleted(self.FOLDER_NAME)
         self.assertTrue(isFolderDeleted, "Folder wasn't deleted")
