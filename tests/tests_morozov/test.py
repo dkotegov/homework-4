@@ -52,21 +52,19 @@ class TestSearchingLetters(unittest.TestCase):
         Ожидаемый результат:    8 писем
     """
 
-    # def test_find_by_date_simple(self):
-    #     search_key = '40bd001563085fc35165329ea1ff5c5ecbdbbeef'
-    #     letters_in_target_expected = 8
-    #
-    #     searchbar = self.main_page.searchbar
-    #     searchbar.waitForVisible()
-    #     searchbar.search_by_date('2018_12_09')
-    #     #searchbar.make_search(search_key)
-    #
-    #     letters_in_target_actual = searchbar.has_letters()
-    #
-    #     self.assertEqual(
-    #         letters_in_target_expected,
-    #         letters_in_target_actual,
-    #         'Letters: expected: {}, actual: {}'.format(letters_in_target_expected, letters_in_target_actual))
+    def test_find_by_date_simple(self):
+        letters_in_target_expected = 8
+
+        searchbar = self.main_page.searchbar
+        searchbar.waitForVisible()
+        searchbar.search_by_date('2018_12_09')
+
+        letters_in_target_actual = searchbar.has_letters()
+
+        self.assertEqual(
+            letters_in_target_expected,
+            letters_in_target_actual,
+            'Letters: expected: {}, actual: {}'.format(letters_in_target_expected, letters_in_target_actual))
 
     """
         № Теста:                2
