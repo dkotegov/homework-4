@@ -22,7 +22,6 @@ class TestSearchingLetters(unittest.TestCase):
     # кликнуть по дате, кликнуть по фильтру, кликнуть по строке поиска, клинуть по "папки", кликнуть по "входящие".
     # зафиксировать результат, закрыть оба фильтра и кликнуть в обратном порядке, сравнть результат
     def setUp(self):
-        print(os.environ['PASSWORD'])
         browser = os.environ.get('BROWSER', 'FIREFOX')
 
         self.driver = Remote(

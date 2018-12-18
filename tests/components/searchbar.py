@@ -148,6 +148,7 @@ class Searchbar(Component):
 
     def search_in_folder(self, folder_name):
         #кликнуть по строке поиска
+        time.sleep(1)
         WebDriverWait(self.driver, 30, 0.1).until(
             ec.element_to_be_clickable(
                 (By.XPATH, self.BASE_ACTIVE))
