@@ -2,25 +2,13 @@
 
 import sys
 import unittest
-from tests.tests_morozov.test import TestSearchingLetters as M_Test_1
+from tests.tests_morozov.test import TestSearchingLetters as M_Tests
+from tests.tests_babkov.test import TestSearchLetters as B_Tests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        #unittest.makeSuite(RM_Test_1),
-        unittest.makeSuite(M_Test_1),
-
-        # unittest.makeSuite(RM_Test_2),
-        # unittest.makeSuite(RM_Test_3),
-        # unittest.makeSuite(RM_Test_4),
-        # unittest.makeSuite(RM_Test_5),
-        #
-        # unittest.makeSuite(TG_Test),
-        #
-        # unittest.makeSuite(NP_Test),
-        # unittest.makeSuite(NP_Test_encr),
-        # unittest.makeSuite(NP_Test_edit),
-        #
-        # unittest.makeSuite(DP_Test),
+        #unittest.makeSuite(M_Tests),
+        unittest.makeSuite(B_Tests),
     ))
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     sys.exit(not result.wasSuccessful())

@@ -36,6 +36,7 @@ class Searchbar(Component):
     FOLDER_BUTTON = FOLDERS_BASE+'//a[@class="nav__item nav__item_shortcut"][@title="{}"]'
 
     LETTERS = '//div[@class="llc__avatar"]'
+    OPERAND = '//div[@class="b-operand"]'
 
     def waitForVisible(self):
         WebDriverWait(self.driver, 30, 1).until(
@@ -58,6 +59,23 @@ class Searchbar(Component):
         actions.send_keys(search_key)
         actions.send_keys(Keys.RETURN)
         actions.perform()
+
+    def make_active_search(self, search_key):
+        time.sleep(1)
+        WebDriverWait(self.driver, 30, 0.1).until(
+            ec.element_to_be_clickable(
+                (By.XPATH, self.BASE_ACTIVE))
+        ).click()
+        actions = ActionChains(self.driver)
+        actions.send_keys(search_key)
+        actions.send_keys(Keys.RETURN)
+        actions.perform()
+
+    def search_with_icon_first_time(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            ec.element_to_be_clickable(
+                (By.XPATH, self.BASE))
+        ).click()
 
     def search_with_icon(self, icon_name):
         time.sleep(1)
