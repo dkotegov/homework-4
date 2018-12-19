@@ -5,7 +5,7 @@ import unittest
 
 from tests import get_webdriver, get_credentials, FiltersApplyingPageObject, SECRET_PAGE_URL, LOGIN_PAGE_URL
 
-
+@unittest.skip
 class TestApplyingFilters(unittest.TestCase):
     
     def setUp(self):

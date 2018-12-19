@@ -14,8 +14,11 @@ from .message import Message
 class FiltersApplyingPageObject(PageObject):
 
     def __to_message(self, web_object):
-        read_status = web_object.find_element_by_class_name('data-ll')
+        print web_object.get_property('title')
+        read_status = web_object.find_element_by_class_name('llc__read-status')
+
         try:
+            
             read_status = read_status.find_element_by_css_selector('button[class="ll-rs_is-active"]')
         except NoSuchElementException:
             read_status = True
