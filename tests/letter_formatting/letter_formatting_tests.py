@@ -131,7 +131,6 @@ class LetterFormattingTests(BaseTest):
         # нумерованный список
         letter_formatting_form.click_on_list_icon()
         letter_formatting_form.click_on_numbered_list()
-        # letter_formatting_form.click_on_message_field()
         letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
         numberred_list = letter_formatting_form.get_numbered_text()
         self.assertEqual(self.LISTED_TEXT.decode('utf-8'), numberred_list)
