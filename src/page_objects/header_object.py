@@ -2,7 +2,8 @@ from base_page_object import BasePageObject
 from time import sleep
 
 def log(msg):
-    print msg
+    # print msg
+    pass
 
 class HeaderObject(BasePageObject):
     
@@ -55,6 +56,9 @@ class HeaderObject(BasePageObject):
         self.search_panel.click()
 
         log(self.search_panel_state + ': clicked search panel')
+
+        # self.find_element_by('css', 'div[class="search-panel-recent__filters"]')
+
         log(self.search_panel_state + ': search element ' + self.css_selectors['filters']['search_panel'][filter_type])
 
         filter_element = self.find_element_by(
