@@ -1,10 +1,11 @@
 from base_page_object import BasePageObject
 from time import sleep
 
+from selenium.common.exceptions import TimeoutException
 
 
 def log(msg):
-    print msg
+    print "HeaderObject: " + msg
     pass
 
 
@@ -55,51 +56,61 @@ class HeaderObject(BasePageObject):
     def empty_click(self):
         self.find_element_by('css', 'div[class="w-x-ph__auth__dropdown__inner"]', clickable=True).click()
 
+    def panel_search_click(self):
+        self.search_panel = self.find_search_panel()
+        self.search_panel.click()
+
 
     def click_filter_on_search(self, filter_type):
         log('-----------------------------------------------')
         
         # sleep(0.1)
 
-        self.search_panel = self.find_search_panel()
-        #self.fix_page('.sources/element_found_'+filter_type+'.html')
-        self.search_panel.click()
+        try_count = 10
 
-        log(self.search_panel_state + ': clicked search panel')
-        log(self.search_panel_state + ': search element ' + self.css_selectors['filters']['search_panel'][filter_type])
+        while try_count:
 
-        # Searching filter button
-        filter_element = self.find_element_by(
-            'css',
-            self.css_selectors['filters']['search_panel'][filter_type],
-            clickable=True
-        )
-        log(self.search_panel_state + ': element found')
-        
-        #self.fix_page('.sources/element_found_'+filter_type+'.html')
+            self.empty_click()
+            log(self.search_panel_state + ': empty click ')
+            
+            self.search_panel = self.find_search_panel()
+            self.search_panel.click()
 
-        filter_element.click()
-        log(self.search_panel_state + ': element clicked')
+            log(self.search_panel_state + ': clicked search panel')
+            log(self.search_panel_state + ': search element ' + self.css_selectors['filters']['search_panel'][filter_type])
 
-        #self.fix_page('.sources/after_click_element_'+filter_type+'.html')
-        
-        # sleep(0.3)
-        
-        # Searching filter-in-row element
-        self.find_element_by(
-            'css',
-            self.css_selectors['filters']['check_in_line'][filter_type],
-            clickable=True
-        )
-        log(self.search_panel_state + ': row element found')
+            # Searching filter button
+            filter_element = self.find_element_by(
+                'css',
+                self.css_selectors['filters']['search_panel'][filter_type],
+                clickable=True
+            )
+            log(self.search_panel_state + ': element found')
+            
 
-        # self.fix_page('.sources/row_element_found_'+filter_type+'.html')
+            filter_element.click()
+            log(self.search_panel_state + ': element clicked')            
+            
+            try:
+                # Searching filter-in-row element
+                self.find_element_by(
+                    'css',
+                    self.css_selectors['filters']['check_in_line'][filter_type],
+                    clickable=True
+                )
+                log(self.search_panel_state + ': row element found')
+            except TimeoutException:
+                try_count -= 1
+            else: 
+                try_count = 0
+                self.search_panel_state = 'search_panel_args'
+                log('update state: ' + self.search_panel_state)
 
 
-        self.empty_click()
-        log(self.search_panel_state + ': empty click ')
+            # self.fix_page('.sources/row_element_found_'+filter_type+'.html')
 
-        self.search_panel_state = 'search_panel_args'
-        log('update state: ' + self.search_panel_state)
-        log('-----------------------------------------------')
 
+            self.empty_click()
+            log(self.search_panel_state + ': empty click ')
+
+            log('-----------------------------------------------')
