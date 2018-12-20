@@ -14,6 +14,7 @@ from .states import get_state
 from src import get_credentials, get_webdriver
 
 
+
 class PageObject(object):
 
     def __init__(self):
@@ -35,11 +36,11 @@ class PageObject(object):
     def create_ac(self):
         self.action_chains = ActionChains(self.driver)
 
-
     def close(self):
         self.driver.close()
 
     def login(self):
+        print 'lol'
         login , password = get_credentials()
         self.user_data = {
             'login': login,
@@ -55,8 +56,5 @@ class PageObject(object):
         continue_button = self.driver.find_element_by_tag_name('button')
         continue_button.click()
 
-
-    
-        
 
     
