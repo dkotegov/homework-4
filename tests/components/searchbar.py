@@ -37,6 +37,7 @@ class Searchbar(Component):
 
     LETTERS = '//div[@class="llc__avatar"]'
     OPERAND = '//div[@class="b-operand"]'
+    PRELOADER = '//div[@class="spinner spinner_inline"]'
 
     def waitForVisible(self):
         WebDriverWait(self.driver, 30, 1).until(
@@ -61,7 +62,7 @@ class Searchbar(Component):
         actions.perform()
 
     def make_active_search(self, search_key):
-        time.sleep(1)
+        self.wait_for_preloader()
         WebDriverWait(self.driver, 30, 0.1).until(
             ec.element_to_be_clickable(
                 (By.XPATH, self.BASE_ACTIVE))
@@ -78,7 +79,7 @@ class Searchbar(Component):
         ).click()
 
     def search_with_icon(self, icon_name):
-        time.sleep(1)
+        self.wait_for_preloader()
         WebDriverWait(self.driver, 30, 0.1).until(
             ec.element_to_be_clickable(
                 (By.XPATH, self.BASE_ACTIVE))
@@ -148,7 +149,7 @@ class Searchbar(Component):
 
     def search_in_folder(self, folder_name):
         #кликнуть по строке поиска
-        time.sleep(1)
+        self.wait_for_preloader()
         WebDriverWait(self.driver, 30, 0.1).until(
             ec.element_to_be_clickable(
                 (By.XPATH, self.BASE_ACTIVE))
@@ -164,10 +165,19 @@ class Searchbar(Component):
                 (By.XPATH, self.FOLDER_BUTTON.format(folder_name)))
         ).click()
 
-    def has_letters(self):
-        time.sleep(2)
+
+    def wait_for_preloader(self):
         try:
-            elems = WebDriverWait(self.driver, 30, 0.1).until(
+            WebDriverWait(self.driver, 2, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.PRELOADER)
+            )
+        except:
+            return 0
+
+    def has_letters(self):
+        self.wait_for_preloader()
+        try:
+            elems = WebDriverWait(self.driver, 2, 0.1).until(
                 lambda d: d.find_elements_by_xpath(self.LETTERS)
             )
             return len(elems)
