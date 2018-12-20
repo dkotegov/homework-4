@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from page_object import PageObject
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import StaleElementReferenceException
@@ -60,14 +59,12 @@ class MessageActivities(PageObject):
         return result, titles
 
     def wait_until_moved(self, msg):
-        self.wait.until(EC.presence_of_element_located(msg.locator))
+        # self.wait.until(EC.presence_of_element_located(msg.locator))
         msg_id = self.driver.execute_script('return arguments[0].attributes["data-id"].value', msg)
-        print msg_id
         try:
             while (self.driver.find_element_by_css_selector('a[data-id="{}"]').format(msg_id)):
                 continue
         except Exception:
-            print 'messages moved'
             return True
 
     def wait_until_appear(self):
@@ -76,11 +73,8 @@ class MessageActivities(PageObject):
     def check_moved_messages(self, titles):
         
         messages = self.get_messages()[0]
-        print 'msgs: ', messages
         message_titles = self.get_all_titles(messages)
-        print 'lol', message_titles
         
-
         result = True
         for item in titles:
             if not item in message_titles:
@@ -109,7 +103,6 @@ class MessageActivities(PageObject):
             for i in range(0, n):
                 messages[i].find_element_by_css_selector('.llc__avatar').click()
                 result.append(messages[i])
-            print 'clicked'
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Ещё (.)"]'))).click()
             self.driver.find_element_by_css_selector('.dropdown__menu')
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.list-item__ico_{}'.format(flag_type)))).click()
@@ -122,7 +115,6 @@ class MessageActivities(PageObject):
         messages, msg_count = self.get_messages()
         
         if msg_count:
-            # messages[0].wait
             messages[0].find_element_by_css_selector('.llc__avatar').click()
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Выделить все (Ctrl+A)"]'))).click()
             self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span[title="Ещё (.)"]'))).click()
