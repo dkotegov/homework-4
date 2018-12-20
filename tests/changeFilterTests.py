@@ -91,7 +91,7 @@ class ChangeFilterTest(unittest.TestCase):
         condition_index = 1
         change_filter.change_filter_default(rule = Rule.size_KB, condition = '10000', index = condition_index, add = True)
         change_filter.forward_change_contex()
-        change_filter.save(confirm_password = True)
+        change_filter.save(confirm_password = False)
 
         write_letter = WriteLetter(self.driver)
         write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_3_SUBJECT)

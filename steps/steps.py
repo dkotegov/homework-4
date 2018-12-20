@@ -265,10 +265,7 @@ class CreateNewFilter(Step):
     def save(self, confirm_password = False):
         self.save_filter()
         if confirm_password:
-            try:
-                self.confirm_password() # Need to confirm "forward to" operation with password (not all the time??)
-            except:
-                print("Password confirmation exception!") # little trick to confirm password
+            self.confirm_password()
         self.check_if_filter_list_exists()
 
     #open the settings of the filters of another mailbox
