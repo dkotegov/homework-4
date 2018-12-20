@@ -17,7 +17,7 @@ class TestFilters(unittest.TestCase):
         self.page.open(SECRET_PAGE_URL)
         self.page.click_inbox()
 
-    def test_filters(self):
+    def test_conj_unread_attach(self):
         header = self.page.get_header_page_object()
         main = self.page.get_main_page_object()
 
@@ -29,6 +29,26 @@ class TestFilters(unittest.TestCase):
 
         header.click_filter_on_search('unread')
         header.click_filter_on_search('attach')
+        
+        messages, _ = main.get_messages()
+
+        self.assertEqual(len(expected), len(messages))
+        for msg in messages:
+            self.assertIn(msg, expected)
+
+
+    def test_conj_unread_flagged(self):
+        header = self.page.get_header_page_object()
+        main = self.page.get_main_page_object()
+
+        messages, _ = main.get_messages()
+        expected = list(filter(
+            lambda m: m.is_unread() and m.is_flagged(),
+            messages
+        ))
+
+        header.click_filter_on_search('unread')
+        header.click_filter_on_search('flag')
         
         messages, _ = main.get_messages()
 
