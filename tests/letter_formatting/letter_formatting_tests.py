@@ -25,30 +25,11 @@ class LetterFormattingTests(BaseTest):
     def test(self):
         login_and_write(self.driver, self.USEREMAIL, self.PASSWORD)
 
-        letter_formatting_page = LetterFormattingPage(self.driver)
-        letter_formatting_form = letter_formatting_page.form
-        letter_formatting_page.redirectQA()
-        letter_formatting_form.open_writing_letter()
 
-        # очистка поля ввода сообещния
-        letter_formatting_form.clear_field()
 
-        # проверка жирного шрифта
-        letter_formatting_form.click_on_bold_icon()
-        letter_formatting_form.click_on_message_field()
-        letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
-        bold_text = letter_formatting_form.get_text()
-        self.assertEqual(self.BOLD_TEXT.decode('utf-8'), bold_text)
 
-        # очистка поля ввода сообещния
-        letter_formatting_form.clear_field()
 
-        # проверка курсивного шрифта
-        letter_formatting_form.click_on_italic_icon()
-        # letter_formatting_form.click_on_message_field()
-        letter_formatting_form.write_some_text(self.SAMPLE_TEXT)
-        italic_text = letter_formatting_form.get_text()
-        self.assertEqual(self.ITALIC_TEXT.decode('utf-8'), italic_text)
+
 
         # очистка поля ввода сообещния
         letter_formatting_form.clear_field()
