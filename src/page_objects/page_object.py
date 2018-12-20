@@ -40,7 +40,6 @@ class PageObject(object):
         self.driver.close()
 
     def login(self):
-        print 'lol'
         login , password = get_credentials()
         self.user_data = {
             'login': login,

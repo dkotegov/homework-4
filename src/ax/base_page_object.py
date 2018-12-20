@@ -21,19 +21,9 @@ class BasePageObject(object):
     def find_element_by(self, by_type, value, clickable=False):
         selector_type = self.type_dict[by_type]
         
-        element = self.wait.until(
-            EC.presence_of_element_located(
-                (selector_type, value)
-            )
-        )
+        element = self.wait.until(EC.presence_of_element_located((selector_type, value)))
 
         if clickable:
-            self.wait.until(
-                EC.element_to_be_clickable(
-                    (selector_type, value)
-                )
-            )
+            self.wait.until(EC.element_to_be_clickable((selector_type, value)))
 
         return element
-
-
