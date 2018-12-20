@@ -11,7 +11,6 @@ class ElementWaiter(object):
             elem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((by, locator)))
             return elem
         except TimeoutException:
-            print "Loading took too much time! Locator is " + locator
             return None
 
     @staticmethod

@@ -41,6 +41,7 @@ class ChangeFilterTest(unittest.TestCase):
             cleaner.delete_all_letters()
         self.driver.quit()
     
+    
     def test_change_move_to_delete(self):
         # create a filter that move letters 
         # and change it to delete
@@ -53,12 +54,17 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.delete_message()
         change_filter.save()
 
+        check_filter_work = CheckFilterWork(self.driver)
+        was_num_of_letters = check_filter_work.get_number_of_letters()
+        print('number was get and it is: ')
+        print(was_num_of_letters)
+
         write_letter = WriteLetter(self.driver)
         write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_1_SUBJECT)
 
-        check_filter_work = CheckFilterWork(self.driver)
-        self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.NEWSLETTERS, self.TEST_1_SUBJECT))
+        self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.NEWSLETTERS, was_num_of_letters))
 
+    '''
     def test_change_delete_to_move_and_read(self):
         # create a filter that deletes messages 
         # and change it to move and set as read
@@ -163,3 +169,4 @@ class ChangeFilterTest(unittest.TestCase):
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_have_flag(Folder.INBOX, self.TEST_5_SUBJECT))
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_5_SUBJECT))
+    '''

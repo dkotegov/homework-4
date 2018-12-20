@@ -63,16 +63,24 @@ class CheckFilterWork(Step):
         mail_page.check_if_letter_is_open(subject)
         return True
 
-    def check_if_letter_not_exists(self, folder, subject):
+    def get_number_of_letters(self):
+        mail_page = MailPage(self.driver)
+        return mail_page.get_number_of_letters()
+
+    def check_if_letter_not_exists(self, folder, was_n_letters):
         #check that the message is in the folder and open it
 
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
-        try:
-            mail_page.find_msg_by_subject(subject)
-            return False
-        except TimeoutException:
+        print('before result')
+        result = mail_page.get_number_of_letters()
+        print('after get number of letters')
+        print(was_n_letters)
+        print(result)
+        if result == was_n_letters:
             return True
+        else:
+            return False
 
     def check_if_letter_have_flag(self, folder, subject):
         #find a message the a topic with a flag

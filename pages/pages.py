@@ -77,7 +77,8 @@ class MailPage(Page):
     CLEAR_FOLDER_ITEM_DISABLED = '//div[@data-qa-id="contextmenu"]//div[contains(@class, "list-item")and .//span[@class="list-item__text" and contains(text(), "Очистить содержимое")]]'
     CLEAR_FOLDER_BUTTON = '//div[contains(@class, "contextmenu_expanded")]//span[@class="list-item__text"][contains(text(), "Очистить содержимое")]'
     CLEAR_FOLDER_SUBMIT_BUTTON = '//div[@class="layer__submit-button"]'
-    
+    NUMBER_OF_LETTERS = '//span[contains(text(), "Входящие")]/../span[1]'
+
     def open_settings_menu(self):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
         elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
@@ -149,7 +150,6 @@ class MailPage(Page):
     def get_folders(self):
         result = []
         for elem in ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.SELECT_ALL_FOLDERS):
-            print('found folder: ' + elem.title)
             result.append(elem.title)
         return result
 
@@ -178,6 +178,15 @@ class MailPage(Page):
             if current_class == target:
                 return True
         return False
+
+    def get_number_of_letters(self):
+        elem = ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.NUMBER_OF_LETTERS)[0]
+        if u'Входящие' in elem.text:
+            print('here')
+            return 0
+        else:
+            print('here2')
+            return elem.text
         
 
 class SettingsPage(Page):
