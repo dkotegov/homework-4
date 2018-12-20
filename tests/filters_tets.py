@@ -20,7 +20,8 @@ class TestFilters(unittest.TestCase):
     def test_example(self):
         header = self.page.get_header_page_object()
         header.click_filter_on_search('unread')
-        sleep(3)
+        header.click_filter_on_search('attach')
+        sleep(2)
 
     def tearDown(self):
         self.page.close()

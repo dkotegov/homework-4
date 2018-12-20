@@ -72,7 +72,7 @@ class FiltersApplyingPageObject(PageObject):
         search_panel = self.wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'span[class="search-panel-button__text"]'))
         )
-        self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'span[class="search-panel-button__text"]')))
+        self.wait.until(EC.p((By.CSS_SELECTOR, 'span[class="search-panel-button__text"]')))
         
         search_panel.click()
 

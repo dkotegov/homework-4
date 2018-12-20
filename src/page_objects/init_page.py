@@ -55,7 +55,11 @@ class InitPage(object):
         element = self.wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'div[data-qa-id="portal"]'))
         )
-        return HeaderObject(element, self.wait)
+        return HeaderObject(element, self.wait, self.write_current_html)
+
+    def write_current_html(self, filename):
+        with open(filename, 'w') as out:
+            out.write(self.driver.page_source.encode('utf-8').strip())
 
 
     
