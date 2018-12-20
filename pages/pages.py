@@ -164,8 +164,6 @@ class MailPage(Page):
             elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.CLEAR_FOLDER_ITEM_DISABLED) #доделать
             if not self.has_class(elem, u'list-item_disabled'):
                 elem.click()
-                #elem = ElementWaiter.wait_clickable_by_xpath_with_delay(driver = self.driver, locator = self.CLEAR_FOLDER_BUTTON, delay = 5)
-                #elem.click()
                 elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.CLEAR_FOLDER_SUBMIT_BUTTON)
                 elem.click()
 
