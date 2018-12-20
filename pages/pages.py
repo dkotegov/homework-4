@@ -182,10 +182,8 @@ class MailPage(Page):
     def get_number_of_letters(self):
         elem = ElementWaiter.wait_elements_by_xpath(driver = self.driver, locator = self.NUMBER_OF_LETTERS)[0]
         if u'Входящие' in elem.text:
-            print('here')
             return 0
         else:
-            print('here2')
             return elem.text
         
 
