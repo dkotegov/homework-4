@@ -63,8 +63,12 @@ class FoldersActivities(PageObject):
         self.wait_until_delete(name, is_child)
 
     def wait_until_delete(self, folder_name, is_child):
-        self.wait.until(not self.element_exists('a[title="{name}"]{cl}'
-                    .format(name=folder_name, cl='[class~=nav__item_child]' if is_child else '')))
+        self.wait.until(
+            lambda d: not self.element_exists(
+                'a[title="{name}"]{cl}'.format(
+                    name=folder_name, 
+                    cl='[class~=nav__item_child]' if is_child else ''
+            )))
 
     
 

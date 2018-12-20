@@ -17,6 +17,9 @@ class TestFoldersActivities(unittest.TestCase):
         self.page.open(LOGIN_PAGE_URL)
         self.page.login()
 
+    def setUp(self):
+        self.revert_data = []
+
     def test_same_name(self):
         result1 = self.page.create_folder_by_btn('0')
         if result1:
@@ -73,8 +76,6 @@ class TestFoldersActivities(unittest.TestCase):
     def tearDown(self):
         for data in self.revert_data:
             self.page.delete_folder(*data)
-
-        self.revert_data = []
 
     @classmethod
     def tearDownClass(self):
