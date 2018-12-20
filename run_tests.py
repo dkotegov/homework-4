@@ -3,7 +3,9 @@
 
 import unittest
 
+from tests import TestFoldersActivities
 from tests import TestMessageActivities
+
 
 
 if __name__ == '__main__':

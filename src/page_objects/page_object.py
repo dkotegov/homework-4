@@ -5,7 +5,10 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+
+from selenium.webdriver import ActionChains
 import os
+
 
 from .states import get_state
 from src import get_credentials, get_webdriver
@@ -29,6 +32,10 @@ class PageObject(object):
         self.driver.get(url)
         self.state = get_state(url)
         self.wait = WebDriverWait(self.driver, 10)
+
+    def create_ac(self):
+        self.action_chains = ActionChains(self.driver)
+
 
     def close(self):
         self.driver.close()
