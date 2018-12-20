@@ -39,7 +39,7 @@ class FoldersActivities(PageObject):
 
         folder_name_input = modal.find_element_by_css_selector(FOLDER_NAME_INPUT_SELECTOR)
         folder_name_input.send_keys(folder_name)
-        
+
         modal.find_element_by_css_selector(CF_SUBMIT_SELECTOR).click()
 
         try:
@@ -48,7 +48,6 @@ class FoldersActivities(PageObject):
             return False
         except:
             return True
-
 
     def delete_folder(self, name, is_child=False):
         folder = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[title="{name}"]{cl}'
@@ -62,7 +61,6 @@ class FoldersActivities(PageObject):
         self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, DELETE_CONFIRMATION_MODAL_SELECTOR)))
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, SUBMIT_DELETION))).click()
         self.wait_until_delete(name, is_child)
-
 
     def wait_until_delete(self, folder_name, is_child):
         try:
