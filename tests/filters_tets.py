@@ -3,7 +3,7 @@
 
 import unittest
 from time import sleep
-from tests import get_webdriver, get_credentials, InitPage, HeaderObject, SECRET_PAGE_URL, LOGIN_PAGE_URL
+from src.ax import InitPage, HeaderObject, SECRET_PAGE_URL, LOGIN_PAGE_URL
 
 
 class TestFilters(unittest.TestCase):
@@ -21,7 +21,7 @@ class TestFilters(unittest.TestCase):
         header = self.page.get_header_page_object()
         header.click_filter_on_search('unread')
         header.click_filter_on_search('attach')
-        sleep(2)
+        
 
     def tearDown(self):
         self.page.close()
