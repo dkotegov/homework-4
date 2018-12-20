@@ -3,9 +3,9 @@
 
 import unittest
 
-# from tests import TestFoldersActivities
+from tests import TestFoldersActivities
 from tests import TestMessageActivities
-# from tests import TestFilters
+from tests import TestFilters
 
 
 if __name__ == '__main__':
