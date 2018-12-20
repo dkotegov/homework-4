@@ -6,7 +6,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, ChangeFilter, LogOut, Cleaner
 from support.folders import Folder
 from tests.createFilter import CreateFilter
-from tests.config import USEREMAIL_1, USEREMAIL_2, HUB_ADDRESS, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT
+from tests.config import USEREMAIL_1, USEREMAIL_2, HUB_ADDRESS, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT, USEREMAIL_FULL_1, USEREMAIL_FULL_2
 
 class ChangeFilterTest(unittest.TestCase):
 
@@ -60,7 +60,7 @@ class ChangeFilterTest(unittest.TestCase):
         print(was_num_of_letters)
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_1_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_1_SUBJECT)
 
         self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.NEWSLETTERS, was_num_of_letters))
 
@@ -79,7 +79,7 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.save()
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_2_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_2_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_already_read(Folder.NEWSLETTERS, self.TEST_2_SUBJECT))
@@ -91,7 +91,7 @@ class ChangeFilterTest(unittest.TestCase):
         # and change it with new condition and notification
 
         create_filter = CreateFilter(self.driver)
-        create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, USEREMAIL_2 + '@mail.ru')
+        create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, USEREMAIL_FULL_2)
 
         change_filter = ChangeFilter(self.driver)
         condition_index = 1
@@ -100,7 +100,7 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.save(confirm_password = False)
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_3_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_3_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_3_SUBJECT))
@@ -128,7 +128,7 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.save()
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_4_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_4_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.INBOX, self.TEST_4_SUBJECT))
@@ -144,7 +144,7 @@ class ChangeFilterTest(unittest.TestCase):
         self.is_used_second_mail = True
 
         create_account2_filter = CreateFilter(self.driver)
-        create_account2_filter.create_subject_cond_and_forward_to(self.TEST_5_SUBJECT, USEREMAIL_1 + '@mail.ru')
+        create_account2_filter.create_subject_cond_and_forward_to(self.TEST_5_SUBJECT, USEREMAIL_FULL_1)
 
         log_out = LogOut(self.driver)
         log_out.log_out()
@@ -164,7 +164,7 @@ class ChangeFilterTest(unittest.TestCase):
         change_filter.save()
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_2 + '@mail.ru', subject = self.TEST_5_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_2, subject = self.TEST_5_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_have_flag(Folder.INBOX, self.TEST_5_SUBJECT))
