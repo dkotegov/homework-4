@@ -45,7 +45,7 @@ class FileAttachingForm(BaseForm):
             WebDriverWait(self.driver, timeout) \
                 .until(lambda driver: driver.find_element_by_xpath(self.FILE_ATTACH_CHECK_LOADED.format(filename)))
             return True
-        except Exception:
+        except WebDriverException:
             return False
 
     def check_loaded_without_cloud(self):

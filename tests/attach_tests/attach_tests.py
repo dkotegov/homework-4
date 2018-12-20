@@ -1,5 +1,4 @@
 # coding=utf-8
-# from selenium.webdriver import ActionChains
 
 from tests.attach_tests.base_attach import BaseAttach
 
