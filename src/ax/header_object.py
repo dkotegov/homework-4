@@ -1,7 +1,6 @@
-from base_page_object import BasePageObject
-from time import sleep
-
 from selenium.common.exceptions import TimeoutException
+
+from base_page_object import BasePageObject
 
 
 TRY_COUNT = 3
@@ -9,22 +8,22 @@ TRY_COUNT = 3
 
 class HeaderObject(BasePageObject):
     
-    filter_button = None
     search_panel  = None
     search_panel_state = 'search_panel_empty'
 
     css_selectors = {
         'search_panel_empty': 'span[class="search-panel-button__icon"]',
         'search_panel_args': 'input[class="b-operand__input js-input js-shortcut"]',
+        'empty_space': 'div[class="w-x-ph__auth__dropdown__inner"]',
 
         'filters': {
             'search_panel': {
                 'unread': 'div[class="search-panel-recent-item search-panel-recent-item_flag search-panel-recent-item_flag_unread"]',
-                'flag': 'div[class="search-panel-recent-item search-panel-recent-item_flag search-panel-recent-item_flag_flagged"]',
+                'flag':   'div[class="search-panel-recent-item search-panel-recent-item_flag search-panel-recent-item_flag_flagged"]',
                 'attach': 'div[class="search-panel-recent-item search-panel-recent-item_flag search-panel-recent-item_flag_attach"]',
             },
             'check_in_line': {
-                'unread': 'div[data-qa-id="q_read:"]', # 'div[class="b-operand b-operand_q_read"]'
+                'unread': 'div[data-qa-id="q_read:"]',
                 'flag': 'div[data-qa-id="q_flag:"]',
                 'attach': 'div[data-qa-id="q_attach:"]',
             }
@@ -33,12 +32,6 @@ class HeaderObject(BasePageObject):
 
     def __init__(self, layout, wait, fix_page):
         super(HeaderObject, self).__init__(layout, wait, fix_page)
-
-        self.filter_button = self.find_element_by(
-            'css', 
-            'div[class="filters-control filters-control_short filters-control_pure"]',
-            clickable=True
-        )
 
         self.search_panel = self.find_search_panel()
 
@@ -51,7 +44,7 @@ class HeaderObject(BasePageObject):
         )
 
     def empty_click(self):
-        self.find_element_by('css', 'div[class="w-x-ph__auth__dropdown__inner"]', clickable=True).click()
+        self.find_element_by('css', self.css_selectors['empty_space'], clickable=True).click()
 
     def panel_search_click(self):
         self.search_panel = self.find_search_panel()
@@ -62,9 +55,7 @@ class HeaderObject(BasePageObject):
         try_count = TRY_COUNT
 
         while try_count:
-
             self.empty_click()
-            
             self.search_panel = self.find_search_panel()
             self.search_panel.click()
 

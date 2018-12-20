@@ -56,13 +56,7 @@ class TestFilters(unittest.TestCase):
         for msg in messages:
             self.assertIn(msg, expected)
         
-        
-
     @classmethod
     def tearDownClass(self):
         self.page.close()
         self.page.driver.quit()
-
-
-    
-
