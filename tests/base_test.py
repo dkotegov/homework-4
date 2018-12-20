@@ -10,6 +10,7 @@ class BaseTest(unittest.TestCase):
     USEREMAIL = 'park.test.testovich@mail.ru'
     PASSWORD = os.environ['PASSWORD']
 
+
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 

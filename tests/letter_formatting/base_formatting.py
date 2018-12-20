@@ -1,3 +1,4 @@
+# coding=utf-8
 from pages.letter_formatting_page import LetterFormattingPage
 from tests.base_test import BaseTest
 
@@ -14,9 +15,10 @@ class BaseFormatting(BaseTest):
     LINE_HEIGHT = '40px'
     TEXT_ALIGN = 'right'
     MARGIN_LEFT = '40px'
-    LISTED_TEXT = '<li>​​​​​​​' + SAMPLE_TEXT + '</li>'
+    LISTED_TEXT = '<li>hello</li>'
     EMPTY_FIELD = '<br>'
     LINK = 'https://vk.com/'
+
     def test(self):
         BaseTest.test(self)
         self.letter_formatting_page = LetterFormattingPage(self.driver)
