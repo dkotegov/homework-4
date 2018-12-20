@@ -9,13 +9,13 @@ from states import get_state
 from header_object import HeaderObject
 from main_view_object import MainViewObject
 from src import get_credentials, get_webdriver
+from src.page_objects import PageObject
 
 
-class InitPage(object):
+class InitPage(PageObject):
 
     def __init__(self):
-        self.driver = get_webdriver()
-        self.driver.set_window_size(1920, 1080)
+        super(InitPage, self).__init__()
 
     def open(self, url):
         self.driver.get(url)
