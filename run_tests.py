@@ -3,7 +3,7 @@ import sys
 import unittest
 
 from tests.attach_tests.attach_tests import *
-from tests.letter_formatting_tests import LetterFormattingTests
+from tests.letter_formatting.letter_formatting_tests import LetterFormattingTests
 from tests.letter_functions.functions_tests import *
 from tests.send_tests.send_tests import *
 
