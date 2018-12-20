@@ -14,10 +14,9 @@ class Message(BasePageObject):
         'flag_status': 'button[class~=ll-fs]',
         'attach_status': 'div[data-test-id="attachment-button"]',
         'author': 'span[class="ll-crpt"]'
-
     }
 
-    def __init__(self, layout, wait, fix_page=lambda x: log("no fix page to " + x)):
+    def __init__(self, layout, wait, fix_page=lambda x: None):
         super(Message, self).__init__(layout, wait, fix_page)
     
     def is_unread(self):

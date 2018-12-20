@@ -1,16 +1,12 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-
 from base_page_object import BasePageObject
 from message import Message
 
 
-
-
-
-
 class MainViewObject(BasePageObject):
+
     locators = {
         'messages_list': (By.CLASS_NAME, 'dataset__items')
     }
