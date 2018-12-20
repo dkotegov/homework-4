@@ -42,7 +42,6 @@ class ErrorCheckingTest(unittest.TestCase):
             create_new_filter.save_filter()
 
         error_message = create_new_filter.get_alert()
-        #print(error_message)
         self.assertIsNotNone((error_message).encode('utf-8'))
         change_filter = ChangeFilter(self.driver)
         change_filter.delete()

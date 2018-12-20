@@ -59,7 +59,7 @@ class CheckFilterWork(Step):
 
         mail_page = MailPage(self.driver)
         mail_page.open_folder(folder)
-        mail_page.open_msg_by_subject(subject):
+        mail_page.open_msg_by_subject(subject)
         mail_page.check_if_letter_is_open(subject)
         return True
 

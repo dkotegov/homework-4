@@ -62,7 +62,6 @@ class MailPage(Page):
     FOLDER_ROW = '//div[@id="b-nav_folders"]//span[contains(text(), "'
     OPEN_LETTER =  '//div[@class="b-datalist__item__subj"][contains(text(), "'
     APP_LOADER = '//div[@id="app-loader"][contains(@style,"display: none")]'
-    #WRITE_LETTER = '//span[@class="compose-button__txt"][contains(text(), "Написать письмо")]'
     LETTER_PROPERTIES = '//div[@class="b-datalist__item__subj"][contains(text(), "'
     LETTER_FLAG = '")]/./../../../../div[@class="b-datalist__item__flag"]/div[@title="Снять флажок"]'
     WHICH_READ = '")]/./../../../../div[@class="b-datalist__item__status"]'
@@ -78,8 +77,7 @@ class MailPage(Page):
     CLEAR_FOLDER_ITEM_DISABLED = '//div[@data-qa-id="contextmenu"]//div[contains(@class, "list-item")and .//span[@class="list-item__text" and contains(text(), "Очистить содержимое")]]'
     CLEAR_FOLDER_BUTTON = '//div[contains(@class, "contextmenu_expanded")]//span[@class="list-item__text"][contains(text(), "Очистить содержимое")]'
     CLEAR_FOLDER_SUBMIT_BUTTON = '//div[@class="layer__submit-button"]'
-    #CLEAR_FOLDER_BUTTON = '//span[@class="b-toolbar__btn__text b-toolbar__btn__text_pad"][contains(text(), "Очистить папку")]'
-
+    
     def open_settings_menu(self):
         ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.APP_LOADER)
         elem = ElementWaiter.wait_clickable_by_xpath(driver = self.driver, locator = self.SETTINGS_MENU)
@@ -98,7 +96,7 @@ class MailPage(Page):
         elem = ElementWaiter.wait_by_xpath(driver = self.driver, locator = self.OPEN_LETTER + subject +'")]')
         if elem == None:
             return False
-        elem.click() #TODO: check that everything still works
+        elem.click()
         return True
 
     def find_msg_by_subject(self, subject):

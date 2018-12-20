@@ -21,20 +21,12 @@ class ElementWaiter(object):
 
     @staticmethod
     def wait_elements_by_xpath(driver, locator, delay = 30):
-        try:
-            WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, locator)))
-            elem = driver.find_elements_by_xpath(locator)
-            return elem
-        except TimeoutException:
-            print "Loading took too much time! Locator is " + locator
-            return None
+        WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, locator)))
+        elem = driver.find_elements_by_xpath(locator)
+        return elem
 
     @staticmethod
     def wait_clickable_by_xpath(driver, locator):
-        try:
-            delay = 30
-            elem = WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, locator)))
-            return elem
-        except TimeoutException:
-            print "Loading took too much time! Locator is " + locator
-            return None
+        delay = 30
+        elem = WebDriverWait(driver, delay).until(EC.element_to_be_clickable((By.XPATH, locator)))
+        return elem
