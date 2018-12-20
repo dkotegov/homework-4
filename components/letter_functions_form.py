@@ -31,19 +31,19 @@ class LetterFunctionsForm(BaseForm):
 
     # Получение первого шаблона из списка
     def get_first_template(self):
-        elem = WebDriverWait(self.driver, 1) \
+        elem = WebDriverWait(self.driver, 5) \
             .until(lambda driver: driver.find_elements_by_xpath(self.TEMPLATE_FIRST)[0])
         return elem.text
 
     # Выведение списка шаблонов
     def click_template_mark(self):
-        elem = WebDriverWait(self.driver, 1) \
+        elem = WebDriverWait(self.driver, 5) \
             .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK))
         ActionChains(self.driver).move_to_element(elem).click().perform()
 
     # Сохранение шаблона
     def click_save_template(self):
-        element = WebDriverWait(self.driver, 1) \
+        element = WebDriverWait(self.driver, 5) \
             .until(lambda driver: driver.find_element_by_xpath(self.TEMPLATE_MARK_SAVE))
         ActionChains(self.driver).move_to_element(element).click().perform()
 

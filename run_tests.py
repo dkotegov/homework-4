@@ -7,8 +7,6 @@ from tests.letter_formatting_tests import LetterFormattingTests
 from tests.letter_functions.functions_tests import *
 from tests.send_tests.send_tests import *
 
-# TODO комментьте чужие тесты, если не хотите страдать! 😇
-
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         unittest.makeSuite(ImportantMarkTest),
