@@ -3,7 +3,9 @@ import sys
 import unittest
 
 from tests.attach_tests.attach_tests import *
-from tests.letter_formatting.letter_formatting_tests import LetterFormattingTests
+from tests.letter_formatting.formatting_tests import BoldTest, ItalicTest, UnderlinedTest, StrikeThroughTest, \
+    ColorTextTest, BackgroundColorTest, FontIconTest, TextAlignTest, MarginIconTest, NumberedListTest, MarkedListTest, \
+    CancelButtonTest, LinkInsertionTest, ImageInsertTest, ClearFormatingTest
 from tests.letter_functions.functions_tests import *
 from tests.send_tests.send_tests import *
 
@@ -15,7 +17,21 @@ if __name__ == '__main__':
         unittest.makeSuite(DelayedMarkTest),
         unittest.makeSuite(CrossFuncsTest),
         unittest.makeSuite(TemplateTest),
-        unittest.makeSuite(LetterFormattingTests),
+        unittest.makeSuite(BoldTest),
+        unittest.makeSuite(ItalicTest),
+        unittest.makeSuite(UnderlinedTest),
+        unittest.makeSuite(StrikeThroughTest),
+        unittest.makeSuite(ColorTextTest),
+        unittest.makeSuite(BackgroundColorTest),
+        unittest.makeSuite(FontIconTest),
+        unittest.makeSuite(TextAlignTest),
+        unittest.makeSuite(MarginIconTest),
+        unittest.makeSuite(NumberedListTest),
+        unittest.makeSuite(MarkedListTest),
+        unittest.makeSuite(CancelButtonTest),
+        unittest.makeSuite(LinkInsertionTest),
+        unittest.makeSuite(ImageInsertTest),
+        unittest.makeSuite(ClearFormatingTest),
         unittest.makeSuite(AttachTestDocument),
         unittest.makeSuite(AttachTestMedia),
         unittest.makeSuite(AttachTestExecutable),
