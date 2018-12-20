@@ -6,7 +6,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from steps.steps import OpenFilterSettings, CreateNewFilter, Rule, WriteLetter, CheckFilterWork, Cleaner
 from support.folders import Folder
 from tests.createFilter import CreateFilter
-from tests.config import USEREMAIL_1, USEREMAIL_2, HUB_ADDRESS, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT
+from tests.config import USEREMAIL_1, USEREMAIL_2, HUB_ADDRESS, WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT, USEREMAIL_FULL_1, USEREMAIL_FULL_2
 
 class CreateFilterTest(unittest.TestCase):
 
@@ -46,7 +46,7 @@ class CreateFilterTest(unittest.TestCase):
         create_filter.create_to_cond_and_move_to_folter(Folder.NEWSLETTERS)
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_1_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_1_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.NEWSLETTERS, self.TEST_1_SUBJECT))
@@ -58,7 +58,7 @@ class CreateFilterTest(unittest.TestCase):
         create_filter.create_subject_cond_and_delete(self.TEST_2_SUBJECT)
         
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_2_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_2_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_not_exists(Folder.INBOX, self.TEST_2_SUBJECT))
@@ -67,10 +67,10 @@ class CreateFilterTest(unittest.TestCase):
         #create a filter that deletes messages
 
         create_filter = CreateFilter(self.driver)
-        create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, USEREMAIL_2 + '@mail.ru')
+        create_filter.create_subject_cond_and_forward_to(self.TEST_3_SUBJECT, USEREMAIL_FULL_2)
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_3_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_3_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_3_SUBJECT))
@@ -82,7 +82,7 @@ class CreateFilterTest(unittest.TestCase):
         create_filter.create_copy_cond_and_autoreply(USEREMAIL_2)
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_4_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_4_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_4_SUBJECT))
@@ -92,14 +92,14 @@ class CreateFilterTest(unittest.TestCase):
 
         create_filter = CreateFilter(self.driver)
 
-        create_new_filter = create_filter.create_filter(condition_value = USEREMAIL_1 + '@mail.ru', rule = Rule.field_redirected_from, change_effect = True, other_actions = True)
+        create_new_filter = create_filter.create_filter(condition_value = USEREMAIL_FULL_1, rule = Rule.field_redirected_from, change_effect = True, other_actions = True)
         create_new_filter.continue_to_filter()
         create_new_filter.save_filter()
 
         create_filter.create_subject_cond_and_flag(self.TEST_5_SUBJECT)
 
         write_letter = WriteLetter(self.driver)
-        write_letter.send_letter(addressee = USEREMAIL_1 + '@mail.ru', subject = self.TEST_5_SUBJECT)
+        write_letter.send_letter(addressee = USEREMAIL_FULL_1, subject = self.TEST_5_SUBJECT)
 
         check_filter_work = CheckFilterWork(self.driver)
         self.assertTrue(check_filter_work.check_if_letter_exists_and_open_it(Folder.SENT, self.TEST_5_SUBJECT))
