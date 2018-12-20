@@ -19,7 +19,6 @@ class TestFoldersActivities(unittest.TestCase):
         self.page = FoldersActivities()
         self.page.open(LOGIN_PAGE_URL)
         self.page.login()
-        time.sleep(2)
 
 
     def test_same_name(self):
@@ -107,3 +106,4 @@ class TestFoldersActivities(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         self.page.close()
+        self.driver.quit()

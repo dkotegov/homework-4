@@ -8,7 +8,8 @@ from src.ax import InitPage, HeaderObject, MainViewObject, SECRET_PAGE_URL, LOGI
 
 class TestFilters(unittest.TestCase):
     
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         self.page = InitPage()
 
         self.page.open(LOGIN_PAGE_URL)
@@ -35,7 +36,11 @@ class TestFilters(unittest.TestCase):
         
         
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         self.page.close()
+        self.page.driver.quit()
+
+
     
 
