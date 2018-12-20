@@ -63,12 +63,8 @@ class FoldersActivities(PageObject):
         self.wait_until_delete(name, is_child)
 
     def wait_until_delete(self, folder_name, is_child):
-        try:
-            i = 1000
-            while(i):
-                self.driver.find_element_by_css_selector('a[title="{name}"]{cl}'
-                    .format(name=folder_name, cl='[class~=nav__item_child]' if is_child else ''))
-                i -= 1
-                continue
-        except:
-            return
+        self.wait.until(not self.element_exists('a[title="{name}"]{cl}'
+                    .format(name=folder_name, cl='[class~=nav__item_child]' if is_child else '')))
+
+    
+
