@@ -9,12 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class MessageActivities(PageObject):
 
     def get_message_title(self, msg):
-        # try:
-        # result = msg.find_element_by_css_selector('.ll-sj__normal').text
         return msg.find_element_by_css_selector('.ll-sj__normal').text
-        # except:
-            # return ''
-        # return result
 
     def get_all_titles(self, data):
         titles = []
@@ -24,12 +19,8 @@ class MessageActivities(PageObject):
         return titles
 
     def get_messages(self):
-        # try:
         data = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'dataset__items')))
         messages = data.find_elements_by_css_selector('.llc_normal')
-
-        # except:
-        #     messages = []
 
         return messages, len(messages)
 
@@ -156,5 +147,3 @@ class MessageActivities(PageObject):
             continue
         return True
         
-
-

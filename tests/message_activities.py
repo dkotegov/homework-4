@@ -152,9 +152,6 @@ class TestMessageActivities(unittest.TestCase):
         self.page.apply_flag_for_all('read')
         self.assertEqual(first_len, second_len)
 
-
-    
-
     @classmethod
     def tearDownClass(self):
         self.page.close()
