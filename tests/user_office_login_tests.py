@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import os
-import random
 import unittest
 
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
 from tests.pages.admin_page import AdminPage
 from tests.pages.user_page import UserPage
@@ -18,6 +14,12 @@ class UserOfficeLoginTests(unittest.TestCase):
     USER_PASSWORD = "qwerty123"
 
     HTML_TAG = '<script>alert("alert")</script>'
+
+    get_empty_login_msg = "Login is empty."
+    get_empty_password_msg = "Password is empty."
+    get_invalid_login_msg = "Login contains bad chars."
+    get_invalid_password_msg = "Password contains bad chars."
+    get_auth_err_msg = "Bad login or password."
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -58,7 +60,7 @@ class UserOfficeLoginTests(unittest.TestCase):
 
         alert_text = self.user_page.alert_accept()
 
-        self.assertEqual(alert_text, self.login_form.get_empty_login_msg())
+        self.assertEqual(alert_text, self.get_empty_login_msg)
 
     def test_login_form_empty_password(self):
         self.login_form.set_login(self.USER_NAME)
@@ -67,7 +69,7 @@ class UserOfficeLoginTests(unittest.TestCase):
 
         alert_text = self.user_page.alert_accept()
 
-        self.assertEqual(alert_text, self.login_form.get_empty_password_msg())
+        self.assertEqual(alert_text, self.get_empty_password_msg)
 
     def test_login_form_html_injection_login(self):
         self.login_form.set_login(self.HTML_TAG + self.USER_NAME)
@@ -76,7 +78,7 @@ class UserOfficeLoginTests(unittest.TestCase):
 
         alert_text = self.user_page.alert_accept()
 
-        self.assertEqual(alert_text, self.login_form.get_invalid_login_msg())
+        self.assertEqual(alert_text, self.get_invalid_login_msg)
 
     def test_login_form_html_injection_password(self):
         self.login_form.set_login(self.USER_NAME)
@@ -85,7 +87,7 @@ class UserOfficeLoginTests(unittest.TestCase):
 
         alert_text = self.user_page.alert_accept()
 
-        self.assertEqual(alert_text, self.login_form.get_invalid_password_msg())
+        self.assertEqual(alert_text, self.get_invalid_password_msg)
 
     def test_login_form_auth_err(self):
         self.login_form.set_login("login" + self.USER_NAME)
@@ -94,7 +96,7 @@ class UserOfficeLoginTests(unittest.TestCase):
 
         alert_text = self.user_page.alert_accept()
 
-        self.assertEqual(alert_text, self.login_form.get_auth_err_msg())
+        self.assertEqual(alert_text, self.get_auth_err_msg)
 
     def test_login_form_auth_login_err(self):
         self.login_form.set_login("login" + self.USER_NAME)
@@ -103,7 +105,7 @@ class UserOfficeLoginTests(unittest.TestCase):
 
         alert_text = self.user_page.alert_accept()
 
-        self.assertEqual(alert_text, self.login_form.get_auth_err_msg())
+        self.assertEqual(alert_text, self.get_auth_err_msg)
 
     def test_login_form_auth_pswd_err(self):
         self.login_form.set_login(self.USER_NAME)
@@ -112,4 +114,4 @@ class UserOfficeLoginTests(unittest.TestCase):
 
         alert_text = self.user_page.alert_accept()
 
-        self.assertEqual(alert_text, self.login_form.get_auth_err_msg())
+        self.assertEqual(alert_text, self.get_auth_err_msg)

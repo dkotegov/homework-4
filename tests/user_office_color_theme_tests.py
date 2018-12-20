@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import os
 import unittest
 
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
 from tests.pages.admin_page import AdminPage
 from tests.pages.user_page import UserPage

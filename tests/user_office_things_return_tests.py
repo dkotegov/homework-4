@@ -4,10 +4,7 @@ import os
 import random
 import unittest
 
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
 from tests.pages.admin_page import AdminPage
 from tests.pages.user_page import UserPage
@@ -24,6 +21,9 @@ class UserOfficeThingsReturnTests(unittest.TestCase):
     SRC_NUM_FOR_TAKING = 3
     SRC_NUM_FOR_RETURN = 1
 
+    get_ok_msg = "Returning source success."
+    get_not_enough_msg = "You have not enough source"
+
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
@@ -34,7 +34,8 @@ class UserOfficeThingsReturnTests(unittest.TestCase):
         self.admin_page = AdminPage(self.driver)
         self.admin_page.open()
         self.admin_page.add_user(self.USER_NAME, self.USER_PASSWORD)
-        self.admin_page.add_source(self.SRC_NAME, self.SRC_DESCRIPTION, self.SRC_NUM_ALL)
+        src_id = 1000 + int(random.random() * 1000)
+        self.admin_page.add_source(self.SRC_NAME, self.SRC_DESCRIPTION, self.SRC_NUM_ALL, src_id)
 
         self.user_page = UserPage(self.driver)
         self.user_page.open()
@@ -56,7 +57,7 @@ class UserOfficeThingsReturnTests(unittest.TestCase):
         self.user_page.goto_my_things()
         alert_text = self.my_things_list.return_num_of_last_thing(self.SRC_NUM_FOR_RETURN)
 
-        self.assertEqual(alert_text, self.my_things_list.get_ok_msg())
+        self.assertEqual(alert_text, self.get_ok_msg)
 
     def test_things_take_too_much(self):
         self.user_page.goto_all_things()
@@ -65,7 +66,7 @@ class UserOfficeThingsReturnTests(unittest.TestCase):
         self.user_page.goto_my_things()
         alert_text = self.my_things_list.return_num_of_last_thing(self.SRC_NUM_FOR_TAKING + 1)
 
-        self.assertEqual(alert_text, self.my_things_list.get_not_enough_msg())
+        self.assertEqual(alert_text, self.get_not_enough_msg)
 
     def test_my_things_counter_of_thing_decrease_after_ok_return(self):
         self.user_page.goto_all_things()
