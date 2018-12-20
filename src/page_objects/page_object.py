@@ -14,7 +14,6 @@ from .states import get_state
 from src import get_credentials, get_webdriver
 
 
-
 class PageObject(object):
 
     def __init__(self):
