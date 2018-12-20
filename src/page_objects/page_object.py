@@ -55,5 +55,12 @@ class PageObject(object):
         continue_button = self.driver.find_element_by_tag_name('button')
         continue_button.click()
 
+    def element_exists(self, selector):
+        try:
+            self.driver.find_element_by_css_selector(selector)
+            return True
+        except:
+            return False
+
 
     

@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import StaleElementReferenceException
 
+
 MESSAGE_TITLE = '.ll-sj__normal'
 DATASET_ITEMS = '.dataset__items'
 MESSAGE = '.llc_normal'
@@ -73,11 +74,7 @@ class MessageActivities(PageObject):
 
     def wait_until_moved(self, msg):
         msg_id = self.driver.execute_script('return arguments[0].attributes["data-id"].value', msg)
-        try:
-            while (self.driver.find_element_by_css_selector('a[data-id="{}"]').format(msg_id)):
-                continue
-        except Exception:
-            return True
+        self.wait.until(not self.element_exists('a[data-id="{}"]').format(msg_id))
 
     def wait_until_appear(self):
         self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, MESSAGE)))
