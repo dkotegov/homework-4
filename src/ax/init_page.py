@@ -14,32 +14,6 @@ from src.page_objects import PageObject
 
 class InitPage(PageObject):
 
-    def __init__(self):
-        super(InitPage, self).__init__()
-
-    def open(self, url):
-        self.driver.get(url)
-        self.wait = WebDriverWait(self.driver, 10)
-
-    def close(self):
-        self.driver.close()
-
-    def login(self):
-        login , password = get_credentials()
-        self.user_data = {
-            'login': login,
-            'password': password
-        }
-
-        login_input = self.driver.find_element_by_name('Login')
-        login_input.send_keys(self.user_data['login'])
-
-        password_input = self.driver.find_element_by_name('Password')
-        password_input.send_keys(self.user_data['password'])
-
-        continue_button = self.driver.find_element_by_tag_name('button')
-        continue_button.click()
-
     def click_inbox(self):
         inbox_locator = (By.CSS_SELECTOR, 'div[data-qa-id="folder-name:name:Входящие"]')
         filter_control = self.wait.until(EC.presence_of_element_located(inbox_locator))
