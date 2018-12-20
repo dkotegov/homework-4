@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+
+from selenium.webdriver import ActionChains
+import os
+
 
 from .states import get_state
 from src import get_credentials, get_webdriver
@@ -12,14 +17,24 @@ from src import get_credentials, get_webdriver
 class PageObject(object):
 
     def __init__(self):
-        self.driver = get_webdriver()
+        browser = os.environ.get('BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
         self.driver.set_window_size(1920, 1080)
+        self.driver.implicitly_wait(2)
         self.state = None
 
     def open(self, url):
         self.driver.get(url)
         self.state = get_state(url)
         self.wait = WebDriverWait(self.driver, 10)
+
+    def create_ac(self):
+        self.action_chains = ActionChains(self.driver)
+
 
     def close(self):
         self.driver.close()
