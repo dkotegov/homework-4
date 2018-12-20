@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-import random
 import unittest
 
 from selenium.common.exceptions import TimeoutException

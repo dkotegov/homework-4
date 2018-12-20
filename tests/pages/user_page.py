@@ -43,12 +43,18 @@ class UserPage(Page):
         return ColorChanger(self.driver)
 
     def goto_all_things(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            EC.visibility_of_element_located((By.ID, self.NAV_BUTTONS_ID['all_things']))
+        )
         self.driver.find_element_by_id(self.NAV_BUTTONS_ID['all_things']).click()
         WebDriverWait(self.driver, 30, 0.1).until(
             EC.visibility_of_element_located((By.ID, self.PAGES_ID['all_things']))
         )
 
     def goto_my_things(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            EC.visibility_of_element_located((By.ID, self.NAV_BUTTONS_ID['my_things']))
+        )
         self.driver.find_element_by_id(self.NAV_BUTTONS_ID['my_things']).click()
         WebDriverWait(self.driver, 30, 0.1).until(
             EC.visibility_of_element_located((By.ID, self.PAGES_ID['my_things']))

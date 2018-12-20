@@ -19,25 +19,3 @@ class Component(object):
     def get_length_of_elem_list_by_css(self, css_selector):
         return len(self.driver.find_elements_by_css_selector(css_selector))
 
-    def alert_accept(self):
-        try:
-            WebDriverWait(self.driver, 10, 0.1).until(
-                EC.alert_is_present()
-            )
-            alert = self.driver.switch_to.alert
-            alert_text = alert.text
-            alert.accept()
-        except TimeoutException:
-            alert_text = "no alert"
-        return alert_text
-
-    def alert_input_and_accept(self, input_int):
-        try:
-            WebDriverWait(self.driver, 10, 0.1).until(
-                EC.alert_is_present()
-            )
-            alert = self.driver.switch_to.alert
-            alert.send_keys(str(input_int))
-            alert.accept()
-        except TimeoutException:
-            print "no alert"
