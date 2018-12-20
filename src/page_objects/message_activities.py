@@ -74,7 +74,8 @@ class MessageActivities(PageObject):
 
     def wait_until_moved(self, msg):
         msg_id = self.driver.execute_script('return arguments[0].attributes["data-id"].value', msg)
-        self.wait.until(not self.element_exists('a[data-id="{}"]'.format(msg_id)))
+        self.wait.until(
+            lambda d: not self.element_exists('a[data-id="{}"]'.format(msg_id)))
 
     def wait_until_appear(self):
         self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, MESSAGE)))
