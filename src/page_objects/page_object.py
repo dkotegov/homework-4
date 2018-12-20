@@ -4,6 +4,8 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver import ActionChains
+
 
 from .states import get_state
 from src import get_credentials, get_webdriver
@@ -14,12 +16,17 @@ class PageObject(object):
 
     def __init__(self):
         self.driver = get_webdriver()
+        self.driver.set_window_size(1920, 1080) 
         self.state = None
 
     def open(self, url):
         self.driver.get(url)
         self.state = get_state(url)
         self.wait = WebDriverWait(self.driver, 10)
+
+    def create_ac(self):
+        self.action_chains = ActionChains(self.driver)
+
 
     def close(self):
         self.driver.close()
