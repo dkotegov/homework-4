@@ -36,11 +36,11 @@ class PageObject(object):
     def create_ac(self):
         self.action_chains = ActionChains(self.driver)
 
-
     def close(self):
         self.driver.close()
 
     def login(self):
+        print 'lol'
         login , password = get_credentials()
         self.user_data = {
             'login': login,
