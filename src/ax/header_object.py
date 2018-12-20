@@ -4,10 +4,7 @@ from time import sleep
 from selenium.common.exceptions import TimeoutException
 
 
-def log(msg):
-    print "HeaderObject: " + msg
-    pass
-
+TRY_COUNT = 3
 
 
 class HeaderObject(BasePageObject):
@@ -62,22 +59,14 @@ class HeaderObject(BasePageObject):
 
 
     def click_filter_on_search(self, filter_type):
-        log('-----------------------------------------------')
-        
-        # sleep(0.1)
-
-        try_count = 10
+        try_count = TRY_COUNT
 
         while try_count:
 
             self.empty_click()
-            log(self.search_panel_state + ': empty click ')
             
             self.search_panel = self.find_search_panel()
             self.search_panel.click()
-
-            log(self.search_panel_state + ': clicked search panel')
-            log(self.search_panel_state + ': search element ' + self.css_selectors['filters']['search_panel'][filter_type])
 
             # Searching filter button
             filter_element = self.find_element_by(
@@ -85,11 +74,8 @@ class HeaderObject(BasePageObject):
                 self.css_selectors['filters']['search_panel'][filter_type],
                 clickable=True
             )
-            log(self.search_panel_state + ': element found')
             
-
             filter_element.click()
-            log(self.search_panel_state + ': element clicked')            
             
             try:
                 # Searching filter-in-row element
@@ -98,19 +84,11 @@ class HeaderObject(BasePageObject):
                     self.css_selectors['filters']['check_in_line'][filter_type],
                     clickable=True
                 )
-                log(self.search_panel_state + ': row element found')
             except TimeoutException:
                 try_count -= 1
             else: 
                 try_count = 0
                 self.search_panel_state = 'search_panel_args'
-                log('update state: ' + self.search_panel_state)
-
-
-            # self.fix_page('.sources/row_element_found_'+filter_type+'.html')
-
 
             self.empty_click()
-            log(self.search_panel_state + ': empty click ')
-
-            log('-----------------------------------------------')
+           

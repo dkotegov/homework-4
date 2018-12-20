@@ -5,11 +5,7 @@ from base_page_object import BasePageObject
 
 from selenium.common.exceptions import NoSuchElementException
 
-def log(msg):
-    print "MainViewObject: " + msg
-    pass
-
-
+TRY_COUNT = 3
 
 class Message(BasePageObject):
 
@@ -42,7 +38,7 @@ class Message(BasePageObject):
             return False
 
     def get_author(self):
-        try_count = 3
+        try_count = TRY_COUNT
         while try_count:
             try:
                 author = self.layout.find_element_by_css_selector(self.css_selectors['author'])

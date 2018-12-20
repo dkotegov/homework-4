@@ -7,9 +7,6 @@ from message import Message
 
 
 
-def log(msg):
-    print "MainViewObject: " + msg
-    pass
 
 
 

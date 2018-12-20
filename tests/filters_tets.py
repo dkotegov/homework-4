@@ -2,7 +2,6 @@
 
 
 import unittest
-from time import sleep
 from src.ax import InitPage, HeaderObject, MainViewObject, SECRET_PAGE_URL, LOGIN_PAGE_URL
 
 
@@ -18,21 +17,24 @@ class TestFilters(unittest.TestCase):
         self.page.open(SECRET_PAGE_URL)
         self.page.click_inbox()
 
-    def test_example(self):
+    def test_filters(self):
         header = self.page.get_header_page_object()
         main = self.page.get_main_page_object()
 
-        messages, count = main.get_messages()
-        print count
-        print '\t' + '\n\t'.join([str(m) for m in messages])
-        
+        messages, _ = main.get_messages()
+        expected = list(filter(
+            lambda m: m.is_unread() and m.has_attach(),
+            messages
+        ))
 
         header.click_filter_on_search('unread')
         header.click_filter_on_search('attach')
         
-        messages, count = main.get_messages()
-        print count
-        print '\t' + '\t\n'.join([str(m) for m in messages])
+        messages, _ = main.get_messages()
+
+        self.assertEqual(len(expected), len(messages))
+        for msg in messages:
+            self.assertIn(msg, expected)
         
         
 

@@ -14,6 +14,7 @@ from .states import get_state
 from src import get_credentials, get_webdriver
 
 
+
 class PageObject(object):
 
     def __init__(self):
@@ -55,8 +56,5 @@ class PageObject(object):
         continue_button = self.driver.find_element_by_tag_name('button')
         continue_button.click()
 
-
-    
-        
 
     
