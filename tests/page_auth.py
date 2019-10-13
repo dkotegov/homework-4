@@ -4,18 +4,31 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class AuthPage:
-    BASE_URL = 'https://e.mail.ru/login'
+class Page(object):
+    BASE_URL = ''
 
     def __init__(self, driver):
         self.driver = driver
         self.driver.get(self.BASE_URL)
 
-    def quit(self):
-        self.driver.quit()
-
     def wait(self, wait_until=None, timeout=5):
         return WebDriverWait(self.driver, timeout).until(wait_until)
+
+    def wait_redirect(self, url=None):
+        if url is None:
+            self.wait(EC.url_changes(self.driver.current_url))
+        else:
+            self.wait(EC.url_matches(url))
+
+    def wait_presence(self, selector):
+        return self.wait(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
+
+    def wait_visibility(self, selector):
+        return self.wait(EC.visibility_of_element_located((By.CSS_SELECTOR, selector)))
+
+
+class AuthPage(Page):
+    BASE_URL = 'https://e.mail.ru/login'
 
     def switch_to_login_iframe(self):
         frame = self.driver.find_element_by_css_selector('#auth-form iframe')
@@ -26,11 +39,11 @@ class AuthPage:
         elem.send_keys(text)
 
     def clear_email(self):
-        elem = self.driver.find_element_by_css_selector('input[name=Login]')
+        elem = self.wait_visibility('input[name=Login]')
         elem.clear()
 
     def enter_password(self, text):
-        elem = self.wait_password_field()
+        elem = self.wait_visibility('input[name=Password]')
         elem.send_keys(text)
 
     def submit(self):
@@ -48,24 +61,27 @@ class AuthPage:
         self.driver.get(url)
 
     def select_yandex_provider(self):
-        elem = self.driver.find_element_by_css_selector('div[data-provider="yandex"]')
+        elem = self.driver.find_element_by_css_selector('div[data-provider=yandex]')
         elem.click()
 
     def select_google_provider(self):
-        elem = self.driver.find_element_by_css_selector('div[data-provider="google"]')
+        elem = self.driver.find_element_by_css_selector('div[data-provider=google]')
         elem.click()
 
     def select_yahoo_provider(self):
-        elem = self.driver.find_element_by_css_selector('div[data-provider="yahoo"]')
+        elem = self.driver.find_element_by_css_selector('div[data-provider=yahoo]')
         elem.click()
 
     def select_other_provider(self):
-        elem = self.driver.find_element_by_css_selector('div[data-provider="other"]')
+        elem = self.driver.find_element_by_css_selector('div[data-provider=other]')
         elem.click()
+
+    def wait_password_visibility(self):
+        self.wait_visibility('input[name=Password]')
 
     def get_domain_list(self):
         try:
-            return self.wait(EC.presence_of_element_located((By.CSS_SELECTOR, '.domain-select')))
+            return self.wait_presence('.domain-select')
         except Ex.TimeoutException:
             return None
 
@@ -73,19 +89,9 @@ class AuthPage:
         elem = self.driver.find_element_by_css_selector('span[data-test-id="domain-select-value"]')
         return elem.text
 
-    def wait_password_field(self):
-        return self.wait(EC.visibility_of_element_located((By.CSS_SELECTOR, 'input[name=Password]')))
-
-    def wait_redirect(self, url=None):
-        if url is None:
-            self.wait(EC.url_changes(self.driver.current_url))
-        else:
-            self.wait(EC.url_matches(url))
-
     def get_email_error(self):
         try:
-            error_selector = 'div[data-test-id="error-footer-text"] > small'
-            elem = self.wait(EC.presence_of_element_located((By.CSS_SELECTOR, error_selector)))
+            elem = self.wait_presence('div[data-test-id="error-footer-text"] > small')
             return elem.text
         except Ex.TimeoutException:
             return ""
