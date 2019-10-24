@@ -9,9 +9,11 @@ from tests.page_auth import AuthPage
 
 class TestAuth(unittest.TestCase):
     EMAIL = os.getenv('EMAIL', 'opg_plus')
-    PASSWORD = os.getenv("PASSWORD", "LovelyTests!")
+    PASSWORD = os.getenv("PASSWORD")
 
     def setUp(self):
+        if self.PASSWORD is None:
+            raise ValueError("Password env-var is None")
         browser = os.getenv("SELENIUM_TEST_BROWSER", "CHROME")
         self.driver = Remote(
             command_executor="http://localhost:4444/wd/hub",
