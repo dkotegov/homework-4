@@ -8,16 +8,14 @@ from tests.page_auth import AuthPage
 
 
 class TestAuth(unittest.TestCase):
+    BROWSER_NAME = os.getenv("SELENIUM_TEST_BROWSER", "CHROME")
     EMAIL = os.getenv('EMAIL', 'opg_plus')
-    PASSWORD = os.getenv("PASSWORD")
+    PASSWORD = os.environ['PASSWORD']
 
     def setUp(self):
-        if self.PASSWORD is None:
-            raise ValueError("Password env-var is None")
-        browser = os.getenv("SELENIUM_TEST_BROWSER", "CHROME")
         self.driver = Remote(
             command_executor="http://localhost:4444/wd/hub",
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+            desired_capabilities=getattr(DesiredCapabilities, self.BROWSER_NAME).copy()
         )
         self.form = AuthPage(self.driver)
         self.form.switch_to_login_iframe()
@@ -33,27 +31,6 @@ class TestAuth(unittest.TestCase):
 
         self.form.wait_redirect("https://e.mail.ru/messages/inbox\?.*")
 
-    def test_yandex_auth(self):
-        self.form.select_yandex_provider()
-        self.form.enter_email('example')
-        self.form.submit()
-
-        self.form.wait_redirect("https://passport.yandex.ru.*")
-
-    def test_google_auth(self):
-        self.form.select_google_provider()
-        self.form.enter_email('example')
-        self.form.submit()
-
-        self.form.wait_redirect("https://accounts.google.com.*")
-
-    def test_yahoo_auth(self):
-        self.form.select_yahoo_provider()
-        self.form.enter_email('example')
-        self.form.submit()
-
-        self.form.wait_redirect("https://login.yahoo.com.*")
-
     def test_other_auth(self):
         self.form.select_other_provider()
         self.form.enter_email('example@example.com')
@@ -61,48 +38,24 @@ class TestAuth(unittest.TestCase):
 
         self.form.wait_password_visibility()
 
-    def test_remind_click(self):
-        self.form.click_remind_password()
-
-        self.form.wait_redirect("https://account.mail.ru/recovery\?.*")
-
-    def test_remind_click_2(self):
-        self.form.enter_email(self.EMAIL)
-        self.form.submit()
-        self.form.wait_password_visibility()
-        self.form.click_remind_password()
-
-        self.form.wait_redirect("https://account.mail.ru/recovery\?.*")
-
-    def test_signup_click(self):
-        self.form.click_signup()
-
-        self.form.wait_redirect("https://account.mail.ru/signup\?.*")
-
-    def test_correct_email(self):
-        self.form.enter_email(self.EMAIL)
-        self.form.submit()
-
-        self.form.wait_password_visibility()
-
     def test_empty_email(self):
         self.form.submit()
 
-        error = self.form.get_email_error()
+        error = self.form.get_error()
         self.assertEqual(error, 'Поле «Имя аккаунта» должно быть заполнено')
 
     def test_incorrect_email(self):
         self.form.enter_email('this_is_incorrect_email_for_testing_email_input')
         self.form.submit()
 
-        error = self.form.get_email_error()
+        error = self.form.get_error()
         self.assertEqual(error, 'Такой аккаунт не зарегистрирован')
 
     def test_cyrillic_email(self):
         self.form.enter_email('русский')
         self.form.submit()
 
-        error = self.form.get_email_error()
+        error = self.form.get_error()
         self.assertEqual(error, 'Такой аккаунт не зарегистрирован')
 
     def test_empty_password(self):
@@ -111,7 +64,7 @@ class TestAuth(unittest.TestCase):
         self.form.wait_password_visibility()
         self.form.submit()
 
-        error = self.form.get_email_error()
+        error = self.form.get_error()
         self.assertEqual(error, 'Поле «Пароль» должно быть заполнено')
 
     def test_incorrect_password(self):

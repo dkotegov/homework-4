@@ -89,7 +89,7 @@ class AuthPage(Page):
         elem = self.driver.find_element_by_css_selector('span[data-test-id="domain-select-value"]')
         return elem.text
 
-    def get_email_error(self):
+    def get_error(self):
         try:
             elem = self.wait_presence('div[data-test-id="error-footer-text"] > small')
             return elem.text
