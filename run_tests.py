@@ -1,13 +1,17 @@
-#!/usr/bin/env python2
-
 import sys
 import unittest
+
 from tests.test_auth import TestAuth
 
 
-if __name__ == '__main__':
+def run_tests():
     suite = unittest.TestSuite((
         unittest.makeSuite(TestAuth),
     ))
     result = unittest.TextTestRunner().run(suite)
-    sys.exit(not result.wasSuccessful())
+    if not result.wasSuccessful():
+        sys.exit(not result.wasSuccessful())
+
+
+if __name__ == '__main__':
+    run_tests()

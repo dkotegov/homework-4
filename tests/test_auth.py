@@ -2,17 +2,21 @@
 import os
 import unittest
 
-from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities, Remote
 
 from tests.page_auth import AuthPage
 
 
 class TestAuth(unittest.TestCase):
-    EMAIL = os.getenv('EMAIL') or 'opg_plus'
-    PASSWORD = os.environ['PASSWORD']
+    EMAIL = os.getenv('EMAIL', 'opg_plus')
+    PASSWORD = os.getenv("PASSWORD", "LovelyTests!")
 
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        browser = os.getenv("SELENIUM_TEST_BROWSER", "CHROME")
+        self.driver = Remote(
+            command_executor="http://localhost:4444/wd/hub",
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
         self.form = AuthPage(self.driver)
         self.form.switch_to_login_iframe()
 
