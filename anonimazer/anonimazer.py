@@ -90,13 +90,82 @@ class Anonimazer:
         else:
             return True
 
+    def more_details(self):
+        link = self._driver.find_element_by_xpath(
+            "/html/body/div[5]/div/div/div/div/div/div/div/div/div/div/div/div/div/div[6]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/a")
+        # link = self._driver.find_element_by_css_selector("body.compose__beautiful.layout-fixed.g-default-font:nth-child(2) div.theme.minwidth:nth-child(65) div.theme__left div.theme__right div.theme__top div.theme__bottom div.theme__left-center div.theme__right-center div.theme__top-center div.theme__bottom-center div.theme__center div.theme__top-left div.theme__top-right div.theme__bottom-left div.theme__bottom-right div.b-layout.b-layout_main:nth-child(2) div.b-layout__col.b-layout__col_2_2:nth-child(2) div:nth-child(1) div.content__page:nth-child(3) div.js-content:nth-child(4) div.form__row.b-settings-aliases__row > a.js-more:nth-child(2)")
+        link.click()
 
+    def is_more_details_pop_up_open(self):
+        try:
+            self._driver.find_element_by_xpath("/html/body/div[13]/div/div[1]/div/div/div/div/ul/li[2]")
+            # self._driver.find_element_by_css_selector("body.compose__beautiful.layout-fixed.g-default-font:nth-child(2) div.js-layer_anonim:nth-child(78) div.b-layer div.b-layer__wrapper div.b-layer__container.b-layer__container_anonim div.b-layer__placeholder > div.b-promoter")
+        except Ex.NoSuchElementException:
+            return False
+        else:
+            return True
 
-# a = Anonimazer(webdriver.Firefox())
-#
-# a.create_new_email()
-# print(a.is_combobox_in_form())
-# a.enter_email("@")
-# print(a.is_combobox_in_form())
+    def delete_email(self, email):
+        try:
+            elem = self._driver.find_element_by_link_text(email)
+            elem.click()
+        except Ex.NoSuchElementException:
+            print("No such Element")
 
+    def is_delete_pop_up_open(self):
+        try:
+            self._driver.find_elements_by_css_selector("popup.js-layer.popup_dark.popup_")
+            # self._driver.find_elements_by_class_name("alertDiv")
+            # self._driver.find_element_by_xpath("/html/body/div[7]/div/div[3]/form/div[1]")
+        except Ex.NoSuchElementException:
+            return False
+        else:
+            return True
+
+    def submit_delete_email(self):
+        elem = self._driver.find_element_by_xpath("/html/body/div[7]/div/div[3]/form/div[2]/button[1]")
+        # elem = self._driver.find_element_by_css_selector("body.compose__beautiful.layout-fixed.g-default-font:nth-child(2) div.alertDiv:nth-child(68) div.popup.js-layer.popup_dark.popup_ div.is-aliases-remove_in form:nth-child(1) div.popup__controls:nth-child(3) > button.btn.btn_main.btn_stylish:nth-child(1)")
+        elem.click()
+
+    def cancel_delete_email(self):
+        elem = self._driver.find_element_by_class_name("b-form__control")
+        elem.click()
+
+    # def get_first_email(self):
+    #     elem = self._driver.find_element_by_css_selector("body.compose__beautiful.layout-fixed.g-default-font:nth-child(2) div.theme.minwidth:nth-child(65) div.theme__left div.theme__right div.theme__top div.theme__bottom div.theme__left-center div.theme__right-center div.theme__top-center div.theme__bottom-center div.theme__center div.theme__top-left div.theme__top-right div.theme__bottom-left div.theme__bottom-right div.b-layout.b-layout_main:nth-child(2) div.b-layout__col.b-layout__col_2_2:nth-child(2) div.content__page:nth-child(3) div.js-content:nth-child(4) div.form div.b-list.b-list_settings div.b-list__list div.b-list__item.b-list__list__item:nth-child(1) div.b-list__item__content div.b-settings-aliases.b-settings-aliases__list-item.b-settings-aliases_selected div.b-settings-aliases__content > a.b-settings-aliases__name.js-edit")
+    #     return elem.text
+
+    def is_email_alive(self, email):
+        try:
+            self._driver.find_element_by_link_text(email)
+        except Ex.NoSuchElementException:
+            return False
+        else:
+            return True
+
+    def edit_email(self, email):
+        link = self._driver.find_element_by_link_text(email)
+        link.click()
+
+    def is_edit_pop_up_open(self):
+        try:
+            self._driver.find_elements_by_class_name("is-aliases-edit_in")
+        except Ex.NoSuchElementException:
+            return False
+        else:
+            return True
+
+    def edit_comment(self, comment):
+        elem = self._driver.find_element_by_name("comment")
+        elem.clear()
+        elem.send_keys(comment)
+
+    def submit_edit(self):
+        elem = self._driver.find_element_by_css_selector(
+            ".b-form__control.b-form__control_main.b-form__control_stylish")
+        elem.click()
+
+    def get_comment(self):
+        elem = self._driver.find_element_by_xpath("//*[@class='b-input b-input_popup']")
+        return elem.get_attribute("value")
 
