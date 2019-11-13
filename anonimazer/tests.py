@@ -60,7 +60,7 @@ class TestAnonimazer(unittest.TestCase):
         c2 = self.anonimazer.get_captcha_url()
         self.assertIsNot(c1, c2)
 
-        # При нажатии на link "Подробнее", появляется pop-up форма с описанием возможностей анонимайзера.
+    # При нажатии на link "Подробнее", появляется pop-up форма с описанием возможностей анонимайзера.
     def test_more_details_success(self):
         self.anonimazer.redirect_to_anonimazer()
         self.anonimazer.more_details()
@@ -78,7 +78,7 @@ class TestAnonimazer(unittest.TestCase):
         self.anonimazer.delete_email(self.email)
         self.assertEqual(True, self.anonimazer.is_delete_pop_up_open())
         self.anonimazer.cancel_delete_email()
-        #        self.assertEqual(False, self.anonimazer.is_delete_pop_up_open())
+#        self.assertEqual(False, self.anonimazer.is_delete_pop_up_open())
         self.assertEqual(True, self.anonimazer.is_email_alive(self.email))
 
     # При нажатии на link ящика, появляется pop-up форма редактирования ящика. В EditLine "Комментарий" убираем все символы и вставляем "QA". При нажатии на кнопку "Готово", комментарий возле ящика с которым мы работали изменился на "QA".
