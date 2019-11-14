@@ -9,11 +9,12 @@ class TestAnonimazer(unittest.TestCase):
     BROWSER_NAME = os.getenv("SELENIUM_TEST_BROWSER", "CHROME")
 
     def setUp(self):
-        self.email = "6fdovlmuryg1@mail.ru"
-        self.comment = "QA-228"
+        self.email = os.getenv("TEST_MAIL_EMAIL")
+        self.comment = os.getenv("TEST_MAIL_COMMENT")
+        self.browser = os.getenv("")
         self.driver = Remote(
             command_executor="http://127.0.0.1:4444/wd/hub",
-            desired_capabilities=DesiredCapabilities.FIREFOX
+            desired_capabilities=getattr(DesiredCapabilities, self.BROWSER_NAME).copy()
         )
         print("Driver is ready")
         self.anonimazer = Anonimazer(self.driver)
