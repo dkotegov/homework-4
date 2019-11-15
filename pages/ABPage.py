@@ -81,3 +81,64 @@ class ABPage(Page):
         self.click_xpath('//label[@id="labels_favorites"]')
         self.click_xpath('//button[contains(@class, "js-change-labels2contacts-links")]')
         self.wait_for_visible_xpath('//i[contains(@class, "icon_addressbook_favorite_off")]')
+
+    def edit_user(self):
+        self.click_xpath('//input[@class="messageline__checkbox__input"]')
+        self.click_xpath('//div[@data-name="edit"]')
+        self.wait_for_visible_xpath('//form[@id="formPersonal"]')
+
+    def edit_field(self):
+        self.edit_user()
+        elem = self.wait_for_visible_xpath('//input[@id="firstname"]')
+        self.click_xpath('//input[@id="firstname"]')
+        elem.send_keys('qwertyuio')
+        self.click_xpath('//div[@data-name="submit"]')
+        self.wait_for_visible_xpath(
+            '//span[contains(@class, "menu__item__link__text_linear")][contains(text(), "Все контакты")]')
+        self.click_xpath(
+            '//span[@class="menu__item__link__text menu__item__link__text_linear"][contains(text(), "Все контакты")]')
+        self.wait_for_visible_xpath('//span[@class="contactline__body__item contactline__body__item_name"]')
+
+    def multiple_selected(self):
+        for elem in self.wait_elements_for_visible_xpath('//input[contains(@class, "messageline__checkbox__input")]'):
+            elem.click()
+        self.click_xpath('//div[@data-name="edit"]')
+        self.wait_for_visible_xpath('//div[contains(@class, "messagelist-wrapper")]')
+
+    def multiple_delete(self):
+        for elem in self.wait_elements_for_visible_xpath('//input[@class="messageline__checkbox__input"]'):
+            elem.click()
+        self.click_xpath('//div[@id="js-remove-contacts"]')
+        self.wait_for_visible_xpath('//div[@class="messagelist-wrapper"]')
+
+    def revert_by_filter(self):
+        arr = []
+        for elem in self.wait_elements_for_visible_xpath(
+                '//span[@class="contactline__body__item contactline__body__item_name"]'):
+            arr.append(elem.text)
+
+        self.click_xpath('//span[@class="b-dropdown__ctrl__text"][contains(text(), "Сортировать")]')
+        self.click_xpath('//a[@data-name="byName"]')
+        kek = []
+        for elem in self.wait_elements_for_visible_xpath(
+                '//span[@class="contactline__body__item contactline__body__item_name"]'):
+            kek.append(elem.text)
+
+        assert (arr[::-1] == kek)
+
+    def double_revert(self):
+        arr = []
+        for elem in self.wait_elements_for_visible_xpath(
+                '//span[@class="contactline__body__item contactline__body__item_name"]'):
+            arr.append(elem.text)
+
+        self.click_xpath('//span[@class="b-dropdown__ctrl__text"][contains(text(), "Сортировать")]')
+        self.click_xpath('//a[@data-name="byName"]')
+        self.click_xpath('//span[@class="b-dropdown__ctrl__text"][contains(text(), "Сортировать")]')
+        self.click_xpath('//a[@data-name="byName"]')
+        kek = []
+        for elem in self.wait_elements_for_visible_xpath(
+                '//span[@class="contactline__body__item contactline__body__item_name"]'):
+            kek.append(elem.text)
+
+        assert (arr == kek)
