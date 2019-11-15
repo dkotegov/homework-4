@@ -51,7 +51,7 @@ class ProfileTest(unittest.TestCase):
         # tick = WebDriverWait(driver, 10).until(
         #     EC.visibility_of_element_located((By.CSS_SELECTOR, "input[name=UseAutoTimezone]"))
         # )
-        tick = drNJR iver.find_element_by_css_selector('input[name=UseAutoTimezone]')
+        tick = driver.find_element_by_css_selector('input[name=UseAutoTimezone]')
         tick.click()
         
         # self.assertIn("Python", driver.title)
