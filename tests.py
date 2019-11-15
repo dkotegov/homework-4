@@ -61,3 +61,23 @@ class ABTests(unittest.TestCase):
 
     def testRemoveFromFavorite(self):
         self.page.remove_from_favorite()
+
+# -------------------- Smet1 tests --------------------
+
+    def testEditField(self):
+        self.page.edit_field()
+
+    def testMultipleSelected(self):
+        self.page.multiple_selected()
+
+    def testEditUser(self):
+        self.page.edit_user()
+
+    def testMultipleDelete(self):
+        self.page.multiple_delete()
+
+    def testRevertByFilter(self):
+        self.page.revert_by_filter()
+
+    def testDoubleRevert(self):
+        self.page.double_revert()
