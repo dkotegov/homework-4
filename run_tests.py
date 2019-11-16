@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from tests.test import AskTest
+from tests.notEmptyQuestiontest import notEmptyTestCase
 
 import unittest
 
