@@ -1,11 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-import unittest
-import time
 import os
+import time
+import unittest
 
-class notEmptyTestCase(unittest.TestCase):
+class TooBigQuestionTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome('./chromedriver')
         self.driver.get('https://otvet.mail.ru/ask')
@@ -17,14 +17,12 @@ class notEmptyTestCase(unittest.TestCase):
 
         inputQuestionField = driver.find_elements_by_name('question_text')[0]
         inputQuestionField.click()
-        inputQuestionField.send_keys('hello bitch')
 
-        inputQuestionField.send_keys(Keys.CONTROL + "a")
-        inputQuestionField.send_keys(Keys.DELETE)
+        for _ in range(122):
+            inputQuestionField.send_keys('a')
 
         alert = driver.find_elements_by_class_name('z1LfJpugzE39YVXERE-f__0')[0]
-
-        self.assertEqual(alert.get_attribute('innerHTML'), 'Поле «Тема вопроса» обязательно для заполнения.')
+        self.assertEqual(alert.get_attribute('innerHTML'), 'Поле «Тема вопроса» не может быть больше 120 символов.')
 
     def tearDown(self):
         self.driver.quit() 

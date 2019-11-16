@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from tests.notEmptyQuestiontest import notEmptyTestCase
+# from tests.notEmptyQuestionTest import notEmptyQuestionTestCase
+from tests.tooBigQuestionTest import TooBigQuestionTest
 
 import unittest
 
