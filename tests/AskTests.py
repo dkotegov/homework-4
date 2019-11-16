@@ -5,17 +5,25 @@ from tests.pages.AskPage import AskPage
 import os
 import unittest
 
-class notEmptyQuestionTestCase(unittest.TestCase):
+class AskTests(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         self.page = AskPage()
-        super(notEmptyQuestionTestCase, self).__init__(*args, **kwargs)
+        super(AskTests, self).__init__(*args, **kwargs)
 
-    def test_01(self):
+    def test_notEmptyQuestion(self):
         shortQuestion = 'Why, man?'
         self.page.setQuestionTheme(shortQuestion)
         self.page.clearQuestionThemeByKeys()
         self.assertEqual(self.page.getAlertUnderQuestion(),
             'Поле «Тема вопроса» обязательно для заполнения.')
+
+    def test_tooBigQuestion(self):
+        bigStr = ''
+        for _ in range(122):
+            bigStr = bigStr + 'a'
+        self.page.setQuestionTheme(bigStr)
+        self.assertEqual(self.page.getAlertUnderQuestion(),
+            'Поле «Тема вопроса» не может быть больше 120 символов.')
 
     def tearDown(self):
         self.page.quitDriver()
