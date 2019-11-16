@@ -9,10 +9,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
 
+#TODO add server
+
 class ProfileTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
 
+    #TODO create page object
     def login(self): 
         driver = self.driver
         driver.implicitly_wait(10) # seconds
@@ -32,7 +35,7 @@ class ProfileTest(unittest.TestCase):
         password.send_keys("qwerYtuarRyYY12")
         password.submit()
 
-
+    #TODO
     # REWRITE!!!
     def wait(self, wait_until=None, timeout=15):
         return WebDriverWait(self.driver, timeout).until(wait_until)
@@ -107,6 +110,8 @@ class ProfileTest(unittest.TestCase):
         newValue = name.get_attribute("value")
         self.assertEqual(oldValue, newValue)
 
+
+    #TODO remove content compare
     def test_error_saving(self):
         self.login()
         driver = self.driver
@@ -127,8 +132,6 @@ class ProfileTest(unittest.TestCase):
         self.assertEqual('Заполните обязательное поле', errorName.text)
 
  
-
-
     def tearDown(self):
         self.driver.close()
 
