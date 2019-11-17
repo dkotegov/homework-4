@@ -45,3 +45,8 @@ class AskTests(unittest.TestCase):
         self.page.clickLogin()
         self.page.login()
         self.assertTrue(self.page.checkUrl())
+
+    def test_profile(self):
+        self.page.clickLogin()
+        self.page.login()
+        self.page.clickAndWaitProfile()

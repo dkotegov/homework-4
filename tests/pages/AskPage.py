@@ -76,3 +76,13 @@ class AskPage(object):
         if ("https://otvet.mail.ru" in self.driver.current_url):
             return True
         return False
+
+    def clickAndWaitProfile(self):
+        buttonEdit = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
+                'profile-menu-item_hoverable')))[7]
+        buttonEdit.click()
+
+        WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, \
+                'v--modal-overlay')))     
