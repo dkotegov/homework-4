@@ -3,7 +3,6 @@ from selenium.webdriver.common.keys import Keys
 from tests.pages.AskPage import AskPage
 
 import os
-import time
 import unittest
 
 class AskTests(unittest.TestCase):
@@ -37,8 +36,7 @@ class AskTests(unittest.TestCase):
     def test_mentionCountry(self):
         questionWithCountry = 'Россия'
         self.page.setQuestionTheme(questionWithCountry)
-        # Пока не понятно как этот костыль решать
-        time.sleep(5)
+        self.page.autosettingSubcategory('Политика')
         self.assertEqual(self.page.getSubcategory(),
             'Политика')
 
