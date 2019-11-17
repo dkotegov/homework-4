@@ -10,6 +10,9 @@ class AskTests(unittest.TestCase):
         self.page = AskPage()
         super(AskTests, self).__init__(*args, **kwargs)
 
+    def tearDown(self):
+        self.page.quitDriver()
+
     def test_needThreeWords(self):
         self.page.clickLogin()
         self.page.login()
@@ -17,9 +20,6 @@ class AskTests(unittest.TestCase):
         self.page.clickChooseAutosport()
         self.page.clickSendQuestion()
         self.page.checkAlert()
-
-    def tearDown(self):
-        self.page.quitDriver()
 
     def test_profile(self):
         self.page.clickLogin()

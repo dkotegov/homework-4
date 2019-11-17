@@ -59,8 +59,8 @@ class AskPage(object):
         frame = self.driver.find_element_by_class_name('ag-popup__frame__layout__iframe')
         WebDriverWait(self.driver, 5).until(
             EC.frame_to_be_available_and_switch_to_it(frame))
-        inputUsername = WebDriverWait(self.driver, 15).until(
-            EC.visibility_of_element_located((By.NAME, 'Login')))
+        inputUsername = WebDriverWait(self.driver, 5).until(
+            EC.presence_of_element_located((By.NAME, 'Login')))
         inputUsername.send_keys(self.username)
 
         # нажимаем "продолжить"
