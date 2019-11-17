@@ -4,10 +4,14 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from pages.auth_page import AuthPage
 from pages.userinfo_page import UserinfoPage
 
-class WrongTownTest(unittest.TestCase):
-    WRONG_TOWN_NAME = 'qwertyuiop'
-    TOP_MESSAGE = 'Некоторые поля заполнены неверно'
-    TOWN_ERROR = 'Проверьте название города'
+
+class SuggestTownTest(unittest.TestCase):
+    TOWN_PREFIX = 'Мос'
+    SUGGEST_LIST = [
+        'Москва, Россия',
+        'Московский, Московская обл., Россия',
+        'Мосальск, Калужская обл., Россия'
+    ]
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -28,7 +32,6 @@ class WrongTownTest(unittest.TestCase):
         userinfo_page = UserinfoPage(self.driver)
         userinfo_page.open()
         userinfo_form = userinfo_page.form
-        userinfo_form.set_town(self.WRONG_TOWN_NAME)
-        userinfo_form.save()
-        self.assertEqual(self.TOP_MESSAGE, userinfo_form.get_top_message())
-        self.assertEqual(self.TOWN_ERROR, userinfo_form.get_town_message())
+        userinfo_form.set_town(self.TOWN_PREFIX)
+        userinfo_form.wait_for_last_suggest(self.SUGGEST_LIST[-1])
+        self.assertEqual(self.SUGGEST_LIST, userinfo_form.get_suggests_for_town())

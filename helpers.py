@@ -3,7 +3,22 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 
-def wait_for_element(driver, selector):
-    return WebDriverWait(driver, 30, 0.1).until(
-        expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, selector))
-    )
+def wait_for_element_by_selector(driver, selector, visible=True):
+    if visible:
+        return WebDriverWait(driver, 30, 0.1).until(
+            expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, selector))
+        )
+    else:
+        return WebDriverWait(driver, 30, 0.1).until(
+            expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, selector))
+        )
+
+def wait_for_element_by_xpath(driver, xpath, visible=True):
+    if visible:
+        return WebDriverWait(driver, 30, 0.1).until(
+            expected_conditions.visibility_of_element_located((By.XPATH, xpath))
+        )
+    else:
+        return WebDriverWait(driver, 30, 0.1).until(
+            expected_conditions.invisibility_of_element_located((By.XPATH, xpath))
+        )
