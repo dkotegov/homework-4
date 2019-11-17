@@ -94,8 +94,9 @@ class UserinfoForm(Component):
         wait_for_element(self.driver, self.PHONE_LINK)
         return self.driver.find_element_by_css_selector(self.PHONE_LINK).get_attribute("href")  
 
-    def load_image(self, image):
-        self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image)
+    def load_image(self):
+        image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
+        self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)
     
     def get_save_avatar_button(self):
         wait_for_element(self.driver, self.SAVE_AVATAR)
@@ -175,9 +176,9 @@ class UserinfoForm(Component):
         self.wait_redirect(self.OK_AFTER_SUBMIT_URI)
 
     def input_test_image(self):
-        self.config.read('test_data.ini')
-        image = self.config['DEFAULT']['ImageFile']
-        self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image, False, False)
+        image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
+        self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image_path, False, False)
+
 
     def click_save_image_button(self):
         self.click_element(self.SAVE_IMAGE_BUTTON, True)

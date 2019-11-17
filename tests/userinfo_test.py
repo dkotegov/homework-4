@@ -48,11 +48,8 @@ class UserinfoTest(unittest.TestCase):
         self.driver.get(new_window_url)
 
         self.assertEqual(self.driver.current_url, new_window_url)
-        
 
-    def test_load_image(self):
-        IMAGE = self.config['DEFAULT']['ImageFile']
-        
+    def test_load_image(self):        
         auth_page = AuthPage(self.driver)
         auth_page.open()
         auth_page.authorize()
@@ -61,7 +58,7 @@ class UserinfoTest(unittest.TestCase):
         userinfo_page.open()
         userinfo_form = userinfo_page.form
 
-        userinfo_form.load_image(IMAGE)
+        userinfo_form.load_image()
         userinfo_form.get_save_avatar_button()
         userinfo_form.get_cancel_avatar_button()
         
