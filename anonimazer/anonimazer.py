@@ -35,17 +35,19 @@ class Anonimazer:
         return self._wait(EC.visibility_of_element_located((By.XPATH, path)))
 
     def _authorization(self):
-        SUBMIT = 'button[type=submit]'
+        submit = 'button[type=submit]'
+        login_input = 'input[name=Login]'
+        password_input = 'input[name=Password]'
         self._driver.get(self._mail_url)
         frame = self._driver.find_element_by_css_selector('#auth-form iframe')
         self._driver.switch_to.frame(frame)
-        elem = self._wait_visibility_css('input[name=Login]')
+        elem = self._wait_visibility_css(login_input)
         elem.send_keys(self._login)
-        elem = self._driver.find_element_by_css_selector(SUBMIT)
+        elem = self._driver.find_element_by_css_selector(submit)
         elem.click()
-        elem = self._wait_visibility_css('input[name=Password]')
+        elem = self._wait_visibility_css(password_input)
         elem.send_keys(self._pass)
-        elem = self._driver.find_element_by_css_selector(SUBMIT)
+        elem = self._driver.find_element_by_css_selector(submit)
         elem.click()
         self._driver.switch_to.default_content()
 
