@@ -19,7 +19,7 @@ class AskPage(object):
         self.driver.quit()
 
     def setQuestionTheme(self, question):
-        inputQuestionField = self.driver.find_elements_by_name('question_text')[0]
+        inputQuestionField = self.driver.find_element_by_name('question_text')
         inputQuestionField.click()
         inputQuestionField.send_keys(question)
 
@@ -85,4 +85,28 @@ class AskPage(object):
 
         WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located((By.CLASS_NAME, \
-                'v--modal-overlay')))     
+                'v--modal-overlay')))
+
+    def clickSendQuestion(self):
+        buttonSend = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, \
+                '_3ykLdYEqVa47ACQrpqnZOj_0')))
+        buttonSend.click()
+        time.sleep(5)
+
+    def clickChooseAutosport(self):
+        buttonChoose = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
+                '_3oJIbRjOJJ6UfBtvy3o6EW_1')))
+
+        buttonChoose[0].click()
+
+        buttonChooseAnother = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
+                '_3BV4a0WZevpbLq-ArsDomg_0')))
+        buttonChooseAnother[-1].click()
+
+    def checkAlert(self):
+        WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
+                '_3e48lyZw6JxqpxlQCH7ZrK_0')))
