@@ -5,10 +5,6 @@ from pages.auth_page import AuthPage
 from pages.userinfo_page import UserinfoPage
 
 class GenderTest(unittest.TestCase):
-    LONG_SURNAME = f'{"very" * 10} long'
-    TOP_MESSAGE = 'Некоторые поля заполнены неверно'
-    SURNAME_ERROR = 'Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов.'
-
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 
