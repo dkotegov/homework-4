@@ -205,16 +205,18 @@ class QuestionForm(Component):
 
     def check_question_textarea_alert(self):
         self.print_question_text(self.LARGETEXT)
-        self.driver.find_element_by_xpath('//div[text()="Поле «Текст вопроса» не может быть больше 3800 символов."]')
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_class_name('z1LfJpugzE39YVXERE-f__0')
+            # lambda d: d.find_element_by_xpath('//div[text()="Поле «Текст вопроса» не может быть больше 3800 символов."]')
+        )
 
     def make_default_question(self):
-        # self.print_question_title("Вопрос про салаты")
-        # self.print_question_text("Собственно говоря, если греческий салат испортился, то можно ли его называть древнегреческим?")
-        # self.print_question_title("Ээ Кызлыр жэб кыздыр ламар? Котык басс дырбн кизлар?")
-        # self.print_question_text("Тухтур игрым буерак из матч ай джаст донт нов вот то райт хир фор секс сессфулли пассинг бот чекинг")
-        self.print_question_title(" Ду бист ай, оо мин ин де швайн")
-        self.print_question_text("ыва")
-        
+        self.print_question_title("Вопрос про салаты")
+        self.print_question_text("Собственно говоря, если греческий салат испортился, то можно ли его называть древнегреческим?")
+
+        self.print_question_title("Кто лучший музыкальный исполнитель за последнюю тысячу лет?")
+        self.print_question_text("Оксимирон, Фейс, Цой, Летов???")
+
         ask_button = WebDriverWait(self.driver, 10, 0.1).until(
             EC.element_to_be_clickable((By.CLASS_NAME, "_3ykLdYEqVa47ACQrpqnZOj_0"))
         )

@@ -13,10 +13,10 @@ from selenium import webdriver
 from tests.Pages import AuthPage, QuestionPage, PollPage
 
 class CheckListTests(unittest.TestCase):
-    USEREMAIL = 'kotegov_dima@mail.ru'
-    PASSWORD = os.environ['PASSWORD']
-    # USEREMAIL = ''
-    # PASSWORD = ''
+    # USEREMAIL = 'leshikne@bk.ru'
+    # PASSWORD = os.environ['PASSWORD']
+    USEREMAIL = 'test_qwerty1122@mail.ru'
+    PASSWORD = 'qqaawwss123'
     DEBUG = True
 
 
@@ -81,6 +81,7 @@ class CheckListTests(unittest.TestCase):
 
     def largeTextTest(self):
         self.question_form.check_question_textarea_alert()
+        self.auth_form.open_form()
         if self.DEBUG:
             print("Large text alert test:...............PASSED\n")
 
@@ -132,7 +133,6 @@ class CheckListTests(unittest.TestCase):
 
         # - При вводе большого текста в поле "Текст вопроса" появляется предупреждение об ограничении в 3800 символов.
         self.largeTextTest()
-
 
         # - При вводе невалидной строки в теме вопроса/опроса (Прример: "ыв ыва ыва 23") длжно всплывать окно с ошибкой 
         #   "Просьба более подробно и грамотно сформулировать тему вопроса.".
