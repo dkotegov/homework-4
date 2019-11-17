@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from tests.pages.AskPage import AskPage
+from tests.AskPage import AskPage
 
 import os
 import unittest
@@ -27,18 +28,18 @@ class AskTests(unittest.TestCase):
         self.page.clickAndWaitProfile()
 
     def test_notEmptyQuestion(self):
-        shortQuestion = 'Why, man?'
+        shortQuestion = u'Why, man?'
         self.page.setQuestionTheme(shortQuestion)
         self.page.clearQuestionThemeByKeys()
         self.assertEqual(self.page.getAlertUnderQuestion(),
-            'Поле «Тема вопроса» обязательно для заполнения.')
+            u'Поле «Тема вопроса» обязательно для заполнения.')
 
     def test_mentionCountry(self):
-        questionWithCountry = 'Россия'
+        questionWithCountry = u'Россия'
         self.page.setQuestionTheme(questionWithCountry)
-        self.page.autosettingSubcategory('Политика')
+        self.page.autosettingSubcategory(u'Политика')
         self.assertEqual(self.page.getSubcategory(),
-            'Политика')
+            u'Политика')
 
     def test_loginBtn(self):
         self.page.clickLogin()
@@ -50,9 +51,9 @@ class AskTests(unittest.TestCase):
         self.assertTrue(self.page.checkUrl())
 
     def test_tooBigQuestion(self):
-        bigStr = ''
+        bigStr = u''
         for _ in range(122):
-            bigStr = bigStr + 'a'
+            bigStr = bigStr + u'a'
         self.page.setQuestionTheme(bigStr)
         self.assertEqual(self.page.getAlertUnderQuestion(),
-            'Поле «Тема вопроса» не может быть больше 120 символов.')
+            u'Поле «Тема вопроса» не может быть больше 120 символов.')
