@@ -47,3 +47,4 @@ class DefaultPage:
 
     def resresh_page(self):
         self.driver.refresh()
+

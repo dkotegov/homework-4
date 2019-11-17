@@ -9,18 +9,20 @@ class UserInfoPage(DefaultPage):
     LAST_NAME = '#LastName'
     NICK_NAME = '#NickName'
 
-    DAY_INPUT = '#formPersonal > div:nth-child(17) > div.form__row__widget > div:nth-child(1) > div.form__row__subwidget_inline.form__row__subwidget_short > div > select'
-    DAY_INPUT_CHILD = '#formPersonal > div:nth-child(17) > div.form__row__widget > div:nth-child(1) > div.form__row__subwidget_inline.form__row__subwidget_short > div > select > option:nth-child(32)'
-    MONTH_INPUT = '#formPersonal > div:nth-child(17) > div.form__row__widget > div:nth-child(1) > div.form__row__subwidget_inline.form__row__shift-small.form__row__subwidget_large > div > select'
-    MONTH_INPUT_CHILD = '#formPersonal > div:nth-child(17) > div.form__row__widget > div:nth-child(1) > div.form__row__subwidget_inline.form__row__shift-small.form__row__subwidget_large > div > select > option:nth-child(13)'
-    YEAR_INPUT = '#formPersonal > div:nth-child(17) > div.form__row__widget > div:nth-child(1) > div.form__row__subwidget_inline.form__row__shift-small.form__row__subwidget_medium > div > select > option:nth-child(101)'
-    YEAR_INPUT_CHILD = '#formPersonal > div:nth-child(17) > div.form__row__widget > div:nth-child(1) > div.form__row__subwidget_inline.form__row__subwidget_short > div > select'
+    DAY_INPUT = 'select[name="BirthDay"]'
+    DAY_INPUT_CHILD = 'select[name="BirthDay"] option[value="20"]'
+    MONTH_INPUT = 'select[name="BirthMonth"]'
+    MONTH_INPUT_CHILD = 'select[name="BirthMonth"] option[value="12"]'
+    YEAR_INPUT = 'select[name="BirthYear"]'
+    YEAR_INPUT_CHILD = 'select[name="BirthYear"] option[value="1997"]'
 
-    IMAGE_INPUT = '#js-edit-avatar > div.form__row__widget > span.form__row__avatar__infotext > div:nth-child(2) > div:nth-child(1) > div.js-browse.js-fileapi-wrapper > input'
-    SAVE_IMAGE_BUTTON = '#MailRuConfirm > div > div.is-avatar_in.popup_avatar > div.js-content.popup_avatar__content > div.popup__controls > div > div:nth-child(1)'
+    IMAGE_INPUT = 'input[name="avatar"]'
+    SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
 
     LOGOUT_BUTTON = '#PH_logoutLink'
-    HELP_BUTTON = '#settigns_toolbar__right > div > div > div > a'
+    HELP_BUTTON = '#settigns_toolbar__right  a.b-toolbar__btn'
+
+    SUBMIT_BUTTON = 'div.form__actions__inner button[type="submit"]'
 
     OK_AFTER_SUBMIT_URI = 'https://e.mail.ru/settings?result=ok&afterReload=1'
     AFTER_LOGOUT_URI = 'https://mail.ru/?from=logout'
@@ -31,7 +33,7 @@ class UserInfoPage(DefaultPage):
         return os.getenv("TESTIMAGE")
 
     def click_submit_button(self):
-        self.click_element('div.form__actions__inner button[type="submit"]', False)
+        self.click_element(self.SUBMIT_BUTTON, False)
 
     def input_firstname(self, firstName = 'test1'):
         self.clear_and_send_keys_to_input(self.FIRST_NAME, firstName, False)

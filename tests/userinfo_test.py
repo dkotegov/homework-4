@@ -2,6 +2,12 @@ import unittest
 from selenium import webdriver
 from pages.auth_page import AuthPage
 from pages.userinfo_page import UserInfoPage
+import string
+import random
+
+def randomString(stringLength=10):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(stringLength))
 
 class UserInfoTest(unittest.TestCase):
 
@@ -14,14 +20,12 @@ class UserInfoTest(unittest.TestCase):
 
         userinfo_page = UserInfoPage(self.driver)
 
-        userinfo_page.input_firstname('fname')
-        userinfo_page.input_lastname('lname')
-        userinfo_page.input_nickname('nname')
+        userinfo_page.input_firstname(randomString())
+        userinfo_page.input_lastname(randomString())
+        userinfo_page.input_nickname(randomString())
 
         userinfo_page.click_submit_button()
         userinfo_page.wait_for_ok_after_submit()
-
-
 
     def test_image_upload(self):
         auth_page = AuthPage(self.driver)
@@ -32,8 +36,6 @@ class UserInfoTest(unittest.TestCase):
 
         userinfo_page.click_submit_button()
         userinfo_page.wait_for_ok_after_submit()
-
-
 
     def test_logout(self):
         auth_page = AuthPage(self.driver)
@@ -66,9 +68,6 @@ class UserInfoTest(unittest.TestCase):
 
         userinfo_page.click_submit_button()
         userinfo_page.wait_for_ok_after_submit()
-
-
-
 
     def test_open_help(self):
         auth_page = AuthPage(self.driver)
