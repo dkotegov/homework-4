@@ -3,7 +3,7 @@ import os
 from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
 from selenium.common.exceptions import NoSuchElementException
-from helpers import wait_for_element
+from helpers import *
 
 
 class UserinfoPage(DefaultPage):
@@ -28,6 +28,10 @@ class UserinfoForm(Component):
     PHONE_LINK = '#phonesContainer a.js-click-security-recovery'
     TIMEZONE_TICK = 'input[name=UseAutoTimezone]'
     TIMEZONE_SELECTOR = 'select[name=TimeZone]'
+    SUGGESTS = '//*[@class="content__page"]/descendant::span[@class="div_inner ac-items form__field__suggest__inner"]'
+    SUGGESTS_ITEM = '//form[@id="formPersonal"]//*[@class="form__field__suggest__item"]'
+    GENDER_MALE = 'label[for="man1"] input'
+    GENDER_FEMALE = 'label[for="man2"] input'
 
     def set_town(self, town):
         wait_for_element(self.driver, self.TOWN)
@@ -97,5 +101,30 @@ class UserinfoForm(Component):
     def clear_town(self):
         wait_for_element(self.driver, self.TOWN)
         self.driver.find_element_by_css_selector(self.TOWN).clear()
+
+    def get_surname_message(self):
+        wait_for_element_by_selector(self.driver, self.SURNAME_ERROR)
+        return self.driver.find_element_by_css_selector(self.SURNAME_ERROR).text
+
+    def get_suggests_for_town(self):
+        wait_for_element_by_xpath(self.driver, self.SUGGESTS_ITEM)
+        suggests = self.driver.find_elements_by_xpath(self.SUGGESTS_ITEM)
+        return [suggest.text for suggest in suggests]
+
+    def wait_for_suggests_invisible(self):
+        return wait_for_element_by_xpath(self.driver, self.SUGGESTS, False)
+
+    def wait_for_last_suggest(self, text):
+        locator = f'{self.SUGGESTS_ITEM}[last()]'
+        return WebDriverWait(self.driver, 30, 0.1).until(
+            expected_conditions.text_to_be_present_in_element((By.XPATH, locator), text)
+        )
+
+    def get_unselected_gender(self):
+        wait_for_element_by_selector(self.driver, self.GENDER_MALE)
+        gender_male = self.driver.find_element_by_css_selector(self.GENDER_MALE)
+        wait_for_element_by_selector(self.driver, self.GENDER_FEMALE)
+        gender_female = self.driver.find_element_by_css_selector(self.GENDER_FEMALE)
+        return gender_female if gender_male.is_selected() else gender_male    
 
 
