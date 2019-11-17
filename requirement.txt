@@ -1,2 +1,5 @@
+// ubuntu 19.04
+
 selenium = 3.141.0
 chromedriver = 78.0.3904.70
+geckodriver = 0.26.0
