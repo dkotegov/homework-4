@@ -13,10 +13,10 @@ from selenium import webdriver
 from tests.Pages import AuthPage, QuestionPage, PollPage
 
 class CheckListTests(unittest.TestCase):
-    # USEREMAIL = 'kotegov_dima@mail.ru'
-    # PASSWORD = os.environ['PASSWORD']
-    USEREMAIL = 'leshikne@bk.ru'
-    PASSWORD = 'Laizerwing777'
+    USEREMAIL = 'kotegov_dima@mail.ru'
+    PASSWORD = os.environ['PASSWORD']
+    # USEREMAIL = ''
+    # PASSWORD = ''
     DEBUG = True
 
 
