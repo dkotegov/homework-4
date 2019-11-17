@@ -20,7 +20,7 @@ class UserinfoForm(Component):
     CANCEL = '#formPersonal a.btn'
     TOP_MESSAGE = 'div.content__page  span'
     TOWN_ERROR = 'input[name="your_town"] ~ .form__message.form__message_error'
-    SURNAME_ERROR = '#formPersonal div.form__message'
+    SURNAME_ERROR = '#formPersonal div.form__message_error'
     MAKE_SNAPSHOT = '#js-edit-avatar button.js-camera'
     LOAD_IMAGE = '#js-edit-avatar input[name="avatar"]'
     SAVE_AVATAR = '#MailRuConfirm div[data-fire="save"]'
