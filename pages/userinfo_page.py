@@ -109,7 +109,7 @@ class UserinfoForm(Component):
     def dismiss_snapshot_request(self):
         make_snapshot = self.driver.find_element_by_css_selector(self.MAKE_SNAPSHOT)
         if make_snapshot.is_enabled():    
-            makeSnapshot.click()
+            make_snapshot.click()
             self.driver.switch_to_alert()
             Alert(self.driver).dismiss()   
 
