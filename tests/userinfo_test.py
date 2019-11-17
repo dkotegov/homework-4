@@ -62,17 +62,6 @@ class UserinfoTest(unittest.TestCase):
         userinfo_form.get_save_avatar_button()
         userinfo_form.get_cancel_avatar_button()
         
-    def test_do_snapshot(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_page.authorize()
-
-        userinfo_page = UserinfoPage(self.driver)
-        userinfo_page.open()
-        userinfo_form = userinfo_page.form
-
-        userinfo_form.dismiss_snapshot_request()
-   
     def test_cancel_changed_data(self):
         SURNAME_NEW_VALUE = 'new surname'
 
