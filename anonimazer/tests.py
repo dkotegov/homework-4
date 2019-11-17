@@ -5,6 +5,7 @@ from anonimazer.anonimazer import Anonimazer
 from selenium.webdriver.firefox.options import Options as Firefox_Options
 from selenium.webdriver.chrome.options import Options as Chrome_Options
 
+
 class TestAnonimazer(unittest.TestCase):
 
     def setUp(self):
@@ -85,10 +86,12 @@ class TestAnonimazer(unittest.TestCase):
         self.anonimazer.delete_email(self.email)
         self.assertTrue(self.anonimazer.is_delete_pop_up_open())
         self.anonimazer.cancel_delete_email()
-        self.assertEqual(False, self.anonimazer.is_delete_pop_up_open())
+        self.assertFalse(self.anonimazer.is_delete_pop_up_open())
         self.assertTrue(self.anonimazer.is_email_alive(self.email))
 
-    # При нажатии на link ящика, появляется pop-up форма редактирования ящика. В EditLine "Комментарий" убираем все символы и вставляем "QA". При нажатии на кнопку "Готово", комментарий возле ящика с которым мы работали изменился на "QA".
+    # При нажатии на link ящика, появляется pop-up форма редактирования ящика. В EditLine "Комментарий" убираем все
+    # символы и вставляем "QA". При нажатии на кнопку "Готово", комментарий возле ящика с которым мы работали
+    # изменился на "QA".
     def test_change_comment_success(self):
         self.anonimazer.redirect_to_anonimazer()
         self.assertTrue(self.anonimazer.is_email_alive(self.email))
@@ -97,10 +100,3 @@ class TestAnonimazer(unittest.TestCase):
         self.anonimazer.edit_comment(self.comment)
         self.anonimazer.submit_edit()
         self.assertEqual(self.comment, self.anonimazer.get_comment(self.email))
-
-
-
-
-
-
-
