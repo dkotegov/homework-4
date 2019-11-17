@@ -151,30 +151,13 @@ class UserinfoTest(unittest.TestCase):
     #     self.assertEqual(TOP_MESSAGE, userinfo_form.get_top_message())
     #     self.assertEqual(SURNAME_ERROR, userinfo_form.get_surname_message())
 
-    def test_suggest_town(self):
-        TOWN_PREFIX = 'Мос' 
-        SUGGEST_LIST = [
-            'Москва, Россия',
-            'Московский, Московская обл., Россия',
-            'Мосальск, Калужская обл., Россия'
-        ]
-
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_page.authorize()
-
-        userinfo_page = UserinfoPage(self.driver)
-        userinfo_page.open()
-        userinfo_form = userinfo_page.form
-
-        userinfo_form.set_town(TOWN_PREFIX)
-        userinfo_form.wait_for_last_suggest(SUGGEST_LIST[-1])
-        self.assertEqual(SUGGEST_LIST, userinfo_form.get_suggests_for_town()) 
-
-    # def test_wrong_town(self):
-    #     WRONG_TOWN_NAME = 'qwertyuiop'
-    #     TOP_MESSAGE = 'Некоторые поля заполнены неверно'
-    #     TOWN_ERROR = 'Проверьте название города'
+    # def test_suggest_town(self):
+    #     TOWN_PREFIX = 'Мос' 
+    #     SUGGEST_LIST = [
+    #         'Москва, Россия',
+    #         'Московский, Московская обл., Россия',
+    #         'Мосальск, Калужская обл., Россия'
+    #     ]
 
     #     auth_page = AuthPage(self.driver)
     #     auth_page.open()
@@ -184,8 +167,107 @@ class UserinfoTest(unittest.TestCase):
     #     userinfo_page.open()
     #     userinfo_form = userinfo_page.form
 
-    #     userinfo_form.set_town(WRONG_TOWN_NAME)
-    #     userinfo_form.wait_for_suggests_invisible()
-    #     userinfo_form.save()
-    #     self.assertEqual(TOP_MESSAGE, userinfo_form.get_top_message())
-    #     self.assertEqual(TOWN_ERROR, userinfo_form.get_town_message())             
+    #     userinfo_form.set_town(TOWN_PREFIX)
+    #     userinfo_form.wait_for_last_suggest(SUGGEST_LIST[-1])
+    #     self.assertEqual(SUGGEST_LIST, userinfo_form.get_suggests_for_town()) 
+
+    def test_wrong_town(self):
+        WRONG_TOWN_NAME = 'qwertyuiop'
+        TOP_MESSAGE = 'Некоторые поля заполнены неверно'
+        TOWN_ERROR = 'Проверьте название города'
+
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+        auth_page.authorize()
+
+        userinfo_page = UserinfoPage(self.driver)
+        userinfo_page.open()
+        userinfo_form = userinfo_page.form
+
+        userinfo_form.set_town(WRONG_TOWN_NAME)
+        userinfo_form.wait_for_suggests_invisible()
+        userinfo_form.save()
+        self.assertEqual(TOP_MESSAGE, userinfo_form.get_top_message())
+        self.assertEqual(TOWN_ERROR, userinfo_form.get_town_message())             
+
+    # def test_correct_input(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.authorize()
+
+    #     userinfo_page = UserinfoPage(self.driver)
+    #     userinfo_page.open()
+    #     userinfo_form = userinfo_page.form
+
+    #     userinfo_form.input_firstname(randomString())
+    #     userinfo_form.input_lastname(randomString())
+    #     userinfo_form.input_nickname(randomString())
+
+    #     userinfo_form.click_submit_button()
+    #     userinfo_form.wait_for_ok_after_submit()
+
+    # def test_image_upload(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.authorize()
+
+    #     userinfo_page = UserinfoPage(self.driver)
+    #     userinfo_page.open()
+    #     userinfo_form = userinfo_page.form
+
+    #     userinfo_form.input_test_image()
+
+    #     userinfo_form.click_submit_button()
+    #     userinfo_form.wait_for_ok_after_submit()
+
+    # def test_logout(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.authorize()
+
+    #     userinfo_page = UserinfoPage(self.driver)
+    #     userinfo_page.open()
+    #     userinfo_form = userinfo_page.form
+
+    #     userinfo_form.open_settings_in_new_window()
+    #     userinfo_form.wait_for_ok_after_submit()
+
+    #     userinfo_form.click_logout_button()
+    #     userinfo_form.wait_for_logout()
+
+    #     userinfo_form.switch_to_window(0)
+    #     userinfo_form.resresh_page()
+    #     userinfo_form.match_to_login_URI()
+
+
+    # def test_date_lists(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.authorize()
+
+    #     userinfo_page = UserinfoPage(self.driver)
+    #     userinfo_page.open()
+    #     userinfo_form = userinfo_page.form
+
+    #     userinfo_form.click_on_day_input()
+    #     userinfo_form.click_on_day_child_input()
+    #     userinfo_form.click_on_month_input()
+    #     userinfo_form.click_on_month_child_input()
+    #     userinfo_form.click_on_year_input()
+    #     userinfo_form.click_on_year_child_input()
+
+    #     userinfo_form.click_submit_button()
+    #     userinfo_form.wait_for_ok_after_submit()
+
+    # def test_open_help(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.authorize()
+
+    #     userinfo_page = UserinfoPage(self.driver)
+    #     userinfo_page.open()
+    #     userinfo_form = userinfo_page.form
+
+    #     userinfo_form.click_on_help()
+    #     userinfo_form.switch_to_window(1)
+    #     userinfo_form.wait_for_help()    
