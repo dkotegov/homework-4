@@ -70,6 +70,7 @@ class UserinfoForm(Component):
         self.driver.find_element_by_css_selector(self.SAVE).click()
 
     def cancel(self):
+        wait_for_element(self.driver, self.CANCEL)
         self.driver.find_element_by_css_selector(self.CANCEL).click()
 
     def get_top_message(self):
