@@ -3,6 +3,7 @@ import configparser
 
 from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import NoSuchElementException
 from helpers import *
 
@@ -174,7 +175,9 @@ class UserinfoForm(Component):
         self.wait_redirect(self.OK_AFTER_SUBMIT_URI)
 
     def input_test_image(self):
-        self.clear_and_send_keys_to_input(self.IMAGE_INPUT, (os.path.dirname(os.path.abspath(__file__))+'bmstu-emblem.png').replace("pages", ""), False, False)
+        self.config.read('test_data.ini')
+        image = self.config['DEFAULT']['ImageFile']
+        self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image, False, False)
 
     def click_save_image_button(self):
         self.click_element(self.SAVE_IMAGE_BUTTON, True)
@@ -190,7 +193,7 @@ class UserinfoForm(Component):
         self.wait_redirect(self.AFTER_LOGOUT_URI)
 
     def match_to_login_URI(self):
-        self.wait(EC.url_matches(self.LOGIN_URI))
+        self.wait(expected_conditions.url_matches(self.LOGIN_URI))
 
     def click_on_day_input(self):
         self.click_element(self.DAY_INPUT, False)
