@@ -2,6 +2,7 @@ import os
 
 from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
+from selenium.common.exceptions import NoSuchElementException
 from helpers import wait_for_element
 
 
@@ -27,6 +28,7 @@ class UserinfoForm(Component):
     TIMEZONE_TICK = 'input[name=UseAutoTimezone]'
     TIMEZONE_SELECTOR = 'select[name=TimeZone]'
     SURNAME_ERROR = '#formPersonal > div:nth-child(13) > div.form__row__widget > div'
+    SUGGESTS = '#formPersonal > div:nth-child(19) > div.form__row__widget > div:nth-child(2) > div > span'
 
     def set_town(self, town):
         wait_for_element(self.driver, self.TOWN)
@@ -94,3 +96,9 @@ class UserinfoForm(Component):
     def get_surname_message(self):
         wait_for_element(self.driver, self.SURNAME_ERROR)
         return self.driver.find_element_by_css_selector(self.SURNAME_ERROR).text
+
+    def clear_town(self):
+        wait_for_element(self.driver, self.TOWN)
+        self.driver.find_element_by_css_selector(self.TOWN).clear()
+
+
