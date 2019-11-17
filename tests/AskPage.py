@@ -76,7 +76,6 @@ class AskPage(Page):
         inputPassword = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located((By.NAME, 'Password')))
         inputPassword.send_keys(self.password)
-        
         self.driver.find_elements_by_class_name('login-row')[2].find_elements_by_css_selector('*')[1].click()
 
     def checkUrl(self):
