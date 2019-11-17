@@ -32,11 +32,16 @@ class AskTests(unittest.TestCase):
     # def test_mentionCountry(self):
     #     questionWithCountry = 'Россия'
     #     self.page.setQuestionTheme(questionWithCountry)
+    #     # Пока не понятно как этот костыль решать
     #     time.sleep(5)
     #     self.assertEqual(self.page.getSubcategory(),
     #         'Политика')
 
-    def test_loginBtn(self):
-        self.page.clickLogin()
-        self.assertTrue(self.page.lofinFormIsVisible())
+    # def test_loginBtn(self):
+    #     self.page.clickLogin()
+    #     self.assertTrue(self.page.lofinFormIsVisible())
 
+    def test_authorization(self):
+        self.page.clickLogin()
+        self.page.login()
+        self.assertTrue(self.page.checkUrl())

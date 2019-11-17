@@ -24,13 +24,13 @@ class AskPage(object):
         inputQuestionField.send_keys(question)
 
     def clearQuestionThemeByKeys(self):
-        inputQuestionField = self.driver.find_elements_by_name('question_text')[0]
+        inputQuestionField = self.driver.find_element_by_name('question_text')
         inputQuestionField.click()
         inputQuestionField.send_keys(Keys.CONTROL + "a")
         inputQuestionField.send_keys(Keys.DELETE)
 
     def getAlertUnderQuestion(self):
-        alert = self.driver.find_elements_by_class_name('z1LfJpugzE39YVXERE-f__0')[0]
+        alert = self.driver.find_element_by_class_name('z1LfJpugzE39YVXERE-f__0')
         return alert.get_attribute('innerHTML')
 
     def wait(self, wait_until=None, timeout=5):
@@ -44,14 +44,35 @@ class AskPage(object):
         return subcategory[-1].get_attribute('innerHTML')
 
     def clickLogin(self):
-        clickBtn = self.driver.find_elements_by_id('PH_authLink')[0]
+        clickBtn = self.driver.find_element_by_id('PH_authLink')
         clickBtn.click()
-        time.sleep(4)
 
     def lofinFormIsVisible(self):
-        lofinFormList = self.driver.find_elements_by_class_name('ag-popup__frame_show')
-        if len(lofinFormList) <= 0:
+        loginFormList = self.driver.find_elements_by_class_name('ag-popup__frame_show')
+        if len(loginFormList) <= 0:
             return False
         return True
 
+    def login(self):
+        self.driver.switch_to_default_content
+        frame = self.driver.find_element_by_class_name('ag-popup__frame__layout__iframe')
+        WebDriverWait(self.driver, 5).until(
+            EC.frame_to_be_available_and_switch_to_it(frame))
+        inputUsername = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located((By.NAME, 'Login')))
+        inputUsername.send_keys(self.username)
 
+        # нажимаем "продолжить"
+        self.driver.find_elements_by_class_name('login-row')[2].find_elements_by_css_selector('*')[5].click()
+
+        inputPassword = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located((By.NAME, 'Password')))
+        inputPassword.send_keys(self.password)
+        
+        # нажимаем "продолжить"
+        self.driver.find_elements_by_class_name('login-row')[2].find_elements_by_css_selector('*')[1].click()
+
+    def checkUrl(self):
+        if ("https://otvet.mail.ru" in self.driver.current_url):
+            return True
+        return False
