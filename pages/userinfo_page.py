@@ -48,7 +48,7 @@ class UserInfoPage(DefaultPage):
         self.wait_redirect(self.OK_AFTER_SUBMIT_URI)
 
     def input_test_image(self):
-        self.clear_and_send_keys_to_input(self.IMAGE_INPUT, self.get_image(), False, False)
+        self.clear_and_send_keys_to_input(self.IMAGE_INPUT, (os.path.dirname(os.path.abspath(__file__))+'bmstu-emblem.png').replace("pages", ""), False, False)
 
     def click_save_image_button(self):
         self.click_element(self.SAVE_IMAGE_BUTTON, True)
