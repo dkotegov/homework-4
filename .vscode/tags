@@ -1,0 +1,46 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AskPage	../tests/AskPage.py	/^class AskPage(Page):$/;"	kind:class	line:26
+AskPage.py	../tests/AskPage.py	1;"	kind:file	line:1
+AskTests	../tests/AskTests.py	/^class AskTests(unittest.TestCase):$/;"	kind:class	line:11
+AskTests.py	../tests/AskTests.py	1;"	kind:file	line:1
+BASE_URL	../tests/AskPage.py	/^    BASE_URL = 'https:\/\/otvet.mail.ru\/ask\/'$/;"	kind:variable	line:15
+CustomWait.py	../tests/CustomWait.py	1;"	kind:file	line:1
+ElementEqualSubcategory	../tests/CustomWait.py	/^class ElementEqualSubcategory(object):$/;"	kind:class	line:2
+Page	../tests/AskPage.py	/^class Page(object):$/;"	kind:class	line:14
+__call__	../tests/CustomWait.py	/^  def __call__(self, driver):$/;"	kind:member	line:7
+__init__	../tests/AskPage.py	/^    def __init__(self, driver):$/;"	kind:member	line:17
+__init__	../tests/AskTests.py	/^    def __init__(self, *args, **kwargs):$/;"	kind:member	line:12
+__init__	../tests/CustomWait.py	/^  def __init__(self, className, subcategory):$/;"	kind:member	line:3
+__init__.py	../tests/__init__.py	1;"	kind:file	line:1
+autosettingSubcategory	../tests/AskPage.py	/^    def autosettingSubcategory(self, Subcategory):$/;"	kind:member	line:36
+checkAlert	../tests/AskPage.py	/^    def checkAlert(self):$/;"	kind:member	line:115
+checkUrl	../tests/AskPage.py	/^    def checkUrl(self):$/;"	kind:member	line:82
+clearQuestionThemeByKeys	../tests/AskPage.py	/^    def clearQuestionThemeByKeys(self):$/;"	kind:member	line:40
+clickAndWaitProfile	../tests/AskPage.py	/^    def clickAndWaitProfile(self):$/;"	kind:member	line:87
+clickChooseAutosport	../tests/AskPage.py	/^    def clickChooseAutosport(self):$/;"	kind:member	line:103
+clickLogin	../tests/AskPage.py	/^    def clickLogin(self):$/;"	kind:member	line:55
+clickSendQuestion	../tests/AskPage.py	/^    def clickSendQuestion(self):$/;"	kind:member	line:97
+getAlertUnderQuestion	../tests/AskPage.py	/^    def getAlertUnderQuestion(self):$/;"	kind:member	line:46
+getSubcategory	../tests/AskPage.py	/^    def getSubcategory(self):$/;"	kind:member	line:50
+lofinFormIsVisible	../tests/AskPage.py	/^    def lofinFormIsVisible(self):$/;"	kind:member	line:59
+login	../tests/AskPage.py	/^    def login(self):$/;"	kind:member	line:65
+open	../tests/AskPage.py	/^    def open(self):$/;"	kind:member	line:22
+quitDriver	../tests/AskPage.py	/^    def quitDriver(self):$/;"	kind:member	line:27
+result	../run_tests.py	/^    result = unittest.TextTestRunner().run(suite)$/;"	kind:variable	line:11
+run_tests.py	../run_tests.py	1;"	kind:file	line:1
+setQuestionTheme	../tests/AskPage.py	/^    def setQuestionTheme(self, question):$/;"	kind:member	line:30
+setUp	../tests/AskTests.py	/^    def setUp(self):$/;"	kind:member	line:15
+suite	../run_tests.py	/^    suite = unittest.TestSuite(($/;"	kind:variable	line:8
+tearDown	../tests/AskTests.py	/^    def tearDown(self):$/;"	kind:member	line:24
+test_authorization	../tests/AskTests.py	/^    def test_authorization(self):$/;"	kind:member	line:58
+test_loginBtn	../tests/AskTests.py	/^    def test_loginBtn(self):$/;"	kind:member	line:54
+test_mentionCountry	../tests/AskTests.py	/^    def test_mentionCountry(self):$/;"	kind:member	line:47
+test_needThreeWords	../tests/AskTests.py	/^    def test_needThreeWords(self):$/;"	kind:member	line:27
+test_notEmptyQuestion	../tests/AskTests.py	/^    def test_notEmptyQuestion(self):$/;"	kind:member	line:40
+test_profile	../tests/AskTests.py	/^    def test_profile(self):$/;"	kind:member	line:35
+test_tooBigQuestion	../tests/AskTests.py	/^    def test_tooBigQuestion(self):$/;"	kind:member	line:63

@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support import expected_conditions as EC
 
 import os
@@ -10,13 +11,19 @@ import unittest
 
 from tests.CustomWait import ElementEqualSubcategory
 
-class AskPage(object):
-    def __init__(self):
-        self.driver = webdriver.Chrome('./chromedriver')
-        self.driver.get('https://otvet.mail.ru/ask')
+class Page(object):
+    BASE_URL = 'https://otvet.mail.ru/ask/'
+
+    def __init__(self, driver):
+        self.driver = driver
         self.username = 'test_qwerty1122@mail.ru'
         self.password = os.getenv('PASSWORD')
 
+    def open(self):
+        self.driver.get(self.BASE_URL)
+        self.driver.maximize_window()
+
+class AskPage(Page):
     def quitDriver(self):
         self.driver.quit()
 
