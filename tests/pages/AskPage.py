@@ -92,7 +92,6 @@ class AskPage(object):
             EC.visibility_of_element_located((By.CLASS_NAME, \
                 '_3ykLdYEqVa47ACQrpqnZOj_0')))
         buttonSend.click()
-        time.sleep(5)
 
     def clickChooseAutosport(self):
         buttonChoose = WebDriverWait(self.driver, 5).until(
