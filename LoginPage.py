@@ -30,12 +30,16 @@ class LoginPage:
         elem.click()
 
     def register(self):
-        elem = self.driver.find_element_by_css_selector('.panel-item panel-item__gray')
+        elem = self.driver.find_element_by_css_selector('.calendar-title')
         elem.click()
 
     def forgot_password(self):
-        elem = self.driver.find_element_by_css_selector('.panel-item__last .calendar-title')
+        elem = self.driver.find_element_by_css_selector('.calendar-title')
         elem.click()
+
+    def email_required(self):
+        elem = self.driver.find_element_by_css_selector('input[name=Login]')
+        validation_message = elem.get_attribute("validationMessage")
 
     def wait_redirect(self, url, timeout = 10):
         return WebDriverWait(self.driver, timeout).until(EC.url_matches(url))
