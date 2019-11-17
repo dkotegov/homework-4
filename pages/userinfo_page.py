@@ -20,7 +20,7 @@ class UserinfoForm(Component):
     CANCEL = '#formPersonal a.btn'
     TOP_MESSAGE = 'div.content__page  span'
     TOWN_ERROR = 'input[name="your_town"] ~ .form__message.form__message_error'
-    SURNAME_ERROR = '#formPersonal > div:nth-child(13) > div.form__row__widget > div'
+    SURNAME_ERROR = '#formPersonal div.form__message'
     MAKE_SNAPSHOT = '#js-edit-avatar button.js-camera'
     LOAD_IMAGE = '#js-edit-avatar input[name="avatar"]'
     SAVE_AVATAR = '#MailRuConfirm div[data-fire="save"]'
@@ -56,7 +56,6 @@ class UserinfoForm(Component):
             tick.click()
 
     def get_town_selector(self):
-        #wait_for_element(self.driver, self.TIMEZONE_SELECTOR)
         return self.driver.find_element_by_css_selector(self.TIMEZONE_SELECTOR)
 
     def get_url_phone_link(self):
@@ -64,7 +63,6 @@ class UserinfoForm(Component):
         return self.driver.find_element_by_css_selector(self.PHONE_LINK).get_attribute("href")  
 
     def load_image(self, image):
-        #wait_for_element(self.driver, self.LOAD_IMAGE)
         self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image)
     
     def get_save_avatar_button(self):
@@ -79,8 +77,8 @@ class UserinfoForm(Component):
         make_snapshot = self.driver.find_element_by_css_selector(self.MAKE_SNAPSHOT)
         if make_snapshot.is_enabled():    
             makeSnapshot.click()
-            driver.switch_to_alert()
-            Alert(driver).dismiss()   
+            self.driver.switch_to_alert()
+            Alert(self.driver).dismiss()   
 
     def set_surname(self, surname):
         wait_for_element(self.driver, self.SURNAME)

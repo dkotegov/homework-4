@@ -12,7 +12,6 @@ class AuthPage(DefaultPage):
         return AuthForm(self.driver)
 
 
-    # def authorize(self, login='yekaterina.kirillova.1998@bk.ru', password='qwerYtuarRyYY12'):
     def authorize(self, login=os.environ['LOGIN'], password=os.environ['PASSWORD']):
         auth_form = AuthForm(self.driver)
 

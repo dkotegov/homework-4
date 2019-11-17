@@ -8,8 +8,6 @@ from pages.userinfo_page import UserinfoPage
 from helpers import *
 
 class UserinfoTest(unittest.TestCase):
-    USEREMAIL = 'yekaterina.kirillova.1998@bk.ru'
-    PASSWORD = 'qwerYtuarRyYY12'
     config = configparser.ConfigParser()
 
     def setUp(self):
@@ -96,6 +94,7 @@ class UserinfoTest(unittest.TestCase):
     def test_error_saving(self):
         TOP_MESSAGE = 'Не заполнены необходимые поля'
         SURNAME_ERROR = 'Заполните обязательное поле'
+        EMPTY_SURNAME = ''
 
         auth_page = AuthPage(self.driver)
         auth_page.open()
@@ -105,7 +104,7 @@ class UserinfoTest(unittest.TestCase):
         userinfo_page.open()
         userinfo_form = userinfo_page.form
 
-        userinfo_form.set_surname('')
+        userinfo_form.set_surname(EMPTY_SURNAME)
         userinfo_form.save()
         self.assertEqual(TOP_MESSAGE, userinfo_form.get_top_message())
         self.assertEqual(SURNAME_ERROR, userinfo_form.get_surname_message())
