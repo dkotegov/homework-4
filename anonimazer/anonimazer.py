@@ -182,9 +182,9 @@ class Anonimazer:
         submit_button.click()
 
     def get_comment(self, email):
-        settings_blocks = self._driver.find_elements_by_xpath("%s" % self.SETTING_DIV)
+        settings_blocks = self._driver.find_elements_by_xpath(self.SETTING_DIV)
         for block in settings_blocks:
             if block.get_attribute("data-alias-id") == email:
-                comment = self._wait_visibility_xpath("%s" % self.ALIASES_COMMENT_DIV)
+                comment = self._wait_visibility_xpath(self.ALIASES_COMMENT_DIV)
                 return comment.text
         return "None"
