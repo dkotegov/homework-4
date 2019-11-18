@@ -72,7 +72,6 @@ class UserinfoForm(Component):
 
     def cancel(self):
         CANCEL_NOT_FULL_SCREEN = '#formPersonal a.btn'
-        wait_for_element(self.driver, self.CANCEL)
         try:
             self.driver.find_element_by_css_selector(CANCEL_NOT_FULL_SCREEN).click()
         except NoSuchElementException:
