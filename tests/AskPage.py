@@ -33,6 +33,13 @@ class AskPage(Page):
         inputQuestionField.click()
         inputQuestionField.send_keys(question)
 
+    def setQuestionAdditional(self, question):
+        inputQuestionField = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located((By.NAME, 'question_additional')))
+        self.driver.execute_script("arguments[0].value = arguments[1]",
+            inputQuestionField, question)
+        inputQuestionField.send_keys(' ')
+
     def autosettingSubcategory(self, Subcategory):
         WebDriverWait(self.driver, 10).until(ElementEqualSubcategory( \
             '_1lZeUpFslQAPq_G1uwjahr_1', u'Политика'))
@@ -115,3 +122,7 @@ class AskPage(Page):
         WebDriverWait(self.driver, 5).until(
             EC.visibility_of_all_elements_located((By.CLASS_NAME, \
                 '_3e48lyZw6JxqpxlQCH7ZrK_0')))
+
+    def getAlertUnderAdditional(self):
+        alert = self.driver.find_element_by_class_name('z1LfJpugzE39YVXERE-f__0')
+        return alert.get_attribute('innerHTML')
