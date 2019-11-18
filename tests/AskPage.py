@@ -106,7 +106,7 @@ class AskPage(Page):
                 '_3ykLdYEqVa47ACQrpqnZOj_0')))
         buttonSend.click()
 
-    def clickChooseAutosport(self):
+    def clickChooseAnother(self):
         buttonChoose = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_all_elements_located((By.CLASS_NAME, \
                 '_3oJIbRjOJJ6UfBtvy3o6EW_1')))
