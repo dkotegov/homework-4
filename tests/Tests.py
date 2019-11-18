@@ -44,7 +44,9 @@ class CheckListTests(unittest.TestCase):
         self.auth_page.open()
 
     # - Если пользователь не авторизован, то при нажатии на кнопку "Фото" или "Видео" должно всплывать окно авторизации.
-    def photoVideoUploadTest(self):
+    def test_photoVideoUploadTest(self):
+        self.openAskPage()
+
         self.question_form.open_photo_upload_form()
         self.question_form.press_esc()
 
@@ -79,13 +81,18 @@ class CheckListTests(unittest.TestCase):
             print("Switch to default content:....OK")
             print('Authorization:.......................PASSED\n')
 
-    def largeTextTest(self):
+    def test_largeTextTest(self):
+        self.openAskPage()
+        self.authorize()
+
         self.question_form.check_question_textarea_alert()
-        self.auth_form.open_form()
         if self.DEBUG:
             print("Large text alert test:...............PASSED\n")
 
-    def invalidQuestionTitleTest(self):
+    def test_invalidQuestionTitleTest(self):
+        self.openAskPage()
+        self.authorize()
+
         self.question_form.check_question_title_textarea_alert()
         if self.DEBUG:
             print("Invalid string print:.........OK")
@@ -95,7 +102,10 @@ class CheckListTests(unittest.TestCase):
         if self.DEBUG:
             print("Invalid question title alert test:...PASSED\n")
 
-    def newQuestionEditTest(self):
+    def test_newQuestionEditTest(self):
+        self.openAskPage()
+        self.authorize()
+
         self.question_form.make_default_question()
         if self.DEBUG:
             print("make default question:........OK")
@@ -105,7 +115,10 @@ class CheckListTests(unittest.TestCase):
             print("check ediе time:..............OK")
             print("Question edit case test:.............PASSED\n")
 
-    def settingsTest(self):
+    def test_settingsTest(self):
+        self.openAskPage()
+        self.authorize()
+
         self.openAskPage()
         self.question_form.check_settings_page()
         if self.DEBUG:
@@ -113,7 +126,9 @@ class CheckListTests(unittest.TestCase):
             print("Open settings:................OK")
             print("Settings open test:..................PASSED\n")
 
-    def pollOptionsTest(self):
+    def test_pollOptionsTest(self):
+        self.openAskPage()
+
         self.openAskPage()
         self.poll_form.open_poll_form()
         if self.DEBUG:
@@ -123,29 +138,30 @@ class CheckListTests(unittest.TestCase):
         if self.DEBUG:
             print("Settings open test:..................PASSED\n")
 
-    def test(self):
+    # def test(self):
 
-        self.openAskPage()
-        self.photoVideoUploadTest()
+    #     self.openAskPage()
+    #     self.photoVideoUploadTest()
         
-        # Авторизируемся 
-        self.authorize()
+    #     # Авторизируемся 
+    #     self.authorize()
 
-        # - При вводе большого текста в поле "Текст вопроса" появляется предупреждение об ограничении в 3800 символов.
-        self.largeTextTest()
+    #     # - При вводе невалидной строки в теме вопроса/опроса (Прример: "ыв ыва ыва 23") длжно всплывать окно с ошибкой 
+    #     #   "Просьба более подробно и грамотно сформулировать тему вопроса.".
+    #     self.invalidQuestionTitleTest()
 
-        # - При вводе невалидной строки в теме вопроса/опроса (Прример: "ыв ыва ыва 23") длжно всплывать окно с ошибкой 
-        #   "Просьба более подробно и грамотно сформулировать тему вопроса.".
-        self.invalidQuestionTitleTest()
+    #     # - При публикации нового опроса должно всплывать окно, информирующее о возможности редактирования содежания опроса в течении 30 мин.
+    #     self.newQuestionEditTest()
 
-        # - При публикации нового опроса должно всплывать окно, информирующее о возможности редактирования содежания опроса в течении 30 мин.
-        self.newQuestionEditTest()
+    #     # - По нажатию на кнопку "Настройки" открывается страница пользовательских настроек. X
+    #     self.settingsTest()
 
-        # - По нажатию на кнопку "Настройки" открывается страница пользовательских настроек. X
-        self.settingsTest()
+    #     # - Автоматическое добавление новой формы ответа по нажатию на последнюю в списке форму вопросов при "включении" опции 
+    #     #   "Можно выбрать несколько вариантов" в форме создания опроса и его публикации. 
+    #     #   То есть в форме создания опроса изначально нам доступны 3 варианта ответа в виде 3-х незаполненных форм, 
+    #     #   проверить нужно добавление новой формы при нажатии на последнюю форму в списке.
+    #     self.pollOptionsTest()
 
-        # - Автоматическое добавление новой формы ответа по нажатию на последнюю в списке форму вопросов при "включении" опции 
-        #   "Можно выбрать несколько вариантов" в форме создания опроса и его публикации. 
-        #   То есть в форме создания опроса изначально нам доступны 3 варианта ответа в виде 3-х незаполненных форм, 
-        #   проверить нужно добавление новой формы при нажатии на последнюю форму в списке.
-        self.pollOptionsTest()
+    #     # - При вводе большого текста в поле "Текст вопроса" появляется предупреждение об ограничении в 3800 символов.
+    #     self.openAskPage()
+    #     self.largeTextTest()

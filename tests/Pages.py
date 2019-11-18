@@ -176,12 +176,18 @@ class QuestionForm(Component):
     def close_login_form(self):
         webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
 
+    def paste_question_text(self, text):
+        os.system("echo %s| clip" % text.strip())
+        title_input = WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath('//textarea[@name="question_additional"]')
+        )
+        title_input.send_keys(Keys.CONTROL, 'v')
+
     def print_question_text(self, text):
         title_input = WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: d.find_element_by_xpath('//textarea[@name="question_additional"]')
         )
         title_input.send_keys(text)
-        # self.driver.find_element_by_xpath('//textarea[@name="question_additional"]').send_keys(text)
 
     def print_question_title(self, text):
         text_input = WebDriverWait(self.driver, 10, 0.1).until(
@@ -191,10 +197,10 @@ class QuestionForm(Component):
         # self.driver.find_element_by_xpath('//textarea[@name="question_text"]').send_keys(text)
         
     def check_question_title_textarea_alert(self):
-        self.print_question_title("sadf")
-        self.print_question_text("sadf")
+        self.print_question_title("sadf 1123 sdf")
+        self.print_question_text("sadf ыва")
         
-        ask_button = WebDriverWait(self.driver, 10, 0.1).until(
+        ask_button = WebDriverWait(self.driver, 20, 0.1).until(
             EC.element_to_be_clickable((By.CLASS_NAME, "_3ykLdYEqVa47ACQrpqnZOj_0"))
         )
         ask_button.click()
@@ -204,18 +210,16 @@ class QuestionForm(Component):
         )
 
     def check_question_textarea_alert(self):
-        self.print_question_text(self.LARGETEXT)
+        # self.print_question_text(self.LARGETEXT)
+        self.paste_question_text(self.LARGETEXT)
         WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_class_name('z1LfJpugzE39YVXERE-f__0')
-            # lambda d: d.find_element_by_xpath('//div[text()="Поле «Текст вопроса» не может быть больше 3800 символов."]')
+            # lambda d: d.find_element_by_class_name('z1LfJpugzE39YVXERE-f__0')
+            lambda d: d.find_element_by_xpath('//div[text()="Поле «Текст вопроса» не может быть больше 3800 символов."]')
         )
 
     def make_default_question(self):
         self.print_question_title("Вопрос про салаты")
         self.print_question_text("Собственно говоря, если греческий салат испортился, то можно ли его называть древнегреческим?")
-
-        self.print_question_title("Кто лучший музыкальный исполнитель за последнюю тысячу лет?")
-        self.print_question_text("Оксимирон, Фейс, Цой, Летов???")
 
         ask_button = WebDriverWait(self.driver, 10, 0.1).until(
             EC.element_to_be_clickable((By.CLASS_NAME, "_3ykLdYEqVa47ACQrpqnZOj_0"))
