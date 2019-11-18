@@ -4,7 +4,7 @@ import configparser
 from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support import expected_conditions
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from helpers import *
 
 
@@ -70,8 +70,12 @@ class UserinfoForm(Component):
         self.driver.find_element_by_css_selector(self.SAVE).click()
 
     def cancel(self):
+        CANCEL_NOT_FULL_SCREEN = '#formPersonal a.btn'
         wait_for_element(self.driver, self.CANCEL)
-        self.driver.find_element_by_css_selector(self.CANCEL).click()
+        try:
+            self.driver.find_element_by_css_selector(CANCEL_NOT_FULL_SCREEN).click()
+        except TimeoutException:
+            self.driver.find_element_by_css_selector(self.CANCEL).click()
 
     def get_top_message(self):
         wait_for_element(self.driver, self.TOP_MESSAGE)
