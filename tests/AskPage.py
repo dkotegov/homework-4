@@ -23,6 +23,9 @@ class Page(object):
         self.driver.get(self.BASE_URL)
         self.driver.maximize_window()
 
+    def press_esc(self):
+        webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
+
 class AskPage(Page):
     def quitDriver(self):
         self.driver.quit()
@@ -126,3 +129,62 @@ class AskPage(Page):
     def getAlertUnderAdditional(self):
         alert = self.driver.find_element_by_class_name('z1LfJpugzE39YVXERE-f__0')
         return alert.get_attribute('innerHTML')
+
+    def open_photo_upload_form(self):
+        photo_span = WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath('//span[text()="Фото"]')
+        )
+        photo_span.find_element_by_xpath('./..').click()
+
+    def open_video_upload_form(self):
+        video_span = WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath('//span[text()="Видео"]')
+        )
+        video_span.find_element_by_xpath('./..').click()
+
+    def check_settings_page(self):
+        settings_button = WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath('//span[text()="Настройки"]')
+        )
+        settings_button.click()
+        WebDriverWait(self.driver, 10, 0.1).until(
+            # lambda d: d.find_element_by_xpath('//button[@name="submit_btn"]').click()
+            lambda d: d.find_element_by_class_name('page-settings')
+        )
+
+    def make_default_question(self):
+        self.setQuestionTheme(u"Вопрос про салаты")
+        self.setQuestionAdditional(u"Собственно говоря, если греческий салат испортился, то можно ли его называть древнегреческим?")
+
+        ask_button = WebDriverWait(self.driver, 10, 0.1).until(
+            EC.element_to_be_clickable((By.CLASS_NAME, "_3ykLdYEqVa47ACQrpqnZOj_0"))
+        )
+        ask_button.click()
+
+    def check_edit_time(self):
+        WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_class_name('q-edit-control')
+        )
+
+    def check_poll_option_correct_add(self):
+
+        variant_3 = WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath('//div[@name="poll_options"]/div[4]/label/div[2]/div/div/div/input')
+        )
+        variant_3.click()
+        variant_3.send_keys("getting 4 option")
+        
+        variant_4 = WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_xpath('//div[@name="poll_options"]/div[5]/label/div[2]/div/div/div/input')
+        )
+
+        variant_4.click()
+        variant_4.send_keys("getting 5 option")
+
+        self.driver.find_element_by_xpath('//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input')
+
+    def open_poll_form(self):
+        poll_form = WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_element_by_class_name('_3LtjwRRK3wqD0IfUUl1sxB_0')
+        )
+        poll_form.click()
