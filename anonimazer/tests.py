@@ -10,7 +10,7 @@ class TestAnonimazer(unittest.TestCase):
 
     def setUp(self):
         self.email = os.getenv("TEST_MAIL_EMAIL")
-        self.comment = os.getself.assertIsNotenv("TEST_MAIL_COMMENT")
+        self.comment = os.getenv("TEST_MAIL_COMMENT")
         self.browser = os.getenv("BROWSER")
 
         if self.browser == "FIREFOX":
