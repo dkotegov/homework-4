@@ -63,6 +63,7 @@ class UserinfoForm(Component):
 
     def set_town(self, town):
         wait_for_element(self.driver, self.TOWN)
+        self.driver.find_element_by_css_selector(self.TOWN).clear()
         self.driver.find_element_by_css_selector(self.TOWN).send_keys(town)
 
     def save(self):
