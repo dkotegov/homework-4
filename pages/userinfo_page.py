@@ -21,7 +21,7 @@ class UserinfoForm(Component):
     TOWN = 'input[name="your_town"]'
     SURNAME = 'input[name="LastName"]'            
     SAVE = 'div.form__actions__inner button[type="submit"]'
-    CANCEL = '#formPersonal a.btn'
+    CANCEL = 'body div.form__actions.form__actions_floating a'
     TOP_MESSAGE = 'div.content__page  span'
     TOWN_ERROR = 'input[name="your_town"] ~ .form__message.form__message_error'
     SURNAME_ERROR = '#formPersonal div.form__message_error'
