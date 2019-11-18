@@ -126,7 +126,6 @@ class AskTests(unittest.TestCase):
         self.assertEqual(self.page.getAlertUnderAdditional(),
             u'Поле «Текст вопроса» не может быть больше 3800 символов.')
 
-    # Чек ит плиз
     def test_newQuestionEditTest(self):
         self.page = AskPage(self.driver)
         self.page.open()
