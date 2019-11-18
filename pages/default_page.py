@@ -39,7 +39,7 @@ class Component:
             elem = self.wait_for_css_selector(cssSelector)
         else:
             elem = self.driver.find_element_by_css_selector(cssSelector)
-        elem.clear()
+
         elem.send_keys(keysToSend)
         if needToSubmit:
             elem.submit()
@@ -53,7 +53,8 @@ class Component:
         elem.click()
 
     def switch_to_window(self, num = 0):
+        self.driver.implicitly_wait(5)
         self.driver.switch_to.window(self.driver.window_handles[num])
 
-    def resresh_page(self):
+    def refresh_page(self):
         self.driver.refresh()

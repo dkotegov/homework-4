@@ -72,10 +72,10 @@ class UserinfoForm(Component):
 
     def cancel(self):
         CANCEL_NOT_FULL_SCREEN = '#formPersonal a.btn'
-        wait_for_element(self.driver, self.CANCEL)
+        # wait_for_element(self.driver, self.CANCEL)
         try:
             self.driver.find_element_by_css_selector(CANCEL_NOT_FULL_SCREEN).click()
-        except TimeoutException:
+        except NoSuchElementException:
             self.driver.find_element_by_css_selector(self.CANCEL).click()
 
     def get_top_message(self):
@@ -193,6 +193,7 @@ class UserinfoForm(Component):
         self.switch_to_window(1)
 
     def click_logout_button(self):
+        wait_for_element_by_selector(self.driver, self.LOGOUT_BUTTON)
         self.click_element(self.LOGOUT_BUTTON, False)
 
     def wait_for_logout(self):

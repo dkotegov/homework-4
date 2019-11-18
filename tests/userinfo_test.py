@@ -222,7 +222,7 @@ class UserinfoTest(unittest.TestCase):
         userinfo_form.wait_for_logout()
 
         userinfo_form.switch_to_window(0)
-        userinfo_form.resresh_page()
+        userinfo_form.refresh_page()
         userinfo_form.match_to_login_URI()
 
 
