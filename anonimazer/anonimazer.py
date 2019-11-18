@@ -28,9 +28,9 @@ class Anonimazer:
     ALIASES_COMMENT_DIV = "//div[@class='b-settings-aliases__comment']"
 
     def __init__(self, driver):
-        self._mail_url = os.getenv("TEST_MAIL_URL")
-        self._anonimazer_url = os.getenv("TEST_ANONIMAZER_URL")
-        self._login = os.getenv("TEST_LOGIN")
+        self._mail_url = "https://e.mail.ru/login"
+        self._anonimazer_url = "https://e.mail.ru/settings/aliases?afterReload=1"
+        self._login = "14cowperwood88"
         self._pass = os.getenv("TEST_PASS")
         self._driver = driver
         self._authorization()
