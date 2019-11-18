@@ -9,8 +9,8 @@ from selenium.webdriver.chrome.options import Options as Chrome_Options
 class TestAnonimazer(unittest.TestCase):
 
     def setUp(self):
-        self.email = os.getenv("TEST_MAIL_EMAIL")
-        self.comment = os.getenv("TEST_MAIL_COMMENT")
+        self.email = "6fdovlmuryg1@mail.ru"
+        self.comment = "QA-228"
         self.browser = os.getenv("BROWSER")
 
         if self.browser == "FIREFOX":
