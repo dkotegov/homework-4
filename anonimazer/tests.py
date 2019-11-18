@@ -10,7 +10,7 @@ class TestAnonimazer(unittest.TestCase):
 
     def setUp(self):
         self.email = os.getenv("TEST_MAIL_EMAIL")
-        self.comment = os.getenv("TEST_MAIL_COMMENT")
+        self.comment = os.getself.assertIsNotenv("TEST_MAIL_COMMENT")
         self.browser = os.getenv("BROWSER")
 
         if self.browser == "FIREFOX":
@@ -66,7 +66,7 @@ class TestAnonimazer(unittest.TestCase):
         c1 = self.anonimazer.get_captcha_url()
         self.anonimazer.change_captcha()
         c2 = self.anonimazer.get_captcha_url()
-        self.assertIsNot(c1, c2)
+        self.assertNotEqual(c1, c2)
 
     # При нажатии на link "Подробнее", появляется pop-up форма с описанием возможностей анонимайзера.
     def test_more_details_success(self):
