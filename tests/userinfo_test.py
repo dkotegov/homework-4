@@ -189,7 +189,7 @@ class UserinfoTest(unittest.TestCase):
         userinfo_form.input_lastname(randomString())
         userinfo_form.input_nickname(randomString())
 
-        userinfo_form.click_submit_button()
+        userinfo_form.save()
 
     def test_image_upload(self):
         auth_page = AuthPage(self.driver)
@@ -202,7 +202,7 @@ class UserinfoTest(unittest.TestCase):
 
         userinfo_form.input_test_image()
 
-        userinfo_form.click_submit_button()
+        userinfo_form.save()
 
     def test_logout(self):
         auth_page = AuthPage(self.driver)
@@ -240,7 +240,7 @@ class UserinfoTest(unittest.TestCase):
         userinfo_form.click_on_year_input()
         userinfo_form.click_on_year_child_input()
 
-        userinfo_form.click_submit_button()
+        userinfo_form.save()
 
     def test_open_help(self):
         auth_page = AuthPage(self.driver)
