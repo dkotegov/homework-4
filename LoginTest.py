@@ -12,7 +12,7 @@ class LoginTest(unittest.TestCase):
     password = os.environ.get('PASSWORD')
 
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        self.driver = webdriver.Chrome('/Users/howle/prog/2019.2/Quality/homework-4/chromedriver')
 
     def tearDown(self):
         self.driver.quit()
