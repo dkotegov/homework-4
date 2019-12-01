@@ -9,8 +9,10 @@ from selenium import webdriver
 
 from selenium.webdriver.common.by import By
 
-class CalendarPage:
-    BASE_URL = 'https://m.calendar.mail.ru/login'
+from utils import Utils
+
+class CalendarPage(Utils):
+    
 
     def __init__(self, driver):
         self.driver = driver
@@ -19,31 +21,6 @@ class CalendarPage:
         
     # Вход и вспомогательные функции
         
-    def sign_in(self, login, password):
-
-        def open():
-            url = self.BASE_URL
-            self.driver.get(url)
-            self.wait_redirect(url)
-            self.driver.maximize_window()
-
-        def enter_login(login):
-            elem = self.wait_renderbtn('input[name=Login]')
-            elem.send_keys(login)
-
-        def enter_password(password):
-            elem = self.wait_renderbtn('input[name=Password]')
-            elem.send_keys(password)
-
-        def func_login():
-            elem = self.wait_renderbtn('.login-button')
-            elem.click()
-        
-        open()
-        enter_login(login)
-        enter_password(password)
-        func_login()
-        self.wait_redirect('https://m.calendar.mail.ru/', 10)
         
     def create_newCalendar(self, nameForForm = ("rubbishName" + str(random.randrange(1, 30000)))):
         self.open_addNewCalendar()
@@ -53,22 +30,6 @@ class CalendarPage:
         self.click_btnUpdateForms()
         
         return nameForForm
-
-    def wait_redirect(self, url, timeout = 15):
-        return WebDriverWait(self.driver, timeout).until(EC.url_matches(url))
-    
-    def wait_renderbtn(self, selector):
-        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
-    
-    def wait_presenceLocated(self, selector):
-        return WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
-    
-    def wait_invisible(self, selector):
-        return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, selector)))
-
-    def open_sidebar(self):
-        login_but = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.header-menu-item.header-menu-item__sidebutton.header-menu-item__list')))
-        login_but.click()
     
     def click_btnUpdateForms(self):
         elem = self.wait_renderbtn('div.header-menu-item.header-menu-item__sidebutton.header-menu-item__ok')
@@ -78,8 +39,7 @@ class CalendarPage:
         self.driver.refresh()
         self.open_sidebar() 
         calendars = self.check_CalendarNames()
-        # print(calendar.encode('ascii', 'ignore'))
-        # print(calendars)
+        
         return (calendar.encode('ascii', 'ignore') in calendars)
          
 
@@ -126,7 +86,7 @@ class CalendarPage:
     def open_editCalendars(self):
         elem = self.wait_presenceLocated('div.calendars-edit.panel-item.panel-item__marked.panel-item__last')
         elem = self.wait_invisible('div.calendars-edit.panel-item.panel-item__marked.panel-item__last')
-
+        
         webdriver.ActionChains(self.driver).move_to_element(elem).click(elem).perform()
         
     def delete_lastCalendar_inEditCalendars(self):
