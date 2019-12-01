@@ -2,6 +2,7 @@
 import unittest
 import codecs
 import random
+import config
 
 from selenium.webdriver import Remote
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,7 +15,7 @@ class CalendarTest(unittest.TestCase):
     password = os.environ.get('PASSWORD')
 
     def setUp(self):
-        self.driver = webdriver.Chrome('/Users/howle/prog/2019.2/Quality/homework-4/chromedriver')
+        self.driver = webdriver.Chrome(config.DRIVER)
         self.editing = CalendarPage(self.driver)
         self.editing.sign_in(self.login, self.password)
         self.editing.open_sidebar()

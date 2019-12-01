@@ -1,5 +1,6 @@
 import os
 import unittest
+import config
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait

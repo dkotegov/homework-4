@@ -1,5 +1,6 @@
 import os
 import unittest
+import config
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
@@ -12,7 +13,7 @@ class LoginTest(unittest.TestCase):
     password = os.environ.get('PASSWORD')
 
     def setUp(self):
-        self.driver = webdriver.Chrome('/Users/howle/prog/2019.2/Quality/homework-4/chromedriver')
+        self.driver = webdriver.Chrome(config.DRIVER)
 
     def tearDown(self):
         self.driver.quit()
