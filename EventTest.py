@@ -37,13 +37,6 @@ class EventTest(unittest.TestCase):
         count_of_childs_after = page.get_count_of_events()
         self.assertNotEqual(count_of_childs_before, count_of_childs_after)
 
-    # def test_equal_event_after_creating(self):
-    #     page = EventPage(self.driver)
-    #     page.open(self.BASE_URL)
-    #     page.create_event('New event')
-    #     event = page.get_first_event()
-    #     self.assertEqual(event.text, "New event")
-
     def test_jump_to_edit_event(self):
         page = EventPage(self.driver)
         page.open(self.BASE_URL)

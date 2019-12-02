@@ -10,7 +10,6 @@ from selenium.common.exceptions import TimeoutException
 import time
 
 class EventPage:
-    # BASE_URL = 'https://m.calendar.mail.ru/login'
     
     def __init__(self, driver):
         self.driver = driver
@@ -52,7 +51,6 @@ class EventPage:
         elem.click()
 
     def click_on_first_event(self):
-        # childs = self.driver.find_elements_by_css_selector("div.panel-item.brief-event")
         elem = self.wait_render_btn('div.panel-item.brief-event')
         elem.click()
 
