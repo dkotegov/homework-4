@@ -55,8 +55,9 @@ class EventPage:
         elem.click()
 
     def get_first_event(self):
-        elems = self.driver.find_elements_by_css_selector('div.panel-item-text.brief-event-title')
-        return elems[0]
+        elems = self.wait_invisible_all('div.panel-item-text.brief-event-title')
+        if elems[0].is_displayed():
+            return elems[0]
 
     def get_count_of_events(self):
         self.wait_presence_located('div.panels-container')
@@ -112,3 +113,6 @@ class EventPage:
 
     def wait_invisible(self, selector):
         return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, selector)))
+
+    def wait_invisible_all(self, selector):
+        return WebDriverWait(self.driver, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, selector)))
