@@ -77,6 +77,7 @@ class CalendarPage(Utils):
     
     def check_lastCalendarName(self):
         self.wait_renderbtn('.panel-content.panel-content__dark:not(.settings-panel)')
+        self.wait_invisible('.panel-content.panel-content__dark:not(.settings-panel) .panel-item:first-child')
         elem = self.wait_renderbtn('.panel-content.panel-content__dark:not(.settings-panel) .panel-item:first-child')
 
         return (elem.text)
