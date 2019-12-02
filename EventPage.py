@@ -56,9 +56,6 @@ class EventPage:
 
     def get_first_event(self):
         elems = self.driver.find_elements_by_css_selector('div.panel-item-text.brief-event-title')
-        for elem in elems:
-            print('elem: %s' % elem.text)
-        # The last element
         return elems[0]
 
     def get_count_of_events(self):
