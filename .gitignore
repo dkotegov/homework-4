@@ -67,3 +67,4 @@ target/
 *.exe
 *.out
 *.jar
+chromedriver
