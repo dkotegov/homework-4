@@ -7,7 +7,6 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support import expected_conditions as EC
 
 import os
-import time
 import unittest
 
 from tests.CustomWait import ElementEqualSubcategory
@@ -82,7 +81,8 @@ class AskPage(Page):
         WebDriverWait(self.driver, 5).until( \
             EC.frame_to_be_available_and_switch_to_it( \
                 (By.CLASS_NAME, self.LOGIN_FORM_FRAME)))
-        time.sleep(1)
+        self.driver.find_elements_by_css_selector('*')[0].get_attribute('innerHTML')
+
         inputUsername = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located((By.NAME, self.LOGIN_INPUT)))
         inputUsername.send_keys(self.username)

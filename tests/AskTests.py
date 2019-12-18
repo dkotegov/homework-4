@@ -128,8 +128,8 @@ class AskTests(unittest.TestCase):
         self.page.login()
         self.page.open()
 
-        self.page.setQuestionTheme(u"Где Вопрос про салаты")
-        self.page.setQuestionAdditional(u"Когда Собственно говоря, если греческий салат испортился, то можно ли его называть древнегреческим?")
+        self.page.setQuestionTheme(u"почему я не ты Вопрос про салаты")
+        self.page.setQuestionAdditional(u"когда что я Собственно говоря, если греческий салат испортился, то можно ли его называть древнегреческим?")
         self.page.clickChooseAnother()
         self.page.make_default_question()
 
