@@ -1,5 +1,4 @@
 import os
-import configparser
 
 from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
@@ -16,15 +15,13 @@ class UserinfoPage(DefaultPage):
         return UserinfoForm(self.driver)
 
 class UserinfoForm(Component):
-    config = configparser.ConfigParser()
-
     TOWN = 'input[name="your_town"]'
-    SURNAME = 'input[name="LastName"]'            
+    LAST_NAME = 'input[name="LastName"]'            
     SAVE = 'div.form__actions__inner button[type="submit"]'
     CANCEL = 'body div.form__actions.form__actions_floating a'
     TOP_MESSAGE = 'div.content__page span'
     TOWN_ERROR = 'input[name="your_town"] ~ .form__message.form__message_error'
-    SURNAME_ERROR = '#formPersonal div.form__message_error'
+    LAST_NAME_ERROR = '#formPersonal div.form__message_error'
     MAKE_SNAPSHOT = '#js-edit-avatar button.js-camera'
     LOAD_IMAGE = '#js-edit-avatar input[name="avatar"]'
     SAVE_AVATAR = '#MailRuConfirm div[data-fire="save"]'
@@ -38,7 +35,7 @@ class UserinfoForm(Component):
     GENDER_FEMALE = 'label[for="man2"] input'
 
     FIRST_NAME = '#FirstName'
-    LAST_NAME = '#LastName'
+    # LAST_NAME = '#LastName'
     NICK_NAME = '#NickName'
 
     DAY_INPUT = 'select[name="BirthDay"]'
@@ -114,22 +111,19 @@ class UserinfoForm(Component):
             self.driver.switch_to_alert()
             Alert(self.driver).dismiss()   
 
-    def set_surname(self, surname):
-        surname_elem = wait_for_element_by_selector(self.driver, self.SURNAME)
-        surname_elem.clear()
-        surname_elem.send_keys(surname)        
+    def set_last_name(self, last_name):
+        last_name_elem = wait_for_element_by_selector(self.driver, self.LAST_NAME)
+        last_name_elem.clear()
+        last_name_elem.send_keys(last_name)        
 
-    def get_surname_value(self):
-        return wait_for_element_by_selector(self.driver, self.SURNAME).get_attribute("value")     
+    def get_last_name(self):
+        return wait_for_element_by_selector(self.driver, self.LAST_NAME).get_attribute("value")     
 
-    def get_surname_message(self):
-        return  wait_for_element_by_selector(self.driver, self.SURNAME_ERROR).text
+    def get_last_name_error_message(self):
+        return  wait_for_element_by_selector(self.driver, self.LAST_NAME_ERROR).text
 
     def clear_town(self):
         wait_for_element_by_selector(self.driver, self.TOWN).clear()
-
-    def get_surname_message(self):
-        return wait_for_element_by_selector(self.driver, self.SURNAME_ERROR).text
 
     def get_suggests_for_town(self):
         wait_for_element_by_xpath(self.driver, self.SUGGESTS_ITEM)
