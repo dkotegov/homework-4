@@ -42,11 +42,11 @@ class UserinfoForm(Component):
     NICK_NAME = '#NickName'
 
     DAY_INPUT = 'select[name="BirthDay"]'
-    DAY_INPUT_CHILD = 'select[name="BirthDay"] option[value="20"]'
+    DAY_INPUT_CHILD = 'select[name="BirthDay"] option[value="%d"]'
     MONTH_INPUT = 'select[name="BirthMonth"]'
-    MONTH_INPUT_CHILD = 'select[name="BirthMonth"] option[value="12"]'
+    MONTH_INPUT_CHILD = 'select[name="BirthMonth"] option[value="%d"]'
     YEAR_INPUT = 'select[name="BirthYear"]'
-    YEAR_INPUT_CHILD = 'select[name="BirthYear"] option[value="1997"]'
+    YEAR_INPUT_CHILD = 'select[name="BirthYear"] option[value="%d"]'
 
     IMAGE_INPUT = 'input[name="avatar"]'
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
@@ -62,13 +62,13 @@ class UserinfoForm(Component):
     HELP_URI = 'https://help.mail.ru/mail-help/settings/userinfo'
 
     def set_town(self, town):
-        wait_for_element(self.driver, self.TOWN)
-        self.driver.find_element_by_css_selector(self.TOWN).clear()
-        self.driver.find_element_by_css_selector(self.TOWN).send_keys(town)
+        element = wait_for_element(self.driver, self.TOWN)
+        element.clear()
+        element.send_keys(town)
 
     def save(self):
-        wait_for_element(self.driver, self.SAVE)
-        self.driver.find_element_by_css_selector(self.SAVE).click()
+        element = wait_for_element(self.driver, self.SAVE)
+        element.click()
 
     def cancel(self):
         CANCEL_NOT_FULL_SCREEN = '#formPersonal a.btn'
@@ -78,16 +78,15 @@ class UserinfoForm(Component):
             self.driver.find_element_by_css_selector(self.CANCEL).click()
 
     def get_top_message(self):
-        wait_for_element(self.driver, self.TOP_MESSAGE)
-        return self.driver.find_element_by_css_selector(self.TOP_MESSAGE).text
+        element = wait_for_element(self.driver, self.TOP_MESSAGE)
+        return element.text
 
     def get_town_message(self):
-        wait_for_element(self.driver, self.TOWN_ERROR)
-        return self.driver.find_element_by_css_selector(self.TOWN_ERROR).text
+        element = wait_for_element(self.driver, self.TOWN_ERROR)
+        return element.text
 
     def uncheck_town(self):
-        wait_for_element(self.driver, self.TIMEZONE_TICK)
-        tick = self.driver.find_element_by_css_selector(self.TIMEZONE_TICK)
+        tick = wait_for_element(self.driver, self.TIMEZONE_TICK)
         if tick.is_selected():
             tick.click()
 
@@ -95,20 +94,18 @@ class UserinfoForm(Component):
         return self.driver.find_element_by_css_selector(self.TIMEZONE_SELECTOR)
 
     def get_url_phone_link(self):
-        wait_for_element(self.driver, self.PHONE_LINK)
-        return self.driver.find_element_by_css_selector(self.PHONE_LINK).get_attribute("href")  
+        element = wait_for_element(self.driver, self.PHONE_LINK)
+        return element.get_attribute("href")  
 
     def load_image(self):
         image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
         self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)
     
     def get_save_avatar_button(self):
-        wait_for_element(self.driver, self.SAVE_AVATAR)
-        return self.driver.find_element_by_css_selector(self.SAVE_AVATAR)
+        return wait_for_element(self.driver, self.SAVE_AVATAR)
             
     def get_cancel_avatar_button(self):
-        wait_for_element(self.driver, self.CANCEL_AVATAR)
-        return self.driver.find_element_by_css_selector(self.CANCEL_AVATAR)
+        return wait_for_element(self.driver, self.CANCEL_AVATAR)
 
     def dismiss_snapshot_request(self):
         make_snapshot = self.driver.find_element_by_css_selector(self.MAKE_SNAPSHOT)
@@ -118,30 +115,24 @@ class UserinfoForm(Component):
             Alert(self.driver).dismiss()   
 
     def set_surname(self, surname):
-        wait_for_element(self.driver, self.SURNAME)
-        surname_elem = self.driver.find_element_by_css_selector(self.SURNAME)
+        surname_elem = wait_for_element(self.driver, self.SURNAME)
         surname_elem.clear()
         surname_elem.send_keys(surname)        
 
     def get_surname_value(self):
-        wait_for_element(self.driver, self.SURNAME)
-        return self.driver.find_element_by_css_selector(self.SURNAME).get_attribute("value")     
+        return wait_for_element(self.driver, self.SURNAME).get_attribute("value")     
 
     def get_surname_message(self):
-        wait_for_element(self.driver, self.SURNAME_ERROR)
-        return self.driver.find_element_by_css_selector(self.SURNAME_ERROR).text
+        return  wait_for_element(self.driver, self.SURNAME_ERROR).text
 
     def clear_town(self):
-        wait_for_element(self.driver, self.TOWN)
-        self.driver.find_element_by_css_selector(self.TOWN).clear()
+        wait_for_element(self.driver, self.TOWN).clear()
 
     def get_surname_message(self):
-        wait_for_element_by_selector(self.driver, self.SURNAME_ERROR)
-        return self.driver.find_element_by_css_selector(self.SURNAME_ERROR).text
+        return wait_for_element_by_selector(self.driver, self.SURNAME_ERROR).text
 
     def get_suggests_for_town(self):
-        wait_for_element_by_xpath(self.driver, self.SUGGESTS_ITEM)
-        suggests = self.driver.find_elements_by_xpath(self.SUGGESTS_ITEM)
+        suggests = wait_for_element_by_xpath(self.driver, self.SUGGESTS_ITEM)
         return [suggest.text for suggest in suggests]
 
     def wait_for_suggests_invisible(self):
@@ -154,10 +145,8 @@ class UserinfoForm(Component):
         )
 
     def get_unselected_gender(self):
-        wait_for_element_by_selector(self.driver, self.GENDER_MALE)
-        gender_male = self.driver.find_element_by_css_selector(self.GENDER_MALE)
-        wait_for_element_by_selector(self.driver, self.GENDER_FEMALE)
-        gender_female = self.driver.find_element_by_css_selector(self.GENDER_FEMALE)
+        gender_male = wait_for_element_by_selector(self.driver, self.GENDER_MALE)
+        gender_female = wait_for_element_by_selector(self.driver, self.GENDER_FEMALE)
         return gender_female if gender_male.is_selected() else gender_male    
 
     def get_image(self):        
@@ -204,20 +193,20 @@ class UserinfoForm(Component):
     def click_on_day_input(self):
         self.click_element(self.DAY_INPUT, False)
 
-    def click_on_day_child_input(self):
-        self.click_element(self.DAY_INPUT_CHILD, False)
+    def click_on_day_child_input(self, day_num = 20):
+        self.click_element(self.DAY_INPUT_CHILD % day_num, False)
 
     def click_on_month_input(self):
         self.click_element(self.MONTH_INPUT, False)
 
-    def click_on_month_child_input(self):
-        self.click_element(self.MONTH_INPUT_CHILD, False)
+    def click_on_month_child_input(self, month_num = 12):
+        self.click_element(self.MONTH_INPUT_CHILD % month_num, False)
 
     def click_on_year_input(self):
         self.click_element(self.YEAR_INPUT, False)
 
-    def click_on_year_child_input(self):
-        self.click_element(self.YEAR_INPUT_CHILD, False)
+    def click_on_year_child_input(self, year_num = 1997):
+        self.click_element(self.YEAR_INPUT_CHILD % year_num, False)
 
     def click_on_help(self):
         self.click_element(self.HELP_BUTTON, False)
