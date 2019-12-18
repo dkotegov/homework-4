@@ -234,23 +234,29 @@ class UserinfoTest(unittest.TestCase):
         userinfo_form = userinfo_page.form
 
         userinfo_form.click_on_day_input()
-        userinfo_form.click_on_day_child_input()
+        day_child_input = 20
+        userinfo_form.click_on_day_child_input(day_child_input)
         userinfo_form.click_on_month_input()
-        userinfo_form.click_on_month_child_input()
+        month_child_input = 12
+        userinfo_form.click_on_month_child_input(month_child_input)
         userinfo_form.click_on_year_input()
-        userinfo_form.click_on_year_child_input()
+        year_child_input = 1996
+        userinfo_form.click_on_year_child_input(year_child_input)
 
         userinfo_form.save()
-
-    def test_open_help(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_page.authorize()
-
-        userinfo_page = UserinfoPage(self.driver)
         userinfo_page.open()
-        userinfo_form = userinfo_page.form
 
-        userinfo_form.click_on_help()
-        userinfo_form.switch_to_window(1)
-        userinfo_form.wait_for_help()    
+
+
+    # def test_open_help(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #     auth_page.authorize()
+
+    #     userinfo_page = UserinfoPage(self.driver)
+    #     userinfo_page.open()
+    #     userinfo_form = userinfo_page.form
+
+    #     userinfo_form.click_on_help()
+    #     userinfo_form.switch_to_window(1)
+    #     userinfo_form.wait_for_help()    
