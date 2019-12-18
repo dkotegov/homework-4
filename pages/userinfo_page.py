@@ -5,7 +5,7 @@ from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from helpers import *
+from helpers import wait, wait_redirect, wait_for_element, wait_for_element_by_selector, wait_for_element_by_xpath
 
 
 class UserinfoPage(DefaultPage):
@@ -177,7 +177,7 @@ class UserinfoForm(Component):
         self.clear_and_send_keys_to_input(self.NICK_NAME, nickName, False)
 
     def wait_for_ok_after_submit(self):
-        self.wait_redirect(self.OK_AFTER_SUBMIT_URI)
+        wait_redirect(self.driver, self.OK_AFTER_SUBMIT_URI)
 
     def input_test_image(self):
         image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
@@ -196,10 +196,10 @@ class UserinfoForm(Component):
         self.click_element(self.LOGOUT_BUTTON, False)
 
     def wait_for_logout(self):
-        self.wait_redirect(self.AFTER_LOGOUT_URI)
+        wait_redirect(self.driver, self.AFTER_LOGOUT_URI)
 
     def match_to_login_URI(self):
-        self.wait(expected_conditions.url_matches(self.LOGIN_URI))
+        wait(self.driver, expected_conditions.url_matches(self.LOGIN_URI))
 
     def click_on_day_input(self):
         self.click_element(self.DAY_INPUT, False)
@@ -223,4 +223,4 @@ class UserinfoForm(Component):
         self.click_element(self.HELP_BUTTON, False)
 
     def wait_for_help(self):
-        self.wait_redirect(self.HELP_URI)
+        wait_redirect(self.driver, self.HELP_URI)

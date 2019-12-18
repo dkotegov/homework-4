@@ -41,4 +41,5 @@ def wait_for_element_by_xpath(driver, xpath, visible=True):
     else:
         return WebDriverWait(driver, 30, 0.1).until(
             expected_conditions.invisibility_of_element_located((By.XPATH, xpath))
-        )        
+        )  
+  
