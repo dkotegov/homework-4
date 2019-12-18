@@ -225,6 +225,10 @@ class UserinfoTest(unittest.TestCase):
 
 
     def test_date_lists(self):
+        DAY_CHILD_INPUT = 20
+        MONTH_CHILD_INPUT = 12
+        YEAR_CHILD_INPUT = 1996
+        
         auth_page = AuthPage(self.driver)
         auth_page.open()
         auth_page.authorize()
@@ -234,13 +238,12 @@ class UserinfoTest(unittest.TestCase):
         userinfo_form = userinfo_page.form
 
         userinfo_form.click_on_day_input()
-        DAY_CHILD_INPUT = 20
         userinfo_form.click_on_day_child_input(DAY_CHILD_INPUT)
         userinfo_form.click_on_month_input()
-        MONTH_CHILD_INPUT = 12
+        
         userinfo_form.click_on_month_child_input(MONTH_CHILD_INPUT)
         userinfo_form.click_on_year_input()
-        YEAR_CHILD_INPUT = 1996
+        
         userinfo_form.click_on_year_child_input(YEAR_CHILD_INPUT)
 
         userinfo_form.save()
