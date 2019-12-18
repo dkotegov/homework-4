@@ -27,9 +27,6 @@ class Page(object):
         webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
 
 class AskPage(Page):
-    def quitDriver(self):
-        self.driver.quit()
-
     QUESTION_TEXT = 'question_text'
     QUESTION_ADDITIONAL = 'question_additional'
     LOGIN = 'login'
@@ -48,28 +45,24 @@ class AskPage(Page):
         return self.waitForElementVisible((By.CLASS_NAME, self.ALERT_ADDITIONAL)) \
             .get_attribute('innerHTML')
 
-    def getQuestionAdditional(self):
-        return self.waitForElementVisible((By.NAME, self.QUESTION_ADDITIONAL))
-
-    def getQuestionTheme(self):
-        return self.waitForElementVisible((By.NAME, self.QUESTION_TEXT))
-
-
+    def setQuestionAdditional(self, additional):
+        inputQuestionField = self.waitForElementVisible((By.NAME, self.QUESTION_ADDITIONAL))
+        self.sendText(inputQuestionField, additional)
 
     def setQuestionTheme(self, question):
         inputQuestionField = self.waitForElementVisible((By.NAME, self.QUESTION_TEXT))
-        inputQuestionField.send_keys(question)
+        self.sendText(inputQuestionField, question)
 
-    def setQuestionAdditional(self, question):
-        inputQuestionField = self.waitForElementVisible((By.NAME, self.QUESTION_ADDITIONAL))
-        self.sendTextWithSpace(inputQuestionField, question)
+
+
+
 
     def autosettingSubcategory(self, Subcategory):
         WebDriverWait(self.driver, 10).until(ElementEqualSubcategory( \
             '_1lZeUpFslQAPq_G1uwjahr_1', u'Политика'))
 
     def clearQuestionThemeByKeys(self):
-        inputQuestionField = self.driver.find_element_by_name('question_text')
+        inputQuestionField = self.driver.find_element_by_name(self.QUESTION_TEXT)
         inputQuestionField.click()
         inputQuestionField.send_keys(Keys.CONTROL + "a")
         inputQuestionField.send_keys(Keys.DELETE)

@@ -11,8 +11,6 @@ from tests.AskPage import AskPage
 
 class AskTests(unittest.TestCase):
     DEBUG = False
-    BIG_ADDITIONAL_ALERT = u'Поле «Текст вопроса» не может быть больше 3800 символов.'
-    BIG_THEME_ALERT = u'Поле «Тема вопроса» не может быть больше 120 символов.'
 
     def __init__(self, *args, **kwargs):
         super(AskTests, self).__init__(*args, **kwargs)
@@ -26,7 +24,7 @@ class AskTests(unittest.TestCase):
         )
 
     def tearDown(self):
-        self.page.quitDriver()
+        self.driver.quit()
 
     # def test_needThreeWords(self):
     #     self.page = AskPage(self.driver)
@@ -47,15 +45,15 @@ class AskTests(unittest.TestCase):
     #     self.page.login()
     #     self.page.clickAndWaitProfile()
 
-    # def test_notEmptyQuestion(self):
-    #     self.page = AskPage(self.driver)
-    #     self.page.open()
+    def test_notEmptyQuestion(self):
+        self.page = AskPage(self.driver)
+        self.page.open()
 
-    #     shortQuestion = u'Why, man?'
-    #     self.page.setQuestionTheme(shortQuestion)
-    #     self.page.clearQuestionThemeByKeys()
-    #     self.assertEqual(self.page.getAlertUnderQuestion(),
-    #         u'Поле «Тема вопроса» обязательно для заполнения.')
+        shortQuestion = u'Why, man?'
+        self.page.setQuestionTheme(shortQuestion)
+        self.page.clearQuestionThemeByKeys()
+        self.assertEqual(self.page.getAlertUnderQuestion(),
+            u'Поле «Тема вопроса» обязательно для заполнения.')
 
     # def test_mentionCountry(self):
     #     self.page = AskPage(self.driver)
@@ -89,9 +87,9 @@ class AskTests(unittest.TestCase):
         bigStr = u''
         for _ in range(122):
             bigStr = bigStr + u'a'
-        inputQuestionField = self.page.getQuestionTheme()
-        self.page.sendText(inputQuestionField, bigStr)
-        self.assertEqual(self.page.getAlertUnderQuestion(), self.BIG_THEME_ALERT)
+        self.page.setQuestionTheme(bigStr)
+        self.assertEqual(self.page.getAlertUnderQuestion(),
+            u'Поле «Тема вопроса» не может быть больше 120 символов.')
 
     # def test_photoVideoUploadTest(self):
     #     self.page = AskPage(self.driver)
@@ -125,9 +123,9 @@ class AskTests(unittest.TestCase):
         for _ in range(3900):
             bigStr = bigStr + u'a'
 
-        inputQuestionField = self.page.getQuestionAdditional()
-        self.page.sendText(inputQuestionField, bigStr)
-        self.assertEqual(self.page.getAlertUnderAdditional(), self.BIG_ADDITIONAL_ALERT)
+        self.page.setQuestionAdditional(bigStr)
+        self.assertEqual(self.page.getAlertUnderAdditional(),
+            u'Поле «Текст вопроса» не может быть больше 3800 символов.')
 
     # def test_newQuestionEditTest(self):
     #     self.page = AskPage(self.driver)
