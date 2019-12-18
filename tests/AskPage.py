@@ -7,8 +7,8 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support import expected_conditions as EC
 
 import os
-import unittest
 import time
+import unittest
 
 from tests.CustomWait import ElementEqualSubcategory
 
@@ -24,14 +24,28 @@ class Page(object):
         self.driver.get(self.BASE_URL)
         self.driver.maximize_window()
 
-    def press_esc(self):
-        webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
+    def can_press_esc(self):
+        try:
+            webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
+            return True
+        except:
+            return False
 
 class AskPage(Page):
     QUESTION_TEXT = 'question_text'
     QUESTION_ADDITIONAL = 'question_additional'
-    LOGIN_INPUT = 'Login'
     ALERT_ADDITIONAL = 'z1LfJpugzE39YVXERE-f__0'
+
+    LOGIN_INPUT = 'Login'
+    LOGIN_BUTTON = 'PH_authLink'
+    LOGIN_FORM_FRAME = 'ag-popup__frame__layout__iframe'
+    PROFILE_BUTTON = 'profile-menu-item_hoverable'
+    PROFILE_FORM = 'v--modal-overlay'
+
+    POP_UP_ALERT = '_3e48lyZw6JxqpxlQCH7ZrK_0'
+
+    CATEGORY = '_3oJIbRjOJJ6UfBtvy3o6EW_1'
+    CATEGORY_ANOTHER = '_3BV4a0WZevpbLq-ArsDomg_0'
 
     def waitForElementVisible(self, locator, timeout=5):
         return WebDriverWait(self.driver, timeout).until(
@@ -55,7 +69,7 @@ class AskPage(Page):
         self.sendText(inputQuestionField, question)
     
     def clickLogin(self):
-        clickBtn = self.driver.find_element_by_id('PH_authLink')
+        clickBtn = self.driver.find_element_by_id(self.LOGIN_BUTTON)
         clickBtn.click()
 
     def sameUrl(self, url):
@@ -67,7 +81,7 @@ class AskPage(Page):
         self.driver.switch_to_default_content
         WebDriverWait(self.driver, 5).until( \
             EC.frame_to_be_available_and_switch_to_it( \
-                (By.CLASS_NAME, 'ag-popup__frame__layout__iframe')))
+                (By.CLASS_NAME, self.LOGIN_FORM_FRAME)))
         time.sleep(1)
         inputUsername = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located((By.NAME, self.LOGIN_INPUT)))
@@ -81,9 +95,43 @@ class AskPage(Page):
         
         self.driver.find_element_by_xpath("//button[@data-test-id='submit-button']").click()
 
+    def clickAndWaitProfile(self):
+        buttonEdit = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
+                self.PROFILE_BUTTON)))[7]
+        buttonEdit.click()
 
+        try:
+            WebDriverWait(self.driver, 5).until(
+                EC.visibility_of_element_located((By.CLASS_NAME, \
+                    self.PROFILE_FORM)))
+            return True
+        except:
+            return False
 
+    def isAlert(self):
+        try:
+            WebDriverWait(self.driver, 5).until(
+                EC.visibility_of_all_elements_located((By.CLASS_NAME, \
+                    self.POP_UP_ALERT)))
+            return False
+        except:
+            return True
 
+    def clickChooseAnother(self):
+        buttonChoose = self.waitForElementVisible((By.CLASS_NAME, self.CATEGORY))
+        buttonChoose.click()
+
+        buttonChooseAnother = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
+                self.CATEGORY_ANOTHER)))
+        buttonChooseAnother[-1].click()
+
+    def clickSendQuestion(self):
+        buttonSend = WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable((By.CLASS_NAME, \
+                '_3ykLdYEqVa47ACQrpqnZOj_0')))
+        buttonSend.click()
 
     def autosettingSubcategory(self, Subcategory):
         WebDriverWait(self.driver, 10).until(ElementEqualSubcategory( \
@@ -110,40 +158,6 @@ class AskPage(Page):
             return False
         return True
 
-
-    def clickAndWaitProfile(self):
-        buttonEdit = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
-                'profile-menu-item_hoverable')))[7]
-        buttonEdit.click()
-
-        WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, \
-                'v--modal-overlay')))
-
-    def clickSendQuestion(self):
-        buttonSend = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, \
-                '_3ykLdYEqVa47ACQrpqnZOj_0')))
-        buttonSend.click()
-
-    def clickChooseAnother(self):
-        buttonChoose = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
-                '_3oJIbRjOJJ6UfBtvy3o6EW_1')))
-
-        buttonChoose[0].click()
-
-        buttonChooseAnother = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
-                '_3BV4a0WZevpbLq-ArsDomg_0')))
-        buttonChooseAnother[-1].click()
-
-    def checkAlert(self):
-        WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_all_elements_located((By.CLASS_NAME, \
-                '_3e48lyZw6JxqpxlQCH7ZrK_0')))
-
     def open_photo_upload_form(self):
         photo_span = WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: d.find_element_by_xpath('//span[text()="Фото"]')
@@ -161,28 +175,33 @@ class AskPage(Page):
             lambda d: d.find_element_by_xpath('//span[text()="Настройки"]')
         )
         settings_button.click()
-        WebDriverWait(self.driver, 10, 0.1).until(
-            # lambda d: d.find_element_by_xpath('//button[@name="submit_btn"]').click()
-            lambda d: d.find_element_by_class_name('page-settings')
-        )
+
+        try:
+            WebDriverWait(self.driver, 10, 0.1).until(
+                lambda d: d.find_element_by_class_name('page-settings')
+            )
+            return True
+        except:
+            return False
 
     def make_default_question(self):
-        self.setQuestionTheme(u"Вопрос про салаты")
-        self.setQuestionAdditional(u"Собственно говоря, если греческий салат испортился, то можно ли его называть древнегреческим?")
-
         ask_button = WebDriverWait(self.driver, 10, 0.1).until(
             EC.element_to_be_clickable((By.CLASS_NAME, "_3ykLdYEqVa47ACQrpqnZOj_0"))
         )
         ask_button.click()
 
-    def check_edit_time(self):
-        WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_class_name('q-edit-control')
-        )
+    def can_edit_time(self):
+        try:
+            WebDriverWait(self.driver, 10, 0.1).until(
+                EC.visibility_of_element_located((By.CLASS_NAME, "q-edit-control"))
+            )
+            return True
+        except:
+            return False
 
     def check_poll_option_correct_add(self):
 
-        variant_3 = WebDriverWait(self.driver, 10, 0.1).until(
+        variant_3 = WebDriverWait(self.driver, 10).until(
             lambda d: d.find_element_by_xpath('//div[@name="poll_options"]/div[4]/label/div[2]/div/div/div/input')
         )
         variant_3.click()
@@ -195,7 +214,11 @@ class AskPage(Page):
         variant_4.click()
         variant_4.send_keys("getting 5 option")
 
-        self.driver.find_element_by_xpath('//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input')
+        try:
+            self.driver.find_element_by_xpath('//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input')
+            return True
+        except:
+            return False
 
     def open_poll_form(self):
         poll_form = WebDriverWait(self.driver, 10, 0.1).until(
