@@ -24,6 +24,7 @@ class Component:
         else:
             elem = self.driver.find_element_by_css_selector(cssSelector)
 
+        elem.clear()
         elem.send_keys(keysToSend)
         if needToSubmit:
             elem.submit()
