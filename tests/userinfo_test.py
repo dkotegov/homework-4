@@ -109,19 +109,19 @@ class UserinfoTest(unittest.TestCase):
 
     def test_correct_input(self):
 
-        new_string = 'test'
-        self.userinfo_form.input_firstname(new_string)
-        self.userinfo_form.input_lastname(new_string)
-        self.userinfo_form.input_nickname(new_string)
+        NEW_STRING = 'test'
+        self.userinfo_form.input_firstname(NEW_STRING)
+        self.userinfo_form.input_lastname(NEW_STRING)
+        self.userinfo_form.input_nickname(NEW_STRING)
 
         self.userinfo_form.save()
         
         self.userinfo_page.open()
         self.userinfo_form = self.userinfo_page.form
 
-        self.assertEqual(self.userinfo_form.get_last_name_value(), new_string)
-        self.assertEqual(self.userinfo_form.get_firstname_value(), new_string)
-        self.assertEqual(self.userinfo_form.get_nickname_value(), new_string)
+        self.assertEqual(self.userinfo_form.get_last_name_value(), NEW_STRING)
+        self.assertEqual(self.userinfo_form.get_firstname_value(), NEW_STRING)
+        self.assertEqual(self.userinfo_form.get_nickname_value(), NEW_STRING)
 
 
     def test_image_upload(self):
