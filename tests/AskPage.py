@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import os
 import unittest
+import time
 
 from tests.CustomWait import ElementEqualSubcategory
 
@@ -29,7 +30,7 @@ class Page(object):
 class AskPage(Page):
     QUESTION_TEXT = 'question_text'
     QUESTION_ADDITIONAL = 'question_additional'
-    LOGIN = 'login'
+    LOGIN_INPUT = 'Login'
     ALERT_ADDITIONAL = 'z1LfJpugzE39YVXERE-f__0'
 
     def waitForElementVisible(self, locator, timeout=5):
@@ -52,6 +53,33 @@ class AskPage(Page):
     def setQuestionTheme(self, question):
         inputQuestionField = self.waitForElementVisible((By.NAME, self.QUESTION_TEXT))
         self.sendText(inputQuestionField, question)
+    
+    def clickLogin(self):
+        clickBtn = self.driver.find_element_by_id('PH_authLink')
+        clickBtn.click()
+
+    def sameUrl(self, url):
+        if (url in self.driver.current_url):
+            return True
+        return False
+
+    def login(self):
+        self.driver.switch_to_default_content
+        WebDriverWait(self.driver, 5).until( \
+            EC.frame_to_be_available_and_switch_to_it( \
+                (By.CLASS_NAME, 'ag-popup__frame__layout__iframe')))
+        time.sleep(1)
+        inputUsername = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located((By.NAME, self.LOGIN_INPUT)))
+        inputUsername.send_keys(self.username)
+
+        self.driver.find_element_by_xpath("//button[@data-test-id='next-button']").click()
+
+        inputPassword = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located((By.NAME, 'Password')))
+        inputPassword.send_keys(self.password)
+        
+        self.driver.find_element_by_xpath("//button[@data-test-id='submit-button']").click()
 
 
 
@@ -76,35 +104,12 @@ class AskPage(Page):
             .find_elements_by_css_selector('*')
         return subcategory[-1].get_attribute('innerHTML')
 
-    def clickLogin(self):
-        clickBtn = self.driver.find_element_by_id('PH_authLink')
-        clickBtn.click()
-
     def lofinFormIsVisible(self):
         loginFormList = self.driver.find_elements_by_class_name('ag-popup__frame_show')
         if len(loginFormList) <= 0:
             return False
         return True
 
-    def login(self):
-        self.driver.switch_to_default_content
-        WebDriverWait(self.driver, 5).until( \
-            EC.frame_to_be_available_and_switch_to_it( \
-                (By.CLASS_NAME, 'ag-popup__frame__layout__iframe')))
-        inputUsername = self.waitForElementVisible((By.NAME, self.LOGIN))
-        inputUsername.send_keys(self.username)
-
-        self.driver.find_elements_by_class_name('login-row')[2].find_elements_by_css_selector('*')[5].click()
-
-        inputPassword = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located((By.NAME, 'Password')))
-        inputPassword.send_keys(self.password)
-        self.driver.find_elements_by_class_name('login-row')[2].find_elements_by_css_selector('*')[1].click()
-
-    def checkUrl(self):
-        if ("https://otvet.mail.ru" in self.driver.current_url):
-            return True
-        return False
 
     def clickAndWaitProfile(self):
         buttonEdit = WebDriverWait(self.driver, 5).until(

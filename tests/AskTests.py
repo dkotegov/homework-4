@@ -45,7 +45,7 @@ class AskTests(unittest.TestCase):
     #     self.page.login()
     #     self.page.clickAndWaitProfile()
 
-    def test_notEmptyQuestion(self):
+    def ABBtest_notEmptyQuestion(self):
         self.page = AskPage(self.driver)
         self.page.open()
 
@@ -55,7 +55,7 @@ class AskTests(unittest.TestCase):
         self.assertEqual(self.page.getAlertUnderQuestion(),
             u'Поле «Тема вопроса» обязательно для заполнения.')
 
-    def test_mentionCountry(self):
+    def ABBtest_mentionCountry(self):
         self.page = AskPage(self.driver)
         self.page.open()
 
@@ -65,22 +65,22 @@ class AskTests(unittest.TestCase):
         self.assertEqual(self.page.getSubcategory(),
             u'Политика')
 
-    # def test_loginBtn(self):
-    #     self.page = AskPage(self.driver)
-    #     self.page.open()
+    def ABBtest_loginBtn(self):
+        self.page = AskPage(self.driver)
+        self.page.open()
 
-    #     self.page.clickLogin()
-    #     self.assertTrue(self.page.lofinFormIsVisible())
+        self.page.clickLogin()
+        self.assertTrue(self.page.lofinFormIsVisible())
 
-    # def test_authorization(self):
-    #     self.page = AskPage(self.driver)
-    #     self.page.open()
+    def test_authorization(self):
+        self.page = AskPage(self.driver)
+        self.page.open()
 
-    #     self.page.clickLogin()
-    #     self.page.login()
-    #     self.assertTrue(self.page.checkUrl())
+        self.page.clickLogin()
+        self.page.login()
+        self.assertTrue(self.page.sameUrl("https://otvet.mail.ru"))
 
-    def test_tooBigQuestion(self):
+    def ABBtest_tooBigQuestion(self):
         self.page = AskPage(self.driver)
         self.page.open()
         
@@ -115,7 +115,7 @@ class AskTests(unittest.TestCase):
     #     self.page.clickSendQuestion()
     #     self.page.checkAlert()
 
-    def test_tooBigQuestionBody(self):
+    def ABBtest_tooBigQuestionBody(self):
         self.page = AskPage(self.driver)
         self.page.open()
         
