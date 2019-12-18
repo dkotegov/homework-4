@@ -116,9 +116,9 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_page.open()
         self.userinfo_form = self.userinfo_page.form
 
-        self.assertEqual(self.userinfo_form.get_last_name_value(), NEW_STRING)
-        self.assertEqual(self.userinfo_form.get_firstname_value(), NEW_STRING)
-        self.assertEqual(self.userinfo_form.get_nickname_value(), NEW_STRING)
+        self.assertEqual(self.userinfo_form.get_last_name(), NEW_STRING)
+        self.assertEqual(self.userinfo_form.get_first_name(), NEW_STRING)
+        self.assertEqual(self.userinfo_form.get_nickname(), NEW_STRING)
 
     def test_image_upload(self):
         self.userinfo_form.input_test_image()

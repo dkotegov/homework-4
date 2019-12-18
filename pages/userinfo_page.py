@@ -35,7 +35,6 @@ class UserinfoForm(Component):
     GENDER_FEMALE = 'label[for="man2"] input'
 
     FIRST_NAME = '#FirstName'
-    # LAST_NAME = '#LastName'
     NICK_NAME = '#NickName'
 
     DAY_INPUT = 'select[name="BirthDay"]'
@@ -45,9 +44,9 @@ class UserinfoForm(Component):
     YEAR_INPUT = 'select[name="BirthYear"]'
     YEAR_INPUT_CHILD = 'select[name="BirthYear"] option[value="%d"]'
 
-    DAY_VALUE = 'div[class="form__row__subwidget_inline form__row__subwidget_short"] div[class="form__select__box__text js-text"]'
-    MONTH_VALUE = 'div[class="form__row__subwidget_inline form__row__shift-small form__row__subwidget_large"] div[class="form__select__box__text js-text"]'
-    YEAR_VALUE = 'div[class="form__row__subwidget_inline form__row__shift-small form__row__subwidget_medium"] div[class="form__select__box__text js-text"]'
+    DAY_VALUE = '.form__row__subwidget_short div.form__select__box'
+    MONTH_VALUE = '.form__row__subwidget_large div.form__select__box__text'
+    YEAR_VALUE = '.form__row__shift-small.form__row__subwidget_medium div.form__select__box__text'
 
     IMAGE_INPUT = 'input[name="avatar"]'
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
@@ -122,15 +121,15 @@ class UserinfoForm(Component):
 
     def get_last_name(self):
         return wait_for_element_by_selector(self.driver, self.LAST_NAME).get_attribute("value")     
-
-    def get_last_name_error_message(self):
-        return  wait_for_element_by_selector(self.driver, self.LAST_NAME_ERROR).text
-
-    def get_first_name_value(self):
+    
+    def get_first_name(self):
         return wait_for_element_by_selector(self.driver, self.FIRST_NAME).get_attribute("value")     
 
-    def get_nickname_value(self):
-        return wait_for_element_by_selector(self.driver, self.NICK_NAME).get_attribute("value")     
+    def get_nickname(self):
+        return wait_for_element_by_selector(self.driver, self.NICK_NAME).get_attribute("value")    
+
+    def get_last_name_error_message(self):
+        return  wait_for_element_by_selector(self.driver, self.LAST_NAME_ERROR).text 
 
     def clear_town(self):
         wait_for_element_by_selector(self.driver, self.TOWN).clear()
