@@ -5,7 +5,7 @@ from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from helpers import wait, wait_redirect, wait_for_element, wait_for_element_by_selector, wait_for_element_by_xpath
+from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath, wait_for_text
 
 
 class UserinfoPage(DefaultPage):
@@ -22,7 +22,7 @@ class UserinfoForm(Component):
     SURNAME = 'input[name="LastName"]'            
     SAVE = 'div.form__actions__inner button[type="submit"]'
     CANCEL = 'body div.form__actions.form__actions_floating a'
-    TOP_MESSAGE = 'div.content__page  span'
+    TOP_MESSAGE = 'div.content__page span'
     TOWN_ERROR = 'input[name="your_town"] ~ .form__message.form__message_error'
     SURNAME_ERROR = '#formPersonal div.form__message_error'
     MAKE_SNAPSHOT = '#js-edit-avatar button.js-camera'
@@ -62,12 +62,12 @@ class UserinfoForm(Component):
     HELP_URI = 'https://help.mail.ru/mail-help/settings/userinfo'
 
     def set_town(self, town):
-        element = wait_for_element(self.driver, self.TOWN)
+        element = wait_for_element_by_selector(self.driver, self.TOWN)
         element.clear()
         element.send_keys(town)
 
     def save(self):
-        element = wait_for_element(self.driver, self.SAVE)
+        element = wait_for_element_by_selector(self.driver, self.SAVE)
         element.click()
 
     def cancel(self):
@@ -78,15 +78,15 @@ class UserinfoForm(Component):
             self.driver.find_element_by_css_selector(self.CANCEL).click()
 
     def get_top_message(self):
-        element = wait_for_element(self.driver, self.TOP_MESSAGE)
+        element = wait_for_element_by_selector(self.driver, self.TOP_MESSAGE)
         return element.text
 
     def get_town_message(self):
-        element = wait_for_element(self.driver, self.TOWN_ERROR)
+        element = wait_for_element_by_selector(self.driver, self.TOWN_ERROR)
         return element.text
 
     def uncheck_town(self):
-        tick = wait_for_element(self.driver, self.TIMEZONE_TICK)
+        tick = wait_for_element_by_selector(self.driver, self.TIMEZONE_TICK)
         if tick.is_selected():
             tick.click()
 
@@ -94,7 +94,7 @@ class UserinfoForm(Component):
         return self.driver.find_element_by_css_selector(self.TIMEZONE_SELECTOR)
 
     def get_url_phone_link(self):
-        element = wait_for_element(self.driver, self.PHONE_LINK)
+        element = wait_for_element_by_selector(self.driver, self.PHONE_LINK)
         return element.get_attribute("href")  
 
     def load_image(self):
@@ -102,10 +102,10 @@ class UserinfoForm(Component):
         self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)
     
     def get_save_avatar_button(self):
-        return wait_for_element(self.driver, self.SAVE_AVATAR)
+        return wait_for_element_by_selector(self.driver, self.SAVE_AVATAR)
             
     def get_cancel_avatar_button(self):
-        return wait_for_element(self.driver, self.CANCEL_AVATAR)
+        return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR)
 
     def dismiss_snapshot_request(self):
         make_snapshot = self.driver.find_element_by_css_selector(self.MAKE_SNAPSHOT)
@@ -115,24 +115,25 @@ class UserinfoForm(Component):
             Alert(self.driver).dismiss()   
 
     def set_surname(self, surname):
-        surname_elem = wait_for_element(self.driver, self.SURNAME)
+        surname_elem = wait_for_element_by_selector(self.driver, self.SURNAME)
         surname_elem.clear()
         surname_elem.send_keys(surname)        
 
     def get_surname_value(self):
-        return wait_for_element(self.driver, self.SURNAME).get_attribute("value")     
+        return wait_for_element_by_selector(self.driver, self.SURNAME).get_attribute("value")     
 
     def get_surname_message(self):
-        return  wait_for_element(self.driver, self.SURNAME_ERROR).text
+        return  wait_for_element_by_selector(self.driver, self.SURNAME_ERROR).text
 
     def clear_town(self):
-        wait_for_element(self.driver, self.TOWN).clear()
+        wait_for_element_by_selector(self.driver, self.TOWN).clear()
 
     def get_surname_message(self):
         return wait_for_element_by_selector(self.driver, self.SURNAME_ERROR).text
 
     def get_suggests_for_town(self):
-        suggests = wait_for_element_by_xpath(self.driver, self.SUGGESTS_ITEM)
+        wait_for_element_by_xpath(self.driver, self.SUGGESTS_ITEM)
+        suggests = self.driver.find_elements_by_xpath(self.SUGGESTS_ITEM)
         return [suggest.text for suggest in suggests]
 
     def wait_for_suggests_invisible(self):
@@ -140,9 +141,7 @@ class UserinfoForm(Component):
 
     def wait_for_last_suggest(self, text):
         locator = f'{self.SUGGESTS_ITEM}[last()]'
-        return WebDriverWait(self.driver, 30, 0.1).until(
-            expected_conditions.text_to_be_present_in_element((By.XPATH, locator), text)
-        )
+        return wait_for_text(self.driver, locator, text)
 
     def get_unselected_gender(self):
         gender_male = wait_for_element_by_selector(self.driver, self.GENDER_MALE)
@@ -171,7 +170,6 @@ class UserinfoForm(Component):
     def input_test_image(self):
         image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
         self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image_path, False, False)
-
 
     def click_save_image_button(self):
         self.click_element(self.SAVE_IMAGE_BUTTON, True)

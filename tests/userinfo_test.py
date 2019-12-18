@@ -28,8 +28,6 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_form = self.userinfo_page.form
 
     def tearDown(self):
-        self.userinfo_form.click_logout_button()
-        self.userinfo_form.wait_for_logout()
         self.driver.quit()
 
     def test_tick_in_time_zone(self):   
@@ -47,7 +45,7 @@ class UserinfoTest(unittest.TestCase):
         old_surname_value = self.userinfo_form.get_surname_value()
         self.userinfo_form.set_surname(SURNAME_NEW_VALUE)
         self.userinfo_form.cancel()
-        userinfo_page.open()
+        self.userinfo_page.open()
         new_surname_value = self.userinfo_form.get_surname_value()
         self.assertEqual(old_surname_value, new_surname_value)
 
@@ -67,8 +65,8 @@ class UserinfoTest(unittest.TestCase):
         unselected_gender_before.click()
         self.userinfo_form.save()
 
-        userinfo_page.open()
-        self.userinfo_form = userinfo_page.form
+        self.userinfo_page.open()
+        self.userinfo_form = self.userinfo_page.form
 
         unselected_gender_after = self.userinfo_form.get_unselected_gender()
         unselected_gender_after_id = unselected_gender_after.id
@@ -108,9 +106,9 @@ class UserinfoTest(unittest.TestCase):
         self.assertEqual(TOWN_ERROR, self.userinfo_form.get_town_message())             
 
     def test_correct_input(self):
-        self.userinfo_form.input_firstname(randomString())
-        self.userinfo_form.input_lastname(randomString())
-        self.userinfo_form.input_nickname(randomString())
+        self.userinfo_form.input_firstname(random_string())
+        self.userinfo_form.input_lastname(random_string())
+        self.userinfo_form.input_nickname(random_string())
 
         self.userinfo_form.save()
 
@@ -120,10 +118,7 @@ class UserinfoTest(unittest.TestCase):
 
     def test_logout(self):
         self.userinfo_form.open_settings_in_new_window()
-        self.userinfo_form.wait_for_ok_after_submit()
-
         self.userinfo_form.click_logout_button()
-        self.userinfo_form.wait_for_logout()
 
         self.userinfo_form.switch_to_window(0)
         self.userinfo_form.refresh_page()
