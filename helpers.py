@@ -41,4 +41,18 @@ def wait_for_element_by_xpath(driver, xpath, visible=True):
     else:
         return WebDriverWait(driver, 30, 0.1).until(
             expected_conditions.invisibility_of_element_located((By.XPATH, xpath))
-        )        
+        )  
+
+# def wait_redirect(self, url = None):
+#     if url is None:
+#         self.wait(expected_conditions.url_changes(self.driver.current_url))
+#     else:
+#         self.wait(expected_conditions.url_to_be(url))
+
+# def wait_for_css_selector(self, selector = None):
+#     if selector is None:
+#         self.wait(expected_conditions.url_changes(self.driver.current_url))
+#     else:
+#         return WebDriverWait(self.driver, 10).until(
+#             expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, selector))
+#         )      
