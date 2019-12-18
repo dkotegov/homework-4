@@ -48,9 +48,9 @@ class UserinfoForm(Component):
     YEAR_INPUT = 'select[name="BirthYear"]'
     YEAR_INPUT_CHILD = 'select[name="BirthYear"] option[value="%d"]'
 
-    DAY_VALUE = 'div[class="form__row__subwidget_inline form__row__subwidget_short"] div[class="form__select__box__text js-text"]'
-    MONTH_VALUE = 'div[class="form__row__subwidget_inline form__row__shift-small form__row__subwidget_large"] div[class="form__select__box__text js-text"]'
-    YEAR_VALUE = 'div[class="form__row__subwidget_inline form__row__shift-small form__row__subwidget_medium"] div[class="form__select__box__text js-text"]'
+    DAY_VALUE = '.form__row__subwidget_short div.form__select__box'
+    MONTH_VALUE = '.form__row__subwidget_large div.form__select__box__text'
+    YEAR_VALUE = '.form__row__shift-small.form__row__subwidget_medium div.form__select__box__text'
 
     IMAGE_INPUT = 'input[name="avatar"]'
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
@@ -133,7 +133,7 @@ class UserinfoForm(Component):
         return wait_for_element(self.driver, self.NICK_NAME).get_attribute("value")     
 
     def get_last_name_message(self):
-        return  wait_for_element(self.driver, self.SURNAME_ERROR).text
+        return wait_for_element(self.driver, self.SURNAME_ERROR).text
 
     def clear_town(self):
         wait_for_element(self.driver, self.TOWN).clear()
