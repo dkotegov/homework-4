@@ -1,18 +1,17 @@
 ﻿import os
 import unittest
-import codecs
 import random
 import config
+from CalendarPage import CalendarPage
 
-from selenium.webdriver import Remote
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 
-from CalendarPage import CalendarPage
 
 class CalendarTest(unittest.TestCase):
     login = os.environ.get('LOGIN')
     password = os.environ.get('PASSWORD')
+    BASE_URL = 'https://m.calendar.mail.ru/'
+    CALENDAR_URL = 'https://m.calendar.mail.ru/calendar/new/'
 
     def setUp(self):
         self.driver = webdriver.Chrome(config.DRIVER)
@@ -23,60 +22,57 @@ class CalendarTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_adding_newCalendar(self):
-        
-        nameForForm = self.editing.create_newCalendar()
-        newNames = self.editing.check_CalendarNames()
+    def create_new_calendar(self, nameForForm=("rubbishName" + str(random.randrange(1, 30000)))):
+        self.editing.open_add_new_calendar()
+        self.editing.wait_redirect(self.CALENDAR_URL)
+        self.editing.enter_calendar_name(nameForForm)
+        self.editing.choose_calendar_color()
+        self.editing.click_btn_update_forms()
+        return nameForForm
+
+    def test_adding_new_calendar(self):
+        nameForForm = self.create_new_calendar()
+        newNames = self.editing.check_calendar_names()
         self.assertTrue(nameForForm.decode("utf-8") in newNames)
-  
 
+    def test_editing_new_calendar(self):
+        self.create_new_calendar()
 
-    def test_editing_newCalendar(self):
-        self.editing.create_newCalendar()
-        
-        nameForForm = self.editing.check_lastCalendarName()
-        # print('\nnameForForm ' + nameForForm + ' \n')
+        nameForForm = self.editing.check_last_calendar_name()
         nameForm = "QWQ" + nameForForm
-        
-        self.editing.wait_redirect('https://m.calendar.mail.ru/')
+
+        self.editing.wait_redirect(self.BASE_URL)
         self.driver.refresh()
         self.editing.open_sidebar()
-        self.editing.open_editCalendars()
-        self.editing.openEdit_lastCalendar_inEditCalendars()
-        self.editing.enter_nameOfNewCalendar(nameForm)
-        self.editing.click_btnUpdateForms()
-        
+        self.editing.open_edit_calendars()
+        self.editing.edit_last_calendar()
+        self.editing.enter_calendar_name(nameForm)
+        self.editing.click_btn_update_forms()
+
         nameForForm = nameForForm + nameForm
-        # print('\ntest_editing_newCalendar ' + nameForForm + ' \n')
-        self.assertTrue(self.editing.is_calendar_in_calendarsList(nameForForm))
-        
-    def test_delete_newCalendar(self):        
-        nameForForm = self.editing.create_newCalendar()
-        
+        self.assertTrue(self.editing.in_calendar_list(nameForForm))
+
+    def test_delete_new_calendar(self):
         self.driver.refresh()
         self.editing.open_sidebar()
-        
-        calendar = self.editing.check_lastCalendarName()
-        self.editing.open_editCalendars()
-        self.editing.delete_lastCalendar_inEditCalendars()
-        self.editing.close_editWindow()
-        # print("test_delete_newCalendar assertFalse")
-        self.assertFalse(self.editing.is_calendar_in_calendarsList(calendar))
-        
-     
-    def test_delete_allCalendars(self):        
-        self.editing.create_newCalendar()
-        
+
+        calendar = self.editing.check_last_calendar_name()
+        self.editing.open_edit_calendars()
+        self.editing.delete_last_calendar()
+        self.editing.close_edit_window()
+        self.assertFalse(self.editing.in_calendar_list(calendar))
+
+    def test_delete_all_calendars(self):
+        self.create_new_calendar()
+
         self.driver.refresh()
         self.editing.open_sidebar()
-        
-        calendars = self.editing.check_CalendarNames()
-        self.editing.open_editCalendars()
-        for i in range(len(calendars)):
-            self.editing.delete_lastCalendar_inEditCalendars()
-            
-        self.editing.close_editWindow()
-        
-        calendars = self.editing.check_CalendarNames()
-        
+
+        calendars = self.editing.check_calendar_names()
+        self.editing.open_edit_calendars()
+        for _ in range(len(calendars)):
+            self.editing.delete_last_calendar()
+
+        self.editing.close_edit_window()
+        calendars = self.editing.check_calendar_names()
         self.assertEqual(len(calendars), 0)
