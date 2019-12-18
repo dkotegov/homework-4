@@ -39,7 +39,7 @@ class AskPage(Page):
     def sendText(self, webElement, text):
         self.driver.execute_script("arguments[0].value = arguments[1]",
             webElement, text[:len(text)-1])
-        webElement.send_keys(len(text)-1)
+        webElement.send_keys(text[len(text)-1])
 
     def getAlertUnderAdditional(self):
         return self.waitForElementVisible((By.CLASS_NAME, self.ALERT_ADDITIONAL)) \

@@ -55,15 +55,15 @@ class AskTests(unittest.TestCase):
         self.assertEqual(self.page.getAlertUnderQuestion(),
             u'Поле «Тема вопроса» обязательно для заполнения.')
 
-    # def test_mentionCountry(self):
-    #     self.page = AskPage(self.driver)
-    #     self.page.open()
+    def test_mentionCountry(self):
+        self.page = AskPage(self.driver)
+        self.page.open()
 
-    #     questionWithCountry = u'Россия'
-    #     self.page.setQuestionTheme(questionWithCountry)
-    #     self.page.autosettingSubcategory(u'Политика')
-    #     self.assertEqual(self.page.getSubcategory(),
-    #         u'Политика')
+        questionWithCountry = u'Россия'
+        self.page.setQuestionTheme(questionWithCountry)
+        self.page.autosettingSubcategory(u'Политика')
+        self.assertEqual(self.page.getSubcategory(),
+            u'Политика')
 
     # def test_loginBtn(self):
     #     self.page = AskPage(self.driver)
