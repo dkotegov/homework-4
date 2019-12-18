@@ -28,8 +28,6 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_form = self.userinfo_page.form
 
     def tearDown(self):
-        self.userinfo_form.click_logout_button()
-        self.userinfo_form.wait_for_logout()
         self.driver.quit()
 
     def test_tick_in_time_zone(self):   
@@ -42,24 +40,24 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_form.get_cancel_avatar_button()
         
     def test_cancel_changed_data(self):
-        SURNAME_NEW_VALUE = 'new surname'
+        LAST_NAME_NEW_VALUE = 'new last name'
 
-        old_surname_value = self.userinfo_form.get_surname_value()
-        self.userinfo_form.set_surname(SURNAME_NEW_VALUE)
+        old_last_name_value = self.userinfo_form.get_last_name()
+        self.userinfo_form.set_last_name(LAST_NAME_NEW_VALUE)
         self.userinfo_form.cancel()
-        userinfo_page.open()
-        new_surname_value = self.userinfo_form.get_surname_value()
-        self.assertEqual(old_surname_value, new_surname_value)
+        self.userinfo_page.open()
+        new_last_name_value = self.userinfo_form.get_last_name()
+        self.assertEqual(old_last_name_value, new_last_name_value)
 
     def test_error_saving(self):
         TOP_MESSAGE = 'Не заполнены необходимые поля'
-        SURNAME_ERROR = 'Заполните обязательное поле'
-        EMPTY_SURNAME = ''
+        LAST_NAME_ERROR = 'Заполните обязательное поле'
+        EMPTY_LAST_NAME = ''
 
-        self.userinfo_form.set_surname(EMPTY_SURNAME)
+        self.userinfo_form.set_last_name(EMPTY_LAST_NAME)
         self.userinfo_form.save()
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_top_message())
-        self.assertEqual(SURNAME_ERROR, self.userinfo_form.get_surname_message())
+        self.assertEqual(LAST_NAME_ERROR, self.userinfo_form.get_last_name_error_message())
 
     def test_gender(self):
         unselected_gender_before = self.userinfo_form.get_unselected_gender()
@@ -67,22 +65,22 @@ class UserinfoTest(unittest.TestCase):
         unselected_gender_before.click()
         self.userinfo_form.save()
 
-        userinfo_page.open()
-        self.userinfo_form = userinfo_page.form
+        self.userinfo_page.open()
+        self.userinfo_form = self.userinfo_page.form
 
         unselected_gender_after = self.userinfo_form.get_unselected_gender()
         unselected_gender_after_id = unselected_gender_after.id
         self.assertNotEqual(unselected_gender_before_id, unselected_gender_after_id)
 
     def test_long_name(self):
-        LONG_SURNAME = f'{"very" * 10} long'
+        LONG_LAST_NAME = f'{"very" * 10} long'
         TOP_MESSAGE = 'Некоторые поля заполнены неверно'
-        SURNAME_ERROR = 'Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов.'
+        LAST_NAME_ERROR = 'Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов.'
         
-        self.userinfo_form.set_surname(LONG_SURNAME)
+        self.userinfo_form.set_last_name(LONG_LAST_NAME)
         self.userinfo_form.save()
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_top_message())
-        self.assertEqual(SURNAME_ERROR, self.userinfo_form.get_surname_message())
+        self.assertEqual(LAST_NAME_ERROR, self.userinfo_form.get_last_name_error_message())
 
     def test_suggest_town(self):
         TOWN_PREFIX = 'Мос' 
@@ -108,9 +106,9 @@ class UserinfoTest(unittest.TestCase):
         self.assertEqual(TOWN_ERROR, self.userinfo_form.get_town_message())             
 
     def test_correct_input(self):
-        self.userinfo_form.input_firstname(randomString())
-        self.userinfo_form.input_lastname(randomString())
-        self.userinfo_form.input_nickname(randomString())
+        self.userinfo_form.input_firstname(random_string())
+        self.userinfo_form.input_lastname(random_string())
+        self.userinfo_form.input_nickname(random_string())
 
         self.userinfo_form.save()
 
@@ -120,10 +118,7 @@ class UserinfoTest(unittest.TestCase):
 
     def test_logout(self):
         self.userinfo_form.open_settings_in_new_window()
-        self.userinfo_form.wait_for_ok_after_submit()
-
         self.userinfo_form.click_logout_button()
-        self.userinfo_form.wait_for_logout()
 
         self.userinfo_form.switch_to_window(0)
         self.userinfo_form.refresh_page()
