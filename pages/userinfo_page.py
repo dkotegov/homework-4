@@ -45,6 +45,10 @@ class UserinfoForm(Component):
     YEAR_INPUT = 'select[name="BirthYear"]'
     YEAR_INPUT_CHILD = 'select[name="BirthYear"] option[value="%d"]'
 
+    DAY_VALUE = 'div[class="form__row__subwidget_inline form__row__subwidget_short"] div[class="form__select__box__text js-text"]'
+    MONTH_VALUE = 'div[class="form__row__subwidget_inline form__row__shift-small form__row__subwidget_large"] div[class="form__select__box__text js-text"]'
+    YEAR_VALUE = 'div[class="form__row__subwidget_inline form__row__shift-small form__row__subwidget_medium"] div[class="form__select__box__text js-text"]'
+
     IMAGE_INPUT = 'input[name="avatar"]'
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
 
@@ -122,6 +126,12 @@ class UserinfoForm(Component):
     def get_last_name_error_message(self):
         return  wait_for_element_by_selector(self.driver, self.LAST_NAME_ERROR).text
 
+    def get_first_name_value(self):
+        return wait_for_element_by_selector(self.driver, self.FIRST_NAME).get_attribute("value")     
+
+    def get_nickname_value(self):
+        return wait_for_element_by_selector(self.driver, self.NICK_NAME).get_attribute("value")     
+
     def clear_town(self):
         wait_for_element_by_selector(self.driver, self.TOWN).clear()
 
@@ -129,6 +139,16 @@ class UserinfoForm(Component):
         wait_for_element_by_xpath(self.driver, self.SUGGESTS_ITEM)
         suggests = self.driver.find_elements_by_xpath(self.SUGGESTS_ITEM)
         return [suggest.text for suggest in suggests]
+
+    def get_birth_day(self):
+        return wait_for_element_by_selector(self.driver, self.DAY_VALUE).text
+
+    def get_birth_month(self):
+        return wait_for_element_by_selector(self.driver, self.MONTH_VALUE).text
+
+    def get_birth_year(self):
+        return wait_for_element_by_selector(self.driver, self.YEAR_VALUE).text
+
 
     def wait_for_suggests_invisible(self):
         return wait_for_element_by_xpath(self.driver, self.SUGGESTS, False)

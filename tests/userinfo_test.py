@@ -106,17 +106,26 @@ class UserinfoTest(unittest.TestCase):
         self.assertEqual(TOWN_ERROR, self.userinfo_form.get_town_message())             
 
     def test_correct_input(self):
-        self.userinfo_form.input_firstname(random_string())
-        self.userinfo_form.input_lastname(random_string())
-        self.userinfo_form.input_nickname(random_string())
+        new_string = 'test'
+        self.userinfo_form.input_firstname(new_string)
+        self.userinfo_form.input_lastname(new_string)
+        self.userinfo_form.input_nickname(new_string)
 
         self.userinfo_form.save()
+        
+        self.userinfo_page.open()
+        self.userinfo_form = self.userinfo_page.form
+
+        self.assertEqual(self.userinfo_form.get_last_name_value(), new_string)
+        self.assertEqual(self.userinfo_form.get_first_name_value(), new_string)
+        self.assertEqual(self.userinfo_form.get_nickname_value(), new_string)
+
 
     def test_image_upload(self):
         self.userinfo_form.input_test_image()
         self.userinfo_form.save()
 
-    def test_logout(self):
+    def test_authorize_redirect_after_logout(self):
         self.userinfo_form.open_settings_in_new_window()
         self.userinfo_form.click_logout_button()
 
@@ -128,6 +137,7 @@ class UserinfoTest(unittest.TestCase):
     def test_date_lists(self):
         DAY_CHILD_INPUT = 20
         MONTH_CHILD_INPUT = 12
+        MONTH_NAME = 'Декабрь'
         YEAR_CHILD_INPUT = 1996
 
         self.userinfo_form.click_on_day_input()
@@ -140,4 +150,10 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_form.click_on_year_child_input(YEAR_CHILD_INPUT)
 
         self.userinfo_form.save()
+        
         self.userinfo_page.open()
+        self.userinfo_form = self.userinfo_page.form
+
+        self.assertEqual(self.userinfo_form.get_birth_day(), str(DAY_CHILD_INPUT))
+        self.assertEqual(self.userinfo_form.get_birth_month(), MONTH_NAME)
+        self.assertEqual(self.userinfo_form.get_birth_year(), str(YEAR_CHILD_INPUT))
