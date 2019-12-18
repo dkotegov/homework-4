@@ -30,18 +30,39 @@ class AskPage(Page):
     def quitDriver(self):
         self.driver.quit()
 
+    QUESTION_TEXT = 'question_text'
+    QUESTION_ADDITIONAL = 'question_additional'
+    LOGIN = 'login'
+    ALERT_ADDITIONAL = 'z1LfJpugzE39YVXERE-f__0'
+
+    def waitForElementVisible(self, locator, timeout=5):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(locator))
+
+    def sendText(self, webElement, text):
+        self.driver.execute_script("arguments[0].value = arguments[1]",
+            webElement, text[:len(text)-1])
+        webElement.send_keys(len(text)-1)
+
+    def getAlertUnderAdditional(self):
+        return self.waitForElementVisible((By.CLASS_NAME, self.ALERT_ADDITIONAL)) \
+            .get_attribute('innerHTML')
+
+    def getQuestionAdditional(self):
+        return self.waitForElementVisible((By.NAME, self.QUESTION_ADDITIONAL))
+
+    def getQuestionTheme(self):
+        return self.waitForElementVisible((By.NAME, self.QUESTION_TEXT))
+
+
+
     def setQuestionTheme(self, question):
-        inputQuestionField = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located((By.NAME, 'question_text')))
-        inputQuestionField.click()
+        inputQuestionField = self.waitForElementVisible((By.NAME, self.QUESTION_TEXT))
         inputQuestionField.send_keys(question)
 
     def setQuestionAdditional(self, question):
-        inputQuestionField = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located((By.NAME, 'question_additional')))
-        self.driver.execute_script("arguments[0].value = arguments[1]",
-            inputQuestionField, question)
-        inputQuestionField.send_keys(' ')
+        inputQuestionField = self.waitForElementVisible((By.NAME, self.QUESTION_ADDITIONAL))
+        self.sendTextWithSpace(inputQuestionField, question)
 
     def autosettingSubcategory(self, Subcategory):
         WebDriverWait(self.driver, 10).until(ElementEqualSubcategory( \
@@ -77,8 +98,7 @@ class AskPage(Page):
         WebDriverWait(self.driver, 5).until( \
             EC.frame_to_be_available_and_switch_to_it( \
                 (By.CLASS_NAME, 'ag-popup__frame__layout__iframe')))
-        inputUsername = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located((By.NAME, 'Login')))
+        inputUsername = self.waitForElementVisible((By.NAME, self.LOGIN))
         inputUsername.send_keys(self.username)
 
         self.driver.find_elements_by_class_name('login-row')[2].find_elements_by_css_selector('*')[5].click()
@@ -125,10 +145,6 @@ class AskPage(Page):
         WebDriverWait(self.driver, 5).until(
             EC.visibility_of_all_elements_located((By.CLASS_NAME, \
                 '_3e48lyZw6JxqpxlQCH7ZrK_0')))
-
-    def getAlertUnderAdditional(self):
-        alert = self.driver.find_element_by_class_name('z1LfJpugzE39YVXERE-f__0')
-        return alert.get_attribute('innerHTML')
 
     def open_photo_upload_form(self):
         photo_span = WebDriverWait(self.driver, 10, 0.1).until(
