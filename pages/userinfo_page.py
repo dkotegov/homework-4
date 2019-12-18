@@ -4,7 +4,7 @@ from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath, wait_for_text
+from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath, wait_for_text_by_xpath, wait_for_text_by_selector
 
 
 class UserinfoPage(DefaultPage):
@@ -29,6 +29,7 @@ class UserinfoForm(Component):
     PHONE_LINK = '#phonesContainer a.js-click-security-recovery'
     TIMEZONE_TICK = 'input[name=UseAutoTimezone]'
     TIMEZONE_SELECTOR = 'select[name=TimeZone]'
+    TIMEZONE_SELECTOR_DIV = 'div.js-timezone .form__select__box__text'
     SUGGESTS = '//*[@class="content__page"]/descendant::span[@class="div_inner ac-items form__field__suggest__inner"]'
     SUGGESTS_ITEM = '//form[@id="formPersonal"]//*[@class="form__field__suggest__item"]'
     GENDER_MALE = 'label[for="man1"] input'
@@ -85,13 +86,17 @@ class UserinfoForm(Component):
         element = wait_for_element_by_selector(self.driver, self.TOWN_ERROR)
         return element.text
 
-    def uncheck_town(self):
-        tick = wait_for_element_by_selector(self.driver, self.TIMEZONE_TICK)
+    def uncheck_tick(self):
+        wait_for_element_by_selector(self.driver, self.TIMEZONE_TICK)
+        tick = self.driver.find_element_by_css_selector(self.TIMEZONE_TICK)
         if tick.is_selected():
             tick.click()
 
-    def get_town_selector(self):
-        return self.driver.find_element_by_css_selector(self.TIMEZONE_SELECTOR)
+    def get_timezone_selector_first_value(self):
+        return self.driver.find_element_by_css_selector(self.TIMEZONE_SELECTOR_DIV).text
+
+    def wait_for_timezone_selector_first_value(self, text):
+        return wait_for_text_by_selector(self.driver, self.TIMEZONE_SELECTOR_DIV, text)
 
     def get_url_phone_link(self):
         element = wait_for_element_by_selector(self.driver, self.PHONE_LINK)
@@ -154,7 +159,7 @@ class UserinfoForm(Component):
 
     def wait_for_last_suggest(self, text):
         locator = f'{self.SUGGESTS_ITEM}[last()]'
-        return wait_for_text(self.driver, locator, text)
+        return wait_for_text_by_xpath(self.driver, locator, text)
 
     def get_unselected_gender(self):
         gender_male = wait_for_element_by_selector(self.driver, self.GENDER_MALE)

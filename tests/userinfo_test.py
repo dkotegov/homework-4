@@ -30,11 +30,14 @@ class UserinfoTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_tick_in_time_zone(self):   
-        self.userinfo_form.uncheck_town()
-        self.userinfo_form.get_town_selector()
+    def test_check_timezone(self):  
+        TIMEZONE_SELECT_LIST_VALUE = '(GMT+03:00) Москва, Санкт-Петербург' 
 
-    def test_load_image(self):        
+        self.userinfo_form.uncheck_tick()
+        self.userinfo_form.wait_for_timezone_selector_first_value(TIMEZONE_SELECT_LIST_VALUE)
+        self.assertEqual(TIMEZONE_SELECT_LIST_VALUE, self.userinfo_form.get_timezone_selector_first_value())
+
+    def test_image_preview_buttons(self):        
         self.userinfo_form.load_image()
         self.userinfo_form.get_save_avatar_button()
         self.userinfo_form.get_cancel_avatar_button()
@@ -42,14 +45,13 @@ class UserinfoTest(unittest.TestCase):
     def test_cancel_changed_data(self):
         LAST_NAME_NEW_VALUE = 'new last name'
 
-        old_last_name_value = self.userinfo_form.get_last_name()
-        self.userinfo_form.set_last_name(LAST_NAME_NEW_VALUE)
+        old_last_name_value = self.userinfo_form.set_last_name(LAST_NAME_NEW_VALUE)
         self.userinfo_form.cancel()
         self.userinfo_page.open()
         new_last_name_value = self.userinfo_form.get_last_name()
-        self.assertEqual(old_last_name_value, new_last_name_value)
+        self.assertNotEqual(old_last_name_value, new_last_name_value)
 
-    def test_error_saving(self):
+    def test_save_empty_field(self):
         TOP_MESSAGE = 'Не заполнены необходимые поля'
         LAST_NAME_ERROR = 'Заполните обязательное поле'
         EMPTY_LAST_NAME = ''
