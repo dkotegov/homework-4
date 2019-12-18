@@ -143,10 +143,6 @@ class AskPage(Page):
         inputQuestionField.send_keys(Keys.CONTROL + "a")
         inputQuestionField.send_keys(Keys.DELETE)
 
-    def getAlertUnderQuestion(self):
-        alert = self.driver.find_element_by_class_name('z1LfJpugzE39YVXERE-f__0')
-        return alert.get_attribute('innerHTML')
-       
     def getSubcategory(self):
         subcategory = self.driver.find_elements_by_class_name('_1lZeUpFslQAPq_G1uwjahr_1')[1] \
             .find_elements_by_css_selector('*')

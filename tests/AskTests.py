@@ -54,7 +54,7 @@ class AskTests(unittest.TestCase):
         shortQuestion = u'Why, man?'
         self.page.setQuestionTheme(shortQuestion)
         self.page.clearQuestionThemeByKeys()
-        self.assertEqual(self.page.getAlertUnderQuestion(),
+        self.assertEqual(self.page.getAlertUnderAdditional(),
             u'Поле «Тема вопроса» обязательно для заполнения.')
 
     def test_mentionCountry(self):
