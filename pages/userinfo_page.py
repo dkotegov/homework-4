@@ -1,10 +1,11 @@
 import os
+import time
 
 from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath
+from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath, wait_for_text_by_selector
 
 
 class UserinfoPage(DefaultPage):
@@ -185,31 +186,18 @@ class UserinfoForm(Component):
         wait_redirect(self.driver, self.OK_AFTER_SUBMIT_URI)
 
     def input_test_image(self, name = 'test.png'):
+        last_url = self.get_avatar_image_url()
         image_path = (os.path.dirname(os.path.abspath(__file__))+name).replace("pages", "")
         self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image_path, False, False)
         button = self.get_save_avatar_button()
         button.click()
+        start = time.time()
+        while time.time() < start + 10:
+            if last_url != self.get_avatar_image_url():
+                return self.get_avatar_image_url()
+        return last_url
 
-    def input_bmp_image(self):
-        self.input_test_image('test.bmp')
 
-    def input_gif_image(self):
-        self.input_test_image('test.gif')
-
-    def input_ico_image(self):
-        self.input_test_image('test.ico')
-
-    def input_jpeg_image(self):
-        self.input_test_image('test.jpeg')
-
-    def input_jpg_image(self):
-        self.input_test_image('test.JPG')
-
-    def input_png_image(self):
-        self.input_test_image('test.png')
-
-    def input_tiff_image(self):
-        self.input_test_image('test.tiff')
 
     def get_avatar_image_url(self):
         return wait_for_element_by_selector(self.driver, self.IMAGE_AVATAR).value_of_css_property("background-image")
