@@ -24,8 +24,8 @@ class UserinfoForm(Component):
     LAST_NAME_ERROR = '#formPersonal div.form__message_error'
     MAKE_SNAPSHOT = '#js-edit-avatar button.js-camera'
     LOAD_IMAGE = '#js-edit-avatar input[name="avatar"]'
-    SAVE_AVATAR = '#MailRuConfirm div[data-fire="save"]'
-    CANCEL_AVATAR = '#MailRuConfirm div[data-fire="cancel"]'
+    SAVE_AVATAR_TEXT = '#MailRuConfirm div[data-fire="save"] .btn__text'
+    CANCEL_AVATAR_TEXT = '#MailRuConfirm div[data-fire="cancel"] .btn__text'
     PHONE_LINK = '#phonesContainer a.js-click-security-recovery'
     TIMEZONE_TICK = 'input[name=UseAutoTimezone]'
     TIMEZONE_SELECTOR = 'select[name=TimeZone]'
@@ -104,18 +104,18 @@ class UserinfoForm(Component):
         element = wait_for_element_by_selector(self.driver, self.PHONE_LINK)
         return element.get_attribute("href")  
 
-    def load_image(self, file_name):
+    def wait_load_image(self, file_name):
         image_path = (os.path.dirname(os.path.abspath(__file__))+file_name).replace("pages", "")
         self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)  
 
     def get_image_error_message(self):
-        return  wait_for_element_by_selector(self.driver, self.LOAD_IMAGE_ERROR_MESSAGE).text     
+        return wait_for_element_by_selector(self.driver, self.LOAD_IMAGE_ERROR_MESSAGE).text     
     
-    def get_save_avatar_button(self):
-        return wait_for_element_by_selector(self.driver, self.SAVE_AVATAR)
+    def get_save_avatar_button_value(self):
+        return wait_for_element_by_selector(self.driver, self.SAVE_AVATAR_TEXT).text
             
-    def get_cancel_avatar_button(self):
-        return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR)
+    def get_cancel_avatar_button_value(self):
+        return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR_TEXT).text
 
     def dismiss_snapshot_request(self):
         make_snapshot = self.driver.find_element_by_css_selector(self.MAKE_SNAPSHOT)
