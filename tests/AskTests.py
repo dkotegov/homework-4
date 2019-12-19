@@ -91,7 +91,7 @@ class AskTests(unittest.TestCase):
         self.page.open()
         self.page.setQuestionTheme(u'ыв ыва ыва 23')
         self.page.clickSendQuestion()
-        self.assertTrue(self.page.isAlert())
+        self.assertFalse(self.page.isAlert())
 
     def test_tooBigQuestion(self):
         self.askPageOpen()

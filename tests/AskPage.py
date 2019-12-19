@@ -10,7 +10,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import os
 import unittest
-import time
 import random
 
 from tests.CustomWait import ElementEqualSubcategory
@@ -57,8 +56,6 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
-        # self.username = 'leshikne@bk.ru'
-        # self.password = ''
         self.username = 'test_qwerty1122@mail.ru'
         self.password = "qqaawwss123"
 
@@ -145,9 +142,8 @@ class AskPage(Page):
             return False
 
     def isAlert(self):
-        popUp = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_all_elements_located(
-                (By.CLASS_NAME, POP_UP_ALERT)))
+        popUp = self.driver.find_elements_by_class_name(
+            POP_UP_ALERT)
         if len(popUp) == 1:
             return True
         else:
