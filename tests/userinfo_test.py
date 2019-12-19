@@ -1,6 +1,7 @@
 import unittest
 import os
 import configparser
+import time
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities, Remote
 from pages.auth_page import AuthPage
@@ -103,6 +104,7 @@ class UserinfoTest(unittest.TestCase):
         self.assertEqual(TOWN_ERROR, self.userinfo_form.get_town_message())             
 
     def test_correct_input(self):
+
         NEW_STRING = 'test'
         self.userinfo_form.input_firstname(NEW_STRING)
         self.userinfo_form.input_lastname(NEW_STRING)
@@ -113,22 +115,56 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_page.open()
         self.userinfo_form = self.userinfo_page.form
 
+
         self.assertEqual(self.userinfo_form.get_last_name(), NEW_STRING)
         self.assertEqual(self.userinfo_form.get_first_name(), NEW_STRING)
         self.assertEqual(self.userinfo_form.get_nickname(), NEW_STRING)
 
-    def test_image_upload(self):
-        self.userinfo_form.input_test_image()
-        self.userinfo_form.save()
+    def test_png_image_upload(self):
+    
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.png')
+        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
+
+    def test_bmp_image_upload(self):
+    
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.bmp')
+        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
+
+    def test_gif_image_upload(self):
+    
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.gif')
+        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
+
+    def test_ico_image_upload(self):
+    
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.ico')
+        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
+
+    
+    def test_jpeg_image_upload(self):
+    
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.jpeg')
+        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
+
+    def test_jpg_image_upload(self):
+    
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.JPG')
+        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
+
+    
 
     def test_authorize_redirect_after_logout(self):
         self.userinfo_form.open_settings_in_new_window()
         self.userinfo_form.click_logout_button()
 
         self.userinfo_form.switch_to_window(0)
-        self.userinfo_form.refresh_page()
-        self.userinfo_form.match_to_login_URI()
-
+        self.userinfo_form.wait_for_logout_message()
 
     def test_date_lists(self):
         DAY_CHILD_INPUT = 20
