@@ -95,14 +95,14 @@ class AskTests(unittest.TestCase):
     #     self.page.open_video_upload_form()
     #     self.page.can_press_esc()
 
-    # def test_notValidTheme(self):
-    #     self.askPageOpen()
-    #     self.page.clickLogin()
-    #     self.page.login()
-    #     self.page.open()
-    #     self.page.setQuestionTheme(u'ыв ыва ыва 23')
-    #     self.page.clickSendQuestion()
-    #     self.assertTrue(self.page.isAlert())
+    def test_notValidTheme(self):
+        self.askPageOpen()
+        self.page.clickLogin()
+        self.page.login()
+        self.page.open()
+        self.page.setQuestionTheme(u'ыв ыва ыва 23')
+        self.page.clickSendQuestion()
+        self.assertTrue(self.page.isAlert())
 
     # def test_tooBigQuestionBody(self):
     #     self.askPageOpen()
