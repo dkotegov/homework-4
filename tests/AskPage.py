@@ -56,8 +56,8 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
-        self.username = 'tp_qa_acc@mail.ru'
-        self.password = 'bPp7CZEumTuuepft'
+        self.username = 'tp_qa_acc2@mail.ru'
+        self.password = 'SomePasswordHere'
 
     def open(self):
         self.driver.get(self.BASE_URL)
@@ -170,6 +170,11 @@ class AskPage(Page):
         WebDriverWait(self.driver, 10).until(
             ElementEqualSubcategory(QUESTION_SUBCOTEGORY,
                                     u'Политика'))
+
+    def waitForAnother(self):
+        WebDriverWait(self.driver, 10).until(
+            ElementEqualSubcategory(CATEGORY,
+                                    u'Другое'))
 
     def clearQuestionThemeByKeys(self):
         inputQuestionField = self.driver\

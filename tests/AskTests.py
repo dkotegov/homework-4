@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import DesiredCapabilities, Remote
 
 import os
+import time
 import unittest
 
 from tests.AskPage import AskPage
@@ -117,6 +118,7 @@ class AskTests(unittest.TestCase):
                                         u'древнегреческим?')
 
         self.page.clickChooseAnother()
+        self.page.waitForAnother()
         self.page.make_default_question()
 
         self.assertTrue(self.page.can_edit_time())
