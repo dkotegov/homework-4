@@ -231,7 +231,7 @@ class UserinfoTest(unittest.TestCase):
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())        
 
     def test_cancel_changed_image(self):           
-        TEST_IMAGE = 'test.jpeg'
+        TEST_IMAGE = 'image.jpeg'
         NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url(TEST_IMAGE)
         self.userinfo_form.cancel()
 
