@@ -55,6 +55,7 @@ class UserinfoForm(Component):
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
 
     LOGOUT_BUTTON = '#PH_logoutLink'
+    LOGOUT_MESSAGE = 'div[class="c012"]'
     HELP_BUTTON = '#settigns_toolbar__right  a.b-toolbar__btn'
 
     SUBMIT_BUTTON = 'div.form__actions__inner button[type="submit"]'
@@ -212,6 +213,11 @@ class UserinfoForm(Component):
     def click_logout_button(self):
         wait_for_element_by_selector(self.driver, self.LOGOUT_BUTTON)
         self.click_element(self.LOGOUT_BUTTON, False)
+
+    def wait_for_logout_message(self):
+        # print(self.driver.find_element_by_class_name('c012'))
+
+        wait_for_element_by_selector(self.driver, self.LOGOUT_MESSAGE, False)
 
     def wait_for_logout(self):
         wait_redirect(self.driver, self.AFTER_LOGOUT_URI)

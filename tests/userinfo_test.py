@@ -147,11 +147,11 @@ class UserinfoTest(unittest.TestCase):
         NEW_IMAGE = self.userinfo_form.input_test_image('test.ico')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
-    #  def test_jpeg_image_upload(self):
+     def test_jpeg_image_upload(self):
 
-    #     CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
-    #     NEW_IMAGE = self.userinfo_form.input_test_image('test.jpeg')
-    #     self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+        NEW_IMAGE = self.userinfo_form.input_test_image('test.jpeg')
+        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
     def test_jpg_image_upload(self):
     
@@ -166,9 +166,7 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_form.click_logout_button()
 
         self.userinfo_form.switch_to_window(0)
-        self.userinfo_form.refresh_page()
-        self.userinfo_form.match_to_login_URI()
-
+        self.userinfo_form.wait_for_logout_message()
 
     def test_date_lists(self):
         DAY_CHILD_INPUT = 20
