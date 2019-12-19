@@ -5,7 +5,7 @@ from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath, wait_for_text_by_selector
+from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath, wait_for_text_by_xpath, wait_for_text_by_selector
 
 
 class UserinfoPage(DefaultPage):
@@ -25,11 +25,12 @@ class UserinfoForm(Component):
     LAST_NAME_ERROR = '#formPersonal div.form__message_error'
     MAKE_SNAPSHOT = '#js-edit-avatar button.js-camera'
     LOAD_IMAGE = '#js-edit-avatar input[name="avatar"]'
-    SAVE_AVATAR = '#MailRuConfirm div[data-fire="save"]'
-    CANCEL_AVATAR = '#MailRuConfirm div[data-fire="cancel"]'
+    SAVE_AVATAR_TEXT = '#MailRuConfirm div[data-fire="save"] .btn__text'
+    CANCEL_AVATAR_TEXT = '#MailRuConfirm div[data-fire="cancel"] .btn__text'
     PHONE_LINK = '#phonesContainer a.js-click-security-recovery'
     TIMEZONE_TICK = 'input[name=UseAutoTimezone]'
     TIMEZONE_SELECTOR = 'select[name=TimeZone]'
+    TIMEZONE_SELECTOR_DIV = 'div.js-timezone .form__select__box__text'
     SUGGESTS = '//*[@class="content__page"]/descendant::span[@class="div_inner ac-items form__field__suggest__inner"]'
     SUGGESTS_ITEM = '//form[@id="formPersonal"]//*[@class="form__field__suggest__item"]'
     GENDER_MALE = 'label[for="man1"] input'
@@ -53,6 +54,8 @@ class UserinfoForm(Component):
 
     IMAGE_INPUT = 'input[name="avatar"]'
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
+    LOAD_IMAGE_ERROR = 'div.notify'
+    LOAD_IMAGE_ERROR_MESSAGE = 'div.notify .js-error.notify-message .js-txt'
 
     LOGOUT_BUTTON = '#PH_logoutLink'
     LOGOUT_MESSAGE = 'div[class="c012"]'
@@ -89,28 +92,34 @@ class UserinfoForm(Component):
         element = wait_for_element_by_selector(self.driver, self.TOWN_ERROR)
         return element.text
 
-    def uncheck_town(self):
-        tick = wait_for_element_by_selector(self.driver, self.TIMEZONE_TICK)
+    def uncheck_tick(self):
+        wait_for_element_by_selector(self.driver, self.TIMEZONE_TICK)
+        tick = self.driver.find_element_by_css_selector(self.TIMEZONE_TICK)
         if tick.is_selected():
             tick.click()
 
-    def get_town_selector(self):
-        return self.driver.find_element_by_css_selector(self.TIMEZONE_SELECTOR)
+    def get_timezone_selector_first_value(self):
+        return self.driver.find_element_by_css_selector(self.TIMEZONE_SELECTOR_DIV).text
+
+    def wait_for_timezone_selector_first_value(self, text):
+        return wait_for_text_by_selector(self.driver, self.TIMEZONE_SELECTOR_DIV, text)
 
     def get_url_phone_link(self):
         element = wait_for_element_by_selector(self.driver, self.PHONE_LINK)
         return element.get_attribute("href")  
 
-    def load_image(self):
-        image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
-        self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)
-       
+    def wait_load_image(self, file_name):
+        image_path = (os.path.dirname(os.path.abspath(__file__))+file_name).replace("pages", "")
+        self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)  
 
-    def get_save_avatar_button(self):
-        return wait_for_element_by_selector(self.driver, self.SAVE_AVATAR)
-            
-    def get_cancel_avatar_button(self):
-        return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR)
+    def get_image_error_message(self):
+        return wait_for_element_by_selector(self.driver, self.LOAD_IMAGE_ERROR_MESSAGE).text     
+    
+    def get_save_avatar_button_value(self):
+        return wait_for_element_by_selector(self.driver, self.SAVE_AVATAR_TEXT).text
+           
+    def get_cancel_avatar_button_value(self):
+        return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR_TEXT).text
 
     def dismiss_snapshot_request(self):
         make_snapshot = self.driver.find_element_by_css_selector(self.MAKE_SNAPSHOT)
@@ -160,7 +169,7 @@ class UserinfoForm(Component):
 
     def wait_for_last_suggest(self, text):
         locator = f'{self.SUGGESTS_ITEM}[last()]'
-        return wait_for_text(self.driver, locator, text)
+        return wait_for_text_by_xpath(self.driver, locator, text)
 
     def get_unselected_gender(self):
         gender_male = wait_for_element_by_selector(self.driver, self.GENDER_MALE)
