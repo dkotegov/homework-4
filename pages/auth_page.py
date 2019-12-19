@@ -1,7 +1,7 @@
 import os
 
 from pages.default_page import DefaultPage, Component
-from helpers import wait_for_element
+from helpers import wait_for_element_by_selector
 
 
 class AuthPage(DefaultPage):
@@ -28,17 +28,17 @@ class AuthForm(Component):
     SUBMIT = '[data-test-id="submit-button"]'
 
     def set_login(self, login):
-        element = wait_for_element(self.driver, self.LOGIN)
+        element = wait_for_element_by_selector(self.driver, self.LOGIN)
         element.send_keys(login)
 
     def set_password(self, pwd):
-        element = wait_for_element(self.driver, self.PASSWORD)
+        element = wait_for_element_by_selector(self.driver, self.PASSWORD)
         element.send_keys(pwd)
 
     def next(self):
-        element = wait_for_element(self.driver, self.NEXT)
+        element = wait_for_element_by_selector(self.driver, self.NEXT)
         element.click()
         
     def submit(self):
-        element = wait_for_element(self.driver, self.SUBMIT)
+        element = wait_for_element_by_selector(self.driver, self.SUBMIT)
         element.click()
