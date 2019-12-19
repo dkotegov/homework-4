@@ -57,7 +57,7 @@ class Page(object):
     def __init__(self, driver):
         self.driver = driver
         self.username = 'test_qwerty1122@mail.ru'
-        self.password = "qqaawwss123"
+        self.password = os.getenv('PASSWORD')
 
     def open(self):
         self.driver.get(self.BASE_URL)
