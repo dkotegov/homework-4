@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import os
 import unittest
+import time
 import random
 
 from tests.CustomWait import ElementEqualSubcategory
@@ -37,14 +38,14 @@ POLL_VARIANT_FIELD_4 = '//div[@name="poll_options"]/div[5]/label/div[2]/div/div/
 POLL_VARIANT_FIELD_5 = '//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input'
 POLL_FORM = '_3LtjwRRK3wqD0IfUUl1sxB_0'
 
-ALERT_ADDITIONAL = 'z1LfJpugzE39YVXERE-f__0'
-POP_UP_ALERT = '_3e48lyZw6JxqpxlQCH7ZrK_0'
+ALERT_ADDITIONAL = 'error_z1LfJpug'
+POP_UP_ALERT = 'popup--content '
 
 PROFILE_BUTTON = 'profile-menu-item_hoverable'
 PROFILE_FORM = 'v--modal-overlay'
 
-CATEGORY = '_3oJIbRjOJJ6UfBtvy3o6EW_1'
-CATEGORY_ANOTHER = '_3BV4a0WZevpbLq-ArsDomg_0'
+CATEGORY = 'select_1lZeUpFs_1'
+CATEGORY_ANOTHER = 'content__text_34Qv5DnE'
 
 
 class Page(object):
@@ -106,6 +107,7 @@ class AskPage(Page):
         # self.driver.switch_to_default_content
         WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.CLASS_NAME, LOGIN_FORM_FRAME)))
 
+        time.sleep(1)
         inputUsername = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.NAME, LOGIN_INPUT)))
         inputUsername.send_keys(self.username)
 
@@ -157,7 +159,7 @@ class AskPage(Page):
     def clickSendQuestion(self):
         buttonSend = WebDriverWait(self.driver, 5).until(
             EC.element_to_be_clickable(
-                (By.CLASS_NAME, '_3ykLdYEqVa47ACQrpqnZOj_0')))
+                (By.CLASS_NAME, 'btn_3ykLdYEq')))
         buttonSend.click()
 
     def autosettingSubcategory(self, Subcategory):
