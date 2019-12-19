@@ -237,4 +237,16 @@ class UserinfoTest(unittest.TestCase):
 
         self.userinfo_form.wait_load_image(BIG_IMAGE)
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())        
+
+    @unittest.skip('Баг по отмене загрузки аватарки. Задача #N')
+    def test_cancel_changed_image(self):           
+        TEST_IMAGE = 'image.jpeg'
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url(TEST_IMAGE)
+        self.userinfo_form.cancel()
+
+        self.userinfo_page.open()
+        self.userinfo_form = self.userinfo_page.form
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+
+        self.assertEqual(CURRENT_IMAGE, NEW_IMAGE)
              
