@@ -54,6 +54,7 @@ class UserinfoForm(Component):
 
     IMAGE_INPUT = 'input[name="avatar"]'
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
+    CANCEL_IMAGE_BUTTON = 'div[data-fire="cancel"]'
     LOAD_IMAGE_ERROR = 'div.notify'
     LOAD_IMAGE_ERROR_MESSAGE = 'div.notify .js-error.notify-message .js-txt'
 
@@ -120,6 +121,12 @@ class UserinfoForm(Component):
            
     def get_cancel_avatar_button_value(self):
         return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR_TEXT).text
+
+    def get_save_avatar_button(self):
+        return wait_for_element_by_selector(self.driver, self.SAVE_IMAGE_BUTTON)
+           
+    def get_cancel_avatar_button(self):
+        return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR_TEXT)
 
     def dismiss_snapshot_request(self):
         make_snapshot = self.driver.find_element_by_css_selector(self.MAKE_SNAPSHOT)

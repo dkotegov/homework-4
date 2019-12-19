@@ -155,9 +155,7 @@ class UserinfoTest(unittest.TestCase):
     
         CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
         NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.JPG')
-        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
-
-    
+        self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)   
 
     def test_authorize_redirect_after_logout(self):
         self.userinfo_form.open_settings_in_new_window()
@@ -232,12 +230,14 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_form.load_image(BIG_IMAGE)
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())        
 
-    # def test_cancel_changed_image(self):
-    #     NEW_IMAGE = 'test.png'
+    def test_cancel_changed_image(self):           
+        TEST_IMAGE = 'test.jpeg'
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url(TEST_IMAGE)
+        self.userinfo_form.cancel()
 
-    #     before_cancel_image_url = self.userinfo_form.set_last_name(LAST_NAME_NEW_VALUE)
-    #     self.userinfo_form.cancel()
-    #     self.userinfo_page.open()
-    #     after_cancel_image_url = self.userinfo_form.get_last_name()
-    #     self.assertNotEqual(before_cancel_image_url, new_image_url)
+        self.userinfo_page.open()
+        self.userinfo_form = self.userinfo_page.form
+        CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
+
+        self.assertEqual(CURRENT_IMAGE, NEW_IMAGE)
              
