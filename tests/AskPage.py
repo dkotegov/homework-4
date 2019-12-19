@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import os
 import unittest
+import random
 
 from tests.CustomWait import ElementEqualSubcategory
 
@@ -31,12 +32,9 @@ QUESTION_EDIT_BTN = "q-edit-control"
 QUESTION_TEXT = 'question_text'
 QUESTION_ADDITIONAL = 'question_additional'
 
-POLL_VARIANT_FIELD_3 = \
-    '//div[@name="poll_options"]/div[4]/label/div[2]/div/div/div/input'
-POLL_VARIANT_FIELD_4 = \
-    '//div[@name="poll_options"]/div[5]/label/div[2]/div/div/div/input'
-POLL_VARIANT_FIELD_5 = \
-    '//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input'
+POLL_VARIANT_FIELD_3 = '//div[@name="poll_options"]/div[4]/label/div[2]/div/div/div/input'
+POLL_VARIANT_FIELD_4 = '//div[@name="poll_options"]/div[5]/label/div[2]/div/div/div/input'
+POLL_VARIANT_FIELD_5 = '//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input'
 POLL_FORM = '_3LtjwRRK3wqD0IfUUl1sxB_0'
 
 ALERT_ADDITIONAL = 'z1LfJpugzE39YVXERE-f__0'
@@ -105,20 +103,17 @@ class AskPage(Page):
         return False
 
     def login(self):
-        self.driver.switch_to_default_content
-        WebDriverWait(self.driver, 5).until(
-            EC.frame_to_be_available_and_switch_to_it(
-                (By.CLASS_NAME, LOGIN_FORM_FRAME)))
+        # self.driver.switch_to_default_content
+        WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.CLASS_NAME, LOGIN_FORM_FRAME)))
 
-        inputUsername = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located((By.NAME, LOGIN_INPUT)))
+        inputUsername = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.NAME, LOGIN_INPUT)))
         inputUsername.send_keys(self.username)
 
         self.driver.\
             find_element_by_xpath(LOGIN_NEXT_BTN).\
             click()
 
-        inputPassword = WebDriverWait(self.driver, 5).until(
+        inputPassword = WebDriverWait(self.driver, 5).until(\
             EC.visibility_of_element_located((By.NAME, 'Password')))
         inputPassword.send_keys(self.password)
 
@@ -223,14 +218,6 @@ class AskPage(Page):
         else:
             return False
 
-        # try:
-            # WebDriverWait(self.driver, 10, 0.1).until(
-                # lambda d: d.find_element_by_class_name(SETTINGS_PAGE)
-            # )
-            # return True
-        # except Exception:
-            # return False
-
     def make_default_question(self):
         ask_button = WebDriverWait(self.driver, 10, 0.1).until(
             EC.element_to_be_clickable(
@@ -276,3 +263,38 @@ class AskPage(Page):
             lambda d: d.find_element_by_class_name(POLL_FORM)
         )
         poll_form.click()
+
+    def getGetRandomTitle(self):
+        firstWordDict = [
+            'Как'
+        ]
+        secondWordDict = [
+            'Собрать',
+            'Починить',
+            'Построить',
+            'Приготовить',
+            'Испечь',
+            'Сделать',
+            'Смастерить',
+            'Запустить',
+            'Установить'
+        ]
+        thirdWordDict = [
+            'Дом',
+            'Пирог',
+            'Кухню',
+            'Лего',
+            'Салат',
+            'Пасту',
+            'Программу',
+            'Систему',
+            'Винду',
+            'Комнату',
+            'Будку',
+            'Конструктор',
+            'Полку'
+        ]
+
+        return firstWordDict[0] + ' ' +\
+            secondWordDict[random.randint(0, len(secondWordDict)) - 1] + ' ' +\
+            thirdWordDict[random.randint(0, len(thirdWordDict)) - 1]
