@@ -109,8 +109,6 @@ class AskPage(Page):
         WebDriverWait(self.driver, 5).until(
             EC.frame_to_be_available_and_switch_to_it(
                 (By.CLASS_NAME, LOGIN_FORM_FRAME)))
-        self.driver.find_elements_by_css_selector('*')[0].\
-            get_attribute('innerHTML')
 
         inputUsername = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located((By.NAME, LOGIN_INPUT)))
@@ -216,13 +214,22 @@ class AskPage(Page):
         )
         settings_button.click()
 
-        try:
-            WebDriverWait(self.driver, 10, 0.1).until(
-                lambda d: d.find_element_by_class_name(SETTINGS_PAGE)
-            )
+        settings = WebDriverWait(self.driver, 10, 0.1).until(
+            lambda d: d.find_elements_by_class_name(SETTINGS_PAGE)
+        )
+
+        if len(settings) == 1:
             return True
-        except Exception:
+        else:
             return False
+
+        # try:
+            # WebDriverWait(self.driver, 10, 0.1).until(
+                # lambda d: d.find_element_by_class_name(SETTINGS_PAGE)
+            # )
+            # return True
+        # except Exception:
+            # return False
 
     def make_default_question(self):
         ask_button = WebDriverWait(self.driver, 10, 0.1).until(
@@ -256,10 +263,12 @@ class AskPage(Page):
         variant_4.click()
         variant_4.send_keys("getting 5 option")
 
-        try:
-            self.driver.find_element_by_xpath(POLL_VARIANT_FIELD_5)
+        polls = self.driver\
+            .find_elements_by_xpath(POLL_VARIANT_FIELD_5)
+
+        if len(polls) == 1:
             return True
-        except Exception:
+        else:
             return False
 
     def open_poll_form(self):
