@@ -26,17 +26,17 @@ UPLOAD_VIDEO_SPAN = '//span[text()="Видео"]'
 SETTING_BUTTON = '//span[text()="Настройки"]'
 SETTINGS_PAGE = 'page-settings'
 
-ASK_QUESTION_BUTTON = "_3ykLdYEqVa47ACQrpqnZOj_0"
+ASK_QUESTION_BUTTON = "submit__btn_1O1nlLI5"
 UNDER_QUESTION_ALERT = "z1LfJpugzE39YVXERE-f__0"
-QUESTION_SUBCOTEGORY = "_1lZeUpFslQAPq_G1uwjahr_1"
-QUESTION_EDIT_BTN = "q-edit-control"
+QUESTION_SUBCOTEGORY = "select_1lZeUpFs_1"
+QUESTION_EDIT_BTN = "q-edit-control-element"
 QUESTION_TEXT = 'question_text'
 QUESTION_ADDITIONAL = 'question_additional'
 
 POLL_VARIANT_FIELD_3 = '//div[@name="poll_options"]/div[4]/label/div[2]/div/div/div/input'
 POLL_VARIANT_FIELD_4 = '//div[@name="poll_options"]/div[5]/label/div[2]/div/div/div/input'
 POLL_VARIANT_FIELD_5 = '//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input'
-POLL_FORM = '_3LtjwRRK3wqD0IfUUl1sxB_0'
+POLL_FORM = 'menuItem__content_last_3LtjwRRK'
 
 ALERT_ADDITIONAL = 'error_z1LfJpug'
 POP_UP_ALERT = 'popup--content '
@@ -53,6 +53,8 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
+        # self.username = 'leshikne@bk.ru'
+        # self.password = 'Laizerwing777'
         self.username = 'test_qwerty1122@mail.ru'
         self.password = os.getenv('PASSWORD')
 
@@ -164,7 +166,7 @@ class AskPage(Page):
 
     def autosettingSubcategory(self, Subcategory):
         WebDriverWait(self.driver, 10).until(
-            ElementEqualSubcategory('_1lZeUpFslQAPq_G1uwjahr_1',
+            ElementEqualSubcategory(QUESTION_SUBCOTEGORY,
                                     u'Политика'))
 
     def clearQuestionThemeByKeys(self):
@@ -231,7 +233,7 @@ class AskPage(Page):
         try:
             WebDriverWait(self.driver, 10, 0.1).until(
                 EC.visibility_of_element_located(
-                    (By.CLASS_NAME, QUESTION_EDIT_BTN))
+                    (By.ID, QUESTION_EDIT_BTN))
             )
             return True
         except Exception:
