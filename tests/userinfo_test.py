@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities, Remote
 from pages.auth_page import AuthPage
 from pages.userinfo_page import UserinfoPage
-from helpers import *
+
 
 class UserinfoTest(unittest.TestCase):
     userinfo_page = None
@@ -37,8 +37,10 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_form.wait_for_timezone_selector_first_value(TIMEZONE_SELECT_LIST_VALUE)
         self.assertEqual(TIMEZONE_SELECT_LIST_VALUE, self.userinfo_form.get_timezone_selector_first_value())
 
-    def test_image_preview_buttons(self):        
-        self.userinfo_form.load_image()
+    def test_image_preview_buttons(self):  
+        IMAGE = 'test.png'     
+
+        self.userinfo_form.load_image(IMAGE)
         self.userinfo_form.get_save_avatar_button()
         self.userinfo_form.get_cancel_avatar_button()
         
@@ -158,3 +160,55 @@ class UserinfoTest(unittest.TestCase):
         self.assertEqual(self.userinfo_form.get_birth_day(), str(DAY_CHILD_INPUT))
         self.assertEqual(self.userinfo_form.get_birth_month(), MONTH_NAME)
         self.assertEqual(self.userinfo_form.get_birth_year(), str(YEAR_CHILD_INPUT))
+
+    def test_load_image_pdf(self): 
+        FILE_PDF = 'test.pdf'
+        TOP_MESSAGE = 'Недопустимый формат изображения'
+
+        self.userinfo_form.load_image(FILE_PDF)
+        self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())
+
+    def test_load_image_mp3(self):
+        FILE_MP3 = 'test.mp3'
+        TOP_MESSAGE = 'Недопустимый формат изображения'
+
+        self.userinfo_form.load_image(FILE_MP3)
+        self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())
+
+    def test_load_image_txt(self):
+        FILE_TXT = 'test.txt'
+        TOP_MESSAGE = 'Недопустимый формат изображения'
+
+        self.userinfo_form.load_image(FILE_TXT)
+        self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())
+
+    def test_load_image_sh(self):
+        FILE_SH = 'test.sh'
+        TOP_MESSAGE = 'Недопустимый формат изображения'
+
+        self.userinfo_form.load_image(FILE_SH)
+        self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())
+
+    def test_load_image_go(self):  
+        FILE_GO = 'test.go'
+        TOP_MESSAGE = 'Недопустимый формат изображения'
+
+        self.userinfo_form.load_image(FILE_GO)
+        self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())      
+
+    def test_load_big_image(self):  
+        BIG_IMAGE = 'big_image.jpg'
+        TOP_MESSAGE = 'Слишком большое разрешение изображения'
+
+        self.userinfo_form.load_image(BIG_IMAGE)
+        self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())        
+
+    # def test_cancel_changed_image(self):
+    #     NEW_IMAGE = 'test.png'
+
+    #     before_cancel_image_url = self.userinfo_form.set_last_name(LAST_NAME_NEW_VALUE)
+    #     self.userinfo_form.cancel()
+    #     self.userinfo_page.open()
+    #     after_cancel_image_url = self.userinfo_form.get_last_name()
+    #     self.assertNotEqual(before_cancel_image_url, new_image_url)
+             

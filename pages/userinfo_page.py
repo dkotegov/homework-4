@@ -51,6 +51,8 @@ class UserinfoForm(Component):
 
     IMAGE_INPUT = 'input[name="avatar"]'
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
+    LOAD_IMAGE_ERROR = 'div.notify'
+    LOAD_IMAGE_ERROR_MESSAGE = 'div.notify .js-error.notify-message .js-txt'
 
     LOGOUT_BUTTON = '#PH_logoutLink'
     HELP_BUTTON = '#settigns_toolbar__right  a.b-toolbar__btn'
@@ -102,9 +104,12 @@ class UserinfoForm(Component):
         element = wait_for_element_by_selector(self.driver, self.PHONE_LINK)
         return element.get_attribute("href")  
 
-    def load_image(self):
-        image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
-        self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)
+    def load_image(self, file_name):
+        image_path = (os.path.dirname(os.path.abspath(__file__))+file_name).replace("pages", "")
+        self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)  
+
+    def get_image_error_message(self):
+        return  wait_for_element_by_selector(self.driver, self.LOAD_IMAGE_ERROR_MESSAGE).text     
     
     def get_save_avatar_button(self):
         return wait_for_element_by_selector(self.driver, self.SAVE_AVATAR)
