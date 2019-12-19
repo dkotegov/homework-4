@@ -4,7 +4,7 @@ from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath, wait_for_text
+from helpers import wait, wait_redirect, wait_for_element_by_selector, wait_for_element_by_xpath
 
 
 class UserinfoPage(DefaultPage):
@@ -36,6 +36,8 @@ class UserinfoForm(Component):
 
     FIRST_NAME = '#FirstName'
     NICK_NAME = '#NickName'
+
+    IMAGE_AVATAR = '#js-edit-avatar .form__row__avatar__wrapper_avatar'
 
     DAY_INPUT = 'select[name="BirthDay"]'
     DAY_INPUT_CHILD = 'select[name="BirthDay"] option[value="%d"]'
@@ -100,7 +102,8 @@ class UserinfoForm(Component):
     def load_image(self):
         image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
         self.driver.find_element_by_css_selector(self.LOAD_IMAGE).send_keys(image_path)
-    
+       
+
     def get_save_avatar_button(self):
         return wait_for_element_by_selector(self.driver, self.SAVE_AVATAR)
             
@@ -181,9 +184,35 @@ class UserinfoForm(Component):
     def wait_for_ok_after_submit(self):
         wait_redirect(self.driver, self.OK_AFTER_SUBMIT_URI)
 
-    def input_test_image(self):
-        image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
+    def input_test_image(self, name = 'test.png'):
+        image_path = (os.path.dirname(os.path.abspath(__file__))+name).replace("pages", "")
         self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image_path, False, False)
+        button = self.get_save_avatar_button()
+        button.click()
+
+    def input_bmp_image(self):
+        self.input_test_image('test.bmp')
+
+    def input_gif_image(self):
+        self.input_test_image('test.gif')
+
+    def input_ico_image(self):
+        self.input_test_image('test.ico')
+
+    def input_jpeg_image(self):
+        self.input_test_image('test.jpeg')
+
+    def input_jpg_image(self):
+        self.input_test_image('test.JPG')
+
+    def input_png_image(self):
+        self.input_test_image('test.png')
+
+    def input_tiff_image(self):
+        self.input_test_image('test.tiff')
+
+    def get_avatar_image_url(self):
+        return wait_for_element_by_selector(self.driver, self.IMAGE_AVATAR).value_of_css_property("background-image")
 
     def click_save_image_button(self):
         self.click_element(self.SAVE_IMAGE_BUTTON, True)
