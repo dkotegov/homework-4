@@ -142,8 +142,9 @@ class AskPage(Page):
             return False
 
     def isAlert(self):
-        popUp = self.driver.find_elements_by_class_name(
-            POP_UP_ALERT)
+        popUp = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_all_elements_located(
+                (By.CLASS_NAME, POP_UP_ALERT)))
         if len(popUp) == 1:
             return True
         else:
