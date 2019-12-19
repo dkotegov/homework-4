@@ -10,4 +10,3 @@ if __name__ == '__main__':
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
-

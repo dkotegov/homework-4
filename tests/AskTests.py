@@ -9,6 +9,7 @@ import unittest
 
 from tests.AskPage import AskPage
 
+
 class AskTests(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(AskTests, self).__init__(*args, **kwargs)
@@ -27,7 +28,7 @@ class AskTests(unittest.TestCase):
     def test_needThreeWords(self):
         self.page = AskPage(self.driver)
         self.page.open()
-        
+
         self.page.clickLogin()
         self.page.login()
         self.page.open()
@@ -55,7 +56,7 @@ class AskTests(unittest.TestCase):
         self.page.setQuestionTheme(shortQuestion)
         self.page.clearQuestionThemeByKeys()
         self.assertEqual(self.page.getAlertUnderQuestion(),
-            u'Поле «Тема вопроса» обязательно для заполнения.')
+                         u'Поле «Тема вопроса» обязательно для заполнения.')
 
     def test_mentionCountry(self):
         self.page = AskPage(self.driver)
@@ -65,7 +66,7 @@ class AskTests(unittest.TestCase):
         self.page.setQuestionTheme(questionWithCountry)
         self.page.autosettingSubcategory(u'Политика')
         self.assertEqual(self.page.getSubcategory(),
-            u'Политика')
+                         u'Политика')
 
     def test_loginBtn_and_authorization(self):
         self.page = AskPage(self.driver)
@@ -79,13 +80,14 @@ class AskTests(unittest.TestCase):
     def test_tooBigQuestion(self):
         self.page = AskPage(self.driver)
         self.page.open()
-        
+
         bigStr = u''
         for _ in range(122):
             bigStr = bigStr + u'a'
         self.page.setQuestionTheme(bigStr)
         self.assertEqual(self.page.getAlertUnderQuestion(),
-            u'Поле «Тема вопроса» не может быть больше 120 символов.')
+                         u'Поле «Тема вопроса» не может '
+                         'быть больше 120 символов.')
 
     def test_photoVideoUploadTest(self):
         self.page = AskPage(self.driver)
@@ -100,7 +102,7 @@ class AskTests(unittest.TestCase):
     def test_notValidTheme(self):
         self.page = AskPage(self.driver)
         self.page.open()
-        
+
         self.page.clickLogin()
         self.page.login()
         self.page.open()
@@ -111,14 +113,15 @@ class AskTests(unittest.TestCase):
     def test_tooBigQuestionBody(self):
         self.page = AskPage(self.driver)
         self.page.open()
-        
+
         bigStr = u''
         for _ in range(3900):
             bigStr = bigStr + u'a'
 
         self.page.setQuestionAdditional(bigStr)
         self.assertEqual(self.page.getAlertUnderAdditional(),
-            u'Поле «Текст вопроса» не может быть больше 3800 символов.')
+                         u'Поле «Текст вопроса» не может быть '
+                         'больше 3800 символов.')
 
     def test_newQuestionEditTest(self):
         self.page = AskPage(self.driver)
@@ -129,7 +132,10 @@ class AskTests(unittest.TestCase):
         self.page.open()
 
         self.page.setQuestionTheme(u"почему я не ты Вопрос про салаты")
-        self.page.setQuestionAdditional(u"когда что я Собственно говоря, если греческий салат испортился, то можно ли его называть древнегреческим?")
+        self.page.setQuestionAdditional(u'когда что я Собственно говоря,'
+                                        u'если греческий салат испортился,'
+                                        u'то можно ли его называть '
+                                        u'древнегреческим?')
         self.page.clickChooseAnother()
         self.page.make_default_question()
 
