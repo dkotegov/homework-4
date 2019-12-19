@@ -189,8 +189,8 @@ class UserinfoForm(Component):
         last_url = self.get_avatar_image_url()
         image_path = (os.path.dirname(os.path.abspath(__file__))+name).replace("pages", "")
         self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image_path, False, False)
-        button = self.get_save_avatar_button()
-        button.click()
+        save_image_button = self.get_save_avatar_button()
+        save_image_button.click()
         start = time.time()
         while time.time() < start + 10:
             if last_url != self.get_avatar_image_url():
