@@ -1,7 +1,7 @@
 ﻿from utils import Utils
 
 from selenium import webdriver
-
+from selenium.webdriver import ActionChains
 
 class CalendarPage(Utils):
     CALENDAR_URL = 'https://m.calendar.mail.ru/calendar/new/'
@@ -66,6 +66,13 @@ class CalendarPage(Utils):
         elem = self.wait_renderbtn(self.first_calendar_name)
 
         return (elem.text)
+    
+    def open_addNewCalendar(self):
+        login_but = self.wait_renderbtn('.calendar-create-item.panel-item.panel-item__marked')
+        self.driver.execute_script("arguments[0].click();", login_but)
+        element = self.wait_renderbtn('.calendar-create-item.panel-item.panel-item__marked')
+        # element.click()
+        ActionChains(self.driver).move_to_element(element ).click(element).perform()
 
     # Редактирование календаря
     def open_edit_calendars(self):

@@ -23,7 +23,7 @@ class CalendarTest(unittest.TestCase):
         self.driver.quit()
 
     def create_new_calendar(self, nameForForm=("rubbishName" + str(random.randrange(1, 30000)))):
-        self.editing.open_add_new_calendar()
+        self.editing.open_addNewCalendar()
         self.editing.wait_redirect(self.CALENDAR_URL)
         self.editing.enter_calendar_name(nameForForm)
         self.editing.choose_calendar_color()
