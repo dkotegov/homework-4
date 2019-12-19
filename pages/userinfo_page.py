@@ -1,4 +1,5 @@
 import os
+import time
 
 from pages.default_page import DefaultPage, Component
 from selenium.webdriver.common.alert import Alert
@@ -38,6 +39,8 @@ class UserinfoForm(Component):
     FIRST_NAME = '#FirstName'
     NICK_NAME = '#NickName'
 
+    IMAGE_AVATAR = '#js-edit-avatar .form__row__avatar__wrapper_avatar'
+
     DAY_INPUT = 'select[name="BirthDay"]'
     DAY_INPUT_CHILD = 'select[name="BirthDay"] option[value="%d"]'
     MONTH_INPUT = 'select[name="BirthMonth"]'
@@ -51,10 +54,12 @@ class UserinfoForm(Component):
 
     IMAGE_INPUT = 'input[name="avatar"]'
     SAVE_IMAGE_BUTTON = 'div[data-fire="save"]'
+    CANCEL_IMAGE_BUTTON = 'div[data-fire="cancel"]'
     LOAD_IMAGE_ERROR = 'div.notify'
     LOAD_IMAGE_ERROR_MESSAGE = 'div.notify .js-error.notify-message .js-txt'
 
     LOGOUT_BUTTON = '#PH_logoutLink'
+    LOGOUT_MESSAGE = 'div[class="c012"]'
     HELP_BUTTON = '#settigns_toolbar__right  a.b-toolbar__btn'
 
     SUBMIT_BUTTON = 'div.form__actions__inner button[type="submit"]'
@@ -113,9 +118,15 @@ class UserinfoForm(Component):
     
     def get_save_avatar_button_value(self):
         return wait_for_element_by_selector(self.driver, self.SAVE_AVATAR_TEXT).text
-            
+           
     def get_cancel_avatar_button_value(self):
         return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR_TEXT).text
+
+    def get_save_avatar_button(self):
+        return wait_for_element_by_selector(self.driver, self.SAVE_IMAGE_BUTTON)
+           
+    def get_cancel_avatar_button(self):
+        return wait_for_element_by_selector(self.driver, self.CANCEL_AVATAR_TEXT)
 
     def dismiss_snapshot_request(self):
         make_snapshot = self.driver.find_element_by_css_selector(self.MAKE_SNAPSHOT)
@@ -128,6 +139,7 @@ class UserinfoForm(Component):
         last_name_elem = wait_for_element_by_selector(self.driver, self.LAST_NAME)
         last_name_elem.clear()
         last_name_elem.send_keys(last_name)        
+
 
     def get_last_name(self):
         return wait_for_element_by_selector(self.driver, self.LAST_NAME).get_attribute("value")     
@@ -190,9 +202,22 @@ class UserinfoForm(Component):
     def wait_for_ok_after_submit(self):
         wait_redirect(self.driver, self.OK_AFTER_SUBMIT_URI)
 
-    def input_test_image(self):
-        image_path = (os.path.dirname(os.path.abspath(__file__))+'test.png').replace("pages", "")
+    def input_image_and_get_new_image_url(self, name = 'test.png'):
+        last_url = self.get_avatar_image_url()
+        image_path = (os.path.dirname(os.path.abspath(__file__))+name).replace("pages", "")
         self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image_path, False, False)
+        save_image_button = self.get_save_avatar_button()
+        save_image_button.click()
+        start = time.time()
+        while time.time() < start + 10:
+            if last_url != self.get_avatar_image_url():
+                return self.get_avatar_image_url()
+        return last_url
+
+
+
+    def get_avatar_image_url(self):
+        return wait_for_element_by_selector(self.driver, self.IMAGE_AVATAR).value_of_css_property("background-image")
 
     def click_save_image_button(self):
         self.click_element(self.SAVE_IMAGE_BUTTON, True)
@@ -204,6 +229,9 @@ class UserinfoForm(Component):
     def click_logout_button(self):
         wait_for_element_by_selector(self.driver, self.LOGOUT_BUTTON)
         self.click_element(self.LOGOUT_BUTTON, False)
+
+    def wait_for_logout_message(self):
+        wait_for_element_by_selector(self.driver, self.LOGOUT_MESSAGE, False)
 
     def wait_for_logout(self):
         wait_redirect(self.driver, self.AFTER_LOGOUT_URI)

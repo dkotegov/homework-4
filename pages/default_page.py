@@ -38,7 +38,6 @@ class Component:
         elem.click()
 
     def switch_to_window(self, num = 0):
-        self.driver.implicitly_wait(5)
         self.driver.switch_to.window(self.driver.window_handles[num])
 
     def refresh_page(self):
