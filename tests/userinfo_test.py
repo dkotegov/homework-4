@@ -147,8 +147,9 @@ class UserinfoTest(unittest.TestCase):
         NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.ico')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
-     def test_jpeg_image_upload(self):
-
+    
+    def test_jpeg_image_upload(self):
+    
         CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
         NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.jpeg')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
