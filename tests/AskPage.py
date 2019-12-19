@@ -9,6 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 import unittest
 
+from tests.CustomWait import ElementEqualSubcategory
+
 LOGIN_NEXT_BTN = "//button[@data-test-id='next-button']"
 LOGIN_SUBMIT_BTN = "//button[@data-test-id='submit-button']"
 LOGIN_FORM_LIST = "ag-popup__frame_show"
@@ -23,18 +25,18 @@ SETTING_BUTTON = '//span[text()="Настройки"]'
 SETTINGS_PAGE = 'page-settings'
 
 ASK_QUESTION_BUTTON = "_3ykLdYEqVa47ACQrpqnZOj_0"
-UNDER_QUESTION_ALERT = "_1lZeUpFslQAPq_G1uwjahr_1"
-QUESTION_SUBCOTEGORY = "z1LfJpugzE39YVXERE-f__0"
+UNDER_QUESTION_ALERT = "z1LfJpugzE39YVXERE-f__0"
+QUESTION_SUBCOTEGORY = "_1lZeUpFslQAPq_G1uwjahr_1"
 QUESTION_EDIT_BTN = "q-edit-control"
 QUESTION_TEXT = 'question_text'
 QUESTION_ADDITIONAL = 'question_additional'
 
 POLL_VARIANT_FIELD_3 = \
-'//div[@name="poll_options"]/div[4]/label/div[2]/div/div/div/input'
+    '//div[@name="poll_options"]/div[4]/label/div[2]/div/div/div/input'
 POLL_VARIANT_FIELD_4 = \
-'//div[@name="poll_options"]/div[5]/label/div[2]/div/div/div/input'
+    '//div[@name="poll_options"]/div[5]/label/div[2]/div/div/div/input'
 POLL_VARIANT_FIELD_5 = \
-'//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input'
+    '//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input'
 POLL_FORM = '_3LtjwRRK3wqD0IfUUl1sxB_0'
 
 ALERT_ADDITIONAL = 'z1LfJpugzE39YVXERE-f__0'
@@ -45,8 +47,6 @@ PROFILE_FORM = 'v--modal-overlay'
 
 CATEGORY = '_3oJIbRjOJJ6UfBtvy3o6EW_1'
 CATEGORY_ANOTHER = '_3BV4a0WZevpbLq-ArsDomg_0'
-
-from tests.CustomWait import ElementEqualSubcategory
 
 
 class Page(object):
