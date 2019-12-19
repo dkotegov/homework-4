@@ -126,37 +126,37 @@ class UserinfoTest(unittest.TestCase):
     def test_png_image_upload(self):
     
         CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
-        NEW_IMAGE = self.userinfo_form.input_test_image('test.png')
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.png')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
     def test_bmp_image_upload(self):
     
         CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
-        NEW_IMAGE = self.userinfo_form.input_test_image('test.bmp')
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.bmp')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
     def test_gif_image_upload(self):
     
         CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
-        NEW_IMAGE = self.userinfo_form.input_test_image('test.gif')
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.gif')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
     def test_ico_image_upload(self):
     
         CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
-        NEW_IMAGE = self.userinfo_form.input_test_image('test.ico')
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.ico')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
      def test_jpeg_image_upload(self):
 
         CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
-        NEW_IMAGE = self.userinfo_form.input_test_image('test.jpeg')
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.jpeg')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
     def test_jpg_image_upload(self):
     
         CURRENT_IMAGE = self.userinfo_form.get_avatar_image_url()
-        NEW_IMAGE = self.userinfo_form.input_test_image('test.JPG')
+        NEW_IMAGE = self.userinfo_form.input_image_and_get_new_image_url('test.JPG')
         self.assertNotEqual(CURRENT_IMAGE, NEW_IMAGE)
 
     

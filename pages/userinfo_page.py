@@ -186,7 +186,7 @@ class UserinfoForm(Component):
     def wait_for_ok_after_submit(self):
         wait_redirect(self.driver, self.OK_AFTER_SUBMIT_URI)
 
-    def input_test_image(self, name = 'test.png'):
+    def input_image_and_get_new_image_url(self, name = 'test.png'):
         last_url = self.get_avatar_image_url()
         image_path = (os.path.dirname(os.path.abspath(__file__))+name).replace("pages", "")
         self.clear_and_send_keys_to_input(self.IMAGE_INPUT, image_path, False, False)
@@ -215,8 +215,6 @@ class UserinfoForm(Component):
         self.click_element(self.LOGOUT_BUTTON, False)
 
     def wait_for_logout_message(self):
-        # print(self.driver.find_element_by_class_name('c012'))
-
         wait_for_element_by_selector(self.driver, self.LOGOUT_MESSAGE, False)
 
     def wait_for_logout(self):
