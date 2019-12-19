@@ -47,6 +47,8 @@ PROFILE_FORM = 'v--modal-overlay'
 CATEGORY = 'select_1lZeUpFs_1'
 CATEGORY_ANOTHER = 'content__text_34Qv5DnE'
 
+PASSWORD = 'Password'
+
 
 class Page(object):
     BASE_URL = 'https://otvet.mail.ru/ask/'
@@ -118,7 +120,7 @@ class AskPage(Page):
             click()
 
         inputPassword = WebDriverWait(self.driver, 5).until(\
-            EC.visibility_of_element_located((By.NAME, 'Password')))
+            EC.visibility_of_element_located((By.NAME, PASSWORD)))
         inputPassword.send_keys(self.password)
 
         self.driver.\
