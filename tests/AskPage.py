@@ -41,7 +41,7 @@ POLL_VARIANT_FIELD_5 = "//input[@placeholder='Вариант №5']"
 POLL_FORM = 'menuItem__content_last_3LtjwRRK'
 
 ALERT_ADDITIONAL = 'error_z1LfJpug'
-POP_UP_ALERT = 'popup--content '
+POP_UP_ALERT = 'popup--content'
 
 PROFILE_BUTTON = 'profile-menu-item_hoverable'
 PROFILE_FORM = 'v--modal-overlay'
@@ -57,8 +57,10 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
+        # self.username = 'leshikne@bk.ru'
+        # self.password = ''
         self.username = 'test_qwerty1122@mail.ru'
-        self.password = os.getenv('PASSWORD')
+        self.password = "qqaawwss123"
 
     def open(self):
         self.driver.get(self.BASE_URL)
@@ -108,12 +110,10 @@ class AskPage(Page):
         return False
 
     def login(self):
-        # self.driver.switch_to_default_content
         WebDriverWait(self.driver, 20)\
             .until(EC.frame_to_be_available_and_switch_to_it(
                 (By.CLASS_NAME, LOGIN_FORM_FRAME)))
 
-        time.sleep(1)
         inputUsername = WebDriverWait(self.driver, 20)\
             .until(EC.visibility_of_element_located((By.NAME, LOGIN_INPUT)))
         inputUsername.send_keys(self.username)

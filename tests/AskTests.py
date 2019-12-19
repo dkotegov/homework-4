@@ -4,7 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import DesiredCapabilities, Remote
 
 import os
-import time
 import unittest
 
 from tests.AskPage import AskPage
@@ -41,7 +40,7 @@ class AskTests(unittest.TestCase):
         self.page.setQuestionTheme('hello, world!')
         self.page.clickChooseAnother()
         self.page.clickSendQuestion()
-        self.assertFalse(self.page.isAlert())
+        self.assertTrue(self.page.isAlert())
 
     def test_profile(self):
         self.askPageOpen()
