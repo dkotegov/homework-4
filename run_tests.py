@@ -28,33 +28,28 @@ class TestClass(unittest.TestCase):
 
     # Создается событие с другими участниками.
     def test_create_event_w_attendees(self):
-        is_saved_successfully = True
         result = set_create_event_w_attendees(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Создается событие длительностью более дня
     def test_create_event_2_day_duration(self):
-        is_saved_successfully = True
         result = set_create_event_2_day_duration(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Создается события с указанием названия
     def test_mcreate_event_w_name(self):
-        is_saved_successfully = True
         result = set_create_event_w_name(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Создается события с указанием места
     def test_create_event_w_location(self):
-        is_saved_successfully = True
         result = set_create_event_w_location(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Создается события с указанием описания
     def test_create_event_w_description(self):
-        is_saved_successfully = True
         result = set_create_event_w_description(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # # Сохраняются нестандартные настройки напоминаний для новых событий. URL:https://calendar.mail.ru/ Ошибка:http://jira.bmstu.cloud/browse/QA-277
     # Хм. Трудновато проверить т.к. надо найти созданное событие на всей сетке
@@ -64,57 +59,48 @@ class TestClass(unittest.TestCase):
 
     # При выборе начала и конца рабочего дня настройки успешно сохраняются.
     def test_workday_times(self):
-        is_saved_successfully = True
         result = set_workday_times(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # При выборе основного календаря настройки успешно сохраняются.
     def test_main_calendar(self):
-        is_saved_successfully = True
         result = set_main_calendar(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # При выборе хотя бы двух рабочих дней настройки успешно сохраняются.
     def test_two_workdays(self):
-        is_saved_successfully = True
         result = set_two_workdays(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # При выборе ни одного рабочего дня настройки не сохраняются.
     def test_zero_workdays(self):
-        is_saved_successfully = False
         result = set_zero_workdays(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertFalse(result)
 
     # Настройки успешно сохраняются при разрешении хотя бы одного способа напоминания о событии.
     def test_one_reminder(self):
-        is_saved_successfully = True
         result = set_one_reminder(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Настройки успешно сохраняются при запрете всех способов напоминания о событии.
     def test_zero_reminders(self):
-        is_saved_successfully = True
         result = set_zero_reminders(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Успешное сохранение настроек при отключении всех звуков в браузере.
     def test_mute_sound(self):
-        is_saved_successfully = True
         result = set_sound_muted(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Успешное сохранение настроек при отметке всех вариантов получения уведомлений по электронной почте.
     def test_all_email_reminders(self):
-        is_saved_successfully = True
         result = set_all_email_reminders(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Успешное сохранение настроек при выборе ни одного варианта уведомления по электронной почте.
     def test_zero_email_reminders(self):
-        is_saved_successfully = True
         result = set_zero_email_reminders(self)
-        self.assertEqual(is_saved_successfully, result)
+        self.assertTrue(result)
 
     # Добавление задачи без указания даты
     def test_task_add(self):
