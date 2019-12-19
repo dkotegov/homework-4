@@ -59,8 +59,8 @@ class AskTests(unittest.TestCase):
         shortQuestion = u'Why, man?'
         self.page.setQuestionTheme(shortQuestion)
         self.page.clearQuestionThemeByKeys()
-        self.assertEqual(self.page.getAlertUnderAdditional(),\
-            u'Поле «Тема вопроса» обязательно для заполнения')
+        self.assertEqual(self.page.getAlertUnderAdditional(),
+                         u'Поле «Тема вопроса» обязательно для заполнения')
 
     def test_mentionCountry(self):
         self.askPageOpen()
@@ -76,16 +76,6 @@ class AskTests(unittest.TestCase):
         self.assertTrue(self.page.lofinFormIsVisible())
         self.page.login()
         self.assertTrue(self.page.sameUrl("https://otvet.mail.ru"))
-
-    def test_tooBigQuestion(self):
-        self.askPageOpen()
-        bigStr = u''
-        for _ in range(122):
-            bigStr = bigStr + u'a'
-        self.page.setQuestionTheme(bigStr)
-        self.assertEqual(self.page.getAlertUnderQuestion(),
-                         u'Поле «Тема вопроса» не может '
-                         u'быть больше 120 символов.')
 
     def test_photoVideoUploadTest(self):
         self.askPageOpen()
@@ -110,11 +100,10 @@ class AskTests(unittest.TestCase):
         for _ in range(122):
             bigStr = bigStr + u'a'
         self.page.setQuestionTheme(bigStr)
-        print(self.page.getAlertUnderAdditional())
-        self.assertEqual(self.page.getAlertUnderAdditional(),\
-                         u'Поле «Тема вопроса» не может '\
+        self.assertEqual(self.page.getAlertUnderAdditional(),
+                         u'Поле «Тема вопроса» не может '
                          u'быть больше 120 символов.')
-                
+
     def test_newQuestionEditTest(self):
         self.askPageOpen()
         self.page.clickLogin()
@@ -142,8 +131,6 @@ class AskTests(unittest.TestCase):
         self.assertTrue(self.page.check_settings_page())
 
     def test_pollOptionsTest(self):
-        # self.askPageOpen()
-        
         self.page.open_poll_form()
 
         self.assertTrue(self.page.check_poll_option_correct_add())

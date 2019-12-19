@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import selenium as selenium
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -33,9 +35,9 @@ QUESTION_EDIT_BTN = "q-edit-control-element"
 QUESTION_TEXT = 'question_text'
 QUESTION_ADDITIONAL = 'question_additional'
 
-POLL_VARIANT_FIELD_3 = '//div[@name="poll_options"]/div[4]/label/div[2]/div/div/div/input'
-POLL_VARIANT_FIELD_4 = '//div[@name="poll_options"]/div[5]/label/div[2]/div/div/div/input'
-POLL_VARIANT_FIELD_5 = '//div[@name="poll_options"]/div[6]/label/div[2]/div/div/div/input'
+POLL_VARIANT_FIELD_3 = "//input[@placeholder='Вариант №3']"
+POLL_VARIANT_FIELD_4 = "//input[@placeholder='Вариант №4']"
+POLL_VARIANT_FIELD_5 = "//input[@placeholder='Вариант №5']"
 POLL_FORM = 'menuItem__content_last_3LtjwRRK'
 
 ALERT_ADDITIONAL = 'error_z1LfJpug'
@@ -55,8 +57,6 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
-        # self.username = 'leshikne@bk.ru'
-        # self.password = 'Laizerwing777'
         self.username = 'test_qwerty1122@mail.ru'
         self.password = os.getenv('PASSWORD')
 
@@ -69,7 +69,7 @@ class Page(object):
             webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE) \
                 .perform()
             return True
-        except Exception:
+        except selenium.common.exceptions.ElementNotInteractableException:
             return False
 
 
@@ -109,18 +109,21 @@ class AskPage(Page):
 
     def login(self):
         # self.driver.switch_to_default_content
-        WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.CLASS_NAME, LOGIN_FORM_FRAME)))
+        WebDriverWait(self.driver, 20)\
+            .until(EC.frame_to_be_available_and_switch_to_it(
+                (By.CLASS_NAME, LOGIN_FORM_FRAME)))
 
         time.sleep(1)
-        inputUsername = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.NAME, LOGIN_INPUT)))
+        inputUsername = WebDriverWait(self.driver, 20)\
+            .until(EC.visibility_of_element_located((By.NAME, LOGIN_INPUT)))
         inputUsername.send_keys(self.username)
 
         self.driver.\
             find_element_by_xpath(LOGIN_NEXT_BTN).\
             click()
 
-        inputPassword = WebDriverWait(self.driver, 5).until(\
-            EC.visibility_of_element_located((By.NAME, PASSWORD)))
+        inputPassword = WebDriverWait(self.driver, 5)\
+            .until(EC.visibility_of_element_located((By.NAME, PASSWORD)))
         inputPassword.send_keys(self.password)
 
         self.driver.\
@@ -133,22 +136,22 @@ class AskPage(Page):
                 (By.CLASS_NAME, PROFILE_BUTTON)))[7]
         buttonEdit.click()
 
-        try:
-            WebDriverWait(self.driver, 5).until(
-                EC.visibility_of_element_located(
-                    (By.CLASS_NAME, PROFILE_FORM)))
+        profiles = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_all_elements_located(
+                (By.CLASS_NAME, PROFILE_FORM)))
+        if len(profiles) == 1:
             return True
-        except Exception:
+        else:
             return False
 
     def isAlert(self):
-        try:
-            WebDriverWait(self.driver, 5).until(
-                EC.visibility_of_all_elements_located(
-                    (By.CLASS_NAME, POP_UP_ALERT)))
-            return False
-        except Exception:
+        popUp = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_all_elements_located(
+                (By.CLASS_NAME, POP_UP_ALERT)))
+        if len(popUp) == 1:
             return True
+        else:
+            return False
 
     def clickChooseAnother(self):
         buttonChoose = self.waitForElementVisible(
@@ -232,13 +235,14 @@ class AskPage(Page):
         ask_button.click()
 
     def can_edit_time(self):
-        try:
-            WebDriverWait(self.driver, 10, 0.1).until(
-                EC.visibility_of_element_located(
-                    (By.ID, QUESTION_EDIT_BTN))
-            )
+        button = WebDriverWait(self.driver, 10, 0.1).until(
+            EC.visibility_of_any_elements_located(
+                (By.ID, QUESTION_EDIT_BTN))
+        )
+
+        if (len(button) == 1):
             return True
-        except Exception:
+        else:
             return False
 
     def check_poll_option_correct_add(self):
