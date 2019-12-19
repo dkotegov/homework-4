@@ -209,7 +209,7 @@ class UserinfoForm(Component):
         save_image_button = self.get_save_avatar_button()
         save_image_button.click()
         start = time.time()
-        while time.time() < start + 10:
+        while time.time() < start + 30:
             if last_url != self.get_avatar_image_url():
                 return self.get_avatar_image_url()
         return last_url

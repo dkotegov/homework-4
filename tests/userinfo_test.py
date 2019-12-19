@@ -104,6 +104,9 @@ class UserinfoTest(unittest.TestCase):
         self.assertEqual(TOWN_ERROR, self.userinfo_form.get_town_message())             
 
     def test_correct_input(self):
+        last_name = self.userinfo_form.get_last_name()
+        first_name = self.userinfo_form.get_first_name()
+        nickname = self.userinfo_form.get_nickname()
 
         NEW_STRING = 'test'
         self.userinfo_form.input_firstname(NEW_STRING)
@@ -115,10 +118,15 @@ class UserinfoTest(unittest.TestCase):
         self.userinfo_page.open()
         self.userinfo_form = self.userinfo_page.form
 
-
         self.assertEqual(self.userinfo_form.get_last_name(), NEW_STRING)
         self.assertEqual(self.userinfo_form.get_first_name(), NEW_STRING)
         self.assertEqual(self.userinfo_form.get_nickname(), NEW_STRING)
+
+        self.userinfo_form.input_firstname(first_name)
+        self.userinfo_form.input_lastname(last_name)
+        self.userinfo_form.input_nickname(nickname)
+
+        self.userinfo_form.save()
 
     def test_png_image_upload(self):
     
@@ -192,42 +200,42 @@ class UserinfoTest(unittest.TestCase):
         FILE_PDF = 'test.pdf'
         TOP_MESSAGE = 'Недопустимый формат изображения'
 
-        self.userinfo_form.load_image(FILE_PDF)
+        self.userinfo_form.wait_load_image(FILE_PDF)
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())
 
     def test_load_image_mp3(self):
         FILE_MP3 = 'test.mp3'
         TOP_MESSAGE = 'Недопустимый формат изображения'
 
-        self.userinfo_form.load_image(FILE_MP3)
+        self.userinfo_form.wait_load_image(FILE_MP3)
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())
 
     def test_load_image_txt(self):
         FILE_TXT = 'test.txt'
         TOP_MESSAGE = 'Недопустимый формат изображения'
 
-        self.userinfo_form.load_image(FILE_TXT)
+        self.userinfo_form.wait_load_image(FILE_TXT)
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())
 
     def test_load_image_sh(self):
         FILE_SH = 'test.sh'
         TOP_MESSAGE = 'Недопустимый формат изображения'
 
-        self.userinfo_form.load_image(FILE_SH)
+        self.userinfo_form.wait_load_image(FILE_SH)
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())
 
     def test_load_image_go(self):  
         FILE_GO = 'test.go'
         TOP_MESSAGE = 'Недопустимый формат изображения'
 
-        self.userinfo_form.load_image(FILE_GO)
+        self.userinfo_form.wait_load_image(FILE_GO)
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())      
 
     def test_load_big_image(self):  
         BIG_IMAGE = 'big_image.jpg'
         TOP_MESSAGE = 'Слишком большое разрешение изображения'
 
-        self.userinfo_form.load_image(BIG_IMAGE)
+        self.userinfo_form.wait_load_image(BIG_IMAGE)
         self.assertEqual(TOP_MESSAGE, self.userinfo_form.get_image_error_message())        
 
     def test_cancel_changed_image(self):           
