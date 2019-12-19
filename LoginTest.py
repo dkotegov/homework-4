@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
 import unittest
 import config
@@ -43,12 +46,16 @@ class LoginTest(unittest.TestCase):
         login_page.enter_login(wrong_email)
         login_page.enter_password(self.password)
         login_page.login()
-        login_page.email_required()
+        validation_message = login_page.get_email_valigation_message()
+        expected = 'Адрес электронной почты должен содержать символ "@". В адресе "' + wrong_email + '" отсутствует символ "@".'
+        self.assertEqual(validation_message, expected)
 
     def test_empty_fields(self):
         login_page = LoginPage(self.driver)
         login_page.login()
-        login_page.email_required()
+        validation_message = login_page.get_email_valigation_message()
+        expected = 'Заполните это поле.'
+        self.assertEqual(validation_message, expected)
 
     def test_forgot_password(self):
         login_page = LoginPage(self.driver)

@@ -40,9 +40,10 @@ class LoginPage:
         elem = self.driver.find_element_by_css_selector(self.forgot_password_button)
         elem.click()
 
-    def email_required(self):
+    def get_email_valigation_message(self):
         elem = self.driver.find_element_by_css_selector(self.login_input)
         validation_message = elem.get_attribute(self.html_validation)
+        return validation_message.encode('utf-8', errors='ignore')
 
     def wait_redirect(self, url, timeout=10):
         return WebDriverWait(self.driver, timeout).until(EC.url_matches(url))
