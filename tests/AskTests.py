@@ -37,9 +37,8 @@ class AskTests(unittest.TestCase):
         self.page.login()
         self.page.open()
 
-        self.page.setQuestionTheme('hello, world!')
-        self.page.clickChooseAnother()
-        self.page.waitForAnother()
+        self.page.setQuestionTitle('hello, world!')
+        self.page.switchCategoryToAnother()
         self.page.clickSendQuestion()
         self.assertTrue(self.page.isAlert())
 
@@ -51,18 +50,15 @@ class AskTests(unittest.TestCase):
         self.assertTrue(self.page.clickAndWaitProfile())
 
     def test_notEmptyQuestion(self):
-        self.page = AskPage(self.driver)
-        self.page.open()
-
         shortQuestion = u'Why, man?'
-        self.page.setQuestionTheme(shortQuestion)
+        self.page.setQuestionTitle(shortQuestion)
         self.page.clearQuestionThemeByKeys()
         self.assertEqual(self.page.getAlertUnderAdditional(),
                          u'Поле «Тема вопроса» обязательно для заполнения')
 
     def test_mentionCountry(self):
         questionWithCountry = u'Россия'
-        self.page.setQuestionTheme(questionWithCountry)
+        self.page.setQuestionTitle(questionWithCountry)
         self.page.autosettingSubcategory(u'Политика')
         self.assertEqual(self.page.getSubcategory(),
                          u'Политика')
@@ -84,17 +80,18 @@ class AskTests(unittest.TestCase):
         self.page.clickLogin()
         self.page.login()
         self.page.open()
-        self.page.setQuestionTheme(u'ыв ыва ыва 23')
-        self.page.clickChooseAnother()
-        self.page.waitForAnother()
+        self.page.setQuestionTitle(u'ыв ыва ыва 23')
+
+        self.page.switchCategoryToAnother()
+
         self.page.clickSendQuestion()
-        self.assertFalse(self.page.isAlert())
+        self.assertTrue(self.page.isAlert())
 
     def test_tooBigQuestion(self):
         bigStr = u''
         for _ in range(122):
             bigStr = bigStr + u'a'
-        self.page.setQuestionTheme(bigStr)
+        self.page.setQuestionTitle(bigStr)
         self.assertEqual(self.page.getAlertUnderAdditional(),
                          u'Поле «Тема вопроса» не может '
                          u'быть больше 120 символов.')
@@ -105,15 +102,14 @@ class AskTests(unittest.TestCase):
         self.page.open()
 
         randTitle = self.page.getGetRandomTitle()
-        self.page.setQuestionTheme(randTitle)
+        self.page.setQuestionTitle(randTitle)
         self.page.setQuestionAdditional(u'Собственно говоря,'
                                         u'если греческий салат испортился,'
                                         u'то можно ли его называть '
                                         u'древнегреческим?')
 
-        self.page.clickChooseAnother()
-        self.page.waitForAnother()
-        self.page.make_default_question()
+        self.page.switchCategoryToAnother()
+        self.page.clickSendQuestion()
 
         self.assertTrue(self.page.can_edit_time())
 
