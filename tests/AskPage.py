@@ -64,8 +64,8 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
-        self.username = 'tp_qa_acc3@mail.ru'
-        self.password = 'SomePasswordHere'
+        self.username = 'test_test1148@mail.ru'
+        self.password = 'password_norm'
 
     def open(self):
         self.driver.get(self.BASE_URL)
@@ -238,7 +238,7 @@ class AskPage(Page):
         buttonChooseAnother = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_any_elements_located(
                 (By.CLASS_NAME, CATEGORY_ANOTHER)))
-        buttonChooseAnother[29].click()
+        buttonChooseAnother[-1].click()
 
     def clickSendQuestion(self):
         ask_button = WebDriverWait(self.driver, 10).until(
