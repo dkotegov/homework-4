@@ -9,7 +9,6 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support import expected_conditions as EC
 
 import os
-import time
 import unittest
 import random
 
@@ -65,8 +64,8 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
-        self.username = 'test_qwerty1122@mail.ru'
-        self.password = 'qqaawwss123'
+        self.username = 'test_test2211@mail.ru'
+        self.password = 'password_norm'
 
     def open(self):
         self.driver.get(self.BASE_URL)
@@ -241,8 +240,11 @@ class AskPage(Page):
         buttonChooseAnother = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_any_elements_located(
                 (By.CLASS_NAME, CATEGORY_ANOTHER)))
-        buttonChooseAnother[-1].click()
-        buttonChooseAnother[-1].click()
+        for i in range(2):
+            try:
+                buttonChooseAnother[-1].click()
+            except:
+                pass
 
     def clickSendQuestion(self):
         ask_button = WebDriverWait(self.driver, 10).until(
@@ -305,6 +307,7 @@ class AskPage(Page):
             return False
 
     def can_edit_time(self):
+        self.driver.switch_to.default_content()
         button = WebDriverWait(self.driver, 10, 0.1).until(
             EC.visibility_of_any_elements_located(
                 (By.ID, QUESTION_EDIT_BTN))

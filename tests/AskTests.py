@@ -93,21 +93,21 @@ class AskTests(unittest.TestCase):
                          u'Поле «Тема вопроса» не может '
                          u'быть больше 120 символов.')
 
-    # def test_newQuestionEditTest(self):
-    #     self.page.clickLogin()
-    #     self.page.login()
+    def test_newQuestionEditTest(self):
+        self.page.clickLogin()
+        self.page.login()
 
-    #     randTitle = self.page.getGetRandomTitle()
-    #     self.page.setQuestionTitle(randTitle)
-    #     self.page.setQuestionAdditional(u'Собственно говоря,'
-    #                                     u'если греческий салат испортился,'
-    #                                     u'то можно ли его называть '
-    #                                     u'древнегреческим?')
+        randTitle = self.page.getGetRandomTitle()
+        self.page.setQuestionTitle(randTitle)
+        self.page.setQuestionAdditional(u'Собственно говоря,'
+                                        u'если греческий салат испортился,'
+                                        u'то можно ли его называть '
+                                        u'древнегреческим?')
 
-    #     self.page.switchCategoryToAnother()
-    #     self.page.clickSendQuestion()
+        self.page.switchCategoryToAnother()
+        self.page.clickSendQuestion()
 
-    #     self.assertTrue(self.page.can_edit_time())
+        self.assertTrue(self.page.can_edit_time())
 
     def test_settingsTest(self):
         self.page.clickLogin()
