@@ -109,13 +109,13 @@ class AskTests(unittest.TestCase):
 
     #     self.assertTrue(self.page.can_edit_time())
 
-    # def test_settingsTest(self):
-    #     self.page.clickLogin()
-    #     self.page.login()
+    def test_settingsTest(self):
+        self.page.clickLogin()
+        self.page.login()
 
-    #     self.assertTrue(self.page.check_settings_page())
+        self.assertTrue(self.page.check_settings_page())
 
-    # def test_pollOptionsTest(self):
-    #     self.page.open_poll_form()
+    def test_pollOptionsTest(self):
+        self.page.open_poll_form()
 
-    #     self.assertTrue(self.page.check_poll_option_correct_add())
+        self.assertTrue(self.page.check_poll_option_correct_add())

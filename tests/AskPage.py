@@ -289,6 +289,7 @@ class AskPage(Page):
         video_span.find_element_by_xpath('./..').click()
 
     def check_settings_page(self):
+        self.driver.switch_to.default_content()
         settings_button = WebDriverWait(self.driver, 10, 0.1).until(
             lambda d: d.find_element_by_xpath(SETTING_BUTTON)
         )
@@ -316,7 +317,6 @@ class AskPage(Page):
 
     # Poll
     def check_poll_option_correct_add(self):
-
         variant_3 = WebDriverWait(self.driver, 10).until(
             lambda d: d.find_element_by_xpath(POLL_VARIANT_FIELD_3)
         )
