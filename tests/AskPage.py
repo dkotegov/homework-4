@@ -9,6 +9,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support import expected_conditions as EC
 
 import os
+import time
 import unittest
 import random
 
@@ -64,8 +65,8 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
-        self.username = 'test_test1148@mail.ru'
-        self.password = 'password_norm'
+        self.username = 'test_qwerty1122@mail.ru'
+        self.password = 'qqaawwss123'
 
     def open(self):
         self.driver.get(self.BASE_URL)
@@ -174,6 +175,7 @@ class AskPage(Page):
     # Profile
     def clickAndWaitProfile(self):
         try:
+            self.driver.switch_to.default_content()
             WebDriverWait(self.driver, 10).until(
                 EC.visibility_of_element_located(
                     (By.CLASS_NAME, PROFILE_MENU_SECTION))
@@ -210,6 +212,7 @@ class AskPage(Page):
         )
 
     def setQuestionTitle(self, question):
+        self.driver.switch_to.default_content()
         inputQuestionField = self.waitForElementVisible(
             (By.NAME, QUESTION_TEXT))
         self.sendText(inputQuestionField, question)
@@ -239,13 +242,13 @@ class AskPage(Page):
             EC.visibility_of_any_elements_located(
                 (By.CLASS_NAME, CATEGORY_ANOTHER)))
         buttonChooseAnother[-1].click()
+        buttonChooseAnother[-1].click()
 
     def clickSendQuestion(self):
         ask_button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(
                 (By.CLASS_NAME, QUESTION_SUBMIT_BUTTON))
         )
-
         ask_button.click()
 
     def autosettingSubcategory(self, Subcategory):

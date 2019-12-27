@@ -19,7 +19,7 @@ class AskTests(unittest.TestCase):
         self.page.open()
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get('BROWSER', 'FIREFOX')
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -35,7 +35,6 @@ class AskTests(unittest.TestCase):
     def test_needThreeWords(self):
         self.page.clickLogin()
         self.page.login()
-        self.page.open()
 
         self.page.setQuestionTitle('hello, world!')
         self.page.switchCategoryToAnother()
@@ -45,7 +44,6 @@ class AskTests(unittest.TestCase):
     def test_profile(self):
         self.page.clickLogin()
         self.page.login()
-        self.page.open()
 
         self.assertTrue(self.page.clickAndWaitProfile())
 
@@ -79,7 +77,6 @@ class AskTests(unittest.TestCase):
     def test_notValidTheme(self):
         self.page.clickLogin()
         self.page.login()
-        self.page.open()
         self.page.setQuestionTitle(u'ыв ыва ыва 23')
 
         self.page.switchCategoryToAnother()
@@ -99,7 +96,6 @@ class AskTests(unittest.TestCase):
     def test_newQuestionEditTest(self):
         self.page.clickLogin()
         self.page.login()
-        self.page.open()
 
         randTitle = self.page.getGetRandomTitle()
         self.page.setQuestionTitle(randTitle)
@@ -116,7 +112,6 @@ class AskTests(unittest.TestCase):
     def test_settingsTest(self):
         self.page.clickLogin()
         self.page.login()
-        self.page.open()
 
         self.assertTrue(self.page.check_settings_page())
 
