@@ -1,35 +1,30 @@
-import os
-import unittest
-from selenium import webdriver
-from selenium.webdriver import DesiredCapabilities, Remote
+# -*- coding: utf-8 -*-
+from BasicTest import BasicTest
 
-from ..config import config
-from LoginPage import LoginPage
+from pages.LoginPage import LoginPage
 
-class LoginTest(unittest.TestCase):
-  MAIL_URL = 'https://e.mail.ru/inbox'
-  login = os.environ.get('LOGIN')
-  password = os.environ.get('PASSWORD')
+class LoginTest(BasicTest):
   
-  def setUp(self):
-    if (config.ON_DRIVER):
-      self.driver = webdriver.Chrome(config.DRIVER)
-    else:
-      self.driver = Remote(
-            command_executor = "http://localhost:4444/wd/hub",
-            desired_capabilities = getattr(DesiredCapabilities, config.DEFAULT_BROWSER).copy()
-        )
+  def pre_tests(self):
     self.login_page = LoginPage(self.driver)
     self.login_page.open()
-
-  def tearDown(self):
-    self.driver.quit()
     
   def test_correct_login(self):
-    self.login_page.enter_login(self.login)
-    self.login_page.click_next()
-    self.login_page.enter_password(self.password)
-    self.login_page.click_next()
+    self.login_page.sign_in(self.login, self.password)
     self.login_page.wait_redirect(self.MAIL_URL)
+    
+  def test_wrong_password(self):
+    wrong_password = 'wrongpassword'
+    self.login_page.sign_in(self.login, wrong_password)
+    test_validation = self.login_page.get_valigation_message()
+    expected_validation = 'Неверный пароль, попробуйте ещё раз'
+    self.assertEqual(test_validation, expected_validation)
+    
+  def test_empty_password(self):
+    empty_password = ''
+    self.login_page.sign_in(self.login, empty_password)
+    test_validation = self.login_page.get_valigation_message()
+    expected_validation = 'Поле «Пароль» должно быть заполнено'
+    self.assertEqual(test_validation, expected_validation)
     
         

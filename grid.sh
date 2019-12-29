@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 java -jar drivers/selenium-server-standalone-3.141.59.jar \
-    -role hub
+    #-role hub
 
 java -Dwebdriver.chrome.driver="./drivers/chromedriver" \
     -Dwebdriver.gecko.driver="./drivers/geckodriver" \
