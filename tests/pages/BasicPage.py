@@ -9,6 +9,9 @@ class BasicPage:
     SIGNUP_URL = 'https://account.mail.ru/signup'
     driver = None
 
+    def __init__(self, driver):
+      self.driver = driver
+
     def wait_redirect(self, url, timeout=100):
         return WebDriverWait(self.driver, timeout).until(EC.url_matches(url))
 
