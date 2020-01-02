@@ -1,5 +1,6 @@
 from BasicPage import BasicPage
 
+
 class LoginPage(BasicPage):
   login_input = '.username input'
   password_input = '.password input'
@@ -45,4 +46,4 @@ class LoginPage(BasicPage):
     self.click_next()
     self.enter_password(password)
     self.click_next()
-    
+  

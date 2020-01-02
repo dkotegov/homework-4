@@ -68,4 +68,3 @@ class LoginTest(BasicTest):
     self.login_page.wait_redirect(self.MAIL_URL)
     self.main_page.click_signout()
     self.main_page.wait_redirect(self.MAIN_PAGE_URL)
-        
