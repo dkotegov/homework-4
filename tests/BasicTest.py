@@ -9,8 +9,6 @@ from config import config
 from pages.LoginPage import LoginPage   
 from BaseUrls import BaseUrls
 class BasicTest(unittest.TestCase, BaseUrls):
-    auth_frame = 'ag-popup__frame__layout__iframe'
-
     login = os.environ.get('LOGIN')
     password = os.environ.get('PASSWORD')
 

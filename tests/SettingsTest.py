@@ -5,7 +5,6 @@ from pages.SettingsPage import SettingsPage
 
 
 class SettingsTest(BasicTest):
-    SETTINGS_URL = 'https://e.mail.ru/settings'
     SETTINGS_OK_URL = 'https://e.mail.ru/settings?result=ok&afterReload=1'
     SETTINGS_NOTIFICATIONS_URL = 'https://e.mail.ru/settings/notifications'
 

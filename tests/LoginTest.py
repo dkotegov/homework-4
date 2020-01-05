@@ -20,8 +20,9 @@ class LoginTest(BasicTest):
     wrong_password = 'wrongpassword'
     self.login_page.sign_in(self.login, wrong_password)
     test_validation = self.login_page.get_validation_message()
-    expected_validation = 'Неверный пароль, попробуйте ещё раз'
-    self.assertEqual(test_validation, expected_validation)
+    expected_validation1 = 'Неверный пароль, попробуйте ещё раз'
+    expected_validation2 = 'Incorrect password. Try again'
+    self.assertIn(test_validation, [expected_validation1, expected_validation2])
     
   def test_yandex_login(self):
     test_login = '123@yandex.ru'
@@ -45,23 +46,26 @@ class LoginTest(BasicTest):
     test_login = '123@rambler.ru'
     self.login_page.sign_in(test_login, self.password)
     err = self.login_page.get_protocol_err()
-    expected_err = 'Вы можете добавить любой почтовый ящик, поддерживающий сбор почты по протоколу POP/IMAP. Если логин введен неверно, авторизуйтесь заново.'
-    self.assertEqual(err, expected_err)
+    expected_err1 = 'Вы можете добавить любой почтовый ящик, поддерживающий сбор почты по протоколу POP/IMAP. Если логин введен неверно, авторизуйтесь заново.'
+    expected_err2 = 'You can add any mailbox that supports POP/IMAP. If your credentials were entered incorrectly, sign in again.'
+    self.assertIn(err, [expected_err1, expected_err2])
   
   def test_custom_login(self):
     custom_login = 'custom@petrov.ru'
     custom_password = 'customPassword123'
     self.login_page.sign_in(custom_login, custom_password)
     err = self.login_page.get_domain_err()
-    expected_err = 'Произошла ошибка! Пожалуйста, повторите попытку через некоторое время или введите имя и пароль другого аккаунта.'
-    self.assertEqual(err, expected_err)
+    expected_err1 = 'Произошла ошибка! Пожалуйста, повторите попытку через некоторое время или введите имя и пароль другого аккаунта.'
+    expected_err2 = 'You can add any mailbox that supports POP/IMAP. If your credentials were entered incorrectly, sign in again.'
+    self.assertIn(err, [expected_err1, expected_err2])
   
   def test_empty_password(self):
     empty_password = ''
     self.login_page.sign_in(self.login, empty_password)
     test_validation = self.login_page.get_validation_message()
-    expected_validation = 'Поле «Пароль» должно быть заполнено'
-    self.assertEqual(test_validation, expected_validation)
+    expected_validation1 = 'Поле «Пароль» должно быть заполнено'
+    expected_validation2 = 'The "Password" field is required'
+    self.assertIn(test_validation, [expected_validation1, expected_validation2])
   
   def test_signout(self):
     self.login_page.sign_in(self.login, self.password)
