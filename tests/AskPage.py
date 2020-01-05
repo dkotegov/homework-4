@@ -64,8 +64,10 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
-        self.username = 'test_test2211@mail.ru'
-        self.password = 'password_norm'
+        self.username = os.environ['USERNAME']
+        self.password = os.environ['PASSWORD']
+        # self.username = 'test_test2211@mail.ru'
+        # self.password = 'password_norm'
 
     def open(self):
         self.driver.get(self.BASE_URL)
@@ -196,6 +198,10 @@ class AskPage(Page):
 
     # Questions
     def getAlertUnderAdditional(self):
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(
+                (By.CLASS_NAME, ALERT_ADDITIONAL))
+        )
         return self.waitForElementVisible((By.CLASS_NAME,
                                           ALERT_ADDITIONAL)) \
             .get_attribute('innerText')
