@@ -2,13 +2,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+from ..BaseUrls import BaseUrls
 
-class BasicPage:
-    MAIL_URL = 'https://e.mail.ru/inbox'
-    LOGIN_URL = 'https://account.mail.ru/login'
-    AUTH_URL = 'https://e.mail.ru/login'
-    SIGNUP_URL = 'https://account.mail.ru/signup'
-    SETTINGS_URL = 'https://e.mail.ru/settings/userinfo'
+class BasicPage(BaseUrls):
+
     driver = None
 
     def __init__(self, driver):

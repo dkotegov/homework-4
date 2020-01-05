@@ -27,19 +27,19 @@ class LoginTest(BasicTest):
     test_login = '123@yandex.ru'
     self.login_page.enter_login(test_login)
     self.login_page.click_continue()
-    self.wait_redirect('https://passport.yandex.ru/auth')
+    self.login_page.wait_redirect('https://passport.yandex.ru/auth')
   
   def test_gmail_login(self):
     test_login = '123@gmail.com'
     self.login_page.enter_login(test_login)
     self.login_page.click_continue()
-    self.wait_redirect('https://accounts.google.com/signin/oauth/identifier')
+    self.login_page.wait_redirect('https://accounts.google.com/signin/oauth/identifier')
   
   def test_yahoo_login(self):
     test_login = '123@yahoo.com'
     self.login_page.enter_login(test_login)
     self.login_page.click_continue()
-    self.wait_redirect('https://login.yahoo.com/')
+    self.login_page.wait_redirect('https://login.yahoo.com/')
     
   def test_rambler_login(self):
     test_login = '123@rambler.ru'

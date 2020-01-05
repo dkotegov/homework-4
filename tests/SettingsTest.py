@@ -9,13 +9,11 @@ class SettingsTest(BasicTest):
     SETTINGS_OK_URL = 'https://e.mail.ru/settings?result=ok&afterReload=1'
     SETTINGS_NOTIFICATIONS_URL = 'https://e.mail.ru/settings/notifications'
 
-    def setUp(self):
-        super(SettingsTest, self).setUp()
+    def pre_tests(self):
         self.settings_page = SettingsPage(self.driver)
         self.settings_page.open()
         self.auth()
-        settings_page = SettingsPage(self.driver)
-        self.settings_page.wait_redirect(settings_page.SETTINGS_URL)
+        self.settings_page.wait_redirect(self.settings_page.SETTINGS_URL)
 
     def test_save(self):
         self.settings_page.enter_firstname('New name')
