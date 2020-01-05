@@ -18,7 +18,7 @@ class SettingsPage(BasicPage):
         self.driver = driver
 
     def open(self):
-        self.driver.get(self.SETTINGS_URL)
+        self.driver.get(self.LOGIN_URL)
 
     def enter_firstname(self, login):
         elem = self.wait_render(self.firstname)

@@ -12,7 +12,6 @@ class SettingsTest(BasicTest):
         self.settings_page = SettingsPage(self.driver)
         self.settings_page.open()
         self.auth()
-        self.settings_page.wait_redirect(self.settings_page.SETTINGS_URL)
 
     def test_save(self):
         self.settings_page.enter_firstname('New name')
