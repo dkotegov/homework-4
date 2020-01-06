@@ -2,23 +2,24 @@ from BasicPage import BasicPage
 
 
 class LoginPage(BasicPage):
-  login_input = '.username input'
-  password_input = '.password input'
+  login_input = 'Login'
+  password_input = 'Password'
   next_button = '.last div div:first-child button'
   continue_button = '.login-row button'
   html_validation = '.password.login-row_error small'
   mail_protocol_err = 'div.login-page__external__desc__parag'
   mail_domain_err = 'div.Description p'
+  auth_frame = 'ag-popup__frame__layout__iframe'
   
   def open(self):
     self.driver.get(self.LOGIN_URL)
     
   def enter_login(self,login):
-    elem = self.wait_render(self.login_input)
+    elem = self.wait_render_by_name(self.login_input)
     elem.send_keys(login)
     
   def enter_password(self,login):
-    elem = self.wait_render(self.password_input)
+    elem = self.wait_render_by_name(self.password_input)
     elem.send_keys(login)
     
   def click_next(self):

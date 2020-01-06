@@ -6,7 +6,7 @@ from selenium.webdriver import ActionChains
 class SettingsPage(BasicPage):
     firstname = '#FirstName'
     city = '#your_town'
-    city_suggest = '#formPersonal > div:nth-child(19) > div.form__row__widget > div:nth-child(2) > div > span > div'
+    city_suggest = 'div.form__field__suggest:nth-child(1) > span:nth-child(1) > div:nth-child(1)'
     save_button = '#formPersonal > div.form__actions__wrapper > div > div > button'
     error_message = 'div.form__top-message.form__top-message_error'
     error_field_message = '#formPersonal > div:nth-child(12) > div.form__row__widget > div'
@@ -18,7 +18,7 @@ class SettingsPage(BasicPage):
         self.driver = driver
 
     def open(self):
-        self.driver.get(self.LOGIN_URL)
+        self.driver.get(self.SETTINGS_URL)
 
     def enter_firstname(self, login):
         elem = self.wait_render(self.firstname)
@@ -28,6 +28,7 @@ class SettingsPage(BasicPage):
     def enter_city(self, city):
         elem = self.wait_render(self.city)
         elem.clear()
+        elem.click()
         elem.send_keys(city)
 
     def choose_city(self):
