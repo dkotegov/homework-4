@@ -6,9 +6,17 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 from config import config
 
-from pages.LoginPage import LoginPage   
-from BaseUrls import BaseUrls
-class BasicTest(unittest.TestCase, BaseUrls):
+from pages.LoginPage import LoginPage
+
+
+class BasicTest(unittest.TestCase):
+    MAIL_URL = 'https://e.mail.ru/inbox'
+    LOGIN_URL = 'https://account.mail.ru/login'
+    AUTH_URL = 'https://e.mail.ru/login'
+    SIGNUP_URL = 'https://account.mail.ru/signup'
+    SETTINGS_URL = 'https://e.mail.ru/settings/userinfo'
+    MAIN_PAGE_URL = 'https://mail.ru'
+
     login = os.environ.get('LOGIN')
     password = os.environ.get('PASSWORD')
 
@@ -27,13 +35,9 @@ class BasicTest(unittest.TestCase, BaseUrls):
                 desired_capabilities=getattr(
                     DesiredCapabilities, config.DEFAULT_BROWSER).copy()
             )
-        self.pre_tests()
 
     def tearDown(self):
         self.driver.quit()
-
-    def pre_tests(self):
-        pass
 
     def auth(self):
         login_page = LoginPage(self.driver)

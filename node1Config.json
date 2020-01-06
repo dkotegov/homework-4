@@ -1,29 +1,11 @@
 {
   "capabilities": [
-    // {
-    //   "browserName": "firefox",
-    //   "acceptSslCerts": true,
-    //   "javascriptEnabled": true,
-    //   "takesScreenshot": false,
-    //   "firefox_profile": "",
-    //   "browser-version": "27",
-    //   "platform": "WINDOWS",
-    //   "maxInstances": 5,
-    //   "firefox_binary": "",
-    //   "cleanSession": true
-    // },
     {
       "browserName": "chrome",
       "maxInstances": 5,
       "platform": "MAC OS X",
-      "webdriver.chrome.driver": "/Users/howle/prog/2019.2/Quality/homework-4/drivers/chromedriver"
-    },
-    // {
-    //   "browserName": "internet explorer",
-    //   "maxInstances": 1,
-    //   "platform": "WINDOWS",
-    //   "webdriver.ie.driver": "C:/Program Files (x86)/Internet Explorer/iexplore.exe"
-    // }
+      "webdriver.chrome.driver": "./drivers/chromedriver"
+    }
   ],
   "configuration": {
     "_comment" : "Configuration for Node",

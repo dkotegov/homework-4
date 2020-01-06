@@ -5,9 +5,12 @@ from pages.LoginPage import LoginPage
 from pages.MainPage import MainPage
 
 import time
+
+
 class LoginTest(BasicTest):
   
-  def pre_tests(self):
+  def setUp(self):
+    super(LoginTest, self).setUp()
     self.login_page = LoginPage(self.driver)
     self.login_page.open()
     self.main_page = MainPage(self.driver)
