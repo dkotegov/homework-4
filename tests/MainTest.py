@@ -12,10 +12,13 @@ class MainTest(BasicTest):
   def test_new_letter(self):
     self.main_page.click_write_letter_button()
     self.main_page.enter_email_receiver(self.login)
-    self.main_page.enter_subject("Subject_1")
-    self.main_page.enter_textbox('Text1')
+    subject = 'Subject_1'
+    text = 'Text1'
+    self.main_page.enter_subject(subject)
+    self.main_page.enter_textbox(text)
     self.main_page.click_send_letter_button()
     self.main_page.close_sent_window()
-    time.sleep(3)
-    self.main_page.click_letter()
-    time.sleep(2)
+    actual_subject = self.main_page.get_first_letter_subject()
+    actual_text = self.main_page.get_first_letter_text()
+    self.assertEqual(subject, actual_subject)
+    self.assertEqual(text, actual_text)

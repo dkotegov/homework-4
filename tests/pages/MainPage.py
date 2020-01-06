@@ -8,7 +8,9 @@ class MainPage(BasicPage):
   send_letter_button = '.button2__txt:nth-child(1)'
   textbox_field = "div[role='textbox']"
   close_sent_window_button = 'span.button2_close'
-  letter = 'a.llc:nth-child(1) div.llc__container'
+  first_letter = '.llc:first-of-type > .llc__container'
+  first_letter_subject = 'a.llc:first-of-type > .llc__container .llc__subject'
+  first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
   
   def open(self):
     self.driver.get(self.LOGIN_URL)
@@ -44,10 +46,18 @@ class MainPage(BasicPage):
     self.click_send_letter_button()
     self.close_sent_window()
     
+  def get_first_letter_subject(self):
+    subject = self.wait_render(self.first_letter_subject)
+    return subject.text
   
+  def get_first_letter_text(self):
+    content = self.wait_render(self.first_letter_text).text
+    # We should obtain only the content we written (not sign)
+    text = content.split(' ')[0]
+    return text
   
   def click_letter(self):
-    elem = self.wait_render(self.letter)
+    elem = self.wait_render(self.first_letter)
     elem.click()
     
     
