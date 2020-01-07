@@ -32,90 +32,88 @@ class AskTests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_needThreeWords(self):
-        self.page.clickLogin()
+    def test_need_three_words(self):
+        self.page.click_login_button()
         self.page.login()
 
-        self.page.setQuestionTitle('hello, world!')
-        self.page.switchCategoryToAnother()
-        self.page.clickSendQuestion()
-        self.assertTrue(self.page.isAlert())
+        self.page.set_question_title(u'Hello, world!')
+        self.page.set_question_category(u'Другое')
+        self.page.click_send_question()
+        self.assertTrue(self.page.check_alert_messege())
 
     def test_profile(self):
-        self.page.clickLogin()
+        self.page.click_login_button()
         self.page.login()
 
-        self.assertTrue(self.page.clickAndWaitProfile())
+        self.page.click_edit_profile()
+        self.assertTrue(self.page.check_edit_profile_section())
 
-    def test_notEmptyQuestion(self):
-        shortQuestion = u'Why, man?'
-        self.page.setQuestionTitle(shortQuestion)
-        self.page.clearQuestionThemeByKeys()
-        self.assertEqual(self.page.getAlertUnderAdditional(),
+    def test_not_empty_question(self):
+        self.page.set_question_title(u'Алло, Галочка!?')
+        self.page.clear_question_theme_by_keys()
+        self.assertEqual(self.page.get_alert_under_additional(),
                          u'Поле «Тема вопроса» обязательно для заполнения')
 
     def test_mentionCountry(self):
-        questionWithCountry = u'Россия'
-        self.page.setQuestionTitle(questionWithCountry)
-        self.page.autosettingSubcategory(u'Политика')
-        self.assertEqual(self.page.getSubcategory(),
-                         u'Политика')
+        self.page.set_question_title(u'Овен')
+        self.page.set_question_category(u'Юмор')
+        self.assertEqual(self.page.get_question_category(),
+                         u'Юмор')
 
-    def test_loginBtn_and_authorization(self):
-        self.page.clickLogin()
-        self.assertTrue(self.page.lofinFormIsVisible())
+    def test_login_and_authorization(self):
+        self.page.click_login_button()
         self.page.login()
-        self.assertTrue(self.page.sameUrl("https://otvet.mail.ru"))
+        
+        self.assertIn(self.page.BASE_URL, self.page.get_url())
 
-    def test_photoVideoUploadTest(self):
+    def test_photo_and_video_upload(self):
+        self.page.click_login_button()
+        self.page.login()
+
         self.page.open_photo_upload_form()
-        self.page.can_press_esc()
+        self.assertTrue(self.page.check_photo_upload_section)
+        self.page.press_esc()
 
         self.page.open_video_upload_form()
-        self.page.can_press_esc()
+        self.assertEqual(self.page.UPLOAD_VIDEO_WINDOW_URL, self.page.check_video_upload_section())
 
-    def test_notValidTheme(self):
-        self.page.clickLogin()
+    def test_not_valid_question_title(self):
+        self.page.click_login_button()
         self.page.login()
-        self.page.setQuestionTitle(u'ыв ыва ыва 23')
+        self.page.set_question_title(u'ыв ыва ыва 23')
 
-        self.page.switchCategoryToAnother()
+        self.page.set_question_category(u'Другое')
 
-        self.page.clickSendQuestion()
-        self.assertTrue(self.page.isAlert())
+        self.page.click_send_question()
+        self.assertTrue(self.page.check_alert_messege())
 
-    def test_tooBigQuestion(self):
+    def test_too_big_question(self):
         bigStr = u''
         for _ in range(122):
             bigStr = bigStr + u'a'
-        self.page.setQuestionTitle(bigStr)
-        self.assertEqual(self.page.getAlertUnderAdditional(),
+        self.page.set_question_title(bigStr)
+        self.assertEqual(self.page.get_alert_under_additional(),
                          u'Поле «Тема вопроса» не может '
                          u'быть больше 120 символов.')
 
-    def test_newQuestionEditTest(self):
-        self.page.clickLogin()
+    def test_new_question_edit_test(self):
+        self.page.click_login_button()
         self.page.login()
 
-        randTitle = self.page.getGetRandomTitle()
-        self.page.setQuestionTitle(randTitle)
-        self.page.setQuestionAdditional(u'Собственно говоря,'
-                                        u'если греческий салат испортился,'
-                                        u'то можно ли его называть '
-                                        u'древнегреческим?')
+        randTitle = self.page.get_random_title()
+        self.page.set_question_title(randTitle)
+        self.page.set_question_additional(u'Собственно говоря,'
+                                          u'если греческий салат испортился,'
+                                          u'то можно ли его называть '
+                                          u'древнегреческим?')
 
-        self.page.switchCategoryToAnother()
-        self.page.clickSendQuestion()
-
-        self.assertTrue(self.page.can_edit_time())
-
-    def test_settingsTest(self):
-        self.page.clickLogin()
-        self.page.login()
-
-        self.assertTrue(self.page.check_settings_page())
+        self.page.set_question_category('Другое')
+        self.page.click_send_question()
+        time.sleep(100000000)
+        self.page.click_edit_question()
+        self.page.check_edit_question_section()
 
     def test_pollOptionsTest(self):
         self.page.open_poll_form()
 
-        self.assertTrue(self.page.check_poll_option_correct_add())
+        self.page.check_poll_option_correct_add()

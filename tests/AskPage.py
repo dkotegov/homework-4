@@ -11,18 +11,14 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 import unittest
 import random
+import time
 
 from tests.CustomWait import ElementEqualSubcategory
 
-LOGIN_NEXT_BTN = "//button[@data-test-id='next-button']"
-LOGIN_SUBMIT_BTN = "//button[@data-test-id='submit-button']"
-LOGIN_FORM_LIST = "ag-popup__frame_show"
-LOGIN_INPUT = 'Login'
-LOGIN_BUTTON = 'PH_authLink'
-LOGIN_FORM_FRAME = 'ag-popup__frame__layout__iframe'
-
-UPLOAD_PHOTO_SPAN = '//span[text()="Фото"]'
-UPLOAD_VIDEO_SPAN = '//span[text()="Видео"]'
+UPLOAD_PHOTO_BTN = '//span[text()="Фото"]'
+UPLOAD_PHOTO_SECION = '//div[data-modal="ModalAskPhotos"]'
+UPLOAD_VIDEO_BTN = '//span[text()="Видео"]'
+UPLOAD_VIDEO_WINDOW = '//div[data-modal="ModalAskPhotos"]'
 
 SETTING_BUTTON = '//span[text()="Настройки"]'
 SETTINGS_PAGE = 'page-settings'
@@ -30,15 +26,19 @@ SETTINGS_PAGE = 'page-settings'
 # QUESTION_SUBMIT_BUTTON = "//a[@class='btn_3ykLdYEq']"
 QUESTION_SUBMIT_BUTTON = "btn_3ykLdYEq"
 QUESTION_UNDER_ALERT = "z1LfJpugzE39YVXERE-f__0"
-QUESTION_SUBCOTEGORY = "select_1lZeUpFs_1"
+QUESTION_CATEGORY_DROP_DOWN_MENU = 'select_1lZeUpFs_1'
+QUESTION_CATEGORY = "//div[@class='" + QUESTION_CATEGORY_DROP_DOWN_MENU + "']/span"
 QUESTION_EDIT_BTN = "q-edit-control-element"
 QUESTION_TEXT = 'question_text'
 QUESTION_ADDITIONAL = 'question_additional'
+QUESTION_SECTION = 'q--head hentry'
+QUESTION_EDIT_SECTION = '//div[data-modal="ModalQuestionEdit"]'
 
 POLL_VARIANT_FIELD_3 = "//input[@placeholder='Вариант №3']"
 POLL_VARIANT_FIELD_4 = "//input[@placeholder='Вариант №4']"
 POLL_VARIANT_FIELD_5 = "//input[@placeholder='Вариант №5']"
 POLL_FORM = 'menuItem__content_last_3LtjwRRK'
+POLL_OPTIONS_SECTION = 'poll_options'
 
 ALERT_ADDITIONAL = 'error_z1LfJpug'
 POP_UP_ALERT = 'popup--content '
@@ -47,62 +47,77 @@ ALERT_WINDOW = 'window_3e48lyZw'
 PROFILE_BUTTON = 'profile-menu-item_hoverable'
 PROFILE_FORM = 'v--modal-overlay'
 
-CATEGORY_DROP_DOWN_MENU = 'select_1lZeUpFs_1'
-CATEGORY_ANOTHER = 'content__text_34Qv5DnE'
+CATEGORY_ANOTHER = "//span[@class='content__text_34Qv5DnE' and text()='"
 CATEGORY_MENU = 'default_1IJJ-JAn'
-
-PASSWORD = 'Password'
-
-IFRAME_LOGIN_DIV = 'ag-popup__frame_onoverlay'
 
 PROFILE_MENU_SECTION = 'profileMenuColumn_1F5KVzKR'
 PROFILE_EDIT_BUTTON = '//span[text()="Редактировать профиль"]'
+PROFILE_EDIT_SECTION = 'v--modal-box'
 
+LOGIN_NEXT_BTN = "//button[@data-test-id='next-button']"
+LOGIN_SUBMIT_BTN = "//button[@data-test-id='submit-button']"
+LOGIN_FORM_LIST = "ag-popup__frame_show"
+LOGIN_BUTTON = 'PH_authLink'
+LOGIN_FORM_FRAME = 'ag-popup__frame__layout__iframe'
+LOGIN_IFRAME_LOGIN_DIV = 'ag-popup__frame_onoverlay'
+LOGIN_INPUT_LABEL = 'Login'
+LOGIN_PASSWORD_LABEL = 'Password'
 
 class Page(object):
     BASE_URL = 'https://otvet.mail.ru/ask/'
+    UPLOAD_VIDEO_WINDOW_URL = 'https://my.mail.ru/cgi-bin/video/external_upload?cb=actionUploadVideo&album=_vanswers'
 
     def __init__(self, driver):
         self.driver = driver
         # self.username = os.environ['USERNAME']
         # self.password = os.environ['PASSWORD']
-        self.username = 'tp_qa_test5@mail.ru'
+        self.username = 'tp_qa_test6@mail.ru'
         self.password = 'SomePasswordHere'
 
     def open(self):
         self.driver.get(self.BASE_URL)
         self.driver.maximize_window()
 
-    def can_press_esc(self):
-        try:
-            webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE) \
-                .perform()
-            return True
-        except exceptions.ElementNotInteractableException:
-            return False
+    def press_esc(self):
+        webdriver.ActionChains(self.driver).send_keys(Keys.ESCAPE) \
+            .perform()
 
 
 class AskPage(Page):
     # Tools
-    def waitForElementVisible(self, locator, timeout=5):
-        return WebDriverWait(self.driver, timeout).until(
-            EC.visibility_of_element_located(locator))
+    def _wait_visibility(self, locator, timeout = 10, step = 0.1):
+        return WebDriverWait(self.driver, timeout, step) \
+            .until(EC.visibility_of_element_located(locator))
 
-    def sendText(self, webElement, text):
+    def _wait_clickability(self, locator, timeout = 10, step = 0.1):
+        return WebDriverWait(self.driver, timeout, step) \
+            .until(EC.element_to_be_clickable(locator))
+
+    def _wait_to_switch(self, locator, timeout = 10, step = 0.1):
+        return WebDriverWait(self.driver, timeout, step) \
+            .until(EC.frame_to_be_available_and_switch_to_it(locator))
+
+    def _find_element(self, locator, timeout = 10, step = 0.1):
+        return WebDriverWait(self.driver, timeout, step) \
+            .until(self.driver.find_element(locator))
+
+    def _find_elements(self, locator, timeout = 10, step = 0.1):
+        return WebDriverWait(self.driver, timeout, step) \
+            .until(self.driver.find_elements(locator))
+
+    def _send_large_text(self, webElement, text):
         self.driver.execute_script("arguments[0].value = arguments[1]",
-                                   webElement, text[:len(text)-1])
+                                    webElement, text[:len(text)-1])
         webElement.send_keys(text[len(text)-1])
 
-    def sameUrl(self, url):
-        if (url in self.driver.current_url):
-            return True
-        return False
-
-    def getGetRandomTitle(self):
+    def get_random_title(self):
         firstWordDict = [
             u'Как',
             u'Где',
             u'Когда'
+            u'Каким образом'
+            u'Каким способом'
+            u'Каким методом'
         ]
         secondWordDict = [
             u'Собрать',
@@ -114,6 +129,7 @@ class AskPage(Page):
             u'Смастерить',
             u'Запустить',
             u'Установить'
+            u'Написать'
         ]
         thirdWordDict = [
             u'Дом',
@@ -129,226 +145,162 @@ class AskPage(Page):
             u'Будку',
             u'Конструктор',
             u'Полку'
+            u'Тесты'
         ]
 
         return firstWordDict[0] + ' ' +\
             secondWordDict[random.randint(0, len(secondWordDict)) - 1] + ' ' +\
             thirdWordDict[random.randint(0, len(thirdWordDict)) - 1] + '?'
 
+    def get_url(self):
+        return self.driver.current_url
+
     # Login
+    def click_login_button(self):
+        button = self._wait_clickability((By.ID, LOGIN_BUTTON))
+        button.click()
 
-    def clickLogin(self):
-        clickBtn = self.driver.find_element_by_id(LOGIN_BUTTON)
-        clickBtn.click()
-
-    def lofinFormIsVisible(self):
-        loginFormList = self.driver\
-            .find_elements_by_class_name(LOGIN_FORM_LIST)
-        if len(loginFormList) <= 0:
-            return False
-        return True
+    # def check_login_form_visibility(self):
+    #     loginFormList = self.driver\
+    #         .find_elements_by_class_name(LOGIN_FORM_LIST)
+    #     if len(loginFormList) <= 0:
+    #         return False
+    #     return True
 
     def login(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(
-                (By.CLASS_NAME, IFRAME_LOGIN_DIV)))
+        # Свитч на iframe логина
+        self._wait_visibility((By.CLASS_NAME, LOGIN_IFRAME_LOGIN_DIV))
+        self._wait_to_switch((By.CLASS_NAME, LOGIN_FORM_FRAME))
 
-        WebDriverWait(self.driver, 20)\
-            .until(EC.frame_to_be_available_and_switch_to_it(
-                (By.CLASS_NAME, LOGIN_FORM_FRAME)))
-
-        inputUsername = WebDriverWait(self.driver, 20)\
-            .until(EC.visibility_of_element_located((By.NAME, LOGIN_INPUT)))
+        # Логин
+        inputUsername = self._wait_visibility((By.NAME, LOGIN_INPUT_LABEL))
         inputUsername.send_keys(self.username)
 
-        self.driver.\
-            find_element_by_xpath(LOGIN_NEXT_BTN).\
-            click()
+        # Next
+        nextButton = self.driver.find_element_by_xpath(LOGIN_NEXT_BTN)
+        nextButton.click()
 
-        inputPassword = WebDriverWait(self.driver, 5)\
-            .until(EC.visibility_of_element_located((By.NAME, PASSWORD)))
+        # Пароль
+        inputPassword = self._wait_visibility((By.NAME, LOGIN_PASSWORD_LABEL))
         inputPassword.send_keys(self.password)
 
-        self.driver.\
-            find_element_by_xpath(LOGIN_SUBMIT_BTN).\
-            click()
+        # Submit
+        submitButton = self.driver.find_element_by_xpath(LOGIN_SUBMIT_BTN)
+        submitButton.click()
+
+        self.driver.switch_to.default_content()
 
     # Profile
-    def clickAndWaitProfile(self):
+    def click_edit_profile(self):
+        self._wait_visibility((By.CLASS_NAME, PROFILE_MENU_SECTION))
+        profileEditButton = self._wait_clickability((By.XPATH, PROFILE_EDIT_BUTTON))
+        profileEditButton.click()
+
+    def check_edit_profile_section(self):
         try:
-            self.driver.switch_to.default_content()
-            WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located(
-                    (By.CLASS_NAME, PROFILE_MENU_SECTION))
-            )
-
-            profileEditButton = WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located(
-                    (By.XPATH, PROFILE_EDIT_BUTTON))
-            )
-
-            profileEditButton.click()
-
+            self._wait_visibility((By.CLASS_NAME, PROFILE_EDIT_SECTION))
             return True
-        except (exceptions.ElementNotVisibleException,
-                exceptions.NoSuchElementException,
-                exceptions.TimeoutException) as error:
-            print('ERROR: ', error)
+        except exceptions.TimeoutException:
             return False
 
     # Questions
-    def getAlertUnderAdditional(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located(
-                (By.CLASS_NAME, ALERT_ADDITIONAL))
-        )
-        return self.waitForElementVisible((By.CLASS_NAME,
-                                          ALERT_ADDITIONAL)) \
-            .get_attribute('innerText')
+    def get_alert_under_additional(self):
+        alert = self._wait_visibility((By.CLASS_NAME, ALERT_ADDITIONAL))
+        return alert.get_attribute('innerText')
 
-    def setQuestionAdditional(self, additional):
-        inputQuestionField = self.waitForElementVisible(
-            (By.NAME, QUESTION_ADDITIONAL))
-        self.sendText(inputQuestionField, additional)
+    def set_question_category(self, category):
+        categoryDropDownMenu = self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_DROP_DOWN_MENU))
+        categoryDropDownMenu.click()
 
-        WebDriverWait(self.driver, 10).until(
-            lambda browser:
-                inputQuestionField.get_attribute('value') == additional
-        )
+        # print("\n\n", CATEGORY_ANOTHER + category + "']", "\n\n")
+        anotherCategoryButton = self._wait_visibility((By.XPATH, CATEGORY_ANOTHER + category + "']"))
+        anotherCategoryButton.click()
 
-    def setQuestionTitle(self, question):
-        self.driver.switch_to.default_content()
-        inputQuestionField = self.waitForElementVisible(
-            (By.NAME, QUESTION_TEXT))
-        self.sendText(inputQuestionField, question)
+    def get_question_category(self):
+        self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_DROP_DOWN_MENU))
+        currentCategory = self._wait_visibility((By.XPATH, QUESTION_CATEGORY))
+        return currentCategory.get_attribute('innerText')
+
+    def set_question_additional(self, additional):
+        inputQuestionField = self._wait_visibility((By.NAME, QUESTION_ADDITIONAL))
+        self._send_large_text(inputQuestionField, additional)
+
+    def set_question_title(self, question):
+        inputQuestionField = self._wait_visibility((By.NAME, QUESTION_TEXT))
+        inputQuestionField.send_keys(question)
 
         WebDriverWait(self.driver, 10).until(
             lambda browser:
                 inputQuestionField.get_attribute('value') == question
         )
 
-    def isAlert(self):
-        try:
-            WebDriverWait(self.driver, 5).until(
-                EC.visibility_of_element_located(
-                    (By.CLASS_NAME, ALERT_WINDOW)))
+    def click_send_question(self):
+        ask_button = self._wait_clickability((By.CLASS_NAME, QUESTION_SUBMIT_BUTTON))
+        ask_button.click()
 
+    def check_alert_messege(self):
+        try:
+            self._wait_visibility((By.CLASS_NAME, ALERT_WINDOW))
             return True
         except exceptions.TimeoutException:
             return False
-
-    def switchCategoryToAnother(self):
-        categoryDropDownMenu = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_any_elements_located(
-                (By.CLASS_NAME, CATEGORY_DROP_DOWN_MENU)))
-        categoryDropDownMenu[0].click()
-
-        buttonChooseAnother = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_any_elements_located(
-                (By.CLASS_NAME, CATEGORY_ANOTHER)))
-        for i in range(2):
-            try:
-                buttonChooseAnother[-1].click()
-            except:
-                pass
-
-    def clickSendQuestion(self):
-        ask_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(
-                (By.CLASS_NAME, QUESTION_SUBMIT_BUTTON))
-        )
-        ask_button.click()
 
     def autosettingSubcategory(self, Subcategory):
         WebDriverWait(self.driver, 10).until(
             ElementEqualSubcategory(QUESTION_SUBCOTEGORY,
                                     u'Политика'))
 
-    def clearQuestionThemeByKeys(self):
-        inputQuestionField = self.driver\
-            .find_element_by_name(QUESTION_TEXT)
+    def clear_question_theme_by_keys(self):
+        inputQuestionField = self._wait_clickability((By.NAME, QUESTION_TEXT))
         inputQuestionField.click()
+
+        # Выделяем вксь текст и удаляем его
         inputQuestionField.send_keys(Keys.CONTROL + "a")
         inputQuestionField.send_keys(Keys.DELETE)
 
-    def getAlertUnderQuestion(self):
-        alert = self.driver\
-            .find_element_by_class_name(
-                QUESTION_UNDER_ALERT)
-        return alert.get_attribute('innerHTML')
-
-    def getSubcategory(self):
-        subcategory = self.driver \
-            .find_elements_by_class_name(QUESTION_SUBCOTEGORY)[1] \
-            .find_elements_by_css_selector('*')
-        return subcategory[-1].get_attribute('innerHTML')
-
     # Upload
     def open_photo_upload_form(self):
-        photo_span = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_xpath(UPLOAD_PHOTO_SPAN)
-        )
-        photo_span.find_element_by_xpath('./..').click()
+        uploadPhotoButton = self._wait_clickability((By.XPATH, UPLOAD_PHOTO_BTN))
+        uploadPhotoButton.click()
 
     def open_video_upload_form(self):
-        video_span = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_xpath(UPLOAD_VIDEO_SPAN)
-        )
-        video_span.find_element_by_xpath('./..').click()
+        uploadVideoButton = self._wait_clickability((By.XPATH, UPLOAD_VIDEO_BTN))
+        uploadVideoButton.click()
 
-    def check_settings_page(self):
-        self.driver.switch_to.default_content()
-        settings_button = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_xpath(SETTING_BUTTON)
-        )
-        settings_button.click()
-
-        settings = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_elements_by_class_name(SETTINGS_PAGE)
-        )
-
-        if len(settings) == 1:
+    def check_photo_upload_section(self):
+        try:
+            self._wait_visibility((By.XPATH, UPLOAD_PHOTO_SECION))
             return True
-        else:
+        except exceptions.TimeoutException:
             return False
 
-    def can_edit_time(self):
-        self.driver.switch_to.default_content()
-        button = WebDriverWait(self.driver, 10, 0.1).until(
-            EC.visibility_of_any_elements_located(
-                (By.ID, QUESTION_EDIT_BTN))
-        )
+    def check_video_upload_section(self):
+        uploadWindow = self.driver.window_handles[1]
+        self.driver.switch_to_window(uploadWindow)
+        return self.driver.current_url
 
-        if (len(button) == 1):
-            return True
-        else:
-            return False
+    def click_edit_question(self):
+        self._wait_visibility((By.CLASS_NAME, QUESTION_SECTION))
+        editQuestionButton = self._wait_clickability((By.ID, QUESTION_EDIT_BTN))
+        editQuestionButton.click()
+
+    def check_edit_question_section(self):
+        self._wait_visibility((By.XPATH, QUESTION_EDIT_SECTION))
 
     # Poll
     def check_poll_option_correct_add(self):
-        variant_3 = WebDriverWait(self.driver, 10).until(
-            lambda d: d.find_element_by_xpath(POLL_VARIANT_FIELD_3)
-        )
+        self._wait_visibility((By.NAME, POLL_OPTIONS_SECTION))
+
+        variant_3 = self.driver.find_element_by_xpath(POLL_VARIANT_FIELD_3)
         variant_3.click()
         variant_3.send_keys("getting 4 option")
 
-        variant_4 = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_xpath(POLL_VARIANT_FIELD_4)
-        )
-
+        variant_4 = self.driver.find_element_by_xpath(POLL_VARIANT_FIELD_4)
         variant_4.click()
         variant_4.send_keys("getting 5 option")
 
-        polls = self.driver\
-            .find_elements_by_xpath(POLL_VARIANT_FIELD_5)
-
-        if len(polls) == 1:
-            return True
-        else:
-            return False
+        self.driver.find_element_by_xpath(POLL_VARIANT_FIELD_5)
 
     def open_poll_form(self):
-        poll_form = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_class_name(POLL_FORM)
-        )
-        poll_form.click()
+        pollForm = self._wait_clickability((By.CLASS_NAME, POLL_FORM))
+        pollForm.click()
