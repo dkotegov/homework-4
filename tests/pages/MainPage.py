@@ -28,6 +28,9 @@ class MainPage(BasicPage):
   menu_move = "div.portal-menu-element_move"
   inbox_menu_item = "div.list-item[title='Входящие']"
   
+  notify_inline = '.notify_inline'
+  hide_notification_button = '.button2_actions_close'
+  
   def open(self):
     self.driver.get(self.LOGIN_URL)
   
@@ -68,6 +71,7 @@ class MainPage(BasicPage):
   def remove_first_letter(self): 
     self.click_letter_avatar()
     self.click_menu_remove_letter_button()
+    self.wait_render(self.notify_inline)
   
   # Call only while in the recycle bin
   def restore_first_letter(self):
@@ -140,6 +144,14 @@ class MainPage(BasicPage):
     elem.click()
     # Wait for moving to remove page
     self.wait_redirect(self.TRASH_URL)
+    
+  def wait_show_notification(self):
+    self.wait_render(self.notify_inline)
+    
+  def hide_notification(self):
+    elem = self.wait_render(self.hide_notification_button)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    self.wait_invisible(self.notify_inline)
     
   def click_signout(self):
     elem = self.wait_render(self.signout_button)

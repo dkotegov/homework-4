@@ -44,6 +44,8 @@ class MainTest(BasicTest):
     self.main_page.write_letter('TPWAO@mail.ru', subject, text)
     self.main_page.click_letter_avatar()
     self.main_page.click_menu_remove_letter_button()
+    self.main_page.wait_show_notification()
+    
     self.main_page.click_trash_button()
     actual_subject = self.main_page.get_first_letter_subject()
     actual_text = self.main_page.get_first_letter_text()
@@ -55,8 +57,11 @@ class MainTest(BasicTest):
     text = 'Text 6'
     self.main_page.write_letter('TPWAO@mail.ru', subject, text)
     self.main_page.remove_first_letter()
+    self.main_page.hide_notification()
+    
     self.main_page.click_trash_button()
     self.main_page.restore_first_letter()
+    self.main_page.wait_show_notification()
     # Go back (to check for a letter in the inbox folder)
     self.main_page.click_inbox_button()
     actual_subject = self.main_page.get_first_letter_subject()
