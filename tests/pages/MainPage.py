@@ -24,15 +24,17 @@ class MainPage(BasicPage):
   # menu_remove_letter_button = "span.button2_delete[title='Удалить']"
   banner = "div.layer-window[__mediators='layout-manager']"
   layer_content = 'div.layer_media .layer__content'
-  menu_trash = "div.portal-menu-element_remove"
-  menu_move = "div.portal-menu-element_move"
+  menu_trash = 'div.portal-menu-element_remove'
+  menu_move = 'div.portal-menu-element_move'
   inbox_menu_item = "div.list-item[title='Входящие']"
-  select_all_button = "div.portal-menu-element_select"
+  select_all_button = 'div.portal-menu-element_select'
   confirm_remove_button = '.layer__submit-button'
   dataset_empty = '.dataset__empty'
   
   notify_inline = '.notify_inline'
   hide_notification_button = '.button2_actions_close'
+  
+  link_to_clean_trash = "a.link[rel='noopener noreferer']"
   
   def open(self):
     self.driver.get(self.LOGIN_URL)
@@ -81,6 +83,21 @@ class MainPage(BasicPage):
     self.click_letter_avatar()
     self.click_menu_move_letter_button()
     self.click_inbox_menu_item()
+    
+  def move_all_letters_to_trash(self):
+    self.click_select_all_button()
+    self.click_menu_remove_letter_button()
+    self.click_confirm_remove_button()
+    # Wait a confirmation of moving
+    self.is_there_no_letters()
+  
+  # Call only while in the trash
+  def restore_all_letters_from_trash(self):
+    self.click_select_all_button()
+    self.click_menu_move_letter_button()
+    self.click_inbox_menu_item()
+    # Wait a confirmation of restoring
+    self.is_there_no_letters()
     
   ############################################# 
   #############################################
@@ -168,5 +185,16 @@ class MainPage(BasicPage):
     elem = self.wait_render(self.confirm_remove_button)
     elem.click()
     
+    
+  def click_link_clean_trash(self):
+    elem = self.wait_render(self.link_to_clean_trash)
+    elem.click()
+    
+  def clean_trash(self):
+    self.click_link_clean_trash()
+    self.click_confirm_remove_button()
+    
   def is_there_no_letters(self):
     self.wait_render(self.dataset_empty)
+    
+  

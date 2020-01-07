@@ -52,7 +52,7 @@ class MainTest(BasicTest):
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
     
-  def test_restore_removed_letter(self):
+  def test_restore_letter(self):
     subject = 'Subject 6'
     text = 'Text 6'
     self.main_page.write_letter('TPWAO@mail.ru', subject, text)
@@ -70,9 +70,29 @@ class MainTest(BasicTest):
     self.assertEqual(text, actual_text)
     
   def test_remove_all_letters_from_inbox(self):
-    for i in range(3):
+    for i in range(2):
       self.main_page.write_letter('TPWAO@mail.ru', 'Subject7%d' % i, 'Text7%d' % i)
     self.main_page.click_select_all_button()
     self.main_page.click_menu_remove_letter_button()
     self.main_page.click_confirm_remove_button()
     self.main_page.is_there_no_letters()
+    
+  def test_restore_all_letters_to_inbox(self):
+    for i in range(2):
+      self.main_page.write_letter('TPWAO@mail.ru', 'Subject8%d' % i, 'Text8%d' % i)
+      
+    self.main_page.move_all_letters_to_trash()
+    self.main_page.click_trash_button()
+    self.main_page.restore_all_letters_from_trash()
+    self.main_page.is_there_no_letters()
+    
+  def test_clean_trash(self):
+    for i in range(2):
+      self.main_page.write_letter('TPWAO@mail.ru', 'Subject9%d' % i, 'Text9%d' % i)
+      
+    self.main_page.move_all_letters_to_trash()
+    self.main_page.click_trash_button()
+    self.main_page.clean_trash()
+    self.main_page.is_there_no_letters()
+    
+    
