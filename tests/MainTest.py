@@ -26,4 +26,15 @@ class MainTest(BasicTest):
   def test_unread_status(self):
     self.main_page.write_letter('TPWAO@mail.ru', 'Subject_1', 'Text1')
     self.assertFalse(self.main_page.get_first_letter_read_status())
+    
+  def test_reading_letter(self):
+    self.main_page.write_letter('TPWAO@mail.ru', 'Subject_1', 'Text1')
+    self.main_page.set_first_letter_read_status(True)
+    self.assertTrue(self.main_page.get_first_letter_read_status())
+    
+  def test_unreading_letter(self):
+    self.main_page.write_letter('TPWAO@mail.ru', 'Subject_1', 'Text1')
+    self.main_page.set_first_letter_read_status(True)
+    self.main_page.set_first_letter_read_status(False)
+    self.assertFalse(self.main_page.get_first_letter_read_status())
 

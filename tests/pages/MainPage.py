@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from BasicPage import BasicPage
-
 class MainPage(BasicPage):
   signout_button = '#PH_logoutLink'
   write_letter_button = '.compose-button__wrapper'
@@ -9,12 +8,12 @@ class MainPage(BasicPage):
   subject_field = "input[name='Subject']"
   send_letter_button = '.button2__txt:nth-child(1)'
   textbox_field = "div[role='textbox']"
-  close_sent_window_button = 'span.button2_close'
+  close_sent_window_button = 'span.button2_close.button2_clean.button2_short'
   first_letter = '.llc:first-of-type > .llc__container'
   first_letter_subject = 'a.llc:first-of-type > .llc__container .llc__subject'
   first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
   first_letter_unread_status = 'a.llc:first-of-type > .llc__container span.ll-rs.ll-rs_is-active'
-  first_letter_read_status = 'a.llc:first-of-type span.ll-rs'
+  first_letter_read_status = 'a.llc:first-of-type .ll-rs'
   # first_letter_avatar = '.llc:first-of-type ll-av__img'
   
   def open(self):
@@ -42,7 +41,6 @@ class MainPage(BasicPage):
     elem.click()
     
   # Write a new letter
-  
   def write_letter(self, email, subject, text):
     self.click_write_letter_button()
     self.enter_email_receiver(email)
@@ -71,11 +69,17 @@ class MainPage(BasicPage):
     
   def get_first_letter_read_status(self):
     elem = self.wait_render(self.first_letter_read_status)
-    if elem.get_attribute('title') == (u'Пометить прочитанным'):
+    if elem.get_attribute('title') == (u'Пометить прочитанным') or elem.get_attribute('data-title') == (u'Пометить прочитанным'):
       return False
     else:
       return True
-
+    
+  def set_first_letter_read_status(self, status):
+    elem = self.wait_render(self.first_letter_read_status)
+    # Invert status only it's needed
+    if self.get_first_letter_read_status() != status:
+      elem.click()
+      
   def click_send_letter_button(self):
     elem = self.wait_render(self.send_letter_button)
     elem.click()
