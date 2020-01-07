@@ -216,6 +216,10 @@ class AskPage(Page):
         anotherCategoryButton = self._wait_visibility((By.XPATH, CATEGORY_ANOTHER + category + "']"))
         anotherCategoryButton.click()
 
+        # For firefox (it doesn't hide menu after clicking)
+        menu = self._wait_visibility((By.CLASS_NAME, CATEGORY_MENU))
+        self.driver.execute_script("arguments[0].style.visibility='hidden'", menu)
+
     def get_question_category(self):
         self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_DROP_DOWN_MENU))
         currentCategory = self._wait_visibility((By.XPATH, QUESTION_CATEGORY))
