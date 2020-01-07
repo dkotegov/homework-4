@@ -8,7 +8,7 @@ class MainPage(BasicPage):
   INBOX_URL = 'https://e.mail.ru/inbox/'
   TRASH_URL = 'https://e.mail.ru/trash/'
   signout_button = '#PH_logoutLink'
-  write_letter_button = '.compose-button__wrapper'
+  write_letter_button = '.compose-button_white'
   email_receiver_field = "input[type='text']"
   subject_field = "input[name='Subject']"
   send_letter_button = '.button2__txt:nth-child(1)'
@@ -27,6 +27,9 @@ class MainPage(BasicPage):
   menu_trash = "div.portal-menu-element_remove"
   menu_move = "div.portal-menu-element_move"
   inbox_menu_item = "div.list-item[title='Входящие']"
+  select_all_button = "div.portal-menu-element_select"
+  confirm_remove_button = '.layer__submit-button'
+  dataset_empty = '.dataset__empty'
   
   notify_inline = '.notify_inline'
   hide_notification_button = '.button2_actions_close'
@@ -156,3 +159,14 @@ class MainPage(BasicPage):
   def click_signout(self):
     elem = self.wait_render(self.signout_button)
     elem.click()
+
+  def click_select_all_button(self):
+    elem = self.wait_render(self.select_all_button)
+    elem.click()
+    
+  def click_confirm_remove_button(self):
+    elem = self.wait_render(self.confirm_remove_button)
+    elem.click()
+    
+  def is_there_no_letters(self):
+    self.wait_render(self.dataset_empty)

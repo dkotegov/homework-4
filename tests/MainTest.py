@@ -68,3 +68,11 @@ class MainTest(BasicTest):
     actual_text = self.main_page.get_first_letter_text()
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
+    
+  def test_remove_all_letters_from_inbox(self):
+    for i in range(3):
+      self.main_page.write_letter('TPWAO@mail.ru', 'Subject7%d' % i, 'Text7%d' % i)
+    self.main_page.click_select_all_button()
+    self.main_page.click_menu_remove_letter_button()
+    self.main_page.click_confirm_remove_button()
+    self.main_page.is_there_no_letters()
