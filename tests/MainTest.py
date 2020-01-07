@@ -38,3 +38,14 @@ class MainTest(BasicTest):
     self.main_page.set_first_letter_read_status(False)
     self.assertFalse(self.main_page.get_first_letter_read_status())
 
+  def test_remove(self):
+    subject = 'Subject 1'
+    text = 'Text 1'
+    self.main_page.write_letter('TPWAO@mail.ru', subject, text)
+    self.main_page.click_letter_avatar()
+    self.main_page.click_menu_remove_letter_button()
+    self.main_page.click_trash_button()
+    actual_subject = self.main_page.get_first_letter_subject()
+    actual_text = self.main_page.get_first_letter_text()
+    self.assertEqual(subject, actual_subject)
+    self.assertEqual(text, actual_text)
