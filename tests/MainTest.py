@@ -22,3 +22,8 @@ class MainTest(BasicTest):
     actual_text = self.main_page.get_first_letter_text()
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
+    
+  def test_unread_status(self):
+    self.main_page.write_letter('TPWAO@mail.ru', 'Subject_1', 'Text1')
+    self.assertFalse(self.main_page.get_first_letter_read_status())
+

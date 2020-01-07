@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from BasicPage import BasicPage
 
 class MainPage(BasicPage):
@@ -11,6 +13,9 @@ class MainPage(BasicPage):
   first_letter = '.llc:first-of-type > .llc__container'
   first_letter_subject = 'a.llc:first-of-type > .llc__container .llc__subject'
   first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
+  first_letter_unread_status = 'a.llc:first-of-type > .llc__container span.ll-rs.ll-rs_is-active'
+  first_letter_read_status = 'a.llc:first-of-type span.ll-rs'
+  # first_letter_avatar = '.llc:first-of-type ll-av__img'
   
   def open(self):
     self.driver.get(self.LOGIN_URL)
@@ -46,6 +51,10 @@ class MainPage(BasicPage):
     self.click_send_letter_button()
     self.close_sent_window()
     
+  def get_first_letter(self):
+    elem = self.wait_render(self.first_letter_subject)
+    return elem
+  
   def get_first_letter_subject(self):
     subject = self.wait_render(self.first_letter_subject)
     return subject.text
@@ -60,7 +69,13 @@ class MainPage(BasicPage):
     elem = self.wait_render(self.first_letter)
     elem.click()
     
-    
+  def get_first_letter_read_status(self):
+    elem = self.wait_render(self.first_letter_read_status)
+    if elem.get_attribute('title') == (u'Пометить прочитанным'):
+      return False
+    else:
+      return True
+
   def click_send_letter_button(self):
     elem = self.wait_render(self.send_letter_button)
     elem.click()
