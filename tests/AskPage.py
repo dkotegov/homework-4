@@ -268,11 +268,10 @@ class AskPage(Page):
         editQuestionButton = self._wait_clickability((By.ID, QUESTION_EDIT_BTN))
         editQuestionButton.click()
 
-    def check_edit_question_section(self):
-        self._wait_visibility((By.CLASS_NAME, QUESTION_EDIT_SECTION))
+    def get_edit_question_section(self):
+        return self._wait_visibility((By.CLASS_NAME, QUESTION_EDIT_SECTION))
 
     # Poll
-
     def check_poll_option_correct_add(self):
         self._wait_visibility((By.NAME, POLL_OPTIONS_SECTION))
 

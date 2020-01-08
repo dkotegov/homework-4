@@ -111,9 +111,9 @@ class AskTests(unittest.TestCase):
         self.page.set_question_category('Другое')
         self.page.click_send_question()
         self.page.click_edit_question()
-        self.page.check_edit_question_section()
+        self.assertIsNotNone(self.page.get_edit_question_section())
 
-    def test_poll_options_test(self):
+    def test_poll_options(self):
         self.page.open_poll_form()
 
         self.page.check_poll_option_correct_add()
