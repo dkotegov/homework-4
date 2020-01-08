@@ -35,6 +35,7 @@ QUESTION_WRAPPER = 'layout__contentCol2_2sC-W1d6'
 QUESTION_TITLE = 'entry-title'
 QUESTION_EDIT_TITLE = 'question_text'
 QUESTION_SAVE_EDITED_BTN = 'btn_3ykLdYEq'
+QUESTION_PAGE_BTN = 'profile-menu-item__content'
 
 POLL_VARIANT_FIELD = "//input[@placeholder='Вариант №"
 POLL_VARIANT_FIELD_3 = "//input[@placeholder='Вариант №3']"
@@ -54,6 +55,8 @@ PROFILE_FORM = 'v--modal-overlay'
 PROFILE_MENU_SECTION = 'profileMenuColumn_1F5KVzKR'
 PROFILE_EDIT_BUTTON = '//span[text()="Редактировать профиль"]'
 PROFILE_EDIT_SECTION = 'v--modal-box'
+PROFILE_DESCRIPTION_INPUT = 'desc'
+PROFILE_SAVE_DESCRIPTION = "//*[contains(text(), 'Сохранить профиль')]"
 
 LOGIN_NEXT_BTN = "//button[@data-test-id='next-button']"
 LOGIN_SUBMIT_BTN = "//button[@data-test-id='submit-button']"
@@ -113,6 +116,12 @@ class AskPage(Page):
     def _click_to_close_drop_down_category_menu(self):
         wrapper = self._wait_visibility((By.CLASS_NAME, QUESTION_WRAPPER))
         wrapper.click()
+    
+    # Profile
+    def _click_edit_profile(self):
+        self._wait_visibility((By.CLASS_NAME, PROFILE_MENU_SECTION))
+        profileEditButton = self._wait_clickability((By.XPATH, PROFILE_EDIT_BUTTON))
+        profileEditButton.click()
 
     def get_random_title(self):
         firstWordDict = [
@@ -158,6 +167,9 @@ class AskPage(Page):
 
     def get_url(self):
         return self.driver.current_url
+    
+    def refresh_page(self):
+        self.driver.refresh()
 
     # Login
     def click_login_button(self):
@@ -189,14 +201,24 @@ class AskPage(Page):
 
         self.driver.switch_to.default_content()
 
-    # Profile
-    def click_edit_profile(self):
-        self._wait_visibility((By.CLASS_NAME, PROFILE_MENU_SECTION))
-        profileEditButton = self._wait_clickability((By.XPATH, PROFILE_EDIT_BUTTON))
-        profileEditButton.click()
-
     def get_edit_profile_section(self):
         return self._wait_visibility((By.CLASS_NAME, PROFILE_EDIT_SECTION))
+
+    def edit_profile_description(self, desc):
+        self._click_edit_profile()
+        self._wait_visibility((By.CLASS_NAME, PROFILE_EDIT_SECTION))
+        descriptionInput = self._wait_visibility((By.NAME, PROFILE_DESCRIPTION_INPUT))
+        descriptionInput.clear()
+        descriptionInput.send_keys(desc)
+
+        descriptionSaveBtn = self._wait_visibility((By.XPATH, PROFILE_SAVE_DESCRIPTION))
+        descriptionSaveBtn.click()        
+
+    def get_profile_description(self):
+        self._click_edit_profile()
+        self._wait_visibility((By.CLASS_NAME, PROFILE_EDIT_SECTION))
+        descriptionInput = self._wait_visibility((By.NAME, PROFILE_DESCRIPTION_INPUT))
+        return descriptionInput.get_attribute('value')
 
     # Questions
     def get_alert_under_additional(self):

@@ -45,8 +45,10 @@ class AskTests(unittest.TestCase):
         self.page.click_login_button()
         self.page.login()
 
-        self.page.click_edit_profile()
-        self.assertIsNotNone(self.page.get_edit_profile_section())
+        description = 'i can speak uk'
+        self.page.edit_profile_description(description)
+        self.page.refresh_page()
+        self.assertEqual(self.page.get_profile_description(), description)
 
     def test_not_empty_question(self):
         self.page.set_question_title(u'Алло, Галочка!?')
