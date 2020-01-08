@@ -26,8 +26,10 @@ SETTINGS_PAGE = 'page-settings'
 # QUESTION_SUBMIT_BUTTON = "//a[@class='btn_3ykLdYEq']"
 QUESTION_SUBMIT_BUTTON = "btn_3ykLdYEq"
 QUESTION_UNDER_ALERT = "z1LfJpugzE39YVXERE-f__0"
-QUESTION_CATEGORY_DROP_DOWN_MENU = 'select_1lZeUpFs_1'
-QUESTION_CATEGORY = "//div[@class='" + QUESTION_CATEGORY_DROP_DOWN_MENU + "']/span"
+QUESTION_CATEGORY_BTN = 'select_1lZeUpFs_1'
+QUESTION_CATEGORY_DROP_DOWN_MENU = 'default_1IJJ-JAn'
+QUESTION_CURRENT_CATEGORY = "//div[@class='" + QUESTION_CATEGORY_BTN + "']/span"
+QUESTION_CATEGORY = "//span[@class='content__text_34Qv5DnE' and text()='"
 QUESTION_EDIT_BTN = "q-edit-control-element"
 QUESTION_TEXT = 'question_text'
 QUESTION_ADDITIONAL = 'question_additional'
@@ -46,9 +48,6 @@ ALERT_WINDOW = 'window_3e48lyZw'
 
 PROFILE_BUTTON = 'profile-menu-item_hoverable'
 PROFILE_FORM = 'v--modal-overlay'
-
-CATEGORY_ANOTHER = "//span[@class='content__text_34Qv5DnE' and text()='"
-CATEGORY_MENU = 'default_1IJJ-JAn'
 
 PROFILE_MENU_SECTION = 'profileMenuColumn_1F5KVzKR'
 PROFILE_EDIT_BUTTON = '//span[text()="Редактировать профиль"]'
@@ -160,13 +159,6 @@ class AskPage(Page):
         button = self._wait_clickability((By.ID, LOGIN_BUTTON))
         button.click()
 
-    # def check_login_form_visibility(self):
-    #     loginFormList = self.driver\
-    #         .find_elements_by_class_name(LOGIN_FORM_LIST)
-    #     if len(loginFormList) <= 0:
-    #         return False
-    #     return True
-
     def login(self):
         # Свитч на iframe логина
         self._wait_visibility((By.CLASS_NAME, LOGIN_IFRAME_LOGIN_DIV))
@@ -209,20 +201,23 @@ class AskPage(Page):
         return alert.get_attribute('innerText')
 
     def set_question_category(self, category):
-        categoryDropDownMenu = self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_DROP_DOWN_MENU))
+        categoryDropDownMenu = self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_BTN))
         categoryDropDownMenu.click()
 
+        self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_DROP_DOWN_MENU))
+        
         # print("\n\n", CATEGORY_ANOTHER + category + "']", "\n\n")
-        anotherCategoryButton = self._wait_visibility((By.XPATH, CATEGORY_ANOTHER + category + "']"))
+        anotherCategoryButton = self._wait_visibility((By.XPATH, QUESTION_CATEGORY + category + "']"))
         anotherCategoryButton.click()
 
         # For firefox (it doesn't hide menu after clicking)
-        menu = self._wait_visibility((By.CLASS_NAME, CATEGORY_MENU))
-        self.driver.execute_script("arguments[0].style.visibility='hidden'", menu)
+        # menu = self._wait_visibility((By.CLASS_NAME, CATEGORY_MENU))
+        # self.driver.execute_script("arguments[0].style.visibility='hidden'", menu)
+
 
     def get_question_category(self):
-        self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_DROP_DOWN_MENU))
-        currentCategory = self._wait_visibility((By.XPATH, QUESTION_CATEGORY))
+        self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_BTN))
+        currentCategory = self._wait_visibility((By.XPATH, QUESTION_CURRENT_CATEGORY))
         return currentCategory.get_attribute('innerText')
 
     def set_question_additional(self, additional):
@@ -248,11 +243,6 @@ class AskPage(Page):
             return True
         except exceptions.TimeoutException:
             return False
-
-    def autosettingSubcategory(self, Subcategory):
-        WebDriverWait(self.driver, 10).until(
-            ElementEqualSubcategory(QUESTION_SUBCOTEGORY,
-                                    u'Политика'))
 
     def clear_question_theme_by_keys(self):
         inputQuestionField = self._wait_clickability((By.NAME, QUESTION_TEXT))
