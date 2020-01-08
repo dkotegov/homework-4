@@ -100,12 +100,7 @@ class AskTests(unittest.TestCase):
     def test_new_question_edit_test(self):
         self.page.click_login_button()
         self.page.login()
-
-        # self.page.set_question_title(u'Хочу обратиться к админам вопросов')
-        # self.page.set_question_additional(u'Хватит, пожалуйста, нас банить,'
-        #                                   u'мы вам @вопросы тестим бесплатно'
-        #                                   u', а вы нас баните как собак ;^)')
-
+        
         randTitle = self.page.get_random_title()
         self.page.set_question_title(randTitle)
         self.page.set_question_additional(u'Собственно говоря,'

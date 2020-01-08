@@ -256,7 +256,6 @@ class AskPage(Page):
         inputQuestionField = self._wait_clickability((By.NAME, QUESTION_TEXT))
         inputQuestionField.click()
 
-        # Выделяем вксь текст и удаляем его
         while len(inputQuestionField.get_attribute('value')) != 0:
             inputQuestionField.send_keys(Keys.BACKSPACE)
 
