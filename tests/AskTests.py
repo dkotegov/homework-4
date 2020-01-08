@@ -71,7 +71,7 @@ class AskTests(unittest.TestCase):
         self.page.login()
 
         self.page.open_photo_upload_form()
-        self.assertTrue(self.page.get_photo_upload_section)
+        self.assertIsNotNone(self.page.get_photo_upload_section)
         self.page.press_esc()
 
         self.page.open_video_upload_form()
@@ -116,4 +116,16 @@ class AskTests(unittest.TestCase):
     def test_poll_options(self):
         self.page.open_poll_form()
 
-        self.page.check_poll_option_correct_add()
+        self.assertIsNotNone(self.page.get_poll_section())
+
+        self.page.set_text_to_poll_option(3, u'Тестовая_строка_1')
+        self.assertEqual(self.page.get_text_of_poll_option(3), 
+            u'Тестовая_строка_1')
+
+        self.page.set_text_to_poll_option(4, u'Тестовая_строка_2')
+        self.assertEqual(self.page.get_text_of_poll_option(4), 
+            u'Тестовая_строка_2')
+
+        self.page.set_text_to_poll_option(5, u'Тестовая_строка_3')
+        self.assertEqual(self.page.get_text_of_poll_option(5), 
+            u'Тестовая_строка_3')

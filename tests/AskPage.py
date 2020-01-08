@@ -12,8 +12,6 @@ import os
 import unittest
 import random
 
-from tests.CustomWait import ElementEqualSubcategory
-
 UPLOAD_PHOTO_BTN = '//span[text()="Фото"]'
 UPLOAD_PHOTO_SECION = '//div[data-modal="ModalAskPhotos"]'
 UPLOAD_VIDEO_BTN = '//span[text()="Видео"]'
@@ -36,6 +34,7 @@ QUESTION_SECTION = 'q--head hentry'
 QUESTION_EDIT_SECTION = 'window_3e48lyZw'
 QUESTION_WRAPPER = 'layout__contentCol2_2sC-W1d6'
 
+POLL_VARIANT_FIELD = "//input[@placeholder='Вариант №"
 POLL_VARIANT_FIELD_3 = "//input[@placeholder='Вариант №3']"
 POLL_VARIANT_FIELD_4 = "//input[@placeholder='Вариант №4']"
 POLL_VARIANT_FIELD_5 = "//input[@placeholder='Вариант №5']"
@@ -70,8 +69,12 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
+        # self.username = os.environ['USERNAME']
+        # self.password = os.environ['PASSWORD']
         self.username = os.environ['USERNAME']
         self.password = os.environ['PASSWORD']
+
+
 
     def open(self):
         self.driver.get(self.BASE_URL)
@@ -255,7 +258,7 @@ class AskPage(Page):
         uploadVideoButton.click()
 
     def get_photo_upload_section(self):
-        self._wait_visibility((By.XPATH, UPLOAD_PHOTO_SECION))
+        return self._wait_visibility((By.XPATH, UPLOAD_PHOTO_SECION))
 
     def get_video_upload_section(self):
         uploadWindow = self.driver.window_handles[1]
@@ -272,18 +275,19 @@ class AskPage(Page):
         return self._wait_visibility((By.CLASS_NAME, QUESTION_EDIT_SECTION))
 
     # Poll
-    def check_poll_option_correct_add(self):
-        self._wait_visibility((By.NAME, POLL_OPTIONS_SECTION))
+    def set_text_to_poll_option(self, poolOptionNumber, text):
+        optionSelector = POLL_VARIANT_FIELD + str(poolOptionNumber) + "']"
+        option = self.driver.find_element_by_xpath(optionSelector)
+        option.click()
+        option.send_keys(text)
 
-        variant_3 = self.driver.find_element_by_xpath(POLL_VARIANT_FIELD_3)
-        variant_3.click()
-        variant_3.send_keys("getting 4 option")
+    def get_text_of_poll_option(self, poolOptionNumber):
+        optionSelector = POLL_VARIANT_FIELD + str(poolOptionNumber) + "']"
+        option = self.driver.find_element_by_xpath(optionSelector)
+        return option.get_attribute('value')
 
-        variant_4 = self.driver.find_element_by_xpath(POLL_VARIANT_FIELD_4)
-        variant_4.click()
-        variant_4.send_keys("getting 5 option")
-
-        self.driver.find_element_by_xpath(POLL_VARIANT_FIELD_5)
+    def get_poll_section(self):
+        return self._wait_visibility((By.NAME, POLL_OPTIONS_SECTION))
 
     def open_poll_form(self):
         pollForm = self._wait_clickability((By.CLASS_NAME, POLL_FORM))
