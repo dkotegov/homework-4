@@ -79,13 +79,13 @@ class MainPage(BasicPage):
     self.close_sent_window()
     
   def remove_first_letter(self): 
-    self.click_letter_avatar()
+    self.select_first_letter()
     self.click_menu_remove_letter_button()
     self.wait_render(self.notify_inline)
   
   # Call only while in the recycle bin
   def restore_first_letter(self):
-    self.click_letter_avatar()
+    self.select_first_letter()
     self.click_top_menu_move_letter_button()
     self.click_inbox_menu_item()
     
@@ -125,9 +125,9 @@ class MainPage(BasicPage):
     text = content.split(' -- ')[0]
     return text
     
-  def click_letter_avatar(self):
+  def select_first_letter(self):
     elem = self.wait_render(self.first_letter_avatar)
-    elem.click()
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     
   def click_menu_remove_letter_button(self):
     elem = self.wait_render(self.top_menu_trash)

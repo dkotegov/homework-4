@@ -41,9 +41,8 @@ class MainTest(BasicTest):
   def test_remove(self):
     subject = 'Subject 5'
     text = 'Text 5'
-    text = 3
     self.main_page.write_letter('TPWAO@mail.ru', subject, text)
-    self.main_page.click_letter_avatar()
+    self.main_page.select_first_letter()
     self.main_page.click_menu_remove_letter_button()
     self.main_page.wait_show_notification()
     
