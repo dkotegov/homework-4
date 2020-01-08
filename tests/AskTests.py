@@ -18,7 +18,7 @@ class AskTests(unittest.TestCase):
         self.page.open()
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get('BROWSER', 'FIREFOX')
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -46,7 +46,7 @@ class AskTests(unittest.TestCase):
         self.page.login()
 
         self.page.click_edit_profile()
-        self.assertTrue(self.page.check_edit_profile_section())
+        self.assertIsNotNone(self.page.get_edit_profile_section())
 
     def test_not_empty_question(self):
         self.page.set_question_title(u'Алло, Галочка!?')
