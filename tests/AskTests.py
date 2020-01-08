@@ -18,7 +18,7 @@ class AskTests(unittest.TestCase):
         self.page.open()
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'FIREFOX')
+        browser = os.environ.get('BROWSER', 'CHROME')
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -101,6 +101,11 @@ class AskTests(unittest.TestCase):
         self.page.click_login_button()
         self.page.login()
 
+        # self.page.set_question_title(u'Хочу обратиться к админам вопросов')
+        # self.page.set_question_additional(u'Хватит, пожалуйста, нас банить,'
+        #                                   u'мы вам @вопросы тестим бесплатно'
+        #                                   u', а вы нас баните как собак ;^)')
+
         randTitle = self.page.get_random_title()
         self.page.set_question_title(randTitle)
         self.page.set_question_additional(u'Собственно говоря,'
@@ -110,8 +115,18 @@ class AskTests(unittest.TestCase):
 
         self.page.set_question_category('Другое')
         self.page.click_send_question()
+
+        initialTitle = self.page.get_question_title()
+        newTilte = 'А можно тесты сдать?'
+
         self.page.click_edit_question()
-        self.assertIsNotNone(self.page.get_edit_question_section())
+        self.page.edit_question_title(newTilte)
+        self.page.save_edited_question()
+
+        currentTitle = self.page.get_question_title()
+
+        self.assertNotEqual(currentTitle, initialTitle)
+        self.assertEqual(currentTitle, 'А можно тесты сдать?')
 
     def test_poll_options(self):
         self.page.open_poll_form()

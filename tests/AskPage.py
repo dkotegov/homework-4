@@ -32,6 +32,9 @@ QUESTION_ADDITIONAL = 'question_additional'
 QUESTION_SECTION = 'q--head hentry'
 QUESTION_EDIT_SECTION = 'window_3e48lyZw'
 QUESTION_WRAPPER = 'layout__contentCol2_2sC-W1d6'
+QUESTION_TITLE = 'entry-title'
+QUESTION_EDIT_TITLE = 'question_text'
+QUESTION_SAVE_EDITED_BTN = 'btn_3ykLdYEq'
 
 POLL_VARIANT_FIELD = "//input[@placeholder='Вариант №"
 POLL_VARIANT_FIELD_3 = "//input[@placeholder='Вариант №3']"
@@ -68,12 +71,8 @@ class Page(object):
 
     def __init__(self, driver):
         self.driver = driver
-        # self.username = os.environ['USERNAME']
-        # self.password = os.environ['PASSWORD']
         self.username = os.environ['USERNAME']
         self.password = os.environ['PASSWORD']
-
-
 
     def open(self):
         self.driver.get(self.BASE_URL)
@@ -171,7 +170,8 @@ class AskPage(Page):
         self._wait_to_switch((By.CLASS_NAME, LOGIN_FORM_FRAME))
 
         # Логин
-        inputUsername = self._wait_visibility((By.NAME, LOGIN_INPUT_LABEL))
+        inputUsername = self._wait_clickability((By.NAME, LOGIN_INPUT_LABEL))
+        inputUsername.click()
         inputUsername.send_keys(self.username)
 
         # Next
@@ -179,7 +179,8 @@ class AskPage(Page):
         nextButton.click()
 
         # Пароль
-        inputPassword = self._wait_visibility((By.NAME, LOGIN_PASSWORD_LABEL))
+        inputPassword = self._wait_clickability((By.NAME, LOGIN_PASSWORD_LABEL))
+        inputPassword.click()
         inputPassword.send_keys(self.password)
 
         # Submit
@@ -218,6 +219,23 @@ class AskPage(Page):
         currentCategory = self._wait_visibility((By.XPATH, QUESTION_CURRENT_CATEGORY))
         return currentCategory.get_attribute('innerText')
 
+    def get_question_title(self):
+        title = self._wait_visibility((By.CLASS_NAME, QUESTION_TITLE), 20)
+        return title.get_attribute('innerText')
+
+    def edit_question_title(self, title):
+        input = self._wait_visibility((By.NAME, QUESTION_EDIT_TITLE))
+        input.click()
+
+        while len(input.get_attribute('value')) != 0:
+            input.send_keys(Keys.BACKSPACE)
+
+        input.send_keys(title)
+
+    def save_edited_question(self):
+        btn = self._wait_clickability((By.CLASS_NAME, QUESTION_SAVE_EDITED_BTN))
+        btn.click()
+
     def set_question_additional(self, additional):
         inputQuestionField = self._wait_visibility((By.NAME, QUESTION_ADDITIONAL))
         self._send_large_text(inputQuestionField, additional)
@@ -225,11 +243,6 @@ class AskPage(Page):
     def set_question_title(self, question):
         inputQuestionField = self._wait_visibility((By.NAME, QUESTION_TEXT))
         inputQuestionField.send_keys(question)
-
-        # WebDriverWait(self.driver, 10).until(
-        #     lambda browser:
-        #         inputQuestionField.get_attribute('value') == question
-        # )
 
     def click_send_question(self):
         ask_button = self._wait_clickability((By.CLASS_NAME, QUESTION_SUBMIT_BUTTON))
@@ -266,7 +279,6 @@ class AskPage(Page):
         return self.driver.current_url
 
     def click_edit_question(self):
-        # self._wait_visibility((By.CLASS_NAME, QUESTION_EDIT_SECTION))
         editQuestionButton = self._wait_clickability((By.ID, QUESTION_EDIT_BTN))
         editQuestionButton.click()
 
