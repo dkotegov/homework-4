@@ -7,25 +7,29 @@ import time
 class MainPage(BasicPage):
   INBOX_URL = 'https://e.mail.ru/inbox/'
   TRASH_URL = 'https://e.mail.ru/trash/'
-  signout_button = '#PH_logoutLink'
+  
   write_letter_button = '.compose-button_white'
+  
   email_receiver_field = "input[type='text']"
   subject_field = "input[name='Subject']"
-  send_letter_button = '.button2__txt:nth-child(1)'
   textbox_field = "div[role='textbox']"
+  send_letter_button = '.button2__txt:nth-child(1)'
   close_sent_window_button = "span.button2_close[title='Закрыть']"
+  
   first_letter = '.llc:first-of-type > .llc__container'
   first_letter_subject = 'a.llc:first-of-type > .llc__container .llc__subject'
   first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
   first_letter_read_status = 'a.llc:first-of-type .ll-rs'
   first_letter_avatar = '.llc:first-of-type button.ll-av'
-  inbox_button = "a.nav__item[title='Входящие']"
+  
+  inbox_button = "a.nav__item div.class2 3 4 5 6[title='Входящие']"
   trash_button = "a.nav__item[title='Корзина']"
-  # menu_remove_letter_button = "span.button2_delete[title='Удалить']"
+  
   banner = "div.layer-window[__mediators='layout-manager']"
-  layer_content = 'div.layer_media .layer__content'
-  menu_trash = 'div.portal-menu-element_remove'
-  menu_move = 'div.portal-menu-element_move'
+  
+  top_menu_trash = 'div.portal-menu-element_remove'
+  top_menu_move = 'div.portal-menu-element_move'
+  
   inbox_menu_item = "div.list-item[title='Входящие']"
   select_all_button = 'div.portal-menu-element_select'
   confirm_remove_button = '.layer__submit-button'
@@ -81,7 +85,7 @@ class MainPage(BasicPage):
   # Call only while in the recycle bin
   def restore_first_letter(self):
     self.click_letter_avatar()
-    self.click_menu_move_letter_button()
+    self.click_top_menu_move_letter_button()
     self.click_inbox_menu_item()
     
   def move_all_letters_to_trash(self):
@@ -94,7 +98,7 @@ class MainPage(BasicPage):
   # Call only while in the trash
   def restore_all_letters_from_trash(self):
     self.click_select_all_button()
-    self.click_menu_move_letter_button()
+    self.click_top_menu_move_letter_button()
     self.click_inbox_menu_item()
     # Wait a confirmation of restoring
     self.is_there_no_letters()
@@ -125,11 +129,11 @@ class MainPage(BasicPage):
     elem.click()
     
   def click_menu_remove_letter_button(self):
-    elem = self.wait_render(self.menu_trash)
+    elem = self.wait_render(self.top_menu_trash)
     elem.click()
     
-  def click_menu_move_letter_button(self):
-    elem = self.wait_render(self.menu_move)
+  def click_top_menu_move_letter_button(self):
+    elem = self.wait_render(self.top_menu_move)
     elem.click()
     
   def click_inbox_menu_item(self):

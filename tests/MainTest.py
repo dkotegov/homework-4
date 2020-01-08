@@ -9,7 +9,7 @@ class MainTest(BasicTest):
     self.main_page.open()
     self.auth()
     
-  def test_new_letter(self):
+  def test_receive_new_letter(self):
     self.main_page.click_write_letter_button()
     self.main_page.enter_email_receiver(self.login)
     subject = 'Subject_1'
@@ -41,6 +41,7 @@ class MainTest(BasicTest):
   def test_remove(self):
     subject = 'Subject 5'
     text = 'Text 5'
+    text = 3
     self.main_page.write_letter('TPWAO@mail.ru', subject, text)
     self.main_page.click_letter_avatar()
     self.main_page.click_menu_remove_letter_button()
