@@ -71,11 +71,11 @@ class AskTests(unittest.TestCase):
         self.page.login()
 
         self.page.open_photo_upload_form()
-        self.assertTrue(self.page.check_photo_upload_section)
+        self.assertTrue(self.page.get_photo_upload_section)
         self.page.press_esc()
 
         self.page.open_video_upload_form()
-        self.assertEqual(self.page.UPLOAD_VIDEO_WINDOW_URL, self.page.check_video_upload_section())
+        self.assertEqual(self.page.UPLOAD_VIDEO_WINDOW_URL, self.page.get_video_upload_section())
 
     def test_not_valid_question_title(self):
         self.page.click_login_button()
@@ -113,7 +113,7 @@ class AskTests(unittest.TestCase):
         self.page.click_edit_question()
         self.page.check_edit_question_section()
 
-    def test_pollOptionsTest(self):
+    def test_poll_options_test(self):
         self.page.open_poll_form()
 
         self.page.check_poll_option_correct_add()

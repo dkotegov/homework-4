@@ -193,11 +193,7 @@ class AskPage(Page):
         profileEditButton.click()
 
     def check_edit_profile_section(self):
-        try:
-            self._wait_visibility((By.CLASS_NAME, PROFILE_EDIT_SECTION))
-            return True
-        except exceptions.TimeoutException:
-            return False
+        self._wait_visibility((By.CLASS_NAME, PROFILE_EDIT_SECTION))
 
     # Questions
     def get_alert_under_additional(self):
@@ -228,10 +224,10 @@ class AskPage(Page):
         inputQuestionField = self._wait_visibility((By.NAME, QUESTION_TEXT))
         inputQuestionField.send_keys(question)
 
-        WebDriverWait(self.driver, 10).until(
-            lambda browser:
-                inputQuestionField.get_attribute('value') == question
-        )
+        # WebDriverWait(self.driver, 10).until(
+        #     lambda browser:
+        #         inputQuestionField.get_attribute('value') == question
+        # )
 
     def click_send_question(self):
         ask_button = self._wait_clickability((By.CLASS_NAME, QUESTION_SUBMIT_BUTTON))
@@ -258,14 +254,10 @@ class AskPage(Page):
         uploadVideoButton = self._wait_clickability((By.XPATH, UPLOAD_VIDEO_BTN))
         uploadVideoButton.click()
 
-    def check_photo_upload_section(self):
-        try:
-            self._wait_visibility((By.XPATH, UPLOAD_PHOTO_SECION))
-            return True
-        except exceptions.TimeoutException:
-            return False
+    def get_photo_upload_section(self):
+        self._wait_visibility((By.XPATH, UPLOAD_PHOTO_SECION))
 
-    def check_video_upload_section(self):
+    def get_video_upload_section(self):
         uploadWindow = self.driver.window_handles[1]
         self.driver.switch_to_window(uploadWindow)
         self._wait_visibility((By.CLASS_NAME, UPLOAD_VIDEO_SECTION_ON_NEW_WINDOW))
@@ -280,6 +272,7 @@ class AskPage(Page):
         self._wait_visibility((By.CLASS_NAME, QUESTION_EDIT_SECTION))
 
     # Poll
+
     def check_poll_option_correct_add(self):
         self._wait_visibility((By.NAME, POLL_OPTIONS_SECTION))
 
