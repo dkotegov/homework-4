@@ -22,8 +22,9 @@ class MainPage(BasicPage):
   first_letter_read_status = 'a.llc:first-of-type .ll-rs'
   first_letter_avatar = '.llc:first-of-type button.ll-av'
   
-  inbox_button = "a.nav__item div.class2 3 4 5 6[title='Входящие']"
-  trash_button = "a.nav__item[title='Корзина']"
+  nav_inbox_button = "a.nav__item[title='Входящие']"
+  nav_sent_button = "a.nav__item[title='Отправленные']"
+  nav_trash_button = "a.nav__item[title='Корзина']"
   
   banner = "div.layer-window[__mediators='layout-manager']"
   
@@ -157,14 +158,20 @@ class MainPage(BasicPage):
     elem = self.wait_render(self.send_letter_button)
     elem.click()
     
-  def click_inbox_button(self):
-    elem = self.wait_render(self.inbox_button)
+  def click_nav_inbox_button(self):
+    elem = self.wait_render(self.nav_inbox_button)
     elem.click()
     # Wait for moving to inbox page
     self.wait_redirect(self.INBOX_URL)
     
-  def click_trash_button(self):
-    elem = self.wait_render(self.trash_button)
+  def click_nav_trash_button(self):
+    elem = self.wait_render(self.nav_trash_button)
+    elem.click()
+    # Wait for moving to remove page
+    self.wait_redirect(self.TRASH_URL)
+    
+  def click_nav_sent_button(self):
+    elem = self.wait_render(self.nav_trash_button)
     elem.click()
     # Wait for moving to remove page
     self.wait_redirect(self.TRASH_URL)

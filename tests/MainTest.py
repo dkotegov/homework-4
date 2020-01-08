@@ -47,7 +47,7 @@ class MainTest(BasicTest):
     self.main_page.click_menu_remove_letter_button()
     self.main_page.wait_show_notification()
     
-    self.main_page.click_trash_button()
+    self.main_page.click_nav_trash_button()
     actual_subject = self.main_page.get_first_letter_subject()
     actual_text = self.main_page.get_first_letter_text()
     self.assertEqual(subject, actual_subject)
@@ -60,11 +60,11 @@ class MainTest(BasicTest):
     self.main_page.remove_first_letter()
     self.main_page.hide_notification()
     
-    self.main_page.click_trash_button()
+    self.main_page.click_nav_trash_button()
     self.main_page.restore_first_letter()
     self.main_page.wait_show_notification()
     # Go back (to check for a letter in the inbox folder)
-    self.main_page.click_inbox_button()
+    self.main_page.click_nav_inbox_button()
     actual_subject = self.main_page.get_first_letter_subject()
     actual_text = self.main_page.get_first_letter_text()
     self.assertEqual(subject, actual_subject)
@@ -83,7 +83,7 @@ class MainTest(BasicTest):
       self.main_page.write_letter('TPWAO@mail.ru', 'Subject8%d' % i, 'Text8%d' % i)
       
     self.main_page.move_all_letters_to_trash()
-    self.main_page.click_trash_button()
+    self.main_page.click_nav_trash_button()
     self.main_page.restore_all_letters_from_trash()
     self.main_page.is_there_no_letters()
     
@@ -92,7 +92,7 @@ class MainTest(BasicTest):
       self.main_page.write_letter('TPWAO@mail.ru', 'Subject9%d' % i, 'Text9%d' % i)
       
     self.main_page.move_all_letters_to_trash()
-    self.main_page.click_trash_button()
+    self.main_page.click_nav_trash_button()
     self.main_page.clean_trash()
     self.main_page.is_there_no_letters()
     
