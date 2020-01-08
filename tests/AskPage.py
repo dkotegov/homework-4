@@ -63,6 +63,7 @@ LOGIN_IFRAME_LOGIN_DIV = 'ag-popup__frame_onoverlay'
 LOGIN_INPUT_LABEL = 'Login'
 LOGIN_PASSWORD_LABEL = 'Password'
 
+
 class Page(object):
     BASE_URL = 'https://otvet.mail.ru/ask/'
     UPLOAD_VIDEO_WINDOW_URL = 'https://my.mail.ru/cgi-bin/video/external_upload?cb=actionUploadVideo&album=_vanswers'
@@ -71,7 +72,7 @@ class Page(object):
         self.driver = driver
         # self.username = os.environ['USERNAME']
         # self.password = os.environ['PASSWORD']
-        self.username = 'tp_qa_test5@mail.ru'
+        self.username = 'tp_qa_test10@mail.ru'
         self.password = 'SomePasswordHere'
 
     def open(self):
@@ -85,29 +86,29 @@ class Page(object):
 
 class AskPage(Page):
     # Tools
-    def _wait_visibility(self, locator, timeout = 10, step = 0.1):
+    def _wait_visibility(self, locator, timeout=10, step=0.1):
         return WebDriverWait(self.driver, timeout, step) \
             .until(EC.visibility_of_element_located(locator))
 
-    def _wait_clickability(self, locator, timeout = 10, step = 0.1):
+    def _wait_clickability(self, locator, timeout=10, step=0.1):
         return WebDriverWait(self.driver, timeout, step) \
             .until(EC.element_to_be_clickable(locator))
 
-    def _wait_to_switch(self, locator, timeout = 10, step = 0.1):
+    def _wait_to_switch(self, locator, timeout=10, step=0.1):
         return WebDriverWait(self.driver, timeout, step) \
             .until(EC.frame_to_be_available_and_switch_to_it(locator))
 
-    def _find_element(self, locator, timeout = 10, step = 0.1):
+    def _find_element(self, locator, timeout=10, step=0.1):
         return WebDriverWait(self.driver, timeout, step) \
             .until(self.driver.find_element(locator))
 
-    def _find_elements(self, locator, timeout = 10, step = 0.1):
+    def _find_elements(self, locator, timeout=10, step=0.1):
         return WebDriverWait(self.driver, timeout, step) \
             .until(self.driver.find_elements(locator))
 
     def _send_large_text(self, webElement, text):
         self.driver.execute_script("arguments[0].value = arguments[1]",
-                                    webElement, text[:len(text)-1])
+                                   webElement, text[:len(text)-1])
         webElement.send_keys(text[len(text)-1])
 
     def _click_to_close_drop_down_category_menu(self):
@@ -210,16 +211,11 @@ class AskPage(Page):
         categoryDropDownMenu.click()
 
         self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_DROP_DOWN_MENU))
-        
-        # print("\n\n", CATEGORY_ANOTHER + category + "']", "\n\n")
+
         anotherCategoryButton = self._wait_visibility((By.XPATH, QUESTION_CATEGORY + category + "']"))
         anotherCategoryButton.click()
 
         self._click_to_close_drop_down_category_menu()
-        # For firefox (it doesn't hide menu after clicking)
-        # menu = self._wait_visibility((By.CLASS_NAME, CATEGORY_MENU))
-        # self.driver.execute_script("arguments[0].style.visibility='hidden'", menu)
-
 
     def get_question_category(self):
         self._wait_visibility((By.CLASS_NAME, QUESTION_CATEGORY_BTN))
