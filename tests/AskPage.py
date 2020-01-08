@@ -13,9 +13,8 @@ import unittest
 import random
 
 UPLOAD_PHOTO_BTN = '//span[text()="Фото"]'
-UPLOAD_PHOTO_SECION = '//div[data-modal="ModalAskPhotos"]'
+UPLOAD_PHOTO_SECION = 'window_3e48lyZw'
 UPLOAD_VIDEO_BTN = '//span[text()="Видео"]'
-UPLOAD_VIDEO_WINDOW = '//div[data-modal="ModalAskPhotos"]'
 UPLOAD_VIDEO_SECTION_ON_NEW_WINDOW = 'popup-show'
 
 SETTING_BUTTON = '//span[text()="Настройки"]'
@@ -195,8 +194,8 @@ class AskPage(Page):
         profileEditButton = self._wait_clickability((By.XPATH, PROFILE_EDIT_BUTTON))
         profileEditButton.click()
 
-    def check_edit_profile_section(self):
-        self._wait_visibility((By.CLASS_NAME, PROFILE_EDIT_SECTION))
+    def get_edit_profile_section(self):
+        return self._wait_visibility((By.CLASS_NAME, PROFILE_EDIT_SECTION))
 
     # Questions
     def get_alert_under_additional(self):
@@ -258,7 +257,7 @@ class AskPage(Page):
         uploadVideoButton.click()
 
     def get_photo_upload_section(self):
-        return self._wait_visibility((By.XPATH, UPLOAD_PHOTO_SECION))
+        return self._wait_visibility((By.CLASS_NAME, UPLOAD_PHOTO_SECION))
 
     def get_video_upload_section(self):
         uploadWindow = self.driver.window_handles[1]

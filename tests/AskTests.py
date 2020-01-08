@@ -46,7 +46,7 @@ class AskTests(unittest.TestCase):
         self.page.login()
 
         self.page.click_edit_profile()
-        self.assertTrue(self.page.check_edit_profile_section())
+        self.assertIsNotNone(self.page.get_edit_profile_section())
 
     def test_not_empty_question(self):
         self.page.set_question_title(u'Алло, Галочка!?')
@@ -71,7 +71,7 @@ class AskTests(unittest.TestCase):
         self.page.login()
 
         self.page.open_photo_upload_form()
-        self.assertIsNotNone(self.page.get_photo_upload_section)
+        self.assertIsNotNone(self.page.get_photo_upload_section())
         self.page.press_esc()
 
         self.page.open_video_upload_form()
