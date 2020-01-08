@@ -19,11 +19,11 @@ UPLOAD_PHOTO_BTN = '//span[text()="Фото"]'
 UPLOAD_PHOTO_SECION = '//div[data-modal="ModalAskPhotos"]'
 UPLOAD_VIDEO_BTN = '//span[text()="Видео"]'
 UPLOAD_VIDEO_WINDOW = '//div[data-modal="ModalAskPhotos"]'
+UPLOAD_VIDEO_SECTION_ON_NEW_WINDOW = 'popup-show'
 
 SETTING_BUTTON = '//span[text()="Настройки"]'
 SETTINGS_PAGE = 'page-settings'
 
-# QUESTION_SUBMIT_BUTTON = "//a[@class='btn_3ykLdYEq']"
 QUESTION_SUBMIT_BUTTON = "btn_3ykLdYEq"
 QUESTION_UNDER_ALERT = "z1LfJpugzE39YVXERE-f__0"
 QUESTION_CATEGORY_BTN = 'select_1lZeUpFs_1'
@@ -34,7 +34,8 @@ QUESTION_EDIT_BTN = "q-edit-control-element"
 QUESTION_TEXT = 'question_text'
 QUESTION_ADDITIONAL = 'question_additional'
 QUESTION_SECTION = 'q--head hentry'
-QUESTION_EDIT_SECTION = '//div[data-modal="ModalQuestionEdit"]'
+QUESTION_EDIT_SECTION = 'window_3e48lyZw'
+QUESTION_WRAPPER = 'layout__contentCol2_2sC-W1d6'
 
 POLL_VARIANT_FIELD_3 = "//input[@placeholder='Вариант №3']"
 POLL_VARIANT_FIELD_4 = "//input[@placeholder='Вариант №4']"
@@ -70,7 +71,7 @@ class Page(object):
         self.driver = driver
         # self.username = os.environ['USERNAME']
         # self.password = os.environ['PASSWORD']
-        self.username = 'tp_qa_test6@mail.ru'
+        self.username = 'tp_qa_test5@mail.ru'
         self.password = 'SomePasswordHere'
 
     def open(self):
@@ -108,6 +109,10 @@ class AskPage(Page):
         self.driver.execute_script("arguments[0].value = arguments[1]",
                                     webElement, text[:len(text)-1])
         webElement.send_keys(text[len(text)-1])
+
+    def _click_to_close_drop_down_category_menu(self):
+        wrapper = self._wait_visibility((By.CLASS_NAME, QUESTION_WRAPPER))
+        wrapper.click()
 
     def get_random_title(self):
         firstWordDict = [
@@ -210,6 +215,7 @@ class AskPage(Page):
         anotherCategoryButton = self._wait_visibility((By.XPATH, QUESTION_CATEGORY + category + "']"))
         anotherCategoryButton.click()
 
+        self._click_to_close_drop_down_category_menu()
         # For firefox (it doesn't hide menu after clicking)
         # menu = self._wait_visibility((By.CLASS_NAME, CATEGORY_MENU))
         # self.driver.execute_script("arguments[0].style.visibility='hidden'", menu)
@@ -271,15 +277,16 @@ class AskPage(Page):
     def check_video_upload_section(self):
         uploadWindow = self.driver.window_handles[1]
         self.driver.switch_to_window(uploadWindow)
+        self._wait_visibility((By.CLASS_NAME, UPLOAD_VIDEO_SECTION_ON_NEW_WINDOW))
         return self.driver.current_url
 
     def click_edit_question(self):
-        self._wait_visibility((By.CLASS_NAME, QUESTION_SECTION))
+        # self._wait_visibility((By.CLASS_NAME, QUESTION_EDIT_SECTION))
         editQuestionButton = self._wait_clickability((By.ID, QUESTION_EDIT_BTN))
         editQuestionButton.click()
 
     def check_edit_question_section(self):
-        self._wait_visibility((By.XPATH, QUESTION_EDIT_SECTION))
+        self._wait_visibility((By.CLASS_NAME, QUESTION_EDIT_SECTION))
 
     # Poll
     def check_poll_option_correct_add(self):

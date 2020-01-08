@@ -54,11 +54,11 @@ class AskTests(unittest.TestCase):
     #     self.assertEqual(self.page.get_alert_under_additional(),
     #                      u'Поле «Тема вопроса» обязательно для заполнения')
 
-    def test_question_category_swich(self):
-        self.page.set_question_title(u'Овен')
-        self.page.set_question_category(u'Юмор')
-        self.assertEqual(self.page.get_question_category(),
-                         u'Юмор')
+    # def test_question_category_swich(self):
+    #     self.page.set_question_title(u'Овен')
+    #     self.page.set_question_category(u'Юмор')
+    #     self.assertEqual(self.page.get_question_category(),
+    #                      u'Юмор')
 
     # def test_login_and_authorization(self):
     #     self.page.click_login_button()
@@ -66,16 +66,16 @@ class AskTests(unittest.TestCase):
         
     #     self.assertIn(self.page.BASE_URL, self.page.get_url())
 
-    # def test_photo_and_video_upload(self):
-    #     self.page.click_login_button()
-    #     self.page.login()
+    def test_photo_and_video_upload(self):
+        self.page.click_login_button()
+        self.page.login()
 
-    #     self.page.open_photo_upload_form()
-    #     self.assertTrue(self.page.check_photo_upload_section)
-    #     self.page.press_esc()
+        self.page.open_photo_upload_form()
+        self.assertTrue(self.page.check_photo_upload_section)
+        self.page.press_esc()
 
-    #     self.page.open_video_upload_form()
-    #     self.assertEqual(self.page.UPLOAD_VIDEO_WINDOW_URL, self.page.check_video_upload_section())
+        self.page.open_video_upload_form()
+        self.assertEqual(self.page.UPLOAD_VIDEO_WINDOW_URL, self.page.check_video_upload_section())
 
     # def test_not_valid_question_title(self):
     #     self.page.click_login_button()
