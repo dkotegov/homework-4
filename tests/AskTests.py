@@ -38,7 +38,8 @@ class AskTests(unittest.TestCase):
         self.page.set_question_title(u'Hello, world!')
         self.page.set_question_category(u'Другое')
         self.page.click_send_question()
-        self.assertTrue(self.page.check_alert_messege())
+        self.assertEqual(self.page.get_alert_message(), \
+            u'Просьба более подробно и грамотно сформулировать тему вопроса.')
 
     def test_profile(self):
         self.page.click_login_button()
@@ -84,7 +85,8 @@ class AskTests(unittest.TestCase):
         self.page.set_question_category(u'Другое')
 
         self.page.click_send_question()
-        self.assertTrue(self.page.check_alert_messege())
+        self.assertEqual(self.page.get_alert_message(), \
+            u'Просьба более подробно и грамотно сформулировать тему вопроса.')
 
     def test_too_big_question(self):
         bigStr = u''

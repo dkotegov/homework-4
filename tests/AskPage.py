@@ -45,6 +45,7 @@ POLL_OPTIONS_SECTION = 'poll_options'
 ALERT_ADDITIONAL = 'error_z1LfJpug'
 POP_UP_ALERT = 'popup--content '
 ALERT_WINDOW = 'window_3e48lyZw'
+ALERT_WINDOWS_TEXT = 'msg_FrSe12sF'
 
 PROFILE_BUTTON = 'profile-menu-item_hoverable'
 PROFILE_FORM = 'v--modal-overlay'
@@ -236,12 +237,9 @@ class AskPage(Page):
         ask_button = self._wait_clickability((By.CLASS_NAME, QUESTION_SUBMIT_BUTTON))
         ask_button.click()
 
-    def check_alert_messege(self):
-        try:
-            self._wait_visibility((By.CLASS_NAME, ALERT_WINDOW))
-            return True
-        except exceptions.TimeoutException:
-            return False
+    def get_alert_message(self):
+        alert_text = self._wait_visibility((By.CLASS_NAME, ALERT_WINDOWS_TEXT))
+        return alert_text.text
 
     def clear_question_theme_by_keys(self):
         inputQuestionField = self._wait_clickability((By.NAME, QUESTION_TEXT))
