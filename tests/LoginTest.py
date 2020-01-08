@@ -55,9 +55,13 @@ class LoginTest(BasicTest):
     custom_password = 'customPassword123'
     self.login_page.sign_in(custom_login, custom_password)
     err = self.login_page.get_domain_err()
-    expected_err1 = 'Произошла ошибка! Пожалуйста, повторите попытку через некоторое время или введите имя и пароль другого аккаунта.'
-    expected_err2 = 'You can add any mailbox that supports POP/IMAP. If your credentials were entered incorrectly, sign in again.'
-    self.assertIn(err, [expected_err1, expected_err2])
+    possible_errors = [
+      'Try again later.',
+      'Повторите попытку через некоторое время.',
+      'Произошла ошибка! Пожалуйста, повторите попытку через некоторое время или введите имя и пароль другого аккаунта.',
+      'You can add any mailbox that supports POP/IMAP. If your credentials were entered incorrectly, sign in again.',
+    ]
+    self.assertIn(err, possible_errors)
   
   def test_empty_password(self):
     empty_password = ''
