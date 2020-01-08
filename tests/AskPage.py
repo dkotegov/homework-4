@@ -11,7 +11,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 import unittest
 import random
-import time
 
 from tests.CustomWait import ElementEqualSubcategory
 
@@ -249,8 +248,8 @@ class AskPage(Page):
         inputQuestionField.click()
 
         # Выделяем вксь текст и удаляем его
-        inputQuestionField.send_keys(Keys.CONTROL + "a")
-        inputQuestionField.send_keys(Keys.DELETE)
+        while len(inputQuestionField.get_attribute('value')) != 0:
+            inputQuestionField.send_keys(Keys.BACKSPACE)
 
     # Upload
     def open_photo_upload_form(self):

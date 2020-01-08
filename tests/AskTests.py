@@ -4,7 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import DesiredCapabilities, Remote
 
 import os
-import time
 import unittest
 
 from tests.AskPage import AskPage
