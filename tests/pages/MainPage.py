@@ -7,6 +7,7 @@ import time
 class MainPage(BasicPage):
   INBOX_URL = 'https://e.mail.ru/inbox/'
   TRASH_URL = 'https://e.mail.ru/trash/'
+  SENT_URL = 'https://e.mail.ru/sent/'
   
   write_letter_button = '.compose-button_white'
   
@@ -28,11 +29,12 @@ class MainPage(BasicPage):
   
   banner = "div.layer-window[__mediators='layout-manager']"
   
-  top_menu_trash = 'div.portal-menu-element_remove'
   top_menu_move = 'div.portal-menu-element_move'
+  top_menu_trash = 'div.portal-menu-element_remove'
+  
   
   inbox_menu_item = "div.list-item[title='Входящие']"
-  select_all_button = 'div.portal-menu-element_select'
+  all_letters = 'div.portal-menu-element_select'
   confirm_remove_button = '.layer__submit-button'
   dataset_empty = '.dataset__empty'
   
@@ -81,28 +83,31 @@ class MainPage(BasicPage):
   def remove_first_letter(self): 
     self.select_first_letter()
     self.click_menu_remove_letter_button()
-    self.wait_render(self.notify_inline)
-  
+    self.hide_notification()
+    
   # Call only while in the recycle bin
   def restore_first_letter(self):
     self.select_first_letter()
     self.click_top_menu_move_letter_button()
     self.click_inbox_menu_item()
+    self.hide_notification()
     
   def move_all_letters_to_trash(self):
-    self.click_select_all_button()
+    self.select_all_letters()
     self.click_menu_remove_letter_button()
     self.click_confirm_remove_button()
     # Wait a confirmation of moving
     self.is_there_no_letters()
+    self.hide_notification()
   
   # Call only while in the trash
   def restore_all_letters_from_trash(self):
-    self.click_select_all_button()
+    self.select_all_letters()
     self.click_top_menu_move_letter_button()
     self.click_inbox_menu_item()
     # Wait a confirmation of restoring
     self.is_there_no_letters()
+    self.hide_notification()
     
   ############################################# 
   #############################################
@@ -158,6 +163,7 @@ class MainPage(BasicPage):
     elem = self.wait_render(self.send_letter_button)
     elem.click()
     
+    
   def click_nav_inbox_button(self):
     elem = self.wait_render(self.nav_inbox_button)
     elem.click()
@@ -171,13 +177,10 @@ class MainPage(BasicPage):
     self.wait_redirect(self.TRASH_URL)
     
   def click_nav_sent_button(self):
-    elem = self.wait_render(self.nav_trash_button)
+    elem = self.wait_render(self.nav_sent_button)
     elem.click()
     # Wait for moving to remove page
-    self.wait_redirect(self.TRASH_URL)
-    
-  def wait_show_notification(self):
-    self.wait_render(self.notify_inline)
+    self.wait_redirect(self.SENT_URL)
     
   def hide_notification(self):
     elem = self.wait_render(self.hide_notification_button)
@@ -188,14 +191,13 @@ class MainPage(BasicPage):
     elem = self.wait_render(self.signout_button)
     elem.click()
 
-  def click_select_all_button(self):
-    elem = self.wait_render(self.select_all_button)
+  def select_all_letters(self):
+    elem = self.wait_render(self.all_letters)
     elem.click()
     
   def click_confirm_remove_button(self):
     elem = self.wait_render(self.confirm_remove_button)
     elem.click()
-    
     
   def click_link_clean_trash(self):
     elem = self.wait_render(self.link_to_clean_trash)
