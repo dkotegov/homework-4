@@ -99,7 +99,7 @@ class AskTests(unittest.TestCase):
                          u'Поле «Тема вопроса» не может '
                          u'быть больше 120 символов.')
 
-    def test_new_question_edit_test(self):
+    def test_new_question_edit(self):
         self.page.click_login_button()
         self.page.login()
 
@@ -115,7 +115,7 @@ class AskTests(unittest.TestCase):
         self.page.wait_for_swich_to_question_page()
 
         initialTitle = self.page.get_question_title()
-        newTilte = 'А можно тесты сдать?'
+        newTilte = u'А можно тесты сдать?'
 
         self.page.click_edit_question()
         self.page.edit_question_title(newTilte)
@@ -124,7 +124,7 @@ class AskTests(unittest.TestCase):
         currentTitle = self.page.get_question_title()
 
         self.assertNotEqual(currentTitle, initialTitle)
-        self.assertEqual(currentTitle, 'А можно тесты сдать?')
+        self.assertEqual(currentTitle, u'А можно тесты сдать?')
 
     def test_poll_options(self):
         self.page.open_poll_form()
