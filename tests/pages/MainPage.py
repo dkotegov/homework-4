@@ -28,6 +28,7 @@ class MainPage(BasicPage):
   nav_trash_button = "a.nav__item[title='Корзина']"
   
   banner = "div.layer-window[__mediators='layout-manager']"
+  app_loader = 'div#app-loader'
   
   top_menu_move = 'div.portal-menu-element_move'
   top_menu_trash = 'div.portal-menu-element_remove'
@@ -186,6 +187,9 @@ class MainPage(BasicPage):
     elem = self.wait_render(self.hide_notification_button)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     self.wait_invisible(self.notify_inline)
+    
+  def hide_app_loader(self):
+    self.wait_invisible(self.app_loader)
     
   def click_signout(self):
     elem = self.wait_render(self.signout_button)

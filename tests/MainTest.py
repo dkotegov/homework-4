@@ -8,6 +8,7 @@ class MainTest(BasicTest):
     self.main_page = MainPage(self.driver)
     self.main_page.open()
     self.auth()
+    self.main_page.hide_app_loader()
     
   def test_receive_new_letter(self):
     subject = 'Subject_1'
