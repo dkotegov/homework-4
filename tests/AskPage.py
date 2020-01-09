@@ -32,7 +32,7 @@ QUESTION_ADDITIONAL = 'question_additional'
 QUESTION_SECTION = 'q--head hentry'
 QUESTION_EDIT_SECTION = 'window_3e48lyZw'
 QUESTION_WRAPPER = 'layout__contentCol2_2sC-W1d6'
-QUESTION_TITLE = 'entry-title'
+QUESTION_TITLE = 'q--qtext'
 QUESTION_EDIT_TITLE = 'question_text'
 QUESTION_SAVE_EDITED_BTN = 'btn_3ykLdYEq'
 QUESTION_PAGE_BTN = 'profile-menu-item__content'
@@ -242,7 +242,7 @@ class AskPage(Page):
         return currentCategory.get_attribute('innerText')
 
     def get_question_title(self):
-        title = self._wait_visibility((By.CLASS_NAME, QUESTION_TITLE), 20)
+        title = self._wait_visibility((By.TAG_NAME, 'index'), 20)
         return title.get_attribute('innerText')
 
     def edit_question_title(self, title):

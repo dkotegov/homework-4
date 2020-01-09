@@ -102,7 +102,7 @@ class AskTests(unittest.TestCase):
     def test_new_question_edit_test(self):
         self.page.click_login_button()
         self.page.login()
-        
+
         randTitle = self.page.get_random_title()
         self.page.set_question_title(randTitle)
         self.page.set_question_additional(u'Собственно говоря,'
