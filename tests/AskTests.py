@@ -2,10 +2,12 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import DesiredCapabilities, Remote
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 import os
 import unittest
-import ipdb
 
 from tests.AskPage import AskPage
 
@@ -115,14 +117,12 @@ class AskTests(unittest.TestCase):
         self.page.click_send_question()
         self.page.wait_for_swich_to_question_page()
 
-        initialTitle = self.page.get_question_title()
         newTilte = u'А можно тесты сдать?'
 
         self.page.click_edit_question()
         self.page.edit_question_title(newTilte)
         self.page.save_edited_question()
-
-        self.driver.implicitly_wait(3)
+        self.page.wait_for_question_title_change(newTilte)
 
         currentTitle = self.page.get_question_title()
         self.assertEqual(currentTitle, newTilte)

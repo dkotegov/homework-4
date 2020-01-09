@@ -5,11 +5,9 @@ from selenium.common import exceptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support import expected_conditions as EC
 
 import os
-import unittest
 import random
 
 UPLOAD_PHOTO_BTN = '//span[text()="Фото"]'
@@ -248,6 +246,10 @@ class AskPage(Page):
         except exceptions.StaleElementReferenceException:
             title = self._wait_visibility((By.CLASS_NAME, QUESTION_TITLE))
             return title.get_attribute('innerText')
+
+    def wait_for_question_title_change(self, title):
+        WebDriverWait(self.driver, 10) \
+            .until(EC.text_to_be_present_in_element((By.CLASS_NAME, QUESTION_TITLE), title));
 
     def edit_question_title(self, title):
         input = self._wait_visibility((By.NAME, QUESTION_EDIT_TITLE))
