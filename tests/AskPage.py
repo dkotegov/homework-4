@@ -32,7 +32,7 @@ QUESTION_ADDITIONAL = 'question_additional'
 QUESTION_SECTION = 'q--head hentry'
 QUESTION_EDIT_SECTION = 'window_3e48lyZw'
 QUESTION_WRAPPER = 'layout__contentCol2_2sC-W1d6'
-QUESTION_TITLE = 'q--qtext'
+QUESTION_TITLE = 'index'
 QUESTION_EDIT_TITLE = 'question_text'
 QUESTION_SAVE_EDITED_BTN = 'btn_3ykLdYEq'
 QUESTION_PAGE_BTN = 'profile-menu-item__content'
@@ -242,8 +242,12 @@ class AskPage(Page):
         return currentCategory.get_attribute('innerText')
 
     def get_question_title(self):
-        title = self._wait_visibility((By.TAG_NAME, 'index'), 20)
-        return title.get_attribute('innerText')
+        try:
+            title = self._wait_visibility((By.TAG_NAME, QUESTION_TITLE), 20)
+            return title.get_attribute('innerHTML')
+        except exceptions.StaleElementReferenceException:
+            title = self._wait_visibility((By.TAG_NAME, QUESTION_TITLE), 20)
+            return title.get_attribute('innerHTML')
 
     def edit_question_title(self, title):
         input = self._wait_visibility((By.NAME, QUESTION_EDIT_TITLE))
@@ -257,6 +261,9 @@ class AskPage(Page):
     def save_edited_question(self):
         btn = self._wait_clickability((By.CLASS_NAME, QUESTION_SAVE_EDITED_BTN))
         btn.click()
+
+    def wait_for_swich_to_question_page(self):
+        WebDriverWait(self.driver, 10).until(EC.url_changes)
 
     def set_question_additional(self, additional):
         inputQuestionField = self._wait_visibility((By.NAME, QUESTION_ADDITIONAL))

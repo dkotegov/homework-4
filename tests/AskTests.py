@@ -112,6 +112,7 @@ class AskTests(unittest.TestCase):
 
         self.page.set_question_category('Другое')
         self.page.click_send_question()
+        self.page.wait_for_swich_to_question_page()
 
         initialTitle = self.page.get_question_title()
         newTilte = 'А можно тесты сдать?'
