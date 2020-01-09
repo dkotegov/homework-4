@@ -243,10 +243,10 @@ class AskPage(Page):
 
     def get_question_title(self):
         try:
-            title = self._wait_visibility((By.CLASS_NAME, QUESTION_TITLE), 20)
+            title = self._wait_visibility((By.CLASS_NAME, QUESTION_TITLE))
             return title.get_attribute('innerText')
         except exceptions.StaleElementReferenceException:
-            title = self._wait_visibility((By.CLASS_NAME, QUESTION_TITLE), 20)
+            title = self._wait_visibility((By.CLASS_NAME, QUESTION_TITLE))
             return title.get_attribute('innerText')
 
     def edit_question_title(self, title):

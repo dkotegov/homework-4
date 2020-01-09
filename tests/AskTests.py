@@ -5,6 +5,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 import os
 import unittest
+import ipdb
 
 from tests.AskPage import AskPage
 
@@ -121,10 +122,10 @@ class AskTests(unittest.TestCase):
         self.page.edit_question_title(newTilte)
         self.page.save_edited_question()
 
-        currentTitle = self.page.get_question_title()
+        self.driver.implicitly_wait(3)
 
-        self.assertNotEqual(currentTitle, initialTitle)
-        self.assertEqual(currentTitle, u'А можно тесты сдать?')
+        currentTitle = self.page.get_question_title()
+        self.assertEqual(currentTitle, newTilte)
 
     def test_poll_options(self):
         self.page.open_poll_form()
@@ -142,3 +143,4 @@ class AskTests(unittest.TestCase):
         self.page.set_text_to_poll_option(5, u'Тестовая_строка_3')
         self.assertEqual(self.page.get_text_of_poll_option(5), 
             u'Тестовая_строка_3')
+
