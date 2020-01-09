@@ -12,7 +12,7 @@ class TrashCleaner(BasicPage):
     elem = self.wait_render(self.link_to_clean_trash)
     elem.click()
     
-  def clean_trash(self):
+  def clean(self):
     self.click_link_clean_trash()
     self.remove_confirmationer.confirm()
     
