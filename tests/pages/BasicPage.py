@@ -23,8 +23,11 @@ class BasicPage(BaseUrls):
     def wait_presence_located(self, selector, timeout=10):
         return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
 
-    def wait_invisible(self, selector, timeout=10):
+    def wait_visible(self, selector, timeout=10):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located((By.CSS_SELECTOR, selector)))
 
+    def wait_invisible(self, selector, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, selector)))
+    
     def open_iframe(self, selector, timeout=10):
         self.driver.switch_to.frame(0)

@@ -24,7 +24,7 @@ class BasicTest(unittest.TestCase):
         if (config.ON_DRIVER):
             self.driver = webdriver.Chrome(config.DRIVER)
         else:
-            # Selenium Grig in development
+            # Selenium Grid in development
             nodeURL = 'http://localhost:4444/wd/hub'
             capabilities = DesiredCapabilities.chrome()
             capabilities.setBrowserName("chrome")
