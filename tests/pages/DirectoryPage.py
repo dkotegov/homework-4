@@ -2,6 +2,7 @@
 from BasicPage import BasicPage
 from MainPage import MainPage
 from selenium.webdriver import ActionChains
+from tests.pages.main_page.notifications.NotificationManager import NotificationManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -18,6 +19,7 @@ class DirectoryPage(MainPage):
 
     def __init__(self, driver):
         self.driver = driver
+        self.notification_manager = NotificationManager(self.driver)
     
     def open(self):
         self.driver.get(self.LOGIN_URL)
@@ -25,7 +27,7 @@ class DirectoryPage(MainPage):
     def move_to_archive(self):
         elem = self.wait_render(self.archive_button)
         elem.click()
-        self.hide_notification()
+        self.notification_manager.hide_notification()
 
     def click_nav_archive_button(self):
         elem = self.wait_render(self.nav_archive_button)
