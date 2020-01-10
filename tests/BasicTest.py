@@ -24,16 +24,13 @@ class BasicTest(unittest.TestCase):
         if (config.ON_DRIVER):
             self.driver = webdriver.Chrome(config.DRIVER)
         else:
-            # Selenium Grig in development
-            nodeURL = 'http://localhost:4444/wd/hub'
-            capabilities = DesiredCapabilities.chrome()
-            capabilities.setBrowserName("chrome")
-            capabilities.setVersion("79")
-
-            self.driver = Remote(
-                command_executor=nodeURL,
-                desired_capabilities=getattr(
-                    DesiredCapabilities, config.DEFAULT_BROWSER).copy()
+            self.driver = webdriver.Remote(
+                command_executor='http://127.0.0.1:4444/wd/hub',
+                desired_capabilities={
+                    'browserName': 'chrome',
+                    'browserVersion': '79.0.3945.88 ',
+                    'javascriptEnabled': True
+                }
             )
 
     def tearDown(self):

@@ -7,9 +7,9 @@ from tests.MainTest import MainTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(MainTest),
+        # unittest.makeSuite(MainTest),
         unittest.makeSuite(LoginTest),
-        unittest.makeSuite(SettingsTest),
+        # unittest.makeSuite(SettingsTest),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
