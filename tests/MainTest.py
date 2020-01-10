@@ -101,6 +101,3 @@ class MainTest(BasicTest):
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
     
-    
-    
-    
