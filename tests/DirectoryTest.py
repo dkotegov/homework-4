@@ -6,7 +6,8 @@ from pages.MainPage import MainPage
 from config import config
 
 class DirectoryTest(BasicTest):
-    def pre_tests(self):
+    def setUp(self):
+        super(DirectoryTest, self).setUp()
         self.directory_page = DirectoryPage(self.driver)
         self.directory_page.open()
         self.auth()
