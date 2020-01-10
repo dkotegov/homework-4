@@ -10,8 +10,9 @@ class LetterWriter(BasicPage):
   textbox_field = "div[role='textbox']"
   send_letter_button = '.button2__txt:nth-child(1)'
   close_sent_window_button = "span.button2_close[title='Закрыть']"
-  
+  close_sent_window_button_after_move = "span.button2_close[data-title='Закрыть']"
   banner = "div.layer-window[__mediators='layout-manager']"
+  advertisement = 'div.message-sent__wrap'
     
   def click_write_letter_button(self):
     elem = self.wait_render(self.write_letter_button)
@@ -35,6 +36,7 @@ class LetterWriter(BasicPage):
     
   def close_sent_window(self):
     self.wait_render(self.banner)
+    self.wait_render(self.advertisement)
     elem = self.wait_render(self.close_sent_window_button)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     # Successful window must be closed before executing other operations
