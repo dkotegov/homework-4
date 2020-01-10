@@ -5,11 +5,9 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-import time
 
 class DirectoryPage(MainPage):
     ARCHIVE_URL = 'https://e.mail.ru/archive'
-    create_message = '.compose-button__wrapper'
     click_flag = '.ll-fs'
     click_flag_activate = ".ll-fs_is-active"
     flag_activate_class = "ll-fs ll-fs_is-active"

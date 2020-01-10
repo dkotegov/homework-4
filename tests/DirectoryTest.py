@@ -1,22 +1,17 @@
 from BasicTest import BasicTest
 from pages.DirectoryPage import DirectoryPage
-from pages.LoginPage import LoginPage
 from pages.MainPage import MainPage
 from config import config
 
 import time
 
 class DirectoryTest(BasicTest):
-    def setUp(self):
-        super(DirectoryTest, self).setUp()
+    def pre_tests(self):
         self.directory_page = DirectoryPage(self.driver)
-    
+        self.directory_page.open()
+        self.auth()
 
     def test_move_to_archive(self):
-        self.driver.get(self.LOGIN_URL)
-        login_page = LoginPage(self.driver)        
-        login_page.sign_in(self.login, self.password)
-
         main_page = MainPage(self.driver)
         ############## 
         time.sleep(2)
@@ -33,10 +28,6 @@ class DirectoryTest(BasicTest):
         self.assertEqual(letter_text, main_page.get_first_letter_text())
     
     def test_move_to_inbox_from_archive(self):
-        self.driver.get(self.LOGIN_URL)
-        login_page = LoginPage(self.driver)        
-        login_page.sign_in(self.login, self.password)
-
         main_page = MainPage(self.driver)
         ############## 
         time.sleep(2)
@@ -56,10 +47,6 @@ class DirectoryTest(BasicTest):
         self.assertEqual(letter_text, actual_text)        
 
     def test_set_important_letter(self):
-        self.driver.get(self.LOGIN_URL)
-        login_page = LoginPage(self.driver)        
-        login_page.sign_in(self.login, self.password)
-
         main_page = MainPage(self.driver)
         ############## 
         time.sleep(2)
@@ -71,10 +58,6 @@ class DirectoryTest(BasicTest):
         self.assertTrue(True, self.directory_page.set_check_flag())
     
     def test_unset_important_letter(self):
-        self.driver.get(self.LOGIN_URL)
-        login_page = LoginPage(self.driver)        
-        login_page.sign_in(self.login, self.password)
-
         main_page = MainPage(self.driver)
         ############## 
         time.sleep(2)
@@ -85,7 +68,6 @@ class DirectoryTest(BasicTest):
         main_page.select_first_letter()
         self.directory_page.set_check_flag()
         self.directory_page.get_important_status()
-
         self.assertTrue(True, self.directory_page.get_important_status())
     
     
