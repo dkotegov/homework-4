@@ -1,5 +1,5 @@
 from tests.pages.BasicPage import BasicPage
-from tests.pages.confirmationers.RemoveConfirmationer import RemoveConfirmationer
+from tests.pages.main_page.confirmationers.RemoveConfirmationer import RemoveConfirmationer
 
 class TrashCleaner(BasicPage):
   link_to_clean_trash = "a.link[rel='noopener noreferer']"

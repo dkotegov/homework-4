@@ -1,9 +1,9 @@
 
 from LetterWriter import LetterWriter
 from LetterSelector import LetterSelector
-from tests.pages.notifications.NotificationManager import NotificationManager
-from tests.pages.menu.top_menu.TopMenuManager import TopMenuManager
-from tests.pages.confirmationers.RemoveConfirmationer import RemoveConfirmationer
+from tests.pages.main_page.notifications.NotificationManager import NotificationManager
+from tests.pages.main_page.menu.top_menu.TopMenuManager import TopMenuManager
+from tests.pages.main_page.confirmationers.RemoveConfirmationer import RemoveConfirmationer
 from selenium.webdriver import ActionChains
 
 class LetterManager():

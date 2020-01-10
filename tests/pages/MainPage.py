@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from BasicPage import BasicPage
-from letters.LetterManager import LetterManager
-from cleaners.TrashCleaner import TrashCleaner
-from menu.navigation.NavigationManager import NavigationManager
+from main_page.letters.LetterManager import LetterManager
+from main_page.cleaners.TrashCleaner import TrashCleaner
+from main_page.menu.navigation.NavigationManager import NavigationManager
 
 class MainPage(BasicPage):
   
