@@ -1,6 +1,6 @@
 {
   "_comment" : "Configuration for Hub - hubConfig.json",
-  "host": "0.0.0.0",
+  "host": "localhost",
   "maxSession": 5,
   "port": 4444,
   "cleanupCycle": 5000,

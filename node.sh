@@ -1,1 +1,1 @@
-java -jar ./drivers/selenium-server-standalone-3.141.59.jar -role node -nodeConfig nodeconfig.json
+java -jar -Dwebdriver.chrome.driver="./drivers/chromedriver" -Dwebdriver.gecko.driver="./drivers/geckodriver" ./drivers/selenium-server-standalone-3.141.59.jar -role node -nodeConfig nodeconfig.json

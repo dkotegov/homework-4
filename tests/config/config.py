@@ -1,4 +1,4 @@
-ON_DRIVER = True
+ON_DRIVER = False
 DRIVER = './drivers/chromedriver'
-DEFAULT_BROWSER = "CHROME"
-DEFAULT_MAIL = "TPWAO@mail.ru"
+BROWSER = 'chrome'
+DEFAULT_MAIL = 'TPWAO@mail.ru'

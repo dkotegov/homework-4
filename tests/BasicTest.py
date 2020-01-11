@@ -24,14 +24,14 @@ class BasicTest(unittest.TestCase):
         if (config.ON_DRIVER):
             self.driver = webdriver.Chrome(config.DRIVER)
         else:
+            nodeUrl = 'http://localhost:4444/wd/hub'
             self.driver = webdriver.Remote(
-                command_executor='http://127.0.0.1:4444/wd/hub',
-                desired_capabilities={
-                    'browserName': 'chrome',
-                    'browserVersion': '79.0.3945.88 ',
-                    'javascriptEnabled': True
+                command_executor = nodeUrl,
+                desired_capabilities = {
+                    'browserName': config.BROWSER,
                 }
             )
+            # self.driver.implicitly_wait(10)
 
     def tearDown(self):
         self.driver.quit()
