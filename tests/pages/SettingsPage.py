@@ -36,6 +36,7 @@ class SettingsPage(BasicPage):
         ActionChains(self.driver).move_to_element(elem).click(elem).perform()
 
     def save(self):
+        self.scroll_to_bottom()
         elem = self.wait_render(self.save_button)
         elem.click()
 

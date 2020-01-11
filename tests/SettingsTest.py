@@ -17,7 +17,6 @@ class SettingsTest(BasicTest):
         self.settings_page.open()
         self.auth()
         self.settings_page.wait_redirect(self.SETTINGS_URL)
-        self.driver.switch_to.default_content();
 
     def auth(self):
         login_page = LoginPage(self.driver)
