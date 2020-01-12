@@ -23,9 +23,6 @@ class DirectoryPage(MainPage):
     drafts_button = "div.portal-menu-element_drafts"
     nav_archive_button = "a.nav__item[title='Архив']"
     nav_drafts_button = "a.nav__item[title='Черновики']"
-    # nav_social_button = "a.nav__item[title='1 письмо, 1 непрочитанное']"
-    # nav_social_button = "a.nav__item_child.nav__item_expanded_true[href='/social/']"
-    # nav_social_button = "a.nav__item_child:nth-of-type(1)"
     nav_newsletters_button = "a.nav__item[title='Рассылки']"
     nav_all_folders_button = "a.sidebar__menu-item"
     select_letter_button = 'a.llc:first-of-type .ll-rs'
@@ -68,15 +65,12 @@ class DirectoryPage(MainPage):
     def go_to_newsletters(self):
         elem = self.wait_render(self.nav_all_folders_button)
         elem.click()
-        # elem = self.wait_render(self.nav_newsletters_button)
         self.driver.get(self.NEWS_LETTERS_URL)
         self.wait_redirect(self.NEWS_LETTERS_URL)
     
     def go_to_social(self):
         elem = self.wait_render(self.nav_all_folders_button)
         elem.click()
-        # elem = self.wait_render(self.nav_social_button)
-        # ActionChains(self.driver).move_to_element(elem).click(elem).perform()
         self.driver.get(self.SOCIAL_URL)
         self.wait_redirect(self.SOCIAL_URL)
         

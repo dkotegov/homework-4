@@ -44,14 +44,6 @@ class SettingsTest(BasicTest):
         self.settings_page.wait_render(self.settings_page.error_field_message)
         self.settings_page.wait_render(self.settings_page.error_message)
 
-    def test_edit_city(self):
-        city = 'Москва'
-        self.settings_page.enter_city(city.decode('utf-8'))
-        self.settings_page.choose_city()
-        self.settings_page.save()
-        self.settings_page.wait_redirect(self.SETTINGS_URL)
-        self.assertEqual(self.driver.current_url, self.SETTINGS_OK_URL)
-
     def test_switch_mailling(self):
         self.settings_page.mailling_settings()
         self.settings_page.wait_redirect(self.SETTINGS_MESSAGES_URL)
