@@ -31,7 +31,6 @@ class BasicTest(unittest.TestCase):
                     'browserName': config.BROWSER,
                 }
             )
-            # self.driver.implicitly_wait(10)
 
     def tearDown(self):
         self.driver.quit()
