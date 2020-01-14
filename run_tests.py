@@ -6,6 +6,7 @@ from tests.LoginTest import LoginTest
 from tests.SettingsTest import SettingsTest
 from tests.MainTest import MainTest
 from tests.DirectoryTest import DirectoryTest
+from tests.SignUpTest import SignUpTest
 from tests.config import config
 
 if __name__ == '__main__':
@@ -13,6 +14,7 @@ if __name__ == '__main__':
         subprocess.Popen(["bash", "./hub.sh"])
         subprocess.Popen(["bash", "./node.sh"])
     suite = unittest.TestSuite((
+        unittest.makeSuite(SignUpTest),
         unittest.makeSuite(MainTest),
         unittest.makeSuite(LoginTest),
         unittest.makeSuite(SettingsTest),

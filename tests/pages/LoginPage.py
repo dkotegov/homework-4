@@ -1,6 +1,5 @@
 from BasicPage import BasicPage
 
-
 class LoginPage(BasicPage):
   login_input = 'Login'
   password_input = 'Password'
