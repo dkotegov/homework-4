@@ -11,6 +11,7 @@ from pages.LoginPage import LoginPage
 
 class BasicTest(unittest.TestCase):
     MAIL_URL = 'https://e.mail.ru/inbox'
+    SIGNUP_VERIFY_URL = 'https://account.mail.ru/signup/verify'
     LOGIN_URL = 'https://account.mail.ru/login'
     AUTH_URL = 'https://e.mail.ru/login'
     SIGNUP_URL = 'https://account.mail.ru/signup'
