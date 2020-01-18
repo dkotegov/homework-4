@@ -5,6 +5,8 @@ from pages.main_page.menu.navigation.NavigationManager import NavigationManager
 from pages.MainPage import MainPage
 from config import config
 
+import time
+
 class DirectoryTest(BasicTest):
     def setUp(self):
         super(DirectoryTest, self).setUp()
@@ -59,7 +61,7 @@ class DirectoryTest(BasicTest):
         self.main_page.letter_manager.letter_selector.select_first_letter()  
         self.directory_page.set_check_flag()
         self.directory_page.get_important_status()
-        self.assertTrue(True, self.directory_page.get_important_status())
+        self.assertFalse(False, self.directory_page.get_important_status())
 
     def test_move_to_social(self):
         letter_subject = 'The SOCIAL letter'
@@ -95,7 +97,7 @@ class DirectoryTest(BasicTest):
         self.main_page.letter_manager.remove_first_letter()
         self.assertEqual(letter_subject, actual_subject)
         self.assertEqual(letter_text, actual_text)
-    
+
     def test_move_to_newsletters(self):
         letter_subject = 'The NewsLetter letter'
         letter_text = 'Lorem text lorem lorem lorem'
@@ -131,3 +133,76 @@ class DirectoryTest(BasicTest):
         self.assertEqual(letter_subject, actual_subject)
         self.assertEqual(letter_text, actual_text)
     
+    def test_send_empty_letter(self):
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.click_send_letter_button()
+        self.assertTrue(True, self.directory_page.check_error_message())
+
+    def test_send_letter_without_subject(self):
+        letter_text = 'Lorem text lorem lorem lorem'
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.enter_email_receiver(config.DEFAULT_MAIL)
+        self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
+        self.main_page.letter_manager.letter_writer.click_send_letter_button()
+        self.main_page.letter_manager.letter_writer.close_sent_window()
+        
+        letter_selector = LetterSelector(self.driver)
+        actual_subject = letter_selector.get_first_letter_subject()
+        actual_text = letter_selector.get_first_letter_text()
+        self.main_page.letter_manager.remove_first_letter()
+        empty_subject = self.directory_page.empty_subject_text
+        self.assertEqual(empty_subject, actual_subject)
+        self.assertEqual(letter_text, actual_text)  
+
+    def test_send_letter_without_receiver(self):
+        letter_subject = 'Subject letter'
+        letter_text = 'Lorem text lorem lorem lorem'
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.enter_subject(letter_subject)
+        self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
+        self.main_page.letter_manager.letter_writer.click_send_letter_button()
+        self.assertTrue(True, self.directory_page.check_error_message())
+
+    def test_save_draft_letter(self):
+        letter_subject = 'Draft letter'
+        letter_text = 'Lorem text lorem lorem lorem'
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.enter_subject(letter_subject)
+        self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
+        self.directory_page.click_save_mail()
+
+        self.directory_page.close_writer_window()
+  
+        self.directory_page.go_to_drafts()
+   
+        letter_selector = LetterSelector(self.driver)
+        actual_subject = letter_selector.get_first_letter_subject()
+        actual_text = letter_selector.get_first_letter_text()
+        self.main_page.letter_manager.remove_first_letter()
+        self.assertEqual(letter_subject, actual_subject)
+        self.assertEqual(letter_text, actual_text)
+    
+    def test_save_draft_letter(self):
+        letter_subject = 'Send draft letter'
+        letter_text = 'Lorem text lorem lorem lorem'
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.enter_email_receiver(config.DEFAULT_MAIL)
+        self.main_page.letter_manager.letter_writer.enter_subject(letter_subject)
+        self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
+        self.directory_page.click_save_mail()
+        self.directory_page.close_writer_window()
+        self.directory_page.go_to_drafts()
+        self.directory_page.open_draft()
+        self.main_page.letter_manager.letter_writer.click_send_letter_button()
+        self.main_page.letter_manager.letter_writer.close_sent_window()
+
+        navigation_manager = NavigationManager(self.driver)    
+        navigation_manager.go_to_inbox()
+
+        letter_selector = LetterSelector(self.driver)
+        actual_subject = letter_selector.get_first_letter_subject()
+        actual_text = letter_selector.get_first_letter_text()
+        self.main_page.letter_manager.remove_first_letter()
+        self.assertEqual(letter_subject, actual_subject)
+        self.assertEqual(letter_text, actual_text)
+        
