@@ -39,3 +39,8 @@ class BasicTest(unittest.TestCase, BaseUrls):
         login_page = LoginPage(self.driver)
         login_page.sign_in(self.login, self.password)
         login_page.wait_redirect(self.MAIL_URL)
+        
+    def auth_another_account(self):
+        login_page = LoginPage(self.driver)
+        login_page.sign_in_only_password(self.password)
+        login_page.wait_redirect(self.MAIL_URL)

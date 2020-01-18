@@ -46,4 +46,10 @@ class LoginPage(BasicPage):
     self.click_next()
     self.enter_password(password)
     self.click_next()
+    
+  def sign_in_only_password(self, password):
+    # without entering a login
+    self.click_next()
+    self.enter_password(password)
+    self.click_next()
   
