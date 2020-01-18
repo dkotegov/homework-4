@@ -34,15 +34,6 @@ class MainTest(BasicTest):
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
   
-  # def test_write_new_letter_without_receiver(self):
-  #   subject = 'Subject_write_new_letter_without_receiver'
-  #   text = 'Text_write_new_letter_without_receiver'
-  #   self.main_page.letter_manager.write_letter("", subject, text)
-  #   actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
-  #   actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
-  #   self.assertEqual(subject, actual_subject)
-  #   self.assertEqual(text, actual_text)
-    
   def test_unread_letter_status(self):
     subject = 'Subject_unread_letter_status'
     text = 'Text_unread_letter_status'
@@ -121,6 +112,16 @@ class MainTest(BasicTest):
     self.main_page.navigation_manager.go_to_sent_letters_folder()
     actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
     actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
+    self.assertEqual(subject, actual_subject)
+    self.assertEqual(text, actual_text)
+  
+  def test_open_letter(self):
+    subject = 'Subject_opened_letter'
+    text = 'Text_opened_letter'
+    self.main_page.letter_manager.write_letter(self.login, subject, text)
+    self.main_page.letter_manager.letter_selector.open_first_letter()
+    actual_subject = self.main_page.letter_manager.letter_selector.get_opened_letter_subject()
+    actual_text = self.main_page.letter_manager.letter_selector.get_opened_letter_text()
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
     
