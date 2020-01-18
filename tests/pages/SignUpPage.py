@@ -27,7 +27,7 @@ class SignUpPage(BasicPage):
 	additional_email_field = 'input[name="additional_email"][tabindex="9"]'
 	additional_phone_block = 'a.js-signup-link'
 	email_popup_message = '.b-vacant-email__message'
-	password_popup_message = '.b-password__status-text b-password__status-text_'
+	password_popup_message = '.b-password__reasons'
 	error_blocks = '.b-form-field__errors__error.js-required.b-form-field__errors__error_visible'
 
 	unit_to_multiplier = {
