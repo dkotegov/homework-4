@@ -1,5 +1,5 @@
 from BasicPage import BasicPage
-
+from selenium.webdriver.common.keys import Keys
 
 class LoginPage(BasicPage):
   login_input = '.username input'
@@ -16,6 +16,12 @@ class LoginPage(BasicPage):
   def enter_login(self,login):
     elem = self.wait_render(self.login_input)
     elem.send_keys(login)
+    
+  def clear_login(self):
+    elem = self.wait_render(self.login_input)
+    length = len(elem.get_attribute('value'))
+    for i in range(length):
+        elem.send_keys(Keys.BACKSPACE)  
     
   def enter_password(self,login):
     elem = self.wait_render(self.password_input)
@@ -42,13 +48,9 @@ class LoginPage(BasicPage):
     return validation_message.encode('utf-8', errors='ignore')
     
   def sign_in(self, login, password):
+    login_input = self.wait_render(self.login_input)
+    self.clear_login()
     self.enter_login(login)
-    self.click_next()
-    self.enter_password(password)
-    self.click_next()
-    
-  def sign_in_only_password(self, password):
-    # without entering a login
     self.click_next()
     self.enter_password(password)
     self.click_next()
