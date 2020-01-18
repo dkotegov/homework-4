@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from tests.pages.BasicPage import BasicPage 
 from selenium.webdriver import ActionChains
+from LetterSelector import LetterSelector
+
+from selenium.webdriver.common.keys import Keys
 
 class LetterWriter(BasicPage):
   write_letter_button = '.compose-button_white'
@@ -12,6 +15,10 @@ class LetterWriter(BasicPage):
   close_sent_window_button = "span.button2_close[title='Закрыть']"
   banner = "div.layer-window[__mediators='layout-manager']"
   advertisement = 'div.message-sent__wrap'
+  
+  def __init__(self, driver):
+    self.driver = driver
+    self.letter_selector = LetterSelector(self.driver)
     
   def click_write_letter_button(self):
     elem = self.wait_render(self.write_letter_button)
@@ -28,6 +35,7 @@ class LetterWriter(BasicPage):
   def enter_textbox(self, text):
     elem = self.wait_render(self.textbox_field)
     elem.send_keys(text)
+    # elem.send_keys(text)
     
   def click_send_letter_button(self):
     elem = self.wait_render(self.send_letter_button)

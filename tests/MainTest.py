@@ -125,6 +125,10 @@ class MainTest(BasicTest):
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
     
-    
+  def test_reply_letter(self):
+    subject = 'Subject_reply_letter'
+    text = 'Text_reply_letter' 
+    self.main_page.letter_manager.write_letter(self.login, subject, text)
+    self.main_page.letter_manager.reply_letter('Test text')
     
     
