@@ -7,8 +7,6 @@ from tests.pages.main_page.menu.top_menu.TopMenuManager import TopMenuManager
 from tests.pages.main_page.confirmationers.RemoveConfirmationer import RemoveConfirmationer
 from selenium.webdriver import ActionChains
 
-import time
-
 class LetterManager():
   
   def __init__(self, driver):
@@ -31,11 +29,8 @@ class LetterManager():
   def reply_letter(self, text):
     self.letter_selector.open_first_letter()
     self.letter_replier.click_reply_button()
-    time.sleep(1)
     self.letter_writer.enter_textbox(text)
-    time.sleep(3)
     self.letter_writer.click_send_letter_button()
-    time.sleep(1)
     self.letter_writer.close_sent_window()
     
   def remove_first_letter(self): 

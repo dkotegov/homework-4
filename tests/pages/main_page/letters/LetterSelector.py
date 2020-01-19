@@ -8,7 +8,7 @@ class LetterSelector(BasicPage):
   first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
   first_letter_read_status = 'a.llc:first-of-type .ll-rs'
   first_letter_avatar = '.llc:first-of-type button.ll-av'
-  
+
   opened_letter_subject = '.thread__subject'
   opened_letter_text = ''
   opened_letter_body = '.letter__body'
@@ -47,6 +47,10 @@ class LetterSelector(BasicPage):
   def get_opened_letter_body(self):
     body = self.wait_render(self.opened_letter_body)
     return body.text
+  
+  def get_replied_letter_text(self):
+        body = self.get_opened_letter_body()
+        return body.split('\n')[-1]
     
   def get_first_letter_read_status(self):
     elem = self.wait_render(self.first_letter_read_status)
