@@ -4,7 +4,6 @@ from BasicTest import BasicTest
 from pages.LoginPage import LoginPage
 from pages.MainPage import MainPage
 
-import time
 class LoginTest(BasicTest):
   
   def pre_tests(self):

@@ -1,6 +1,7 @@
 from pages.MainPage import MainPage
 from BasicTest import BasicTest
-import time
+
+from user.User import User
 
 class MainTest(BasicTest):
   
@@ -20,25 +21,18 @@ class MainTest(BasicTest):
     subject = 'Subject_receive_new_letter'
     text = 'Text_receive_new_letter'
     self.main_page.letter_manager.write_letter(self.login, subject, text)
-    actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
-    actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
-    self.assertEqual(subject, actual_subject)
-    self.assertEqual(text, actual_text)
+    self.check_first_letter(subject, text)
     
   def test_receive_new_letter_from_another_account(self):
     subject = 'Subj_receive_new_letter_from_another_account'
     text = 'Txt_receive_new_letter_from_another_account'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.main_page.click_signout()
-    self.main_page.open()
-    self.auth()
-    self.main_page.hide_app_loader()
-   
-    actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
-    actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
     
-    self.assertEqual(subject, actual_subject)
-    self.assertEqual(text, actual_text)
+    receiver = User(self.login2, self.password2)
+    
+    self.main_page.letter_manager.write_letter(receiver.login, subject, text)
+    self.main_page.relogin(receiver.login, receiver.password)
+   
+    self.check_first_letter(subject, text)
   
   def test_unread_letter_status(self):
     subject = 'Subject_unread_letter_status'
@@ -62,8 +56,7 @@ class MainTest(BasicTest):
     self.main_page.navigation_manager.go_to_trash()
     actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
     actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
-    self.assertEqual(subject, actual_subject)
-    self.assertEqual(text, actual_text)
+    self.check_first_letter(subject, text)
     
   def test_restore_letter(self):
     subject = 'Subject_restore_letter'
@@ -76,10 +69,7 @@ class MainTest(BasicTest):
     # Go back (to check for a letter in the inbox folder)
     self.main_page.navigation_manager.go_to_inbox()
     
-    actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
-    actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
-    self.assertEqual(subject, actual_subject)
-    self.assertEqual(text, actual_text)
+    self.check_first_letter(subject, text)
     
   def test_remove_all_letters_from_inbox(self):
     for i in range(2):
@@ -118,8 +108,7 @@ class MainTest(BasicTest):
     self.main_page.navigation_manager.go_to_sent_letters_folder()
     actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
     actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
-    self.assertEqual(subject, actual_subject)
-    self.assertEqual(text, actual_text)
+    self.check_first_letter(subject, text)
   
   def test_open_letter(self):
     subject = 'Subject_opened_letter'
@@ -135,12 +124,16 @@ class MainTest(BasicTest):
     subject = 'Subject_reply_letter'
     text = 'Text_reply_letter' 
     replied_text = 'Replied text'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
+    
+    first_user = User(self.login, self.password)
+    receiver = User(self.login2, self.password2)
+    
+    self.main_page.letter_manager.write_letter(receiver.login, subject, text)
+    
+    self.main_page.relogin(receiver.login, receiver.password)
     self.main_page.letter_manager.reply_letter(replied_text)
-    self.main_page.click_signout()
-    self.main_page.open()
-    self.auth()
-    self.main_page.hide_app_loader()
+
+    self.main_page.relogin(first_user.login, first_user.password)
     self.main_page.letter_manager.letter_selector.open_first_letter()
     actual_replied_text = self.main_page.letter_manager.letter_selector.get_replied_letter_text()
     self.assertEqual(replied_text, actual_replied_text)
@@ -148,9 +141,14 @@ class MainTest(BasicTest):
   def test_write_many_receivers(self):
     subject = 'Subject_write_many_receivers'
     text = 'Text_write_many_receivers'
-    receivers = [self.login]
-    self.main_page.letter_manager.write_letter_many_receivers(receivers, subject, text)
-    self.main_page.relogin(self.login, self.password)
-    self.check_first_letter(subject, text)
+    receivers = [
+      User(self.login, self.password),
+      User(self.login2, self.password2),
+    ]
+    receivers_emails = [receiver.login for receiver in receivers]
+    self.main_page.letter_manager.write_letter_many_receivers(receivers_emails, subject, text)
+    for receiver in receivers:
+      self.main_page.relogin(receiver.login, receiver.password)
+      self.check_first_letter(subject, text)
     
     
