@@ -22,6 +22,9 @@ class BasicTest(unittest.TestCase):
     login = os.environ.get('LOGIN')
     password = os.environ.get('PASSWORD')
 
+    login2 = os.environ.get('LOGIN2')
+    password2 = os.environ.get('PASSWORD2')
+    
     def setUp(self):
         if (config.ON_DRIVER):
             self.driver = webdriver.Chrome(config.DRIVER)

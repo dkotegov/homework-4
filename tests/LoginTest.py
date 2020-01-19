@@ -6,7 +6,6 @@ from pages.MainPage import MainPage
 
 import time
 
-
 class LoginTest(BasicTest):
   
   def setUp(self):
