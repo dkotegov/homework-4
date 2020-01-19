@@ -1,6 +1,7 @@
 
 from LetterWriter import LetterWriter
 from LetterSelector import LetterSelector
+from LetterReplier import LetterReplier
 from tests.pages.main_page.notifications.NotificationManager import NotificationManager
 from tests.pages.main_page.menu.top_menu.TopMenuManager import TopMenuManager
 from tests.pages.main_page.confirmationers.RemoveConfirmationer import RemoveConfirmationer
@@ -9,17 +10,25 @@ from selenium.webdriver import ActionChains
 class LetterManager():
   
   def __init__(self, driver):
-      self.driver = driver
-      self.letter_writer = LetterWriter(self.driver)
-      self.letter_selector = LetterSelector(self.driver)
-      self.notification_manager = NotificationManager(self.driver)
-      self.top_menu_manager = TopMenuManager(self.driver)
-      self.remove_confirmationer = RemoveConfirmationer(self.driver)
+    self.driver = driver
+    self.letter_writer = LetterWriter(self.driver)
+    self.letter_selector = LetterSelector(self.driver)
+    self.letter_replier = LetterReplier(self.driver)
+    self.notification_manager = NotificationManager(self.driver)
+    self.top_menu_manager = TopMenuManager(self.driver)
+    self.remove_confirmationer = RemoveConfirmationer(self.driver)
        
   def write_letter(self, email, subject, text):
     self.letter_writer.click_write_letter_button()
     self.letter_writer.enter_email_receiver(email)
     self.letter_writer.enter_subject(subject)
+    self.letter_writer.enter_textbox(text)
+    self.letter_writer.click_send_letter_button()
+    self.letter_writer.close_sent_window()
+    
+  def reply_letter(self, text):
+    self.letter_selector.open_first_letter()
+    self.letter_replier.click_reply_button()
     self.letter_writer.enter_textbox(text)
     self.letter_writer.click_send_letter_button()
     self.letter_writer.close_sent_window()

@@ -8,6 +8,7 @@ from main_page.menu.navigation.NavigationManager import NavigationManager
 class MainPage(BasicPage):
   
   app_loader = 'div#app-loader'
+  signout_button = '#PH_logoutLink'
   
   def open(self):
     self.driver.get(self.LOGIN_URL)

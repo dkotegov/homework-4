@@ -19,6 +19,21 @@ class MainTest(BasicTest):
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
     
+  def test_receive_new_letter_from_another_account(self):
+    subject = 'Subj_receive_new_letter_from_another_account'
+    text = 'Txt_receive_new_letter_from_another_account'
+    self.main_page.letter_manager.write_letter(self.login, subject, text)
+    self.main_page.click_signout()
+    self.main_page.open()
+    self.auth()
+    self.main_page.hide_app_loader()
+   
+    actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
+    actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
+    
+    self.assertEqual(subject, actual_subject)
+    self.assertEqual(text, actual_text)
+  
   def test_unread_letter_status(self):
     subject = 'Subject_unread_letter_status'
     text = 'Text_unread_letter_status'
@@ -99,7 +114,29 @@ class MainTest(BasicTest):
     actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
+  
+  def test_open_letter(self):
+    subject = 'Subject_opened_letter'
+    text = 'Text_opened_letter'
+    self.main_page.letter_manager.write_letter(self.login, subject, text)
+    self.main_page.letter_manager.letter_selector.open_first_letter()
+    actual_subject = self.main_page.letter_manager.letter_selector.get_opened_letter_subject()
+    actual_text = self.main_page.letter_manager.letter_selector.get_opened_letter_text()
+    self.assertEqual(subject, actual_subject)
+    self.assertEqual(text, actual_text)
     
-    
+  def test_reply_letter(self):
+    subject = 'Subject_reply_letter'
+    text = 'Text_reply_letter' 
+    replied_text = 'Replied text'
+    self.main_page.letter_manager.write_letter(self.login, subject, text)
+    self.main_page.letter_manager.reply_letter(replied_text)
+    self.main_page.click_signout()
+    self.main_page.open()
+    self.auth()
+    self.main_page.hide_app_loader()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
+    actual_replied_text = self.main_page.letter_manager.letter_selector.get_replied_letter_text()
+    self.assertEqual(replied_text, actual_replied_text)
     
     

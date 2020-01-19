@@ -8,6 +8,10 @@ class LetterSelector(BasicPage):
   first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
   first_letter_read_status = 'a.llc:first-of-type .ll-rs'
   first_letter_avatar = '.llc:first-of-type button.ll-av'
+
+  opened_letter_subject = '.thread__subject'
+  opened_letter_text = ''
+  opened_letter_body = '.letter__body'
   
   all_letters = 'div.portal-menu-element_select'
   
@@ -26,6 +30,27 @@ class LetterSelector(BasicPage):
   def select_first_letter(self):
     elem = self.wait_render(self.first_letter_avatar)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+  
+  def open_first_letter(self):
+    elem = self.wait_render(self.first_letter_subject)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    
+  def get_opened_letter_subject(self):
+    subject = self.wait_render(self.opened_letter_subject)
+    return subject.text
+     
+  def get_opened_letter_text(self):
+    body = self.get_opened_letter_body()
+    # Only text, without sign
+    return body.split('\n  --\n')[0]
+  
+  def get_opened_letter_body(self):
+    body = self.wait_render(self.opened_letter_body)
+    return body.text
+  
+  def get_replied_letter_text(self):
+        body = self.get_opened_letter_body()
+        return body.split('\n')[-1]
     
   def get_first_letter_read_status(self):
     elem = self.wait_render(self.first_letter_read_status)
