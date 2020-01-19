@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
-
+import time
 from BasicPage import BasicPage
 
 
@@ -131,37 +131,27 @@ class SignUpPage(BasicPage):
 	def enter_signup_data(self, data):
 		if 'firstname' in data:
 			self.enter_firstname(data['firstname'])
-
-		if 'lastname' in data:
+		if 'lastname' in data:      
 			self.enter_lastname(data['lastname'])
-
 		if 'day' in data:
 			self.enter_day(data['day'])
-
 		if 'month' in data:
 			self.enter_month(data['month'])
-
 		if 'year' in data:
 			self.enter_year(data['year'])
-
 		if ('sex' in data):
 			if (data['sex'] == 'male'):
 				self.click_sex_male()
 			elif (data['sex'] == 'female'):
 				self.click_sex_female()
-
 		if 'email' in data:
 			self.enter_email(data['email'])
-
 		if 'domain' in data:
 			self.enter_emaildomain(data['domain'])
-
 		if 'password' in data:
 			self.enter_password(data['password'])
-
 		if 'password_retry' in data:
 			self.enter_password_retry(data['password_retry'])
-
 		self.click_additionalemail()
 		if 'addition_email' in data:
 			self.enter_additionalemail(data['addition_email'])

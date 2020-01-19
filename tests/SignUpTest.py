@@ -5,6 +5,8 @@ from pages.SignUpPage import SignUpPage
 from pages.MainPage import MainPage
 
 import datetime
+import random
+import time
 
 
 class SignUpTest(BasicTest):
@@ -26,12 +28,24 @@ class SignUpTest(BasicTest):
 		email = self.signup_page.generate_fake_email()
 		password = self.signup_page.generate_fake_password()
 
+		# data = {
+		# 	"firstname": '1',
+		# 	"lastname": '2',
+		# 	"day": 4,
+		# 	"month": "April",
+		# 	"year": 2000,
+		# 	"sex": "male",
+		# 	"email": email,
+		# 	"domain": "mail",
+		# 	"password": password,
+		# 	"password_retry": password
+		# }
 		data = {
-			"firstname": '1',
-			"lastname": '2',
-			"day": 4,
-			"month": "April",
-			"year": 2000,
+			"firstname": "1",
+			"lastname": "2",
+			"day": 16,
+			"month": "May",
+			"year": 1999,
 			"sex": "male",
 			"email": email,
 			"domain": "mail",
@@ -41,7 +55,10 @@ class SignUpTest(BasicTest):
 
 		self.signup_page.enter_signup_data(data)
 		self.signup_page.click_signup()
-
+		time.sleep(random.randrange(15,20)+random.random())
+		while self.driver.current_url != self.SIGNUP_VERIFY_URL:
+			time.sleep(random.randrange(1,3)+random.random())
+			self.signup_page.click_signup()
 		self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
 
 	def test_empty_data(self):
