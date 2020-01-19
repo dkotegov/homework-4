@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import random
-import time
 from BasicPage import BasicPage
 
 
@@ -29,6 +28,7 @@ class SignUpPage(BasicPage):
 	email_popup_message = '.b-vacant-email__message'
 	password_popup_message = '.b-password__reasons'
 	error_blocks = '.b-form-field__errors__error.js-required.b-form-field__errors__error_visible'
+	use_condition_block = '.b-form__controls__message a'
 
 	unit_to_multiplier = {
 		"mail": email_input_mail,
@@ -111,6 +111,10 @@ class SignUpPage(BasicPage):
 	def hide_password(self):
 		elem = self.wait_render(self.password_hide_block)
 		elem.click()
+	
+	def give_password(self):
+		elem = self.wait_render(self.password_field)
+		return elem.get_attribute("value").encode('utf-8', errors='ignore')
 
 	def click_additionalemail(self):
 		elem = self.wait_render(self.additional_email_block)
@@ -126,6 +130,10 @@ class SignUpPage(BasicPage):
 
 	def click_signup(self):
 		elem = self.wait_render(self.button_signup)
+		elem.click()
+	
+	def click_use_condition(self):
+		elem = self.wait_render(self.use_condition_block)
 		elem.click()
 
 	def enter_signup_data(self, data):
