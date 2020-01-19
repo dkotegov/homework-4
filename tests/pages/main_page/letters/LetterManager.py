@@ -26,6 +26,15 @@ class LetterManager():
     self.letter_writer.click_send_letter_button()
     self.letter_writer.close_sent_window()
     
+  def write_letter_many_receivers(self, receivers, subject, text):
+    self.letter_writer.click_write_letter_button()
+    for receiver in receivers:
+      self.letter_writer.enter_email_receiver(receiver)
+    self.letter_writer.enter_subject(subject)
+    self.letter_writer.enter_textbox(text)
+    self.letter_writer.click_send_letter_button()
+    self.letter_writer.close_sent_window()
+    
   def reply_letter(self, text):
     self.letter_selector.open_first_letter()
     self.letter_replier.click_reply_button()

@@ -4,6 +4,7 @@ from BasicPage import BasicPage
 from main_page.letters.LetterManager import LetterManager
 from main_page.cleaners.TrashCleaner import TrashCleaner
 from main_page.menu.navigation.NavigationManager import NavigationManager
+from LoginPage import LoginPage
 
 class MainPage(BasicPage):
   
@@ -25,5 +26,16 @@ class MainPage(BasicPage):
   def click_signout(self):
     elem = self.wait_render(self.signout_button)
     elem.click()
+  
+  def auth(self, email, password):
+    login_page = LoginPage(self.driver)
+    login_page.sign_in(email, password)
+    login_page.wait_redirect(self.MAIL_URL)
+        
+  def relogin(self, email, password):
+    self.click_signout()
+    self.open()
+    self.auth(email, password)
+    self.hide_app_loader()
     
   

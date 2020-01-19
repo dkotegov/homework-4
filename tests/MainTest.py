@@ -10,6 +10,12 @@ class MainTest(BasicTest):
     self.auth()
     self.main_page.hide_app_loader()
     
+  def check_first_letter(self, subject, text):
+    actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
+    actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
+    self.assertEqual(subject, actual_subject)
+    self.assertEqual(text, actual_text)
+    
   def test_receive_new_letter(self):
     subject = 'Subject_receive_new_letter'
     text = 'Text_receive_new_letter'
@@ -138,5 +144,13 @@ class MainTest(BasicTest):
     self.main_page.letter_manager.letter_selector.open_first_letter()
     actual_replied_text = self.main_page.letter_manager.letter_selector.get_replied_letter_text()
     self.assertEqual(replied_text, actual_replied_text)
+    
+  def test_write_many_receivers(self):
+    subject = 'Subject_write_many_receivers'
+    text = 'Text_write_many_receivers'
+    receivers = [self.login]
+    self.main_page.letter_manager.write_letter_many_receivers(receivers, subject, text)
+    self.main_page.relogin(self.login, self.password)
+    self.check_first_letter(subject, text)
     
     
