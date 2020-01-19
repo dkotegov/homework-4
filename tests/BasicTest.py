@@ -6,9 +6,19 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 from config import config
 
-from pages.LoginPage import LoginPage   
-from BaseUrls import BaseUrls
-class BasicTest(unittest.TestCase, BaseUrls):
+from pages.LoginPage import LoginPage
+
+
+class BasicTest(unittest.TestCase):
+    MAIL_URL = 'https://e.mail.ru/inbox'
+    SIGNUP_VERIFY_URL = 'https://account.mail.ru/signup/verify'
+    LOGIN_URL = 'https://account.mail.ru/login'
+    AUTH_URL = 'https://e.mail.ru/login'
+    SIGNUP_URL = 'https://account.mail.ru/signup'
+    SETTINGS_URL = 'https://e.mail.ru/settings/userinfo'
+    MAIN_PAGE_URL = 'https://mail.ru'
+    SIGNUP_USE_CONDITION = 'https://help.mail.ru/legal/terms/mail'
+
     login = os.environ.get('LOGIN')
     password = os.environ.get('PASSWORD')
 
@@ -16,24 +26,16 @@ class BasicTest(unittest.TestCase, BaseUrls):
         if (config.ON_DRIVER):
             self.driver = webdriver.Chrome(config.DRIVER)
         else:
-            # Selenium Grid in development
-            nodeURL = 'http://localhost:4444/wd/hub'
-            capabilities = DesiredCapabilities.chrome()
-            capabilities.setBrowserName("chrome")
-            capabilities.setVersion("79")
-
-            self.driver = Remote(
-                command_executor=nodeURL,
-                desired_capabilities=getattr(
-                    DesiredCapabilities, config.DEFAULT_BROWSER).copy()
+            nodeUrl = 'http://localhost:4444/wd/hub'
+            self.driver = webdriver.Remote(
+                command_executor = nodeUrl,
+                desired_capabilities = {
+                    'browserName': config.BROWSER,
+                }
             )
-        self.pre_tests()
 
     def tearDown(self):
         self.driver.quit()
-
-    def pre_tests(self):
-        pass
 
     def auth(self):
         login_page = LoginPage(self.driver)

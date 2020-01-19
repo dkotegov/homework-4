@@ -5,3 +5,4 @@ class BaseUrls():
     SIGNUP_URL = 'https://account.mail.ru/signup'
     SETTINGS_URL = 'https://e.mail.ru/settings/userinfo'
     MAIN_PAGE_URL = 'https://mail.ru'
+    SIGNUP_USE_CONDITION = 'https://help.mail.ru/legal/terms/mail'

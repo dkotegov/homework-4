@@ -4,7 +4,8 @@ import time
 
 class MainTest(BasicTest):
   
-  def pre_tests(self):
+  def setUp(self):
+    super(MainTest, self).setUp()
     self.main_page = MainPage(self.driver)
     self.main_page.open()
     self.auth()
@@ -80,36 +81,6 @@ class MainTest(BasicTest):
     actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
-    
-  def test_remove_all_letters_from_inbox(self):
-    for i in range(2):
-      subject = 'Subject_remove_all_letters_from_inbox%d'
-      text = 'Text_remove_all_letters_from_inbox%d'
-      self.main_page.letter_manager.write_letter(self.login, subject % i, text % i)
-    self.main_page.letter_manager.move_all_letters_to_trash()
-    self.main_page.letter_manager.letter_selector.is_there_no_letters()
-    
-  def test_restore_all_letters_to_inbox(self):
-    for i in range(2):
-      subject = 'Subject_restore_all_letters_to_inbox%d'
-      text = 'Text_restore_all_letters_to_inbox%d'
-      self.main_page.letter_manager.write_letter(self.login, subject % i, text % i)
-      
-    self.main_page.letter_manager.move_all_letters_to_trash()
-    self.main_page.navigation_manager.go_to_trash()
-    self.main_page.letter_manager.restore_all_letters_from_trash()
-    self.main_page.letter_manager.letter_selector.is_there_no_letters()
-    
-  def test_clean_trash(self):
-    for i in range(2):
-      subject = 'Subject_clean_trash%d'
-      text = 'Text_clean_trash%d'
-      self.main_page.letter_manager.write_letter(self.login, subject % i, text % i)
-      
-    self.main_page.letter_manager.move_all_letters_to_trash()
-    self.main_page.navigation_manager.go_to_trash()
-    self.main_page.trash_cleaner.clean()
-    self.main_page.letter_manager.letter_selector.is_there_no_letters()
     
   def test_check_sent_new_letter(self):
     subject = 'Subject_check_sent_new_letter'

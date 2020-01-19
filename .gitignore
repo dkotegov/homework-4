@@ -5,6 +5,8 @@ secure.sh
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
+__init__.py
 
 # C extensions
 *.so
@@ -63,8 +65,11 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+<<<<<<< HEAD
 
 /drivers/
 
 # Mac
 .DS_Store
+=======
+>>>>>>> SignUpTests
