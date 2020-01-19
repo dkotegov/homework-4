@@ -5,6 +5,8 @@ from LetterSelector import LetterSelector
 
 from selenium.webdriver.common.keys import Keys
 
+import time
+
 class LetterWriter(BasicPage):
   write_letter_button = '.compose-button_white'
   
@@ -26,7 +28,10 @@ class LetterWriter(BasicPage):
 
   def enter_email_receiver(self, email):
     elem = self.wait_render(self.email_receiver_field)
-    elem.send_keys(email)
+    ActionChains(self.driver).click(elem).send_keys(email).perform()
+    # It's needed to confirm a receiver
+    another_field = self.wait_render(self.subject_field)
+    ActionChains(self.driver).click(another_field).perform()
     
   def enter_subject(self, subject):
     elem = self.wait_render(self.subject_field)
@@ -35,7 +40,6 @@ class LetterWriter(BasicPage):
   def enter_textbox(self, text):
     elem = self.wait_render(self.textbox_field)
     elem.send_keys(text)
-    # elem.send_keys(text)
     
   def click_send_letter_button(self):
     elem = self.wait_render(self.send_letter_button)
