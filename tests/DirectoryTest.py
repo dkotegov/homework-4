@@ -50,7 +50,7 @@ class DirectoryTest(BasicTest):
         letter_text = 'Lorem text lorem lorem lorem'
         self.main_page.letter_manager.write_letter(config.DEFAULT_MAIL, letter_subject, letter_text)
         self.main_page.letter_manager.letter_selector.select_first_letter()  
-        self.assertTrue(True, self.directory_page.set_check_flag())
+        self.assertTrue( self.directory_page.set_check_flag())
     
     def test_unset_important_letter(self):
         letter_subject = 'The UNimportant letter'
@@ -134,7 +134,7 @@ class DirectoryTest(BasicTest):
     def test_send_empty_letter(self):
         self.main_page.letter_manager.letter_writer.click_write_letter_button()
         self.main_page.letter_manager.letter_writer.click_send_letter_button()
-        self.assertTrue(True, self.directory_page.check_error_message())
+        self.assertTrue( self.directory_page.check_error_message())
 
     def test_send_letter_without_subject(self):
         letter_text = 'Lorem text lorem lorem lorem'
@@ -159,7 +159,7 @@ class DirectoryTest(BasicTest):
         self.main_page.letter_manager.letter_writer.enter_subject(letter_subject)
         self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
         self.main_page.letter_manager.letter_writer.click_send_letter_button()
-        self.assertTrue(True, self.directory_page.check_error_message())
+        self.assertTrue( self.directory_page.check_error_message())
 
     def test_save_draft_letter(self):
         letter_subject = 'Draft letter'
