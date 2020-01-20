@@ -5,8 +5,6 @@ from pages.main_page.menu.navigation.NavigationManager import NavigationManager
 from pages.MainPage import MainPage
 from config import config
 
-import time
-
 class DirectoryTest(BasicTest):
     def setUp(self):
         super(DirectoryTest, self).setUp()
