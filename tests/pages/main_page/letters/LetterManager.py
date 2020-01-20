@@ -70,3 +70,12 @@ class LetterManager():
     # Wait a confirmation of restoring
     self.letter_selector.is_there_no_letters()
     self.notification_manager.hide_notification()
+    
+  def foo1(self):
+    self.letter_writer.click_write_letter_button()
+    self.letter_writer.enter_email_receiver('aaa@mail.ru')
+    self.letter_writer.enter_subject('asdf')
+    self.letter_writer.enter_textbox('Test')
+    self.letter_writer.select_text()
+    # self.letter_writer.click_send_letter_button()
+    # self.letter_writer.close_sent_window()

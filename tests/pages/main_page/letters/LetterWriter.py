@@ -11,6 +11,7 @@ class LetterWriter(BasicPage):
   email_receiver_field = "input[type='text']"
   subject_field = "input[name='Subject']"
   textbox_field = "div[role='textbox']"
+  textbox_first_line = "div[role='textbox'] > div > div:first-child"
   send_letter_button = '.button2__txt:nth-child(1)'
   close_sent_window_button = "span.button2_close[title='Закрыть']"
   banner = "div.layer-window[__mediators='layout-manager']"
@@ -50,3 +51,9 @@ class LetterWriter(BasicPage):
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     # Successful window must be closed before executing other operations
     self.wait_invisible(self.banner)
+    
+  def select_text(self):
+    text_container = self.wait_render(self.textbox_first_line)  
+    # select_count = len(text_container.text)
+    ActionChains(self.driver).click_and_hold(text_container).send_keys(Keys.CONTROL, Keys.SHIFT, Keys.ARROW_RIGHT).release(text_container).perform()
+    # for i in range(select_count):

@@ -3,6 +3,8 @@ from BasicTest import BasicTest
 
 from user.User import User
 
+import time
+
 class MainTest(BasicTest):
   
   def pre_tests(self):
@@ -151,4 +153,7 @@ class MainTest(BasicTest):
       self.main_page.relogin(receiver.login, receiver.password)
       self.check_first_letter(subject, text)
     
+  def test_1(self):
+      self.main_page.letter_manager.foo1()
+      time.sleep(2)
     
