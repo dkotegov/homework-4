@@ -107,48 +107,6 @@ class SignUpTest(BasicTest):
     self.signup_page.click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
-  def test_correct_registration_male(self): # Work only in corp network
-    email = self.signup_page.generate_fake_email()
-    password = self.signup_page.generate_fake_password()
-
-    data = {
-      "firstname": "1",
-      "lastname": "2",
-      "day": 16,
-      "month": "May",
-      "year": 1999,
-      "sex": "male",
-      "email": email,
-      "domain": "mail",
-      "password": password,
-      "password_retry": password
-    }
-
-    self.signup_page.enter_signup_data(data)
-    self.signup_page.click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
-    
-  def test_correct_registration_female(self): # Work only in corp network
-    email = self.signup_page.generate_fake_email()
-    password = self.signup_page.generate_fake_password()
-
-    data = {
-      "firstname": "1",
-      "lastname": "2",
-      "day": 16 ,
-      "month": "May",
-      "year": 1999,
-      "sex": "female",
-      "email": email,
-      "domain": "mail",
-      "password": password,
-      "password_retry": password
-    }
-
-    self.signup_page.enter_signup_data(data)
-    self.signup_page.click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
-    
   def test_correct_registration_leap_year(self): # Work only in corp network
     email = self.signup_page.generate_fake_email()
     password = self.signup_page.generate_fake_password()
@@ -183,7 +141,6 @@ class SignUpTest(BasicTest):
     self.signup_page.enter_lastname(lastname)
     wrote_text = self.signup_page.give_lastname()
     self.assertEqual(40, len(wrote_text))
-
 
   def test_empty_data(self):
     data = {}
