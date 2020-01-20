@@ -59,7 +59,7 @@ class DirectoryTest(BasicTest):
         self.main_page.letter_manager.letter_selector.select_first_letter()  
         self.directory_page.set_check_flag()
         self.directory_page.get_important_status()
-        self.assertFalse(False, self.directory_page.get_important_status())
+        self.assertFalse( self.directory_page.get_important_status())
 
     def test_move_to_social(self):
         letter_subject = 'The SOCIAL letter'

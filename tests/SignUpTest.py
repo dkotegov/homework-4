@@ -23,7 +23,91 @@ class SignUpTest(BasicTest):
     self.signup_page = SignUpPage(self.driver)
     self.signup_page.open()
 
-  def test_correct_registration(self):
+  def test_correct_registration_mail(self): # Work only in corp network
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "Abba",
+      "lastname": "Miya",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    
+  def test_correct_registration_inbox(self): # Work only in corp network
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "1",
+      "lastname": "2",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "inbox",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    
+  def test_correct_registration_list(self): # Work only in corp network
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "1",
+      "lastname": "2",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "list",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    
+  def test_correct_registration_bk(self): # Work only in corp network
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "1",
+      "lastname": "2",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "bk",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    
+  def test_correct_registration_male(self): # Work only in corp network
     email = self.signup_page.generate_fake_email()
     password = self.signup_page.generate_fake_password()
 
@@ -42,14 +126,64 @@ class SignUpTest(BasicTest):
 
     self.signup_page.enter_signup_data(data)
     self.signup_page.click_signup()
-    time.sleep(random.randrange(15,20)+random.random()) # Mail use timer for checking if user is bot or not.
-    # For normal working with this validation we need to sleep ~15-20 sec. 
-    # Mail thiks that it is fastest speed for creating new account
-    while self.driver.current_url != self.SIGNUP_VERIFY_URL:
-      # We need it too. Because sometimes ~15-20 isn't enough. It's mails magic
-      time.sleep(random.randrange(1,3)+random.random())
-      self.signup_page.click_signup() 
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    
+  def test_correct_registration_female(self): # Work only in corp network
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "1",
+      "lastname": "2",
+      "day": 16 ,
+      "month": "May",
+      "year": 1999,
+      "sex": "female",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    
+  def test_correct_registration_leap_year(self): # Work only in corp network
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "1",
+      "lastname": "2",
+      "day": 29 ,
+      "month": "February",
+      "year": 2016,
+      "sex": "male",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    
+  def test_correct_registration_firstname_more_40_chars(self):
+    firstname = "f"*40*2
+
+    self.signup_page.enter_firstname(firstname)
+    wrote_text = self.signup_page.give_firstname()
+    self.assertEqual(40, len(wrote_text))
+    
+  def test_correct_registration_lastname_more_40_chars(self):
+    lastname = "f"*40*2
+
+    self.signup_page.enter_lastname(lastname)
+    wrote_text = self.signup_page.give_lastname()
+    self.assertEqual(40, len(wrote_text))
+
 
   def test_empty_data(self):
     data = {}
