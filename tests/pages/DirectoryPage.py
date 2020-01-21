@@ -2,11 +2,14 @@
 from BasicPage import BasicPage
 from MainPage import MainPage
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 from tests.pages.main_page.notifications.NotificationManager import NotificationManager
 from tests.pages.main_page.menu.top_menu import TopMenuManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+import time
 
 class DirectoryPage(MainPage):
     ARCHIVE_URL = 'https://e.mail.ru/archive'
@@ -129,6 +132,18 @@ class DirectoryPage(MainPage):
     def open_draft(self):
         elem = self.wait_render(self.first_mail)
         elem.click()
+    
+    def select_text(self):
+        actions = ActionChains(self.driver)
+        the_only_element = "div.cke_editable > div > div:first-child"
+        element = self.driver.find_element_by_css_selector(the_only_element)
+
+        actions.move_to_element_with_offset(element,100,100)
+        actions.click_and_hold(on_element=None)
+        actions.drag_and_drop_by_offset(element, 150, 150)
+        actions.release()
+        actions.perform()
+        time.sleep(5)
         
 
 

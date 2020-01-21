@@ -203,4 +203,17 @@ class DirectoryTest(BasicTest):
         self.main_page.letter_manager.remove_first_letter()
         self.assertEqual(letter_subject, actual_subject)
         self.assertEqual(letter_text, actual_text)
+
+    def test_selector_text(self):
+        letter_subject = 'Send draft letter'
+        letter_text = 'Lorem text lorem lorem lorem'
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.enter_email_receiver(config.DEFAULT_MAIL)
+        self.main_page.letter_manager.letter_writer.enter_subject(letter_subject)
+        self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
+        self.directory_page.select_text()
+
+
+
         
+          
