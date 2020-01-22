@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.touch_actions import TouchActions
 import time
 
 class DirectoryPage(MainPage):
@@ -136,12 +137,13 @@ class DirectoryPage(MainPage):
     def select_text(self):
         actions = ActionChains(self.driver)
         the_only_element = "div.cke_editable > div > div:first-child"
-        element = self.driver.find_element_by_css_selector(the_only_element)
-
-        actions.move_to_element_with_offset(element,100,100)
-        actions.click_and_hold(on_element=None)
-        actions.drag_and_drop_by_offset(element, 150, 150)
-        actions.release()
+        element = self.wait_render(the_only_element)
+        length = len(element.text)
+        actions.click(element)
+        actions.key_down(Keys.SHIFT)
+        for i in range(length):
+            actions.send_keys(Keys.ARROW_LEFT)
+        actions.key_up(Keys.SHIFT)
         actions.perform()
         time.sleep(5)
         

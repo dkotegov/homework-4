@@ -206,7 +206,7 @@ class DirectoryTest(BasicTest):
 
     def test_selector_text(self):
         letter_subject = 'Send draft letter'
-        letter_text = 'Lorem text lorem lorem lorem'
+        letter_text = 'Teeeeext'
         self.main_page.letter_manager.letter_writer.click_write_letter_button()
         self.main_page.letter_manager.letter_writer.enter_email_receiver(config.DEFAULT_MAIL)
         self.main_page.letter_manager.letter_writer.enter_subject(letter_subject)
