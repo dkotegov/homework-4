@@ -9,6 +9,7 @@ class LoginPage(BasicPage):
   html_validation = '.password.login-row_error small'
   mail_protocol_err = 'div.login-page__external__desc__parag'
   mail_domain_err = 'div.Description p'
+  auth_frame = 'ag-popup__frame__layout__iframe'
   
   def open(self):
     self.driver.get(self.LOGIN_URL)

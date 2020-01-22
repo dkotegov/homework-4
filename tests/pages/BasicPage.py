@@ -31,3 +31,6 @@ class BasicPage(BaseUrls):
     
     def open_iframe(self, selector, timeout=10):
         self.driver.switch_to.frame(0)
+
+    def scroll_to_bottom(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")

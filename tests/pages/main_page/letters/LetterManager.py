@@ -71,11 +71,13 @@ class LetterManager():
     self.letter_selector.is_there_no_letters()
     self.notification_manager.hide_notification()
     
-  def foo1(self):
+    
+  def write_letter_without_sending(self, email, subject, text):
     self.letter_writer.click_write_letter_button()
-    self.letter_writer.enter_email_receiver('aaa@mail.ru')
-    self.letter_writer.enter_subject('asdf')
-    self.letter_writer.enter_textbox('Test')
-    self.letter_writer.select_text()
-    # self.letter_writer.click_send_letter_button()
-    # self.letter_writer.close_sent_window()
+    self.letter_writer.enter_email_receiver(email)
+    self.letter_writer.enter_subject(subject)
+    self.letter_writer.enter_textbox(text)
+    
+  def send_letter(self):
+    self.letter_writer.click_send_letter_button()
+    self.letter_writer.close_sent_window()

@@ -17,6 +17,8 @@ class LetterSelector(BasicPage):
   
   dataset_empty = '.dataset__empty'
   
+  bold_selector = 'div.letter-body__body strong'
+  
   def get_first_letter_subject(self):
     subject = self.wait_render(self.first_letter_subject)
     return subject.text
@@ -75,3 +77,7 @@ class LetterSelector(BasicPage):
     
   def is_there_no_letters(self):
     self.wait_render(self.dataset_empty)
+    
+  def get_bold(self):
+    elem = self.wait_render(self.bold_selector)
+    return elem

@@ -14,8 +14,13 @@ class LetterWriter(BasicPage):
   textbox_first_line = "div[role='textbox'] > div > div:first-child"
   send_letter_button = '.button2__txt:nth-child(1)'
   close_sent_window_button = "span.button2_close[title='Закрыть']"
+  close_sent_window_button_after_move = "span.button2_close[data-title='Закрыть']"
   banner = "div.layer-window[__mediators='layout-manager']"
   advertisement = 'div.message-sent__wrap'
+  
+  
+  bold_button = "button[title='Жирный текст']"
+  
   
   def __init__(self, driver):
     self.driver = driver
@@ -53,7 +58,16 @@ class LetterWriter(BasicPage):
     self.wait_invisible(self.banner)
     
   def select_text(self):
+    actions = ActionChains(self.driver)
     text_container = self.wait_render(self.textbox_first_line)  
-    # select_count = len(text_container.text)
-    ActionChains(self.driver).click_and_hold(text_container).send_keys(Keys.CONTROL, Keys.SHIFT, Keys.ARROW_RIGHT).release(text_container).perform()
-    # for i in range(select_count):
+    length = len(text_container.text)
+    actions.click(text_container)
+    actions.key_down(Keys.SHIFT)
+    for i in range(length):
+      actions.send_keys(Keys.ARROW_LEFT)
+    actions.key_up(Keys.SHIFT).perform()
+    
+  def set_bold_text(self):
+    self.select_text()
+    elem = self.wait_render(self.bold_button)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()

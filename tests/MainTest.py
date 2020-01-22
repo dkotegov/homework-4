@@ -7,7 +7,8 @@ import time
 
 class MainTest(BasicTest):
   
-  def pre_tests(self):
+  def setUp(self):
+    super(MainTest, self).setUp()
     self.main_page = MainPage(self.driver)
     self.main_page.open()
     self.auth()
@@ -19,141 +20,122 @@ class MainTest(BasicTest):
     self.assertEqual(subject, actual_subject)
     self.assertEqual(text, actual_text)
     
-  def test_receive_new_letter(self):
-    subject = 'Subject_receive_new_letter'
-    text = 'Text_receive_new_letter'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.check_first_letter(subject, text)
+  # def test_receive_new_letter(self):
+  #   subject = 'Subject_receive_new_letter'
+  #   text = 'Text_receive_new_letter'
+  #   self.main_page.letter_manager.write_letter(self.login, subject, text)
+  #   self.check_first_letter(subject, text)
     
-  def test_receive_new_letter_from_another_account(self):
-    subject = 'Subj_receive_new_letter_from_another_account'
-    text = 'Txt_receive_new_letter_from_another_account'
+  # def test_receive_new_letter_from_another_account(self):
+  #   subject = 'Subj_receive_new_letter_from_another_account'
+  #   text = 'Txt_receive_new_letter_from_another_account'
     
-    receiver = User(self.login2, self.password2)
+  #   receiver = User(self.login2, self.password2)
     
-    self.main_page.letter_manager.write_letter(receiver.login, subject, text)
-    self.main_page.relogin(receiver.login, receiver.password)
+  #   self.main_page.letter_manager.write_letter(receiver.login, subject, text)
+  #   self.main_page.relogin(receiver.login, receiver.password)
    
-    self.check_first_letter(subject, text)
+  #   self.check_first_letter(subject, text)
   
-  def test_unread_letter_status(self):
-    subject = 'Subject_unread_letter_status'
-    text = 'Text_unread_letter_status'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.assertFalse(self.main_page.letter_manager.letter_selector.get_first_letter_read_status())
+  # def test_unread_letter_status(self):
+  #   subject = 'Subject_unread_letter_status'
+  #   text = 'Text_unread_letter_status'
+  #   self.main_page.letter_manager.write_letter(self.login, subject, text)
+  #   self.assertFalse(self.main_page.letter_manager.letter_selector.get_first_letter_read_status())
     
-  def test_reading_letter(self):
-    subject = 'Subject_reading_letter'
-    text = 'Text_reading_letter'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.main_page.letter_manager.letter_selector.set_first_letter_read_status(True)
-    self.assertTrue(self.main_page.letter_manager.letter_selector.get_first_letter_read_status())
+  # def test_reading_letter(self):
+  #   subject = 'Subject_reading_letter'
+  #   text = 'Text_reading_letter'
+  #   self.main_page.letter_manager.write_letter(self.login, subject, text)
+  #   self.main_page.letter_manager.letter_selector.set_first_letter_read_status(True)
+  #   self.assertTrue(self.main_page.letter_manager.letter_selector.get_first_letter_read_status())
     
-  def test_remove_letter(self):
-    subject = 'Subject_remove_letter'
-    text = 'Text_remove_letter'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.main_page.letter_manager.remove_first_letter()
+  # def test_remove_letter(self):
+  #   subject = 'Subject_remove_letter'
+  #   text = 'Text_remove_letter'
+  #   self.main_page.letter_manager.write_letter(self.login, subject, text)
+  #   self.main_page.letter_manager.remove_first_letter()
     
-    self.main_page.navigation_manager.go_to_trash()
-    actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
-    actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
-    self.check_first_letter(subject, text)
+  #   self.main_page.navigation_manager.go_to_trash()
+  #   actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
+  #   actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
+  #   self.check_first_letter(subject, text)
     
-  def test_restore_letter(self):
-    subject = 'Subject_restore_letter'
-    text = 'Text_restore_letter'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.main_page.letter_manager.remove_first_letter()
+  # def test_restore_letter(self):
+  #   subject = 'Subject_restore_letter'
+  #   text = 'Text_restore_letter'
+  #   self.main_page.letter_manager.write_letter(self.login, subject, text)
+  #   self.main_page.letter_manager.remove_first_letter()
     
-    self.main_page.navigation_manager.go_to_trash()
-    self.main_page.letter_manager.restore_first_letter()
-    # Go back (to check for a letter in the inbox folder)
-    self.main_page.navigation_manager.go_to_inbox()
+  #   self.main_page.navigation_manager.go_to_trash()
+  #   self.main_page.letter_manager.restore_first_letter()
+  #   # Go back (to check for a letter in the inbox folder)
+  #   self.main_page.navigation_manager.go_to_inbox()
     
-    self.check_first_letter(subject, text)
+  #   self.check_first_letter(subject, text)
     
-  def test_remove_all_letters_from_inbox(self):
-    for i in range(2):
-      subject = 'Subject_remove_all_letters_from_inbox%d'
-      text = 'Text_remove_all_letters_from_inbox%d'
-      self.main_page.letter_manager.write_letter(self.login, subject % i, text % i)
-    self.main_page.letter_manager.move_all_letters_to_trash()
-    self.main_page.letter_manager.letter_selector.is_there_no_letters()
-    
-  def test_restore_all_letters_to_inbox(self):
-    for i in range(2):
-      subject = 'Subject_restore_all_letters_to_inbox%d'
-      text = 'Text_restore_all_letters_to_inbox%d'
-      self.main_page.letter_manager.write_letter(self.login, subject % i, text % i)
-      
-    self.main_page.letter_manager.move_all_letters_to_trash()
-    self.main_page.navigation_manager.go_to_trash()
-    self.main_page.letter_manager.restore_all_letters_from_trash()
-    self.main_page.letter_manager.letter_selector.is_there_no_letters()
-    
-  def test_clean_trash(self):
-    for i in range(2):
-      subject = 'Subject_clean_trash%d'
-      text = 'Text_clean_trash%d'
-      self.main_page.letter_manager.write_letter(self.login, subject % i, text % i)
-      
-    self.main_page.letter_manager.move_all_letters_to_trash()
-    self.main_page.navigation_manager.go_to_trash()
-    self.main_page.trash_cleaner.clean()
-    self.main_page.letter_manager.letter_selector.is_there_no_letters()
-    
-  def test_check_sent_new_letter(self):
-    subject = 'Subject_check_sent_new_letter'
-    text = 'Text_check_sent_new_letter'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.main_page.navigation_manager.go_to_sent_letters_folder()
-    actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
-    actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
-    self.check_first_letter(subject, text)
+  # def test_check_sent_new_letter(self):
+  #   subject = 'Subject_check_sent_new_letter'
+  #   text = 'Text_check_sent_new_letter'
+  #   self.main_page.letter_manager.write_letter(self.login, subject, text)
+  #   self.main_page.navigation_manager.go_to_sent_letters_folder()
+  #   actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
+  #   actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
+  #   self.check_first_letter(subject, text)
   
-  def test_open_letter(self):
-    subject = 'Subject_opened_letter'
-    text = 'Text_opened_letter'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.main_page.letter_manager.letter_selector.open_first_letter()
-    actual_subject = self.main_page.letter_manager.letter_selector.get_opened_letter_subject()
-    actual_text = self.main_page.letter_manager.letter_selector.get_opened_letter_text()
-    self.assertEqual(subject, actual_subject)
-    self.assertEqual(text, actual_text)
+  # def test_open_letter(self):
+  #   subject = 'Subject_opened_letter'
+  #   text = 'Text_opened_letter'
+  #   self.main_page.letter_manager.write_letter(self.login, subject, text)
+  #   self.main_page.letter_manager.letter_selector.open_first_letter()
+  #   actual_subject = self.main_page.letter_manager.letter_selector.get_opened_letter_subject()
+  #   actual_text = self.main_page.letter_manager.letter_selector.get_opened_letter_text()
+  #   self.assertEqual(subject, actual_subject)
+  #   self.assertEqual(text, actual_text)
     
-  def test_reply_letter(self):
-    subject = 'Subject_reply_letter'
-    text = 'Text_reply_letter' 
-    replied_text = 'Replied text'
+  # def test_reply_letter(self):
+  #   subject = 'Subject_reply_letter'
+  #   text = 'Text_reply_letter' 
+  #   replied_text = 'Replied text'
     
-    first_user = User(self.login, self.password)
-    receiver = User(self.login2, self.password2)
+  #   first_user = User(self.login, self.password)
+  #   receiver = User(self.login2, self.password2)
     
-    self.main_page.letter_manager.write_letter(receiver.login, subject, text)
+  #   self.main_page.letter_manager.write_letter(receiver.login, subject, text)
     
-    self.main_page.relogin(receiver.login, receiver.password)
-    self.main_page.letter_manager.reply_letter(replied_text)
+  #   self.main_page.relogin(receiver.login, receiver.password)
+  #   self.main_page.letter_manager.reply_letter(replied_text)
 
-    self.main_page.relogin(first_user.login, first_user.password)
-    self.main_page.letter_manager.letter_selector.open_first_letter()
-    actual_replied_text = self.main_page.letter_manager.letter_selector.get_replied_letter_text()
-    self.assertEqual(replied_text, actual_replied_text)
+  #   self.main_page.relogin(first_user.login, first_user.password)
+  #   self.main_page.letter_manager.letter_selector.open_first_letter()
+  #   actual_replied_text = self.main_page.letter_manager.letter_selector.get_replied_letter_text()
+  #   self.assertEqual(replied_text, actual_replied_text)
     
-  def test_write_many_receivers(self):
-    subject = 'Subject_write_many_receivers'
-    text = 'Text_write_many_receivers'
-    receivers = [
-      User(self.login, self.password),
-      User(self.login2, self.password2),
-    ]
-    receivers_emails = [receiver.login for receiver in receivers]
-    self.main_page.letter_manager.write_letter_many_receivers(receivers_emails, subject, text)
-    for receiver in receivers:
-      self.main_page.relogin(receiver.login, receiver.password)
-      self.check_first_letter(subject, text)
+  # def test_write_many_receivers(self):
+  #   subject = 'Subject_write_many_receivers'
+  #   text = 'Text_write_many_receivers'
+  #   receivers = [
+  #     User(self.login, self.password),
+  #     User(self.login2, self.password2),
+  #   ]
+  #   receivers_emails = [receiver.login for receiver in receivers]
+  #   self.main_page.letter_manager.write_letter_many_receivers(receivers_emails, subject, text)
+  #   for receiver in receivers:
+  #     self.main_page.relogin(receiver.login, receiver.password)
+  #     self.check_first_letter(subject, text)
     
-  def test_1(self):
-      self.main_page.letter_manager.foo1()
-      time.sleep(2)
+  def test_bold(self):
+      subject = 'Subject_reply_letter'
+      text = 'Text_reply_letter' 
+      replied_text = 'Replied text'
+      self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+      self.main_page.letter_manager.letter_writer.set_bold_text()
+      self.main_page.letter_manager.send_letter()
+      
+      self.main_page.letter_manager.letter_selector.open_first_letter()
+      
+      bold_element = self.main_page.letter_manager.letter_selector.get_bold()
+      print(bold_element.text)
+      
+      
     
