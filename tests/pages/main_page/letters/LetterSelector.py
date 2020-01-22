@@ -23,6 +23,7 @@ class LetterSelector(BasicPage):
   strike_through_selector = 'div.letter-body__body s'
   span_selector = 'div.letter-body__body span'
   purple_color_selector = "div.letter-body__body span[style='color:#e70091;']"
+  blue_color_selector = "div.letter-body__body span[style='background-color:#6ee4fe;']"
   div_selector = 'div.letter-body__body div'
   
   font_button_selector = 'div.letter-body__body span[style="font-size:32px;line-height:40px;"]'
@@ -111,7 +112,10 @@ class LetterSelector(BasicPage):
   
   def get_text_color_purple(self):
     elem = self.wait_render(self.purple_color_selector)
-    elem = self.wait_render(self.font_button_selector)
+    return elem
+  
+  def get_background_color_blue(self):
+    elem = self.wait_render(self.blue_color_selector)
     return elem
   
   def get_alignment_text_center(self):

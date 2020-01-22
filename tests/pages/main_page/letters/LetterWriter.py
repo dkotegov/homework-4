@@ -41,6 +41,9 @@ class LetterWriter(BasicPage):
   text_color_button = "button[title='Цвет текста']"
   text_color_purple = '.row--foWEL:first-child > :first-child > :nth-child(5) > :last-child > div > div:nth-child(18)'
   purple_color_selector = "div[role='textbox'] span[style='color:#e70091;']"
+  background_color_button = "button[title='Цвет фона']"
+  background_color_blue = '.row--foWEL:first-child > :first-child > :nth-child(6) > :last-child > div > div:nth-child(23)'
+  blue_color_selector = "div[role='textbox'] span[style='background-color:#6ee4fe;'"
   alignment_button = "button[title='Выравнивание']"
   alignment_button_selector = "div[role='textbox'] span[style='text-align: center;']"
   alignment_button_type_left = ".row--foWEL:first-child > :first-child > :nth-child(8) > :last-child > div > :nth-child(1)"
@@ -88,6 +91,7 @@ class LetterWriter(BasicPage):
     self.wait_invisible(self.banner)
     
   def select_text(self):
+    # import ipdb; ipdb.set_trace()
     actions = ActionChains(self.driver)
     text_container = self.wait_render(self.textbox_first_line)  
     length = len(text_container.text)
@@ -95,8 +99,8 @@ class LetterWriter(BasicPage):
     actions.key_down(Keys.SHIFT)
     for i in range(length):
       actions.send_keys(Keys.ARROW_LEFT)
+    # import ipdb; ipdb.set_trace()
     actions.perform()
-    time.sleep(1)
     
   def set_bold_text(self):
     self.select_text()
@@ -133,7 +137,7 @@ class LetterWriter(BasicPage):
   def set_font_text_title1(self):
     self.select_text()
     elem = self.wait_render(self.font_button)
-    elem.click()
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     elem = self.wait_render(self.font_button_type_title1)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     self.wait_render(self.span_selector)
@@ -141,10 +145,19 @@ class LetterWriter(BasicPage):
   def set_text_color_purple(self):
     self.select_text()
     elem = self.wait_render(self.text_color_button)
-    elem.click()
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     color_panel = self.wait_render(self.text_color_purple)
     ActionChains(self.driver).move_to_element(color_panel).click(color_panel).perform()
-    # self.wait_render(self.purple_color_selector)
+    self.wait_render(self.purple_color_selector)
+    
+  def set_background_color_blue(self):
+    self.select_text()
+    elem = self.wait_render(self.background_color_button)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    color_panel = self.wait_render(self.background_color_blue)
+    ActionChains(self.driver).move_to_element(color_panel).click(color_panel).perform()
+    self.wait_render(self.blue_color_selector)
+    
   def set_alignment_text_center(self):
     self.select_text()
     elem = self.wait_render(self.alignment_button)
