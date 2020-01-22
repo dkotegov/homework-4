@@ -91,7 +91,6 @@ class LetterWriter(BasicPage):
     self.wait_invisible(self.banner)
     
   def select_text(self):
-    # import ipdb; ipdb.set_trace()
     actions = ActionChains(self.driver)
     text_container = self.wait_render(self.textbox_first_line)  
     length = len(text_container.text)
@@ -99,7 +98,6 @@ class LetterWriter(BasicPage):
     actions.key_down(Keys.SHIFT)
     for i in range(length):
       actions.send_keys(Keys.ARROW_LEFT)
-    # import ipdb; ipdb.set_trace()
     actions.perform()
     
   def set_bold_text(self):
