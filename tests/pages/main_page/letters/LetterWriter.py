@@ -13,6 +13,11 @@ class LetterWriter(BasicPage):
   email_receiver_field = "input[type='text']"
   subject_field = "input[name='Subject']"
   textbox_field = "div[role='textbox']"
+  link_field = "input[name='href']"
+  text_link_field = "input[name='text']"
+  link = "http://park.mail.ru"
+  text_link = "Tehnopark"
+
   textbox_first_line = "div[role='textbox'] > div > div:first-child"
   send_letter_button = '.button2__txt:nth-child(1)'
   close_sent_window_button = "span.button2_close[title='Закрыть']"
@@ -20,11 +25,14 @@ class LetterWriter(BasicPage):
   banner = "div.layer-window[__mediators='layout-manager']"
   advertisement = 'div.message-sent__wrap'
   
-  
   bold_button = "button[title='Жирный текст']"
+  preview_button = "button[title='Отменить']"
   italic_button = "button[title='Наклонный текст']"
   underline_button = "button[title='Подчёркнутый текст']"
   strike_through_button = "button[title='Зачёркнутый текст']"
+  clear_all_button = "button[title='Очистить форматирование']"
+  link_button = "button[title='Вставить ссылку']"
+  confirm_link_button = "div.row--foWEL.margin--31Osl.fluid--39mFx > button:first-child"
   
   bold_selector = "div[role='textbox'] strong"
   italic_selector = "div[role='textbox'] em"
@@ -185,4 +193,31 @@ class LetterWriter(BasicPage):
     elem = self.wait_render(self.indent_button_type_minus)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     self.wait_render(self.indent_button_selector)
-    
+  
+  def click_preview_button(self):
+    elem = self.wait_render(self.preview_button)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+  
+  def click_clear_all_button(self):
+    elem = self.wait_render(self.clear_all_button)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+
+  def click_link_button(self):
+    elem = self.wait_render(self.link_button)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+
+  def enter_link(self, link):
+    elem = self.wait_render(self.link_field)
+    elem.send_keys(link)
+  
+  def enter_text_link(self, text):
+    elem = self.wait_render(self.text_link_field)
+    elem.send_keys(text)
+  
+  def click_confirm_link(self):
+    elem = self.wait_render(self.confirm_link_button)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+
+  
+  
+

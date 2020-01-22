@@ -127,15 +127,15 @@ class MainTest(BasicTest):
       self.check_first_letter(subject, text)
     
   def test_bold_letter(self):
-      subject = 'Subject_bold_letter'
-      text = 'Text_bold_letter' 
-      self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
-      self.main_page.letter_manager.letter_writer.set_bold_text()
-      self.main_page.letter_manager.send_letter()
-      self.main_page.letter_manager.letter_selector.open_first_letter()
+    subject = 'Subject_bold_letter'
+    text = 'Text_bold_letter' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_bold_text()
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
       
-      bold_element = self.main_page.letter_manager.letter_selector.get_bold()
-      self.assertEqual(text, bold_element.text)
+    bold_element = self.main_page.letter_manager.letter_selector.get_bold()
+    self.assertEqual(text, bold_element.text)
       
   def test_font_title1_letter(self):
     subject = 'Subject_font_title1_letter_letter'
@@ -214,6 +214,7 @@ class MainTest(BasicTest):
     strike_through_element = self.main_page.letter_manager.letter_selector.get_strike_through()
     self.assertEqual(text, strike_through_element.text)
   
+
   def test_text_color(self):
     subject = 'Subject_text_color'
     text = 'Text_color' 
@@ -225,7 +226,7 @@ class MainTest(BasicTest):
     self.assertEqual(text, element.text)
     style = 'color: rgb(231, 0, 145);'
     self.assertEqual(style, element.get_attribute('style').encode('utf-8', errors='ignore'))
-      
+  
   def test_background_color(self):
     subject = 'Subject_background_color'
     text = 'Background_color' 
@@ -237,4 +238,45 @@ class MainTest(BasicTest):
     self.assertEqual(text, element.text)
     style = 'background-color: rgb(110, 228, 254);'
     self.assertEqual(style, element.get_attribute('style').encode('utf-8', errors='ignore'))
-    
+      
+  def test_back_formating(self):
+      subject = 'Subject preview letter'
+      text = 'Teeeeext'
+      self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+      self.main_page.letter_manager.letter_writer.set_bold_text()
+
+      bold_text = self.main_page.letter_manager.letter_selector.get_bold_text()
+      
+      self.main_page.letter_manager.letter_writer.click_preview_button()
+      
+      not_bold_text = self.main_page.letter_manager.letter_selector.get_not_bold_text()
+      self.assertEqual(text, bold_text)
+      self.assertEqual(text, not_bold_text)
+
+  def test_clear_formating(self):
+      subject = 'Subject letter'
+      text = 'All_kind_formating'
+      self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+      self.main_page.letter_manager.letter_writer.set_italic_text()
+      self.main_page.letter_manager.letter_writer.set_underline_text()
+      self.main_page.letter_manager.letter_writer.set_bold_text()    
+      self.main_page.letter_manager.letter_writer.set_strike_through_text()
+
+      self.main_page.letter_manager.letter_writer.click_clear_all_button()
+      unformating_text = self.main_page.letter_manager.letter_selector.get_unformating_text()
+      self.assertEqual(text, unformating_text)
+
+  def test_insert_link(self):
+      subject = "Hello"
+      text = 'Welcome to the 4th semester of Tehnopark MailRu\n'
+      self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+      self.main_page.letter_manager.letter_writer.click_link_button()
+      txt_link = self.main_page.letter_manager.letter_writer.text_link
+      link = self.main_page.letter_manager.letter_writer.link
+      self.main_page.letter_manager.letter_writer.enter_link(link)
+      self.main_page.letter_manager.letter_writer.enter_text_link(txt_link)
+      self.main_page.letter_manager.letter_writer.click_confirm_link()
+
+      actual_text = self.main_page.letter_manager.letter_selector.get_link_text()
+      self.assertEqual(txt_link, actual_text)
+

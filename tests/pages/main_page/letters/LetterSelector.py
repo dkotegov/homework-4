@@ -8,6 +8,7 @@ class LetterSelector(BasicPage):
   first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
   first_letter_read_status = 'a.llc:first-of-type .ll-rs'
   first_letter_avatar = '.llc:first-of-type button.ll-av'
+  link_element = 'a[href="http://park.mail.ru"]'
 
   opened_letter_subject = '.thread__subject'
   opened_letter_text = ''
@@ -30,6 +31,9 @@ class LetterSelector(BasicPage):
   alignment_button_selector = 'div.letter-body__body div[style="text-align:center"]'
   indent_button_selector = 'div.letter-body__body div[style="margin-left:40px"]'
   
+  div_with_not_bold_text = 'div.cke_editable > div > div:not(strong):first-child'
+  div_with_bold_text = 'div.cke_editable > div > div:first-child > strong'
+  div_with_unformating_text = 'div.cke_editable > div > div:not(em):not(u):not(strong):not(s):first-child'
   
   def get_first_letter_subject(self):
     subject = self.wait_render(self.first_letter_subject)
@@ -125,3 +129,19 @@ class LetterSelector(BasicPage):
   def get_indent_text(self):
     elem = self.wait_render(self.indent_button_selector)
     return elem
+
+  def get_bold_text(self):
+    elem = self.wait_render(self.div_with_bold_text)
+    return elem.text
+
+  def get_not_bold_text(self): 
+    elem = self.wait_render(self.div_with_not_bold_text)
+    return elem.text
+
+  def get_unformating_text(self): 
+    elem = self.wait_render(self.div_with_unformating_text)
+    return elem.text
+  
+  def get_link_text(self):
+    elem = self.wait_render(self.link_element)
+    return elem.text
