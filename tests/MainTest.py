@@ -136,8 +136,8 @@ class MainTest(BasicTest):
   #     self.assertEqual(text, bold_element.text)
       
   def test_font_title1_letter(self):
-    subject = 'Subject_bold_letter'
-    text = 'normal font letter' 
+    subject = 'Subject_font_title1_letter_letter'
+    text = 'font title1 letter' 
     self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
     self.main_page.letter_manager.letter_writer.set_font_text_title1()
     
