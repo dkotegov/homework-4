@@ -27,7 +27,7 @@ class MainTest(BasicTest):
     text = 'Text_receive_new_letter'
     self.main_page.letter_manager.write_letter(self.login, subject, text)
     self.check_first_letter(subject, text)
-    
+
   def test_receive_new_letter_from_another_account(self):
     subject = 'Subj_receive_new_letter_from_another_account'
     text = 'Txt_receive_new_letter_from_another_account'
@@ -39,12 +39,6 @@ class MainTest(BasicTest):
    
     self.check_first_letter(subject, text)
   
-  def test_unread_letter_status(self):
-    subject = 'Subject_unread_letter_status'
-    text = 'Text_unread_letter_status'
-    self.main_page.letter_manager.write_letter(self.login, subject, text)
-    self.assertFalse(self.main_page.letter_manager.letter_selector.get_first_letter_read_status())
-    
   def test_reading_letter(self):
     subject = 'Subject_reading_letter'
     text = 'Text_reading_letter'
