@@ -20,6 +20,7 @@ class LetterSelector(BasicPage):
   bold_selector = 'div.letter-body__body strong'
   italic_selector = 'div.letter-body__body em'
   underline_selector = 'div.letter-body__body u'
+  strike_through_selector = 'div.letter-body__body s'
   
   def get_first_letter_subject(self):
     subject = self.wait_render(self.first_letter_subject)
@@ -90,4 +91,8 @@ class LetterSelector(BasicPage):
   
   def get_underline(self):
     elem = self.wait_render(self.underline_selector)
+    return elem
+  
+  def get_strike_through(self):
+    elem = self.wait_render(self.strike_through_selector)
     return elem

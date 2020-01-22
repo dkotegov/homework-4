@@ -22,10 +22,12 @@ class LetterWriter(BasicPage):
   bold_button = "button[title='Жирный текст']"
   italic_button = "button[title='Наклонный текст']"
   underline_button = "button[title='Подчёркнутый текст']"
+  strike_through_button = "button[title='Зачёркнутый текст']"
   
   bold_selector = "div[role='textbox'] strong"
   italic_selector = "div[role='textbox'] em"
   underline_selector = "div[role='textbox'] u"
+  strike_through_selector = "div[role='textbox'] s"
   
   def __init__(self, driver):
     self.driver = driver
@@ -89,3 +91,9 @@ class LetterWriter(BasicPage):
     elem = self.wait_render(self.underline_button)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     self.wait_render(self.underline_selector)
+    
+  def set_strike_through_text(self):
+    self.select_text()
+    elem = self.wait_render(self.strike_through_button)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    self.wait_render(self.strike_through_selector)

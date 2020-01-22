@@ -130,11 +130,9 @@ class MainTest(BasicTest):
       self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
       self.main_page.letter_manager.letter_writer.set_bold_text()
       self.main_page.letter_manager.send_letter()
-      
       self.main_page.letter_manager.letter_selector.open_first_letter()
       
       bold_element = self.main_page.letter_manager.letter_selector.get_bold()
-      
       self.assertEqual(text, bold_element.text)
       
   def test_italic_letter(self):
@@ -143,11 +141,9 @@ class MainTest(BasicTest):
     self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
     self.main_page.letter_manager.letter_writer.set_italic_text()
     self.main_page.letter_manager.send_letter()
-      
     self.main_page.letter_manager.letter_selector.open_first_letter()
       
     italic_element = self.main_page.letter_manager.letter_selector.get_italic()
-      
     self.assertEqual(text, italic_element.text)
       
   def test_underline_letter(self):
@@ -156,11 +152,20 @@ class MainTest(BasicTest):
     self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
     self.main_page.letter_manager.letter_writer.set_underline_text()
     self.main_page.letter_manager.send_letter()
-      
     self.main_page.letter_manager.letter_selector.open_first_letter()
       
     underline_element = self.main_page.letter_manager.letter_selector.get_underline()
-      
     self.assertEqual(text, underline_element.text)
+    
+  def test_strike_through_letter(self):
+    subject = 'Subject_strike_through_letter'
+    text = 'Text_strike_through_letter' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_strike_through_text()
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
+      
+    strike_through_element = self.main_page.letter_manager.letter_selector.get_strike_through()
+    self.assertEqual(text, strike_through_element.text)
       
     
