@@ -2,11 +2,15 @@
 from BasicPage import BasicPage
 from MainPage import MainPage
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 from tests.pages.main_page.notifications.NotificationManager import NotificationManager
 from tests.pages.main_page.menu.top_menu import TopMenuManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.touch_actions import TouchActions
+import time
 
 class DirectoryPage(MainPage):
     ARCHIVE_URL = 'https://e.mail.ru/archive'
