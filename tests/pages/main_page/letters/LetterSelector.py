@@ -21,6 +21,7 @@ class LetterSelector(BasicPage):
   italic_selector = 'div.letter-body__body em'
   underline_selector = 'div.letter-body__body u'
   strike_through_selector = 'div.letter-body__body s'
+  span_selector = 'div.letter-body__body span'
   
   def get_first_letter_subject(self):
     subject = self.wait_render(self.first_letter_subject)
@@ -95,4 +96,7 @@ class LetterSelector(BasicPage):
   
   def get_strike_through(self):
     elem = self.wait_render(self.strike_through_selector)
+    
+  def get_font_text_title1(self):
+    elem = self.wait_render(self.span_selector)
     return elem

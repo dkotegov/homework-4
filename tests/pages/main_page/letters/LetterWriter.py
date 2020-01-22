@@ -5,6 +5,8 @@ from LetterSelector import LetterSelector
 
 from selenium.webdriver.common.keys import Keys
 
+import time
+
 class LetterWriter(BasicPage):
   write_letter_button = '.compose-button_white'
   
@@ -28,6 +30,12 @@ class LetterWriter(BasicPage):
   italic_selector = "div[role='textbox'] em"
   underline_selector = "div[role='textbox'] u"
   strike_through_selector = "div[role='textbox'] s"
+  span_selector = "div[role='textbox'] span[style='font-size:32px;line-height:40px;']"
+  
+  font_button = "button[title='Шрифт']"
+  font_button_type_normal = ".row--foWEL:first-child > :first-child > :nth-child(7) > :last-child > div > :nth-child(1)"
+  font_button_type_title1 = ".row--foWEL:first-child > :first-child > :nth-child(7) > :last-child > div > :nth-child(2)"
+  
   
   def __init__(self, driver):
     self.driver = driver
@@ -97,3 +105,19 @@ class LetterWriter(BasicPage):
     elem = self.wait_render(self.strike_through_button)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     self.wait_render(self.strike_through_selector)
+    
+  # def set_font_text_normal(self):
+  #   self.select_text()
+  #   elem = self.wait_render(self.font_button)
+  #   elem.click()
+  #   elem = self.wait_render(self.font_button_type_normal)
+  #   ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    
+  def set_font_text_title1(self):
+    self.select_text()
+    elem = self.wait_render(self.font_button)
+    elem.click()
+    elem = self.wait_render(self.font_button_type_title1)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    # time.sleep(2)
+    self.wait_render(self.span_selector)
