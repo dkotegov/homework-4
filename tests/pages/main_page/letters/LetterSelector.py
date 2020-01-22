@@ -97,7 +97,8 @@ class LetterSelector(BasicPage):
   
   def get_strike_through(self):
     elem = self.wait_render(self.strike_through_selector)
-    
+    return elem
+  
   def get_font_text_title1(self):
     elem = self.wait_render(self.span_selector)
     return elem

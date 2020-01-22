@@ -181,17 +181,17 @@ class MainTest(BasicTest):
     strike_through_element = self.main_page.letter_manager.letter_selector.get_strike_through()
     self.assertEqual(text, strike_through_element.text)
   
-  def test_text_color(self):
-    subject = 'Subject_text_color'
-    text = 'Text_color' 
-    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
-    self.main_page.letter_manager.letter_writer.set_text_color_purple()
-    self.main_page.letter_manager.send_letter()
-    self.main_page.letter_manager.letter_selector.open_first_letter()
-    element = self.main_page.letter_manager.letter_selector.get_text_color_purple()
-    self.assertEqual(text, element.text)
-    style = 'color:#e70091;'
-    self.assertEqual(style, element.get_attribute('style').encode('utf-8', errors='ignore'))
+  # def test_text_color(self):
+  #   subject = 'Subject_text_color'
+  #   text = 'Text_color' 
+  #   self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+  #   self.main_page.letter_manager.letter_writer.set_text_color_purple()
+  #   self.main_page.letter_manager.send_letter()
+  #   self.main_page.letter_manager.letter_selector.open_first_letter()
+  #   element = self.main_page.letter_manager.letter_selector.get_text_color_purple()
+  #   self.assertEqual(text, element.text)
+  #   style = 'color:#e70091;'
+  #   self.assertEqual(style, element.get_attribute('style').encode('utf-8', errors='ignore'))
       
       
     
