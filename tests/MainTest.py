@@ -141,12 +141,43 @@ class MainTest(BasicTest):
     self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
     self.main_page.letter_manager.letter_writer.set_font_text_title1()
     
-    
     self.main_page.letter_manager.send_letter()
     self.main_page.letter_manager.letter_selector.open_first_letter()
     element = self.main_page.letter_manager.letter_selector.get_font_text_title1()
-    style = 'font-size: 32px; line-height: 40px;'
-    self.assertEqual(style, element.get_attribute('style').encode('utf-8', errors='ignore'))
+    self.assertEqual(text, element.text)
+    
+  def test_alignment_text_center(self):
+    subject = 'Subject_alignment_text_center'
+    text = 'alignment_text_center' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_alignment_text_center()
+    
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
+    element = self.main_page.letter_manager.letter_selector.get_alignment_text_center()
+    self.assertEqual(text, element.text)
+    
+  def test_indent_text_plus(self):
+    subject = 'Subject_alignment_text_center'
+    text = 'alignment_text_indent_text_plus' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_indent_text_plus()
+    
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
+    element = self.main_page.letter_manager.letter_selector.get_indent_text()
+    self.assertEqual(text, element.text)
+    
+  def test_indent_text_minus(self):
+    subject = 'Subject_alignment_indent_text_minus'
+    text = 'alignment_text_indent_text_minus' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_indent_text_minus()
+    
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
+    element = self.main_page.letter_manager.letter_selector.get_indent_text()
+    self.assertEqual(text, element.text)
       
   def test_italic_letter(self):
     subject = 'Subject_italic_letter'

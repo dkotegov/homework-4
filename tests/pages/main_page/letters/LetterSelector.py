@@ -23,6 +23,12 @@ class LetterSelector(BasicPage):
   strike_through_selector = 'div.letter-body__body s'
   span_selector = 'div.letter-body__body span'
   purple_color_selector = "div.letter-body__body span[style='color:#e70091;']"
+  div_selector = 'div.letter-body__body div'
+  
+  font_button_selector = 'div.letter-body__body span[style="font-size:32px;line-height:40px;"]'
+  alignment_button_selector = 'div.letter-body__body div[style="text-align:center"]'
+  indent_button_selector = 'div.letter-body__body div[style="margin-left:40px"]'
+  
   
   def get_first_letter_subject(self):
     subject = self.wait_render(self.first_letter_subject)
@@ -105,4 +111,13 @@ class LetterSelector(BasicPage):
   
   def get_text_color_purple(self):
     elem = self.wait_render(self.purple_color_selector)
+    elem = self.wait_render(self.font_button_selector)
+    return elem
+  
+  def get_alignment_text_center(self):
+    elem = self.wait_render(self.alignment_button_selector)
+    return elem
+  
+  def get_indent_text(self):
+    elem = self.wait_render(self.indent_button_selector)
     return elem

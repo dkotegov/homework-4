@@ -30,15 +30,27 @@ class LetterWriter(BasicPage):
   italic_selector = "div[role='textbox'] em"
   underline_selector = "div[role='textbox'] u"
   strike_through_selector = "div[role='textbox'] s"
-  span_selector = "div[role='textbox'] span[style='font-size:32px;line-height:40px;']"
+  span_selector = "div[role='textbox'] span"
+  div_selector = "div[role='textbox'] div"
   
   font_button = "button[title='Шрифт']"
+  font_button_selector = "div[role='textbox'] span[style='font-size:32px;line-height:40px;']"
   font_button_type_normal = ".row--foWEL:first-child > :first-child > :nth-child(7) > :last-child > div > :nth-child(1)"
   font_button_type_title1 = ".row--foWEL:first-child > :first-child > :nth-child(7) > :last-child > div > :nth-child(2)"
   
   text_color_button = "button[title='Цвет текста']"
   text_color_purple = '.row--foWEL:first-child > :first-child > :nth-child(5) > :last-child > div > div:nth-child(18)'
   purple_color_selector = "div[role='textbox'] span[style='color:#e70091;']"
+  alignment_button = "button[title='Выравнивание']"
+  alignment_button_selector = "div[role='textbox'] span[style='text-align: center;']"
+  alignment_button_type_left = ".row--foWEL:first-child > :first-child > :nth-child(8) > :last-child > div > :nth-child(1)"
+  alignment_button_type_center = ".row--foWEL:first-child > :first-child > :nth-child(8) > :last-child > div > :nth-child(2)"
+  
+  indent_button = "button[title='Отступ']"
+  indent_button_selector = "div[role='textbox'] div[style='margin-left: 40px;']"
+  indent_button_type_minus = ".row--foWEL:first-child > :first-child > :nth-child(9) > :last-child > div > :nth-child(1)"
+  indent_button_type_plus = ".row--foWEL:first-child > :first-child > :nth-child(9) > :last-child > div > :nth-child(2)"
+
   
   def __init__(self, driver):
     self.driver = driver
@@ -83,7 +95,8 @@ class LetterWriter(BasicPage):
     actions.key_down(Keys.SHIFT)
     for i in range(length):
       actions.send_keys(Keys.ARROW_LEFT)
-    actions.key_up(Keys.SHIFT).perform()
+    actions.perform()
+    time.sleep(1)
     
   def set_bold_text(self):
     self.select_text()
@@ -108,6 +121,14 @@ class LetterWriter(BasicPage):
     elem = self.wait_render(self.strike_through_button)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     self.wait_render(self.strike_through_selector)
+    
+  def set_font_text_normal(self):
+    self.select_text()
+    elem = self.wait_render(self.font_button)
+    elem.click()
+    elem = self.wait_render(self.font_button_type_normal)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    self.wait_render(self.span_selector)
 
   def set_font_text_title1(self):
     self.select_text()
@@ -124,3 +145,33 @@ class LetterWriter(BasicPage):
     color_panel = self.wait_render(self.text_color_purple)
     ActionChains(self.driver).move_to_element(color_panel).click(color_panel).perform()
     # self.wait_render(self.purple_color_selector)
+  def set_alignment_text_center(self):
+    self.select_text()
+    elem = self.wait_render(self.alignment_button)
+    elem.click()
+    elem = self.wait_render(self.alignment_button_type_center)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    self.wait_render(self.span_selector)
+    
+  def set_indent_text_plus(self):
+    self.select_text()
+    elem = self.wait_render(self.indent_button)
+    elem.click()
+    elem = self.wait_render(self.indent_button_type_plus)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    self.wait_render(self.indent_button_selector)
+    
+  def set_indent_text_minus(self):
+    self.select_text()
+    button = self.wait_render(self.indent_button)
+    button.click()
+    elem = self.wait_render(self.indent_button_type_plus)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    button.click()
+    elem = self.wait_render(self.indent_button_type_plus)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    button.click()
+    elem = self.wait_render(self.indent_button_type_minus)
+    ActionChains(self.driver).move_to_element(elem).click(elem).perform()
+    self.wait_render(self.indent_button_selector)
+    
