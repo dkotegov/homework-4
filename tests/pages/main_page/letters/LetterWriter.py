@@ -36,6 +36,9 @@ class LetterWriter(BasicPage):
   font_button_type_normal = ".row--foWEL:first-child > :first-child > :nth-child(7) > :last-child > div > :nth-child(1)"
   font_button_type_title1 = ".row--foWEL:first-child > :first-child > :nth-child(7) > :last-child > div > :nth-child(2)"
   
+  text_color_button = "button[title='Цвет текста']"
+  text_color_purple = '.row--foWEL:first-child > :first-child > :nth-child(5) > :last-child > div > div:nth-child(18)'
+  purple_color_selector = "div[role='textbox'] span[style='color:#e70091;']"
   
   def __init__(self, driver):
     self.driver = driver
@@ -105,19 +108,19 @@ class LetterWriter(BasicPage):
     elem = self.wait_render(self.strike_through_button)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
     self.wait_render(self.strike_through_selector)
-    
-  # def set_font_text_normal(self):
-  #   self.select_text()
-  #   elem = self.wait_render(self.font_button)
-  #   elem.click()
-  #   elem = self.wait_render(self.font_button_type_normal)
-  #   ActionChains(self.driver).move_to_element(elem).click(elem).perform()
-    
+
   def set_font_text_title1(self):
     self.select_text()
     elem = self.wait_render(self.font_button)
     elem.click()
     elem = self.wait_render(self.font_button_type_title1)
     ActionChains(self.driver).move_to_element(elem).click(elem).perform()
-    # time.sleep(2)
     self.wait_render(self.span_selector)
+    
+  def set_text_color_purple(self):
+    self.select_text()
+    elem = self.wait_render(self.text_color_button)
+    elem.click()
+    color_panel = self.wait_render(self.text_color_purple)
+    ActionChains(self.driver).move_to_element(color_panel).click(color_panel).perform()
+    # self.wait_render(self.purple_color_selector)

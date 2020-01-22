@@ -22,6 +22,7 @@ class LetterSelector(BasicPage):
   underline_selector = 'div.letter-body__body u'
   strike_through_selector = 'div.letter-body__body s'
   span_selector = 'div.letter-body__body span'
+  purple_color_selector = "div.letter-body__body span[style='color:#e70091;']"
   
   def get_first_letter_subject(self):
     subject = self.wait_render(self.first_letter_subject)
@@ -99,4 +100,8 @@ class LetterSelector(BasicPage):
     
   def get_font_text_title1(self):
     elem = self.wait_render(self.span_selector)
+    return elem
+  
+  def get_text_color_purple(self):
+    elem = self.wait_render(self.purple_color_selector)
     return elem

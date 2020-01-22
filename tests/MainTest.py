@@ -124,16 +124,16 @@ class MainTest(BasicTest):
   #     self.main_page.relogin(receiver.login, receiver.password)
   #     self.check_first_letter(subject, text)
     
-  # def test_bold_letter(self):
-  #     subject = 'Subject_bold_letter'
-  #     text = 'Text_bold_letter' 
-  #     self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
-  #     self.main_page.letter_manager.letter_writer.set_bold_text()
-  #     self.main_page.letter_manager.send_letter()
-  #     self.main_page.letter_manager.letter_selector.open_first_letter()
+  def test_bold_letter(self):
+      subject = 'Subject_bold_letter'
+      text = 'Text_bold_letter' 
+      self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+      self.main_page.letter_manager.letter_writer.set_bold_text()
+      self.main_page.letter_manager.send_letter()
+      self.main_page.letter_manager.letter_selector.open_first_letter()
       
-  #     bold_element = self.main_page.letter_manager.letter_selector.get_bold()
-  #     self.assertEqual(text, bold_element.text)
+      bold_element = self.main_page.letter_manager.letter_selector.get_bold()
+      self.assertEqual(text, bold_element.text)
       
   def test_font_title1_letter(self):
     subject = 'Subject_font_title1_letter_letter'
@@ -148,37 +148,50 @@ class MainTest(BasicTest):
     style = 'font-size: 32px; line-height: 40px;'
     self.assertEqual(style, element.get_attribute('style').encode('utf-8', errors='ignore'))
       
-  # def test_italic_letter(self):
-  #   subject = 'Subject_italic_letter'
-  #   text = 'Text_italic_letter' 
-  #   self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
-  #   self.main_page.letter_manager.letter_writer.set_italic_text()
-  #   self.main_page.letter_manager.send_letter()
-  #   self.main_page.letter_manager.letter_selector.open_first_letter()
+  def test_italic_letter(self):
+    subject = 'Subject_italic_letter'
+    text = 'Text_italic_letter' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_italic_text()
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
       
-  #   italic_element = self.main_page.letter_manager.letter_selector.get_italic()
-  #   self.assertEqual(text, italic_element.text)
+    italic_element = self.main_page.letter_manager.letter_selector.get_italic()
+    self.assertEqual(text, italic_element.text)
       
-  # def test_underline_letter(self):
-  #   subject = 'Subject_underline_letter'
-  #   text = 'Text_underline_letter' 
-  #   self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
-  #   self.main_page.letter_manager.letter_writer.set_underline_text()
-  #   self.main_page.letter_manager.send_letter()
-  #   self.main_page.letter_manager.letter_selector.open_first_letter()
+  def test_underline_letter(self):
+    subject = 'Subject_underline_letter'
+    text = 'Text_underline_letter' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_underline_text()
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
       
-  #   underline_element = self.main_page.letter_manager.letter_selector.get_underline()
-  #   self.assertEqual(text, underline_element.text)
+    underline_element = self.main_page.letter_manager.letter_selector.get_underline()
+    self.assertEqual(text, underline_element.text)
     
-  # def test_strike_through_letter(self):
-  #   subject = 'Subject_strike_through_letter'
-  #   text = 'Text_strike_through_letter' 
-  #   self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
-  #   self.main_page.letter_manager.letter_writer.set_strike_through_text()
-  #   self.main_page.letter_manager.send_letter()
-  #   self.main_page.letter_manager.letter_selector.open_first_letter()
+  def test_strike_through_letter(self):
+    subject = 'Subject_strike_through_letter'
+    text = 'Text_strike_through_letter' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_strike_through_text()
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
       
-  #   strike_through_element = self.main_page.letter_manager.letter_selector.get_strike_through()
-  #   self.assertEqual(text, strike_through_element.text)
+    strike_through_element = self.main_page.letter_manager.letter_selector.get_strike_through()
+    self.assertEqual(text, strike_through_element.text)
+  
+  def test_text_color(self):
+    subject = 'Subject_text_color'
+    text = 'Text_color' 
+    self.main_page.letter_manager.write_letter_without_sending(self.login, subject, text)
+    self.main_page.letter_manager.letter_writer.set_text_color_purple()
+    self.main_page.letter_manager.send_letter()
+    self.main_page.letter_manager.letter_selector.open_first_letter()
+    element = self.main_page.letter_manager.letter_selector.get_text_color_purple()
+    self.assertEqual(text, element.text)
+    style = 'color:#e70091;'
+    self.assertEqual(style, element.get_attribute('style').encode('utf-8', errors='ignore'))
+      
       
     
