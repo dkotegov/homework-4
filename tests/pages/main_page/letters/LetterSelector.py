@@ -18,6 +18,8 @@ class LetterSelector(BasicPage):
   dataset_empty = '.dataset__empty'
   
   bold_selector = 'div.letter-body__body strong'
+  italic_selector = 'div.letter-body__body em'
+  underline_selector = 'div.letter-body__body u'
   
   def get_first_letter_subject(self):
     subject = self.wait_render(self.first_letter_subject)
@@ -80,4 +82,12 @@ class LetterSelector(BasicPage):
     
   def get_bold(self):
     elem = self.wait_render(self.bold_selector)
+    return elem
+  
+  def get_italic(self):
+    elem = self.wait_render(self.italic_selector)
+    return elem
+  
+  def get_underline(self):
+    elem = self.wait_render(self.underline_selector)
     return elem
