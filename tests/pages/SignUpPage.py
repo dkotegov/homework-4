@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
+import calendar
 from BasicPage import BasicPage
 
 
@@ -29,6 +30,17 @@ class SignUpPage(BasicPage):
   password_popup_message = '.b-password__reasons'
   error_blocks = '.b-form-field__errors__error.js-required.b-form-field__errors__error_visible'
   use_condition_block = '.b-form__controls__message a'
+  captcha = '.js-captcha-img.b-captcha__captcha'
+  update_captcha_button = 'a[data-input-name="captcha"]'
+  captcha_input = '.b-input.b-input_captcha.b-input_responsive'
+  captcha_back_button = 'button[data-name="back"]'
+  captcha_submit_button = 'button[data-name="submit"]'
+  captcha_error_msg = '.b-captcha__error-msg'
+  domain_field = 'span.b-email__domain > div > input'
+  day_field = 'input[name="days"]'
+  month_field = 'input[name="month"]'
+  year_field = 'input[name="year"]'
+  sex_field = 'div[aria-checked="checked"] input[name="sex"]'
 
   unit_to_multiplier = {
     "mail": email_input_mail,
@@ -54,6 +66,7 @@ class SignUpPage(BasicPage):
 
   def enter_firstname(self, firstname):
     elem = self.wait_render(self.firstname_field)
+    elem.clear()
     elem.send_keys(firstname)
   
   def give_firstname(self):
@@ -62,6 +75,7 @@ class SignUpPage(BasicPage):
 
   def enter_lastname(self, lastname):
     elem = self.wait_render(self.lastname_field)
+    elem.clear()
     elem.send_keys(lastname)
 
   def give_lastname(self):
@@ -106,10 +120,12 @@ class SignUpPage(BasicPage):
 
   def enter_password(self, password):
     elem = self.wait_render(self.password_field)
+    elem.clear()
     elem.send_keys(password)
 
   def enter_password_retry(self, password):
     elem = self.wait_render(self.password_retry_field)
+    elem.clear()
     elem.send_keys(password)
 
   def show_password(self):
@@ -124,6 +140,31 @@ class SignUpPage(BasicPage):
     elem = self.wait_render(self.password_field)
     return elem.get_attribute("value").encode('utf-8', errors='ignore')
 
+  def get_captcha_id(self):
+    elem = self.wait_render(self.captcha)
+    return elem.get_attribute("src").encode('utf-8', errors='ignore')
+
+  def update_captcha(self):
+    elem = self.wait_render(self.update_captcha_button)
+    elem.click()
+
+  def back_from_captcha(self):
+    elem = self.wait_render(self.captcha_back_button)
+    elem.click()
+
+  def enter_captcha_code(self, code):
+    elem = self.wait_render(self.captcha_input)
+    elem.clear()
+    elem.send_keys(code)
+
+  def submit_captcha(self):
+    elem = self.wait_render(self.captcha_submit_button)
+    elem.click()
+
+  def get_captcha_error_message(self):
+    elem = self.wait_render(self.captcha_error_msg)
+    return elem.text
+
   def click_additionalemail(self):
     elem = self.wait_render(self.additional_email_block)
     elem.click()
@@ -134,6 +175,7 @@ class SignUpPage(BasicPage):
 
   def enter_additionalemail(self, email):
     elem = self.wait_render(self.additional_email_field)
+    elem.clear()
     elem.send_keys(email)
 
   def click_signup(self):
@@ -144,7 +186,7 @@ class SignUpPage(BasicPage):
     elem = self.wait_render(self.use_condition_block)
     elem.click()
 
-  def enter_signup_data(self, data):
+  def enter_signup_data(self, data, simple):
     if 'firstname' in data:
       self.enter_firstname(data['firstname'])
     if 'lastname' in data:      
@@ -168,9 +210,41 @@ class SignUpPage(BasicPage):
       self.enter_password(data['password'])
     if 'password_retry' in data:
       self.enter_password_retry(data['password_retry'])
-    self.click_additionalemail()
+    if not simple:
+      self.click_additionalemail()
     if 'addition_email' in data:
       self.enter_additionalemail(data['addition_email'])
+
+  def get_full_data(self):
+    firstname = self.wait_render(self.firstname_field).get_attribute("value").encode('utf-8', errors='ignore')
+    lastname = self.wait_render(self.lastname_field).get_attribute("value").encode('utf-8', errors='ignore')
+    email = self.wait_render(self.email_field).get_attribute("value").encode('utf-8', errors='ignore')
+    password = self.wait_render(self.password_field).get_attribute("value").encode('utf-8', errors='ignore')
+    password_retry = self.wait_render(self.password_retry_field).get_attribute("value").encode('utf-8', errors='ignore')
+
+    day = int(self.wait_presence_located(self.day_field).get_attribute("value").encode('utf-8', errors='ignore')) + 1
+    month_num = int(self.wait_presence_located(self.month_field).get_attribute("value").encode('utf-8', errors='ignore')) + 1
+    month = calendar.month_name[month_num]
+    year = int(self.wait_presence_located(self.year_field).get_attribute("value").encode('utf-8', errors='ignore'))
+
+    domain = self.wait_presence_located(self.domain_field).get_attribute("value").encode('utf-8', errors='ignore').split('.')[0]
+    sex = self.wait_presence_located(self.sex_field).get_attribute("value").encode('utf-8', errors='ignore')
+
+
+    data = {
+      "firstname": firstname,
+      "lastname": lastname,
+      "day": day,
+      "month": month,
+      "year": year,
+      "sex": sex,
+      "email": email,
+      "domain": domain,
+      "password": password,
+      "password_retry": password_retry
+    }
+
+    return data
 
   def generate_fake_email(self):
     return ('waocustom_emailA' + str(random.randrange(1, 10000000)))

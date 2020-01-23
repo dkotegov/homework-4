@@ -40,7 +40,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
@@ -61,7 +61,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
@@ -82,7 +82,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
@@ -103,49 +103,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
-    self.signup_page.click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
-    
-  def test_correct_registration_male(self): # Work only in corp network
-    email = self.signup_page.generate_fake_email()
-    password = self.signup_page.generate_fake_password()
-
-    data = {
-      "firstname": "1",
-      "lastname": "2",
-      "day": 16,
-      "month": "May",
-      "year": 1999,
-      "sex": "male",
-      "email": email,
-      "domain": "mail",
-      "password": password,
-      "password_retry": password
-    }
-
-    self.signup_page.enter_signup_data(data)
-    self.signup_page.click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
-    
-  def test_correct_registration_female(self): # Work only in corp network
-    email = self.signup_page.generate_fake_email()
-    password = self.signup_page.generate_fake_password()
-
-    data = {
-      "firstname": "1",
-      "lastname": "2",
-      "day": 16 ,
-      "month": "May",
-      "year": 1999,
-      "sex": "female",
-      "email": email,
-      "domain": "mail",
-      "password": password,
-      "password_retry": password
-    }
-
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
@@ -166,7 +124,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
@@ -184,11 +142,10 @@ class SignUpTest(BasicTest):
     wrote_text = self.signup_page.give_lastname()
     self.assertEqual(40, len(wrote_text))
 
-
   def test_empty_data(self):
     data = {}
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
 
     elem_err_firstname = self.signup_page.wait_render(self.signup_page.error_message(self.error_firstname))
@@ -226,7 +183,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
 
     elem_err = self.signup_page.wait_render(self.signup_page.error_message(self.error_future_date))
@@ -249,7 +206,7 @@ class SignUpTest(BasicTest):
       "password_retry": short_password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
 
     elem_err = self.signup_page.wait_render(self.signup_page.error_message(self.error_short_password))
@@ -272,7 +229,7 @@ class SignUpTest(BasicTest):
       "password_retry": weak_password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
 
     password_err_popup = self.signup_page.wait_render(self.signup_page.password_popup_message)
@@ -298,7 +255,7 @@ class SignUpTest(BasicTest):
       "password_retry": bad_password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
 
     password_err_popup = self.signup_page.wait_render(self.signup_page.password_popup_message)
@@ -324,7 +281,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
 
     email_err_popup = self.signup_page.wait_render(self.signup_page.email_popup_message)
@@ -350,7 +307,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
 
     email_err_popup = self.signup_page.wait_render(self.signup_page.email_popup_message)
@@ -376,7 +333,7 @@ class SignUpTest(BasicTest):
       "password_retry": password
     }
 
-    self.signup_page.enter_signup_data(data)
+    self.signup_page.enter_signup_data(data, False)
     self.signup_page.click_signup()
 
     email_err_popup = self.signup_page.wait_render(self.signup_page.email_popup_message)
@@ -389,3 +346,172 @@ class SignUpTest(BasicTest):
     self.signup_page.click_use_condition()
     self.driver.switch_to.window(window_name=self.driver.window_handles[1])
     self.signup_page.wait_redirect(self.SIGNUP_USE_CONDITION)
+
+  def test_captcha_update(self):
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "Abba",
+      "lastname": "Miya",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data, False)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    captcha_id = self.signup_page.get_captcha_id()
+    self.signup_page.update_captcha()
+    new_captcha_id = self.signup_page.get_captcha_id()
+
+    self.assertFalse(captcha_id == new_captcha_id)
+
+  def test_back_from_captcha(self):
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "Abba",
+      "lastname": "Miya",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data, False)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+
+    self.signup_page.back_from_captcha()
+
+    self.signup_page.wait_redirect(self.SIGNUP_URL)
+
+  def test_you_shall_not_pass(self):
+    wrong_captcha_code = 'Balrog'
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "Abba",
+      "lastname": "Miya",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data, False)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+
+    self.signup_page.enter_captcha_code(wrong_captcha_code)
+    self.signup_page.submit_captcha()
+
+    expected_message = 'The code you entered from the picture is incorrect'
+    error_msg = self.signup_page.get_captcha_error_message()
+
+    self.assertEqual(expected_message, error_msg)
+
+  def test_empty_captcha(self):
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "Abba",
+      "lastname": "Miya",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data, False)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+
+    self.signup_page.submit_captcha()
+
+    expected_message = 'Enter the code from the picture'
+    error_msg = self.signup_page.get_captcha_error_message()
+
+    self.assertEqual(expected_message, error_msg)
+
+  def test_form_keep_data(self):
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "Abba",
+      "lastname": "Miya",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data, False)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+
+    self.signup_page.back_from_captcha()
+    self.signup_page.wait_redirect(self.SIGNUP_URL)
+
+    kept_data = self.signup_page.get_full_data()
+
+    self.assertDictEqual(data, kept_data)
+
+  def test_change_date_after_back(self):
+    email = self.signup_page.generate_fake_email()
+    password = self.signup_page.generate_fake_password()
+
+    data = {
+      "firstname": "Abba",
+      "lastname": "Miya",
+      "day": 16,
+      "month": "May",
+      "year": 1999,
+      "sex": "male",
+      "email": email,
+      "domain": "mail",
+      "password": password,
+      "password_retry": password
+    }
+
+    self.signup_page.enter_signup_data(data, False)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+
+    self.signup_page.back_from_captcha()
+    self.signup_page.wait_redirect(self.SIGNUP_URL)
+
+    new_data = {
+      "firstname": "Privet"
+    }
+
+    self.signup_page.enter_signup_data(new_data, True)
+    self.signup_page.click_signup()
+    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
