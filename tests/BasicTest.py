@@ -24,15 +24,15 @@ class BasicTest(unittest.TestCase):
 
     login2 = os.environ.get('LOGIN2')
     password2 = os.environ.get('PASSWORD2')
-    
+
     def setUp(self):
         if (config.ON_DRIVER):
             self.driver = webdriver.Chrome(config.DRIVER)
         else:
             nodeUrl = 'http://localhost:4444/wd/hub'
             self.driver = webdriver.Remote(
-                command_executor = nodeUrl,
-                desired_capabilities = {
+                command_executor=nodeUrl,
+                desired_capabilities={
                     'browserName': config.BROWSER,
                 }
             )
@@ -44,7 +44,7 @@ class BasicTest(unittest.TestCase):
         login_page = LoginPage(self.driver)
         login_page.sign_in(self.login, self.password)
         login_page.wait_redirect(self.MAIL_URL)
-        
+
     def auth_another_account(self):
         login_page = LoginPage(self.driver)
         login_page.sign_in_only_password(self.password)
