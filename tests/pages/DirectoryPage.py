@@ -117,7 +117,8 @@ class DirectoryPage(MainPage):
 
     def check_error_message(self):
         elem = self.wait_render(self.class_error_text)
-        if elem.get_attribute('title') == (u'Не указан адрес получателя'):
+        msg_text = elem.text
+        if msg_text == (u'Не указан адрес получателя'):
             return True
         return False
     
