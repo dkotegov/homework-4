@@ -65,11 +65,9 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
-<<<<<<< HEAD
 
 /drivers/
 
 # Mac
 .DS_Store
-=======
->>>>>>> SignUpTests
+
