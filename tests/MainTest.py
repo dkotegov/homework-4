@@ -5,6 +5,7 @@ from user.User import User
 
 import time
 
+
 class MainTest(BasicTest):
 
     def setUp(self):
