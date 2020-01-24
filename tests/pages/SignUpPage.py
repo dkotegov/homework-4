@@ -215,6 +215,9 @@ class SignUpPage(BasicPage):
     if 'addition_email' in data:
       self.enter_additionalemail(data['addition_email'])
 
+  def get_day(self):
+    return int(self.wait_presence_located(self.day_field).get_attribute("value").encode('utf-8', errors='ignore')) + 1
+
   def get_full_data(self):
     firstname = self.wait_render(self.firstname_field).get_attribute("value").encode('utf-8', errors='ignore')
     lastname = self.wait_render(self.lastname_field).get_attribute("value").encode('utf-8', errors='ignore')
@@ -222,7 +225,7 @@ class SignUpPage(BasicPage):
     password = self.wait_render(self.password_field).get_attribute("value").encode('utf-8', errors='ignore')
     password_retry = self.wait_render(self.password_retry_field).get_attribute("value").encode('utf-8', errors='ignore')
 
-    day = int(self.wait_presence_located(self.day_field).get_attribute("value").encode('utf-8', errors='ignore')) + 1
+    day = self.get_day()
     month_num = int(self.wait_presence_located(self.month_field).get_attribute("value").encode('utf-8', errors='ignore')) + 1
     month = calendar.month_name[month_num]
     year = int(self.wait_presence_located(self.year_field).get_attribute("value").encode('utf-8', errors='ignore'))
