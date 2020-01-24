@@ -27,7 +27,9 @@ class BasicTest(unittest.TestCase):
 
     def setUp(self):
         if (config.ON_DRIVER):
-            self.driver = webdriver.Chrome(config.DRIVER)
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})
+            self.driver = webdriver.Chrome(config.DRIVER, chrome_options=chrome_options)
         else:
             nodeUrl = 'http://localhost:4444/wd/hub'
             self.driver = webdriver.Remote(
