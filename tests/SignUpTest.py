@@ -171,14 +171,14 @@ class SignUpTest(BasicTest):
         self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
 
     def test_correct_registration_firstname_more_40_chars(self):
-        firstname = "f"*40*2
+        firstname = "f"*41
 
         self.signup_page.enter_firstname(firstname)
         wrote_text = self.signup_page.give_firstname()
         self.assertEqual(40, len(wrote_text))
 
     def test_correct_registration_lastname_more_40_chars(self):
-        lastname = "f"*40*2
+        lastname = "f"*41
 
         self.signup_page.enter_lastname(lastname)
         wrote_text = self.signup_page.give_lastname()
