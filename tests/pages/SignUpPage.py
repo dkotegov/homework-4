@@ -183,16 +183,7 @@ class SignUpPage(BasicPage):
   def click_signup(self):
     elem = self.wait_render(self.button_signup)
     elem.click()
-    
-  def round_click_signup(self):
-    time.sleep(random.randrange(15,20)+random.random()) # Mail use timer for checking if user is bot or not.
-    # For normal working with this validation we need to sleep ~15-20 sec. 
-    # Mail thiks that it is fastest speed for creating new account
-    while self.driver.current_url != self.SIGNUP_VERIFY_URL:
-      # We need it too. Because sometimes ~15-20 isn't enough. It's mails magic
-      time.sleep(random.randrange(1,3)+random.random())
-      self.click_signup() 
-  
+
   def click_use_condition(self):
     elem = self.wait_render(self.use_condition_block)
     elem.click()

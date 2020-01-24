@@ -12,7 +12,7 @@ class BasicPage(BaseUrls):
     def __init__(self, driver):
       self.driver = driver
 
-    def wait_redirect(self, url, timeout=100):
+    def wait_redirect(self, url, timeout=60):
         return WebDriverWait(self.driver, timeout).until(EC.url_matches(url))
 
     def wait_render(self, selector, timeout=10):

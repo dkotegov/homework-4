@@ -23,6 +23,19 @@ class SignUpTest(BasicTest):
     self.signup_page = SignUpPage(self.driver)
     self.signup_page.open()
 
+  # Из-за ограничений антиспама регистрация не всегда проходит
+  # Поэтому эта функция жмет на кнопку регистрации,
+  # пока не произойдет переход на следующую страницу
+  def anti_bot_register(self):
+    while(True):
+      try:
+        self.signup_page.click_signup()
+        self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL, 10)
+
+        return
+      except:
+        pass
+
   def test_correct_registration_mail(self): # Work only in corp network
     email = self.signup_page.generate_fake_email()
     password = self.signup_page.generate_fake_password()
@@ -41,8 +54,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
     
   def test_correct_registration_inbox(self): # Work only in corp network
     email = self.signup_page.generate_fake_email()
@@ -62,8 +74,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
     
   def test_correct_registration_list(self): # Work only in corp network
     email = self.signup_page.generate_fake_email()
@@ -83,8 +94,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
     
   def test_correct_registration_bk(self): # Work only in corp network
     email = self.signup_page.generate_fake_email()
@@ -104,8 +114,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
 
   def test_correct_registration_firstname_more_40_chars(self):
     firstname = "f"*41
@@ -344,8 +353,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
     captcha_id = self.signup_page.get_captcha_id()
     self.signup_page.update_captcha()
     new_captcha_id = self.signup_page.get_captcha_id()
@@ -370,8 +378,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
 
     self.signup_page.back_from_captcha()
 
@@ -396,8 +403,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
 
     self.signup_page.enter_captcha_code(wrong_captcha_code)
     self.signup_page.submit_captcha()
@@ -425,8 +431,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
 
     self.signup_page.submit_captcha()
 
@@ -453,8 +458,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
 
     self.signup_page.back_from_captcha()
     self.signup_page.wait_redirect(self.SIGNUP_URL)
@@ -481,8 +485,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.round_click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
 
     self.signup_page.back_from_captcha()
     self.signup_page.wait_redirect(self.SIGNUP_URL)
@@ -492,8 +495,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(new_data, True)
-    self.signup_page.click_signup()
-    self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
+    self.anti_bot_register()
 
   def test_incorrect_date(self):
     self.signup_page.enter_month("February")
