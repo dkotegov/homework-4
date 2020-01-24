@@ -26,9 +26,9 @@ class BasicTest(unittest.TestCase):
     password2 = os.environ.get('PASSWORD2')
 
     def setUp(self):
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})
         if (config.ON_DRIVER):
-            chrome_options = webdriver.ChromeOptions()
-            chrome_options.add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})
             self.driver = webdriver.Chrome(config.DRIVER, chrome_options=chrome_options)
         else:
             nodeUrl = 'http://localhost:4444/wd/hub'
@@ -36,7 +36,8 @@ class BasicTest(unittest.TestCase):
                 command_executor=nodeUrl,
                 desired_capabilities={
                     'browserName': config.BROWSER,
-                }
+                },
+                chrome_options=chrome_options
             )
 
     def tearDown(self):
