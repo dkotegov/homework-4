@@ -61,7 +61,7 @@ class LetterSelector(BasicPage):
     def get_opened_letter_text(self):
         body = self.get_opened_letter_body()
         # Only text, without sign
-        return body.split('\n  --\n')[0]
+        return body.split('\n')[0]
 
     def get_opened_letter_body(self):
         body = self.wait_render(self.opened_letter_body)
