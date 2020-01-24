@@ -41,7 +41,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
   def test_correct_registration_inbox(self): # Work only in corp network
@@ -62,7 +62,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
   def test_correct_registration_list(self): # Work only in corp network
@@ -83,7 +83,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     
   def test_correct_registration_bk(self): # Work only in corp network
@@ -104,7 +104,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
 
   def test_correct_registration_firstname_more_40_chars(self):
@@ -344,7 +344,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
     captcha_id = self.signup_page.get_captcha_id()
     self.signup_page.update_captcha()
@@ -370,7 +370,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
 
     self.signup_page.back_from_captcha()
@@ -396,7 +396,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
 
     self.signup_page.enter_captcha_code(wrong_captcha_code)
@@ -425,7 +425,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
 
     self.signup_page.submit_captcha()
@@ -453,7 +453,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
 
     self.signup_page.back_from_captcha()
@@ -481,7 +481,7 @@ class SignUpTest(BasicTest):
     }
 
     self.signup_page.enter_signup_data(data, False)
-    self.signup_page.click_signup()
+    self.signup_page.round_click_signup()
     self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL)
 
     self.signup_page.back_from_captcha()
