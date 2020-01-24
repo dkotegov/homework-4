@@ -51,11 +51,16 @@ class SignUpPage(BasicPage):
     "bk": email_input_bk
   }
 
+  def month_index(self, name):
+    print(list(calendar.month_name).index(name) - 1)
+    return list(calendar.month_name).index(name) - 1
+
   def day_input(self, day):
     return ('a[data-text="' + str(day) + '"]')
 
   def month_input(self, month):
-    return ('a[data-text="' + month + '"]')
+    print('a[data-num="' + str(self.month_index(month)) + '"]')
+    return ('.b-date__month a[data-num="' + str(self.month_index(month)) + '"]')
 
   def year_input(self, year):
     return ('a[data-text="' + str(year) + '"]')
