@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException 
 
 from ..BaseUrls import BaseUrls
 
@@ -34,3 +35,10 @@ class BasicPage(BaseUrls):
 
     def scroll_to_bottom(self):
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    def check_exists(self, selector):
+        try:
+            self.driver.find_element_by_selector(selector)
+        except NoSuchElementException:
+            return False
+        return True
