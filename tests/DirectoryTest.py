@@ -21,9 +21,9 @@ class DirectoryTest(BasicTest):
 
     def test_move_to_archive(self):
         self.letter_subject = self.add_random_number('Mail for archive ')
-        letter_text = 'Lorem text for archive'
+        LETTER_TEXT = 'Lorem text for archive'
         self.main_page.letter_manager.write_letter(
-            config.DEFAULT_MAIL, self.letter_subject, letter_text)
+            config.DEFAULT_MAIL, self.letter_subject, LETTER_TEXT)
         self.main_page.letter_manager.letter_selector.select_letter(self.letter_subject)
         self.directory_page.move_to_archive()
         self.directory_page.click_nav_archive_button()
@@ -114,49 +114,49 @@ class DirectoryTest(BasicTest):
         self.assertTrue(self.directory_page.check_error_message())
         self.letter_subject = ''
 
-    # # def test_send_letter_without_subject(self):
-    # #     self.letter_subject = ''
-    # #     letter_text = 'Lorem text lorem lorem lorem'
-    # #     self.main_page.letter_manager.letter_writer.click_write_letter_button()
-    # #     self.main_page.letter_manager.letter_writer.enter_email_receiver(
-    # #         config.DEFAULT_MAIL)
-    # #     self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
-    # #     self.main_page.letter_manager.letter_writer.click_send_letter_button()
-    # #     self.main_page.letter_manager.letter_writer.close_sent_window()
+    def test_send_letter_without_subject(self):
+        self.letter_subject = ''
+        letter_text = 'Lorem text lorem lorem lorem'
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.enter_email_receiver(
+            config.DEFAULT_MAIL)
+        self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
+        self.main_page.letter_manager.letter_writer.click_send_letter_button()
+        self.main_page.letter_manager.letter_writer.close_sent_window()
 
-    # #     letter_selector = LetterSelector(self.driver)
-    # #     self.letter_subject = self.directory_page.empty_subject_text
-    # #     actual_text = letter_selector.get_letter_text(self.letter_subject)
-    # #     self.assertEqual(letter_text, actual_text)
+        letter_selector = LetterSelector(self.driver)
+        self.letter_subject = self.directory_page.empty_subject_text
+        actual_text = letter_selector.get_letter_text(self.letter_subject)
+        self.assertEqual(letter_text, actual_text)
 
-    # # def test_send_letter_without_receiver(self):
-    # #     self.letter_subject = 'Subject letter'
-    # #     letter_text = 'Lorem text lorem lorem lorem'
-    # #     self.main_page.letter_manager.letter_writer.click_write_letter_button()
-    # #     self.main_page.letter_manager.letter_writer.enter_subject(
-    # #         self.letter_subject)
-    # #     self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
-    # #     self.main_page.letter_manager.letter_writer.click_send_letter_button()
-    # #     self.letter_subject = ''
-    # #     self.assertTrue(self.directory_page.check_error_message())
+    def test_send_letter_without_receiver(self):
+        self.letter_subject = 'Subject letter'
+        letter_text = 'Lorem text lorem lorem lorem'
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.enter_subject(
+            self.letter_subject)
+        self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
+        self.main_page.letter_manager.letter_writer.click_send_letter_button()
+        self.letter_subject = ''
+        self.assertTrue(self.directory_page.check_error_message())
 
-    # # def test_save_draft_letter(self):
-    # #     self.letter_subject = self.add_random_number('Draft letter ')
-    # #     letter_text = 'Lorem text lorem lorem lorem'
-    # #     self.main_page.letter_manager.letter_writer.click_write_letter_button()
-    # #     self.main_page.letter_manager.letter_writer.enter_subject(
-    # #         self.letter_subject)
-    # #     self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
-    # #     self.directory_page.click_save_mail()
+    def test_save_draft_letter(self):
+        self.letter_subject = self.add_random_number('Draft letter ')
+        letter_text = 'Lorem text lorem lorem lorem'
+        self.main_page.letter_manager.letter_writer.click_write_letter_button()
+        self.main_page.letter_manager.letter_writer.enter_subject(
+            self.letter_subject)
+        self.main_page.letter_manager.letter_writer.enter_textbox(letter_text)
+        self.directory_page.click_save_mail()
 
-    # #     self.directory_page.close_writer_window()
+        self.directory_page.close_writer_window()
 
-    # #     self.directory_page.go_to_drafts()
+        self.directory_page.go_to_drafts()
 
-    # #     letter_selector = LetterSelector(self.driver)
-    # #     actual_text = letter_selector.get_mini_letter_text(self.letter_subject)
-    # #     self.directory_page.close_writer_window()
-    # #     self.assertEqual(letter_text, actual_text)
+        letter_selector = LetterSelector(self.driver)
+        actual_text = letter_selector.get_mini_letter_text(self.letter_subject)
+        self.directory_page.close_writer_window()
+        self.assertEqual(letter_text, actual_text)
 
     def test_send_draft_letter(self):
         self.letter_subject = self.add_random_number('Send draft letter ')
@@ -173,7 +173,6 @@ class DirectoryTest(BasicTest):
         self.directory_page.open_draft()
         self.main_page.letter_manager.letter_writer.click_send_letter_button()
         self.main_page.letter_manager.letter_writer.close_sent_window()
-
 
     def tearDown(self):
         if self.letter_subject != '':
