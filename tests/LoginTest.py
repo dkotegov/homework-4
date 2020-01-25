@@ -28,7 +28,7 @@ class LoginTest(BasicTest):
         self.assertIn(test_validation, [EXPECTED_VALIDATION_1, EXPECTED_VALIDATION_2])
 
     def test_yandex_login(self):
-        TEST_LOGIN = '123@yandex.ru'
+        TEST_LOGIN = '1gere23@yandex.ru'
         PASSWORD_YANDEX_URL = 'https://passport.yandex.ru/auth'
         self.login_page.enter_login(TEST_LOGIN)
         self.login_page.click_continue()
@@ -36,7 +36,7 @@ class LoginTest(BasicTest):
         self.assertEqual(self.driver.current_url.split('?')[0], PASSWORD_YANDEX_URL)
 
     def test_gmail_login(self):
-        TEST_LOGIN = '123@gmail.com'
+        TEST_LOGIN = '1wqx23@gmail.com'
         GOOGLE_ACCOUNT_URL = 'https://accounts.google.com/signin/oauth/identifier'
         self.login_page.enter_login(TEST_LOGIN)
         self.login_page.click_continue()
@@ -44,7 +44,7 @@ class LoginTest(BasicTest):
         self.assertEqual(self.driver.current_url.split('?')[0], GOOGLE_ACCOUNT_URL)
 
     def test_yahoo_login(self):
-        TEST_LOGIN = '123@yahoo.com'
+        TEST_LOGIN = '1sad3@yahoo.com'
         YAHOO_ACCOUNT_URL = 'https://login.yahoo.com/'
         self.login_page.enter_login(TEST_LOGIN)
         self.login_page.click_continue()
@@ -52,7 +52,7 @@ class LoginTest(BasicTest):
         self.assertEqual(self.driver.current_url.split('?')[0], YAHOO_ACCOUNT_URL)
 
     def test_rambler_login(self):
-        TEST_LOGIN = '2Q3@rambler.ru'
+        TEST_LOGIN = '2DSA3@rambler.ru'
         self.login_page.sign_in(TEST_LOGIN, self.password)
         err = self.login_page.get_protocol_err()
         EXPECTED_ERR_1 = 'Вы можете добавить любой почтовый ящик, поддерживающий сбор почты по протоколу POP/IMAP. Если логин введен неверно, авторизуйтесь заново.'
