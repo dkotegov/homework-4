@@ -115,12 +115,9 @@ class DirectoryPage(MainPage):
         else:
             return False
 
-    def check_error_message(self):
+    def error_message(self):
         elem = self.wait_render(self.class_error_text)
-        msg_text = elem.text
-        if msg_text == (u'Не указан адрес получателя'):
-            return True
-        return False
+        return elem.text
 
     def close_writer_window(self):
         elem = self.wait_render(self.close_write_letter_window)

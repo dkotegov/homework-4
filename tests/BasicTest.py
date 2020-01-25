@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import unittest
+import random
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities, Remote
 
@@ -15,8 +16,9 @@ class BasicTest(unittest.TestCase):
     LOGIN_URL = 'https://account.mail.ru/login'
     AUTH_URL = 'https://e.mail.ru/login'
     SIGNUP_URL = 'https://account.mail.ru/signup'
+    SIGNUP_SIMPLE_URL = 'https://account.mail.ru/signup/simple'
     SETTINGS_URL = 'https://e.mail.ru/settings/userinfo'
-    MAIN_PAGE_URL = 'https://mail.ru'
+    MAIN_PAGE_URL = 'https://mail.ru/'
     SIGNUP_USE_CONDITION = 'https://help.mail.ru/legal/terms/mail'
 
     login = os.environ.get('LOGIN')
@@ -52,3 +54,6 @@ class BasicTest(unittest.TestCase):
         login_page = LoginPage(self.driver)
         login_page.sign_in_only_password(self.password)
         login_page.wait_redirect(self.MAIL_URL)
+
+    def add_random_number(self, string):
+        return string + str(random.randrange(1, 1000000))
