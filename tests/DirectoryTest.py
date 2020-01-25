@@ -173,7 +173,7 @@ class DirectoryTest(BasicTest):
         self.assertEqual(letter_subject, actual_subject)
         self.assertEqual(letter_text, actual_text)
 
-    def test_save_draft_letter(self):
+    def test_send_draft_letter(self):
         letter_subject = 'Send draft letter'
         letter_text = 'Lorem text lorem lorem lorem'
         self.main_page.letter_manager.letter_writer.click_write_letter_button()
