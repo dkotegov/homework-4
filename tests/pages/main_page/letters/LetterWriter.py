@@ -104,7 +104,7 @@ class LetterWriter(BasicPage):
         length = len(text_container.text)
         actions.click(text_container)
         actions.key_down(Keys.SHIFT)
-        for i in range(length):
+        for _ in range(length):
             actions.send_keys(Keys.ARROW_LEFT)
         actions.perform()
 
