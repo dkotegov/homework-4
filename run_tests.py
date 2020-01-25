@@ -14,9 +14,9 @@ if __name__ == '__main__':
         subprocess.Popen(["bash", "./node.sh"])
     suite = unittest.TestSuite((
         # unittest.makeSuite(SignUpTest),
-        unittest.makeSuite(MainTest),
+        # unittest.makeSuite(MainTest),
         # unittest.makeSuite(LoginTest),
-        # unittest.makeSuite(DirectoryTest),
+        unittest.makeSuite(DirectoryTest),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

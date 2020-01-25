@@ -41,16 +41,6 @@ class LetterSelector(BasicPage):
     div_with_bold_text = 'div.cke_editable > div > div:first-child > strong'
     div_with_unformating_text = 'div.cke_editable > div > div:not(em):not(u):not(strong):not(s):first-child'
 
-    def get_first_letter_subject(self):
-        subject = self.wait_render(self.first_letter_subject)
-        return subject.text
-
-    def get_first_letter_text(self):
-        content = self.wait_render(self.first_letter_text).text
-        # We should obtain only the content we written (not sign)
-        text = content.split(' -- ')[0]
-        return text
-
     def select_letter(self, subject):
         letter = self.find_letter_by_subject(subject)
         elem = letter.find_element_by_css_selector(self.letter_avatar)
