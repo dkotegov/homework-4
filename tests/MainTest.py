@@ -3,9 +3,6 @@ from BasicTest import BasicTest
 
 from user.User import User
 
-import time
-
-import random
 
 class MainTest(BasicTest):
 
@@ -89,14 +86,14 @@ class MainTest(BasicTest):
 
     def test_reply_letter(self):
         self.subject = self.add_random_number('Subject_reply_letter ')
-        text = 'Text_reply_letter'
+        TEXT = 'Text_reply_letter'
         replied_text = self.add_random_number('Replied text ')
 
         first_user = User(self.login, self.password)
         receiver = User(self.login2, self.password2)
         letter_manager = self.main_page.letter_manager
     
-        letter_manager.write_letter(receiver.login, self.subject, text)
+        letter_manager.write_letter(receiver.login, self.subject, TEXT)
 
         self.main_page.relogin(receiver.login, receiver.password)
         letter_manager.reply_letter(self.subject, replied_text)
@@ -113,15 +110,14 @@ class MainTest(BasicTest):
 
     def test_write_many_receivers(self):
         self.subject = self.add_random_number('Subject_write_many_receivers ')
-        text = 'Text_write_many_receivers'
+        TEXT = 'Text_write_many_receivers'
         receivers = [
             User(self.login, self.password),
             User(self.login2, self.password2),
         ]
         receivers_emails = [receiver.login for receiver in receivers]
         letter_manager = self.main_page.letter_manager
-        letter_manager.write_letter_many_receivers(
-            receivers_emails, self.subject, text)
+        letter_manager.write_letter_many_receivers(receivers_emails, self.subject, TEXT)
         for receiver in receivers:
             self.main_page.relogin(receiver.login, receiver.password)
             letter_manager.letter_selector.find_letter_subject_real(self.subject)
@@ -305,4 +301,3 @@ class MainTest(BasicTest):
                 self.main_page.navigation_manager.go_to_inbox()
             self.main_page.letter_manager.remove_letter(self.subject)
         super(MainTest, self).tearDown()
-    

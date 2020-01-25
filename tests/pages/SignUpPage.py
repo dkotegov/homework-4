@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
 import calendar
-import time
+
 from BasicPage import BasicPage
 
 
@@ -44,7 +44,7 @@ class SignUpPage(BasicPage):
   year_field = 'input[name="year"]'
   sex_field = 'div[aria-checked="checked"] input[name="sex"]'
 
-  unit_to_multiplier = {
+  UNIT_TO_MULTIPLIER = {
     "mail": email_input_mail,
     "inbox": email_input_inbox,
     "list": email_input_list,
@@ -120,7 +120,7 @@ class SignUpPage(BasicPage):
   def enter_emaildomain(self, emaildomain):
     elem = self.wait_render(self.email_block)
     elem.click()
-    elem = self.wait_render(self.unit_to_multiplier[emaildomain])
+    elem = self.wait_render(self.UNIT_TO_MULTIPLIER[emaildomain])
     elem.click()
 
   def enter_password(self, password):
