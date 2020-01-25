@@ -30,7 +30,7 @@ class SignUpTest(BasicTest):
         while(True):
             try:
                 self.signup_page.click_signup()
-                self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL, 10)
+                self.signup_page.wait_redirect(self.SIGNUP_VERIFY_URL, 7)
 
                 return
             except:
@@ -286,7 +286,7 @@ class SignUpTest(BasicTest):
         email_err_popup = self.signup_page.wait_render(
             self.signup_page.email_popup_message)
 
-        expected_message = u'Аккаунт с таким именем уже существует.\nYou might like these email addresses:'
+        expected_message = u'Аккаунт с таким именем уже существует.\nВозможно, вам понравятся имена:'
 
         self.assertEqual(expected_message, email_err_popup.text)
 
@@ -298,11 +298,11 @@ class SignUpTest(BasicTest):
             "firstname": '1',
             "lastname": '2',
             "day": 4,
-            "month": "April",
+            "month": "January",
             "year": 2000,
             "sex": "male",
             "email": incorrect_login,
-            "domain": "mail",
+            "domain": "bk",
             "password": password,
             "password_retry": password
         }
