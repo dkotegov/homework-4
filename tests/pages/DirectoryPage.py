@@ -10,7 +10,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.touch_actions import TouchActions
-import time
 
 
 class DirectoryPage(MainPage):
@@ -28,7 +27,7 @@ class DirectoryPage(MainPage):
     drafts_button = 'nav.nav_expanded > a.nav__item.js-shortcut[href="/drafts/"]'
 
     nav_social_button = 'nav.nav_expanded > .nav__item.nav__item_child.nav__item_expanded_true[href="/social/"]'
-    nav_news_letter_button = 'nav.nav_expanded > .nav__item.nav__item_child.nav__item_expanded_true[href="/newsletters/"]'
+    nav_news_letter_button = 'nav.nav_expanded > .nav__item[href="/newsletters/"]'
 
     nav_archive_button = "a.nav__item[title='Архив']"
     nav_all_folders_button = "a.sidebar__menu-item"
@@ -115,12 +114,9 @@ class DirectoryPage(MainPage):
         else:
             return False
 
-    def check_error_message(self):
+    def error_message(self):
         elem = self.wait_render(self.class_error_text)
-        msg_text = elem.text
-        if msg_text == (u'Не указан адрес получателя'):
-            return True
-        return False
+        return elem.text
 
     def close_writer_window(self):
         elem = self.wait_render(self.close_write_letter_window)

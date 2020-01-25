@@ -4,8 +4,6 @@ from BasicTest import BasicTest
 from pages.LoginPage import LoginPage
 from pages.MainPage import MainPage
 
-import time
-
 
 class LoginTest(BasicTest):
 
@@ -16,69 +14,75 @@ class LoginTest(BasicTest):
         self.main_page = MainPage(self.driver)
 
     def test_correct_login(self):
+        MAIL_URL = self.MAIL_URL + '/'
         self.login_page.sign_in(self.login, self.password)
-        self.login_page.wait_redirect(self.MAIL_URL)
+        self.login_page.wait_redirect(MAIL_URL)
+        self.assertEqual(self.driver.current_url.split('?')[0], MAIL_URL)
 
     def test_wrong_password(self):
-        wrong_password = 'wrongpassword'
-        self.login_page.sign_in(self.login, wrong_password)
+        WRONG_PASSWORD = 'wrongpassword'
+        self.login_page.sign_in(self.login, WRONG_PASSWORD)
         test_validation = self.login_page.get_validation_message()
-        expected_validation1 = 'Неверный пароль, попробуйте ещё раз'
-        expected_validation2 = 'Incorrect password. Try again'
-        self.assertIn(test_validation, [
-                      expected_validation1, expected_validation2])
+        EXPECTED_VALIDATION_1 = 'Неверный пароль, попробуйте ещё раз'
+        EXPECTED_VALIDATION_2 = 'Incorrect password. Try again'
+        self.assertIn(test_validation, [EXPECTED_VALIDATION_1, EXPECTED_VALIDATION_2])
 
     def test_yandex_login(self):
-        test_login = '123@yandex.ru'
-        self.login_page.enter_login(test_login)
+        TEST_LOGIN = '1gere23@yandex.ru'
+        PASSWORD_YANDEX_URL = 'https://passport.yandex.ru/auth'
+        self.login_page.enter_login(TEST_LOGIN)
         self.login_page.click_continue()
-        self.login_page.wait_redirect('https://passport.yandex.ru/auth')
+        self.login_page.wait_redirect(PASSWORD_YANDEX_URL)
+        self.assertEqual(self.driver.current_url.split('?')[0], PASSWORD_YANDEX_URL)
 
     def test_gmail_login(self):
-        test_login = '123@gmail.com'
-        self.login_page.enter_login(test_login)
+        TEST_LOGIN = '1wqx23@gmail.com'
+        GOOGLE_ACCOUNT_URL = 'https://accounts.google.com/signin/oauth/identifier'
+        self.login_page.enter_login(TEST_LOGIN)
         self.login_page.click_continue()
-        self.login_page.wait_redirect(
-            'https://accounts.google.com/signin/oauth/identifier')
+        self.login_page.wait_redirect(GOOGLE_ACCOUNT_URL)
+        self.assertEqual(self.driver.current_url.split('?')[0], GOOGLE_ACCOUNT_URL)
 
     def test_yahoo_login(self):
-        test_login = '123@yahoo.com'
-        self.login_page.enter_login(test_login)
+        TEST_LOGIN = '1sad3@yahoo.com'
+        YAHOO_ACCOUNT_URL = 'https://login.yahoo.com/'
+        self.login_page.enter_login(TEST_LOGIN)
         self.login_page.click_continue()
-        self.login_page.wait_redirect('https://login.yahoo.com/')
+        self.login_page.wait_redirect(YAHOO_ACCOUNT_URL)
+        self.assertEqual(self.driver.current_url.split('?')[0], YAHOO_ACCOUNT_URL)
 
     def test_rambler_login(self):
-        test_login = '2Q3@rambler.ru'
-        self.login_page.sign_in(test_login, test_login)
+        TEST_LOGIN = '2DSA3@rambler.ru'
+        self.login_page.sign_in(TEST_LOGIN, self.password)
         err = self.login_page.get_protocol_err()
-        expected_err1 = 'Вы можете добавить любой почтовый ящик, поддерживающий сбор почты по протоколу POP/IMAP. Если логин введен неверно, авторизуйтесь заново.'
-        expected_err2 = 'You can add any mailbox that supports POP/IMAP. If your credentials were entered incorrectly, sign in again.'
-        self.assertIn(err, [expected_err1, expected_err2])
+        EXPECTED_ERR_1 = 'Вы можете добавить любой почтовый ящик, поддерживающий сбор почты по протоколу POP/IMAP. Если логин введен неверно, авторизуйтесь заново.'
+        EXPECTED_ERR_2 = 'You can add any mailbox that supports POP/IMAP. If your credentials were entered incorrectly, sign in again.'
+        self.assertIn(err, [EXPECTED_ERR_1, EXPECTED_ERR_2])
 
     def test_custom_login(self):
-        custom_login = 'custom@petrov.ru'
-        custom_password = 'customPassword123'
-        self.login_page.sign_in(custom_login, custom_password)
+        CUSTOM_LOGIN = 'custom@petrov.ru'
+        CUSTOM_PASSWORD = 'customPassword123'
+        self.login_page.sign_in(CUSTOM_LOGIN, CUSTOM_PASSWORD)
         err = self.login_page.get_domain_err()
-        possible_errors = [
+        POSSIBLE_ERRORS = [
             'Try again later.',
             'Повторите попытку через некоторое время.',
             'Произошла ошибка! Пожалуйста, повторите попытку через некоторое время или введите имя и пароль другого аккаунта.',
             'You can add any mailbox that supports POP/IMAP. If your credentials were entered incorrectly, sign in again.',
         ]
-        self.assertIn(err, possible_errors)
+        self.assertIn(err, POSSIBLE_ERRORS)
 
     def test_empty_password(self):
-        empty_password = ''
-        self.login_page.sign_in(self.login, empty_password)
+        EMPTY_PASSWORD = ''
+        self.login_page.sign_in(self.login, EMPTY_PASSWORD)
         test_validation = self.login_page.get_validation_message()
-        expected_validation1 = 'Поле «Пароль» должно быть заполнено'
-        expected_validation2 = 'The "Password" field is required'
-        self.assertIn(test_validation, [
-                      expected_validation1, expected_validation2])
+        EXPECTED_VALIDATION_1 = 'Поле «Пароль» должно быть заполнено'
+        EXPECTED_VALIDATION_2 = 'The "Password" field is required'
+        self.assertIn(test_validation, [EXPECTED_VALIDATION_1, EXPECTED_VALIDATION_2])
 
     def test_signout(self):
         self.login_page.sign_in(self.login, self.password)
         self.login_page.wait_redirect(self.MAIL_URL)
         self.main_page.click_signout()
         self.main_page.wait_redirect(self.MAIN_PAGE_URL)
+        self.assertEqual(self.driver.current_url.split('?')[0], self.MAIN_PAGE_URL)

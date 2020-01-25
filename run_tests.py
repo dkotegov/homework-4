@@ -13,9 +13,9 @@ if __name__ == '__main__':
         subprocess.Popen(["bash", "./hub.sh"])
         subprocess.Popen(["bash", "./node.sh"])
     suite = unittest.TestSuite((
-        # unittest.makeSuite(SignUpTest),
+        unittest.makeSuite(SignUpTest),
         unittest.makeSuite(MainTest),
-        # unittest.makeSuite(LoginTest),
+        unittest.makeSuite(LoginTest),
         unittest.makeSuite(DirectoryTest),
     ))
     result = unittest.TextTestRunner().run(suite)
