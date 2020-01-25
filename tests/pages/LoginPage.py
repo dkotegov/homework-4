@@ -22,7 +22,7 @@ class LoginPage(BasicPage):
     def clear_login(self):
         elem = self.wait_render(self.login_input)
         length = len(elem.get_attribute('value'))
-        for i in range(length):
+        for _ in range(length):
             elem.send_keys(Keys.BACKSPACE)
 
     def enter_password(self, login):
@@ -50,7 +50,7 @@ class LoginPage(BasicPage):
         return validation_message.encode('utf-8', errors='ignore')
 
     def sign_in(self, login, password):
-        login_input = self.wait_render(self.login_input)
+        self.wait_render(self.login_input)
         self.clear_login()
         self.enter_login(login)
         self.click_next()

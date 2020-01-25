@@ -9,14 +9,14 @@ from pages.SignUpPage import SignUpPage
 
 
 class SignUpTest(BasicTest):
-    error_firstname = u'Укажите имя'
-    error_lastname = u'Укажите фамилию'
-    error_birthdate = u'Укажите дату рождения'
-    error_sex = u'Укажите ваш пол'
-    error_email = u'Укажите желаемое имя аккаунта'
-    error_password_empty = u'Укажите пароль'
-    error_short_password = u'Используйте не менее 8 символов'
-    error_future_date = u'Машину времени еще не изобрели, Марти, выбери другую дату'
+    ERROR_FIRSTNAME = u'Укажите имя'
+    ERROR_LASTNAME = u'Укажите фамилию'
+    ERROR_BIRTHDATE = u'Укажите дату рождения'
+    ERROR_SEX = u'Укажите ваш пол'
+    ERROR_EMAIL = u'Укажите желаемое имя аккаунта'
+    ERROR_PASSWORD_EMPTY = u'Укажите пароль'
+    ERROR_SHORT_PASSWORD = u'Используйте не менее 8 символов'
+    ERROR_FUTURE_DATE = u'Машину времени еще не изобрели, Марти, выбери другую дату'
 
     def setUp(self):
         super(SignUpTest, self).setUp()
@@ -117,18 +117,24 @@ class SignUpTest(BasicTest):
         self.anti_bot_register()
 
     def test_correct_registration_firstname_more_40_chars(self):
-        firstname = "f"*41
+        FIRSTNAME = "f"*41
 
-        self.signup_page.enter_firstname(firstname)
+        self.signup_page.enter_firstname(FIRSTNAME)
         wrote_text = self.signup_page.give_firstname()
-        self.assertEqual(40, len(wrote_text))
+
+        EXPECTED = 40
+
+        self.assertEqual(EXPECTED, len(wrote_text))
 
     def test_correct_registration_lastname_more_40_chars(self):
-        lastname = "f"*41
+        LASTNAME = "f"*41
 
-        self.signup_page.enter_lastname(lastname)
+        self.signup_page.enter_lastname(LASTNAME)
         wrote_text = self.signup_page.give_lastname()
-        self.assertEqual(40, len(wrote_text))
+
+        EXPECTED = 40
+
+        self.assertEqual(EXPECTED, len(wrote_text))
 
     def test_empty_data(self):
         data = {}
@@ -137,24 +143,24 @@ class SignUpTest(BasicTest):
         self.signup_page.click_signup()
 
         elem_err_firstname = self.signup_page.wait_render(
-            self.signup_page.error_message(self.error_firstname))
+            self.signup_page.error_message(self.ERROR_FIRSTNAME))
         elem_err_lastname = self.signup_page.wait_render(
-            self.signup_page.error_message(self.error_lastname))
+            self.signup_page.error_message(self.ERROR_LASTNAME))
         elem_err_birthdate = self.signup_page.wait_render(
-            self.signup_page.error_message(self.error_birthdate))
+            self.signup_page.error_message(self.ERROR_BIRTHDATE))
         elem_err_sex = self.signup_page.wait_render(
-            self.signup_page.error_message(self.error_sex))
+            self.signup_page.error_message(self.ERROR_SEX))
         elem_err_email = self.signup_page.wait_render(
-            self.signup_page.error_message(self.error_email))
+            self.signup_page.error_message(self.ERROR_EMAIL))
         elem_err_password_empty = self.signup_page.wait_render(
-            self.signup_page.error_message(self.error_password_empty))
+            self.signup_page.error_message(self.ERROR_PASSWORD_EMPTY))
 
-        self.assertEqual(self.error_firstname, elem_err_firstname.text)
-        self.assertEqual(self.error_lastname, elem_err_lastname.text)
-        self.assertEqual(self.error_birthdate, elem_err_birthdate.text)
-        self.assertEqual(self.error_sex, elem_err_sex.text)
-        self.assertEqual(self.error_email, elem_err_email.text)
-        self.assertEqual(self.error_password_empty,
+        self.assertEqual(self.ERROR_FIRSTNAME, elem_err_firstname.text)
+        self.assertEqual(self.ERROR_LASTNAME, elem_err_lastname.text)
+        self.assertEqual(self.ERROR_BIRTHDATE, elem_err_birthdate.text)
+        self.assertEqual(self.ERROR_SEX, elem_err_sex.text)
+        self.assertEqual(self.ERROR_EMAIL, elem_err_email.text)
+        self.assertEqual(self.ERROR_PASSWORD_EMPTY,
                          elem_err_password_empty.text)
 
     def test_future_date(self):
@@ -182,12 +188,12 @@ class SignUpTest(BasicTest):
         self.signup_page.click_signup()
 
         elem_err = self.signup_page.wait_render(
-            self.signup_page.error_message(self.error_future_date))
-        self.assertEqual(self.error_future_date, elem_err.text)
+            self.signup_page.error_message(self.ERROR_FUTURE_DATE))
+        self.assertEqual(self.ERROR_FUTURE_DATE, elem_err.text)
 
     def test_short_password(self):
         email = self.signup_page.generate_fake_email()
-        short_password = '1'
+        SHORT_PASSWORD = '1'
 
         data = {
             "firstname": '1',
@@ -198,20 +204,20 @@ class SignUpTest(BasicTest):
             "sex": "male",
             "email": email,
             "domain": "mail",
-            "password": short_password,
-            "password_retry": short_password
+            "password": SHORT_PASSWORD,
+            "password_retry": SHORT_PASSWORD
         }
 
         self.signup_page.enter_signup_data(data, False)
         self.signup_page.click_signup()
 
         elem_err = self.signup_page.wait_render(
-            self.signup_page.error_message(self.error_short_password))
-        self.assertEqual(self.error_short_password, elem_err.text)
+            self.signup_page.error_message(self.ERROR_SHORT_PASSWORD))
+        self.assertEqual(self.ERROR_SHORT_PASSWORD, elem_err.text)
 
     def test_weak_password(self):
         email = self.signup_page.generate_fake_email()
-        weak_password = '12345678'
+        WEAK_PASSWORD = '12345678'
 
         data = {
             "firstname": '1',
@@ -222,8 +228,8 @@ class SignUpTest(BasicTest):
             "sex": "male",
             "email": email,
             "domain": "mail",
-            "password": weak_password,
-            "password_retry": weak_password
+            "password": WEAK_PASSWORD,
+            "password_retry": WEAK_PASSWORD
         }
 
         self.signup_page.enter_signup_data(data, False)
@@ -259,12 +265,12 @@ class SignUpTest(BasicTest):
         password_err_popup = self.signup_page.wait_render(
             self.signup_page.password_popup_message)
 
-        expected_message = u'Не используйте имя аккаунта и другие личные данные'
+        EXPECTED_MESSAGE = u'Не используйте имя аккаунта и другие личные данные'
 
-        self.assertEqual(expected_message, password_err_popup.text)
+        self.assertEqual(EXPECTED_MESSAGE, password_err_popup.text)
 
     def test_user_exists(self):
-        existing_login = 'TPWAO'
+        EXISTING_LOGIN = 'TPWAO'
         password = self.signup_page.generate_fake_password()
 
         data = {
@@ -274,7 +280,7 @@ class SignUpTest(BasicTest):
             "month": "April",
             "year": 2000,
             "sex": "male",
-            "email": existing_login,
+            "email": EXISTING_LOGIN,
             "domain": "mail",
             "password": password,
             "password_retry": password
@@ -286,12 +292,12 @@ class SignUpTest(BasicTest):
         email_err_popup = self.signup_page.wait_render(
             self.signup_page.email_popup_message)
 
-        expected_message = u'Аккаунт с таким именем уже существует.\nВозможно, вам понравятся имена:'
+        EXPECTED_MESSAGE = u'Аккаунт с таким именем уже существует.\nВозможно, вам понравятся имена:'
 
-        self.assertEqual(expected_message, email_err_popup.text)
+        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text)
 
     def test_incorrect_login(self):
-        incorrect_login = 'TPWAO@'
+        INCORRECT_LOGIN = 'TPWAO@'
         password = self.signup_page.generate_fake_password()
 
         data = {
@@ -301,7 +307,7 @@ class SignUpTest(BasicTest):
             "month": "January",
             "year": 2000,
             "sex": "male",
-            "email": incorrect_login,
+            "email": INCORRECT_LOGIN,
             "domain": "bk",
             "password": password,
             "password_retry": password
@@ -313,12 +319,12 @@ class SignUpTest(BasicTest):
         email_err_popup = self.signup_page.wait_render(
             self.signup_page.email_popup_message)
 
-        expected_message = u'Некорректное имя аккаунта. Допустимо использовать только латинские буквы, цифры,\nзнак подчеркивания («_»), точку («.»), минус («-»)'
+        EXPECTED_MESSAGE = u'Некорректное имя аккаунта. Допустимо использовать только латинские буквы, цифры,\nзнак подчеркивания («_»), точку («.»), минус («-»)'
 
-        self.assertEqual(expected_message, email_err_popup.text)
+        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text)
 
     def test_cyrillic_login(self):
-        cyrillic_login = u' гошан777'
+        CYRILLIC_LOGIN = u' гошан777'
         password = self.signup_page.generate_fake_password()
 
         data = {
@@ -328,7 +334,7 @@ class SignUpTest(BasicTest):
             "month": "April",
             "year": 2000,
             "sex": "male",
-            "email": cyrillic_login,
+            "email": CYRILLIC_LOGIN,
             "domain": "mail",
             "password": password,
             "password_retry": password
@@ -340,9 +346,9 @@ class SignUpTest(BasicTest):
         email_err_popup = self.signup_page.wait_render(
             self.signup_page.email_popup_message)
 
-        expected_message = u'В имени аккаунта нельзя использовать кириллицу'
+        EXPECTED_MESSAGE = u'В имени аккаунта нельзя использовать кириллицу'
 
-        self.assertEqual(expected_message, email_err_popup.text)
+        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text)
 
     def test_hiding_password(self):
         self.signup_page.click_use_condition()
@@ -399,7 +405,7 @@ class SignUpTest(BasicTest):
         self.signup_page.wait_redirect(self.SIGNUP_URL)
 
     def test_you_shall_not_pass(self):
-        wrong_captcha_code = 'Balrog'
+        WRONG_CAPTCHA_CODE = 'Balrog'
         email = self.signup_page.generate_fake_email()
         password = self.signup_page.generate_fake_password()
 
@@ -419,13 +425,13 @@ class SignUpTest(BasicTest):
         self.signup_page.enter_signup_data(data, False)
         self.anti_bot_register()
 
-        self.signup_page.enter_captcha_code(wrong_captcha_code)
+        self.signup_page.enter_captcha_code(WRONG_CAPTCHA_CODE)
         self.signup_page.submit_captcha()
 
-        expected_message = u'Вы указали неправильный код с картинки'
+        EXPECTED_MESSAGE = u'Вы указали неправильный код с картинки'
         error_msg = self.signup_page.get_captcha_error_message()
 
-        self.assertEqual(expected_message, error_msg)
+        self.assertEqual(EXPECTED_MESSAGE, error_msg)
 
     def test_empty_captcha(self):
         email = self.signup_page.generate_fake_email()
@@ -449,10 +455,10 @@ class SignUpTest(BasicTest):
 
         self.signup_page.submit_captcha()
 
-        expected_message = u'Укажите код с картинки'
+        EXPECTED_MESSAGE = u'Укажите код с картинки'
         error_msg = self.signup_page.get_captcha_error_message()
 
-        self.assertEqual(expected_message, error_msg)
+        self.assertEqual(EXPECTED_MESSAGE, error_msg)
 
     def test_form_keep_data(self):
         email = self.signup_page.generate_fake_email()
@@ -504,11 +510,11 @@ class SignUpTest(BasicTest):
         self.signup_page.back_from_captcha()
         self.signup_page.wait_redirect(self.SIGNUP_URL)
 
-        new_data = {
+        NEW_DATA = {
             "firstname": "Privet"
         }
 
-        self.signup_page.enter_signup_data(new_data, True)
+        self.signup_page.enter_signup_data(NEW_DATA, True)
         self.anti_bot_register()
 
     def test_incorrect_date(self):
@@ -523,4 +529,6 @@ class SignUpTest(BasicTest):
 
         day_number = self.signup_page.get_day()
 
-        self.assertEqual(day_number, 30)
+        EXPECTED = 30
+
+        self.assertEqual(day_number, EXPECTED)
