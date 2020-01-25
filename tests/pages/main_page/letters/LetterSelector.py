@@ -56,8 +56,8 @@ class LetterSelector(BasicPage):
         elem = letter.find_element_by_css_selector(self.letter_avatar)
         ActionChains(self.driver).move_to_element(elem).click(elem).perform()
 
-    def open_first_letter(self):
-        elem = self.wait_render(self.first_letter_subject)
+    def open_letter(self, subject):
+        elem = self.find_letter_subject_real(subject)
         ActionChains(self.driver).move_to_element(elem).click(elem).perform()
 
     def get_opened_letter_subject(self):
@@ -168,7 +168,7 @@ class LetterSelector(BasicPage):
         for subject_element in subjects_elements:
             if subject_element.text == subject:
                 return subject_element
-        return null
+        return None
     
     def find_letter_by_subject(self, subject):
         letters = self.get_all_letters()
@@ -176,5 +176,5 @@ class LetterSelector(BasicPage):
             subject_element = letter.find_element_by_css_selector(self.letter_subject_only)
             if subject_element.text == subject:
                 return letter
-        return null
+        return None
   

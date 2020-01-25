@@ -19,11 +19,6 @@ class BasicPage(BaseUrls):
     def wait_render(self, selector, timeout=10):
         return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
 
-#     like = browser.find_elements_by_class_name('like_picto_unselected')
-# for x in range(0,len(like)):
-#     if like[x].is_displayed():
-#         like[x].click()
-
     def wait_render_all(self, selector, timeout=10):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, selector)))
 
