@@ -81,3 +81,5 @@ class LetterManager():
     def send_letter(self):
         self.letter_writer.click_send_letter_button()
         self.letter_writer.close_sent_window()
+
+    

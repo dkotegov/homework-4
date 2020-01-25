@@ -38,3 +38,4 @@ class MainPage(BasicPage):
         self.open()
         self.auth(email, password)
         self.hide_app_loader()
+        

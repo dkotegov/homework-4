@@ -5,11 +5,14 @@ from selenium.webdriver import ActionChains
 
 class LetterSelector(BasicPage):
     first_letter = '.llc:first-of-type > .llc__container'
-    first_letter_subject = 'a.llc:first-of-type > .llc__container .llc__subject'
+    letter_subject = 'a.llc > .llc__container .llc__subject'
+    letter_subject_only = '.llc__subject'
     first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
-    first_letter_read_status = 'a.llc:first-of-type .ll-rs'
+    letter_read_status = '.ll-rs'
     first_letter_avatar = '.llc:first-of-type button.ll-av'
     link_element = 'a[href="http://park.mail.ru"]'
+
+    letters = 'a.llc'
 
     opened_letter_subject = '.thread__subject'
     opened_letter_text = ''
@@ -71,17 +74,19 @@ class LetterSelector(BasicPage):
         body = self.get_opened_letter_body()
         return body.split('\n')[-1]
 
-    def get_first_letter_read_status(self):
-        elem = self.wait_render(self.first_letter_read_status)
+    def get_letter_read_status(self, subject):
+        letter = self.find_letter_by_subject(subject)
+        elem = letter.find_element_by_css_selector(self.letter_read_status)
         if elem.get_attribute('title') == (u'Пометить прочитанным') or elem.get_attribute('data-title') == (u'Пометить прочитанным'):
             return False
         else:
             return True
 
-    def set_first_letter_read_status(self, status):
-        elem = self.wait_render(self.first_letter_read_status)
+    def set_letter_read_status(self, subject, status):
+        letter = self.find_letter_by_subject(subject)
+        elem = letter.find_element_by_css_selector(self.letter_read_status)
         # Invert status only it's needed
-        if self.get_first_letter_read_status() != status:
+        if self.get_letter_read_status(subject) != status:
             elem.click()
 
     def select_all_letters(self):
@@ -146,3 +151,27 @@ class LetterSelector(BasicPage):
     def get_link_text(self):
         elem = self.wait_render(self.link_element)
         return elem.text
+
+    def get_all_letters_subjects(self):
+      subjects = self.wait_render_all(self.letter_subject)
+      return subjects
+
+    def get_all_letters(self):
+        letters = self.wait_render_all(self.letters)
+        return letters
+    
+    def find_letter_subject_real(self, subject):
+        subjects_elements = self.get_all_letters_subjects()
+        for subject_element in subjects_elements:
+            if subject_element.text == subject:
+                return subject_element
+        return null
+    
+    def find_letter_by_subject(self, subject):
+        letters = self.get_all_letters()
+        for letter in letters:
+            subject_element = letter.find_element_by_css_selector(self.letter_subject_only)
+            if subject_element.text == subject:
+                return letter
+        return null
+  
