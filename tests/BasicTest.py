@@ -37,7 +37,7 @@ class BasicTest(unittest.TestCase):
                 desired_capabilities={
                     'browserName': config.BROWSER,
                 },
-                chrome_options=chrome_options
+                options=chrome_options
             )
 
     def tearDown(self):
