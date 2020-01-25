@@ -9,14 +9,14 @@ from pages.SignUpPage import SignUpPage
 
 
 class SignUpTest(BasicTest):
-    error_firstname = 'Enter your first name'
-    error_lastname = 'Enter your last name'
-    error_birthdate = 'Enter your birth date'
-    error_sex = 'Enter your gender'
+    error_firstname = u'Укажите имя'
+    error_lastname = u'Укажите фамилию'
+    error_birthdate = u'Укажите дату рождения'
+    error_sex = u'Укажите ваш пол'
     error_email = u'Укажите желаемое имя аккаунта'
-    error_password_empty = 'Enter your password'
-    error_short_password = 'Use at least 8 characters'
-    error_future_date = 'Marty, the time machine hasn\'t been invented yet. Select a different date.'
+    error_password_empty = u'Укажите пароль'
+    error_short_password = u'Используйте не менее 8 символов'
+    error_future_date = u'Машину времени еще не изобрели, Марти, выбери другую дату'
 
     def setUp(self):
         super(SignUpTest, self).setUp()
@@ -232,7 +232,7 @@ class SignUpTest(BasicTest):
         password_err_popup = self.signup_page.wait_render(
             self.signup_page.password_popup_message)
 
-        expected_message = 'Don\'t use personal data, sequences (123456, qwerty), or common passwords (for example, "password").'
+        expected_message = u'Не используйте личные данные, последовательности (123456, qwerty) и популярные пароли (password).'
 
         self.assertEqual(expected_message, password_err_popup.text)
 
@@ -422,7 +422,7 @@ class SignUpTest(BasicTest):
         self.signup_page.enter_captcha_code(wrong_captcha_code)
         self.signup_page.submit_captcha()
 
-        expected_message = 'The code you entered from the picture is incorrect'
+        expected_message = u'Вы указали неправильный код с картинки'
         error_msg = self.signup_page.get_captcha_error_message()
 
         self.assertEqual(expected_message, error_msg)
@@ -449,7 +449,7 @@ class SignUpTest(BasicTest):
 
         self.signup_page.submit_captcha()
 
-        expected_message = 'Enter the code from the picture'
+        expected_message = u'Укажите код с картинки'
         error_msg = self.signup_page.get_captcha_error_message()
 
         self.assertEqual(expected_message, error_msg)
