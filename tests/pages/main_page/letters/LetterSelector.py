@@ -19,6 +19,7 @@ class LetterSelector(BasicPage):
     opened_letter_subject = '.thread__subject'
     opened_letter_text = ''
     opened_letter_body = '.letter__body'
+    opened_mini_letter_body = '.cke_editable.cke_editable_inline.cke_contents_true.cke_show_borders'
 
     all_letters = 'div.portal-menu-element_select'
 
@@ -58,9 +59,18 @@ class LetterSelector(BasicPage):
         body = self.get_opened_letter_body()
         # Only text, without sign
         return body.split('\n')[0]
+    
+    def get_opened_mini_letter_text(self):
+        body = self.get_opened_mini_letter_body()
+        # Only text, without sign
+        return body.split('\n')[0]
 
     def get_opened_letter_body(self):
         body = self.wait_render(self.opened_letter_body)
+        return body.text
+    
+    def get_opened_mini_letter_body(self):
+        body = self.wait_render(self.opened_mini_letter_body)
         return body.text
 
     def get_replied_letter_text(self):
@@ -152,6 +162,16 @@ class LetterSelector(BasicPage):
     def get_all_letters(self):
         letters = self.wait_render_all(self.letters)
         return letters
+    
+    def get_letter_text(self, subject):
+        letter = self.find_letter_subject_real(subject)
+        letter.click()
+        return self.get_opened_letter_text()  
+    
+    def get_mini_letter_text(self, subject):
+        letter = self.find_letter_subject_real(subject)
+        letter.click()
+        return self.get_opened_mini_letter_text()   
     
     def find_letter_subject_real(self, subject):
         subjects_elements = self.get_all_letters_subjects()

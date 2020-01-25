@@ -69,7 +69,7 @@ class DirectoryPage(MainPage):
 
     def click_nav_archive_button(self):
         elem = self.wait_render(self.nav_archive_button)
-        elem.click()
+        ActionChains(self.driver).move_to_element(elem).click(elem).perform()
         self.wait_redirect(self.ARCHIVE_URL)
 
     def go_to_newsletters(self):
