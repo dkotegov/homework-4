@@ -5,8 +5,6 @@ from LetterSelector import LetterSelector
 
 from selenium.webdriver.common.keys import Keys
 
-import time
-
 
 class LetterWriter(BasicPage):
     write_letter_button = '.compose-button_white'

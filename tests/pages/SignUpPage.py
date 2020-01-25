@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
 import calendar
-import time
 
 from BasicPage import BasicPage
 
