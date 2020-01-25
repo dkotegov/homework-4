@@ -48,8 +48,8 @@ class LoginTest(BasicTest):
         self.login_page.wait_redirect('https://login.yahoo.com/')
 
     def test_rambler_login(self):
-        test_login = '123@rambler.ru'
-        self.login_page.sign_in(test_login, self.password)
+        test_login = '2Q3@rambler.ru'
+        self.login_page.sign_in(test_login, test_login)
         err = self.login_page.get_protocol_err()
         expected_err1 = 'Вы можете добавить любой почтовый ящик, поддерживающий сбор почты по протоколу POP/IMAP. Если логин введен неверно, авторизуйтесь заново.'
         expected_err2 = 'You can add any mailbox that supports POP/IMAP. If your credentials were entered incorrectly, sign in again.'
