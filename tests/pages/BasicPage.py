@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
 from ..BaseUrls import BaseUrls
 
@@ -43,7 +43,7 @@ class BasicPage(BaseUrls):
 
     def check_exists(self, selector):
         try:
-            self.driver.find_element_by_selector(selector)
-        except NoSuchElementException:
+            self.wait_render(selector, 5)
+        except TimeoutException:
             return False
         return True
