@@ -14,10 +14,8 @@ class DirectoryTest(BasicTest):
         self.directory_page.open()
         self.auth()
         self.main_page = MainPage(self.driver)
-        
-    def add_random_number(self, string):
-        string += str(random.randrange(1, 1000000))
-        return string
+        self.main_page.hide_app_loader()
+        self.manager = self.main_page.letter_manager
 
     def test_move_to_archive(self):
         self.letter_subject = self.add_random_number('Mail for archive ')
