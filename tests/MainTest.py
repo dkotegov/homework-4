@@ -20,23 +20,23 @@ class MainTest(BasicTest):
         string += str(random.randrange(1, 1000000))
         return string
 
-    # def test_receive_new_letter(self):
-    #     subject = self.add_random_number('Subject_receive_new_letter ')
-    #     text = 'Text_receive_new_letter'
-    #     letter_manager = self.main_page.letter_manager
-    #     letter_manager.write_letter(self.login, subject, text)
-    #     letter_manager.letter_selector.find_letter_subject_real(subject)
+    def test_receive_new_letter(self):
+        subject = self.add_random_number('Subject_receive_new_letter ')
+        text = 'Text_receive_new_letter'
+        letter_manager = self.main_page.letter_manager
+        letter_manager.write_letter(self.login, subject, text)
+        letter_manager.letter_selector.find_letter_subject_real(subject)
 
-    # def test_receive_new_letter_from_another_account(self):
-    #     subject = self.add_random_number('Subj_receive_from_another_account ')
-    #     text = 'Txt_receive_from_another_account'
+    def test_receive_new_letter_from_another_account(self):
+        subject = self.add_random_number('Subj_receive_from_another_account ')
+        text = 'Txt_receive_from_another_account'
 
-    #     receiver = User(self.login2, self.password2)
-    #     letter_manager = self.main_page.letter_manager
-    #     letter_manager.write_letter(receiver.login, subject, text)
-    #     self.main_page.relogin(receiver.login, receiver.password)
+        receiver = User(self.login2, self.password2)
+        letter_manager = self.main_page.letter_manager
+        letter_manager.write_letter(receiver.login, subject, text)
+        self.main_page.relogin(receiver.login, receiver.password)
 
-    #     letter_manager.letter_selector.find_letter_subject_real(subject)
+        letter_manager.letter_selector.find_letter_subject_real(subject)
 
     def test_reading_letter(self):
         subject = self.add_random_number('Subject_reading_letter ')
@@ -46,29 +46,29 @@ class MainTest(BasicTest):
         letter_manager.letter_selector.set_letter_read_status(subject, True)
         self.assertTrue(letter_manager.letter_selector.get_letter_read_status(subject))
 
-    # def test_remove_letter(self):
-    #     subject = 'Subject_remove_letter'
-    #     text = 'Text_remove_letter'
-    #     self.main_page.letter_manager.write_letter(self.login, subject, text)
-    #     self.main_page.letter_manager.remove_first_letter()
+    def test_remove_letter(self):
+        subject = self.add_random_number('Subject_remove_letter ')
+        text = 'Text_remove_letter'
+        letter_manager = self.main_page.letter_manager
+        letter_manager.write_letter(self.login, subject, text)
+        letter_manager.remove_letter(subject)
 
-    #     self.main_page.navigation_manager.go_to_trash()
-    #     actual_subject = self.main_page.letter_manager.letter_selector.get_first_letter_subject()
-    #     actual_text = self.main_page.letter_manager.letter_selector.get_first_letter_text()
-    #     self.check_first_letter(subject, text)
+        self.main_page.navigation_manager.go_to_trash()
+        letter_manager.letter_selector.find_letter_subject_real(subject)
 
-    # def test_restore_letter(self):
-    #     subject = 'Subject_restore_letter'
-    #     text = 'Text_restore_letter'
-    #     self.main_page.letter_manager.write_letter(self.login, subject, text)
-    #     self.main_page.letter_manager.remove_first_letter()
+    def test_restore_letter(self):
+        subject = self.add_random_number('Subject_restore_letter ')
+        text = 'Text_restore_letter'
+        letter_manager = self.main_page.letter_manager
+        letter_manager.write_letter(self.login, subject, text)
+        letter_manager.remove_letter(subject)
 
-    #     self.main_page.navigation_manager.go_to_trash()
-    #     self.main_page.letter_manager.restore_first_letter()
-    #     # Go back (to check for a letter in the inbox folder)
-    #     self.main_page.navigation_manager.go_to_inbox()
+        self.main_page.navigation_manager.go_to_trash()
+        letter_manager.restore_letter(subject)
+        # Go back (to check for a letter in the inbox folder)
+        self.main_page.navigation_manager.go_to_inbox()
 
-    #     self.check_first_letter(subject, text)
+        letter_manager.letter_selector.find_letter_subject_real(subject)
 
     # def test_check_sent_new_letter(self):
     #     subject = 'Subject_check_sent_new_letter'

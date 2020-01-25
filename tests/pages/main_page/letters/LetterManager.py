@@ -43,14 +43,14 @@ class LetterManager():
         self.letter_writer.click_send_letter_button()
         self.letter_writer.close_sent_window()
 
-    def remove_first_letter(self):
-        self.letter_selector.select_first_letter()
+    def remove_letter(self, subject):
+        self.letter_selector.select_letter(subject)
         self.top_menu_manager.remove_letter_from_menu()
         self.notification_manager.hide_notification()
 
     # Call only while in the recycle bin
-    def restore_first_letter(self):
-        self.letter_selector.select_first_letter()
+    def restore_letter(self, subject):
+        self.letter_selector.select_letter(subject)
         self.top_menu_manager.click_top_menu_move_letter_button()
         self.top_menu_manager.click_inbox_menu_item()
         self.notification_manager.hide_notification()

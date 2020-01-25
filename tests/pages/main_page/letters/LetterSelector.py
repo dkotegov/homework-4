@@ -5,11 +5,13 @@ from selenium.webdriver import ActionChains
 
 class LetterSelector(BasicPage):
     first_letter = '.llc:first-of-type > .llc__container'
+    letter = '.llc > .llc__container'
     letter_subject = 'a.llc > .llc__container .llc__subject'
     letter_subject_only = '.llc__subject'
     first_letter_text = 'a.llc:first-of-type > .llc__container .llc__snippet'
     letter_read_status = '.ll-rs'
     first_letter_avatar = '.llc:first-of-type button.ll-av'
+    letter_avatar = 'button.ll-av'
     link_element = 'a[href="http://park.mail.ru"]'
 
     letters = 'a.llc'
@@ -49,8 +51,9 @@ class LetterSelector(BasicPage):
         text = content.split(' -- ')[0]
         return text
 
-    def select_first_letter(self):
-        elem = self.wait_render(self.first_letter_avatar)
+    def select_letter(self, subject):
+        letter = self.find_letter_by_subject(subject)
+        elem = letter.find_element_by_css_selector(self.letter_avatar)
         ActionChains(self.driver).move_to_element(elem).click(elem).perform()
 
     def open_first_letter(self):
@@ -93,7 +96,7 @@ class LetterSelector(BasicPage):
         elem = self.wait_render(self.all_letters)
         elem.click()
 
-    def click_letter(self):
+    def click_letter(self, subject):
         elem = self.wait_render(self.first_letter)
         elem.click()
 
