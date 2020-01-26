@@ -322,7 +322,7 @@ class SignUpTest(BasicTest):
         self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text)
 
     def test_cyrillic_login(self):
-        CYRILLIC_LOGIN = u' гошан777'
+        CYRILLIC_LOGIN = u'гошан777'
         password = self.signup_page.generate_fake_password()
 
         data = {
