@@ -14,6 +14,7 @@ class DirectoryTest(BasicTest):
         self.directory_page.open()
         self.auth()
         self.main_page = MainPage(self.driver)
+        self.main_page.hide_app_loader()
         self.manager = self.main_page.letter_manager
 
     def test_move_to_archive(self):
@@ -91,12 +92,8 @@ class DirectoryTest(BasicTest):
         LETTER_TEXT = 'Lorem text lorem lorem lorem'
         self.manager.write_letter(config.DEFAULT_MAIL, self.letter_subject, LETTER_TEXT)
         self.manager.letter_selector.select_letter(self.letter_subject)
-
-        self.directory_page.move_to_newsletters() 
+        self.directory_page.move_to_newsletters()
         self.directory_page.go_to_newsletters()
-
-        letter_selector = LetterSelector(self.driver)
-        letter_selector.find_letter_subject_real(self.letter_subject)
 
     def test_send_empty_letter(self):
         self.manager.letter_writer.click_write_letter_button()

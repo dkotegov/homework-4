@@ -402,7 +402,7 @@ class SignUpTest(BasicTest):
         self.signup_page.back_from_captcha()
 
         self.signup_page.wait_redirect(self.SIGNUP_URL)
-        self.assertEqual(self.driver.current_url, (self.SIGNUP_URL + '/simple'))
+        self.assertEqual(self.driver.current_url, self.SIGNUP_URL)
 
     def test_you_shall_not_pass(self):
         WRONG_CAPTCHA_CODE = 'Balrog'
@@ -482,7 +482,7 @@ class SignUpTest(BasicTest):
 
         self.signup_page.back_from_captcha()
         self.signup_page.wait_redirect(self.SIGNUP_URL)
-        self.assertEqual(self.driver.current_url, (self.SIGNUP_URL + '/simple'))
+        self.assertEqual(self.driver.current_url, self.SIGNUP_URL)
 
         kept_data = self.signup_page.get_full_data()
 
@@ -510,7 +510,7 @@ class SignUpTest(BasicTest):
 
         self.signup_page.back_from_captcha()
         self.signup_page.wait_redirect(self.SIGNUP_URL)
-        self.assertEqual(self.driver.current_url, (self.SIGNUP_URL + '/simple'))
+        self.assertEqual(self.driver.current_url, self.SIGNUP_URL)
 
         NEW_DATA = {
             "firstname": "Privet"

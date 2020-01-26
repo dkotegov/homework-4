@@ -27,7 +27,7 @@ class DirectoryPage(MainPage):
     drafts_button = 'nav.nav_expanded > a.nav__item.js-shortcut[href="/drafts/"]'
 
     nav_social_button = 'nav.nav_expanded > .nav__item.nav__item_child.nav__item_expanded_true[href="/social/"]'
-    nav_news_letter_button = 'nav.nav_expanded > .nav__item.nav__item_child.nav__item_expanded_true[href="/newsletters/"]'
+    nav_news_letter_button = 'nav.nav_expanded > .nav__item[href="/newsletters/"]'
 
     nav_archive_button = "a.nav__item[title='Архив']"
     nav_all_folders_button = "a.sidebar__menu-item"
