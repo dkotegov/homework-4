@@ -30,7 +30,7 @@ class SignUpPage(BasicPage):
   additional_phone_block = 'a.js-signup-link'
   email_popup_message = '.b-vacant-email__message'
   password_popup_message = '.b-password__reasons'
-  error_blocks = '.b-form-field__errors__error.js-required.b-form-field__errors__error_visible'
+  error_blocks = '.b-form-field__errors__error.b-form-field__errors__error_visible'
   use_condition_block = '.b-form__controls__message a'
   captcha = '.js-captcha-img.b-captcha__captcha'
   update_captcha_button = 'a[data-input-name="captcha"]'
@@ -168,7 +168,7 @@ class SignUpPage(BasicPage):
 
   def get_captcha_error_message(self):
     elem = self.wait_render(self.captcha_error_msg)
-    return elem.text
+    return elem.text.encode('utf-8', errors='ignore')
 
   def click_additionalemail(self):
     elem = self.wait_render(self.additional_email_block)

@@ -140,12 +140,12 @@ class SignUpTest(BasicTest):
         self.signup_page.enter_signup_data(data, False)
         self.signup_page.click_signup()
 
-        ERROR_FIRSTNAME = u'Укажите имя'
-        ERROR_LASTNAME = u'Укажите фамилию'
-        ERROR_BIRTHDATE = u'Укажите дату рождения'
-        ERROR_SEX = u'Укажите ваш пол'
-        ERROR_EMAIL = u'Укажите желаемое имя аккаунта'
-        ERROR_PASSWORD_EMPTY = u'Укажите пароль'
+        ERROR_FIRSTNAME = 'Укажите имя'
+        ERROR_LASTNAME = 'Укажите фамилию'
+        ERROR_BIRTHDATE = 'Укажите дату рождения'
+        ERROR_SEX = 'Укажите ваш пол'
+        ERROR_EMAIL = 'Укажите желаемое имя аккаунта'
+        ERROR_PASSWORD_EMPTY = 'Укажите пароль'
 
         elem_err_firstname = self.signup_page.wait_render(self.signup_page.error_message(ERROR_FIRSTNAME))
         elem_err_lastname = self.signup_page.wait_render(self.signup_page.error_message(ERROR_LASTNAME))
@@ -154,12 +154,12 @@ class SignUpTest(BasicTest):
         elem_err_email = self.signup_page.wait_render(self.signup_page.error_message(ERROR_EMAIL))
         elem_err_password_empty = self.signup_page.wait_render(self.signup_page.error_message(ERROR_PASSWORD_EMPTY))
 
-        self.assertEqual(ERROR_FIRSTNAME, elem_err_firstname.text)
-        self.assertEqual(ERROR_LASTNAME, elem_err_lastname.text)
-        self.assertEqual(ERROR_BIRTHDATE, elem_err_birthdate.text)
-        self.assertEqual(ERROR_SEX, elem_err_sex.text)
-        self.assertEqual(ERROR_EMAIL, elem_err_email.text)
-        self.assertEqual(ERROR_PASSWORD_EMPTY, elem_err_password_empty.text)
+        self.assertEqual(ERROR_FIRSTNAME, elem_err_firstname.text.encode('utf-8', errors='ignore'))
+        self.assertEqual(ERROR_LASTNAME, elem_err_lastname.text.encode('utf-8', errors='ignore'))
+        self.assertEqual(ERROR_BIRTHDATE, elem_err_birthdate.text.encode('utf-8', errors='ignore'))
+        self.assertEqual(ERROR_SEX, elem_err_sex.text.encode('utf-8', errors='ignore'))
+        self.assertEqual(ERROR_EMAIL, elem_err_email.text.encode('utf-8', errors='ignore'))
+        self.assertEqual(ERROR_PASSWORD_EMPTY, elem_err_password_empty.text.encode('utf-8', errors='ignore'))
 
     def test_future_date(self):
         email = self.signup_page.generate_fake_email()
@@ -182,13 +182,13 @@ class SignUpTest(BasicTest):
             "password_retry": password
         }
 
-        ERROR_FUTURE_DATE = u'Машину времени еще не изобрели, Марти, выбери другую дату'
+        ERROR_FUTURE_DATE = 'Машину времени еще не изобрели, Марти, выбери другую дату'
 
         self.signup_page.enter_signup_data(data, False)
         self.signup_page.click_signup()
 
         elem_err = self.signup_page.wait_render(self.signup_page.error_message(ERROR_FUTURE_DATE))
-        self.assertEqual(ERROR_FUTURE_DATE, elem_err.text)
+        self.assertEqual(ERROR_FUTURE_DATE, elem_err.text.encode('utf-8', errors='ignore'))
 
     def test_short_password(self):
         email = self.signup_page.generate_fake_email()
@@ -210,10 +210,10 @@ class SignUpTest(BasicTest):
         self.signup_page.enter_signup_data(data, False)
         self.signup_page.click_signup()
 
-        ERROR_SHORT_PASSWORD = u'Используйте не менее 8 символов'
+        ERROR_SHORT_PASSWORD = 'Используйте не менее 8 символов'
 
         elem_err = self.signup_page.wait_render(self.signup_page.error_message(ERROR_SHORT_PASSWORD))
-        self.assertEqual(ERROR_SHORT_PASSWORD, elem_err.text)
+        self.assertEqual(ERROR_SHORT_PASSWORD, elem_err.text.encode('utf-8', errors='ignore'))
 
     def test_weak_password(self):
         email = self.signup_page.generate_fake_email()
@@ -238,9 +238,9 @@ class SignUpTest(BasicTest):
         password_err_popup = self.signup_page.wait_render(
             self.signup_page.password_popup_message)
 
-        expected_message = u'Не используйте личные данные, последовательности (123456, qwerty) и популярные пароли (password).'
+        expected_message = 'Не используйте личные данные, последовательности (123456, qwerty) и популярные пароли (password).'
 
-        self.assertEqual(expected_message, password_err_popup.text)
+        self.assertEqual(expected_message, password_err_popup.text.encode('utf-8', errors='ignore'))
 
     def test_bad_password(self):
         email = self.signup_page.generate_fake_email()
@@ -264,11 +264,12 @@ class SignUpTest(BasicTest):
 
         password_err_popup = self.signup_page.wait_render(self.signup_page.password_popup_message)
 
-        EXPECTED_MESSAGE = u'Не используйте имя аккаунта и другие личные данные'
+        EXPECTED_MESSAGE = 'Не используйте имя аккаунта и другие личные данные'
 
-        self.assertEqual(EXPECTED_MESSAGE, password_err_popup.text)
+        self.assertEqual(EXPECTED_MESSAGE, password_err_popup.text.encode('utf-8', errors='ignore'))
 
     def test_user_exists(self):
+        # import ipdb; ipdb.set_trace()
         EXISTING_LOGIN = 'TPWAO'
         password = self.signup_page.generate_fake_password()
 
@@ -288,11 +289,11 @@ class SignUpTest(BasicTest):
         self.signup_page.enter_signup_data(data, False)
         self.signup_page.click_signup()
 
-        email_err_popup = self.signup_page.wait_render(self.signup_page.email_popup_message)
+        email_err_popup = self.signup_page.wait_render(self.signup_page.error_blocks)
 
-        EXPECTED_MESSAGE = u'Аккаунт с таким именем уже существует.\nВозможно, вам понравятся имена:'
+        EXPECTED_MESSAGE = 'Аккаунт с таким именем уже существует'
 
-        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text)
+        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text.encode('utf-8', errors='ignore'))
 
     def test_incorrect_login(self):
         INCORRECT_LOGIN = 'TPWAO@'
@@ -315,11 +316,11 @@ class SignUpTest(BasicTest):
         self.signup_page.click_signup()
 
         email_err_popup = self.signup_page.wait_render(
-            self.signup_page.email_popup_message)
+            self.signup_page.error_blocks)
 
-        EXPECTED_MESSAGE = u'Некорректное имя аккаунта. Допустимо использовать только латинские буквы, цифры,\nзнак подчеркивания («_»), точку («.»), минус («-»)'
+        EXPECTED_MESSAGE = 'Некорректное имя аккаунта. Допустимо использовать только латинские буквы, цифры,\nзнак подчеркивания («_»), точку («.»), минус («-»)'
 
-        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text)
+        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text.encode('utf-8', errors='ignore'))
 
     def test_cyrillic_login(self):
         CYRILLIC_LOGIN = u'гошан777'
@@ -342,11 +343,11 @@ class SignUpTest(BasicTest):
         self.signup_page.click_signup()
 
         email_err_popup = self.signup_page.wait_render(
-            self.signup_page.email_popup_message)
+            self.signup_page.error_blocks)
 
-        EXPECTED_MESSAGE = u'В имени аккаунта нельзя использовать кириллицу'
+        EXPECTED_MESSAGE = 'В имени аккаунта нельзя использовать кириллицу'
 
-        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text)
+        self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text.encode('utf-8', errors='ignore'))
 
     def test_hiding_password(self):
         self.signup_page.click_use_condition()
@@ -428,7 +429,7 @@ class SignUpTest(BasicTest):
         self.signup_page.enter_captcha_code(WRONG_CAPTCHA_CODE)
         self.signup_page.submit_captcha()
 
-        EXPECTED_MESSAGE = u'Вы указали неправильный код с картинки'
+        EXPECTED_MESSAGE = 'Вы указали неправильный код с картинки'
         error_msg = self.signup_page.get_captcha_error_message()
 
         self.assertEqual(EXPECTED_MESSAGE, error_msg)
@@ -455,7 +456,7 @@ class SignUpTest(BasicTest):
 
         self.signup_page.submit_captcha()
 
-        EXPECTED_MESSAGE = u'Укажите код с картинки'
+        EXPECTED_MESSAGE = 'Укажите код с картинки'
         error_msg = self.signup_page.get_captcha_error_message()
 
         self.assertEqual(EXPECTED_MESSAGE, error_msg)
