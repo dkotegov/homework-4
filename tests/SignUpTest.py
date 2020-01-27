@@ -349,12 +349,6 @@ class SignUpTest(BasicTest):
 
         self.assertEqual(EXPECTED_MESSAGE, email_err_popup.text.encode('utf-8', errors='ignore'))
 
-    def test_hiding_password(self):
-        self.signup_page.click_use_condition()
-        self.driver.switch_to.window(window_name=self.driver.window_handles[1])
-        self.signup_page.wait_redirect(self.SIGNUP_USE_CONDITION)
-        self.assertEqual(self.driver.current_url, self.SIGNUP_USE_CONDITION)
-
     def test_captcha_update(self):
         email = self.signup_page.generate_fake_email()
         password = self.signup_page.generate_fake_password()
