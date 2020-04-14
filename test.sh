@@ -1,0 +1,1 @@
+LOGIN='oooootttttaaaaa' PASSWORD='aaaaatttttooooo09876' BROWSER='FIREFOX' python3 -m unittest -v tests/wrong_city_test.py
