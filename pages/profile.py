@@ -1,4 +1,4 @@
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
 
 from pages.default import DefaultPage, DefaultSteps
 
@@ -21,6 +21,19 @@ class ProfileSteps(DefaultSteps):
     PERSONAL_DATA = '[data-test-id="card-footer"]'
     SUGGEST_ITEM = '[data-test-id="select-value:Санок, Польша"]'
     CITY_ERROR = '[data-test-id="city-field-error"]'
+    BIRTH_DAY = '[data-test-id="birthday__day-value"]'
+    BIRTH_MONTH = '[data-test-id="birthday__month-value"]'
+    BIRTH_YEAR = '[data-test-id="birthday__year-value"]'
+    BIRTH_ERROR = '[data-test-id="birthday-field-error"]'
+    VALUE_DAY = '[data-test-id="select-value:3"]'
+    VALUE_MONTH = '[data-test-id="select-value:7"]'
+    VALUE_YEAR = '[data-test-id="select-value:2020"]'
+
+    LEAP_DAY = '[data-test-id="select-value:29"]'
+    LEAP_MONTH = '[data-test-id="select-value:2"]'
+    LEAP_YEAR = '[data-test-id="select-value:2000"]'
+
+    DAY_VALUE = '[data-test-id="birthday__day-value"]'
 
 
     def save(self):
@@ -76,3 +89,53 @@ class ProfileSteps(DefaultSteps):
     def city_error(self):
         self.waiting_for_visible(self.CITY_ERROR)
         return self.driver.find_element_by_css_selector(self.CITY_ERROR).text
+
+    def future_burthday(self):
+        self.waiting_for_visible(self.BIRTH_DAY)
+        self.waiting_for_visible(self.BIRTH_MONTH)
+        self.waiting_for_visible(self.BIRTH_YEAR)
+
+        self.driver.find_element_by_css_selector(self.BIRTH_DAY).click()
+        self.waiting_for_visible(self.VALUE_DAY)
+        self.driver.find_element_by_css_selector(self.VALUE_DAY).click()
+
+        self.driver.find_element_by_css_selector(self.BIRTH_MONTH).click()
+        self.waiting_for_visible(self.VALUE_MONTH)
+        self.driver.find_element_by_css_selector(self.VALUE_MONTH).click()
+
+        self.driver.find_element_by_css_selector(self.BIRTH_YEAR).click()
+        self.waiting_for_visible(self.VALUE_YEAR)
+        self.driver.find_element_by_css_selector(self.VALUE_YEAR).click()
+
+
+    def birth_error(self):
+        self.waiting_for_visible(self.BIRTH_ERROR)
+        return self.driver.find_element_by_css_selector(self.BIRTH_ERROR).text
+
+    def set_birthday(self):
+        self.waiting_for_visible(self.BIRTH_DAY)
+        self.waiting_for_visible(self.BIRTH_MONTH)
+        self.waiting_for_visible(self.BIRTH_YEAR)
+
+        self.driver.find_element_by_css_selector(self.BIRTH_YEAR).click()
+        self.waiting_for_visible(self.LEAP_YEAR)
+        self.driver.find_element_by_css_selector(self.LEAP_YEAR).click()
+
+        self.driver.find_element_by_css_selector(self.BIRTH_DAY).click()
+        self.waiting_for_visible(self.LEAP_DAY)
+        self.driver.find_element_by_css_selector(self.LEAP_DAY).click()
+
+        self.driver.find_element_by_css_selector(self.BIRTH_MONTH).click()
+        self.waiting_for_visible(self.LEAP_MONTH)
+        self.driver.find_element_by_css_selector(self.LEAP_MONTH).click()
+
+    def get_day(self):
+        self.waiting_for_visible(self.DAY_VALUE)
+        return self.driver.find_element_by_css_selector(self.DAY_VALUE).text
+
+
+
+
+
+
+
