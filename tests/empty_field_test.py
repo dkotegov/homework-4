@@ -9,6 +9,7 @@ from pages.profile import ProfilePage
 class EmptyTest(unittest.TestCase):
     NAME = ""
     ERROR = 'Укажите имя'
+
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 

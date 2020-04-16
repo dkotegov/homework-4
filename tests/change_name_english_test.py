@@ -8,6 +8,7 @@ from pages.profile import ProfilePage
 
 class EnglishNameTest(unittest.TestCase):
     NAME = "TEST NAME"
+
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 

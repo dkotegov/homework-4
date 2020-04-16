@@ -26,6 +26,10 @@ class DefaultSteps:
         wait = WebDriverWait(self.driver, self.VISIBILITY_TIMEOUT, self.FREQUENCY)
         wait.until(expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, element)))
 
+    def wait_for_clickable(self, element):
+        wait = WebDriverWait(self.driver, self.VISIBILITY_TIMEOUT, self.FREQUENCY)
+        wait.until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, element)))
+
     def waiting_for_visible(self, element):
         wait = WebDriverWait(self.driver, self.VISIBILITY_TIMEOUT, self.FREQUENCY)
         wait.until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, element)))

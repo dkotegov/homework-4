@@ -5,8 +5,10 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from pages.account import AccountPage
 from pages.profile import ProfilePage
 
-class LeapYaerTest(unittest.TestCase):
+
+class LeapYearTest(unittest.TestCase):
     DAY = '29'
+
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 

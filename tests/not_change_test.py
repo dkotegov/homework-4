@@ -6,8 +6,9 @@ from pages.account import AccountPage
 from pages.profile import ProfilePage
 
 
-class RussianNameTest(unittest.TestCase):
+class NotChangeTest(unittest.TestCase):
     NAME = "НЕ ИЗМЕНИТСЯ"
+
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 
