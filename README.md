@@ -1,4 +1,9 @@
 ## Функциональные UI-автотесты по чек-листам проекта [id.mail.ru](https://id.mail.ru)
+### Запуск
+1.  ./hub.sh
+2.  ./node.sh
+3.  LOGIN=<> PASSWORD=<> BROWSER='FIREFOX' [optional] python3 run_tests.py
+
 ### Чек-лист на страницу [id.mail.ru/profile](https://id.mail.ru/profile)
 
 #### 1. Поле Имя Фамилия Никнейм
