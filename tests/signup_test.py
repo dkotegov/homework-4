@@ -5,9 +5,7 @@ import abc
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from faker import Faker
 
@@ -35,7 +33,7 @@ class SignupForm(Component):
     INPUT_ERROR = '//span[@class="text-field__error"][@style="display: block; visibility: visible;"]'
     SERVER_ERROR = '//div[@class="response-text response-text-error"]'
 
-    EMAIL_ERROR = '//form[@id="signupForm"]/div[4]//span[@class="text-field__error"]'
+    #EMAIL_ERROR = '//form[@id="signupForm"]/div[4]//span[@class="text-field__error"]'
 
     def set_email(self, login):
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)

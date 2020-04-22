@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import os
-
-import unittest
-from time import sleep
 from urllib.parse import urljoin
 
-from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class Page(object):
@@ -35,15 +32,23 @@ class AuthPage(Page):
     def form(self):
         return AuthForm(self.driver)
 
+    def login_as_freelancer(self):
+        auth_form = self.form
+        auth_form.set_login('da@mail.ru')
+        auth_form.set_password('123456')
+        auth_form.submit()
+
+    def login_as_client(self):
+        auth_form = self.form
+        auth_form.set_login('client@ya.ru')
+        auth_form.set_password('123456')
+        auth_form.submit()
+
 
 class AuthForm(Component):
     LOGIN = '//input[@name="email"]'
     PASSWORD = '//input[@name="password"]'
-    SUBMIT = '//button[@type="submit"]'
-    LOGIN_BUTTON = 'button.btn.btn_primary[type="submit"]'
-
-    def open_form(self):
-        self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
+    SUBMIT = '//div[@class="field-group__fields "]/button[@type="submit"]'
 
     def set_login(self, login):
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
@@ -52,6 +57,8 @@ class AuthForm(Component):
         self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
 
     def submit(self):
+        element = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, self.SUBMIT)))
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
 
