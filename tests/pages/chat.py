@@ -34,6 +34,10 @@ class FindCompanyForm(FormComponent):
     error_line = '//div[@id="createMessageError"]'
     error_line_active = error_line + '[@class="createmessage-error"]'
     message_list = '//div[@id="incomingMessagesList"]'
+    chat_element = '.chatroom'
+    chat_creator = '.chatroom__creator'
+    chat_content = '.chatroom__content'
+
 
     def search_user(self, query):
         self.fill_input(self.driver.find_element_by_xpath(self.search_line), query)
@@ -45,6 +49,26 @@ class FindCompanyForm(FormComponent):
             return self.driver.find_element_by_xpath(self.error_line_active).text
         except:
             return None
+
+    def open_dialog_from_list(self, name):
+        self.find_dialog_by_name(name).click()
+
+    def find_dialog_by_name(self, name):
+        creators = self.driver.find_elements(By.CSS_SELECTOR, self.chat_creator)
+        creator = None
+        for val in creators:
+            if val.text == name:
+                creator = val
+                break
+        assert creator
+        return creator
+
+    def check_dialog(self, name, text):
+        dialog = self.find_dialog_by_name(name).find_element_by_xpath("..")
+        assert dialog.find_element(By.CSS_SELECTOR, self.chat_content).text == text
+
+    def wait_for_load(self):
+        self.wait_for_presence(By.XPATH, self.message_list)
 
 
 class ConcreteUserMessagesForm(FormComponent):
@@ -60,6 +84,7 @@ class ConcreteUserMessagesForm(FormComponent):
     # companion_message = messages + '[@class="'
     message_creator = '//div[@class="message__creator"]'
     message_content = '.message__content'
+
 
     def wait_for_load(self):
         self.wait_for_presence(By.XPATH, self.companion_name)
