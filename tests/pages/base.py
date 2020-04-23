@@ -4,9 +4,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
+from tests.pages.config import Seed
 
-class Page(object):
-    BASE_URL = 'https://solarsunrise.ru'
+
+class Page(Seed):
     PATH = ''
     ROOT = {
         'method': By.ID,
@@ -23,11 +24,9 @@ class Page(object):
         self.wait_for_load()
         print(url + " opened")
 
-    def wait_for_presence(self, method, key, timeout=10):
-        element = WebDriverWait(self.driver, timeout).until(
-            expected_conditions.presence_of_element_located((method, key))
-        )
-        assert element
-
     def wait_for_load(self):
         self.wait_for_presence(self.ROOT['method'], self.ROOT['key'])
+
+    @staticmethod
+    def get_xpath_visible(s):
+        return s + '[not(contains(@style, "display: none"))]'

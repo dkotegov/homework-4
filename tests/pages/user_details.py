@@ -8,8 +8,8 @@ class UserDetailsPage(Page):
     PATH = '/users/{0}'
 
     ROOT = {
-        'method': By.ID,
-        'key': 'user-page'
+        'method': By.XPATH,
+        'key': Page.get_xpath_visible('//div[@id="user-page"]')
     }
 
     def __init__(self, driver, nickname):
