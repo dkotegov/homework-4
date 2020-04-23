@@ -1,4 +1,3 @@
-from tests.cases.base import Test
 from tests.pages.user_profile import ProfilePage
 from tests.pages.authorization import AuthForm
 from tests.cases.base import TestAuthorizedWithFillFields
