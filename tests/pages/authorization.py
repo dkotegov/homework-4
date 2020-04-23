@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
 from tests.pages.profile import ProfilePage
-from tests.pages.registration import RegPage
+from tests.pages.solarsunrise_urls import RegPage
 
 
 class AuthPage(Page):
@@ -12,9 +12,10 @@ class AuthPage(Page):
         'key': 'login-page'
     }
 
-    def __init__(self, driver):
+    def __init__(self, driver, open=True):
         Page.__init__(self, driver)
-        self.open()
+        if open:
+            self.open()
 
     @property
     def form(self):
