@@ -12,21 +12,21 @@ import tests.freelancer_settings_test as freelancer
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         # signup
-        # unittest.makeSuite(signup.SignupTestValidFreelancer),
-        # unittest.makeSuite(signup.SignupTestInvalidFreelancerExistingEmail),
-        # unittest.makeSuite(signup.SignupTestInvalidFreelancerShortPassword),
-        # unittest.makeSuite(signup.SignupTestInvalidFreelancerNameWithNumbers),
-        # unittest.makeSuite(signup.SignupTestInvalidFreelancerNameWithSymbols),
-        # unittest.makeSuite(signup.SignupTestInvalidFreelancerSurnameWithNumbers),
-        # unittest.makeSuite(signup.SignupTestInvalidFreelancerSurnameWithSymbols),
-        #
-        # unittest.makeSuite(signup.SignupTestValidClient),
-        # unittest.makeSuite(signup.SignupTestInvalidClientExistingEmail),
-        # unittest.makeSuite(signup.SignupTestInvalidClientShortPassword),
-        # unittest.makeSuite(signup.SignupTestInvalidClientNameWithNumbers),
-        # unittest.makeSuite(signup.SignupTestInvalidClientNameWithSymbols),
-        # unittest.makeSuite(signup.SignupTestInvalidClientSurnameWithNumbers),
-        # unittest.makeSuite(signup.SignupTestInvalidClientSurnameWithSymbols),
+        unittest.makeSuite(signup.SignupTestValidFreelancer),
+        unittest.makeSuite(signup.SignupTestInvalidFreelancerExistingEmail),
+        unittest.makeSuite(signup.SignupTestInvalidFreelancerShortPassword),
+        unittest.makeSuite(signup.SignupTestInvalidFreelancerNameWithNumbers),
+        unittest.makeSuite(signup.SignupTestInvalidFreelancerNameWithSymbols),
+        unittest.makeSuite(signup.SignupTestInvalidFreelancerSurnameWithNumbers),
+        unittest.makeSuite(signup.SignupTestInvalidFreelancerSurnameWithSymbols),
+
+        unittest.makeSuite(signup.SignupTestValidClient),
+        unittest.makeSuite(signup.SignupTestInvalidClientExistingEmail),
+        unittest.makeSuite(signup.SignupTestInvalidClientShortPassword),
+        unittest.makeSuite(signup.SignupTestInvalidClientNameWithNumbers),
+        unittest.makeSuite(signup.SignupTestInvalidClientNameWithSymbols),
+        unittest.makeSuite(signup.SignupTestInvalidClientSurnameWithNumbers),
+        unittest.makeSuite(signup.SignupTestInvalidClientSurnameWithSymbols),
 
         # account settings
         unittest.makeSuite(accsettings.FreelancerChangeSurnameTestValid),
