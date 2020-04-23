@@ -2,10 +2,12 @@
 
 import sys
 import unittest
+
 import tests.signup_test as signup
 import tests.acc_settings_test as accsettings
 import tests.password_settings_test as passwordsettings
-
+import tests.client_settings_test as client
+import tests.freelancer_settings_test as freelancer
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -38,6 +40,36 @@ if __name__ == '__main__':
         unittest.makeSuite(accsettings.FreelancerChangeNameTestInvalidTooLong),
         unittest.makeSuite(accsettings.FreelancerChangeNameTestInvalidNumbers),
         unittest.makeSuite(accsettings.FreelancerChangeNameTestInvalidSpecialSymbols),
+
+        # client settings
+        unittest.makeSuite(client.ClientSettingsChangeCompanyTestValid),
+        unittest.makeSuite(client.ClientSettingsChangeCompanyTestInvalidTooShortName),
+        unittest.makeSuite(client.ClientSettingsChangeCompanyTestInvalidTooLongName),
+        unittest.makeSuite(client.ClientSettingsChangeCompanyTestInvalidTooShortSite),
+        unittest.makeSuite(client.ClientSettingsChangeCompanyTestInvalidTooLongSite),
+        unittest.makeSuite(client.ClientSettingsChangeCompanyTestInvalidTooShortTitle),
+        unittest.makeSuite(client.ClientSettingsChangeCompanyTestInvalidTooLongTitle),
+
+        unittest.makeSuite(client.ClientChangeContactsValid),
+        unittest.makeSuite(client.ClientChangeContactsInvalidTooShortAddress),
+        unittest.makeSuite(client.ClientChangeContactsInvalidTooLongAddress),
+        unittest.makeSuite(client.ClientChangeContactsInvalidWrongPhone),
+
+        # freelancer settings
+        unittest.makeSuite(freelancer.FreelancerChangeDescTestValid),
+        unittest.makeSuite(freelancer.FreelancerSetSkillsTestValid),
+        unittest.makeSuite(freelancer.FreelancerSetSkillsTestInvalidTooManyTags),
+
+        unittest.makeSuite(freelancer.FreelancerChangeSpecializationTest),
+
+        unittest.makeSuite(freelancer.FreelancerChangeExperienceJuniorTest),
+        unittest.makeSuite(freelancer.FreelancerChangeExperienceMiddleTest),
+        unittest.makeSuite(freelancer.FreelancerChangeExperienceSeniorTest),
+
+        unittest.makeSuite(freelancer.FreelancerChangeContactsValid),
+        unittest.makeSuite(freelancer.FreelancerChangeContactsInvalidTooShortAddress),
+        unittest.makeSuite(freelancer.FreelancerChangeContactsInvalidTooLongAddress),
+        unittest.makeSuite(freelancer.FreelancerChangeContactsInvalidWrongPhone),
 
         # password settings
         unittest.makeSuite(passwordsettings.FreelancerChangePasswordTestInvalidDiffPasswords),

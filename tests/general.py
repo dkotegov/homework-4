@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import os
 from urllib.parse import urljoin
 
 from selenium.webdriver.common.by import By
@@ -34,14 +34,15 @@ class AuthPage(Page):
 
     def login_as_freelancer(self):
         auth_form = self.form
-        auth_form.set_login('da@mail.ru')
-        auth_form.set_password('123456')
+        #auth_form.set_login('da@mail.ru')
+        auth_form.set_login(os.getenv('F_EMAIL') if os.getenv('F_EMAIL') else 'da@mail.ru')
+        auth_form.set_password(os.getenv('F_PASS') if os.getenv('F_PASS') else '123456')
         auth_form.submit()
 
     def login_as_client(self):
         auth_form = self.form
-        auth_form.set_login('client@ya.ru')
-        auth_form.set_password('123456')
+        auth_form.set_login(os.getenv('C_EMAIL') if os.getenv('C_EMAIL') else 'client@ya.ru')
+        auth_form.set_password(os.getenv('C_PASS') if os.getenv('C_PASS') else '123456')
         auth_form.submit()
 
 

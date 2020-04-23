@@ -20,24 +20,24 @@ class PasswordSettingsPage(Page):
 
 
 class PasswordSettingsForm(Component):
-    BUTTONS = '//button[@type="submit"]'
     PASSWORD = '//input[@type="password"]'
     NEW_PASSWORD = '//input[@name="newPassword"]'
     NEW_PASSWORD_CONF = '//input[@name="newPasswordConfirmation"]'
-
     SUBMIT = '//form[@id="passwordChangeForm"]/div[@class="password-settings__submit"]/div[' \
              '@class="field-group"]//button[@type="submit"]'
-    # SUBMIT = '//div[@class="field-group__fields "]/button[@type="submit"]'
 
     EDIT_SUCCESS = '//div[@class="response-text response-text-success"]'
 
     def set_password(self, password):
+        self.driver.find_element_by_xpath(self.PASSWORD).clear()
         self.driver.find_element_by_xpath(self.PASSWORD).send_keys(password)
 
     def set_new_password(self, password):
+        self.driver.find_element_by_xpath(self.NEW_PASSWORD).clear()
         self.driver.find_element_by_xpath(self.NEW_PASSWORD).send_keys(password)
 
     def set_new_password_conf(self, password):
+        self.driver.find_element_by_xpath(self.NEW_PASSWORD_CONF).clear()
         self.driver.find_element_by_xpath(self.NEW_PASSWORD_CONF).send_keys(password)
 
     def get_success_info(self):
@@ -80,7 +80,8 @@ class PasswordSettingsTest(abc.ABC, unittest.TestCase):
         password_settings_page = PasswordSettingsPage(self.driver)
         password_settings_page.open()
         password_settings_form = password_settings_page.form
-        sleep(10)
+        sleep(3)
+        #self.driver.implicitly_wait(10)
 
         self.change_settings(password_settings_form)
         self.check(password_settings_form)
@@ -97,12 +98,18 @@ class PasswordSettingsTest(abc.ABC, unittest.TestCase):
 
 
 class FreelancerChangePasswordTestValid(PasswordSettingsTest):
-    PASSWORD = '123456'
+    PASSWORD = os.getenv('F_PASS') if os.getenv('F_PASS') else '123456' #'123456'
     NEW_PASSWORD1 = '1234567'
     NEW_PASSWORD2 = '1234567'
     FREELANCER = True
 
     def check(self, password_settings_form):
+        self.assertEqual(password_settings_form.get_success_info(), 'Изменения сохранены.')
+        sleep(3)
+        password_settings_form.set_password(self.NEW_PASSWORD1)
+        password_settings_form.set_new_password(self.PASSWORD)
+        password_settings_form.set_new_password_conf(self.PASSWORD)
+        password_settings_form.click_on_button()
         self.assertEqual(password_settings_form.get_success_info(), 'Изменения сохранены.')
 
 
@@ -113,11 +120,11 @@ class FreelancerChangePasswordTestInvalidWrongPassword(PasswordSettingsTest):
     FREELANCER = True
 
     def check(self, password_settings_form):
-        self.assertEqual(password_settings_form.get_success_info(), None)
+        return
 
 
 class FreelancerChangePasswordTestInvalidDiffPasswords(PasswordSettingsTest):
-    PASSWORD = '123456'
+    PASSWORD = os.getenv('F_PASS') if os.getenv('F_PASS') else '123456' #'123456'
     NEW_PASSWORD1 = '1234567'
     NEW_PASSWORD2 = '123456789'
     FREELANCER = True
@@ -127,12 +134,18 @@ class FreelancerChangePasswordTestInvalidDiffPasswords(PasswordSettingsTest):
 
 
 class ClientChangePasswordTestValid(PasswordSettingsTest):
-    PASSWORD = '123456'
+    PASSWORD = os.getenv('C_PASS') if os.getenv('C_PASS') else '123456' #'123456'
     NEW_PASSWORD1 = '1234567'
     NEW_PASSWORD2 = '1234567'
     FREELANCER = False
 
     def check(self, password_settings_form):
+        self.assertEqual(password_settings_form.get_success_info(), 'Изменения сохранены.')
+        sleep(3)
+        password_settings_form.set_password(self.NEW_PASSWORD1)
+        password_settings_form.set_new_password(self.PASSWORD)
+        password_settings_form.set_new_password_conf(self.PASSWORD)
+        password_settings_form.click_on_button()
         self.assertEqual(password_settings_form.get_success_info(), 'Изменения сохранены.')
 
 
@@ -143,11 +156,11 @@ class ClientChangePasswordTestInvalidWrongPassword(PasswordSettingsTest):
     FREELANCER = False
 
     def check(self, password_settings_form):
-        self.assertEqual(password_settings_form.get_success_info(), None)
+        return
 
 
 class ClientChangePasswordTestInvalidDiffPasswords(PasswordSettingsTest):
-    PASSWORD = '123456'
+    PASSWORD = os.getenv('C_PASS') if os.getenv('C_PASS') else '123456' #'123456'
     NEW_PASSWORD1 = '1234567'
     NEW_PASSWORD2 = '123456789'
     FREELANCER = False

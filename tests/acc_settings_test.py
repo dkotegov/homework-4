@@ -1,7 +1,6 @@
 import os
 import abc
 import unittest
-from time import sleep
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.wait import WebDriverWait
