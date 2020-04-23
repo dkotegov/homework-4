@@ -2,17 +2,18 @@ from tests.cases.base import Test
 from tests.pages.registration import RegPage
 import os
 
+
 class RegTest(Test):
     def setUp(self):
         super().setUp()
         self.page = RegPage(self.driver)
 
-    # # Регистрация с корректными неиспользованными ранее почтой, никнеймом, паролем
-    # def test_correct_reg(self):
-    #     mail = os.environ['REG_MAIL']
-    #     login = os.environ['REG_LOGIN']
-    #     password = 'q1w2e3r4'
-    #     self.page.form.registration(mail, login, password)
+    # Регистрация с корректными неиспользованными ранее почтой, никнеймом, паролем
+    def test_correct_reg(self):
+        mail = os.environ['REG_MAIL']
+        login = os.environ['REG_LOGIN']
+        password = 'q1w2e3r4'
+        self.page.form.registration(mail, login, password)
 
     # Ошибка регистрации с существующими данными, при условии, что пароль валидный
     # Cуществует почта, но не существует логин

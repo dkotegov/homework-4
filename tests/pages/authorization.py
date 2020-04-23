@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
-from tests.pages.profile import ProfilePage
+from tests.pages.solarsunrise_urls import ProfilePage
 from tests.pages.solarsunrise_urls import RegPage
 
 
