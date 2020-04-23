@@ -107,7 +107,6 @@ class ConcreteUserMessagesForm(FormComponent):
         message = messages[index]
         text = message.find_element(By.CSS_SELECTOR, self.message_content).text
         creator = message.find_element_by_xpath(self.message_creator).text
-        print(creator)
         return {
             'from_me': creator in ['Вы:', 'You:'],
             'creator': creator,
