@@ -5,15 +5,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
-from selenium.webdriver.support.ui import Select
 
 
-class CreatePinPage(Page):
-    PATH = '/create_pin'
+class EditPinPage(Page):
+    PATH = '/pin_change/{0}'
 
     ROOT = {
         'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="createpin-page"]')
+        'key': Page.get_xpath_visible('//div[@id="pinediting-page"]')
     }
 
     def __init__(self, driver):
@@ -22,22 +21,20 @@ class CreatePinPage(Page):
 
     @property
     def form_list(self):
-        return FindCreatePinForm(self.driver)
+        return FindEditPinForm(self.driver)
 
     @property
     def form_concrete(self):
         return ConcreteUserMessagesForm(self.driver)
 
 
-class FindCreatePinForm(FormComponent):
+class FindEditPinForm(FormComponent):
     pin_name = '//input[@id="pinname"]'
     pin_content = '//input[@id="pincontent"]'
     error_line = '//div[@id="createPinError"]'
-    create_pin_button = '//input[@class="createpin__buttons__button-save createpin__buttons__button-save_pos"]'
+    edit_pin_button = '//input[@class="createpin__buttons__button-save createpin__buttons__button-save_pos"]'
     boards_list = '//select[@id="createPinBoardSelect"]'
     change_pin_button_click = '//div[@id="createPinBoardSelect"]'
-    create_board_button = '//div[@id="createPinCreateBoard"]'
-    load_file_button = '//input[@id="pinphoto"]'
 
     def set_pin_name(self, query):
         self.fill_input(self.driver.find_element_by_xpath(self.pin_name), query)
@@ -45,17 +42,11 @@ class FindCreatePinForm(FormComponent):
     def set_pin_content(self, query):
         self.fill_input(self.driver.find_element_by_xpath(self.pin_content), query)
 
-    def go_to_create_board(self):
-        self.driver.find_element_by_xpath(self.create_board_button).click()
-
-    def create_pin(self):
-        self.driver.find_element_by_xpath(self.create_pin_button).click()
+    def edit_pin(self):
+        self.driver.find_element_by_xpath(self.edit_pin_button).click()
 
     def get_error(self):
         return self.driver.find_element_by_xpath(self.error_line).text
-
-    def load_file(self, path):
-        self.driver.find_element(by=By.ID, value="pinphoto").send_keys(path)
 
     def set_select_board(self, board_id):
         select = self.driver.find_element_by_id('createPinBoardSelect')
@@ -64,9 +55,6 @@ class FindCreatePinForm(FormComponent):
             if option.get_attribute('value') == board_id:
                 option.click()
                 return
-
-    def select_board(self, board_id):
-        self.driver.find_element(by=By.ID, value="boardViewPins/board/" + board_id)
 
 
 class ConcreteUserMessagesForm(FormComponent):

@@ -50,9 +50,13 @@ class FindCreateBoardForm(FormComponent):
 class ConcreteUserMessagesForm(FormComponent):
     section_name = '//div[@id="profilePinsBoardsView"]'
     boards_list = '//div[@class="board-for-user-view__content"]'
+    boards_href_list = '//div[@class="board-for-user-view"]'
 
     def wait_for_load(self):
         self.wait_for_presence(By.XPATH, self.section_name)
 
     def get_boards_list(self):
         return self.driver.find_elements_by_xpath(self.boards_list)
+
+    def get_href_boards_list(self):
+        return self.driver.find_elements_by_xpath(self.boards_href_list)
