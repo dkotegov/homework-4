@@ -47,10 +47,12 @@ class MainSteps(DefaultSteps):
     SERVICE_GAMES = '[data-xray-click="service_games"]'
     SERVICE_DETI = '[data-xray-click="service_deti"]'
 
-    AUTH_SETUP_ACCOUNT_INFO = '[div.MainPage-mobile__personalCard--3OTal > div > div:nth-child(2) > [data-test-id="card-footer"]'
-    AUTH_SETUP_ALL_SETTINGS = '[div.MainPage-mobile__contactsCard--3KdWm > div > div:nth-child(2) > [data-test-id="card-footer"]'
-    AUTH_ACCOUNT_INFO = '[data-test-id="navigation-menu-item:profile"]'
-    AUTH_ALL_SETTINGS = '[data-test-id="navigation-menu-item:contacts"]'
+    AUTH_MAIN_BUTTON = '#root > div > div.Layout-mobile__navigationMenu--2qzgN > div > div.c0120 > [data-test-id="navigation-menu-item:main"]'
+    AUTH_SETUP_ACCOUNT_INFO = '#root > div > div.Layout-mobile__container--2MbDy > div > div.MainPage-mobile__content--2ZMsq > div.MainPage-mobile__personalCard--3OTal > div > div:nth-child(2) > a > [data-test-id="card-footer"]'
+    AUTH_SETUP_ALL_SETTINGS = '#root > div > div.Layout-mobile__container--2MbDy > div > div.MainPage-mobile__content--2ZMsq > div.MainPage-mobile__contactsCard--3KdWm > div > div:nth-child(2) > a > [data-test-id="card-footer"]'
+    AUTH_ACCOUNT_INFO = '#root > div > div.Layout-mobile__navigationMenu--2qzgN > div > div.c0120 > [data-test-id="navigation-menu-item:profile"]'
+    AUTH_ALL_SETTINGS = '#root > div > div.Layout-mobile__navigationMenu--2qzgN > div > div.c0120 > [data-test-id="navigation-menu-item:contacts"]'
+
 
     def button_signin(self):
         self.waiting_for_visible(self.SIGNIN)
@@ -67,6 +69,10 @@ class MainSteps(DefaultSteps):
     def ref_remind(self):
         self.waiting_for_visible(self.REMIND)
         self.driver.find_element_by_css_selector(self.REMIND).click()
+
+    def ref_auth_main_button(self):
+        self.waiting_for_visible(self.AUTH_MAIN_BUTTON)
+        self.driver.find_element_by_css_selector(self.AUTH_MAIN_BUTTON).click()
 
     def ref_auth_setup_account_info(self):
         self.waiting_for_visible(self.AUTH_SETUP_ACCOUNT_INFO)

@@ -20,13 +20,19 @@ class RefAuthAllSettingsTest(unittest.TestCase):
 
     def test(self):
         driver = self.driver
-        auth_page = AccountPage(driver)
-        auth_page.open()
-        auth_page.auth()
 
         mainpage = MainPage(driver)
         mainpage.open()
         mainsteps = mainpage.steps
-        mainsteps.ref_auth_all_settings()
+        mainsteps.button_signin()
+        driver.switch_to.frame(driver.find_element_by_css_selector('[class="ag-popup__frame__layout__iframe"]'))
+
+        auth_page = AccountPage(driver)
+        auth_page.auth_main_page()
+
+        mainpage_after_auth = MainPage(driver)
+        mainsteps_after_auth = mainpage_after_auth.steps
+        mainsteps_after_auth.ref_auth_main_button()
+        mainsteps_after_auth.ref_auth_all_settings()
 
         assert "No results found." not in driver.page_source
