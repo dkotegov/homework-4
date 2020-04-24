@@ -1,9 +1,11 @@
 from urllib.parse import urljoin
 
+from pages.base_page import Page
+
 
 class BaseSteps(object):
 
-    def __init__(self, driver, page):
+    def __init__(self, driver, page=Page):
         self.page = page(driver)
 
     def open(self):
