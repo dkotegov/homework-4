@@ -86,6 +86,8 @@ if __name__ == '__main__':
         unittest.makeSuite(EnglishNameTest),
         unittest.makeSuite(RussianNameTest),
         unittest.makeSuite(ChangePhotoErrorTest),
+        # тест EmptyTest не проходит в тестовом браузере, при сабмите пустого поля имени не появляется ошибка,
+        # хотя должна и в обычном браузере она есть
         # unittest.makeSuite(EmptyTest),
         unittest.makeSuite(FutureBirthdayTest),
         unittest.makeSuite(LeapYearTest),
@@ -97,7 +99,6 @@ if __name__ == '__main__':
         unittest.makeSuite(GifPhotoTest),
         unittest.makeSuite(JpgPhotoTest),
         unittest.makeSuite(WrongCityTest),
-
 
         # contacts tests
 
