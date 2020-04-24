@@ -10,6 +10,7 @@ class AccountPage(DefaultPage):
     LOGIN = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
     CONTAINER = '[class="scrollable__container"]'
+    CONTAINER_PROFILE = '[class="page-content"]'
 
     def auth(self):
         auth_steps = AccountSteps(self.driver)
@@ -17,6 +18,14 @@ class AccountPage(DefaultPage):
         auth_steps.set_login(self.LOGIN)
         auth_steps.set_password(self.PASSWORD)
         auth_steps.waiting_for_visible(self.CONTAINER)
+
+    def auth_main_page(self):
+        auth_steps = AccountSteps(self.driver)
+
+        auth_steps.set_login(self.LOGIN)
+        auth_steps.set_password(self.PASSWORD)
+        self.driver.switch_to.default_content()
+        auth_steps.waiting_for_visible(self.CONTAINER_PROFILE)
 
 
 class AccountSteps(DefaultSteps):
