@@ -60,7 +60,6 @@ from tests.ref_auth_setup_all_settings_test import RefAuthSetupAllSettingsTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        Nastya Kuznecova tests
         unittest.makeSuite(AutoCompleteCityTest),
         unittest.makeSuite(GenderTest),
         unittest.makeSuite(EnglishNameTest),
