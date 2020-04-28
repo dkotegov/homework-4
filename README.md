@@ -2,8 +2,8 @@
 
 ### Подготовка:
 #### Запуск ноды
-mac: `./launchers/run-node-mac.sh` 
-linux: `./launchers/run-node-linux.sh`
+mac: `./scripts/run-node-mac.sh` 
+linux: `./scripts/run-node-linux.sh`
 
 #### Запуск хаба
 `./launchers/hub.sh` 
