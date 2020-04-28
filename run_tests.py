@@ -29,17 +29,35 @@ if __name__ == '__main__':
         unittest.makeSuite(signup.SignupTestInvalidClientSurnameWithSymbols),
 
         # account settings
+        unittest.makeSuite(accsettings.FreelancerSwitchPage2Freelancer),
+        unittest.makeSuite(accsettings.FreelancerSwitchPage2Password),
+
+        unittest.makeSuite(accsettings.FreelancerUploadImageValid),
+        unittest.makeSuite(accsettings.FreelancerUploadImageInvalid),
         unittest.makeSuite(accsettings.FreelancerChangeSurnameTestValid),
         unittest.makeSuite(accsettings.FreelancerChangeSurnameTestInvalidTooShort),
         unittest.makeSuite(accsettings.FreelancerChangeSurnameTestInvalidTooLong),
         unittest.makeSuite(accsettings.FreelancerChangeSurnameTestInvalidNumbers),
         unittest.makeSuite(accsettings.FreelancerChangeSurnameTestInvalidSpecialSymbols),
-
         unittest.makeSuite(accsettings.FreelancerChangeNameTestValid),
         unittest.makeSuite(accsettings.FreelancerChangeNameTestInvalidTooShort),
         unittest.makeSuite(accsettings.FreelancerChangeNameTestInvalidTooLong),
         unittest.makeSuite(accsettings.FreelancerChangeNameTestInvalidNumbers),
         unittest.makeSuite(accsettings.FreelancerChangeNameTestInvalidSpecialSymbols),
+
+
+        unittest.makeSuite(accsettings.ClientUploadImageValid),
+        unittest.makeSuite(accsettings.ClientUploadImageInvalid),
+        unittest.makeSuite(accsettings.ClientChangeSurnameTestValid),
+        unittest.makeSuite(accsettings.ClientChangeSurnameTestInvalidTooShort),
+        unittest.makeSuite(accsettings.ClientChangeSurnameTestInvalidTooLong),
+        unittest.makeSuite(accsettings.ClientChangeSurnameTestInvalidNumbers),
+        unittest.makeSuite(accsettings.ClientChangeSurnameTestInvalidSpecialSymbols),
+        unittest.makeSuite(accsettings.ClientChangeNameTestValid),
+        unittest.makeSuite(accsettings.ClientChangeNameTestInvalidTooShort),
+        unittest.makeSuite(accsettings.ClientChangeNameTestInvalidTooLong),
+        unittest.makeSuite(accsettings.ClientChangeNameTestInvalidNumbers),
+        unittest.makeSuite(accsettings.ClientChangeNameTestInvalidSpecialSymbols),
 
         # client settings
         unittest.makeSuite(client.ClientSettingsChangeCompanyTestValid),
@@ -78,7 +96,6 @@ if __name__ == '__main__':
         unittest.makeSuite(passwordsettings.ClientChangePasswordTestInvalidDiffPasswords),
         unittest.makeSuite(passwordsettings.ClientChangePasswordTestInvalidWrongPassword),
         unittest.makeSuite(passwordsettings.ClientChangePasswordTestValid),
-
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

@@ -34,7 +34,6 @@ class AuthPage(Page):
 
     def login_as_freelancer(self):
         auth_form = self.form
-        #auth_form.set_login('da@mail.ru')
         auth_form.set_login(os.getenv('F_EMAIL') if os.getenv('F_EMAIL') else 'da@mail.ru')
         auth_form.set_password(os.getenv('F_PASS') if os.getenv('F_PASS') else '123456')
         auth_form.submit()
