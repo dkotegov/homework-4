@@ -48,7 +48,10 @@ class Accessor:
             self.__driver.quit()
 
     def find_element_by_css_selector(self, selector: str) -> CustomWebElement:
-        return CustomWebElement(self.driver.find_element_by_css_selector(selector))
+        return CustomWebElement(self.driver.find_element_by_css_selector(selector), selector)
+
+    def wait(self, sec: float):
+        self.driver.implicitly_wait(sec)
 
     @property
     def driver(self) -> WebDriver:
@@ -57,3 +60,9 @@ class Accessor:
     @property
     def waiter(self) -> WebDriverWait:
         return self.__waiter
+
+    def __getattr__(self, item):
+        try:
+            return getattr(self.__driver, item)
+        except AttributeError:
+            return getattr(self, item)
