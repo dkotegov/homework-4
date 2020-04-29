@@ -51,15 +51,19 @@ class SettingsForm(FormComponent):
         self.fill_input(self.driver.find_element_by_xpath(self.status_field), status)
 
     def get_name(self):
+        self.wait_for_visible(By.XPATH, self.name_field)
         return self.get_value_elem_text(self.name_field)
 
     def get_surname(self):
+        self.wait_for_visible(By.XPATH, self.surname_field)
         return self.get_value_elem_text(self.surname_field)
 
     def get_nickname(self):
+        self.wait_for_visible(By.XPATH, self.nickname_field)
         return self.get_value_elem_text(self.nickname_field)
 
     def get_status(self):
+        self.wait_for_visible(By.XPATH, self.status_field)
         return self.get_value_elem_text(self.status_field)
 
     def submit(self, name):

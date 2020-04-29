@@ -60,7 +60,6 @@ class RegForm(FormComponent):
         self.submit()
 
         self.wait_for_visible(By.XPATH, self.incorrect_field)
-        # self.test_error_text(errtext)
 
     def to_login_page(self):
         self.driver.find_element_by_xpath(self.login_button).click()
