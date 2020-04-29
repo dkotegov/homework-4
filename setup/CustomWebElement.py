@@ -24,3 +24,6 @@ class CustomWebElement:
             accessor.waiter.until(element_to_be_clickable((By.ID, self.id_locator))).click()
         elif self.css_locator:
             accessor.waiter.until(element_to_be_clickable((By.CSS_SELECTOR, self.css_locator))).click()
+
+    def get_attribute(self, name):
+        return self.element.get_attribute(name)
