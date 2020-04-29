@@ -15,6 +15,9 @@ class CustomWebElement:
     def send_keys(self, keys: str):
         self.element.send_keys(keys)
 
+    def get_text(self):
+        return self.element.text
+
     def wait_and_click(self):
         from tests.conftest import accessor
         if self.id_locator is not None:

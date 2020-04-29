@@ -51,9 +51,9 @@ class Accessor:
 
     def wait_for_load(self, id_locator=None, css_locator=None):
         if id_locator is not None:
-            self.waiter.until(presence_of_element_located((By.ID, id_locator))).click()
+            self.waiter.until(presence_of_element_located((By.ID, id_locator)))
         elif css_locator:
-            self.waiter.until(presence_of_element_located((By.CSS_SELECTOR, css_locator))).click()
+            self.waiter.until(presence_of_element_located((By.CSS_SELECTOR, css_locator)))
         else:
             raise Exception("please specify type of selector")
 

@@ -11,3 +11,5 @@ class TestLogin:
         Steps.open_auth_page()
         Steps.enter_credentials()
         Steps.login()
+
+        #TODO:logout
