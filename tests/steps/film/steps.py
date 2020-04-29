@@ -39,5 +39,30 @@ class Steps(BaseSteps):
         Pages.choose_new_list_option()
         Pages.cancel_list_create()
         assert current == Pages.get_current_list().lower()
+
+    def go_to_same_film():
+        Pages.click_same_film()
         
-   
+    def check_actor():
+        first = Pages.get_film_actor()
+        print(first)
+        Pages.click_actor()
+        Pages.wait_for_actor()
+        second = Pages.get_actor_name()
+        print(second)
+        assert first == second
+        
+    def click_year(): 
+        year = Pages.click_year()
+        return year
+
+    def click_genre():
+        year = Pages.click_genre()
+        return genre
+
+    def check_genre(genre):
+        assert genre == Pages.click_genre()
+
+    def click_country(): 
+        year = Pages.click_country()
+        return country

@@ -32,6 +32,8 @@ LIST_NEW_CANCEL = '#js-stop-create'
 STAR_BUTTON = '#stars'
 STAR_3 = 'i[data-index="2"]'
 
+ACTOR_MAIN = '.actor'
+ACTOR_NAME = '.actor .title'
 
 class Pages(BasePages):
     
@@ -66,14 +68,18 @@ class Pages(BasePages):
         return element.get_text()
 
     def click_select(): 
+        a.wait_for_load(css_locator=LIST_SELECT)
         element = a.find_element_by_css_selector(LIST_SELECT)
         element.wait_and_click()
 
     def choose_new_list_option(): 
+        a.wait_for_load(css_locator=LIST_NEW_LIST)
         element = a.find_element_by_css_selector(LIST_NEW_LIST)
         element.wait_and_click()
 
     def set_list_name(name): 
+
+        a.wait_for_load(css_locator=LIST_NEW_INPUT)
         element = a.find_element_by_css_selector(LIST_NEW_INPUT)
         element.wait_and_click()
         element.send_keys(name)
@@ -82,11 +88,13 @@ class Pages(BasePages):
         a.wait_for_load(css_locator=LIST_NEW_SUBMIT)
         element = a.find_element_by_css_selector(LIST_NEW_SUBMIT)
         element.wait_and_click()
+        a.wait_for_invisible(LIST_NEW_SUBMIT)
 
     def cancel_list_create():
         a.wait_for_load(css_locator=LIST_NEW_CANCEL)
         element = a.find_element_by_css_selector(LIST_NEW_CANCEL)
         element.wait_and_click()
+        a.wait_for_invisible(LIST_NEW_CANCEL)
 
     def get_current_list():
         a.wait_for_load(css_locator=LIST_SELECT)
@@ -96,35 +104,66 @@ class Pages(BasePages):
         return selected_option.text
 
     def click_year():
+        a.wait_for_load(css_locator=FILM_YEAR)
         element = a.find_element_by_css_selector(FILM_YEAR)
+        year = element.get_text()
         element.wait_and_click()
+        return year
 
     def click_genre():
+
+        a.wait_for_load(css_locator=FILM_GENRE)
         element = a.find_element_by_css_selector(FILM_GENRE)
+        genre  = element.get_text()
         element.wait_and_click()
+        return genre
+
+    def get_film_actor(): 
+        a.wait_for_load(css_locator=FILM_ACTOR)
+        element = a.find_element_by_css_selector(FILM_ACTOR)
+        return element.get_text()
+
 
     def click_actor():
+        a.wait_for_load(css_locator=FILM_ACTOR)
         element = a.find_element_by_css_selector(FILM_ACTOR)
-        element.wait_and_click()
+        element.click()
 
-    def click_COUNTRY():
+    def click_country():
+        a.wait_for_load(css_locator=FILM_COUNTRY)
         element = a.find_element_by_css_selector(FILM_COUNTRY)
+        country = element.get_text()
         element.wait_and_click()
+        return country
 
     def click_star():
+        a.wait_for_load(css_locator=STAR_3)
         element = a.find_element_by_css_selector(STAR_3)
         element.wait_and_click()
 
     def click_same_film():
+        a.wait_for_load(css_locator=FILM_SAME)
         element = a.find_element_by_css_selector(FILM_SAME)
-        element.wait_and_click()
+        element.click()
 
     def check_stars(): 
+        a.wait_for_load(css_locator=STAR_BUTTON)
         element = a.find_element_by_css_selector(STAR_BUTTON)
 
     def get_film_rating():
+        a.wait_for_load(css_locator=FILM_RATING)
         element = a.find_element_by_css_selector(FILM_RATING)
         rating_line = element.get_text()
         rating = rating_line.split(' ')[1]
         return rating
+
+    def wait_for_actor():
+        a.wait_for_load(css_locator=ACTOR_MAIN)
+
+    def get_actor_name():
+        a.wait_for_load(css_locator=ACTOR_NAME)
+        element = a.find_element_by_css_selector(ACTOR_NAME)
+        name = element.get_text()
+        return name
+
 

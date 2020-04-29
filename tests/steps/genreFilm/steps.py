@@ -13,5 +13,17 @@ class Steps(BaseSteps):
         Pages.wait_for_container()
         Pages.click_film()
 
-    def count_films():
-        Pages.count_films()
+    def click_more_button():
+        before = Pages.count_films()
+        Pages.click_more()
+        now = Pages.count_films()
+        print(before)
+        print(now)
+        assert before < now
+
+    def click_genre():
+        Pages.wait_for_container()
+        return Pages.click_genre()
+
+
+    

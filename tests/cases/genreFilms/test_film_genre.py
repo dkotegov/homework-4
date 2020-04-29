@@ -7,23 +7,11 @@ from tests.steps.genreFilm.steps import Steps as Genre
 from tests.steps.film.steps import Steps as Film
 
 
-class TestReviewENG:
-    def test(self):
-        title = "testreview1review"
-        body = "testtestetstesttestest"
-
-        #TODO: Auth.simpleAuth()
+class TestReview:
+    def test_eng(self):
 
         Genre.open_genre_page()
+        genre = Genre.click_genre()
         Genre.click_film()
-
         Film.wait_for_container()
-        Film.create_review(title, body)
-        Film.check_review(title, body)
-
-        #TODO: logout
-
-
-
-
-        
+        Film.check_genre(genre)

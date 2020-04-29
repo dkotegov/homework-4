@@ -6,8 +6,9 @@ from selenium.webdriver.chrome.webdriver import Options as ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.webdriver import Options as FirefoxOptions
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.support.expected_conditions import presence_of_element_located
+from selenium.webdriver.support.expected_conditions import presence_of_element_located, invisibility_of_element_located
 from selenium.webdriver.support.wait import WebDriverWait
+
 
 from setup.CustomWebElement import CustomWebElement
 
@@ -56,6 +57,9 @@ class Accessor:
             self.waiter.until(presence_of_element_located((By.CSS_SELECTOR, css_locator)))
         else:
             raise Exception("please specify type of selector")
+
+    def wait_for_invisible(self, css_locator):
+        self.waiter.until(invisibility_of_element_located((By.CSS_SELECTOR, css_locator)))
 
     def find_element_by_css_selector(self, selector: str) -> CustomWebElement:
         return CustomWebElement(self.driver.find_element_by_css_selector(selector), css_locator=selector)
