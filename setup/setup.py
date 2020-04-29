@@ -60,6 +60,9 @@ class Accessor:
     def find_element_by_css_selector(self, selector: str) -> CustomWebElement:
         return CustomWebElement(self.driver.find_element_by_css_selector(selector), css_locator=selector)
 
+    def find_elements_by_css_selector(self, selector: str):
+        return self.driver.find_elements_by_css_selector(selector)
+
     def find_element_by_id(self, selector: str) -> CustomWebElement:
         return CustomWebElement(self.driver.find_element_by_id(selector), id_locator=selector)
 
