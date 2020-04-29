@@ -13,3 +13,5 @@ class Steps(BaseSteps):
         Pages.wait_for_container()
         Pages.click_film()
 
+    def count_films():
+        Pages.count_films()
