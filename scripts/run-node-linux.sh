@@ -1,4 +1,4 @@
-sudo java -Dwebdriver.chrome.driver="./drivers/linux/chromedriver" \
+java -Dwebdriver.chrome.driver="./drivers/linux/chromedriver" \
   -Dwebdriver.gecko.driver="./drivers/linux/geckodriver" \
   -jar drivers/selenium-server-standalone-3.141.59.jar \
   -role node \
