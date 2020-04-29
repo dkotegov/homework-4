@@ -1,4 +1,5 @@
 import os
+from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
@@ -61,7 +62,7 @@ class Accessor:
         return CustomWebElement(self.driver.find_element_by_css_selector(selector), css_locator=selector)
 
     def find_elements_by_css_selector(self, selector: str):
-        return self.driver.find_elements_by_css_selector(selector)
+        return [CustomWebElement(element) for element in self.driver.find_elements_by_css_selector(selector)]
 
     def find_element_by_id(self, selector: str) -> CustomWebElement:
         return CustomWebElement(self.driver.find_element_by_id(selector), id_locator=selector)
@@ -80,3 +81,13 @@ class Accessor:
     @property
     def waiter(self) -> WebDriverWait:
         return self.__waiter
+
+    def get(self, url: str):
+        self.driver.get(url)
+
+    def delete_all_cookie(self):
+        self.driver.delete_all_cookies()
+
+    @staticmethod
+    def sleep(s):
+        sleep(s)

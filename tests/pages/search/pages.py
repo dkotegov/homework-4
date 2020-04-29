@@ -2,7 +2,7 @@ from tests.conftest import accessor as a
 from tests.pages.base.base_pages import BasePages
 
 
-SEARCH_INPUT_QUERY = '#js-search-input'
+SEARCH_INPUT_QUERY = 'js-search-input'
 SEARCH_BUTTON_ID = 'js-navbar-search'
 SEARCH_RESULT_TITLE = '.search-results__film-card a:nth-child(1)'
 SEARCH_RESULT_NOT_FOUND = '.profile__warning'
@@ -11,7 +11,7 @@ SEARCH_RESULT_NOT_FOUND = '.profile__warning'
 class Pages(BasePages):
     @staticmethod
     def enter_search_query(query):
-        element = a.find_element_by_css_selector(SEARCH_INPUT_QUERY)
+        element = a.find_element_by_id(SEARCH_INPUT_QUERY)
         element.wait_and_click()
         element.send_keys(query)
 
