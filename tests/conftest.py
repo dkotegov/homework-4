@@ -43,6 +43,12 @@ def user_profile(user):
     open_user_profile()
 
 
+@pytest.fixture(autouse=True)
+def logout():
+    yield
+    accessor.driver.delete_all_cookies()
+
+
 @pytest.fixture
 def user_restore_default():
     from tests.steps.profile.steps import Steps
