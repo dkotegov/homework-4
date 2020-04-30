@@ -1,15 +1,6 @@
-import os
-import time
-import unittest
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver import DesiredCapabilities, Remote
-
 from tests.cases.base import TestAuthorized
-from tests.pages.auth import AuthPage
 from tests.pages.pin import PinDetailsPage
 from tests.pages.user_details import UserDetailsPage
-
 
 
 class Test(TestAuthorized):

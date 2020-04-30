@@ -1,7 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
-
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
 from tests.pages.profile import ProfilePage

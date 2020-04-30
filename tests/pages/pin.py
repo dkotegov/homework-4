@@ -27,10 +27,10 @@ class PinForm(FormComponent):
     tag = '.viewpin-block__right-column__context'
 
     def get_title(self):
-        return self.driver.find_element(By.CSS_SELECTOR, self.title).text
+        return self.find_element(By.CSS_SELECTOR, self.title).text
 
     def get_tag(self):
-        return self.driver.find_element(By.CSS_SELECTOR, self.tag).text
+        return self.find_element(By.CSS_SELECTOR, self.tag).text
 
     def wait_for_load(self):
         self.wait_for_presence(By.CSS_SELECTOR, self.title)

@@ -10,3 +10,14 @@ class Seed(object):
             expected_conditions.presence_of_element_located((method, key))
         )
         assert element
+
+    def find_element(self, method, key):
+        self.wait_for_presence(method, key)
+        return self.driver.find_element(method, key)
+
+
+def awaiting(func):
+    def wrapper(self, *args, **kwargs):
+            self.wait_for_load()
+            return func(self, *args, **kwargs)
+    return wrapper

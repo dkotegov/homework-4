@@ -1,10 +1,3 @@
-import os
-import time
-import unittest
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver import DesiredCapabilities, Remote
-
 from tests.cases.base import TestAuthorized
 from tests.pages.chat import ChatPage
 
