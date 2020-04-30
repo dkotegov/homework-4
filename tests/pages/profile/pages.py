@@ -1,3 +1,4 @@
+from setup.CustomWebElement import CustomWebElement
 from tests.conftest import accessor as a
 from tests.pages.base.base_pages import BasePages
 
@@ -41,6 +42,13 @@ class Pages(BasePages):
         a.wait_for_load(css_locator='.button_active')
 
     @staticmethod
+    def open_lists_tab():
+        selector = '.js-list-button'
+        a.wait_for_load(css_locator=selector)
+        tab = a.find_element_by_css_selector(selector)
+        tab.click()
+
+    @staticmethod
     def open_subscription_tab():
         selector = '.js-events-button'
         a.wait_for_load(css_locator=selector)
@@ -53,3 +61,13 @@ class Pages(BasePages):
         button.click()
         # wait
         a.sleep(1)
+
+    @staticmethod
+    def find_list(_):
+        selector = 'div:nth-of-type(1) div.film-list__title'
+        a.wait_for_load(css_locator=selector)
+        return a.find_element_by_css_selector('div:nth-of-type(1) div.film-list__title')
+
+    @staticmethod
+    def check_film_in_list(_: CustomWebElement, film_id):
+        a.find_element_by_css_selector(f"a[href='/film?filmID={film_id}']")

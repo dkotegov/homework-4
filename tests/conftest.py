@@ -2,6 +2,7 @@ import os
 
 import pytest
 
+from setup.constants import PROJECT_URL
 from setup.setup import Accessor
 
 accessor: Accessor = None
@@ -57,6 +58,7 @@ def user_restore_default():
 def logout():
     yield
     accessor.driver.delete_all_cookies()
+    accessor.get(PROJECT_URL)
 
 
 def create_review():
