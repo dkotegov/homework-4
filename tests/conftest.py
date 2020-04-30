@@ -1,6 +1,7 @@
+import os
+
 import pytest
 
-from setup.constants import PROJECT_URL
 from setup.setup import Accessor
 
 accessor: Accessor = None
@@ -17,7 +18,7 @@ def pytest_sessionfinish(session, exitstatus):
 
 
 @pytest.fixture
-def test_user():
+def user():
     from tests.steps.auth.steps import Steps
     Steps.open_site()
     Steps.open_auth_page()
@@ -26,23 +27,21 @@ def test_user():
 
 
 @pytest.fixture
-def test_user_profile(test_user):
+def user_profile(user):
     from tests.steps.profile.steps import Steps
     Steps.open_site()
     Steps.open_edit_page()
 
 
 @pytest.fixture
-def test_user_restore_default():
+def user_restore_default():
     from tests.steps.profile.steps import Steps
-
-    def reset():
-        Steps.open_edit_page()
-        Steps.open_modal()
-        Steps.enter_profile_info("default", "default")
-        Steps.save_profile()
-
-    return reset
+    yield
+    Steps.open_edit_page()
+    Steps.open_modal()
+    Steps.enter_profile_info("default", "default")
+    Steps.upload_avatar(f'{os.getcwd()}/../../test_data/default.png')
+    Steps.save_profile()
 
 
 @pytest.fixture(autouse=True)

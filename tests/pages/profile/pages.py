@@ -1,4 +1,5 @@
 from tests.conftest import accessor as a
+import os
 from tests.pages.base.base_pages import BasePages
 
 
@@ -15,6 +16,11 @@ class Pages(BasePages):
         button = a.find_element_by_css_selector('.js-edit-button')
         button.wait_and_click()
         a.wait_for_load(css_locator='.js-edit-button')
+
+    @staticmethod
+    def upload_avatar(file: str):
+        button = a.find_element_by_css_selector('.js-avatar-input')
+        button.send_keys(file)
 
     @staticmethod
     def enter_name(name):
@@ -38,4 +44,5 @@ class Pages(BasePages):
     def save_profile_no_wait():
         button = a.find_element_by_id('js-save-button')
         button.click()
+        # wait
         a.sleep(1)

@@ -24,6 +24,10 @@ class Steps(BaseSteps):
         Pages.save_profile()
 
     @staticmethod
+    def upload_avatar(file: str):
+        Pages.upload_avatar(file)
+
+    @staticmethod
     def save_profile_no_wait():
         Pages.save_profile_no_wait()
 
