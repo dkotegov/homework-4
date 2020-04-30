@@ -19,3 +19,8 @@ class Steps(BaseSteps):
         Pages.click_login_button()
         Pages.wait_until_page_load()
 
+    def auth():
+        Steps.open_site()
+        Steps.open_auth_page()
+        Steps.enter_credentials()
+        Steps.login()

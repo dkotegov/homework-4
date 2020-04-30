@@ -12,8 +12,7 @@ class TestReview:
         title = "testreview1review"
         body = "testtestetstesttestest"
 
-        #TODO: Auth.simpleAuth()
-
+        Auth.auth()
         Genre.open_genre_page()
         Genre.click_film()
 
@@ -27,7 +26,7 @@ class TestReview:
         title = "Тестовое название"
         body = "текстекстекстектст текст текст текст"
 
-        #TODO: Auth.simpleAuth()
+        Auth.auth()
 
         Genre.open_genre_page()
         Genre.click_film()

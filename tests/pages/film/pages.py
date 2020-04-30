@@ -19,7 +19,7 @@ REVIEWS = '.feedback'
 REVIEW_BODY_INPUT = '.js-text-input'
 REVIEW_TITLE_INPUT = '.js-title-input'
 REVIEW_SUBMIT = '[id="js-review-button"]'
-REVIEW_BODY =  '.feedback__main div:nth-child(3)'
+REVIEW_BODY = '.feedback__main div:nth-child(3)'
 REVIEW_TITLE = '.feedback__main div:nth-child(2)'
 
 LIST_SELECT = '.js-select'
@@ -36,47 +36,58 @@ ACTOR_MAIN = '.actor'
 ACTOR_NAME = '.actor .title'
 
 class Pages(BasePages):
-    
     @staticmethod
     def check_film_content():
         a.wait_for_load(css_locator=FILM_CONTENT)
 
-    def set_review_title( title):
+    @staticmethod
+    def set_review_title(title):
+        a.sleep(1)
         a.wait_for_load(css_locator=REVIEW_TITLE_INPUT)
         element = a.find_element_by_css_selector(REVIEW_TITLE_INPUT)
-        element.wait_and_click()
+        element.click()
         element.send_keys(title)
 
+    @staticmethod
     def set_review_body(body):
+        a.sleep(1)
         a.wait_for_load(css_locator=REVIEW_BODY_INPUT)
         element = a.find_element_by_css_selector(REVIEW_BODY_INPUT)
         element.wait_and_click()
         element.send_keys(body)
-    
-    def submit_review():
-        element = a.find_element_by_css_selector(REVIEW_SUBMIT)
-        element.click()
 
+    @staticmethod
+    def submit_review():
+        a.sleep(1)
+        element = a.find_element_by_css_selector(REVIEW_SUBMIT)
+        element.wait_and_click()
+        a.wait_for_load(css_locator=REVIEW_SUBMIT)
+
+    @staticmethod
     def get_first_review_body():
         a.wait_for_load(css_locator=REVIEW_BODY)
         element = a.find_element_by_css_selector(REVIEW_BODY)
         return element.get_text()
 
+    @staticmethod
     def get_first_review_title():
         a.wait_for_load(css_locator=REVIEW_TITLE)
         element = a.find_element_by_css_selector(REVIEW_TITLE)
         return element.get_text()
 
+    @staticmethod
     def click_select(): 
         a.wait_for_load(css_locator=LIST_SELECT)
         element = a.find_element_by_css_selector(LIST_SELECT)
         element.wait_and_click()
 
+    @staticmethod
     def choose_new_list_option(): 
         a.wait_for_load(css_locator=LIST_NEW_LIST)
         element = a.find_element_by_css_selector(LIST_NEW_LIST)
         element.wait_and_click()
 
+    @staticmethod
     def set_list_name(name): 
 
         a.wait_for_load(css_locator=LIST_NEW_INPUT)
@@ -84,18 +95,21 @@ class Pages(BasePages):
         element.wait_and_click()
         element.send_keys(name)
 
-    def sumbit_list_create():
+    @staticmethod
+    def submit_list_create():
         a.wait_for_load(css_locator=LIST_NEW_SUBMIT)
         element = a.find_element_by_css_selector(LIST_NEW_SUBMIT)
         element.wait_and_click()
         a.wait_for_invisible(LIST_NEW_SUBMIT)
 
+    @staticmethod
     def cancel_list_create():
         a.wait_for_load(css_locator=LIST_NEW_CANCEL)
         element = a.find_element_by_css_selector(LIST_NEW_CANCEL)
         element.wait_and_click()
         a.wait_for_invisible(LIST_NEW_CANCEL)
 
+    @staticmethod
     def get_current_list():
         a.wait_for_load(css_locator=LIST_SELECT)
         element = a.find_element_by_css_selector(LIST_SELECT)
@@ -103,6 +117,7 @@ class Pages(BasePages):
         selected_option = select.first_selected_option
         return selected_option.text
 
+    @staticmethod
     def click_year():
         a.wait_for_load(css_locator=FILM_YEAR)
         element = a.find_element_by_css_selector(FILM_YEAR)
@@ -111,6 +126,7 @@ class Pages(BasePages):
         a.get(new_window_url)
         return year
 
+    @staticmethod
     def click_genre():
 
         a.wait_for_load(css_locator=FILM_GENRE)
@@ -120,6 +136,7 @@ class Pages(BasePages):
         a.get(new_window_url)
         return genre
 
+    @staticmethod
     def get_film_actor(): 
         a.wait_for_load(css_locator=FILM_ACTOR)
         element = a.find_element_by_css_selector(FILM_ACTOR)
@@ -131,6 +148,7 @@ class Pages(BasePages):
         new_window_url = a.find_element_by_css_selector(FILM_ACTOR).get_attribute('href')
         a.get(new_window_url)
 
+    @staticmethod
     def click_country():
         a.wait_for_load(css_locator=FILM_COUNTRY)
         element = a.find_element_by_css_selector(FILM_COUNTRY)
@@ -139,21 +157,25 @@ class Pages(BasePages):
         a.get(new_window_url)
         return country
 
+    @staticmethod
     def click_star():
         a.wait_for_load(css_locator=STAR_3)
         element = a.find_element_by_css_selector(STAR_3)
         element.wait_and_click()
 
+    @staticmethod
     def click_same_film():
         a.wait_for_load(css_locator=FILM_SAME)
         element = a.find_element_by_css_selector(FILM_SAME)
         new_window_url = element.get_attribute('href')
         a.get(new_window_url)
 
+    @staticmethod
     def check_stars(): 
         a.wait_for_load(css_locator=STAR_BUTTON)
         element = a.find_element_by_css_selector(STAR_BUTTON)
 
+    @staticmethod
     def get_film_rating():
         a.wait_for_load(css_locator=FILM_RATING)
         element = a.find_element_by_css_selector(FILM_RATING)

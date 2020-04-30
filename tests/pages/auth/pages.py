@@ -6,6 +6,7 @@ from tests.pages.base.base_pages import BasePages
 class Pages(BasePages):
     @staticmethod
     def click_auth_modal():
+        a.wait_for_load(css_locator='a[href="/login"]')
         btn = a.find_element_by_css_selector('a[href="/login"]')
         btn.wait_and_click()
 

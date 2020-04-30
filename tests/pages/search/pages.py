@@ -25,7 +25,7 @@ ADVANCED_SEARCH_RESULT_YEARS = 'a[href="search?year_min="]'
 class Pages(BasePages):
     @staticmethod
     def enter_search_query(query):
-        element = a.find_element_by_css_selector(SEARCH_INPUT_QUERY)
+        element = a.find_element_by_id(SEARCH_INPUT_QUERY)
         element.wait_and_click()
         element.send_keys(query)
 
