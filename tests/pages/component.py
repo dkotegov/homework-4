@@ -19,3 +19,23 @@ class FormComponent(Component):
             expected_conditions.presence_of_element_located((method, key))
         )
         assert element
+
+    def wait_for_visible(self, method, key, timeout=10):
+        element = WebDriverWait(self.driver, timeout).until(
+            expected_conditions.visibility_of_element_located((method, key))
+        )
+        assert element
+
+    def get_elem_text(self, name):
+        return WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(name).text
+        )
+
+    def get_value_elem_text(self, name):
+        return self.driver.find_element_by_xpath(name).get_attribute('value')
+
+    def wait_alert_settings(self, timeout=10):
+        element = WebDriverWait(self.driver, timeout).until(
+            expected_conditions.alert_is_present()
+        )
+        assert element

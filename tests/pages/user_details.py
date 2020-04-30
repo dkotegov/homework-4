@@ -24,6 +24,8 @@ class UserDetailsPage(Page):
 class UserDetailsSubscribeForm(FormComponent):
     subscribe_button = '//input[@class="button-subscribe"]'
     unsubscribe_button = '//input[@class="button-already-subscribe"]'
+    pin = '//div[@class="pin-for-index-view"]'
+    pin_name = '//a[@class="pin-for-index__content"]'
 
     def subscribe(self):
         self.driver.find_element_by_xpath(self.subscribe_button).click()
@@ -32,6 +34,23 @@ class UserDetailsSubscribeForm(FormComponent):
     def unsubscribe(self):
         self.driver.find_element_by_xpath(self.unsubscribe_button).click()
         self.wait_for_presence(By.XPATH, self.subscribe_button)
+
+    def open_pin(self, index=0):
+        pins = self.driver.find_elements_by_xpath(self.pin)
+        assert len(pins) != 0
+        pin = pins[index]
+
+        pin_clickable = pin.find_element_by_xpath(self.pin_name)
+        pin_name = pin_clickable.text
+        pin_link = pin.find_element_by_tag_name("a").get_attribute("href")
+
+        pin_clickable.click()
+
+        return pin_name, pin_link
+
+
+
+
 
 
 
