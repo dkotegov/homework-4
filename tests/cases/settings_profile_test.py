@@ -44,7 +44,7 @@ class SettingsTest(TestAuthorizedWithFillFields):
 
     # Изменение никнейма на существующий
     def test_change_nickname_on_existing(self):
-        nickname = 'Nellin'
+        nickname = 'ADshishovaaaa'
         self.page.form.change_nickname_on_existing(nickname)
 
     # Изменение одного из заполненных полей на пустое

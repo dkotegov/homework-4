@@ -92,7 +92,7 @@ class SettingsForm(FormComponent):
 
         SettingsPage(self.driver, open=False).wait_for_load()
         text = self.get_fields_dict[field_name](self)
-        assert text == context
+        assert text == context, 'Field was not changed'
 
     def change_photo(self, file_name=''):
         self.set_avatar(file_name)
@@ -109,21 +109,16 @@ class SettingsForm(FormComponent):
         self.submit(self.settings_btn)
 
         SettingsPage(self.driver, open=False).wait_for_load()
-        assert self.get_name() == name
-        assert self.get_surname() == surname
-        # assert self.get_nickname() == nickname
-        assert self.get_status() == status
+        assert self.get_name() == name, 'Name was not changed'
+        assert self.get_surname() == surname, 'Surname was not changed'
+        assert self.get_nickname() == nickname, 'Nickname was not changed'
+        assert self.get_status() == status, 'Status was not changed'
 
     def change_nickname_on_existing(self, nickname):
         self.set_nickname(nickname)
 
         self.submit(self.ok_btn)
-        ProfilePage(self.driver, open=False).wait_for_load()
-        self.submit(self.settings_btn)
-        SettingsPage(self.driver, open=False).wait_for_load()
-
-        self.wait_for_visible(By.XPATH, self.nickname_field)
-        assert self.get_nickname() != nickname
+        self.wait_alert_settings()
 
     def change_empty_field(self, field_name, context):
         self.set_func_dict[field_name](self, context)
@@ -134,7 +129,7 @@ class SettingsForm(FormComponent):
 
         SettingsPage(self.driver, open=False).wait_for_load()
         text = self.get_fields_dict[field_name](self)
-        assert text != context
+        assert text != context, 'Fields with equal values'
 
     def go_to_profile(self):
         self.submit(self.exit_btn)

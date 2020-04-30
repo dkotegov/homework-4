@@ -33,3 +33,9 @@ class FormComponent(Component):
 
     def get_value_elem_text(self, name):
         return self.driver.find_element_by_xpath(name).get_attribute('value')
+
+    def wait_alert_settings(self, timeout=10):
+        element = WebDriverWait(self.driver, timeout).until(
+            expected_conditions.alert_is_present()
+        )
+        assert element

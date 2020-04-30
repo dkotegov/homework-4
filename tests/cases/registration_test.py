@@ -26,7 +26,7 @@ class RegTest(Test):
     # Cуществует логин, не существует почта
     def test_nonexistent_email_and_existing_login(self):
         mail = 'Nelltesttest6@mail.ru'
-        login = 'Nelltest'
+        login = 'ADshishovaaa'
         password = 'q1w2e3r4'
         self.page.form.incorrect_registration(mail, login, password)
 

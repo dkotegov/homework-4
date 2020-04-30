@@ -40,6 +40,9 @@ class ProfileForm(FormComponent):
         self.submit(self.question_btn)
         self.set_question(question)
         self.submit(self.submit_button)
+        self.submit(self.question_btn)
+        self.submit(self.question_btn)
+        assert self.get_value_elem_text(self.question_field) == '', 'Error sending message'
 
     def go_to_settings_from_menu(self):
         self.submit(self.menu_btn)
