@@ -50,19 +50,28 @@ class Steps(BaseSteps):
         Pages.wait_for_actor()
         second = Pages.get_actor_name()
         print(second)
-        assert first == second
+        assert first.lower() == second.lower()
         
     def click_year(): 
         year = Pages.click_year()
         return year
 
     def click_genre():
-        year = Pages.click_genre()
+        genre = Pages.click_genre()
         return genre
 
     def check_genre(genre):
         assert genre == Pages.click_genre()
 
     def click_country(): 
-        year = Pages.click_country()
+        country = Pages.click_country()
         return country
+
+    def get_genres(): 
+        return Pages.get_film_genres()
+    
+    def check_genres(genres):
+        new = Pages.get_film_genres()
+        for g in genres:
+            assert g in new
+    

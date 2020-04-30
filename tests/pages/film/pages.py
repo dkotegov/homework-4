@@ -8,7 +8,7 @@ LOGIN_LOGIN = '#js-email-login'
 LOGIN_PASSWODR = '#js-password-login'
 
 FILM_CONTENT = '.film'
-FILM_YEAR = '[href^="/search?yarmin="]'
+FILM_YEAR = '.film__decription_main a'
 FILM_GENRE = '[href^="/search?genres="]'
 FILM_COUNTRY = '[href^="/search?countries="]'
 FILM_ACTOR = '[href^="/actor"]'
@@ -107,7 +107,8 @@ class Pages(BasePages):
         a.wait_for_load(css_locator=FILM_YEAR)
         element = a.find_element_by_css_selector(FILM_YEAR)
         year = element.get_text()
-        element.wait_and_click()
+        new_window_url = element.get_attribute('href')
+        a.get(new_window_url)
         return year
 
     def click_genre():
@@ -115,7 +116,8 @@ class Pages(BasePages):
         a.wait_for_load(css_locator=FILM_GENRE)
         element = a.find_element_by_css_selector(FILM_GENRE)
         genre  = element.get_text()
-        element.wait_and_click()
+        new_window_url = element.get_attribute('href')
+        a.get(new_window_url)
         return genre
 
     def get_film_actor(): 
@@ -126,14 +128,15 @@ class Pages(BasePages):
 
     def click_actor():
         a.wait_for_load(css_locator=FILM_ACTOR)
-        element = a.find_element_by_css_selector(FILM_ACTOR)
-        element.click()
+        new_window_url = a.find_element_by_css_selector(FILM_ACTOR).get_attribute('href')
+        a.get(new_window_url)
 
     def click_country():
         a.wait_for_load(css_locator=FILM_COUNTRY)
         element = a.find_element_by_css_selector(FILM_COUNTRY)
         country = element.get_text()
-        element.wait_and_click()
+        new_window_url = element.get_attribute('href')
+        a.get(new_window_url)
         return country
 
     def click_star():
@@ -144,7 +147,8 @@ class Pages(BasePages):
     def click_same_film():
         a.wait_for_load(css_locator=FILM_SAME)
         element = a.find_element_by_css_selector(FILM_SAME)
-        element.click()
+        new_window_url = element.get_attribute('href')
+        a.get(new_window_url)
 
     def check_stars(): 
         a.wait_for_load(css_locator=STAR_BUTTON)
@@ -166,4 +170,11 @@ class Pages(BasePages):
         name = element.get_text()
         return name
 
+    def get_film_genres(): 
+        a.wait_for_load(css_locator=FILM_GENRE)
+        genres  = a.find_elements_by_css_selector(FILM_GENRE)
+        names = []
+        for g in genres: 
+            names.append(g.get_text())
+        return names
 
