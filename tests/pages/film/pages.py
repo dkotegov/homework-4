@@ -3,10 +3,6 @@ from tests.conftest import accessor as a
 from tests.pages.base.base_pages import BasePages
 from selenium.webdriver.support.select import Select
 
-AUTH_MODAL = 'a[href="/login"]'
-LOGIN_LOGIN = '#js-email-login'
-LOGIN_PASSWODR = '#js-password-login'
-
 FILM_CONTENT = '.film'
 FILM_YEAR = '.film__decription_main a'
 FILM_GENRE = '[href^="/search?genres="]'
@@ -49,7 +45,7 @@ class Pages(BasePages):
         element.click()
         element.send_keys(title)
 
-    @staticmethod
+    @staticmethodgit
     def set_review_body(body):
         a.sleep(1)
         a.wait_for_load(css_locator=REVIEW_BODY_INPUT)
