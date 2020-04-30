@@ -11,8 +11,8 @@ class SettingsTest(TestAuthorizedWithFillFields):
 
     # Изменение одного из полей
     # Изменение аватарки TODO
-    # def test_change_avatar(self):
-    #     self.page.form.change_photo()
+    def test_change_avatar(self):
+        self.page.form.change_photo()
 
     # Изменение Имени
     def test_change_valid_name(self):

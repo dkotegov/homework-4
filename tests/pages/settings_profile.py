@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
 from tests.pages.solarsunrise_urls import ProfilePage
+from random import choice
 import os
 
 
@@ -34,8 +35,8 @@ class SettingsForm(FormComponent):
 
     def set_avatar(self, file_name=''):
         if file_name == '':
-            file_name = os.getcwd() + '/images/beauty.jpg'
-        print(file_name)
+            num = choice([1, 2, 3, 4])
+            file_name = os.getcwd() + '/images/beauty' + str(num) + '.jpg'
         self.driver.find_element(By.ID, "avatarphoto").send_keys(file_name)
 
     def set_name(self, name):
@@ -96,13 +97,16 @@ class SettingsForm(FormComponent):
 
     def change_photo(self, file_name=''):
         self.set_avatar(file_name)
+        self.submit(self.ok_btn)
+        ProfilePage(self.driver, open=False).wait_for_load()
+        self.submit(self.settings_btn)
 
     def change_all_fields(self, name, surname, nickname, status, file_name=''):
         self.set_name(name)
         self.set_surname(surname)
         self.set_nickname(nickname)
         self.set_status(status)
-        # self.set_avatar(file_name)
+        self.set_avatar(file_name)
 
         self.submit(self.ok_btn)
         ProfilePage(self.driver, open=False).wait_for_load()
