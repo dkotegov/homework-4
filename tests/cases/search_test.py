@@ -57,6 +57,8 @@ class Test(TestAuthorized):
         for i in range(len(results)):
             self.page.result_form.wait_for_load()
             s = self.page.result_form.get_search_results_raw()
+            if len(s) <= i:
+                continue
             result = s[i]
             self.page.result_form.click_pin(result)
             page = PinDetailsPage(self.driver, open=False)
