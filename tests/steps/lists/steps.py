@@ -5,7 +5,12 @@ from tests.steps.base.base_steps import BaseSteps
 class Steps(BaseSteps):
     @staticmethod
     def select_list(list_name):
-        Pages.select_list(list_name)
+        try:
+            Pages.select_list(list_name)
+        except StaleElementReferenceException:
+            Pages.select_list(list_name)
+
+        
 
     @staticmethod
     def create_list(list_name):

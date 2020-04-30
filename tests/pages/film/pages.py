@@ -45,7 +45,7 @@ class Pages(BasePages):
         element.click()
         element.send_keys(title)
 
-    @staticmethodgit
+    @staticmethod
     def set_review_body(body):
         a.sleep(1)
         a.wait_for_load(css_locator=REVIEW_BODY_INPUT)

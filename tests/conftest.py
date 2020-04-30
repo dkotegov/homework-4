@@ -50,7 +50,7 @@ def user_restore_default():
     Steps.open_edit_page()
     Steps.open_modal()
     Steps.enter_profile_info("default", "default")
-    Steps.upload_avatar(f'{os.getcwd()}/../../test_data/default.png')
+    Steps.upload_avatar(f'{os.getcwd()}/tests/test_data/default.png')
     Steps.save_profile()
 
 
@@ -64,3 +64,8 @@ def create_review():
 @pytest.fixture
 def user_review(user):
     create_review()
+
+@pytest.fixture(autouse=True)
+def logout():
+    yield
+    accessor.driver.delete_all_cookies()

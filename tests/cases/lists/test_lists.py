@@ -11,7 +11,7 @@ from tests.steps.profile.steps import Steps as ProfileSteps
 class TestLists:
     def test_add_film_to_new_list(self, user):
         list_name = str(uuid.uuid4())
-        film_id = 1
+        film_id = 2
         ReviewSteps.get_film(film_id)
         Steps.create_list(list_name)
         open_user_profile()
@@ -20,7 +20,7 @@ class TestLists:
 
     def test_add_film_to_existing_list(self, user):
         list_name = 'testlist'
-        film_id = 1
+        film_id = 12
         ReviewSteps.get_film(film_id)
         Steps.select_list(list_name)
         open_user_profile()

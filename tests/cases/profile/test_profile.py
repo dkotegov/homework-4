@@ -43,7 +43,7 @@ class TestProfileEditing:
     def test_upload_avatar(self, user_profile, user_restore_default, logout):
         original_avatar_name = Steps.get_avatar_src()
         Steps.open_modal()
-        Steps.upload_avatar(f'{os.getcwd()}/../../test_data/test.jpg')
+        Steps.upload_avatar(f'{os.getcwd()}/tests/test_data/test.jpg')
         Steps.save_profile()
         Steps.check_avatar_update(original_avatar_name)
 
