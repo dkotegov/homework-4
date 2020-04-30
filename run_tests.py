@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-import logging
+import subprocess
 
-import unittest
-
+import pytest
 
 if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
-    
-
+    subprocess.call("./scripts/run-hub.sh&", shell=True)
+    subprocess.call("./scripts/run-node-linux.sh&", shell=True)
+    pytest.main()
