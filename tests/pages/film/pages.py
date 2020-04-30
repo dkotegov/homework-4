@@ -40,13 +40,15 @@ class Pages(BasePages):
 
     @staticmethod
     def set_review_title(title):
+        a.sleep(1)
         a.wait_for_load(css_locator=REVIEW_TITLE_INPUT)
         element = a.find_element_by_css_selector(REVIEW_TITLE_INPUT)
-        element.wait_and_click()
+        element.click()
         element.send_keys(title)
 
     @staticmethod
     def set_review_body(body):
+        a.sleep(1)
         a.wait_for_load(css_locator=REVIEW_BODY_INPUT)
         element = a.find_element_by_css_selector(REVIEW_BODY_INPUT)
         element.wait_and_click()
@@ -54,7 +56,7 @@ class Pages(BasePages):
 
     @staticmethod
     def submit_review():
-        a.sleep(2)
+        a.sleep(1)
         element = a.find_element_by_css_selector(REVIEW_SUBMIT)
         element.wait_and_click()
         a.wait_for_load(css_locator=REVIEW_SUBMIT)

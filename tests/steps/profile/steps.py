@@ -11,6 +11,18 @@ class Steps(BaseSteps):
         Pages.click_open_editing_page_button()
 
     @staticmethod
+    def check_username_error_existence():
+        assert accessor.find_element_by_id('error-js-username-input') is not None
+
+    @staticmethod
+    def check_description_error_existence():
+        assert accessor.find_element_by_id('error-js-save-button') is not None
+
+    @staticmethod
+    def get_avatar_src():
+        return accessor.find_element_by_css_selector('.profile__photo').element.get_attribute('src')
+
+    @staticmethod
     def open_modal():
         Pages.click_open_editing_modal_button()
 
@@ -19,12 +31,25 @@ class Steps(BaseSteps):
         Pages.enter_name(name)
 
     @staticmethod
+    def check_name_equality(name):
+        assert accessor.find_element_by_css_selector('.list__item div.title').get_text().lower() == name.lower()
+
+    @staticmethod
+    def check_description_equality(description):
+        assert accessor.find_elements_by_css_selector('.list__item div')[1] \
+                   .get_text().lower() == description.lower()
+
+    @staticmethod
     def enter_description(description):
         Pages.enter_description(description)
 
     @staticmethod
     def save_profile():
         Pages.save_profile()
+
+    @staticmethod
+    def check_avatar_update(original_name):
+        assert original_name != Steps.get_avatar_src()
 
     @staticmethod
     def upload_avatar(file: str):
