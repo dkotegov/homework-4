@@ -17,7 +17,7 @@ class TestSearch:
         Steps.open_advanced_search_page()
         Steps.enter_genre(self.VALID_GENRE)
         Steps.click_advance_search()
-        Steps.check_all_search_result_genre(self.VALID_GENRE)
+        Steps.check_first_film_genre(self.VALID_GENRE)
 
     def test_search_invalid_genre(self):
         Steps.open_advanced_search_page()
@@ -53,7 +53,7 @@ class TestSearch:
         Steps.open_advanced_search_page()
         Steps.enter_years(self.VALID_YEAR_FROM, self.VALID_YEAR_TO)
         Steps.click_advance_search()
-        Steps.check_all_search_result_year(self.VALID_YEAR_FROM, self.VALID_YEAR_TO)
+        Steps.check_first_film_year(self.VALID_YEAR_FROM, self.VALID_YEAR_TO)
 
     def test_search_invalid_years(self):
         Steps.open_advanced_search_page()

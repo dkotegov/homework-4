@@ -54,13 +54,6 @@ def user_restore_default():
     Steps.save_profile()
 
 
-@pytest.fixture(autouse=True)
-def logout():
-    yield
-    accessor.driver.delete_all_cookies()
-    accessor.get(PROJECT_URL)
-
-
 def create_review():
     from tests.steps.review.steps import Steps
     Steps.get_film(1)

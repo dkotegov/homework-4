@@ -23,7 +23,7 @@ class TestLinks:
         Film.wait_for_container()
         year = Film.click_year()
 
-        Search.check_all_search_result_year(year, year)
+        Search.check_first_film_year(year, year)
 
 
     def test_actor(self):
@@ -47,5 +47,5 @@ class TestLinks:
         Genre.click_film()
         Film.wait_for_container()
         genre = Film.click_genre()
-        Search.check_all_search_result_genre(genre)
+        Search.check_first_film_genre(genre)
 
