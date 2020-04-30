@@ -1,4 +1,5 @@
 import os
+import random
 import time
 import unittest
 from selenium import webdriver
@@ -20,13 +21,13 @@ class Test(TestAuthorized):
         super().setUp()
         self.file_path = os.environ.get('FILE_PATH')
         self.page = CreateBoardPage(self.driver)
-        board_name = BOARD_NAME
+        board_name = BOARD_NAME + str(random.randint(100, 10000))
         self.page.form_list.set_board_name(board_name)
         self.page.form_list.create_board()
         self.page.form_concrete.wait_for_load()
         for board in self.page.form_concrete.get_href_boards_list():
             board_text = board.find_element_by_tag_name('div')
-            if board_text.text == BOARD_NAME:
+            if board_text.text == board_name:
                 self.board_id = board.find_element_by_tag_name('a').get_attribute('href')[30:]
                 break
         self.page = CreatePinPage(self.driver)
@@ -72,3 +73,6 @@ class Test(TestAuthorized):
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
         print("success")
+
+    def test_go_back(self):
+        self.page.form_list.go_back()

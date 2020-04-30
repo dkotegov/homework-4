@@ -33,11 +33,14 @@ class FindCreatePinForm(FormComponent):
     pin_name = '//input[@id="pinname"]'
     pin_content = '//input[@id="pincontent"]'
     error_line = '//div[@id="createPinError"]'
-    create_pin_button = '//input[@class="createpin__buttons__button-save createpin__buttons__button-save_pos"]'
+    create_pin_button = '//input[@id="createpinViewButtonsOk"]'
     boards_list = '//select[@id="createPinBoardSelect"]'
     change_pin_button_click = '//div[@id="createPinBoardSelect"]'
     create_board_button = '//div[@id="createPinCreateBoard"]'
     load_file_button = '//input[@id="pinphoto"]'
+    section_name = '//div[@id="createpin-page"]'
+    profile_section_name = '//div[@id="profile-page"]'
+    back_button = '//a[@id="createPinViewButtonsExit"]'
 
     def set_pin_name(self, query):
         self.fill_input(self.driver.find_element_by_xpath(self.pin_name), query)
@@ -68,9 +71,18 @@ class FindCreatePinForm(FormComponent):
     def select_board(self, board_id):
         self.driver.find_element(by=By.ID, value="boardViewPins/board/" + board_id)
 
+    def wait_for_load(self):
+        self.wait_for_presence(By.XPATH, self.section_name)
+
+    def wait_for_load_profile(self):
+        self.wait_for_presence(By.XPATH, self.profile_section_name)
+
+    def go_back(self):
+        self.driver.find_element_by_xpath(self.back_button).click()
+
 
 class ConcreteUserMessagesForm(FormComponent):
-    section_name = '//div[@id="profilePinsBoardsView"]'
+    section_name = '//div[@id="createpin-page"]'
     boards_list = '//div[@class="board-for-user-view__content"]'
 
     def wait_for_load(self):

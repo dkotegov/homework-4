@@ -33,6 +33,7 @@ class FindCreateBoardForm(FormComponent):
     board_content = '//input[@id="boardcontent"]'
     error_line = '//div[@id="createBoardError"]'
     create_button = '//input[@class="createboard-form__button-save create-form__button-save_pos"]'
+    back_button = '//a[@id="createBoardViewButtonsExit"]'
 
     def set_board_name(self, query):
         self.fill_input(self.driver.find_element_by_xpath(self.board_name), query)
@@ -42,6 +43,9 @@ class FindCreateBoardForm(FormComponent):
 
     def create_board(self):
         self.driver.find_element_by_xpath(self.create_button).click()
+
+    def go_back(self):
+        self.driver.find_element_by_xpath(self.back_button).click()
 
     def get_error(self):
         return self.driver.find_element_by_xpath(self.error_line).text

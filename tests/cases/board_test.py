@@ -51,3 +51,6 @@ class Test(TestAuthorized):
                 print(board.text, "success")
                 return
         assert "board not found"
+
+    def test_go_back(self):
+        self.page.form_list.go_back()
