@@ -3,16 +3,11 @@ import time
 import unittest
 import random
 
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver import DesiredCapabilities, Remote
-
 from tests.cases.base import TestAuthorized
 from tests.pages.board import BoardPage
-from tests.pages.edit_pin import EditPinPage
+from tests.pages.pin import PinDetailsPage
 from tests.pages.create_pin import CreatePinPage
 from tests.pages.create_board import CreateBoardPage
-from tests.pages.profile import ProfilePage
 
 BOARD_NAME = "TEST BOARD "
 
@@ -48,36 +43,15 @@ class Test(TestAuthorized):
         # time.sleep(5)
         self.page.form_list.create_pin()
         self.page.form_list.wait_for_load_profile()
-        # time.sleep(5)
         self.page = BoardPage(self.driver, self.board_id)
         self.page.wait_for_load()
         self.pin_id = self.page.form.find_pin_id_by_pin_name(pin_name)
-        self.page = EditPinPage(self.driver, self.pin_id)
+        self.page = PinDetailsPage(self.driver, pin_id=str(self.pin_id))
 
-    def test_valid_data(self):
-        pin_name = "this is valid test pin"
-        pin_content = "this is normal pin description"
-        self.page.form_list.set_pin_name(pin_name)
-        self.page.form_list.set_pin_content(pin_content)
-        self.page.form_list.edit_pin()
-        if self.page.form_list.get_error(self.pin_id) != '':
-            assert "error"
+    def test_input_valid_comment(self):
+        comment_text = "normal comment"
+        self.page.form.set_comment(comment_text, self.pin_id)
+        self.page.form.send_comment()
 
-    def test_empty_name(self):
-        pin_content = "this is normal pin description"
-        self.page.form_list.set_pin_content(pin_content)
-        self.page.form_list.edit_pin()
-        assert self.page.form_list.get_error(self.pin_id) == ''
-
-    def test_empty_description(self):
-        pin_name = "this is valid test pin"
-        self.page.form_list.set_pin_name(pin_name)
-        self.page.form_list.edit_pin()
-        if self.page.form_list.get_error(self.pin_id) != '':
-            assert "error"
-
-    def test_go_back(self):
-        self.page.form_list.go_back(self.pin_id)
-
-    def test_delete_pin(self):
-        self.page.form_list.delete_pin(self.pin_id)
+    def test_save_pin(self):
+        self.page.form.save_pin()

@@ -43,7 +43,6 @@ class Test(TestAuthorized):
         self.page.form_list.create_pin()
         if self.page.form_list.get_error() != '':
             assert "error"
-        print("success")
 
     def test_empty_file(self):
         pin_name = "this is empty file test pin name"
@@ -53,7 +52,6 @@ class Test(TestAuthorized):
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
         assert self.page.form_list.get_error() == ''
-        print("success")
 
     def test_empty_name(self):
         file_name = self.file_path
@@ -63,7 +61,6 @@ class Test(TestAuthorized):
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
         assert self.page.form_list.get_error() == ''
-        print("success")
 
     def test_empty_description(self):
         pin_name = "this is empty description test pin name"
@@ -72,7 +69,6 @@ class Test(TestAuthorized):
         self.page.form_list.load_file(file_name)
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
-        print("success")
 
     def test_go_back(self):
         self.page.form_list.go_back()
