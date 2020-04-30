@@ -26,11 +26,16 @@ def user():
     Steps.login()
 
 
-@pytest.fixture
-def user_profile(user):
+def open_user_profile():
     from tests.steps.profile.steps import Steps
     Steps.open_site()
     Steps.open_edit_page()
+
+
+@pytest.fixture
+def user_profile(user):
+    open_user_profile()
+
 
 
 @pytest.fixture
@@ -44,7 +49,20 @@ def user_restore_default():
     Steps.save_profile()
 
 
+
 @pytest.fixture(autouse=True)
 def logout():
     yield
     accessor.driver.delete_all_cookies()
+
+
+def create_review():
+    from tests.steps.review.steps import Steps
+    Steps.get_film(1)
+    Steps.enter_review_text('review title', 'review body')
+    Steps.submit_review()
+
+
+@pytest.fixture
+def user_review(user):
+    create_review()

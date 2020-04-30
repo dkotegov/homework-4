@@ -1,7 +1,6 @@
 import os
-from time import sleep
 
-from tests.conftest import accessor
+from tests.conftest import accessor, open_user_profile, create_review
 from tests.steps.profile.steps import Steps
 
 
@@ -49,3 +48,8 @@ class TestProfileEditing:
         Steps.save_profile()
         assert original_avatar_name != accessor.find_element_by_css_selector('.profile__photo') \
             .element.get_attribute('src')
+
+    def test_review_in_profile(self, user):
+        create_review()
+        open_user_profile()
+        Steps.check_date_correctness()

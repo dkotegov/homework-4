@@ -1,5 +1,4 @@
 from tests.conftest import accessor as a
-import os
 from tests.pages.base.base_pages import BasePages
 
 
@@ -10,6 +9,7 @@ class Pages(BasePages):
         button = a.find_element_by_css_selector('a.button')
         button.click()
         a.wait_for_load(css_locator='.js-profile-wall')
+        a.sleep(1)
 
     @staticmethod
     def click_open_editing_modal_button():
