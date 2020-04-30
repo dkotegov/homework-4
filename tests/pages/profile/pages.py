@@ -41,6 +41,13 @@ class Pages(BasePages):
         a.wait_for_load(css_locator='.button_active')
 
     @staticmethod
+    def open_subscription_tab():
+        selector = '.js-events-button'
+        a.wait_for_load(css_locator=selector)
+        tab = a.find_element_by_css_selector(selector)
+        tab.click()
+
+    @staticmethod
     def save_profile_no_wait():
         button = a.find_element_by_id('js-save-button')
         button.click()

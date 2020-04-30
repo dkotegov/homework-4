@@ -32,10 +32,14 @@ def open_user_profile():
     Steps.open_edit_page()
 
 
+def unsubscribe(actor_id):
+    from tests.steps.subscription.steps import Steps
+    Steps.unsubscribe(actor_id)
+
+
 @pytest.fixture
 def user_profile(user):
     open_user_profile()
-
 
 
 @pytest.fixture
@@ -47,7 +51,6 @@ def user_restore_default():
     Steps.enter_profile_info("default", "default")
     Steps.upload_avatar(f'{os.getcwd()}/../../test_data/default.png')
     Steps.save_profile()
-
 
 
 @pytest.fixture(autouse=True)

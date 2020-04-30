@@ -48,6 +48,10 @@ class Steps(BaseSteps):
         Pages.save_profile()
 
     @staticmethod
+    def open_subscription_tab():
+        Pages.open_subscription_tab()
+
+    @staticmethod
     def check_avatar_update(original_name):
         assert original_name != Steps.get_avatar_src()
 
