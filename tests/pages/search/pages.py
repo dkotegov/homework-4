@@ -1,7 +1,7 @@
 from tests.conftest import accessor as a
 from tests.pages.base.base_pages import BasePages
 
-SEARCH_INPUT_QUERY = '#js-search-input'
+SEARCH_INPUT_QUERY = 'js-search-input'
 SEARCH_BUTTON_ID = 'js-navbar-search'
 SEARCH_RESULT_TITLE = '.search-results__film-card a:nth-child(1)'
 SEARCH_RESULT_NOT_FOUND = '.profile__warning'
