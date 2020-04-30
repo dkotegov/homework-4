@@ -24,21 +24,18 @@ class Test(TestAuthorized):
         board_list = self.page.form_concrete.get_boards_list()
         for board in board_list:
             if board.text == board_name:
-                print(board.text, "success")
                 return
         assert "board not found"
 
     def test_empty_name_description(self):
         self.page.form_list.create_board()
         assert self.page.form_list.get_error() == ''
-        print("success")
 
     def test_empty_name(self):
         board_content = "this is normal board description"
         self.page.form_list.set_board_content(board_content)
         self.page.form_list.create_board()
         assert self.page.form_list.get_error() == ''
-        print("success")
 
     def test_empty_description(self):
         board_name = "this is empty name board"
@@ -48,7 +45,6 @@ class Test(TestAuthorized):
         board_list = self.page.form_concrete.get_boards_list()
         for board in board_list:
             if board.text == board_name:
-                print(board.text, "success")
                 return
         assert "board not found"
 
