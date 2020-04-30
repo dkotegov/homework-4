@@ -52,6 +52,15 @@ class Steps(BaseSteps):
         Pages.open_subscription_tab()
 
     @staticmethod
+    def check_film_in_list(list_name, film_id):
+        l = Pages.find_list(list_name)
+        Pages.check_film_in_list(l, film_id)
+
+    @staticmethod
+    def open_lists_tab():
+        Pages.open_lists_tab()
+
+    @staticmethod
     def check_avatar_update(original_name):
         assert original_name != Steps.get_avatar_src()
 
