@@ -1,7 +1,5 @@
 import os
 import unittest
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from tests.pages.auth import AuthPage
@@ -27,5 +25,13 @@ class TestAuthorized(Test):
         password = os.environ.get('PASSWORD')
         assert login
         assert password
+        auth_page = AuthPage(self.driver)
+        auth_page.form.authorise(login, password)
+
+class TestAuthorizedWithFillFields(Test):
+    def setUp(self):
+        super().setUp()
+        login = 'Nelltest@mail.ru'
+        password = 'Nelltest'
         auth_page = AuthPage(self.driver)
         auth_page.form.authorise(login, password)
