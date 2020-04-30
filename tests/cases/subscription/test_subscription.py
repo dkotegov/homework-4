@@ -3,10 +3,12 @@ from time import sleep
 from tests.conftest import open_user_profile, unsubscribe
 from tests.steps.subscription.steps import Steps
 from tests.steps.profile.steps import Steps as ProfileSteps
+from tests.steps.auth.steps import Steps as Auth
 
 
 class TestSubscription:
-    def test_subscribe(self, user):
+    def test_subscribe(selfr):
+        Auth.auth()
         actor_id = 1
         Steps.subscribe(actor_id)
         open_user_profile()

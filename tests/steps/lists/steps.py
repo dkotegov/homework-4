@@ -1,5 +1,6 @@
 from tests.pages.lists.pages import Pages
 from tests.steps.base.base_steps import BaseSteps
+from selenium.common.exceptions import StaleElementReferenceException
 
 
 class Steps(BaseSteps):

@@ -1,7 +1,7 @@
 from tests.conftest import accessor as a
 from tests.pages.film.pages import Pages
 from tests.steps.base.base_steps import BaseSteps
-
+from selenium.common.exceptions import StaleElementReferenceException
 
 class Steps(BaseSteps):
     @staticmethod
@@ -45,7 +45,11 @@ class Steps(BaseSteps):
 
     @staticmethod
     def go_to_same_film():
-        Pages.click_same_film()
+        try:
+            Pages.click_same_film()
+        except StaleElementReferenceException:
+            Pages.click_same_film()
+        
 
     @staticmethod
     def check_actor():

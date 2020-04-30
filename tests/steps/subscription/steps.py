@@ -8,7 +8,11 @@ class Steps(BaseSteps):
     @staticmethod
     def subscribe(actor_id):
         Pages.open_actor_page(actor_id)
-        Pages.subscribe()
+        try:
+            Pages.subscribe()
+        except:
+            Pages.subscribe()
+        
 
     @staticmethod
     def check_subscription_existence(actor_id):
