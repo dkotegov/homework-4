@@ -1,10 +1,6 @@
-from time import sleep
-
-from setup.constants import PROJECT_URL
-from tests.conftest import accessor as a
 from tests.steps.genreFilm.steps import Steps as Genre
 from tests.steps.film.steps import Steps as Film
-from tests.steps.search.steps import Steps
+from tests.steps.search.steps import Steps as Search
 
 
 class TestLinks:
@@ -27,7 +23,7 @@ class TestLinks:
         Film.wait_for_container()
         year = Film.click_year()
 
-        Steps.check_all_search_result_year(year, year)
+        Search.check_all_search_result_year(year, year)
 
 
     def test_actor(self):
@@ -38,12 +34,12 @@ class TestLinks:
         Film.check_actor()
 
     def test_country(self):
-    
         Genre.open_genre_page()
         Genre.click_film()
+
         Film.wait_for_container()
         country = Film.click_country()
-        Steps.check_first_film_country(country)
+        Search.check_first_film_country(country)
 
 
     def test_genre(self):
@@ -51,5 +47,5 @@ class TestLinks:
         Genre.click_film()
         Film.wait_for_container()
         genre = Film.click_genre()
-        Steps.check_all_search_result_genre(genre)
+        Search.check_all_search_result_genre(genre)
 

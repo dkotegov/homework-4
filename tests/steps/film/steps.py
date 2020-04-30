@@ -74,3 +74,21 @@ class Steps(BaseSteps):
         for g in genres:
             assert g in new
     
+    def click_star(number):
+        Pages.click_star(number)
+
+    def check_stars(number):
+        now = Pages.check_stars()
+        print(now)
+        assert str(number) == str(now)
+
+    def get_rating():
+        rating = Pages.get_film_rating()
+        print(rating)
+        return rating
+
+    def check_rating(rating):
+        a.driver.refresh()
+        new = Pages.get_film_rating()
+        print(new) 
+        assert new != rating

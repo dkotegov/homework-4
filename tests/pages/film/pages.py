@@ -30,7 +30,8 @@ LIST_NEW_SUBMIT = '#js-create-list'
 LIST_NEW_CANCEL = '#js-stop-create'
 
 STAR_BUTTON = '#stars'
-STAR_3 = 'i[data-index="2"]'
+STAR_PART_1 = 'i[data-index="'
+STAR_PART_2 = '"]' 
 
 ACTOR_MAIN = '.actor'
 ACTOR_NAME = '.actor .title'
@@ -158,9 +159,10 @@ class Pages(BasePages):
         return country
 
     @staticmethod
-    def click_star():
-        a.wait_for_load(css_locator=STAR_3)
-        element = a.find_element_by_css_selector(STAR_3)
+    def click_star(number):
+        number = number - 1 
+        a.wait_for_load(css_locator=STAR_PART_1 + str(number) + STAR_PART_2)
+        element = a.find_element_by_css_selector(STAR_PART_1 + str(number) + STAR_PART_2)
         element.wait_and_click()
 
     @staticmethod
@@ -174,6 +176,7 @@ class Pages(BasePages):
     def check_stars(): 
         a.wait_for_load(css_locator=STAR_BUTTON)
         element = a.find_element_by_css_selector(STAR_BUTTON)
+        return element.get_attribute('data-value')
 
     @staticmethod
     def get_film_rating():
@@ -183,15 +186,18 @@ class Pages(BasePages):
         rating = rating_line.split(' ')[1]
         return rating
 
+    @staticmethod
     def wait_for_actor():
         a.wait_for_load(css_locator=ACTOR_MAIN)
 
+    @staticmethod
     def get_actor_name():
         a.wait_for_load(css_locator=ACTOR_NAME)
         element = a.find_element_by_css_selector(ACTOR_NAME)
         name = element.get_text()
         return name
 
+    @staticmethod
     def get_film_genres(): 
         a.wait_for_load(css_locator=FILM_GENRE)
         genres  = a.find_elements_by_css_selector(FILM_GENRE)
