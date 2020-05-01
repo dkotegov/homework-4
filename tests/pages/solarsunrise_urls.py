@@ -2,53 +2,69 @@ from selenium.webdriver.common.by import By
 from tests.pages.base import Page
 
 
-class AuthPage(Page):
+class DefaultPage(Page):
+    def __init__(self, driver, open=True):
+        Page.__init__(self, driver)
+        if open:
+            self.open()
+
+
+class AuthPage(DefaultPage):
     PATH = '/login'
     ROOT = {
         'method': By.ID,
         'key': 'login-page'
     }
 
-    def __init__(self, driver, open=True):
-        Page.__init__(self, driver)
-        if open:
-            self.open()
 
-
-class RegPage(Page):
+class RegPage(DefaultPage):
     PATH = '/'
     ROOT = {
         'method': By.ID,
         'key': 'signup-page'
     }
 
-    def __init__(self, driver, open=True):
-        Page.__init__(self, driver)
-        if open:
-            self.open()
 
-
-class ProfilePage(Page):
+class ProfilePage(DefaultPage):
     PATH = '/profile'
     ROOT = {
         'method': By.ID,
         'key': 'profile-page'
     }
 
-    def __init__(self, driver, open=True):
-        Page.__init__(self, driver)
-        if open:
-            self.open()
+    # def __init__(self, driver, open=True):
+    #     Page.__init__(self, driver)
+    #     if open:
+    #         self.open()
 
 
-class SettingsPage(Page):
+class SettingsPage(DefaultPage):
     PATH = '/settings'
     ROOT = {
         'method': By.ID,
         'key': 'settings-page'
     }
 
-    def __init__(self, driver, open=True):
-        Page.__init__(self, driver)
-        if open:
-            self.open()
+
+class IndexPage(DefaultPage):
+    PATH = '/index/new'
+    ROOT = {
+        'method': By.ID,
+        'key': 'index-page:new'
+    }
+
+
+class DialogPage(DefaultPage):
+    PATH = '/dialog'
+    ROOT = {
+        'method': By.ID,
+        'key': 'dialogview-page'
+    }
+
+
+class CreatePinPage(DefaultPage):
+    PATH = '/create_pin'
+    ROOT = {
+        'method': By.ID,
+        'key': 'createpin-page'
+    }

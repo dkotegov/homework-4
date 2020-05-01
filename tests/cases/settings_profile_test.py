@@ -10,7 +10,7 @@ class SettingsTest(TestAuthorizedWithFillFields):
         self.page = SettingsPage(self.driver)
 
     # Изменение одного из полей
-    # Изменение аватарки TODO
+    # Изменение аватарки
     def test_change_avatar(self):
         self.page.form.change_photo()
 
