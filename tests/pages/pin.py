@@ -45,5 +45,13 @@ class PinForm(FormComponent):
         save_button = '//input[@class="viewpin-block__right-column__buttom-save viewpin-block__right-column__buttom-save_pos"]'
         self.driver.find_element_by_xpath(save_button).click()
 
+    def set_board(self, pin_id, board_id):
+        select = self.driver.find_element_by_id('pinviewBoardselect/pin/' + str(pin_id))
+        all_options = select.find_elements_by_tag_name("option")
+        for option in all_options:
+            if option.get_attribute('value') == board_id:
+                option.click()
+                return
+
     def wait_for_load(self):
         self.wait_for_presence(By.CSS_SELECTOR, self.title)
