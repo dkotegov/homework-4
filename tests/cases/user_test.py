@@ -17,8 +17,7 @@ class Test(TestAuthorized):
     def test_open_pin(self):
         name, link = self.page.form.open_pin(0)
         page = PinDetailsPage(self.driver, False)
-        page.form.wait_for_load()
         real_name = page.form.get_title()
-        assert real_name == name
-        assert self.driver.current_url == link
+        self.assertEqual(real_name, name, "Names are different")
+        self.assertEqual(self.driver.current_url, link, 'Wrong page opened')
 
