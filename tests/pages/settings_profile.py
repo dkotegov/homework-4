@@ -84,6 +84,13 @@ class SettingsForm(FormComponent):
         'status': get_status
     }
 
+    fields = {
+        'name': name_field,
+        'surname': surname_field,
+        'nickname': nickname_field,
+        'status': status_field
+    }
+
     def change_field(self, field_name, context):
         self.set_func_dict[field_name](self, context)
 
@@ -125,6 +132,8 @@ class SettingsForm(FormComponent):
         self.wait_alert_settings()
 
     def change_empty_field(self, field_name, context):
+        text_one = self.get_fields_dict[field_name](self)
+
         self.set_func_dict[field_name](self, context)
 
         self.submit(self.ok_btn)
@@ -132,6 +141,9 @@ class SettingsForm(FormComponent):
         self.submit(self.settings_btn)
 
         SettingsPage(self.driver, open=False).wait_for_load()
+
+        self.wait_for_visible_text(By.XPATH, self.fields[field_name], text_one)
+
         text = self.get_fields_dict[field_name](self)
         assert text != context, 'Fields with equal values'
 
