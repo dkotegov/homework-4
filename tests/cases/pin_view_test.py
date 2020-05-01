@@ -9,7 +9,7 @@ from tests.pages.pin import PinDetailsPage
 from tests.pages.create_pin import CreatePinPage
 from tests.pages.create_board import CreateBoardPage
 
-BOARD_NAME = "TEST BOARD "
+BOARD_NAME = "NEW TEST BOARD "
 
 
 class Test(TestAuthorized):
@@ -21,16 +21,9 @@ class Test(TestAuthorized):
         super().setUp()
         self.file_path = os.environ.get('FILE_PATH')
         board_name = BOARD_NAME + str(random.randint(100, 10000))
-        # create board and save board name
-        self.page = CreateBoardPage(self.driver)
-        self.page.form_list.set_board_name(board_name)
-        self.page.form_list.create_board()
-        self.page.form_concrete.wait_for_load()
-        for board in self.page.form_concrete.get_href_boards_list():
-            board_text = board.find_element_by_tag_name('div')
-            if board_text.text == board_name:
-                self.board_id = board.find_element_by_tag_name('a').get_attribute('href')[30:]
-                break
+        self.create_board(board_name)
+        # print(board_name)
+        # print('board_id', self.board_id)
         # create pin
         self.page = CreatePinPage(self.driver)
         pin_name = "pin name " + str(random.randint(100, 10000))
@@ -39,6 +32,7 @@ class Test(TestAuthorized):
         self.page.form_list.set_pin_name(pin_name)
         self.page.form_list.set_pin_content(pin_content)
         self.page.form_list.load_file(file_name)
+        # print(self.board_id)
         self.page.form_list.set_select_board(self.board_id)
         # time.sleep(5)
         self.page.form_list.create_pin()
@@ -54,4 +48,25 @@ class Test(TestAuthorized):
         self.page.form.send_comment()
 
     def test_save_pin(self):
+        board_name = BOARD_NAME + str(random.randint(100, 10000))
+        self.create_board(board_name)
+        self.page = PinDetailsPage(self.driver, pin_id=str(self.pin_id))
+        self.page.form.set_board(self.pin_id, self.board_id)
         self.page.form.save_pin()
+
+    def test_save_pin_empty_board(self):
+        self.page.form.set_board(self.pin_id, 0)
+        self.page.form.save_pin()
+
+    def create_board(self, board_name):
+        self.page = CreateBoardPage(self.driver)
+        self.page.form_list.set_board_name(board_name)
+        self.page.form_list.create_board()
+        self.page.form_concrete.wait_for_load()
+        for board in self.page.form_concrete.get_href_boards_list():
+            board_text = board.find_element_by_tag_name('div')
+            if board_text.text == board_name:
+                self.board_id = board.find_element_by_tag_name('a').get_attribute('href')[30:]
+                # print(board.find_element_by_tag_name('a').get_attribute('href')[30:])
+                # print(self.board_id)
+                break

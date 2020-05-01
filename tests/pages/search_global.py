@@ -3,6 +3,7 @@ from selenium.webdriver.support.select import Select
 
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
+from tests.pages.config import onload
 
 
 class GlobalSearchPage(Page):
@@ -32,10 +33,11 @@ class HeaderSearchForm(FormComponent):
     search_type = '#style-select'
     search_form = '#headerSearch'
 
+    @onload
     def search(self, type, query):
-        self.fill_input(self.driver.find_element(By.CSS_SELECTOR, self.search_line), query)
-        Select(self.driver.find_element(By.CSS_SELECTOR, self.search_type)).select_by_value(type)
-        self.driver.find_element(By.CSS_SELECTOR, self.search_form).submit()
+        self.fill_input(self.find_element(By.CSS_SELECTOR, self.search_line), query)
+        Select(self.find_element(By.CSS_SELECTOR, self.search_type)).select_by_value(type)
+        self.find_element(By.CSS_SELECTOR, self.search_form).submit()
 
     def wait_for_load(self):
         self.wait_for_presence(By.CSS_SELECTOR,  self.search_line)
@@ -48,7 +50,6 @@ class SearchResultsForm(FormComponent):
     elements_name_tag = '.pin-for-index__content'
     error_message = '.search-page__error-message'
 
-
     def wait_for_load(self, timeout=5):
         self.wait_for_presence(By.CSS_SELECTOR, self.container, timeout)
 
@@ -58,11 +59,25 @@ class SearchResultsForm(FormComponent):
         return [elem.text for elem in elements]
 
     def get_search_results_raw(self):
-        return self.driver.find_elements(By.CSS_SELECTOR, self.element)
+        self.wait_for_presence(By.CSS_SELECTOR, self.element)
+        return self.find_elements(By.CSS_SELECTOR, self.element)
 
     def click_pin(self, pin):
         pin_clickable = pin.find_element(By.CSS_SELECTOR, self.elements_name_tag)
         pin_clickable.click()
+
+    @onload
+    def check_search_results(self, after_click_func):
+        results = self.get_search_results_raw()
+        for i in range(len(results)):
+            s = self.get_search_results_raw()
+            if len(s) <= i:
+                continue
+            result = s[i]
+            self.click_pin(result)
+            after_click_func()
+            self.driver.back()
+            self.driver.refresh()
 
     def wait_for_error(self, timeout=5):
         try:

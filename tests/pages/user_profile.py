@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
-from tests.pages.solarsunrise_urls import SettingsPage
+from tests.pages.solarsunrise_urls import SettingsPage, IndexPage, DialogPage, AuthPage
 
 
 class ProfilePage(Page):
@@ -19,6 +19,10 @@ class ProfilePage(Page):
     @property
     def form(self):
         return ProfileForm(self.driver)
+
+    @property
+    def header_form(self):
+        return HeaderForm(self.driver)
 
 
 class ProfileForm(FormComponent):
@@ -53,3 +57,26 @@ class ProfileForm(FormComponent):
         self.submit(self.settings_profile_btn)
         SettingsPage(self.driver, open=False).wait_for_load()
 
+
+class HeaderForm(ProfileForm):
+    index_btn = '//a[@href="/index/new"]'
+    profile_btn = '//a[@href="/profile"]'
+    messages_btn = '//a[@href="/dialog"]'
+    exit_btn = '//ul[@id="headerSettingsView"]/li/a[@href="/login"]'
+
+    def go_to_index(self):
+        self.submit(self.index_btn)
+        IndexPage(self.driver, open=False).wait_for_load()
+
+    def go_to_profile(self):
+        self.submit(self.profile_btn)
+        ProfilePage(self.driver, open=False).wait_for_load()
+
+    def go_to_dialog(self):
+        self.submit(self.messages_btn)
+        DialogPage(self.driver, open=False).wait_for_load()
+
+    def go_to_exit(self):
+        self.submit(self.menu_btn)
+        self.submit(self.exit_btn)
+        AuthPage(self.driver, open=False).wait_for_load()

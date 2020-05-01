@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
+from tests.pages.config import onload
 
 
 class ChatPage(Page):
@@ -52,7 +53,7 @@ class FindCompanyForm(FormComponent):
         self.find_dialog_by_name(name).click()
 
     def find_dialog_by_name(self, name):
-        creators = self.driver.find_elements(By.CSS_SELECTOR, self.chat_creator)
+        creators = self.find_elements(By.CSS_SELECTOR, self.chat_creator)
         creator = None
         for val in creators:
             if val.text == name:
@@ -83,18 +84,18 @@ class ConcreteUserMessagesForm(FormComponent):
     message_creator = '//div[@class="message__creator"]'
     message_content = '.message__content'
 
-
     def wait_for_load(self):
         self.wait_for_presence(By.XPATH, self.companion_name)
 
+    @onload
     def get_companion_name(self):
-        return self.driver.find_element_by_xpath(self.companion_name).text
+        return self.find_element(By.XPATH, self.companion_name).text
 
     def send_message(self, text, printer=None, **kwargs):
         if printer:
             printer(text, **kwargs)
         else:
-            self.fill_input(self.driver.find_element_by_xpath(self.textarea), text)
+            self.fill_input(self.find_element(By.XPATH, self.textarea), text)
         butt = self.driver.find_element_by_xpath(self.submit_button)
         butt.click()
 
@@ -113,6 +114,8 @@ class ConcreteUserMessagesForm(FormComponent):
 
     def send_message_confirmed(self, text, timeout=10, **kwargs):
         previous = len(self.driver.find_elements(By.CSS_SELECTOR, self.my_messages))
+        if previous is None:
+            previous = 0
         self.send_message(text, **kwargs)
         try:
             self.wait_for_count_change(By.CSS_SELECTOR, self.my_messages, previous=previous, timeout=timeout)
@@ -122,11 +125,12 @@ class ConcreteUserMessagesForm(FormComponent):
         if kwargs.get('confirmator'):
             kwargs['confirmator'](message, kwargs['count'])
         else:
-            assert message['from_me']
-            assert message['text'] == text
+            return message['from_me'], message['text']
+            # assert message['from_me']
+            # assert message['text'] == text
 
     def wait_for_count_change(self, method, key, previous=None, timeout=10):
-        if not previous:
+        if previous is None:
             previous = len(self.driver.find_elements(method, key))
         WebDriverWait(self.driver, timeout).until(
             lambda driver: len(driver.find_elements(method, key))-previous != 0
