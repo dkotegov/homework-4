@@ -26,6 +26,12 @@ class FormComponent(Component):
         )
         assert element
 
+    def wait_for_visible_text(self, method, key, text, timeout=10):
+        element = WebDriverWait(self.driver, timeout).until(
+            expected_conditions.text_to_be_present_in_element_value((method, key), text)
+        )
+        assert element
+
     def get_elem_text(self, name):
         return WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(name).text
