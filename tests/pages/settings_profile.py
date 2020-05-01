@@ -99,6 +99,8 @@ class SettingsForm(FormComponent):
         self.submit(self.settings_btn)
 
         SettingsPage(self.driver, open=False).wait_for_load()
+
+        self.wait_for_visible_text(By.XPATH, self.fields[field_name], context)
         text = self.get_fields_dict[field_name](self)
         assert text == context, 'Field was not changed'
 
@@ -120,6 +122,12 @@ class SettingsForm(FormComponent):
         self.submit(self.settings_btn)
 
         SettingsPage(self.driver, open=False).wait_for_load()
+
+        self.wait_for_visible_text(By.XPATH, self.name_field, name)
+        self.wait_for_visible_text(By.XPATH, self.surname_field, surname)
+        self.wait_for_visible_text(By.XPATH, self.nickname_field, nickname)
+        self.wait_for_visible_text(By.XPATH, self.status_field, status)
+
         assert self.get_name() == name, 'Name was not changed'
         assert self.get_surname() == surname, 'Surname was not changed'
         assert self.get_nickname() == nickname, 'Nickname was not changed'
