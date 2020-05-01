@@ -142,8 +142,6 @@ class SettingsForm(FormComponent):
 
         SettingsPage(self.driver, open=False).wait_for_load()
 
-        print(text_one, self.fields[field_name])
-
         self.wait_for_visible_text(By.XPATH, self.fields[field_name], text_one)
 
         text = self.get_fields_dict[field_name](self)
