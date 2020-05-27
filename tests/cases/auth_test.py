@@ -20,7 +20,7 @@ class AuthTest(Test):
         ProfilePage(self.driver, open=False).wait_for_load()
 
         nick_text = self.page.form.check_nickname()
-        assert nick_text != '', "No nickname"
+        self.assertNotEqual(nick_text, '', 'No nickname')
 
     # Ошибка авторизации с наверными почтой/паролем: почта не существует, пароль корректный
     def test_no_exist_mail_and_correct_password(self):
@@ -32,7 +32,7 @@ class AuthTest(Test):
         self.page.form.submit()
 
         err_text = self.page.form.check_error_field()
-        assert err_text != '', 'No error field'
+        self.assertNotEqual(err_text, '', 'No error field')
 
     # Ошибка авторизации с наверными почтой/паролем: почта корректная, пароль некорректный
     def test_correct_mail_and_incorrect_password(self):
@@ -44,7 +44,7 @@ class AuthTest(Test):
         self.page.form.submit()
 
         err_text = self.page.form.check_error_field()
-        assert err_text != '', 'No error field'
+        self.assertNotEqual(err_text, '', 'No error field')
 
     # Ошибка авторизации с пустыми полями: пустая почта, пароль заполнен
     def test_empty_mail_and_filled_password(self):
@@ -56,7 +56,7 @@ class AuthTest(Test):
         self.page.form.submit()
 
         err_text = self.page.form.check_error_field()
-        assert err_text != '', 'No error field'
+        self.assertNotEqual(err_text, '', 'No error field')
 
     # Ошибка авторизации с пустыми полями: пустой пароль, почта заполнена
     def test_filled_mail_and_empty_password(self):
@@ -68,7 +68,7 @@ class AuthTest(Test):
         self.page.form.submit()
 
         err_text = self.page.form.check_error_field()
-        assert err_text != '', 'No error field'
+        self.assertNotEqual(err_text, '', 'No error field')
 
     # Ошибка авторизации с пустыми полями: пустая почта, пустой пароль
     def test_empty_mail_and_filled_password(self):
@@ -77,4 +77,4 @@ class AuthTest(Test):
         self.page.form.submit()
 
         err_text = self.page.form.check_error_field()
-        assert err_text != '', 'No error field'
+        self.assertNotEqual(err_text, '', 'No error field')
