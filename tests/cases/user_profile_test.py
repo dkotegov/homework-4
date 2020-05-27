@@ -1,9 +1,8 @@
 from tests.pages.user_profile import ProfilePage
-from tests.pages.authorization import AuthForm
-from tests.cases.base import TestAuthorizedWithFillFields
+from tests.cases.base import TestAuthorized
 
 
-class ProfileTest(TestAuthorizedWithFillFields):
+class ProfileTest(TestAuthorized):
     def setUp(self):
         super().setUp()
         self.page = ProfilePage(self.driver)
@@ -11,12 +10,10 @@ class ProfileTest(TestAuthorizedWithFillFields):
     # Отправить сообщение обратной связи ( длина > 0 символов)
     def test_create_message(self):
         message = 'Проблемы'
-        self.page.form.create_message(message)
 
-    # Перейти внастройки профиля через кнопку в профиле
-    def test_go_to_settings_from_profile(self):
-        self.page.form.go_to_settings_from_profile()
+        self.page.form.submit_message_button()
+        self.page.form.set_question(message)
+        self.page.form.submit_send_button()
 
-    # Перейтив  настройки профиля через меню в хедере
-    def test_go_to_settings_from_menu(self):
-        self.page.form.go_to_settings_from_menu()
+        msg_text = self.page.form.get_message_from_field()
+        self.assertEqual(msg_text, '', 'Error sending message')
