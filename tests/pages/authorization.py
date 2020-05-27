@@ -1,8 +1,6 @@
 from selenium.webdriver.common.by import By
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
-from tests.pages.solarsunrise_urls import ProfilePage
-from tests.pages.solarsunrise_urls import RegPage
 
 
 class AuthPage(Page):
@@ -28,6 +26,7 @@ class AuthForm(FormComponent):
     submit_button = '//input[@type="submit"]'
     incorrect_field = '//div[@id="loginTextErr"]'
     reg_button = '//a[@href="/"]'
+    nickname_field = '//div[@class="profile-username"]'
 
     def set_mail(self, mail):
         self.fill_input(self.driver.find_element_by_xpath(self.mail), mail)
@@ -38,22 +37,10 @@ class AuthForm(FormComponent):
     def submit(self):
         self.driver.find_element_by_xpath(self.submit_button).click()
 
-    def authorise(self, mail, password):
-        self.set_mail(mail)
-        self.set_password(password)
-        self.submit()
-
-        ProfilePage(self.driver, open=False).wait_for_load()
-
-    def incorrect_authorise(self, mail, password):
-        self.set_mail(mail)
-        self.set_password(password)
-        self.submit()
-
+    def check_error_field(self):
         self.wait_for_visible(By.XPATH, self.incorrect_field)
+        return self.get_elem_text(self.incorrect_field)
 
-    def to_registration_page(self):
-        self.driver.find_element_by_xpath(self.reg_button).click()
-        RegPage(self.driver, open=False).wait_for_load()
-
-
+    def check_nickname(self):
+        self.wait_for_visible(By.XPATH, self.nickname_field)
+        return self.get_elem_text(self.nickname_field)
