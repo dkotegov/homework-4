@@ -12,6 +12,8 @@ REG_MAIL="plokijk@mail.ru" (пример)
 
 REG_LOGIN="plokijk" (пример)
 
+FILE_PATH="C:/312207-Lastochka.jpg" - Путь до картинки пина
+
 Опционально:
 
 BROWSER - CHROME | FIREFOX (def. CHROME)

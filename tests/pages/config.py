@@ -11,12 +11,16 @@ class Seed(object):
         )
         assert element
 
-    def find_element(self, method, key):
-        self.wait_for_presence(method, key)
-        return self.driver.find_element(method, key)
+    def find_element(self, by, value):
+        self.wait_for_presence(by, value)
+        return self.driver.find_element(by, value)
+
+    def find_elements(self, by, value):
+        self.wait_for_presence(by, value)
+        return self.driver.find_elements(by, value)
 
 
-def awaiting(func):
+def onload(func):
     def wrapper(self, *args, **kwargs):
             self.wait_for_load()
             return func(self, *args, **kwargs)
