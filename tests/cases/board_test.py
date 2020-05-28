@@ -22,13 +22,13 @@ class Test(TestAuthorized):
 
     def test_create_board_empty_name_description(self):
         self.page.form_list.create_board()
-        assert self.page.form_list.get_error() == ''
+        assert self.page.form_list.get_error() == ""
 
     def test_create_board_empty_name(self):
         board_content = "test_create_board_empty_name description"
         self.page.form_list.set_board_content(board_content)
         self.page.form_list.create_board()
-        assert self.page.form_list.get_error() == ''
+        assert self.page.form_list.get_error() == ""
 
     def test_create_board_empty_description(self):
         board_name = "test_create_board_empty_description name"

@@ -7,10 +7,10 @@ from tests.pages.auth import AuthPage
 
 class Test(unittest.TestCase):
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get("BROWSER", "CHROME")
         self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+            command_executor="http://127.0.0.1:4444/wd/hub",
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
         )
 
     def tearDown(self):
@@ -21,17 +21,18 @@ class Test(unittest.TestCase):
 class TestAuthorized(Test):
     def setUp(self):
         super().setUp()
-        login = os.environ.get('LOGIN')
-        password = os.environ.get('PASSWORD')
+        login = os.environ.get("LOGIN")
+        password = os.environ.get("PASSWORD")
         assert login
         assert password
         auth_page = AuthPage(self.driver)
         auth_page.form.authorise(login, password)
 
+
 class TestAuthorizedWithFillFields(Test):
     def setUp(self):
         super().setUp()
-        login = 'Nelltest@mail.ru'
-        password = 'Nelltest'
+        login = "Nelltest@mail.ru"
+        password = "Nelltest"
         auth_page = AuthPage(self.driver)
         auth_page.form.authorise(login, password)

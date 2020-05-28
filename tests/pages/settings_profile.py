@@ -7,11 +7,8 @@ import os
 
 
 class SettingsPage(Page):
-    PATH = '/settings'
-    ROOT = {
-        'method': By.ID,
-        'key': 'settings-page'
-    }
+    PATH = "/settings"
+    ROOT = {"method": By.ID, "key": "settings-page"}
 
     def __init__(self, driver, open=True):
         Page.__init__(self, driver)
@@ -33,10 +30,10 @@ class SettingsForm(FormComponent):
     exit_btn = '//a[@href="/profile"]'
     settings_btn = '//img[@data-section="/settings"]'
 
-    def set_avatar(self, file_name=''):
-        if file_name == '':
+    def set_avatar(self, file_name=""):
+        if file_name == "":
             num = choice([1, 2, 3, 4])
-            file_name = os.getcwd() + '/images/beauty' + str(num) + '.jpg'
+            file_name = os.getcwd() + "/images/beauty" + str(num) + ".jpg"
         self.driver.find_element(By.ID, "avatarphoto").send_keys(file_name)
 
     def set_name(self, name):
@@ -46,7 +43,9 @@ class SettingsForm(FormComponent):
         self.fill_input(self.driver.find_element_by_xpath(self.surname_field), surname)
 
     def set_nickname(self, nickname):
-        self.fill_input(self.driver.find_element_by_xpath(self.nickname_field), nickname)
+        self.fill_input(
+            self.driver.find_element_by_xpath(self.nickname_field), nickname
+        )
 
     def set_status(self, status):
         self.fill_input(self.driver.find_element_by_xpath(self.status_field), status)
@@ -71,24 +70,24 @@ class SettingsForm(FormComponent):
         self.driver.find_element_by_xpath(name).click()
 
     set_func_dict = {
-        'name': set_name,
-        'surname': set_surname,
-        'nickname': set_nickname,
-        'status':  set_status
+        "name": set_name,
+        "surname": set_surname,
+        "nickname": set_nickname,
+        "status": set_status,
     }
 
     get_fields_dict = {
-        'name': get_name,
-        'surname': get_surname,
-        'nickname': get_nickname,
-        'status': get_status
+        "name": get_name,
+        "surname": get_surname,
+        "nickname": get_nickname,
+        "status": get_status,
     }
 
     fields = {
-        'name': name_field,
-        'surname': surname_field,
-        'nickname': nickname_field,
-        'status': status_field
+        "name": name_field,
+        "surname": surname_field,
+        "nickname": nickname_field,
+        "status": status_field,
     }
 
     def change_field(self, field_name, context):
@@ -102,15 +101,15 @@ class SettingsForm(FormComponent):
 
         self.wait_for_visible_text(By.XPATH, self.fields[field_name], context)
         text = self.get_fields_dict[field_name](self)
-        assert text == context, 'Field was not changed'
+        assert text == context, "Field was not changed"
 
-    def change_photo(self, file_name=''):
+    def change_photo(self, file_name=""):
         self.set_avatar(file_name)
         self.submit(self.ok_btn)
         ProfilePage(self.driver, open=False).wait_for_load()
         self.submit(self.settings_btn)
 
-    def change_all_fields(self, name, surname, nickname, status, file_name=''):
+    def change_all_fields(self, name, surname, nickname, status, file_name=""):
         self.set_name(name)
         self.set_surname(surname)
         self.set_nickname(nickname)
@@ -128,10 +127,10 @@ class SettingsForm(FormComponent):
         self.wait_for_visible_text(By.XPATH, self.nickname_field, nickname)
         self.wait_for_visible_text(By.XPATH, self.status_field, status)
 
-        assert self.get_name() == name, 'Name was not changed'
-        assert self.get_surname() == surname, 'Surname was not changed'
-        assert self.get_nickname() == nickname, 'Nickname was not changed'
-        assert self.get_status() == status, 'Status was not changed'
+        assert self.get_name() == name, "Name was not changed"
+        assert self.get_surname() == surname, "Surname was not changed"
+        assert self.get_nickname() == nickname, "Nickname was not changed"
+        assert self.get_status() == status, "Status was not changed"
 
     def change_nickname_on_existing(self, nickname):
         self.set_nickname(nickname)
@@ -153,7 +152,7 @@ class SettingsForm(FormComponent):
         self.wait_for_visible_text(By.XPATH, self.fields[field_name], text_one)
 
         text = self.get_fields_dict[field_name](self)
-        assert text != context, 'Fields with equal values'
+        assert text != context, "Fields with equal values"
 
     def go_to_profile(self):
         self.submit(self.exit_btn)

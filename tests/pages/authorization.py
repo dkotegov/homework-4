@@ -6,11 +6,8 @@ from tests.pages.solarsunrise_urls import RegPage
 
 
 class AuthPage(Page):
-    PATH = '/login'
-    ROOT = {
-        'method': By.ID,
-        'key': 'login-page'
-    }
+    PATH = "/login"
+    ROOT = {"method": By.ID, "key": "login-page"}
 
     def __init__(self, driver, open=True):
         Page.__init__(self, driver)
@@ -55,5 +52,3 @@ class AuthForm(FormComponent):
     def to_registration_page(self):
         self.driver.find_element_by_xpath(self.reg_button).click()
         RegPage(self.driver, open=False).wait_for_load()
-
-

@@ -10,7 +10,7 @@ class ProfileTest(TestAuthorizedWithFillFields):
 
     # Отправить сообщение обратной связи ( длина > 0 символов)
     def test_create_message(self):
-        message = 'Проблемы'
+        message = "Проблемы"
         self.page.form.create_message(message)
 
     # Перейти внастройки профиля через кнопку в профиле

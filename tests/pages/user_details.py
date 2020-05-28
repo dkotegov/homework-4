@@ -5,12 +5,9 @@ from tests.pages.component import FormComponent
 
 
 class UserDetailsPage(Page):
-    PATH = '/users/{0}'
+    PATH = "/users/{0}"
 
-    ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="user-page"]')
-    }
+    ROOT = {"method": By.XPATH, "key": Page.get_xpath_visible('//div[@id="user-page"]')}
 
     def __init__(self, driver, nickname):
         Page.__init__(self, driver)
@@ -47,11 +44,3 @@ class UserDetailsSubscribeForm(FormComponent):
         pin_clickable.click()
 
         return pin_name, pin_link
-
-
-
-
-
-
-
-

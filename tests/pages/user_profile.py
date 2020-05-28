@@ -5,11 +5,8 @@ from tests.pages.solarsunrise_urls import SettingsPage, IndexPage, DialogPage, A
 
 
 class ProfilePage(Page):
-    PATH = '/profile'
-    ROOT = {
-        'method': By.ID,
-        'key': 'profile-page'
-    }
+    PATH = "/profile"
+    ROOT = {"method": By.ID, "key": "profile-page"}
 
     def __init__(self, driver, open=True):
         Page.__init__(self, driver)
@@ -35,7 +32,9 @@ class ProfileForm(FormComponent):
     settings_menu_btn = '//a[@href="/settings"]'
 
     def set_question(self, question):
-        self.fill_input(self.driver.find_element_by_xpath(self.question_field), question)
+        self.fill_input(
+            self.driver.find_element_by_xpath(self.question_field), question
+        )
 
     def submit(self, name):
         self.driver.find_element_by_xpath(name).click()
@@ -46,7 +45,9 @@ class ProfileForm(FormComponent):
         self.submit(self.submit_button)
         self.submit(self.question_btn)
         self.submit(self.question_btn)
-        assert self.get_value_elem_text(self.question_field) == '', 'Error sending message'
+        assert (
+            self.get_value_elem_text(self.question_field) == ""
+        ), "Error sending message"
 
     def go_to_settings_from_menu(self):
         self.submit(self.menu_btn)

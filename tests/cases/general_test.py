@@ -14,4 +14,3 @@ class Test(TestAuthorized):
         real_name = page.form.get_title()
         assert real_name == name, ""
         assert self.driver.current_url == link
-

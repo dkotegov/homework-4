@@ -8,11 +8,11 @@ from tests.pages.component import FormComponent
 
 
 class EditPinPage(Page):
-    PATH = '/pin_change/{0}'
+    PATH = "/pin_change/{0}"
 
     ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="pinediting-page"]')
+        "method": By.XPATH,
+        "key": Page.get_xpath_visible('//div[@id="pinediting-page"]'),
     }
 
     def __init__(self, driver, pin_id):
@@ -50,10 +50,10 @@ class FindEditPinForm(FormComponent):
         return self.driver.find_element_by_xpath(error_line).text
 
     def set_select_board(self, board_id):
-        select = self.driver.find_element_by_name('board-select')
+        select = self.driver.find_element_by_name("board-select")
         all_options = select.find_elements_by_tag_name("option")
         for option in all_options:
-            if option.get_attribute('value') == board_id:
+            if option.get_attribute("value") == board_id:
                 option.click()
                 return
 

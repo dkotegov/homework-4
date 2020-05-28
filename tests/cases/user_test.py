@@ -6,7 +6,7 @@ from tests.pages.user_details import UserDetailsPage
 class Test(TestAuthorized):
     def setUp(self):
         super().setUp()
-        self.page = UserDetailsPage(self.driver,  'testTest')
+        self.page = UserDetailsPage(self.driver, "testTest")
 
     def test_subscribe(self):
         self.page.form.subscribe()
@@ -19,5 +19,4 @@ class Test(TestAuthorized):
         page = PinDetailsPage(self.driver, False)
         real_name = page.form.get_title()
         self.assertEqual(real_name, name, "Names are different")
-        self.assertEqual(self.driver.current_url, link, 'Wrong page opened')
-
+        self.assertEqual(self.driver.current_url, link, "Wrong page opened")

@@ -14,8 +14,8 @@ class Test(TestAuthorized):
         self.page = GlobalSearchPage(self.driver, False)
 
     def test_search_explicit(self):
-        query = 'BridgeTM'
-        type = 'Username'
+        query = "BridgeTM"
+        type = "Username"
 
         self.page.search_form.search(type, query)
         results = self.page.result_form.get_search_results()
@@ -26,9 +26,9 @@ class Test(TestAuthorized):
         self.assertTrue(False, "cannot find username in results")
 
     def test_search_partial(self):
-        query = 'bri'
-        target = 'BridgeTM'
-        type = 'Username'
+        query = "bri"
+        target = "BridgeTM"
+        type = "Username"
         self.page.search_form.search(type, query)
         results = self.page.result_form.get_search_results()
 
@@ -38,8 +38,8 @@ class Test(TestAuthorized):
         self.assertTrue(False, "cannot find username in results")
 
     def test_search_empty(self):
-        query = ''
-        type = 'Username'
+        query = ""
+        type = "Username"
         self.page.search_form.search(type, query)
 
         try:
@@ -49,27 +49,30 @@ class Test(TestAuthorized):
             return
 
     def test_search_tag_existed(self):
-        tag = 'vscode'
+        tag = "vscode"
         # tag = 'hohoho'
-        type = 'Tag'
+        type = "Tag"
 
         self.page.search_form.search(type, tag)
 
         def validate():
             page = PinDetailsPage(self.driver, open=False)
             tag_got = page.form.get_tag()
-            self.assertTrue(re.match('.*' + tag.lower() + '.*', tag_got.lower()), "Tags does not equals")
+            self.assertTrue(
+                re.match(".*" + tag.lower() + ".*", tag_got.lower()),
+                "Tags does not equals",
+            )
 
         self.page.result_form.check_search_results(validate)
 
     def test_search_user_inexistant(self):
-        query = 'qowjdwiqdowendwnedq9d32'
-        type = 'Username'
+        query = "qowjdwiqdowendwnedq9d32"
+        type = "Username"
         self.page.search_form.search(type, query)
-        self.assertTrue(self.page.result_form.wait_for_error(), 'No error block')
+        self.assertTrue(self.page.result_form.wait_for_error(), "No error block")
 
     def test_search_tag_inexistant(self):
-        query = 'qowjdwiqdowendwnedq9d32'
-        type = 'Tag'
+        query = "qowjdwiqdowendwnedq9d32"
+        type = "Tag"
         self.page.search_form.search(type, query)
-        self.assertTrue(self.page.result_form.wait_for_error(), 'No error block')
+        self.assertTrue(self.page.result_form.wait_for_error(), "No error block")

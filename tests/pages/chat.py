@@ -7,11 +7,11 @@ from tests.pages.config import onload
 
 
 class ChatPage(Page):
-    PATH = '/dialog'
+    PATH = "/dialog"
 
     ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="dialogview-page"]')
+        "method": By.XPATH,
+        "key": Page.get_xpath_visible('//div[@id="dialogview-page"]'),
     }
 
     def __init__(self, driver):
@@ -33,10 +33,9 @@ class FindCompanyForm(FormComponent):
     error_line = '//div[@id="createMessageError"]'
     error_line_active = error_line + '[@class="createmessage-error"]'
     message_list = '//div[@id="incomingMessagesList"]'
-    chat_element = '.chatroom'
-    chat_creator = '.chatroom__creator'
-    chat_content = '.chatroom__content'
-
+    chat_element = ".chatroom"
+    chat_creator = ".chatroom__creator"
+    chat_content = ".chatroom__content"
 
     def search_user(self, query):
         self.fill_input(self.driver.find_element_by_xpath(self.search_line), query)
@@ -78,11 +77,11 @@ class ConcreteUserMessagesForm(FormComponent):
     smiles_button = '//img[@id="openSmile"]'
     smiles_pane = '//div[@class="message-form__smile-view"]'
     atomic_smile = '//div[@class="smile__style"]'
-    messages = '.message'
-    my_messages = '.your-message_background'
+    messages = ".message"
+    my_messages = ".your-message_background"
     # companion_message = messages + '[@class="'
     message_creator = '//div[@class="message__creator"]'
-    message_content = '.message__content'
+    message_content = ".message__content"
 
     def wait_for_load(self):
         self.wait_for_presence(By.XPATH, self.companion_name)
@@ -106,11 +105,7 @@ class ConcreteUserMessagesForm(FormComponent):
         message = messages[index]
         text = message.find_element(By.CSS_SELECTOR, self.message_content).text
         creator = message.find_element_by_xpath(self.message_creator).text
-        return {
-            'from_me': creator in ['Вы:', 'You:'],
-            'creator': creator,
-            'text': text,
-        }
+        return {"from_me": creator in ["Вы:", "You:"], "creator": creator, "text": text}
 
     def send_message_confirmed(self, text, timeout=10, **kwargs):
         previous = len(self.driver.find_elements(By.CSS_SELECTOR, self.my_messages))
@@ -118,14 +113,16 @@ class ConcreteUserMessagesForm(FormComponent):
             previous = 0
         self.send_message(text, **kwargs)
         try:
-            self.wait_for_count_change(By.CSS_SELECTOR, self.my_messages, previous=previous, timeout=timeout)
+            self.wait_for_count_change(
+                By.CSS_SELECTOR, self.my_messages, previous=previous, timeout=timeout
+            )
         except:
             raise TimeoutError
         message = self.get_message(index=-1)
-        if kwargs.get('confirmator'):
-            kwargs['confirmator'](message, kwargs['count'])
+        if kwargs.get("confirmator"):
+            kwargs["confirmator"](message, kwargs["count"])
         else:
-            return message['from_me'], message['text']
+            return message["from_me"], message["text"]
             # assert message['from_me']
             # assert message['text'] == text
 
@@ -133,16 +130,15 @@ class ConcreteUserMessagesForm(FormComponent):
         if previous is None:
             previous = len(self.driver.find_elements(method, key))
         WebDriverWait(self.driver, timeout).until(
-            lambda driver: len(driver.find_elements(method, key))-previous != 0
+            lambda driver: len(driver.find_elements(method, key)) - previous != 0
         )
-
 
     def enter_smiles(self, text, **kwargs):
         self.driver.find_element(By.XPATH, self.smiles_button).click()
 
         smiles = self.driver.find_elements(By.XPATH, self.atomic_smile)
         for symb in list(text):
-            printed=False
+            printed = False
             for button in smiles:
                 t = button.text
                 if t == symb:

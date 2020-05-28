@@ -10,8 +10,8 @@ class GlobalSearchPage(Page):
     # PATH = '/search/{0}&{1}'
 
     ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="search-page"]')
+        "method": By.XPATH,
+        "key": Page.get_xpath_visible('//div[@id="search-page"]'),
     }
 
     def __init__(self, driver, open=True):
@@ -29,26 +29,28 @@ class GlobalSearchPage(Page):
 
 
 class HeaderSearchForm(FormComponent):
-    search_line = '#searchtext'
-    search_type = '#style-select'
-    search_form = '#headerSearch'
+    search_line = "#searchtext"
+    search_type = "#style-select"
+    search_form = "#headerSearch"
 
     @onload
     def search(self, type, query):
         self.fill_input(self.find_element(By.CSS_SELECTOR, self.search_line), query)
-        Select(self.find_element(By.CSS_SELECTOR, self.search_type)).select_by_value(type)
+        Select(self.find_element(By.CSS_SELECTOR, self.search_type)).select_by_value(
+            type
+        )
         self.find_element(By.CSS_SELECTOR, self.search_form).submit()
 
     def wait_for_load(self):
-        self.wait_for_presence(By.CSS_SELECTOR,  self.search_line)
+        self.wait_for_presence(By.CSS_SELECTOR, self.search_line)
 
 
 class SearchResultsForm(FormComponent):
-    container = '.search-page__flex-container'
-    elements_names = '.user-for-search__username'
-    element = '.pin-for-index-view'
-    elements_name_tag = '.pin-for-index__content'
-    error_message = '.search-page__error-message'
+    container = ".search-page__flex-container"
+    elements_names = ".user-for-search__username"
+    element = ".pin-for-index-view"
+    elements_name_tag = ".pin-for-index__content"
+    error_message = ".search-page__error-message"
 
     def wait_for_load(self, timeout=5):
         self.wait_for_presence(By.CSS_SELECTOR, self.container, timeout)

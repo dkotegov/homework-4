@@ -4,12 +4,10 @@ from tests.pages.component import FormComponent
 from tests.pages.solarsunrise_urls import ProfilePage
 from tests.pages.solarsunrise_urls import AuthPage
 
+
 class RegPage(Page):
-    PATH = '/'
-    ROOT = {
-        'method': By.ID,
-        'key': 'signup-page'
-    }
+    PATH = "/"
+    ROOT = {"method": By.ID, "key": "signup-page"}
 
     def __init__(self, driver, open=True):
         Page.__init__(self, driver)
@@ -49,11 +47,11 @@ class RegForm(FormComponent):
 
         ProfilePage(self.driver, open=False).wait_for_load()
 
-    def test_error_text(self, errtext=''):
-        if errtext != '':
+    def test_error_text(self, errtext=""):
+        if errtext != "":
             assert self.get_elem_text(self.incorrect_field) != errtext
 
-    def incorrect_registration(self, mail, login, password, errtext=''):
+    def incorrect_registration(self, mail, login, password, errtext=""):
         self.set_mail(mail)
         self.set_login(login)
         self.set_password(password)
@@ -64,4 +62,3 @@ class RegForm(FormComponent):
     def to_login_page(self):
         self.driver.find_element_by_xpath(self.login_button).click()
         AuthPage(self.driver, open=False).wait_for_load()
-
