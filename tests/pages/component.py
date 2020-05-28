@@ -43,7 +43,6 @@ class FormComponent(Component):
         )
 
     def wait_alert_settings(self, timeout=10):
-        element = WebDriverWait(self.driver, timeout).until(
+        return WebDriverWait(self.driver, timeout).until(
             expected_conditions.alert_is_present()
         )
-        assert element

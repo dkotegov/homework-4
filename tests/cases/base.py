@@ -29,11 +29,3 @@ class TestAuthorized(Test):
         assert password
         auth_page = AuthPage(self.driver)
         auth_page.form.authorise(login, password)
-
-class TestAuthorizedWithFillFields(Test):
-    def setUp(self):
-        super().setUp()
-        login = 'Nelltest@mail.ru'
-        password = 'Nelltest'
-        auth_page = AuthPage(self.driver)
-        auth_page.form.authorise(login, password)

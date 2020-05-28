@@ -44,27 +44,3 @@ class ProfileForm(FormComponent):
         self.submit_message_button()
         self.submit_message_button()
         return self.driver.find_element_by_xpath(self.question_field).get_attribute('value')
-
-
-class HeaderForm(ProfileForm):
-    index_btn = '//a[@href="/index/new"]'
-    profile_btn = '//a[@href="/profile"]'
-    messages_btn = '//a[@href="/dialog"]'
-    exit_btn = '//ul[@id="headerSettingsView"]/li/a[@href="/login"]'
-
-    def go_to_index(self):
-        self.submit(self.index_btn)
-        IndexPage(self.driver, open=False).wait_for_load()
-
-    def go_to_profile(self):
-        self.submit(self.profile_btn)
-        ProfilePage(self.driver, open=False).wait_for_load()
-
-    def go_to_dialog(self):
-        self.submit(self.messages_btn)
-        DialogPage(self.driver, open=False).wait_for_load()
-
-    def go_to_exit(self):
-        self.submit(self.menu_btn)
-        self.submit(self.exit_btn)
-        AuthPage(self.driver, open=False).wait_for_load()
