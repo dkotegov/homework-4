@@ -26,23 +26,29 @@ class UserDetailsSubscribeForm(FormComponent):
 
     def subscribe(self):
         self.driver.find_element_by_xpath(self.subscribe_button).click()
-        # self.wait_for_presence(By.XPATH, self.unsubscribe_button)
 
     def unsubscribe(self):
         self.driver.find_element_by_xpath(self.unsubscribe_button).click()
-        # self.wait_for_presence(By.XPATH, self.subscribe_button)
 
     # True if subscribed, False if not
-    # and TimeoutException if no button at all
-    def check_subscription(self):
-        try:
-            self.wait_for_presence(By.XPATH, self.unsubscribe_button)
-            return True
-        except(TimeoutError):
-            pass
+    # TimeoutError if no button at all
+    def check_subscription(self, estimated=True):
+        checks = [
+            {"target": self.unsubscribe_button, "result": True},
+            {"target": self.subscribe_button, "result": False},
+        ]
+        plan = [0, 1]
+        if not estimated:
+            plan=[1, 0]
 
-        self.wait_for_presence(By.XPATH, self.subscribe_button)
-        return False
+        for i in plan:
+            try:
+                self.wait_for_presence(By.XPATH, checks[i]["target"])
+                return checks[i]["result"]
+            except TimeoutError:
+                pass
+        else:
+            raise TimeoutError
 
     def open_pin(self, index=0):
         pins = self.driver.find_elements_by_xpath(self.pin)

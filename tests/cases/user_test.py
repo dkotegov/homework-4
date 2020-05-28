@@ -1,5 +1,3 @@
-from selenium.common.exceptions import TimeoutException
-
 from tests.cases.base import TestAuthorized
 from tests.pages.pin import PinDetailsPage
 from tests.pages.user_details import UserDetailsPage
@@ -12,11 +10,17 @@ class Test(TestAuthorized):
 
     def test_subscribe(self):
         self.page.form.subscribe()
-        self.assertTrue(self.page.form.check_subscription(), "You have not subscribed to user")
+        try:
+            self.assertTrue(self.page.form.check_subscription(), "You have not subscribed to user")
+        except TimeoutError:
+            self.fail("Cannot find subscription button!")
 
     def test_unsubscribe(self):
         self.page.form.unsubscribe()
-        self.assertFalse(self.page.form.check_subscription(), "You have not unsubscribed from user")
+        try:
+            self.assertFalse(self.page.form.check_subscription(estimated=False), "You have not unsubscribed from user")
+        except TimeoutError:
+            self.fail("Cannot find subscription button!")
 
     def test_open_pin(self):
         name, link = self.page.form.open_pin(0)
