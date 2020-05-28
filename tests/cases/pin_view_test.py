@@ -60,5 +60,7 @@ class Test(TestAuthorized):
         for board in self.page.form_concrete.get_href_boards_list():
             board_text = board.find_element_by_tag_name("div")
             if board_text.text == board_name:
-                self.board_id = board.find_element_by_tag_name('a').get_attribute('href')[30:]
+                self.board_id = board.find_element_by_tag_name("a").get_attribute(
+                    "href"
+                )[30:]
                 break

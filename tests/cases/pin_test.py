@@ -6,7 +6,7 @@ from tests.pages.create_pin import CreatePinPage
 from tests.pages.create_board import CreateBoardPage
 
 BOARD_NAME = "TEST BOARD"
-EMPTY_ERROR = ''
+EMPTY_ERROR = ""
 CREATE_PIN_ERROR = "create pin error"
 NO_FILE_ERROR = "http: no such file"
 NO_TITLE_ERROR = "Некорректный заголовок"
@@ -20,7 +20,7 @@ class Test(TestAuthorized):
 
     def setUp(self):
         super().setUp()
-        self.file_path = os.environ.get('FILE_PATH')
+        self.file_path = os.environ.get("FILE_PATH")
         self.create_board()
         self.page = CreatePinPage(self.driver)
 
@@ -43,7 +43,9 @@ class Test(TestAuthorized):
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
 
-        self.assertNotEqual(self.page.form_list.get_error(), NO_FILE_ERROR, NOT_DETECTED_ERROR)
+        self.assertNotEqual(
+            self.page.form_list.get_error(), NO_FILE_ERROR, NOT_DETECTED_ERROR
+        )
 
     def test_create_pin_empty_name(self):
         pin_content = "test_create_pin_empty_name description"
@@ -52,7 +54,9 @@ class Test(TestAuthorized):
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
 
-        self.assertNotEqual(self.page.form_list.get_error(), NO_TITLE_ERROR, NOT_DETECTED_ERROR)
+        self.assertNotEqual(
+            self.page.form_list.get_error(), NO_TITLE_ERROR, NOT_DETECTED_ERROR
+        )
 
     def test_create_pin_empty_description(self):
         pin_name = "this is empty description test pin name"
@@ -69,12 +73,16 @@ class Test(TestAuthorized):
         self.page.form_list.set_select_board(0)
         self.page.form_list.create_pin()
 
-        self.assertEqual(self.page.form_list.get_error(), NO_BOARD_ERROR, NOT_DETECTED_ERROR)
+        self.assertEqual(
+            self.page.form_list.get_error(), NO_BOARD_ERROR, NOT_DETECTED_ERROR
+        )
 
     def test_create_pin_empty(self):
         self.page.form_list.create_pin()
 
-        self.assertEqual(self.page.form_list.get_error(), NO_BOARD_ERROR, NOT_DETECTED_ERROR)
+        self.assertEqual(
+            self.page.form_list.get_error(), NO_BOARD_ERROR, NOT_DETECTED_ERROR
+        )
 
     def test_create_pin_go_back(self):
         self.page.form_list.go_back()

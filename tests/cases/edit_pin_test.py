@@ -9,7 +9,7 @@ from tests.pages.create_board import CreateBoardPage
 
 BOARD_NAME = "TEST BOARD "
 EDIT_BOARD_NAME = "EDIT BOARD "
-EMPTY_ERROR = ''
+EMPTY_ERROR = ""
 EDIT_PIN_ERROR = "edit pin error"
 NO_TITLE_ERROR = "Название должно быть заполнено"
 NO_BOARD_ERROR = "Не выбрана доска для пина!"
@@ -23,7 +23,7 @@ class Test(TestAuthorized):
 
     def setUp(self):
         super().setUp()
-        self.file_path = os.environ.get('FILE_PATH')
+        self.file_path = os.environ.get("FILE_PATH")
         self.create_board()
         self.page = CreatePinPage(self.driver)
         self.create_pin()
@@ -36,21 +36,29 @@ class Test(TestAuthorized):
         self.page.form_list.set_pin_content(pin_content)
         self.page.form_list.edit_pin()
 
-        self.assertEqual(self.page.form_list.get_error(self.pin_id), EMPTY_ERROR, EDIT_PIN_ERROR)
+        self.assertEqual(
+            self.page.form_list.get_error(self.pin_id), EMPTY_ERROR, EDIT_PIN_ERROR
+        )
 
     def test_edit_pin_empty_name(self):
         pin_content = "test_edit_pin_empty_name description"
         self.page.form_list.set_pin_content(pin_content)
         self.page.form_list.edit_pin()
 
-        self.assertNotEqual(self.page.form_list.get_error(self.pin_id), NO_TITLE_ERROR, NOT_DETECTED_ERROR)
+        self.assertNotEqual(
+            self.page.form_list.get_error(self.pin_id),
+            NO_TITLE_ERROR,
+            NOT_DETECTED_ERROR,
+        )
 
     def test_edit_pin_empty_description(self):
         pin_name = "test_edit_pin_empty_description name"
         self.page.form_list.set_pin_name(pin_name)
         self.page.form_list.edit_pin()
 
-        self.assertEqual(self.page.form_list.get_error(self.pin_id), EMPTY_ERROR, EDIT_PIN_ERROR)
+        self.assertEqual(
+            self.page.form_list.get_error(self.pin_id), EMPTY_ERROR, EDIT_PIN_ERROR
+        )
 
     def test_edit_pin_edit_board(self):
         new_board_name = EDIT_BOARD_NAME + str(random.randint(100, 10000))
@@ -65,7 +73,9 @@ class Test(TestAuthorized):
         self.page.form_list.set_select_board(new_board_id)
         self.page.form_list.edit_pin()
 
-        self.assertEqual(self.page.form_list.get_error(self.pin_id), EMPTY_ERROR, NOT_DETECTED_ERROR)
+        self.assertEqual(
+            self.page.form_list.get_error(self.pin_id), EMPTY_ERROR, NOT_DETECTED_ERROR
+        )
 
     def test_edit_pin_go_back(self):
         self.page.form_list.go_back(self.pin_id)

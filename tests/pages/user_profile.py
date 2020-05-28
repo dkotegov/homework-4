@@ -25,7 +25,7 @@ class ProfileForm(FormComponent):
     question_btn = '//img[@id="buttonForAsk"]'
     question_field = '//textarea[@id="profileMessageTextArea"]'
     submit_button = '//input[@class="feedback__form__button"]'
-    question_id = 'profileMessageTextArea'
+    question_id = "profileMessageTextArea"
 
     def set_question(self, question):
         self.fill_input(
@@ -41,4 +41,6 @@ class ProfileForm(FormComponent):
     def get_message_from_field(self):
         self.submit_message_button()
         self.submit_message_button()
-        return self.driver.find_element_by_xpath(self.question_field).get_attribute('value')
+        return self.driver.find_element_by_xpath(self.question_field).get_attribute(
+            "value"
+        )
