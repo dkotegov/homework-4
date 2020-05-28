@@ -11,14 +11,19 @@ class Test(TestAuthorized):
     def test_subscribe(self):
         self.page.form.subscribe()
         try:
-            self.assertTrue(self.page.form.check_subscription(), "You have not subscribed to user")
+            self.assertTrue(
+                self.page.form.check_subscription(), "You have not subscribed to user"
+            )
         except TimeoutError:
             self.fail("Cannot find subscription button!")
 
     def test_unsubscribe(self):
         self.page.form.unsubscribe()
         try:
-            self.assertFalse(self.page.form.check_subscription(estimated=False), "You have not unsubscribed from user")
+            self.assertFalse(
+                self.page.form.check_subscription(estimated=False),
+                "You have not unsubscribed from user",
+            )
         except TimeoutError:
             self.fail("Cannot find subscription button!")
 

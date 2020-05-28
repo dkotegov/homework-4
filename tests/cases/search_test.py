@@ -20,7 +20,10 @@ class Test(TestAuthorized):
         self.page.search_form.search(type, query)
         results = self.page.result_form.get_search_results()
 
-        self.assertTrue(query.lower() in [x.lower() for x in results], "cannot find username in results")
+        self.assertTrue(
+            query.lower() in [x.lower() for x in results],
+            "cannot find username in results",
+        )
 
     def test_search_partial(self):
         query = "bri"
@@ -29,7 +32,10 @@ class Test(TestAuthorized):
         self.page.search_form.search(type, query)
         results = self.page.result_form.get_search_results()
 
-        self.assertTrue(target.lower() in [x.lower() for x in results], "cannot find username in results")
+        self.assertTrue(
+            target.lower() in [x.lower() for x in results],
+            "cannot find username in results",
+        )
 
     def test_search_tag_existed(self):
         tag = "vscode"

@@ -39,7 +39,9 @@ class Test(TestAuthorized):
         text = ""
         try:
             self._send_message(name, text, timeout=3)
-            self.fail("There must not any message-list alteration be found, but smt has changed")
+            self.fail(
+                "There must not any message-list alteration be found, but smt has changed"
+            )
         except TimeoutError:
             return
 
