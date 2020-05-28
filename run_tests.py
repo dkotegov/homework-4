@@ -15,7 +15,8 @@ from tests.cases import edit_pin_test
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(board_test.Test),
+        # unittest.makeSuite(board_test.Test),
+        unittest.makeSuite(pin_test.Test),
 
 
     ))

@@ -59,6 +59,12 @@ class ConcreteUserMessagesForm(FormComponent):
     def wait_for_load(self):
         self.wait_for_presence(By.XPATH, self.section_name)
 
+    def get_id_by_board_name(self, board_name):
+        for board in self.get_href_boards_list():
+            board_text = board.find_element_by_tag_name('div')
+            if board_text.text == board_name:
+                return board.find_element_by_tag_name('a').get_attribute('href')[30:]
+
     def get_boards_list(self):
         return self.driver.find_elements_by_xpath(self.boards_list)
 

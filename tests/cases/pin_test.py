@@ -6,6 +6,12 @@ from tests.pages.create_pin import CreatePinPage
 from tests.pages.create_board import CreateBoardPage
 
 BOARD_NAME = "TEST BOARD"
+EMPTY_ERROR = ''
+CREATE_PIN_ERROR = "create pin error"
+NO_FILE_ERROR = "http: no such file"
+NO_TITLE_ERROR = "Некорректный заголовок"
+NO_BOARD_ERROR = "Не выбрана доска для пина!"
+NOT_DETECTED_ERROR = "error not detected"
 
 
 class Test(TestAuthorized):
@@ -15,8 +21,7 @@ class Test(TestAuthorized):
     def setUp(self):
         super().setUp()
         self.file_path = os.environ.get('FILE_PATH')
-        board_name = BOARD_NAME + str(random.randint(100, 10000))
-        self.create_board(board_name)
+        self.create_board()
         self.page = CreatePinPage(self.driver)
 
     def test_create_pin_valid_data(self):
@@ -27,8 +32,8 @@ class Test(TestAuthorized):
         self.page.form_list.load_file(self.file_path)
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
-        if self.page.form_list.get_error() != '':
-            assert "error"
+
+        self.assertEqual(self.page.form_list.get_error(), EMPTY_ERROR, CREATE_PIN_ERROR)
 
     def test_create_pin_empty_file(self):
         pin_name = "test_create_pin_empty_file name"
@@ -37,7 +42,8 @@ class Test(TestAuthorized):
         self.page.form_list.set_pin_content(pin_content)
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
-        assert self.page.form_list.get_error() == ''
+
+        self.assertNotEqual(self.page.form_list.get_error(), NO_FILE_ERROR, NOT_DETECTED_ERROR)
 
     def test_create_pin_empty_name(self):
         pin_content = "test_create_pin_empty_name description"
@@ -45,7 +51,8 @@ class Test(TestAuthorized):
         self.page.form_list.load_file(self.file_path)
         self.page.form_list.set_select_board(self.board_id)
         self.page.form_list.create_pin()
-        assert self.page.form_list.get_error() == ''
+
+        self.assertNotEqual(self.page.form_list.get_error(), NO_TITLE_ERROR, NOT_DETECTED_ERROR)
 
     def test_create_pin_empty_description(self):
         pin_name = "this is empty description test pin name"
@@ -61,22 +68,21 @@ class Test(TestAuthorized):
         self.page.form_list.set_pin_content(pin_content)
         self.page.form_list.set_select_board(0)
         self.page.form_list.create_pin()
-        assert self.page.form_list.get_error() != ''
+
+        self.assertEqual(self.page.form_list.get_error(), NO_BOARD_ERROR, NOT_DETECTED_ERROR)
 
     def test_create_pin_empty(self):
         self.page.form_list.create_pin()
-        assert self.page.form_list.get_error() != ''
+
+        self.assertEqual(self.page.form_list.get_error(), NO_BOARD_ERROR, NOT_DETECTED_ERROR)
 
     def test_create_pin_go_back(self):
         self.page.form_list.go_back()
 
-    def create_board(self, board_name):
+    def create_board(self):
+        board_name = BOARD_NAME + str(random.randint(100, 10000))
         self.page = CreateBoardPage(self.driver)
         self.page.form_list.set_board_name(board_name)
         self.page.form_list.create_board()
         self.page.form_concrete.wait_for_load()
-        for board in self.page.form_concrete.get_href_boards_list():
-            board_text = board.find_element_by_tag_name('div')
-            if board_text.text == board_name:
-                self.board_id = board.find_element_by_tag_name('a').get_attribute('href')[30:]
-                break
+        self.board_id = self.page.form_concrete.get_id_by_board_name(board_name)
