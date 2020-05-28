@@ -3,11 +3,8 @@ from tests.pages.config import Seed
 
 
 class Page(Seed):
-    PATH = ''
-    ROOT = {
-        'method': By.ID,
-        'key': 'application'
-    }
+    PATH = ""
+    ROOT = {"method": By.ID, "key": "application"}
 
     def __init__(self, driver):
         self.driver = driver
@@ -18,7 +15,7 @@ class Page(Seed):
         self.wait_for_load()
 
     def wait_for_load(self):
-        self.wait_for_presence(self.ROOT['method'], self.ROOT['key'])
+        self.wait_for_presence(self.ROOT["method"], self.ROOT["key"])
 
     @staticmethod
     def get_xpath_visible(s):

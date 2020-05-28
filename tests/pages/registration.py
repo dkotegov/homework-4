@@ -4,11 +4,8 @@ from tests.pages.component import FormComponent
 
 
 class RegPage(Page):
-    PATH = '/'
-    ROOT = {
-        'method': By.ID,
-        'key': 'signup-page'
-    }
+    PATH = "/"
+    ROOT = {"method": By.ID, "key": "signup-page"}
 
     def __init__(self, driver, open=True):
         Page.__init__(self, driver)

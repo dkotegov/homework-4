@@ -71,9 +71,9 @@ class SettingsTest(TestAuthorized):
 
     # # Изменение всех полей с условием, что никнейм не существует
     def test_change_all_fields_with_valid_nickname(self):
-        name = 'Nelli'
-        surname = 'Louse'
-        nickname = os.environ['NEW_TWO_NICKNAME']
+        name = "Nelli"
+        surname = "Louse"
+        nickname = os.environ["NEW_TWO_NICKNAME"]
         status = "Классный день!"
 
         self.page.form.set_name(name)
@@ -139,6 +139,7 @@ class SettingsTest(TestAuthorized):
 
         text = self.page.form.get_status(text_one)
         self.assertNotEqual(text, '', 'Fields with equal values')
+
 
     def test_exit_go_to_profile(self):
         old_nickname = self.page.form.get_value('nickname')

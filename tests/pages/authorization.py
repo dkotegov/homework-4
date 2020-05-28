@@ -4,11 +4,8 @@ from tests.pages.component import FormComponent
 
 
 class AuthPage(Page):
-    PATH = '/login'
-    ROOT = {
-        'method': By.ID,
-        'key': 'login-page'
-    }
+    PATH = "/login"
+    ROOT = {"method": By.ID, "key": "login-page"}
 
     def __init__(self, driver, open=True):
         Page.__init__(self, driver)

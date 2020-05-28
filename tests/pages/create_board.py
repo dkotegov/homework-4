@@ -1,18 +1,15 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
 
 
 class CreateBoardPage(Page):
-    PATH = '/create_board'
+    PATH = "/create_board"
 
     ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="createboard-page"]')
+        "method": By.XPATH,
+        "key": Page.get_xpath_visible('//div[@id="createboard-page"]'),
     }
 
     def __init__(self, driver):
@@ -32,7 +29,9 @@ class FindCreateBoardForm(FormComponent):
     board_name = '//input[@id="boardname"]'
     board_content = '//input[@id="boardcontent"]'
     error_line = '//div[@id="createBoardError"]'
-    create_button = '//input[@class="createboard-form__button-save create-form__button-save_pos"]'
+    create_button = (
+        '//input[@class="createboard-form__button-save create-form__button-save_pos"]'
+    )
     back_button = '//a[@id="createBoardViewButtonsExit"]'
 
     def set_board_name(self, query):

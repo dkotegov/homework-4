@@ -11,13 +11,13 @@ BOARD_NAME = "NEW TEST BOARD "
 
 
 class Test(TestAuthorized):
-    file_path = ''
-    board_id = ''
-    pin_id = ''
+    file_path = ""
+    board_id = ""
+    pin_id = ""
 
     def setUp(self):
         super().setUp()
-        self.file_path = os.environ.get('FILE_PATH')
+        self.file_path = os.environ.get("FILE_PATH")
         board_name = BOARD_NAME + str(random.randint(100, 10000))
         self.create_board(board_name)
         self.page = CreatePinPage(self.driver)
@@ -58,7 +58,7 @@ class Test(TestAuthorized):
         self.page.form_concrete.wait_for_load()
 
         for board in self.page.form_concrete.get_href_boards_list():
-            board_text = board.find_element_by_tag_name('div')
+            board_text = board.find_element_by_tag_name("div")
             if board_text.text == board_name:
                 self.board_id = board.find_element_by_tag_name('a').get_attribute('href')[30:]
                 break

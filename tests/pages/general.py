@@ -5,11 +5,11 @@ from tests.pages.component import FormComponent
 
 
 class GeneralPage(Page):
-    PATH = '/index/new'
+    PATH = "/index/new"
 
     ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="index-page:new"]')
+        "method": By.XPATH,
+        "key": Page.get_xpath_visible('//div[@id="index-page:new"]'),
     }
 
     def __init__(self, driver):
@@ -22,8 +22,8 @@ class GeneralPage(Page):
 
 
 class PinListForm(FormComponent):
-    element = '.pin-for-index-view'
-    element_title = '.pin-for-index__content'
+    element = ".pin-for-index-view"
+    element_title = ".pin-for-index__content"
 
     def click_first_pin(self):
         elem = self.find_element(By.CSS_SELECTOR, self.element)
@@ -33,5 +33,3 @@ class PinListForm(FormComponent):
 
         pin_clickable.click()
         return title, url
-
-

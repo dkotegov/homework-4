@@ -6,11 +6,8 @@ import os
 
 
 class SettingsPage(Page):
-    PATH = '/settings'
-    ROOT = {
-        'method': By.ID,
-        'key': 'settings-page'
-    }
+    PATH = "/settings"
+    ROOT = {"method": By.ID, "key": "settings-page"}
 
     def __init__(self, driver, open=True):
         Page.__init__(self, driver)
@@ -33,10 +30,10 @@ class SettingsForm(FormComponent):
     settings_btn = '//img[@data-section="/settings"]'
     profile_nickname_field = '//div[@class="profile-username"]'
 
-    def set_avatar(self, file_name=''):
-        if file_name == '':
+    def set_avatar(self, file_name=""):
+        if file_name == "":
             num = choice([1, 2, 3, 4])
-            file_name = os.getcwd() + '/images/beauty' + str(num) + '.jpg'
+            file_name = os.getcwd() + "/images/beauty" + str(num) + ".jpg"
         self.driver.find_element(By.ID, "avatarphoto").send_keys(file_name)
 
     def set_name(self, name):
@@ -46,7 +43,9 @@ class SettingsForm(FormComponent):
         self.fill_input(self.driver.find_element_by_xpath(self.surname_field), surname)
 
     def set_nickname(self, nickname):
-        self.fill_input(self.driver.find_element_by_xpath(self.nickname_field), nickname)
+        self.fill_input(
+            self.driver.find_element_by_xpath(self.nickname_field), nickname
+        )
 
     def set_status(self, status):
         self.fill_input(self.driver.find_element_by_xpath(self.status_field), status)
@@ -77,10 +76,10 @@ class SettingsForm(FormComponent):
         self.driver.find_element_by_xpath(self.exit_btn).click()
 
     fields = {
-        'name': name_field,
-        'surname': surname_field,
-        'nickname': nickname_field,
-        'status': status_field
+        "name": name_field,
+        "surname": surname_field,
+        "nickname": nickname_field,
+        "status": status_field,
     }
 
     def get_value(self, context):

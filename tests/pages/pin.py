@@ -5,14 +5,14 @@ from tests.pages.component import FormComponent
 
 
 class PinDetailsPage(Page):
-    PATH = '/pin/{0}'
+    PATH = "/pin/{0}"
 
     ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="viewpin-page"]')
+        "method": By.XPATH,
+        "key": Page.get_xpath_visible('//div[@id="viewpin-page"]'),
     }
 
-    def __init__(self, driver, open=True, pin_id=''):
+    def __init__(self, driver, open=True, pin_id=""):
         Page.__init__(self, driver)
         if open:
             self.open(pin_id)
@@ -23,9 +23,9 @@ class PinDetailsPage(Page):
 
 
 class PinForm(FormComponent):
-    title = '.viewpin-block__right-column__title'
-    tag = '.viewpin-block__right-column__context'
-    comment_area = 'commentTextArea/pin/'
+    title = ".viewpin-block__right-column__title"
+    tag = ".viewpin-block__right-column__context"
+    comment_area = "commentTextArea/pin/"
 
     def get_title(self):
         return self.find_element(By.CSS_SELECTOR, self.title).text
@@ -46,10 +46,10 @@ class PinForm(FormComponent):
         self.driver.find_element_by_xpath(save_button).click()
 
     def set_board(self, pin_id, board_id):
-        select = self.driver.find_element_by_id('pinviewBoardselect/pin/' + str(pin_id))
+        select = self.driver.find_element_by_id("pinviewBoardselect/pin/" + str(pin_id))
         all_options = select.find_elements_by_tag_name("option")
         for option in all_options:
-            if option.get_attribute('value') == board_id:
+            if option.get_attribute("value") == board_id:
                 option.click()
                 return
 

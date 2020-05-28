@@ -15,8 +15,8 @@ NOT_DETECTED_ERROR = "error not detected"
 
 
 class Test(TestAuthorized):
-    board_id = ''
-    file_path = ''
+    board_id = ""
+    file_path = ""
 
     def setUp(self):
         super().setUp()

@@ -5,11 +5,11 @@ from tests.pages.component import FormComponent
 
 
 class BoardPage(Page):
-    PATH = '/board/{0}'
+    PATH = "/board/{0}"
 
     ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="board-page"]')
+        "method": By.XPATH,
+        "key": Page.get_xpath_visible('//div[@id="board-page"]'),
     }
 
     def __init__(self, driver, board_id):
@@ -29,10 +29,10 @@ class BoardForm(FormComponent):
         pins = self.driver.find_elements_by_xpath(self.pins)
         for pin in pins:
             if pin.text == name:
-                href = pin.find_element(by=By.CLASS_NAME, value="pin-for-user-view__content").get_attribute("href")
+                href = pin.find_element(
+                    by=By.CLASS_NAME, value="pin-for-user-view__content"
+                ).get_attribute("href")
                 return href[28:]
 
     def wait_for_load(self):
         self.wait_for_presence(By.XPATH, self.section_name)
-
-

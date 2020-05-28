@@ -1,19 +1,15 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 
 from tests.pages.base import Page
 from tests.pages.component import FormComponent
-from selenium.webdriver.support.ui import Select
 
 
 class CreatePinPage(Page):
-    PATH = '/create_pin'
+    PATH = "/create_pin"
 
     ROOT = {
-        'method': By.XPATH,
-        'key': Page.get_xpath_visible('//div[@id="createpin-page"]')
+        "method": By.XPATH,
+        "key": Page.get_xpath_visible('//div[@id="createpin-page"]'),
     }
 
     def __init__(self, driver):
@@ -61,10 +57,10 @@ class FindCreatePinForm(FormComponent):
         self.driver.find_element(by=By.ID, value="pinphoto").send_keys(path)
 
     def set_select_board(self, board_id):
-        select = self.driver.find_element_by_id('createPinBoardSelect')
+        select = self.driver.find_element_by_id("createPinBoardSelect")
         all_options = select.find_elements_by_tag_name("option")
         for option in all_options:
-            if option.get_attribute('value') == board_id:
+            if option.get_attribute("value") == board_id:
                 option.click()
                 return
 
