@@ -1,18 +1,11 @@
 import os
-import time
-import unittest
 import random
-
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver import DesiredCapabilities, Remote
 
 from tests.cases.base import TestAuthorized
 from tests.pages.board import BoardPage
 from tests.pages.edit_pin import EditPinPage
 from tests.pages.create_pin import CreatePinPage
 from tests.pages.create_board import CreateBoardPage
-from tests.pages.profile import ProfilePage
 
 BOARD_NAME = "TEST BOARD "
 EDIT_BOARD_NAME = "EDIT BOARD "
@@ -93,8 +86,7 @@ class Test(TestAuthorized):
         self.page.form_list.set_pin_name(pin_name)
         self.page.form_list.set_select_board(new_board_id)
         self.page.form_list.edit_pin()
-        if self.page.form_list.get_error(self.pin_id) != '':
-            assert "error"
+        self.assertNotEqual(self.page.form_list.get_error(self.pin_id), '')
 
     def test_edit_pin_go_back(self):
         self.page.form_list.go_back(self.pin_id)

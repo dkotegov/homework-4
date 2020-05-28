@@ -62,5 +62,12 @@ class ConcreteUserMessagesForm(FormComponent):
     def get_boards_list(self):
         return self.driver.find_elements_by_xpath(self.boards_list)
 
+    def find_board(self, board_name):
+        board_list = self.page.form_concrete.get_boards_list()
+        for board in board_list:
+            if board.text == board_name:
+                return True
+        return False
+
     def get_href_boards_list(self):
         return self.driver.find_elements_by_xpath(self.boards_href_list)
