@@ -15,7 +15,6 @@ class Test(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-        # self.driver.close()
 
 
 class TestAuthorized(Test):
@@ -23,8 +22,6 @@ class TestAuthorized(Test):
         super().setUp()
         login = os.environ.get("LOGIN")
         password = os.environ.get("PASSWORD")
-        assert login
-        assert password
         auth_page = AuthPage(self.driver)
         auth_page.form.authorise(login, password)
 

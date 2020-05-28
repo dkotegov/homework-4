@@ -20,10 +20,7 @@ class Test(TestAuthorized):
         self.page.search_form.search(type, query)
         results = self.page.result_form.get_search_results()
 
-        for result in results:
-            if result.lower() == query.lower():
-                return
-        self.assertTrue(False, "cannot find username in results")
+        self.assertTrue(query.lower() in [x.lower() for x in results], "cannot find username in results")
 
     def test_search_partial(self):
         query = "bri"
@@ -32,25 +29,10 @@ class Test(TestAuthorized):
         self.page.search_form.search(type, query)
         results = self.page.result_form.get_search_results()
 
-        for result in results:
-            if result.lower() == target.lower():
-                return
-        self.assertTrue(False, "cannot find username in results")
-
-    def test_search_empty(self):
-        query = ""
-        type = "Username"
-        self.page.search_form.search(type, query)
-
-        try:
-            self.page.result_form.wait_for_load(timeout=3)
-            self.assertFalse(True, "It seems site searches an empty value")
-        except TimeoutException:
-            return
+        self.assertTrue(target.lower() in [x.lower() for x in results], "cannot find username in results")
 
     def test_search_tag_existed(self):
         tag = "vscode"
-        # tag = 'hohoho'
         type = "Tag"
 
         self.page.search_form.search(type, tag)
@@ -69,10 +51,12 @@ class Test(TestAuthorized):
         query = "qowjdwiqdowendwnedq9d32"
         type = "Username"
         self.page.search_form.search(type, query)
+
         self.assertTrue(self.page.result_form.wait_for_error(), "No error block")
 
     def test_search_tag_inexistant(self):
         query = "qowjdwiqdowendwnedq9d32"
         type = "Tag"
         self.page.search_form.search(type, query)
+
         self.assertTrue(self.page.result_form.wait_for_error(), "No error block")

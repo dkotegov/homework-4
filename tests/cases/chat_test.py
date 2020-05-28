@@ -39,10 +39,7 @@ class Test(TestAuthorized):
         text = ""
         try:
             self._send_message(name, text, timeout=3)
-            self.assertTrue(
-                False,
-                "There must not any message-list alteration be found, but smt has changed",
-            )
+            self.fail("There must not any message-list alteration be found, but smt has changed")
         except TimeoutError:
             return
 
@@ -76,4 +73,4 @@ class Test(TestAuthorized):
         self._send_message(name, text)
         self.driver.refresh()
         self.page.form_list.wait_for_load()
-        self.page.form_list.check_dialog(name, text)
+        self.assertEqual(self.page.form_list.check_dialog(name), text)

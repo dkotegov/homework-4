@@ -61,9 +61,9 @@ class FindCompanyForm(FormComponent):
         assert creator
         return creator
 
-    def check_dialog(self, name, text):
+    def check_dialog(self, name):
         dialog = self.find_dialog_by_name(name).find_element_by_xpath("..")
-        assert dialog.find_element(By.CSS_SELECTOR, self.chat_content).text == text
+        return dialog.find_element(By.CSS_SELECTOR, self.chat_content).text
 
     def wait_for_load(self):
         self.wait_for_presence(By.XPATH, self.message_list)
