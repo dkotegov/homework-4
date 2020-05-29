@@ -8,6 +8,7 @@ class Component(Seed):
     def __init__(self, driver):
         self.driver = driver
 
+
 class FormComponent(Component):
     def fill_input(self, element, value):
         element.click()
@@ -39,7 +40,7 @@ class FormComponent(Component):
 
     def get_value_elem_text(self, name):
         return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(name).get_attribute('value')
+            lambda d: d.find_element_by_xpath(name).get_attribute("value")
         )
 
     def wait_alert_settings(self, timeout=10):
