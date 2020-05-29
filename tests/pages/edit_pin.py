@@ -28,7 +28,6 @@ class EditPinPage(Page):
 class FindEditPinForm(FormComponent):
     pin_name = '//input[@id="pinname"]'
     pin_content = '//input[@id="pincontent"]'
-    # error_line = '//id[@class="createpin-error"]'
     edit_pin_button = '//input[@class="createpin__buttons__button-save createpin__buttons__button-save_pos"]'
     boards_list = '//select[@id="createPinBoardSelect"]'
     change_pin_button_click = '//div[@id="createPinBoardSelect"]'
