@@ -79,7 +79,6 @@ class ConcreteUserMessagesForm(FormComponent):
     atomic_smile = '//div[@class="smile__style"]'
     messages = ".message"
     my_messages = ".your-message_background"
-    # companion_message = messages + '[@class="'
     message_creator = '//div[@class="message__creator"]'
     message_content = ".message__content"
 
@@ -123,8 +122,6 @@ class ConcreteUserMessagesForm(FormComponent):
             kwargs["confirmator"](message, kwargs["count"])
         else:
             return message["from_me"], message["text"]
-            # assert message['from_me']
-            # assert message['text'] == text
 
     def wait_for_count_change(self, method, key, previous=None, timeout=10):
         if previous is None:
