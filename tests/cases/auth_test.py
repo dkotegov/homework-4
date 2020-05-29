@@ -71,7 +71,7 @@ class AuthTest(Test):
         self.assertNotEqual(err_text, '', 'No error field')
 
     # Ошибка авторизации с пустыми полями: пустая почта, пустой пароль
-    def test_empty_mail_and_filled_password(self):
+    def test_empty_mail_and_empty_password(self):
         self.page.form.set_mail('')
         self.page.form.set_password('')
         self.page.form.submit()
