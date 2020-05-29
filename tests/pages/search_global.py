@@ -7,8 +7,6 @@ from tests.pages.config import onload
 
 
 class GlobalSearchPage(Page):
-    # PATH = '/search/{0}&{1}'
-
     ROOT = {
         "method": By.XPATH,
         "key": Page.get_xpath_visible('//div[@id="search-page"]'),

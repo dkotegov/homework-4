@@ -16,10 +16,6 @@ class ProfilePage(Page):
     def form(self):
         return ProfileForm(self.driver)
 
-    @property
-    def header_form(self):
-        return HeaderForm(self.driver)
-
 
 class ProfileForm(FormComponent):
     question_btn = '//img[@id="buttonForAsk"]'

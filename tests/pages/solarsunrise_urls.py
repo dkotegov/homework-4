@@ -23,11 +23,6 @@ class ProfilePage(DefaultPage):
     PATH = "/profile"
     ROOT = {"method": By.ID, "key": "profile-page"}
 
-    # def __init__(self, driver, open=True):
-    #     Page.__init__(self, driver)
-    #     if open:
-    #         self.open()
-
 
 class SettingsPage(DefaultPage):
     PATH = "/settings"
