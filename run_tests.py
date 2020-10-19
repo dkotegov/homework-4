@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-
+import sys
 import unittest
+from tests import GetTest
 
 if __name__ == '__main__':
-    pass
+    suite = unittest.TestSuite()
+    suite.addTest(GetTest())
+    result = unittest.TextTestRunner().run(suite)
+    sys.exit(not result.wasSuccessful())
