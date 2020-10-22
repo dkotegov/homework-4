@@ -1,6 +1,7 @@
 import os
 from urllib.parse import urljoin
 import unittest
+from parameterized import parameterized
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -70,7 +71,9 @@ class MainMenu(Component):
 
 class ExampleTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
+    WRONG_KEY = '1234'
     AUTH_SUCCESS = 'Правильный ключ'
+    AUTH_FAILED = 'Ошибка'
     MAIN_PAGE_HEADER = 'Главное меню'
 
     def setUp(self):
@@ -84,8 +87,8 @@ class ExampleTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test(self):
     ## Редирект при вводе верного ключа.
+    def test_login_success(self):
     # Вход
         auth_page = AuthPage(self.driver)
         auth_page.open()
@@ -104,3 +107,21 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(self.MAIN_PAGE_HEADER, main_page_header)
         main_page.Menu.logout()
 
+
+    ## Редирект при вводе верного ключа.
+    @parameterized.expand([
+            [WRONG_KEY, AUTH_FAILED,],
+            [' ', AUTH_FAILED,],
+        ])
+    def test_login_failed(self, key, alert_text):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.set_key(key)
+        auth_form.submit()
+        alert = self.driver.switch_to.alert
+        self.assertEqual(alert.text, alert_text)
+        alert.accept()
+
+        self.assertEqual(self.driver.current_url, auth_page.BASE_URL + auth_page.PATH)
