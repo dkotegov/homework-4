@@ -13,6 +13,7 @@ class SourceTest(unittest.TestCase):
     BIG_SOURCE = './sources/big_source.jpeg'
     PDF_SOURCE = './sources/pdf.pdf'
     BIG_SOURCE_STRING = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAg'
+    PDF_SOURCE_STRING = 'data:application/pdf;base64,JVBERi0xLjUKJ'
     SUCCESS = 'Сохранение прошло успешно'
     KEY = os.environ['PASSWORD']
 
@@ -37,18 +38,27 @@ class SourceTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_new_source_success(self):
-        source_page = SourceSteps(self.driver)
-        image = source_page.upload_file(self.BIG_SOURCE)
-        self.assertIn(self.BIG_SOURCE_STRING, image)
-        source_page.save_img(self.BIG_SOURCE)
-        alert = source_page.accept_alert_text()
-        self.assertEqual(alert, self.SUCCESS)
+    sources = [[BIG_SOURCE, BIG_SOURCE_STRING], [PDF_SOURCE, PDF_SOURCE_STRING]]
 
-        # Удалить созданные
-        source_page.back_to_menu()
-        self.main_page.tag_list.tag_click(self.BIG_SOURCE)
-        self.tag_page.delete_source()
+    def test_new_source_success(self):
+        for source in self.sources:
+            with self.subTest():
+                source_path = source[0]
+                source_string = source[1]
+                source_page = SourceSteps(self.driver)
+                image = source_page.upload_file(source_path)
+                self.assertIn(source_string, image)
+                source_page.save_img(source_path)
+                alert = source_page.accept_alert_text()
+                self.assertEqual(alert, self.SUCCESS)
+
+                # Удалить созданные
+                source_page.back_to_menu()
+                self.main_page.tag_list.tag_click(source_path)
+                self.tag_page.delete_source()
+                self.tag_page.back_to_menu()
+                self.main_page.menu.new_source_click()
+                self.main_page.waitRedirect(SourcePage.BASE_URL + SourcePage.PATH)
 
     def test_new_source_no_tag_failed(self):
         source_page = SourceSteps(self.driver)
