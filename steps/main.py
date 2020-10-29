@@ -1,3 +1,4 @@
+from pages.iframe import IframePage
 from pages.main import MainPage
 from pages.new_proj import NewProjPage
 from pages.source import SourcePage
@@ -40,3 +41,10 @@ class MainSteps(Steps):
     def go_to_transform(self):
         self.page.menu.transform_click()
         self.page.waitRedirect(TransformPage.BASE_URL + TransformPage.PATH)
+
+    def go_to_iframe(self):
+        self.page.menu.iframe_click()
+        self.page.waitRedirect(IframePage.BASE_URL + IframePage.PATH)
+
+    def get_proj_id(self, name):
+        return self.page.project_list.get_proj_id(name)

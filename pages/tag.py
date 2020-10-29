@@ -1,7 +1,3 @@
-from selenium.webdriver.support.wait import WebDriverWait
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from pages.default import Page, Component, wait_for_the_attribute_value
 
 
