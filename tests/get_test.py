@@ -1,5 +1,10 @@
+import os
+import time
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
+
+from Auth import AuthPage
+from Base import Page
 
 
 class GetTest(unittest.TestCase):
@@ -10,8 +15,15 @@ class GetTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
+        LOGIN = 'alexersh.test'
+        PASSWORD = os.environ['PASSWORD']
+
+        auth_page = AuthPage(self.driver)
+        auth_page.auth(LOGIN, PASSWORD)
+
     def tearDown(self) -> None:
         self.driver.quit()
 
     def runTest(self):
-        self.driver.get("http://park.mail.ru/")
+        home_page = Page(self.driver)
+        home_page.open()
