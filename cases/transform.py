@@ -2,15 +2,14 @@ import os
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from pages.main import MainPage
 from pages.transform import TransformPage
 from steps.auth import AuthSteps
+from steps.main import MainSteps
 from steps.transform import TransformSteps
 
 
 class TransformTest(unittest.TestCase):
     MIDDLE_SOURCE = './sources/middle_source.jpg'
-    PDF_SOURCE = './sources/pdf.pdf'
     FAILED = 'Изображение отсутствует'
     KEY = os.environ['PASSWORD']
     HEIGHT = 100
@@ -29,27 +28,22 @@ class TransformTest(unittest.TestCase):
         self.auth_page.open()
         self.auth_page.login(self.KEY)
 
-        self.main_page = MainPage(self.driver)
-        self.main_page.menu.transform_click()
-        self.main_page.waitRedirect(TransformPage.BASE_URL + TransformPage.PATH)
+        self.main_page = MainSteps(self.driver)
+        self.main_page.go_to_transform()
 
     def tearDown(self):
         self.driver.quit()
 
-    sources = [MIDDLE_SOURCE, PDF_SOURCE]
-
     def test_transform_success(self):
-        for source in self.sources:
-            with self.subTest():
-                transform_page = TransformSteps(self.driver)
-                transform_page.set_size(self.HEIGHT, self.WIDTH)
-                transform_page.select_image(source)
-                width, height = transform_page.transform_finished()
-                self.assertEqual("%s" % self.HEIGHT, height)
-                self.assertEqual("%s" % self.WIDTH, width)
-                size_label = transform_page.check_size_label()
-                self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=self.WIDTH, height=self.HEIGHT), size_label)
-                transform_page.go_to_transform()
+        transform_page = TransformSteps(self.driver)
+        transform_page.set_size(self.HEIGHT, self.WIDTH)
+        transform_page.select_image(self.MIDDLE_SOURCE)
+        width, height = transform_page.transform_finished()
+        self.assertEqual("%s" % self.HEIGHT, height)
+        self.assertEqual("%s" % self.WIDTH, width)
+        size_label = transform_page.check_size_label()
+        self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=self.WIDTH, height=self.HEIGHT), size_label)
+        transform_page.go_to_transform()
 
     wrong_sizes = [0, "", "a"]
 

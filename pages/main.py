@@ -47,8 +47,8 @@ class MainMenu(Component):
 
 
 class ProjectList(Component):
-    PROJ_CONTAINER = '//div[@class="projectsListBox"]'
-    PROJ_ID = '//div[@class="project-element-class"][contains(., "{name}")]//div[@data-project-id]'
+    PROJ_CONTAINER = '//div[@id="projectsListBox"]'
+    PROJ_ID = '//div[@class="project-element-class"][contains(., "Название: {name}")]//div[@data-project-id]'
     EDIT = '//div[@onclick="redactorProject(this)"][@data-project-id="{id}"]'
     WATCH = '//div[@onclick="watchMyProject(this)"][@data-project-id="{id}"]'
     DELETE = '//div[@onclick="dropProject(this)"][@data-project-id="{id}"]'
