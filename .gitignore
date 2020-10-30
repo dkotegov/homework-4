@@ -9,6 +9,7 @@ geckodriver
 # C extensions
 venv/*
 *.so
+.idea/*
 
 # Distribution / packaging
 .Python
