@@ -5,6 +5,7 @@ from pages.new_proj import NewProjPage
 from pages.source import SourcePage
 from pages.tag import TagPage
 from pages.transform import TransformPage
+from pages.watch import WatchPage
 from steps.default import Steps
 
 
@@ -42,6 +43,10 @@ class MainSteps(Steps):
     def go_to_edit(self, proj_id):
         self.page.project_list.edit_click(proj_id)
         self.page.waitRedirect(EditPage.BASE_URL + EditPage.PATH + "?p_id={}".format(proj_id))
+
+    def go_to_watch(self, proj_id):
+        self.page.project_list.watch_click(proj_id)
+        self.page.waitRedirect(WatchPage.BASE_URL + WatchPage.PATH + "?p_id={}".format(proj_id))
 
     def go_to_transform(self):
         self.page.menu.transform_click()

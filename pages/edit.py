@@ -117,6 +117,13 @@ class Tab(Component):
     ZONE_LIB = '//h3[@id="ui-id-5"]'
     GROUP_LIB = '//h3[@id="ui-id-6"]'
     CONTROL_LIB = '//h3[@id="ui-id-7"]'
+    PIC_LIB_BODY = '//div[@aria-labelledby="ui-id-1"]'
+    PIN_LIB_BODY = '//div[@aria-labelledby="ui-id-2"]'
+    TEXT_LIB_BODY = '//div[@aria-labelledby="ui-id-3"]'
+    LEG_LIB_BODY = '//div[@aria-labelledby="ui-id-4"]'
+    ZONE_LIB_BODY = '//div[@aria-labelledby="ui-id-5"]'
+    GROUP_LIB_BODY = '//div[@aria-labelledby="ui-id-6"]'
+    CONTROL_LIB_BODY = '//div[@aria-labelledby="ui-id-7"]'
 
     def return_click(self):
         self.driver.back()
@@ -124,29 +131,36 @@ class Tab(Component):
     def pic_lib_click(self):
         self.wait_for_visible(self.PIC_LIB)
         self.driver.find_element_by_xpath(self.PIC_LIB).click()
+        self.wait_for_attribute_value(self.PIC_LIB_BODY, "style", "display: block; height: 345px;")
 
     def pin_lib_click(self):
         self.wait_for_visible(self.PIN_LIB)
         self.driver.find_element_by_xpath(self.PIN_LIB).click()
+        self.wait_for_attribute_value(self.PIN_LIB_BODY, "style", "display: block; height: 345px;")
 
     def text_lib_click(self):
         self.wait_for_visible(self.TEXT_LIB)
         self.driver.find_element_by_xpath(self.TEXT_LIB).click()
+        self.wait_for_attribute_value(self.TEXT_LIB_BODY, "style", "display: block; height: 345px;")
 
     def leg_lib_click(self):
         self.wait_for_visible(self.LEG_LIB)
         self.driver.find_element_by_xpath(self.LEG_LIB).click()
+        self.wait_for_attribute_value(self.LEG_LIB_BODY, "style", "display: block; height: 345px;")
 
     def zone_lib_click(self):
         self.wait_for_visible(self.ZONE_LIB)
         self.driver.find_element_by_xpath(self.ZONE_LIB).click()
+        self.wait_for_attribute_value(self.ZONE_LIB_BODY, "style", "display: block; height: 345px;")
 
     def group_lib_click(self):
         self.wait_for_visible(self.GROUP_LIB)
         self.driver.find_element_by_xpath(self.GROUP_LIB).click()
+        self.wait_for_attribute_value(self.GROUP_LIB_BODY, "style", "display: block; height: 345px;")
 
     def control_lib_click(self):
         self.wait_for_visible(self.CONTROL_LIB)
         self.driver.find_element_by_xpath(self.CONTROL_LIB).click()
+        self.wait_for_attribute_value(self.CONTROL_LIB_BODY, "style", "display: block; height: 345px;")
 
 

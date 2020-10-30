@@ -62,10 +62,19 @@ class Component(object):
         self.driver = driver
 
     def wait_for_visible(self, xpath):
-        WebDriverWait(self.driver, 5, 0.1).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+        WebDriverWait(self.driver, 10, 0.1).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+
+    def wait_for_invisible(self, xpath):
+        WebDriverWait(self.driver, 10, 0.1).until_not(EC.visibility_of_element_located((By.XPATH, xpath)))
 
     def wait_for_presence(self, xpath):
-        WebDriverWait(self.driver, 5, 0.1).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        WebDriverWait(self.driver, 10, 0.1).until(EC.presence_of_element_located((By.XPATH, xpath)))
+
+    def wait_for_clickable(self, xpath):
+        WebDriverWait(self.driver, 10, 0.1).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+
+    def wait_for_attribute_value(self, xpath, atr, val):
+        WebDriverWait(self.driver, 10, 0.1).until(wait_for_the_attribute_value((By.XPATH, xpath), atr, val))
 
     def do_not_wait_presence(self, xpath):
         try:
