@@ -1,5 +1,4 @@
 import os
-import time
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
@@ -30,7 +29,6 @@ class FolderTests(unittest.TestCase):
         home_page = HomePage(self.driver)
         home_page.open()
 
-        home_page.utils.close_banner_if_exists()
         home_page.folders.create_folder(FOLDER_NAME)
 
         home_page.open()
@@ -49,7 +47,6 @@ class FolderTests(unittest.TestCase):
         home_page = HomePage(self.driver)
         home_page.open()
 
-        home_page.utils.close_banner_if_exists()
         # site redirects to created folder, so after this we would be on BASE_URL/PATH/<FOLDER_NAME>
         home_page.folders.create_folder(FOLDER_NAME)
 
