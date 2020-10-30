@@ -49,10 +49,10 @@ class MainMenu(Component):
 class ProjectList(Component):
     PROJ_CONTAINER = '//div[@id="projectsListBox"]'
     PROJ_ID = '//div[@class="project-element-class"][contains(., "Название: {name}")]//div[@data-project-id]'
-    EDIT = '//div[@onclick="redactorProject(this)"][@data-project-id="{id}"]'
-    WATCH = '//div[@onclick="watchMyProject(this)"][@data-project-id="{id}"]'
-    DELETE = '//div[@onclick="dropProject(this)"][@data-project-id="{id}"]'
-    CLONE = '//div[@onclick="cloneProject(this)"][@data-project-id="{id}"]'
+    EDIT = '//div[@onclick="redactorProject(this)"][@data-project-id="{proj_id}"]'
+    WATCH = '//div[@onclick="watchMyProject(this)"][@data-project-id="{proj_id}"]'
+    DELETE = '//div[@onclick="dropProject(this)"][@data-project-id="{proj_id}"]'
+    CLONE = '//div[@onclick="cloneProject(this)"][@data-project-id="{proj_id}"]'
 
     def get_proj_id(self, proj_name):
         self.wait_for_visible(self.PROJ_CONTAINER)
@@ -61,20 +61,20 @@ class ProjectList(Component):
         return proj_id
 
     def edit_click(self, proj_id):
-        self.wait_for_visible(self.EDIT.format(id=proj_id))
-        self.driver.find_element_by_xpath(self.EDIT.format(id=proj_id)).click()
+        self.wait_for_visible(self.EDIT.format(proj_id=proj_id))
+        self.driver.find_element_by_xpath(self.EDIT.format(proj_id=proj_id)).click()
 
     def watch_click(self, proj_id):
-        self.wait_for_visible(self.WATCH.format(id=proj_id))
-        self.driver.find_element_by_xpath(self.WATCH.format(id=proj_id)).click()
+        self.wait_for_visible(self.WATCH.format(proj_id=proj_id))
+        self.driver.find_element_by_xpath(self.WATCH.format(proj_id=proj_id)).click()
 
     def delete_click(self, proj_id):
-        self.wait_for_visible(self.DELETE.format(id=proj_id))
-        self.driver.find_element_by_xpath(self.DELETE.format(id=proj_id)).click()
+        self.wait_for_visible(self.DELETE.format(proj_id=proj_id))
+        self.driver.find_element_by_xpath(self.DELETE.format(proj_id=proj_id)).click()
 
     def clone_click(self, proj_id):
-        self.wait_for_visible(self.CLONE.format(id=proj_id))
-        self.driver.find_element_by_xpath(self.CLONE.format(id=proj_id)).click()
+        self.wait_for_visible(self.CLONE.format(proj_id=proj_id))
+        self.driver.find_element_by_xpath(self.CLONE.format(proj_id=proj_id)).click()
 
 
 class TagList(Component):

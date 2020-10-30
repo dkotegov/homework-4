@@ -10,6 +10,7 @@ from steps.new_proj import NewProjSteps
 class CloneTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
     SUCCESS = 'Клонирование прошло успешно'
+    SUCCESS_DELETE = 'Удаление прошло успешно'
     FAILED = 'Имя проекта уже занято'
     PROJ_NAME = 'ВралУЫЕдр'
     CLONE_NAME = 'ВввфвЦццр'
@@ -50,6 +51,11 @@ class CloneTest(unittest.TestCase):
     def test_clone_same_name_failed(self):
         alert = self.main_page.clone(self.PROJ_NAME, self.PROJ_NAME)
         self.assertEqual(alert, self.FAILED)
+
+    def test_remove_success(self):
+        alert = self.main_page.delete_proj(self.PROJ_NAME)
+        self.createdProj.pop()
+        self.assertEqual(alert, self.SUCCESS_DELETE)
 
 
 

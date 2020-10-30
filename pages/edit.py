@@ -14,7 +14,7 @@ class EditPage(Page):
 
     @property
     def menu(self):
-        return Tab(self.driver)
+        return Menu(self.driver)
 
     def return_click(self):
         self.driver.back()
@@ -41,12 +41,12 @@ class Menu(Component):
     LOAD_PIN_BTN = '//div[@id="loadNewMetkiBtn"]'
     SAVED_PIN = '//div[@class="metka-list-class-metka-elem"][contains(., "Метка {pin_id}")]'
     SAVE_PROJ_BTN = '//div[@id="saveProjectBtn"]'
-    LOAD_LAYER = '//div[@id="uploadingFileInputBtn"]'
+    LOAD_LAYER = '//input[@id="uploadingFileInputBtn"]'
     ADD_LAYER = '//div[@onclick="addToScene(this, 200, 150, 100, 100)"]'
     LAYER = '//img[contains(@id, "lay_lay")]'
 
     def load_layer_img(self, name):
-        self.wait_for_visible(self.LOAD_LAYER)
+        self.wait_for_presence(self.LOAD_LAYER)
         self.driver.find_element_by_xpath(self.LOAD_LAYER).send_keys(name)
 
     def add_layer_click(self):
@@ -86,23 +86,27 @@ class Menu(Component):
 
     def watch_store_click(self):
         self.wait_for_visible(self.WATCH_STORE_BTN)
-        return self.driver.find_element_by_xpath(self.WATCH_STORE_BTN).click()
+        self.driver.find_element_by_xpath(self.WATCH_STORE_BTN).click()
 
     def watch_tag_click(self, name):
         self.wait_for_visible(self.WATCH_TAG_BTN.format(name=name))
-        return self.driver.find_element_by_xpath(self.WATCH_TAG_BTN.format(name=name)).click()
+        self.driver.find_element_by_xpath(self.WATCH_TAG_BTN.format(name=name)).click()
 
-    def get_tag_id(self, name):
-        self.wait_for_visible(self.WATCH_TAG_ID.format(name=name))
-        return self.driver.find_element_by_xpath(self.WATCH_TAG_ID.format(name=name)).get_attribute("innerText")
+    def get_tag_id(self):
+        self.wait_for_visible(self.WATCH_TAG_ID)
+        return self.driver.find_element_by_xpath(self.WATCH_TAG_ID).get_attribute("innerText")
 
     def save_pin_click(self):
         self.wait_for_visible(self.LOAD_PIN_BTN)
-        return self.driver.find_element_by_xpath(self.LOAD_PIN_BTN).click()
+        self.driver.find_element_by_xpath(self.LOAD_PIN_BTN).click()
 
     def pin_presence(self, pin_id):
         self.wait_for_visible(self.SAVED_PIN.format(pin_id=pin_id))
         return self.driver.find_element_by_xpath(self.SAVED_PIN.format(pin_id=pin_id)).get_attribute("innerText")
+
+    def save_project_click(self):
+        self.wait_for_visible(self.SAVE_PROJ_BTN)
+        self.driver.find_element_by_xpath(self.SAVE_PROJ_BTN).click()
 
 
 class Tab(Component):

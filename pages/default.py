@@ -70,6 +70,6 @@ class Component(object):
     def do_not_wait_presence(self, xpath):
         try:
             self.driver.find_element_by_xpath(xpath)
-            return False
-        except EC.NoSuchElementException:
             return True
+        except EC.NoSuchElementException:
+            return False
