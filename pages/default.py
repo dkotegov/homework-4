@@ -66,3 +66,10 @@ class Component(object):
 
     def wait_for_presence(self, xpath):
         WebDriverWait(self.driver, 5, 0.1).until(EC.presence_of_element_located((By.XPATH, xpath)))
+
+    def do_not_wait_presence(self, xpath):
+        try:
+            self.driver.find_element_by_xpath(xpath)
+            return False
+        except EC.NoSuchElementException:
+            return True
