@@ -34,7 +34,7 @@ class Menu(Component):
     ADD_TEXT_BTN = '//div[@id="createNewLabelBtn"]'
     TEXT_LABEL = '//div[@id="label_text_label_text_0"]'
     SAVE_LEG_BTN = '//div[@onclick="histLegendSave()"]'
-    SAVED_LEG = '//div[@class="history-legend-class"][img[contains(@src,"cleverMan")]]'
+    SAVED_LEG = '//div[@class="history-legend-class"][.//img[contains(@src,"cleverMan")]]'
     WATCH_STORE_BTN = '//div[@onclick="watchMetkaStore()"]'
     WATCH_TAG_BTN = '//span[contains(@onclick, "opTag")][contains(@onclick, "{name}")]'
     WATCH_TAG_ID = '//div[@id="storeContentMetkiBufBox"]//b'

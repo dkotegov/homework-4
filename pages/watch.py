@@ -19,7 +19,7 @@ class Menu(Component):
     LEGENDS_TAB = '//td[@id="btn_hist"]'
     SEARCH_INPUT = '//input[@id="findByTagPlayerField"]'
     SEARCH_BTN = '//div[@id="playerFindBtn"]'
-    LEGEND = '//div[contains(@onclick, "historyShowMe")][span[contains(., "{name}")]]'
+    LEGEND = '//div[contains(@onclick, "historyShowMe")][.//span[contains(., "{name}")]]'
     LEGEND_BOX = '//div[@id="hitMetkaInfoBox"]'
     LEGEND_CLOSE = '//u[@onclick="closeMetInf()"]'
     SLIDE = '//span[@onclick="presentationSlideShowStart()"]'
