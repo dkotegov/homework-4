@@ -7,6 +7,7 @@ from steps.main import MainSteps
 from steps.new_proj import NewProjSteps
 
 
+# Клонирование проекта
 class CloneTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
     SUCCESS = 'Клонирование прошло успешно'

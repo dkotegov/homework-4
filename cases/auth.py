@@ -7,6 +7,7 @@ from pages.main import MainPage
 from steps.auth import AuthSteps
 
 
+# Вход в конструктор
 class AuthTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
     WRONG_KEY = '1234'

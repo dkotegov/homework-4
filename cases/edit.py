@@ -10,6 +10,7 @@ from steps.source import SourceSteps
 from steps.tag import TagSteps
 
 
+# Редактирование проект
 class EditTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
     SUCCESS = 'Добавление прошло успешно'

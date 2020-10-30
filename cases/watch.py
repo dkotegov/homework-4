@@ -9,6 +9,7 @@ from steps.new_proj import NewProjSteps
 from steps.watch import WatchSteps
 
 
+# Просмотр проекта
 class WatchTestWithLegend(unittest.TestCase):
     KEY = os.environ['PASSWORD']
     FAILED_PIN = 'Ресурс отсутствует'

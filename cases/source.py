@@ -8,6 +8,7 @@ from steps.source import SourceSteps
 from steps.tag import TagSteps
 
 
+# Добавление ресурса
 class SourceTest(unittest.TestCase):
     BIG_SOURCE = './sources/big_source.jpeg'
     BIG_SOURCE_STRING = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAg'

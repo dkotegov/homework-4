@@ -8,6 +8,7 @@ from steps.main import MainSteps
 from steps.new_proj import NewProjSteps
 
 
+# Добавление проекта
 class NewProjTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
     SUCCESS = 'Создание проекта прошло успешно'

@@ -8,6 +8,7 @@ from steps.main import MainSteps
 from steps.new_proj import NewProjSteps
 
 
+# Преобразование картинки
 class IframeTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
     SUCCESS = 'page/player?p_id={id}" height="600px" width="100%"'

@@ -7,6 +7,7 @@ from steps.main import MainSteps
 from steps.transform import TransformSteps
 
 
+# Преобразование картинки
 class TransformTest(unittest.TestCase):
     MIDDLE_SOURCE = './sources/middle_source.jpg'
     FAILED = 'Изображение отсутствует'
