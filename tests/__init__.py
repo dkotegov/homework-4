@@ -1,1 +1,1 @@
-from tests.get_test import GetTest
+from tests.folder_tests import FolderTests
