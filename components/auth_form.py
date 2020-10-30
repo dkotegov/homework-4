@@ -7,8 +7,8 @@ from components.base import Component
 class AuthForm(Component):
     LOGIN = '//input[@name="username"]'
     PASSWORD = '//input[@name="password"]'
-    NEXT = '//span[text()="Ввести пароль"]'
-    SUBMIT = '//span[text()="Войти"]'
+    NEXT = '//button[@data-test-id="next-button"]'
+    SUBMIT = '//button[@data-test-id="submit-button"]'
 
     def set_login(self, login):
         """
