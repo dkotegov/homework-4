@@ -3,7 +3,6 @@ from pages.default import Page, Component
 
 class MainPage(Page):
     PATH = 'page/menu'
-    HEADER = '//h2[contains(text(), "меню")]'
 
     @property
     def menu(self):

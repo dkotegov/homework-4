@@ -1,9 +1,8 @@
-from pages.default import Page, Component, wait_for_the_attribute_value
+from pages.default import Page, Component
 
 
 class TransformPage(Page):
     PATH = 'page/transformation'
-    HEADER = '//h2[contains(text(), "Преобразование картинки")]'
 
     @property
     def form(self):

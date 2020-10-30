@@ -16,7 +16,16 @@ from cases.watch import WatchTestWithLegend
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(),
+        unittest.makeSuite(AuthTest),
+        unittest.makeSuite(SourceTest),
+        unittest.makeSuite(TagTest),
+        unittest.makeSuite(TransformTest),
+        unittest.makeSuite(NewProjTest),
+        unittest.makeSuite(CloneTest),
+        unittest.makeSuite(IframeTest),
+        unittest.makeSuite(EditTest),
+        unittest.makeSuite(WatchTestNoLegend),
+        unittest.makeSuite(WatchTestWithLegend),
     ))
     result = unittest.TextTestRunner().run(suite)
 

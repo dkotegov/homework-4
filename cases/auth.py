@@ -12,6 +12,7 @@ class AuthTest(unittest.TestCase):
     WRONG_KEY = '1234'
     AUTH_SUCCESS = 'Правильный ключ'
     AUTH_FAILED = 'Ошибка'
+    wrong_keys = [WRONG_KEY, ""]
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -25,7 +26,6 @@ class AuthTest(unittest.TestCase):
         self.driver.quit()
 
     def test_login_success(self):
-        # Вход
         auth_page = AuthSteps(self.driver)
         auth_page.open()
         alert_text = auth_page.login(self.KEY)
@@ -33,8 +33,6 @@ class AuthTest(unittest.TestCase):
         to = MainPage.BASE_URL + MainPage.PATH
         auth_page.do_redirect(to)
         self.assertEqual(self.driver.current_url, to)
-
-    wrong_keys = [WRONG_KEY, ""]
 
     def test_login_failed(self):
         for key in self.wrong_keys:

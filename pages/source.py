@@ -3,7 +3,6 @@ from pages.default import Page, Component
 
 class SourcePage(Page):
     PATH = 'page/newsource'
-    HEADER = '//h2[contains(text(), "Добавление ресурса")]'
 
     @property
     def form(self):

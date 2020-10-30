@@ -1,9 +1,8 @@
-from pages.default import Page, Component, wait_for_the_attribute_value
+from pages.default import Page, Component
 
 
 class TagPage(Page):
     PATH = 'page/sources'
-    HEADER = '//h2[contains(text(), "Список ресурсов")]'
 
     @property
     def form(self):

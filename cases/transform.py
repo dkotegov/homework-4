@@ -2,7 +2,6 @@ import os
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from pages.transform import TransformPage
 from steps.auth import AuthSteps
 from steps.main import MainSteps
 from steps.transform import TransformSteps
@@ -15,6 +14,7 @@ class TransformTest(unittest.TestCase):
     HEIGHT = 100
     WIDTH = 100
     SIZE_LABEL_SUCCESS = 'Ширина: {width}\nВысота: {height}'
+    wrong_sizes = [0, "", "a"]
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -45,9 +45,7 @@ class TransformTest(unittest.TestCase):
         self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=self.WIDTH, height=self.HEIGHT), size_label)
         transform_page.go_to_transform()
 
-    wrong_sizes = [0, "", "a"]
-
-    def test_transform_wrong_size_success(self):
+    def test_transform_wrong_size_failed(self):
         for size in self.wrong_sizes:
             with self.subTest():
                 transform_page = TransformSteps(self.driver)

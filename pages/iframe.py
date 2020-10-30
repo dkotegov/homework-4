@@ -1,9 +1,8 @@
-from pages.default import Page, Component, wait_for_the_attribute_value
+from pages.default import Page, Component
 
 
 class IframePage(Page):
     PATH = 'page/iframe'
-    HEADER = '//h2[contains(text(), "Генерация iframe")]'
 
     @property
     def form(self):

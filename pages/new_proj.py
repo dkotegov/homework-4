@@ -1,9 +1,8 @@
-from pages.default import Page, Component, wait_for_the_attribute_value
+from pages.default import Page, Component
 
 
 class NewProjPage(Page):
     PATH = 'page/newproject'
-    HEADER = '//h2[contains(text(), "Добавление проекта")]'
 
     @property
     def form(self):
