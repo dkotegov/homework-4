@@ -7,7 +7,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 
 class FirstTest(unittest.TestCase):
-    ADDRESS = u'Россия, Москва, Малый Харитоньевский переулок, 7с4'
+    ADDRESS = 'Россия, Москва, 2-я Бауманская улица, 5с1'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
