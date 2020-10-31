@@ -5,6 +5,7 @@ __pycache__/
 
 chromedriver
 geckodriver
+selenium-server-standalone-3.141.59
 
 # C extensions
 venv/*
