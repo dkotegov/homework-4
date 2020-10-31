@@ -4,6 +4,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 from Auth import AuthPage
 from Home import HomePage
+from TrashBin import TrashBinPage
 
 
 class FolderTests(unittest.TestCase):
@@ -21,6 +22,10 @@ class FolderTests(unittest.TestCase):
         auth_page.auth(LOGIN, PASSWORD)
 
     def tearDown(self) -> None:
+        trash_bin_page = TrashBinPage(self.driver)
+        trash_bin_page.open()
+        trash_bin_page.delete.clear_trash_bin()
+
         self.driver.quit()
 
     def test_create_and_delete_folder(self):
@@ -50,6 +55,7 @@ class FolderTests(unittest.TestCase):
         # site redirects to created folder, so after this we would be on BASE_URL/PATH/<FOLDER_NAME>
         home_page.folders.create_folder(FOLDER_NAME)
 
+        home_page.utils.close_banner_if_exists()
         home_page.folders.create_folder(INNER_FOLDER_NAME)
 
         home_page.open()

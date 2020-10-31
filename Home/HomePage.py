@@ -16,3 +16,11 @@ class HomePage(Page):
     @property
     def folders(self):
         return Folders(self.driver)
+
+    @property
+    def files(self):
+        return Files(self.driver)
+
+    @property
+    def history(self):
+        return FileHistory(self.driver)

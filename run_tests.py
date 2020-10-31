@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import unittest
-from tests import FolderTests, TrashBinTests
+from tests import FolderTests, TrashBinTests, HistoryTests
 
 if __name__ == '__main__':
     loader = unittest.TestLoader()
@@ -9,6 +9,7 @@ if __name__ == '__main__':
 
     suite.addTests(loader.loadTestsFromTestCase(FolderTests))
     suite.addTests(loader.loadTestsFromTestCase(TrashBinTests))
+    suite.addTests(loader.loadTestsFromTestCase(HistoryTests))
 
-    result = unittest.TextTestRunner(verbosity=3).run(suite)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
     sys.exit(not result.wasSuccessful())
