@@ -1,6 +1,6 @@
 import os
 import unittest
-from selenium.webdriver import DesiredCapabilities, Remote
+import utils
 
 from Auth import AuthPage
 from Home import HomePage
@@ -13,10 +13,7 @@ class TrashBinTests(unittest.TestCase):
 
     def setUp(self) -> None:
         browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
+        self.driver = utils.get_remote_driver(browser)
 
         LOGIN = 'alexersh.test'
         PASSWORD = os.environ['PASSWORD']

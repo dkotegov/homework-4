@@ -2,8 +2,9 @@ import os
 import tempfile
 import unittest
 from shutil import copy2
-from selenium.webdriver import DesiredCapabilities, Remote
 
+
+import utils
 from Auth import AuthPage
 from Home import HomePage
 from TrashBin import TrashBinPage
@@ -12,10 +13,7 @@ from TrashBin import TrashBinPage
 class HistoryTests(unittest.TestCase):
     def setUp(self) -> None:
         browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
+        self.driver = utils.get_remote_driver(browser)
 
         LOGIN = 'alexersh.test'
         PASSWORD = os.environ['PASSWORD']

@@ -1,6 +1,6 @@
 import os
 import unittest
-from selenium.webdriver import DesiredCapabilities, Remote
+import utils
 
 from Auth import AuthPage
 from Home import HomePage
@@ -10,10 +10,8 @@ from TrashBin import TrashBinPage
 class FolderTests(unittest.TestCase):
     def setUp(self) -> None:
         browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
+
+        self.driver = utils.get_remote_driver(browser)
 
         LOGIN = 'alexersh.test'
         PASSWORD = os.environ['PASSWORD']
@@ -45,7 +43,7 @@ class FolderTests(unittest.TestCase):
         home_page.open()
         self.assertFalse(home_page.folders.check_folder_exists(FOLDER_NAME))
 
-    def test_create_and_delete_folder_inside_folder(self):
+    def create_and_delete_folder_inside_folder(self):
         FOLDER_NAME = "Folder"
         INNER_FOLDER_NAME = "Inside folder"
 
