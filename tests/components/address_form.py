@@ -1,6 +1,7 @@
 from tests.components.component import Component
 
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 
 
 class AddressForm(Component):
@@ -17,7 +18,12 @@ class AddressForm(Component):
         self.driver.find_element_by_xpath(self.ADDRESS).click()
 
     def set_address(self, address):
-        self.driver.find_element_by_xpath(self.INPUT).send_keys(address)
+        inp = self.driver.find_element_by_xpath(self.INPUT)
+        inp.send_keys(address)
+        WebDriverWait(self.driver, 2, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SUBMIT).is_displayed()
+        )
+        inp.send_keys(Keys.TAB)
 
     def submit(self):
         WebDriverWait(self.driver, 2, 0.1).until(
