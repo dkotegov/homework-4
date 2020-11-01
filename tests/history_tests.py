@@ -39,7 +39,7 @@ class HistoryTests(unittest.TestCase):
             home_page.files.upload_file(temp_file.name)
             home_page.files.select_file(filename)
 
-            home_page.history.open_history()
+            home_page.history.open_history_from_toolbar()
             self.assertEqual(home_page.history.count_history_files(), 1)
             home_page.history.close_history()
 
@@ -48,11 +48,11 @@ class HistoryTests(unittest.TestCase):
             home_page.files.upload_file(temp_file.name)
             home_page.files.select_file(filename)
 
-            home_page.history.open_history()
+            home_page.history.open_history_from_toolbar()
             self.assertEqual(home_page.history.count_history_files(), 2)
             home_page.history.close_history()
 
-            home_page.files.delete_file()
+            home_page.files.delete_file_from_toolbar()
 
             temp_file.close()
 
@@ -67,7 +67,7 @@ class HistoryTests(unittest.TestCase):
             home_page.files.upload_file(temp_file.name)
             home_page.files.select_file(filename)
 
-            home_page.history.open_history()
+            home_page.history.open_history_from_toolbar()
             self.assertEqual(home_page.history.count_history_files(), 1)
             home_page.history.close_history()
 
@@ -76,11 +76,11 @@ class HistoryTests(unittest.TestCase):
             home_page.files.upload_file(temp_file.name)
             home_page.files.select_file(filename)
 
-            home_page.history.open_history()
+            home_page.history.open_history_from_toolbar()
             self.assertEqual(home_page.history.count_history_files(), 2)
             home_page.history.close_history()
 
-            home_page.files.delete_file()
+            home_page.files.delete_file_from_toolbar()
 
             trash_bin_page = TrashBinPage(self.driver)
             trash_bin_page.open()
@@ -91,10 +91,10 @@ class HistoryTests(unittest.TestCase):
             home_page.files.upload_file(temp_file.name)
             home_page.files.select_file(filename)
 
-            home_page.history.open_history()
+            home_page.history.open_history_from_toolbar()
             self.assertEqual(home_page.history.count_history_files(), 3)
             home_page.history.close_history()
 
-            home_page.files.delete_file()
+            home_page.files.delete_file_from_toolbar()
 
             temp_file.close()

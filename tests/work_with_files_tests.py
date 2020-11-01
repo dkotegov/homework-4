@@ -143,3 +143,53 @@ class WorkWithFilesTests(unittest.TestCase):
         fav_page.open()
 
         self.assertFalse(fav_page.utils.check_if_file_exists(self.UPLOAD_FILENAME))
+
+    def open_history_from_toolbar(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.select_file(self.UPLOAD_FILENAME)
+        home_page.history.open_history_from_toolbar()
+
+        self.assertTrue(home_page.history.check_if_history_open())
+
+        home_page.history.close_history()
+
+        self.assertFalse(home_page.history.check_if_history_open())
+
+    def open_history_from_context(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.open_context(self.UPLOAD_FILENAME)
+        home_page.history.open_history_from_context()
+
+        self.assertTrue(home_page.history.check_if_history_open())
+
+        home_page.history.close_history()
+
+        self.assertFalse(home_page.history.check_if_history_open())
+
+    def delete_from_toolbar(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.select_file(self.UPLOAD_FILENAME)
+        home_page.files.delete_file_from_toolbar()
+
+        bin_page = TrashBinPage(self.driver)
+        bin_page.open()
+
+        self.assertTrue(bin_page.utils.check_if_file_exist_by_name(self.UPLOAD_FILENAME))
+
+    def delete_from_context(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.open_context(self.UPLOAD_FILENAME)
+        home_page.files.delete_file_from_context()
+
+        bin_page = TrashBinPage(self.driver)
+        bin_page.open()
+
+        self.assertTrue(bin_page.utils.check_if_file_exist_by_name(self.UPLOAD_FILENAME))

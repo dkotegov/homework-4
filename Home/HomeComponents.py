@@ -52,6 +52,7 @@ class Files(Component):
     WORKSPACE = '//div[@class="VirtualList__root--2_JbO VirtualList__root_grid--TvMC0"]'
 
     DELETE_BUTTON = '//div[@data-name="remove"]'
+    DELETE_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="remove"]'
     CONFIRM_DELETE_BUTTON = '//div[@class="b-layer__controls__buttons"]/button[@data-name="remove"]'
 
     def upload_file(self, filepath):
@@ -79,23 +80,36 @@ class Files(Component):
         elem = self._wait_until_and_get_elem_by_xpath(self.FILE_BY_NAME.format(filename))
         ActionChains(self.driver).move_to_element(elem).perform()
 
-    def delete_file(self):
+    def delete_file_from_toolbar(self):
         self._wait_until_and_get_elem_by_xpath(self.DELETE_BUTTON).click()
+        self._wait_until_and_get_elem_by_xpath(self.CONFIRM_DELETE_BUTTON).click()
+
+    def delete_file_from_context(self):
+        self._wait_until_and_get_elem_by_xpath(self.DELETE_CONTEXT_BUTTON).click()
         self._wait_until_and_get_elem_by_xpath(self.CONFIRM_DELETE_BUTTON).click()
 
 
 class FileHistory(Component):
     MORE_BUTTON = '//div[@data-name="more"]'
     HISTORY_BUTTON = '//div[@data-name="history"]'
+    HISTORY_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="viewHistory"]'
     HISTORY_POPUP = '//div[@data-bem="b-file-history"]'
     HISTORY_FILES = '//div[@class="b-collection__item b-collection__item_file-history b-collection__item_axis-y"]'
     CLOSE_HISTORY_BUTTON = '//div[@data-bem="b-file-history"]//button[@data-name="close"]'
 
-    def open_history(self):
+    def open_history_from_toolbar(self):
         self._wait_until_and_get_elem_by_xpath(self.MORE_BUTTON).click()
         self._wait_until_and_get_elem_by_xpath(self.HISTORY_BUTTON).click()
         self._wait_for_elem_by_xpath(self.HISTORY_POPUP)
         self._wait_for_elem_by_xpath(self.HISTORY_FILES)
+
+    def open_history_from_context(self):
+        self._wait_until_and_get_elem_by_xpath(self.HISTORY_CONTEXT_BUTTON).click()
+        self._wait_for_elem_by_xpath(self.HISTORY_POPUP)
+        self._wait_for_elem_by_xpath(self.HISTORY_FILES)
+
+    def check_if_history_open(self):
+        return self._check_if_element_exists_by_xpath(self.HISTORY_POPUP)
 
     def count_history_files(self):
         files = self.driver.find_elements_by_xpath(self.HISTORY_FILES)
