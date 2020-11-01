@@ -37,3 +37,11 @@ class HomePage(Page):
     @property
     def copy(self):
         return Copy(self.driver)
+
+    @property
+    def move(self):
+        return Move(self.driver)
+
+    @property
+    def rename(self):
+        return Rename(self.driver)

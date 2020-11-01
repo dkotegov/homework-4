@@ -78,6 +78,12 @@ class Files(Component):
     def select_file(self, filename):
         self._wait_until_and_get_elem_by_xpath(self.FILE_BY_NAME.format(filename)).click()
 
+    def select_file_if_exists(self, filename):
+        exists = self.check_if_file_exists(filename)
+        if exists:
+            self._wait_until_and_get_elem_by_xpath(self.FILE_BY_NAME.format(filename)).click()
+        return exists
+
     def unselect_file(self):
         self._wait_until_and_get_elem_by_xpath(self.WORKSPACE).click()
 
@@ -212,3 +218,50 @@ class Copy(Component):
 
         self._wait_until_and_get_elem_by_xpath(self.FOLDER_IN_POPUP.format(to_folder)).click()
         self._wait_until_and_get_elem_by_xpath(self.CONFIRM_BUTTON).click()
+
+
+class Move(Component):
+    MORE_BUTTON = '//div[@data-name="more"]'
+    MOVE_TOOLBAR_BUTTON = '//div[@data-name="move"]'
+    MOVE_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="move"]'
+    MOVE_POPUP = '//div[@data-qa-modal="select-folder-dialog-move"]'
+
+    FOLDER_IN_POPUP = '//div[@data-name="/{}" and @class="TreeNode__root--22m4E TreeNode__root_selectDlg--cT_dx"]'
+    CONFIRM_BUTTON = '//button[@data-name="action"]'
+
+    def move_from_toolbar(self, to_folder):
+        self._wait_until_and_get_elem_by_xpath(self.MORE_BUTTON).click()
+        self._wait_until_and_get_elem_by_xpath(self.MOVE_TOOLBAR_BUTTON).click()
+        self._wait_for_elem_by_xpath(self.MOVE_POPUP)
+
+        self._wait_until_and_get_elem_by_xpath(self.FOLDER_IN_POPUP.format(to_folder)).click()
+        self._wait_until_and_get_elem_by_xpath(self.CONFIRM_BUTTON).click()
+
+    def move_from_context(self, to_folder):
+        self._wait_until_and_get_elem_by_xpath(self.MOVE_CONTEXT_BUTTON).click()
+        self._wait_for_elem_by_xpath(self.MOVE_POPUP)
+
+        self._wait_until_and_get_elem_by_xpath(self.FOLDER_IN_POPUP.format(to_folder)).click()
+        self._wait_until_and_get_elem_by_xpath(self.CONFIRM_BUTTON).click()
+
+
+class Rename(Component):
+    MORE_BUTTON = '//div[@data-name="more"]'
+    RENAME_BUTTON_TOOLBAR = '//div[@data-name="rename"]'
+    RENAME_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="rename"]'
+
+    RENAME_INPUT = '//input[@class="layer__input"]'
+    SUBMIT_BUTTON = '//button[@data-name="rename"]'
+
+    def rename_file_from_toolbar(self, new_name):
+        self._wait_until_and_get_elem_by_xpath(self.MORE_BUTTON).click()
+        self._wait_until_and_get_elem_by_xpath(self.RENAME_BUTTON_TOOLBAR).click()
+        self._wait_until_and_get_elem_by_xpath(self.RENAME_INPUT).send_keys(new_name)
+        self.driver.find_element_by_xpath(self.SUBMIT_BUTTON).click()
+
+    def rename_file_from_context(self, new_name):
+        self._wait_until_and_get_elem_by_xpath(self.RENAME_CONTEXT_BUTTON).click()
+        self._wait_until_and_get_elem_by_xpath(self.RENAME_INPUT).send_keys(new_name)
+        self.driver.find_element_by_xpath(self.SUBMIT_BUTTON).click()
+
+
