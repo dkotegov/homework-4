@@ -13,6 +13,7 @@ class WorkWithFilesTests(unittest.TestCase):
     TEMP_FOLDER = './Files/tmp/'
     UPLOAD_FILENAME = 'upload_1.jpg'
     UPLOAD_FILE_PATH = './Files/'
+    COPY_FOLDER = 'Copy'
 
     def setUp(self) -> None:
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -193,3 +194,31 @@ class WorkWithFilesTests(unittest.TestCase):
         bin_page.open()
 
         self.assertTrue(bin_page.utils.check_if_file_exist_by_name(self.UPLOAD_FILENAME))
+
+    def copy_from_toolbar(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.folders.create_folder(self.COPY_FOLDER)
+        home_page.open()
+
+        home_page.files.select_file(self.UPLOAD_FILENAME)
+        home_page.copy.copy_from_toolbar(self.COPY_FOLDER)
+
+        home_page.folders.open_folder(home_page.BASE_URL+home_page.PATH+self.COPY_FOLDER)
+        home_page.files.check_if_file_exists(self.UPLOAD_FILENAME)
+        home_page.folders.delete_folder()
+
+    def copy_from_context(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.folders.create_folder(self.COPY_FOLDER)
+        home_page.open()
+
+        home_page.files.open_context(self.UPLOAD_FILENAME)
+        home_page.copy.copy_from_context(self.COPY_FOLDER)
+
+        home_page.folders.open_folder(home_page.BASE_URL+home_page.PATH+self.COPY_FOLDER)
+        home_page.files.check_if_file_exists(self.UPLOAD_FILENAME)
+        home_page.folders.delete_folder()

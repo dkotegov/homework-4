@@ -8,6 +8,7 @@ class HomePage(Page):
     def open(self):
         super(HomePage, self).open()
         self.utils.close_banner_if_exists()
+        self.utils.close_mini_banner_if_exists()
 
     @property
     def utils(self):
@@ -32,3 +33,7 @@ class HomePage(Page):
     @property
     def favorites(self):
         return Favorites(self.driver)
+
+    @property
+    def copy(self):
+        return Copy(self.driver)

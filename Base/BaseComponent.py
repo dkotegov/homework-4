@@ -13,17 +13,17 @@ class Component(object):
         self.driver = driver
 
     def _wait_until_and_get_elem_by_xpath(self, elem) -> WebElement:
-        return WebDriverWait(self.driver, 30, 0.1).until(EC.visibility_of_element_located((By.XPATH, elem)))
+        return WebDriverWait(self.driver, 60, 0.1).until(EC.visibility_of_element_located((By.XPATH, elem)))
 
     def _wait_until_and_get_elements_by_xpath(self, elem) -> WebElement:
-        WebDriverWait(self.driver, 30, 0.1).until(EC.visibility_of_all_elements_located((By.XPATH, elem)))
+        WebDriverWait(self.driver, 60, 0.1).until(EC.visibility_of_all_elements_located((By.XPATH, elem)))
         return self.driver.find_elements_by_xpath(elem)
 
     def _wait_for_elem_by_xpath(self, elem) -> None:
-        WebDriverWait(self.driver, 30, 0.1).until(EC.visibility_of_element_located((By.XPATH, elem)))
+        WebDriverWait(self.driver, 60, 0.1).until(EC.visibility_of_element_located((By.XPATH, elem)))
 
     def _wait_for_url(self, url):
-        return WebDriverWait(self.driver, 30, 0.1).until(EC.url_to_be(url))
+        return WebDriverWait(self.driver, 60, 0.1).until(EC.url_to_be(url))
 
     def _wait_long_for_elem_by_xpath(self, elem) -> WebElement:
         return WebDriverWait(self.driver, 120, 0.3).until(EC.visibility_of_element_located((By.XPATH, elem)))

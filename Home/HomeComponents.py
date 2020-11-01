@@ -6,12 +6,19 @@ from pathlib import Path
 
 class Utils(Component):
     BANNER = '//div[@data-qa-modal]'
+    MINI_BANNER = '//div[@class="PromoTooltip__root--2vPmD"]'
+    CLOSE_MINI_BANNER_BUTTON = '//div[@class="PromoTooltip__close--3zFr1 PromoTooltip__closeLight--JBMkK"]'
     CLOSE_BANNER_BUTTON = '//*[local-name() = "svg" and @class="Dialog__close--1rKyk"]'
 
     def close_banner_if_exists(self):
         banner_exists = self._check_if_element_exists_by_xpath(self.BANNER)
         if banner_exists:
             self.driver.find_element_by_xpath(self.CLOSE_BANNER_BUTTON).click()
+
+    def close_mini_banner_if_exists(self):
+        banner_exists = self._check_if_element_exists_by_xpath(self.MINI_BANNER)
+        if banner_exists:
+            self.driver.find_element_by_xpath(self.CLOSE_MINI_BANNER_BUTTON).click()
 
 
 class Folders(Component):
@@ -56,7 +63,6 @@ class Files(Component):
     CONFIRM_DELETE_BUTTON = '//div[@class="b-layer__controls__buttons"]/button[@data-name="remove"]'
 
     def upload_file(self, filepath):
-
         self._wait_until_and_get_elem_by_xpath(self.UPLOAD_BUTTON).click()
         self._wait_for_elem_by_xpath(self.UPLOAD_POPUP)
         self.driver.find_element_by_xpath(self.FILE_INPUT).send_keys(filepath)
@@ -65,6 +71,9 @@ class Files(Component):
         while self._check_if_element_exists_by_xpath(self.UPLOAD_IN_PROGRESS):
             pass
         self._wait_for_elem_by_xpath(self.SUCCESS_UPLOAD)
+
+    def check_if_file_exists(self, filename):
+        return self._check_if_element_exists_by_xpath(self.FILE_BY_NAME.format(filename))
 
     def select_file(self, filename):
         self._wait_until_and_get_elem_by_xpath(self.FILE_BY_NAME.format(filename)).click()
@@ -178,3 +187,28 @@ class Favorites(Component):
 
     def remove_in_grid(self, filename):
         self._wait_until_and_get_elem_by_xpath(self.REMOVE_FAVORITE_GRID_BUTTON.format(filename)).click()
+
+
+class Copy(Component):
+    MORE_BUTTON = '//div[@data-name="more"]'
+    COPY_TOOLBAR_BUTTON = '//div[@data-name="copy"]'
+    COPY_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="copy"]'
+    COPY_POPUP = '//div[@data-qa-modal="select-folder-dialog-copy"]'
+
+    FOLDER_IN_POPUP = '//div[@data-name="/{}" and @class="TreeNode__root--22m4E TreeNode__root_selectDlg--cT_dx"]'
+    CONFIRM_BUTTON = '//button[@data-name="action"]'
+
+    def copy_from_toolbar(self, to_folder):
+        self._wait_until_and_get_elem_by_xpath(self.MORE_BUTTON).click()
+        self._wait_until_and_get_elem_by_xpath(self.COPY_TOOLBAR_BUTTON).click()
+        self._wait_for_elem_by_xpath(self.COPY_POPUP)
+
+        self._wait_until_and_get_elem_by_xpath(self.FOLDER_IN_POPUP.format(to_folder)).click()
+        self._wait_until_and_get_elem_by_xpath(self.CONFIRM_BUTTON).click()
+
+    def copy_from_context(self, to_folder):
+        self._wait_until_and_get_elem_by_xpath(self.COPY_CONTEXT_BUTTON).click()
+        self._wait_for_elem_by_xpath(self.COPY_POPUP)
+
+        self._wait_until_and_get_elem_by_xpath(self.FOLDER_IN_POPUP.format(to_folder)).click()
+        self._wait_until_and_get_elem_by_xpath(self.CONFIRM_BUTTON).click()
