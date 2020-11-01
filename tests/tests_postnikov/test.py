@@ -3,6 +3,7 @@ import unittest
 
 from tests.pages.main_page import MainPage
 from tests.pages.address_page import AddressPage
+from tests.helpers.local_storage import LocalStorage
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
@@ -32,6 +33,8 @@ class AddRestaurantTest(unittest.TestCase):
     PASSWORD = os.environ['ADMIN_PASSWORD']
 
     ADDRESS = 'Россия, Москва, 2-я Бауманская улица, 5с1'
+    LONGITUDE = 55.765985
+    LATITUDE = 37.68456
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -41,10 +44,12 @@ class AddRestaurantTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy() 
         )
 
-        addr_page = AddressPage(self.driver)
-        addr_page.open()
-
-        addr_page.start_address(self.ADDRESS)
+        #Open site page before using local storage
+        AddressPage(self.driver).open()
+        storage = LocalStorage(self.driver)
+        storage.set('deliveryGeo', self.ADDRESS)
+        storage.set('longitude', self.LONGITUDE)
+        storage.set('latitude', self.LATITUDE)
 
         main_page = MainPage(self.driver)
         main_page.wait_open()
