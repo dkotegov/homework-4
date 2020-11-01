@@ -2,30 +2,31 @@ from .base import Component
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
+import time
 
 
 class ContactsFormLocators:
 
     def __init__(self):
-        self.dropdown = '//div[@data-test-id="create-dropdown"]'
-        self.create_group = '//div[@data-test-id="new_group"]'
+        self.create_contact_btn = '//button[@data-test-id="add-contact"]'
+        self.contact_block = '//div[contains(@data-test-id, "{}")]/a'
+        self.contact_block_avatar = self.contact_block + '/div[@data-test-id="addressbook-item-avatar"]'
 
-        self.group_name = '//input[@data-test-id="group-name"]'
-        self.error = '//p[@data-test-id="group-edit-error"]'
-        self.save_button = '//button[@data-test-id="addressbook-notification-popup-submit"]'
-        self.cancel_button = '//button[@data-test-id="addressbook-notification-popup-cancel"]'
+        self.select_all_btn = '//button[@data-test-id="addressbook-select-all-users"]'
+        self.delete_contacts_btn = '//button[@data-test-id="addressbook-delete-users"]'
+        self.delete_contacts_confirm_btn = '//button[@data-test-id="addressbook-notification-popup-submit"]'
 
-        self.group_block = '//a[@data-test-id="addressbook-group-id:{}"]'
-        self.group = self.group_block + '/div/p'
-        self.settings = self.group_block + '/div/div'
+        self.create_contact_email_input = '//input[@name="contacts[0].emails[0]"]'
+        self.create_contact_save_btn = '//button[@data-test-id="submit"]'
 
-        self.group_blocks = '//a[contains(@data-test-id, "addressbook-group-id")]'
+        self.contact_fullname = '//h3[@data-test-id="fullname"]'
 
-        self.delete = '//button[@data-test-id="addressbook-notification-popup-remove"]'
-        self.delete_confirm = '//button[@data-test-id="addressbook-notification-popup-submit"]'
+        self.contact_return_btn = '//button[@data-test-id="addressbook-back"]'
+
+        self.contact_to_group_btn = '//button[@data-test-id="group-picker-button"]'
+        self.contact_to_group_group = '//div[@data-test-id="group-{}"]'
+        self.contact_to_group_apply_btn = '//button[@data-test-id="group-picker-submit"]'
 
 
 class ContactsForm(Component):
@@ -33,93 +34,91 @@ class ContactsForm(Component):
     def __init__(self, driver):
         super(ContactsForm, self).__init__(driver)
 
-        self.locators = ContactsFormLocators()
-
         self.wait = WebDriverWait(self.driver, 10)
 
-    def click_dropdown(self):
+        self.locators = ContactsFormLocators()
+
+    def click_create_contact(self):
         element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.dropdown)))
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_btn)))
         element.click()
 
-    def create_group(self):
+    def input_email(self, text):
         element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.create_group)))
-        element.click()
-
-    def input_group_name(self, text):
-        element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.group_name)))
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_email_input)))
         element.clear()
         element.send_keys(text)
 
-    def clear_group_name_input(self):
-        element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.group_name)))
-        element.send_keys(Keys.CONTROL + 'a')
-        element.send_keys(Keys.BACKSPACE)
-
     def click_save(self):
         element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.save_button)))
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_save_btn)))
         element.click()
 
-    def check_group_name(self, id, name):
+    def click_to_group(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.contact_to_group_btn)))
+        element.click()
+
+    def select_groups(self, ids):
+        for id in ids:
+            element = self.wait.until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.contact_to_group_group.format(id))))
+            element.click()
+
+    def click_apply(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.contact_to_group_apply_btn)))
+        element.click()
+
+    def wait_for_applying(self):
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.contact_fullname)))
+
+    def click_return(self):
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.contact_return_btn)))
+
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.contact_return_btn)))
+        element.click()
+
+    def click_contact_block(self, email):
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.contact_block.format(email))))
+
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.contact_block.format(email))))
+        element.click()
+
+    def click_select_all(self):
         try:
-            self.wait.until(
-                EC.text_to_be_present_in_element((By.XPATH, self.locators.group.format(id)), name))
+            element = WebDriverWait(self.driver, 1).until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.select_all_btn)))
+            element.click()
             return True
         except TimeoutException:
             return False
 
-    def check_group(self, id):
-        try:
-            self.wait.until(
-                EC.presence_of_element_located((By.XPATH, self.locators.group_block.format(id))))
-            return True
-        except NoSuchElementException:
-            return False
+    def select_contacts(self, emails):
+        for email in emails:
+            element = self.wait.until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.contact_block_avatar.format(email))))
+            element.click()
 
-    def error_exists(self):
-        try:
-            self.wait.until(
-                EC.presence_of_element_located((By.XPATH, self.locators.error)))
-            return True
-        except NoSuchElementException:
-            return False
+    def delete_contacts(self):
+        delete = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.delete_contacts_btn)))
+        delete.click()
 
-    def click_settings(self, id):
-        element = self.wait.until(
-            EC.presence_of_element_located((By.XPATH, self.locators.settings.format(id))))
-        
-        ActionChains(self.driver).move_to_element(element).perform()
+        delete_confirm = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.delete_contacts_confirm_btn)))
+        delete_confirm.click()
 
-        element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.settings.format(id))))
-        element.click()
-
-    def delete(self):
-        element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.delete)))
-        element.click()
-
-        element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.delete_confirm)))
-        element.click()
-
-    def click_cancel(self):
-        element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.cancel_button)))
-        element.click()
-
-    def get_group_ids(self):
-        ids = []
-
-        elements = self.wait.until(
-            EC.presence_of_all_elements_located((By.XPATH, self.locators.group_blocks)))
-        for element in elements[3:]:
-            data_test_id = element.get_attribute('data-test-id')
-            id = data_test_id.split(':')[-1]
-            ids.append(int(id))
-
-        return ids
+    def contacts_exists(self, emails):
+        for email in emails:
+            try:
+                WebDriverWait(self.driver, 1).until(
+                    EC.presence_of_element_located((By.XPATH, self.locators.contact_block.format(email))))
+            except TimeoutException:
+                return False
+        return True
