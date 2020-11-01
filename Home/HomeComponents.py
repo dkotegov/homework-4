@@ -134,3 +134,33 @@ class Download(Component):
     def wait_for_download(self, temp_folder, filename):
         while not self._is_download_finished(temp_folder, filename):
             pass
+
+
+class Favorites(Component):
+    ADD_FAVORITE_TOOLBAR_BUTTON = '//div[@data-name="addToFavorites"]'
+    REMOVE_FAVORITE_TOOLBAR_BUTTON = '//div[@data-name="removeFromFavorites"]'
+
+    ADD_FAVORITE_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="addToFavorite"]'
+    REMOVE_FAVORITE_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="removeFromFavorites"]'
+
+    ADD_FAVORITE_GRID_BUTTON = '//a[@data-qa-name="{}"]//div[@class="FavoriteIcon__root--wzRgi"]'
+    REMOVE_FAVORITE_GRID_BUTTON = '//a[@data-qa-name="{}"]//div[@class="FavoriteIcon__root--wzRgi ' \
+                                  'FavoriteIcon__root_active--2Sjt6"]'
+
+    def add_in_toolbar(self):
+        self._wait_until_and_get_elem_by_xpath(self.ADD_FAVORITE_TOOLBAR_BUTTON).click()
+
+    def remove_in_toolbar(self):
+        self._wait_until_and_get_elem_by_xpath(self.REMOVE_FAVORITE_TOOLBAR_BUTTON).click()
+
+    def add_in_context(self):
+        self._wait_until_and_get_elem_by_xpath(self.ADD_FAVORITE_CONTEXT_BUTTON).click()
+
+    def remove_in_context(self):
+        self._wait_until_and_get_elem_by_xpath(self.REMOVE_FAVORITE_CONTEXT_BUTTON).click()
+
+    def add_in_grid(self, filename):
+        self._wait_until_and_get_elem_by_xpath(self.ADD_FAVORITE_GRID_BUTTON.format(filename)).click()
+
+    def remove_in_grid(self, filename):
+        self._wait_until_and_get_elem_by_xpath(self.REMOVE_FAVORITE_GRID_BUTTON.format(filename)).click()

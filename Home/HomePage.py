@@ -28,3 +28,7 @@ class HomePage(Page):
     @property
     def download(self):
         return Download(self.driver)
+
+    @property
+    def favorites(self):
+        return Favorites(self.driver)

@@ -5,6 +5,7 @@ import utils
 
 from Auth import AuthPage
 from Home import HomePage
+from Favorites import FavoritePage
 from TrashBin import TrashBinPage
 
 
@@ -24,21 +25,21 @@ class WorkWithFilesTests(unittest.TestCase):
         auth_page = AuthPage(self.driver)
         auth_page.auth(LOGIN, PASSWORD)
 
-        home_page = HomePage(self.driver)
-        home_page.open()
-
-        home_page.files.upload_file(self.UPLOAD_FILE_PATH + self.UPLOAD_FILENAME)
+        # home_page = HomePage(self.driver)
+        # home_page.open()
+        #
+        # home_page.files.upload_file(self.UPLOAD_FILE_PATH + self.UPLOAD_FILENAME)
 
     def tearDown(self) -> None:
-        home_page = HomePage(self.driver)
-        home_page.open()
-
-        home_page.files.select_file(self.UPLOAD_FILENAME)
-        home_page.files.delete_file()
-
-        trash_bin_page = TrashBinPage(self.driver)
-        trash_bin_page.open()
-        trash_bin_page.delete.clear_trash_bin()
+        # home_page = HomePage(self.driver)
+        # home_page.open()
+        #
+        # home_page.files.select_file(self.UPLOAD_FILENAME)
+        # home_page.files.delete_file()
+        #
+        # trash_bin_page = TrashBinPage(self.driver)
+        # trash_bin_page.open()
+        # trash_bin_page.delete.clear_trash_bin()
 
         self.driver.quit()
 
@@ -67,7 +68,7 @@ class WorkWithFilesTests(unittest.TestCase):
 
         os.remove(self.TEMP_FOLDER + self.UPLOAD_FILENAME)
 
-    def test_download_from_grid(self):
+    def download_from_grid(self):
         home_page = HomePage(self.driver)
         home_page.open()
 
@@ -79,3 +80,66 @@ class WorkWithFilesTests(unittest.TestCase):
         self.assertEqual(os.path.exists(self.TEMP_FOLDER + self.UPLOAD_FILENAME), True)
 
         os.remove(self.TEMP_FOLDER + self.UPLOAD_FILENAME)
+
+    def favorites_add_and_remove_from_toolbar(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.select_file(self.UPLOAD_FILENAME)
+        home_page.favorites.add_in_toolbar()
+
+        fav_page = FavoritePage(self.driver)
+        fav_page.open()
+
+        self.assertTrue(fav_page.utils.check_if_file_exists(self.UPLOAD_FILENAME))
+
+        home_page.open()
+
+        home_page.files.select_file(self.UPLOAD_FILENAME)
+        home_page.favorites.remove_in_toolbar()
+
+        fav_page.open()
+
+        self.assertFalse(fav_page.utils.check_if_file_exists(self.UPLOAD_FILENAME))
+
+    def favorites_add_and_remove_from_context(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.open_context(self.UPLOAD_FILENAME)
+        home_page.favorites.add_in_context()
+
+        fav_page = FavoritePage(self.driver)
+        fav_page.open()
+
+        self.assertTrue(fav_page.utils.check_if_file_exists(self.UPLOAD_FILENAME))
+
+        home_page.open()
+
+        home_page.files.open_context(self.UPLOAD_FILENAME)
+        home_page.favorites.remove_in_context()
+
+        fav_page.open()
+
+        self.assertFalse(fav_page.utils.check_if_file_exists(self.UPLOAD_FILENAME))
+
+    def favorites_add_and_remove_from_grid(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.hover_file(self.UPLOAD_FILENAME)
+        home_page.favorites.add_in_grid(self.UPLOAD_FILENAME)
+
+        fav_page = FavoritePage(self.driver)
+        fav_page.open()
+
+        self.assertTrue(fav_page.utils.check_if_file_exists(self.UPLOAD_FILENAME))
+
+        home_page.open()
+
+        home_page.files.hover_file(self.UPLOAD_FILENAME)
+        home_page.favorites.remove_in_grid(self.UPLOAD_FILENAME)
+
+        fav_page.open()
+
+        self.assertFalse(fav_page.utils.check_if_file_exists(self.UPLOAD_FILENAME))
