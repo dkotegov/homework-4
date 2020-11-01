@@ -24,3 +24,7 @@ class HomePage(Page):
     @property
     def history(self):
         return FileHistory(self.driver)
+
+    @property
+    def download(self):
+        return Download(self.driver)

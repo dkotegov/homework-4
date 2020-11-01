@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import sys
 import unittest
-from tests import FolderTests, TrashBinTests, HistoryTests
+from tests import FolderTests, TrashBinTests, HistoryTests, WorkWithFilesTests
 
 if __name__ == '__main__':
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
 
-    suite.addTests(loader.loadTestsFromTestCase(FolderTests))
+    # suite.addTests(loader.loadTestsFromTestCase(FolderTests))
+    suite.addTests(loader.loadTestsFromTestCase(WorkWithFilesTests))
     # suite.addTests(loader.loadTestsFromTestCase(TrashBinTests))
     # suite.addTests(loader.loadTestsFromTestCase(HistoryTests))
 

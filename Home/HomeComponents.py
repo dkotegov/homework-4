@@ -1,4 +1,7 @@
+from selenium.webdriver import ActionChains
+
 from Base import Component
+from pathlib import Path
 
 
 class Utils(Component):
@@ -52,6 +55,7 @@ class Files(Component):
     CONFIRM_DELETE_BUTTON = '//div[@class="b-layer__controls__buttons"]/button[@data-name="remove"]'
 
     def upload_file(self, filepath):
+
         self._wait_until_and_get_elem_by_xpath(self.UPLOAD_BUTTON).click()
         self._wait_for_elem_by_xpath(self.UPLOAD_POPUP)
         self.driver.find_element_by_xpath(self.FILE_INPUT).send_keys(filepath)
@@ -66,6 +70,14 @@ class Files(Component):
 
     def unselect_file(self):
         self._wait_until_and_get_elem_by_xpath(self.WORKSPACE).click()
+
+    def open_context(self, filename):
+        elem = self._wait_until_and_get_elem_by_xpath(self.FILE_BY_NAME.format(filename))
+        ActionChains(self.driver).context_click(elem).perform()
+
+    def hover_file(self, filename):
+        elem = self._wait_until_and_get_elem_by_xpath(self.FILE_BY_NAME.format(filename))
+        ActionChains(self.driver).move_to_element(elem).perform()
 
     def delete_file(self):
         self._wait_until_and_get_elem_by_xpath(self.DELETE_BUTTON).click()
@@ -91,3 +103,34 @@ class FileHistory(Component):
 
     def close_history(self):
         self._wait_until_and_get_elem_by_xpath(self.CLOSE_HISTORY_BUTTON).click()
+
+
+class Download(Component):
+    DOWNLOAD_TOOLBAR_BUTTON = '//div[@data-name="download"]'
+    DOWNLOAD_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="download"]'
+    DOWNLOAD_GRID_BUTTON = '//a[@data-qa-name="{}"]//div[@class="DataListItemThumb__pin--3amKK"]'
+
+    def download_from_toolbar(self):
+        self._wait_until_and_get_elem_by_xpath(self.DOWNLOAD_TOOLBAR_BUTTON).click()
+
+    def download_from_context(self):
+        self._wait_until_and_get_elem_by_xpath(self.DOWNLOAD_CONTEXT_BUTTON).click()
+
+    def download_from_grid(self, filename):
+        self._wait_until_and_get_elem_by_xpath(self.DOWNLOAD_GRID_BUTTON.format(filename)).click()
+
+    @staticmethod
+    def _is_download_finished(temp_folder, filename):
+        firefox_temp_file = sorted(Path(temp_folder).glob('*.part'))
+        chrome_temp_file = sorted(Path(temp_folder).glob('*.crdownload'))
+        downloaded_files = sorted(Path(temp_folder).glob('{}'.format(filename)))
+        if (len(firefox_temp_file) == 0) and \
+                (len(chrome_temp_file) == 0) and \
+                (len(downloaded_files) == 1):
+            return True
+        else:
+            return False
+
+    def wait_for_download(self, temp_folder, filename):
+        while not self._is_download_finished(temp_folder, filename):
+            pass
