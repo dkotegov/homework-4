@@ -279,3 +279,42 @@ class WorkWithFilesTests(unittest.TestCase):
         self.assertTrue(
             home_page.files.check_if_file_exists(self.NEW_UPLOAD_FILENAME + '.' + self.UPLOAD_FILENAME.split('.')[-1]))
         self.assertFalse(home_page.files.check_if_file_exists(self.UPLOAD_FILENAME))
+
+    def test_share_from_toolbar(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.select_file(self.UPLOAD_FILENAME)
+        home_page.share.share_from_toolbar()
+
+        self.assertTrue(home_page.share.check_if_shared())
+
+        home_page.share.stop_share()
+
+        self.assertFalse(home_page.share.check_if_shared())
+
+    def test_share_from_context(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.open_context(self.UPLOAD_FILENAME)
+        home_page.share.share_from_context()
+
+        self.assertTrue(home_page.share.check_if_shared())
+
+        home_page.share.stop_share()
+
+        self.assertFalse(home_page.share.check_if_shared())
+
+    def test_share_from_grid(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.files.hover_file(self.UPLOAD_FILENAME)
+        home_page.share.share_from_grid(self.UPLOAD_FILENAME)
+
+        self.assertTrue(home_page.share.check_if_shared())
+
+        home_page.share.stop_share()
+
+        self.assertFalse(home_page.share.check_if_shared())

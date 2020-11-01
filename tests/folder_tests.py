@@ -13,7 +13,7 @@ class FolderTests(unittest.TestCase):
 
         self.driver = utils.get_remote_driver(browser)
 
-        LOGIN = 'alexersh.test'
+        LOGIN = 'alexersh.testing'
         PASSWORD = os.environ['PASSWORD']
 
         auth_page = AuthPage(self.driver)

@@ -33,7 +33,9 @@ class Folders(Component):
     def create_folder(self, folder_name):
         self._wait_until_and_get_elem_by_xpath(self.CREATE_SELECTOR).click()
         self._wait_until_and_get_elem_by_xpath(self.CREATE_NEW_FOLDER_BUTTON_IN_SELECTOR).click()
-        self._wait_until_and_get_elem_by_xpath(self.FOLDER_NAME_INPUT).send_keys(folder_name)
+        elem = self._wait_until_and_get_elem_by_xpath(self.FOLDER_NAME_INPUT)
+        elem.clear()
+        elem.send_keys(folder_name)
         self._wait_until_and_get_elem_by_xpath(self.SUBMIT_CREATE_FOLDER_BUTTON).click()
 
     def check_folder_exists(self, folder_name):
@@ -265,3 +267,31 @@ class Rename(Component):
         self.driver.find_element_by_xpath(self.SUBMIT_BUTTON).click()
 
 
+class Share(Component):
+    SHARE_TOOLBAR_BUTTON = '//div[@data-name="publish"]'
+    SHARE_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="publish"]'
+    SHARE_GRID_BUTTON = '//a[@data-qa-name="{}"]//div[@class="DataListItemThumb__weblink--30Uyy"]'
+
+    SHARE_POPUP = '//div[@data-qa-modal="publish"]'
+    GRID_SHARE_POPUP = '//div[@class="Tooltip__overlay--1cWLu"]'
+    STOP_SHARE_BUTTON = '//div[@class="PublishNew__close--2iYOO"]'
+    START_SHARE_BUTTON = '//div[@class="PublishNew__publish--2f0qP"]'
+
+    def share_from_toolbar(self):
+        self._wait_until_and_get_elem_by_xpath(self.SHARE_TOOLBAR_BUTTON).click()
+        self._wait_for_elem_by_xpath(self.SHARE_POPUP)
+
+    def share_from_context(self):
+        self._wait_until_and_get_elem_by_xpath(self.SHARE_CONTEXT_BUTTON).click()
+        self._wait_for_elem_by_xpath(self.SHARE_POPUP)
+
+    def share_from_grid(self, filename):
+        self._wait_until_and_get_elem_by_xpath(self.SHARE_GRID_BUTTON.format(filename)).click()
+        self._wait_for_elem_by_xpath(self.GRID_SHARE_POPUP)
+
+    def check_if_shared(self):
+        return self._check_if_element_exists_by_xpath(self.STOP_SHARE_BUTTON)
+
+    def stop_share(self):
+        self._wait_until_and_get_elem_by_xpath(self.STOP_SHARE_BUTTON).click()
+        self._wait_for_elem_by_xpath(self.START_SHARE_BUTTON)

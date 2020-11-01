@@ -45,3 +45,7 @@ class HomePage(Page):
     @property
     def rename(self):
         return Rename(self.driver)
+
+    @property
+    def share(self):
+        return Share(self.driver)

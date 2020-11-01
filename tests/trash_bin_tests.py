@@ -15,7 +15,7 @@ class TrashBinTests(unittest.TestCase):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = utils.get_remote_driver(browser)
 
-        LOGIN = 'alexersh.test'
+        LOGIN = 'alexersh.testing'
         PASSWORD = os.environ['PASSWORD']
 
         auth_page = AuthPage(self.driver)
