@@ -19,13 +19,14 @@
  https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html#existing-environment
 
 # Использование
-
-
-Запустить selenium grid hub  
+- Запустить selenium grid hub  
 `./start_hub.sh`
 
-Запустить selenium grid nodes  
+- Запустить selenium grid nodes  
 `./start_nodes.sh`
 
-Запустить тесты  
-`BROWSER=CHROME python run_tests.py`
+- Активировать окружение (если работаете через PyCharm, то там окружение само активируется)  
+`source env/bin/activate`
+
+- Запустить тесты из активированного окружения  
+`BROWSER=CHROME LOGIN=my_login PASSWORD=my_password python run_tests.py`
