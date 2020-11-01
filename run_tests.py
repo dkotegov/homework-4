@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
+import logging
+import sys
 import unittest
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
+from test_suites.search_test import SearchTests
+
+log = logging.getLogger(__name__)
 
 if __name__ == '__main__':
-    browser = webdriver.Chrome('./chromedriver')
-    browser.get("https://otvet.mail.ru")
-    print(browser.title)
-    search = browser.find_element_by_css_selector("[bem-id='182']")
-    search.send_keys("TEXT")
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(SearchTests))
 
-    button = browser.find_element_by_css_selector("[bem-id='185']")
-    button.click()
+    print(suite)
 
-    WebDriverWait(browser, 5)
-    pass
+    result = unittest.TextTestRunner().run(suite)
+    successfulRes = result.wasSuccessful()
+    if not successfulRes:
+        log.error('not successfulRes')
+        sys.exit(not successfulRes)
