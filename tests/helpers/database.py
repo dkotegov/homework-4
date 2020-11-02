@@ -112,6 +112,27 @@ class DatabaseFiller():
         if response.status_code != requests.codes['ok']:
             raise RuntimeError
 
+    def delete_restaurant_by_name(self, title):
+        response = self.session.get(urllib.parse.urljoin(self.PATH, self.RESTAURANT_PATH.format('')),
+            params={'count': 1000, 'page': 1}
+        )
+
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
+        json_resp = response.json()
+        id = 0
+        for rest in json_resp['restaurants']:
+            if rest['name'] == title:
+                id = rest['id']
+                break
+
+        if id == 0:
+            raise RuntimeError
+
+        self.delete_rest_products(id)
+        self.delete_restaurant(id)
+
     def delete_all_rests(self):
         for id in self.rests_id:
             self.delete_rest_products(id)
@@ -124,6 +145,7 @@ if __name__ == '__main__':
     filler = DatabaseFiller()
 
     filler.admin_auth()
-    filler.create_test_restaurants(1)
-    filler.create_products_for_rests(1, 100)
-    filler.delete_all_rests()
+    filler.delete_restaurant_by_name("Test restaurant")
+    # filler.create_test_restaurants(1)
+    # filler.create_products_for_rests(1, 100)
+    # filler.delete_all_rests()
