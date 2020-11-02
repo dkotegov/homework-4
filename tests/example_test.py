@@ -97,6 +97,52 @@ class Directories(Component):
         self._wait_until_and_get_elem_by_xpath(self.CONFIRM_DELETE_FOLDER_BUTTON).click()
 
 
+class Buttons(Component):
+    VIEW_SELECTOR = '//div[@data-name="view"]'
+    SORT_SELECTOR = '//div[@data-name="sort"]'
+    LIST_VIEW_SELECTOR = '//div[@data-name="viewList"]'
+    THUMBS_VIEW_SELECTOR = '//div[@data-name="viewThumbs"]'
+
+    SORT_BY_ALPHABET_SELECTOR = '//div[@data-name="viewThumbs"]'
+    SORT_BY_SIZE_SELECTOR = '//div[@data-name="viewThumbs"]'
+    THUMBS_BY_DATE_SELECTOR = '//div[@data-name="viewThumbs"]'
+
+    FILTER_SELECTOR = '//span[@bem-id="69"]'
+    FILTER_IMAGE_SELECTOR = '//span[@data-input-name="image"'
+    FILTER_FOLDER_SELECTOR = '//span[@data-input-name="folder"'
+    FILTER_ALL_SELECTOR = '//span[@data-input-name="all"'
+
+    def change_view(self):
+        self._wait_until_and_get_elem_by_xpath(self.VIEW_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.LIST_VIEW_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.VIEW_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.THUMBS_VIEW_SELECTOR)
+
+    def sort_by_alphabet(self):
+        self._wait_until_and_get_elem_by_xpath(self.SORT_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.SORT_BY_ALPHABET_SELECTOR).click()
+
+    def sort_by_size(self):
+        self._wait_until_and_get_elem_by_xpath(self.SORT_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.SORT_BY_SIZE_SELECTOR).click()
+
+    def sort_by_date(self):
+        self._wait_until_and_get_elem_by_xpath(self.SORT_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.SORT_BY_DATE_SELECTOR).click()
+
+    def filter_by_image(self):
+        self._wait_until_and_get_elem_by_xpath(self.FILTER_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.FILTER_IMAGE_SELECTOR).click()
+
+    def filter_by_folder(self):
+        self._wait_until_and_get_elem_by_xpath(self.FILTER_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.FILTER_FOLDER_SELECTOR).click()
+
+    def filter_by_all(self):
+        self._wait_until_and_get_elem_by_xpath(self.FILTER_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.FILTER_ALL_SELECTOR).click()
+
+
 class AuthPage(Page):
     PATH = ''
 
@@ -143,6 +189,10 @@ class HomePage(Page):
     @property
     def banners(self):
         return Banners(self.driver)
+
+    @property
+    def buttons(self):
+        return Buttons(self.driver)
 
     def open(self):
         url = urlparse.urljoin(self.BASE_URL, self.PATH)
@@ -206,3 +256,28 @@ class DirectoryTest(unittest.TestCase):
         home_page.folders.delete_folder()
         home_page.folders.open_folder(home_page.BASE_URL + home_page.PATH + dir_name)
         home_page.folders.delete_folder()
+
+
+class ButtonsTest(unittest.TestCase):
+    USEREMAIL = 'adolgavintest@mail.ru'
+    PASSWORD = 'homework1234'
+
+    def setUp(self):
+        browser = 'CHROME'
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+        auth_page = AuthPage(self.driver)
+        auth_page.auth(self.USEREMAIL, self.PASSWORD)
+
+    def tearDown(self):
+        self.driver.quit()
+
+    def test_buttons(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.banners.close_banner_if_exists()
+        home_page.buttons.change_view()
