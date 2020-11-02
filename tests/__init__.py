@@ -1,1 +1,1 @@
-from tests.example_test import ExampleTest
+from tests.example_test import DirectoryTest
