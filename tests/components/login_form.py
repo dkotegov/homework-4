@@ -17,7 +17,7 @@ class LoginForm(Component):
         )
 
     def open(self):
-        self.driver.find_element_by_xpath(self.LOGIN).click()
+        self.driver.find_element_by_xpath(self.SUBMIT).click()
 
     def set_phone(self, phone):
         self.driver.find_element_by_xpath(self.INPUT_PHONE).send_keys(phone)
