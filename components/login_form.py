@@ -1,3 +1,5 @@
+from selenium.webdriver.support.ui import WebDriverWait
+
 from base_classes.component import Component
 
 
@@ -5,7 +7,9 @@ class LoginForm(Component):
     LOGIN = '//input[@id="inputLogin"]'
     PASSWORD = '//input[@id="inputPassword"]'
     SUBMIT = '//div[@id="submit_button"]'
-    REGISTER_BUTTON = '//a[text()="Регистрация"]'
+    JOIN_BUTTON = '//a[text()="Регистрация"]'
+    INPUT_ERROR = '//div[@id="inputError"]'
+    FORM = '//div[@class="auth-form-login"]'
 
     def set_login(self, login: str):
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
@@ -16,5 +20,10 @@ class LoginForm(Component):
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
-    def open_registration(self):
-        self.driver.find_element_by_xpath(self.REGISTER_BUTTON).click()
+    def open_join(self):
+        self.driver.find_element_by_xpath(self.JOIN_BUTTON).click()   
+
+    def check_invalid_login(self):
+        return WebDriverWait(self.driver, 0.5, 0.1).until(
+            lambda d: len(d.find_element_by_xpath(self.INPUT_ERROR).text) != 0
+        )

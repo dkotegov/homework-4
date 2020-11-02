@@ -13,7 +13,10 @@ class Page(object):
         self.driver = driver
         self.main_header = MainHeader(driver)
 
+    @property
+    def url(self):
+    	return urllib.parse.urljoin(self.BASE_URL, self.PATH)
+
     def open(self):
-        url = urllib.parse.urljoin(self.BASE_URL, self.PATH)
-        self.driver.get(url)
+        self.driver.get(self.url)
         self.driver.maximize_window()

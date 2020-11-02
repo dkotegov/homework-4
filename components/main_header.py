@@ -2,6 +2,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from base_classes.component import Component
 
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class MainHeader(Component):
     NICKNAME = '//div[@class="main-header-right__nickname"]'
