@@ -3,6 +3,7 @@ import urllib.parse
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from components.main_header import MainHeader
+from components.notifications_form import Notifications
 
 
 class Page(object):
@@ -12,10 +13,11 @@ class Page(object):
     def __init__(self, driver: WebDriver):
         self.driver = driver
         self.main_header = MainHeader(driver)
+        self.notifications = Notifications(driver)
 
     @property
     def url(self):
-    	return urllib.parse.urljoin(self.BASE_URL, self.PATH)
+        return urllib.parse.urljoin(self.BASE_URL, self.PATH)
 
     def open(self):
         self.driver.get(self.url)
