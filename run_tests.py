@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import unittest
-from tests import FolderTests, TrashBinTests, HistoryTests, WorkWithFilesTests
+from tests import *
 
 
 if __name__ == '__main__':
@@ -12,6 +12,11 @@ if __name__ == '__main__':
     suite.addTests(loader.loadTestsFromTestCase(WorkWithFilesTests))
     suite.addTests(loader.loadTestsFromTestCase(TrashBinTests))
     suite.addTests(loader.loadTestsFromTestCase(HistoryTests))
+
+    suite.addTests(loader.loadTestsFromTestCase(TabsAtHomePageTest))
+    suite.addTests(loader.loadTestsFromTestCase(SortAndFilterTest))
+    suite.addTests(loader.loadTestsFromTestCase(CreatingDocumentsTest))
+    suite.addTests(loader.loadTestsFromTestCase(DirectoryTest))
 
     result = unittest.TextTestRunner(verbosity=3).run(suite)
     sys.exit(not result.wasSuccessful())

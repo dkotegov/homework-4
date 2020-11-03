@@ -49,3 +49,19 @@ class HomePage(Page):
     @property
     def share(self):
         return Share(self.driver)
+
+    @property
+    def folders(self):
+        return Directories(self.driver)
+
+    @property
+    def tabs_at_home_p(self):
+        return TabsAtHome(self.driver)
+
+    @property
+    def buttons(self):
+        return Buttons(self.driver)
+
+    @property
+    def creating_documents(self):
+        return Documents(self.driver)
