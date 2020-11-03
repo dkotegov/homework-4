@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from selenium import webdriver
@@ -16,81 +17,104 @@ class SearchPage(unittest.TestCase):
     nav_search_button = "[bem-id='185']"
     page_search = "[bem-id='191']"
     browser = webdriver.Chrome('./chromedriver')
+    main_search_text = "search_value"
+    value_attribute = "value"
+    no_results_title = "[class^='noResultsTitle']"
+    main_search_input = "[data-qa='input']"
+    results_numb = "[class^='totalResults']"
+    only_question_checkbox = "[class^='checkbox']"
+    result_question_link = "[class^='question__link_holder']"
+    login_input = "mailbox:login-input"
+    password_input = "mailbox:password-input"
+    login_submit_button = "mailbox:submit-button"
+    test_email = "testmail7171@mail.ru"
+    test_password = os.environ.get('PASSWORD')
+    letter_line = "dataset-letters"
 
-    def login(self):
-        browser = self.browser
-        browser.get("https://mail.ru/")
-        browser.find_element_by_id('mailbox:login-input').send_keys("testmail7171@mail.ru")
-        browser.find_element_by_id("mailbox:submit-button").click()
-        browser.find_element_by_id('mailbox:password-input').send_keys("cooltest1999")
-        browser.find_element_by_id("mailbox:submit-button").click()
-        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "dataset-letters")))
-        print("LOGIN")
-
-    # def send_query(self, text):
-    #     browser = self.browser
-    #     input = browser.find_element_by_css_selector("[data-qa='input']")
-    #     input.send_keys(text)
-    #     input.send_keys(Keys.ENTER)
-
-    def test_nav_search_input(self,text):
-        self.browser.get("https://otvet.mail.ru")
+    def input_in_nav_search(self, text):
         browser = self.browser
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.nav_search)))
         search = browser.find_element_by_css_selector(self.nav_search)
         search.send_keys(text)
+
+    def submit_nav_search(self):
+        browser = self.browser
         button = browser.find_element_by_css_selector(self.nav_search_button)
         button.click()
-        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, "search_value")))
-        nav_text = browser.find_element_by_css_selector(self.nav_search).get_attribute('value')
-        str_text = browser.find_element_by_name("search_value").get_attribute('value')
-        self.assertEqual(nav_text, str_text)
 
-    def test_empty_query(self, text):
-        self.browser.get("https://otvet.mail.ru/search")
+    def get_nav_search_text(self):
         browser = self.browser
-        input = browser.find_element_by_css_selector("[data-qa='input']")
-        input.send_keys(text)
-        input.send_keys(Keys.ENTER)
-        input.send_keys(text)
-        # Deleting hear
-        # input.clear()
-        input.send_keys(Keys.COMMAND, 'a')
-        input.send_keys(Keys.BACKSPACE)
-        input.send_keys(Keys.ENTER)
-        WebDriverWait(browser, 20)
-        empty_text = browser.find_element_by_css_selector("[class^='noResultsTitle']").text
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, self.main_search_text)))
+        nav_text = browser.find_element_by_css_selector(self.nav_search).get_attribute(self.value_attribute)
+        return nav_text
+
+    def get_main_search_text(self):
+        browser = self.browser
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, self.main_search_text)))
+        str_text = browser.find_element_by_name(self.main_search_text).get_attribute(self.value_attribute)
+        return str_text
+
+    def compare_search_text(self):
+        self.assertEqual(self.get_main_search_text(), self.get_nav_search_text())
+
+    def open_otvet_page(self):
+        self.browser.get("https://otvet.mail.ru")
+
+    def open_search_page(self):
+        self.browser.get("https://otvet.mail.ru/search")
+
+    def check_empty_text(self):
+        browser = self.browser
+        WebDriverWait(browser, 20).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, self.no_results_title)))
+        empty_text = browser.find_element_by_css_selector(self.no_results_title).text
         self.assertEqual(empty_text, EMPTY_TEXT)
 
-    def test_special_symb(self, text):
-        self.browser.get("https://otvet.mail.ru/search")
+    def check_empty_res(self):
         browser = self.browser
-        input = browser.find_element_by_css_selector("[data-qa='input']")
-        input.send_keys(text)
-        input.send_keys(Keys.ENTER)
+        WebDriverWait(browser, 20).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, self.no_results_title)))
+        empty_text = browser.find_element_by_css_selector(self.no_results_title).text
+        self.assertEqual(empty_text, EMPTY_RES)
+
+    def input_in_main_search(self, text):
+        browser = self.browser
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.main_search_input)))
+        input = browser.find_element_by_css_selector(self.main_search_input)
         input.send_keys(text)
 
-        input.send_keys(Keys.COMMAND, 'a')
-        input.send_keys(Keys.BACKSPACE)
-        input.send_keys("!@#$%^&*()")
-        input.send_keys(Keys.ENTER)
-        WebDriverWait(browser, 20)
-        empty_res = browser.find_element_by_css_selector("[class^='noResultsTitle']").text
-        self.assertEqual(empty_res, EMPTY_RES)
-
-    def test_question_only_button(self, text):
-        self.browser.get("https://otvet.mail.ru/search")
+    def submit_main_search(self):
         browser = self.browser
-        input = browser.find_element_by_css_selector("[data-qa='input']")
-        input.send_keys(text)
+        input = browser.find_element_by_css_selector(self.main_search_input)
         input.send_keys(Keys.ENTER)
         WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "[class^='question__link_holder']")))
-        total_count = browser.find_element_by_css_selector("[class^='totalResults']").text.replace(" ", "")
-        browser.find_element_by_css_selector("[class^='checkbox']").click()
-        input.send_keys(Keys.ENTER)
-        WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "[class^='question__link_holder']")))
-        only_quest_count = browser.find_element_by_css_selector("[class^='totalResults']").text.replace(" ", "")
-        self.assertGreaterEqual(
-            re.findall(r'\d+', total_count)[0], re.findall(r'\d+', only_quest_count)[0])
+            EC.presence_of_element_located((By.CSS_SELECTOR, self.result_question_link)))
+
+    def get_total_count(self):
+        browser = self.browser
+        total_count = browser.find_element_by_css_selector(self.results_numb).text.replace(" ", "")
+        total_count = re.findall(r'\d+', total_count)[0]
+        return total_count
+
+    def toggle_only_question_checkbox(self):
+        browser = self.browser
+        browser.find_element_by_css_selector(self.only_question_checkbox).click()
+
+    def compare_counts(self):
+        total_count = self.get_total_count()
+        self.toggle_only_question_checkbox()
+        self.submit_main_search()
+        only_question_count = self.get_total_count()
+        self.assertGreaterEqual(total_count, only_question_count)
+
+    def login(self):
+        browser = self.browser
+
+        print(self.test_password, " @ ")
+        browser.get("https://mail.ru/")
+        browser.find_element_by_id(self.login_input).send_keys(self.test_email)
+        browser.find_element_by_id(self.login_submit_button).click()
+        browser.find_element_by_id(self.password_input).send_keys(self.test_password)
+        browser.find_element_by_id(self.login_submit_button).click()
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.letter_line)))
+        print("LOGIN")
