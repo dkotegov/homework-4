@@ -2,6 +2,8 @@
 
 from selenium.webdriver.support.ui import WebDriverWait
 from components.base import Component
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 
 class AuthForm(Component):
@@ -9,14 +11,15 @@ class AuthForm(Component):
     PASSWORD = '//input[@name="password"]'
     NEXT = '//button[@data-test-id="next-button"]'
     SUBMIT = '//button[@data-test-id="submit-button"]'
+    NAME = '//i[text()="{}"]'
 
     def set_login(self, login):
         """
         Вводит логин в окне авторизации
         :param login: логин пользователя
         """
-        username = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath(self.LOGIN)
+        username = WebDriverWait(self.driver, 10, 0.1).until(
+            EC.presence_of_element_located((By.XPATH, self.LOGIN))
         )
         username.send_keys(login)
 
@@ -24,8 +27,8 @@ class AuthForm(Component):
         """
         Открывает окно ввода пароля
         """
-        next_button = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath(self.NEXT)
+        next_button = WebDriverWait(self.driver, 10, 0.1).until(
+            EC.presence_of_element_located((By.XPATH, self.NEXT))
         )
         next_button.click()
 
@@ -34,8 +37,8 @@ class AuthForm(Component):
         Вводит пароль в окне авторизации
         :param pwd: пароль пользователя
         """
-        password = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath(self.PASSWORD)
+        password = WebDriverWait(self.driver, 10, 0.1).until(
+            EC.element_to_be_clickable((By.XPATH, self.PASSWORD))
         )
         password.send_keys(pwd)
 
@@ -43,8 +46,8 @@ class AuthForm(Component):
         """
         Завершает авторизацию
         """
-        submit = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath(self.SUBMIT)
+        submit = WebDriverWait(self.driver, 10, 0.1).until(
+            EC.presence_of_element_located((By.XPATH, self.SUBMIT))
         )
         submit.click()
 
@@ -53,6 +56,6 @@ class AuthForm(Component):
         Ожидает появления имени на экране
         :param name: Имя, которое должно появиться
         """
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath( '//i[text()="' + name + '"]')
+        WebDriverWait(self.driver, 10, 0.1).until(
+            EC.presence_of_element_located((By.XPATH, self.NAME.format(name)))
         )
