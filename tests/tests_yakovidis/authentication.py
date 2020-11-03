@@ -1,8 +1,11 @@
 import os
 import unittest
 from tests.pages.auth_page import AuthPage
+from tests.pages.profile_page import ProfilePage
 
 from selenium.webdriver import DesiredCapabilities, Remote
+
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class AuthenticationTest(unittest.TestCase):
@@ -38,6 +41,18 @@ class AuthenticationTest(unittest.TestCase):
 
     def auth(self):
         self.auth_page.auth(self.login, self.password)
+
+        profile = ProfilePage(self.driver)
+        profile.open()
+        profile.wait_open()
+
+        profile.profile_form.logout()
+
+        WebDriverWait(self.driver, 5).until(
+            lambda d: d.current_url != 'http://skydelivery.site/'
+        )
+
+        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/')
 
     def tearDown(self):
         self.driver.quit()
