@@ -119,7 +119,7 @@ class AddRestaurantTest(unittest.TestCase):
         self.add_rest.add_restaurant(self.TITLE, self.REST_ADDRESS, self.RADIUS, self.PHOTO)
 
         WebDriverWait(self.driver, 5, 0.1).until(
-            lambda d: d.current_url != 'http://skydelivery.site/admin/restaurants'
+            lambda d: d.current_url == 'http://skydelivery.site/admin/restaurants'
         )
 
         db = DatabaseFiller()

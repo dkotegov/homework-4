@@ -16,6 +16,7 @@ class DatabaseFiller():
     RESTAURANT_PATH = 'restaurants/{}'
     RESTAURANT_TAG_PATH = 'restaurants/{}/tag/{}'
     TAG_PATH = 'rest_tags'
+    TEST_REST_NAME = 'Test rest №{}'
     LOGIN = os.environ['ADMIN_LOGIN']
     PASSWORD = os.environ['ADMIN_PASSWORD']
     rests_id = []
@@ -110,7 +111,7 @@ class DatabaseFiller():
 
     def create_test_restaurants(self, count):
         for i in range(count):
-            self.create_restaurant('Test rest №{}'.format(i), self.ADDRESS, 5)
+            self.create_restaurant(self.TEST_REST_NAME.format(i), self.ADDRESS, 5)
 
         response = self.session.get(urllib.parse.urljoin(self.PATH, self.RESTAURANT_PATH.format('')),
                                     params={'count': 1000, 'page': 1}
@@ -188,7 +189,7 @@ class DatabaseFiller():
             self.delete_rest_products(id)
             self.delete_restaurant(id)
 
-        self.rests_id = []
+        self.rests_id.clear()
 
 
 # Tests of functionality helpers
