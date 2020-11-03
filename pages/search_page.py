@@ -30,6 +30,13 @@ class SearchPage(unittest.TestCase):
     test_email = "testmail7171@mail.ru"
     test_password = os.environ.get('PASSWORD')
     letter_line = "dataset-letters"
+    select_category_button = "[data-qa='select-button']"
+    # category = "[data-qa='select-list-item']"
+    category_line = "[data-qa-value='1']"
+    select_subcategory_button = "[data-qa-value='allSubCats']"
+    subcategory_line = "[data-qa-value='1394']"
+    ask_more_button = "[href^='/ask/']"
+    question_input_area = "[name='question_text']"
 
     def input_in_nav_search(self, text):
         browser = self.browser
@@ -65,14 +72,14 @@ class SearchPage(unittest.TestCase):
 
     def check_empty_text(self):
         browser = self.browser
-        WebDriverWait(browser, 20).until(
+        WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, self.no_results_title)))
         empty_text = browser.find_element_by_css_selector(self.no_results_title).text
         self.assertEqual(empty_text, EMPTY_TEXT)
 
     def check_empty_res(self):
         browser = self.browser
-        WebDriverWait(browser, 20).until(
+        WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, self.no_results_title)))
         empty_text = browser.find_element_by_css_selector(self.no_results_title).text
         self.assertEqual(empty_text, EMPTY_RES)
@@ -93,7 +100,7 @@ class SearchPage(unittest.TestCase):
     def get_total_count(self):
         browser = self.browser
         total_count = browser.find_element_by_css_selector(self.results_numb).text.replace(" ", "")
-        total_count = re.findall(r'\d+', total_count)[0]
+        total_count = int(re.findall(r'\d+', total_count)[0])
         return total_count
 
     def toggle_only_question_checkbox(self):
@@ -109,8 +116,6 @@ class SearchPage(unittest.TestCase):
 
     def login(self):
         browser = self.browser
-
-        print(self.test_password, " @ ")
         browser.get("https://mail.ru/")
         browser.find_element_by_id(self.login_input).send_keys(self.test_email)
         browser.find_element_by_id(self.login_submit_button).click()
@@ -118,3 +123,47 @@ class SearchPage(unittest.TestCase):
         browser.find_element_by_id(self.login_submit_button).click()
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.letter_line)))
         print("LOGIN")
+
+    def click_select_category(self):
+        browser = self.browser
+        browser.find_element_by_css_selector(self.select_category_button).click()
+
+    def select_category(self):
+        browser = self.browser
+        browser.find_element_by_css_selector(self.category_line).click()
+
+    def click_select_subcategory(self):
+        browser = self.browser
+        browser.find_element_by_css_selector(self.select_subcategory_button).click()
+
+    def select_subcategory(self):
+        browser = self.browser
+        browser.find_element_by_css_selector(self.subcategory_line).click()
+
+    def compare_categories_count(self):
+        total_count = self.get_total_count()
+        self.click_select_category()
+        self.select_category()
+        self.submit_main_search()
+        category_count = self.get_total_count()
+        self.assertGreaterEqual(total_count, category_count)
+        self.click_select_subcategory()
+        self.select_subcategory()
+        self.submit_main_search()
+        subcategory_count = self.get_total_count()
+        self.assertGreaterEqual(category_count, subcategory_count)
+
+    def click_ask_more_button(self):
+        browser = self.browser
+        browser.find_element_by_css_selector(self.ask_more_button).click()
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.question_input_area)))
+
+    def get_question_input_text(self):
+        browser = self.browser
+        question_text = browser.find_element_by_css_selector(self.question_input_area). \
+            get_attribute(self.value_attribute)
+        return question_text
+
+    def compare_text(self, text):
+        question_text = self.get_question_input_text()
+        self.assertEqual(text, question_text)
