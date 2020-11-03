@@ -4,7 +4,7 @@ from base_classes.component import Component
 
 
 class JoinForm(Component):
-    FORM = '//div[@class="auth-form-join"]'
+    CONTAINER = '//div[@class="auth-form-join"]'
 
     NAME = '//input[@id="inputName"]'
     SURNAME = '//input[@id="inputSurname"]'
@@ -34,4 +34,4 @@ class JoinForm(Component):
         WebDriverWait(self.driver, 10).until(lambda d: d.current_url != 'drello.works')
 
     def open_login(self):
-        self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()   
+        self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
