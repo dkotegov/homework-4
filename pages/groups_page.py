@@ -30,7 +30,7 @@ class GroupsPage(Page):
         self.groups.click_create_group()
 
     def create_group_popup_exists(self):
-        self.groups.group_popup_exists()
+        return self.groups.group_popup_exists()
 
     def cancel_group_editing(self):
         self.groups.click_cancel()
@@ -57,7 +57,7 @@ class GroupsPage(Page):
             self.delete_group(id)
 
     def group_exists(self, id):
-        self.groups.group_exists(id)
+        return self.groups.group_exists(id)
 
     def group_name_exists(self, id, name):
         return self.groups.group_name_exists(id, name)
