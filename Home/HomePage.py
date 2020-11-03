@@ -1,51 +1,42 @@
 from Base import Page
-from Home.HomeComponents import *
+from Banners import Banners
+
+from .Directories import Directories
+from .TabsAtHome import TabsAtHome
+from .Buttons import Buttons
+from .Documents import Documents
+
+import urllib.parse
 
 
 class HomePage(Page):
+    BASE_URL = 'https://cloud.mail.ru/'
     PATH = 'home/'
-
-    def open(self):
-        super(HomePage, self).open()
-        self.utils.close_banner_if_exists()
-        self.utils.close_mini_banner_if_exists()
-
-    @property
-    def utils(self):
-        return Utils(self.driver)
 
     @property
     def folders(self):
-        return Folders(self.driver)
+        return Directories(self.driver)
 
     @property
-    def files(self):
-        return Files(self.driver)
+    def tabs_at_home_p(self):
+        return TabsAtHome(self.driver)
 
     @property
-    def history(self):
-        return FileHistory(self.driver)
+    def banners(self):
+        return Banners(self.driver)
 
     @property
-    def download(self):
-        return Download(self.driver)
+    def buttons(self):
+        return Buttons(self.driver)
 
     @property
-    def favorites(self):
-        return Favorites(self.driver)
+    def creating_documents(self):
+        return Documents(self.driver)
 
-    @property
-    def copy(self):
-        return Copy(self.driver)
+    def open(self):
+        url = urllib.parse.urljoin(self.BASE_URL, self.PATH)
+        self.driver.get(url)
+        self.driver.maximize_window()
 
-    @property
-    def move(self):
-        return Move(self.driver)
 
-    @property
-    def rename(self):
-        return Rename(self.driver)
 
-    @property
-    def share(self):
-        return Share(self.driver)
