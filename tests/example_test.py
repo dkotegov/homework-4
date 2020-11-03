@@ -76,7 +76,7 @@ class Directories(Component):
     SUBMIT_CREATE_FOLDER_BUTTON = '//div[@class="CreateNewFolderDialog__button--7S1Hs"][1]/button'
     DELETE_FOLDER_BUTTON = '//div[@data-name="remove"]'
     CONFIRM_DELETE_FOLDER_BUTTON = '//div[@class="b-layer__controls__buttons"]/button[@data-name="remove"]'
-    FOLDER_XPATH_BY_NAME = '//a[@data-qa-type="folder" and @data-qa-name="{}"]'
+    DIR_XPATH_BY_NAME = '//a[@data-qa-type="folder" and @data-qa-name="{}"]'
 
     def create_folder(self, folder_name):
         self._wait_until_and_get_elem_by_xpath(self.CREATE_SELECTOR).click()
@@ -87,7 +87,7 @@ class Directories(Component):
         self._wait_until_and_get_elem_by_xpath(self.SUBMIT_CREATE_FOLDER_BUTTON).click()
 
     def check_folder_exists(self, folder_name):
-        return self._check_if_element_exists_by_xpath(self.FOLDER_XPATH_BY_NAME.format(folder_name))
+        return self._check_if_element_exists_by_xpath(self.DIR_XPATH_BY_NAME.format(folder_name))
 
     def open_folder(self, folder_url):
         self.driver.get(folder_url)
@@ -103,20 +103,20 @@ class Buttons(Component):
     LIST_VIEW_SELECTOR = '//div[@data-name="viewList"]'
     THUMBS_VIEW_SELECTOR = '//div[@data-name="viewThumbs"]'
 
-    SORT_BY_ALPHABET_SELECTOR = '//div[@data-name="viewThumbs"]'
-    SORT_BY_SIZE_SELECTOR = '//div[@data-name="viewThumbs"]'
-    THUMBS_BY_DATE_SELECTOR = '//div[@data-name="viewThumbs"]'
+    SORT_BY_ALPHABET_SELECTOR = '//div[@data-name="sortName"]'
+    SORT_BY_SIZE_SELECTOR = '//div[@data-name="sortSize"]'
+    SORT_BY_DATE_SELECTOR = '//div[@data-name="sortDate"]'
 
     FILTER_SELECTOR = '//span[@bem-id="69"]'
-    FILTER_IMAGE_SELECTOR = '//span[@data-input-name="image"'
-    FILTER_FOLDER_SELECTOR = '//span[@data-input-name="folder"'
-    FILTER_ALL_SELECTOR = '//span[@data-input-name="all"'
+    FILTER_IMAGE_SELECTOR = '//span[@data-input-name="image"]'
+    FILTER_FOLDER_SELECTOR = '//span[@bem-id="102"]'
+    FILTER_ALL_SELECTOR = '//span[@data-input-name="all"]'
 
     def change_view(self):
         self._wait_until_and_get_elem_by_xpath(self.VIEW_SELECTOR).click()
         self._wait_until_and_get_elem_by_xpath(self.LIST_VIEW_SELECTOR).click()
         self._wait_until_and_get_elem_by_xpath(self.VIEW_SELECTOR).click()
-        self._wait_until_and_get_elem_by_xpath(self.THUMBS_VIEW_SELECTOR)
+        self._wait_until_and_get_elem_by_xpath(self.THUMBS_VIEW_SELECTOR).click()
 
     def sort_by_alphabet(self):
         self._wait_until_and_get_elem_by_xpath(self.SORT_SELECTOR).click()
@@ -134,13 +134,42 @@ class Buttons(Component):
         self._wait_until_and_get_elem_by_xpath(self.FILTER_SELECTOR).click()
         self._wait_until_and_get_elem_by_xpath(self.FILTER_IMAGE_SELECTOR).click()
 
-    def filter_by_folder(self):
-        self._wait_until_and_get_elem_by_xpath(self.FILTER_SELECTOR).click()
-        self._wait_until_and_get_elem_by_xpath(self.FILTER_FOLDER_SELECTOR).click()
 
     def filter_by_all(self):
         self._wait_until_and_get_elem_by_xpath(self.FILTER_SELECTOR).click()
         self._wait_until_and_get_elem_by_xpath(self.FILTER_ALL_SELECTOR).click()
+
+
+class CreatingDocuments(Component):
+    CREATE_SELECTOR = '//div[@data-name="create"]'
+    REMOVE_SELECTOR = '//div[@data-name="remove"]'
+    CREATE_DOCUMENT_SELECTOR = '//div[@data-name="createDocx"]'
+    CREATE_PRESENTATION_SELECTOR = '//div[@data-name="createPptx"]'
+    CREATE_TABLE_SELECTOR = '//div[@data-name="createXlsx"]'
+    DOC_XPATH_BY_NAME = '//a[@data-qa-type="file" and @data-qa-name="{}"]'
+    CONFIRM_DELETE_DOC_BUTTON = '//div[@class="b-layer__controls__buttons"]/button[@data-name="remove"]'
+
+    def create_simple_document(self):
+        self._wait_until_and_get_elem_by_xpath(self.CREATE_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.CREATE_DOCUMENT_SELECTOR).click()
+
+    def create_presentation(self):
+        self._wait_until_and_get_elem_by_xpath(self.CREATE_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.CREATE_PRESENTATION_SELECTOR).click()
+
+    def create_table(self):
+        self._wait_until_and_get_elem_by_xpath(self.CREATE_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.CREATE_TABLE_SELECTOR).click()
+
+    def check_document_exists(self, doc_name):
+        return self._check_if_element_exists_by_xpath(self.DOC_XPATH_BY_NAME.format(doc_name))
+
+    def delete_doc(self):
+        self._wait_until_and_get_elem_by_xpath(self.REMOVE_SELECTOR).click()
+        self._wait_until_and_get_elem_by_xpath(self.CONFIRM_DELETE_DOC_BUTTON).click()
+
+    def select_file(self, filename):
+        self._wait_until_and_get_elem_by_xpath(self.DOC_XPATH_BY_NAME.format(filename)).click()
 
 
 class AuthPage(Page):
@@ -164,8 +193,10 @@ class AuthPage(Page):
 class Banners(Component):
     BANNER = '//div[@data-qa-modal]'
     MINI_BANNER = '//div[@class="PromoTooltip__root--2vPmD"]'
+    OTHER_BANNER = '//div[@class="b-tooltip__content"]'
     CLOSE_MINI_BANNER_BUTTON = '//div[@class="PromoTooltip__close--3zFr1 PromoTooltip__closeLight--JBMkK"]'
     CLOSE_BANNER_BUTTON = '//*[local-name() = "svg" and @class="Dialog__close--1rKyk"]'
+    CLOSE_OTHER_BANNER = '//div[@class="b-panel__close__icon"]'
 
     def close_banner_if_exists(self):
         banner_exists = self._check_if_element_exists_by_xpath(self.BANNER)
@@ -176,6 +207,16 @@ class Banners(Component):
         banner_exists = self._check_if_element_exists_by_xpath(self.MINI_BANNER)
         if banner_exists:
             self.driver.find_element_by_xpath(self.CLOSE_MINI_BANNER_BUTTON).click()
+
+    def close_mini_banner_if_exists(self):
+        banner_exists = self._check_if_element_exists_by_xpath(self.MINI_BANNER)
+        if banner_exists:
+            self.driver.find_element_by_xpath(self.CLOSE_MINI_BANNER_BUTTON).click()
+
+    def close_other_banner_if_exists(self):
+        banner_exists = self._check_if_element_exists_by_xpath(self.OTHER_BANNER)
+        if banner_exists:
+            self.driver.find_element_by_xpath(self.CLOSE_OTHER_BANNER).click()
 
 
 class HomePage(Page):
@@ -193,6 +234,10 @@ class HomePage(Page):
     @property
     def buttons(self):
         return Buttons(self.driver)
+
+    @property
+    def creating_documents(self):
+        return CreatingDocuments(self.driver)
 
     def open(self):
         url = urlparse.urljoin(self.BASE_URL, self.PATH)
@@ -281,3 +326,72 @@ class ButtonsTest(unittest.TestCase):
 
         home_page.banners.close_banner_if_exists()
         home_page.buttons.change_view()
+
+        home_page.buttons.sort_by_alphabet()
+        home_page.buttons.sort_by_size()
+        home_page.buttons.sort_by_date()
+
+        home_page.buttons.filter_by_image()
+        home_page.buttons.filter_by_all()
+
+
+class CreatingDocumentsTest(unittest.TestCase):
+    USEREMAIL = 'adolgavintest@mail.ru'
+    PASSWORD = 'homework1234'
+
+    DOC_NAME = 'Новый документ.docx'
+    PRES_NAME = 'Новая презентация.pptx'
+    TABLE_NAME = 'Новая таблица.xlsx'
+
+    def setUp(self):
+        browser = 'CHROME'
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+        auth_page = AuthPage(self.driver)
+        auth_page.auth(self.USEREMAIL, self.PASSWORD)
+
+    def tearDown(self):
+        self.driver.quit()
+
+    def test_buttons(self):
+        home_page = HomePage(self.driver)
+        home_page.open()
+
+        home_page.banners.close_banner_if_exists()
+
+        home_page.creating_documents.create_simple_document()
+
+        self.driver.switch_to_window(self.driver.window_handles[0])
+
+        home_page.creating_documents.select_file(self.DOC_NAME)
+        self.assertTrue(home_page.creating_documents.check_document_exists(self.DOC_NAME))
+        home_page.banners.close_other_banner_if_exists()
+        home_page.creating_documents.delete_doc()
+
+        home_page.open()
+
+        home_page.banners.close_banner_if_exists()
+        home_page.banners.close_mini_banner_if_exists()
+        home_page.creating_documents.create_presentation()
+
+        self.driver.switch_to_window(self.driver.window_handles[0])
+
+        home_page.creating_documents.select_file(self.PRES_NAME)
+        self.assertTrue(home_page.creating_documents.check_document_exists(self.PRES_NAME))
+        home_page.banners.close_other_banner_if_exists()
+        home_page.creating_documents.delete_doc()
+
+        home_page.open()
+
+        home_page.banners.close_banner_if_exists()
+        home_page.creating_documents.create_table()
+
+        self.driver.switch_to_window(self.driver.window_handles[0])
+
+        home_page.creating_documents.select_file(self.TABLE_NAME)
+        self.assertTrue(home_page.creating_documents.check_document_exists(self.TABLE_NAME))
+        home_page.banners.close_other_banner_if_exists()
+        home_page.creating_documents.delete_doc()
