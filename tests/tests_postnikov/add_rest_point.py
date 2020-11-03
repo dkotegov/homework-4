@@ -82,14 +82,14 @@ class AddPointTest(unittest.TestCase):
         self.assertEqual(self.driver.current_url, url_add)
         self.assertEqual(form.radius_error(), self.RADIUS_ERROR_MIN)
 
-        form.clean_radius()
+        form.clear_radius()
         form.set_radius(self.UNVALID_RADIUS_MAX)
         form.submit()
 
         self.assertEqual(self.driver.current_url, url_add)
         self.assertEqual(form.radius_error(), self.RADIUS_ERROR_MAX)
 
-        form.clean_radius()
+        form.clear_radius()
         form.set_radius(self.UNVALID_RADIUS_STRING)
         self.assertEqual(form.radius_text(), '')
 

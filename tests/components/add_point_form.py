@@ -37,7 +37,7 @@ class AddPointForm(Component):
     def radius_text(self):
         return self.driver.find_element_by_xpath(self.RADIUS).text
 
-    def clean_radius(self):
+    def clear_radius(self):
         self.driver.find_element_by_xpath(self.RADIUS).clear()
 
     def submit(self):

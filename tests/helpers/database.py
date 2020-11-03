@@ -132,13 +132,11 @@ class DatabaseFiller():
             raise RuntimeError
 
         json_resp = response.json()
-        id = 0
         for rest in json_resp['restaurants']:
             if rest['name'] == rest_name:
-                id = rest['id']
-                break
+                return rest['id']
 
-        return id
+        return 0
 
     def add_tag_to_restaurant(self, tag, restaurant):
         restaurant_id = self.get_restaurant_id_by_name(restaurant)
