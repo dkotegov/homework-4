@@ -2,8 +2,7 @@ from .base import Component
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
-import time
+from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
 
 
 class ContactsFormLocators:
@@ -18,6 +17,7 @@ class ContactsFormLocators:
         self.delete_contacts_confirm_btn = '//button[@data-test-id="addressbook-notification-popup-submit"]'
 
         self.create_contact_email_input = '//input[@name="contacts[0].emails[0]"]'
+        self.create_contact_firstname_input = '//input[@name="contacts[0].name.first"]'
         self.create_contact_save_btn = '//button[@data-test-id="submit"]'
 
         self.contact_fullname = '//h3[@data-test-id="fullname"]'
@@ -34,7 +34,7 @@ class ContactsForm(Component):
     def __init__(self, driver):
         super(ContactsForm, self).__init__(driver)
 
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, 15)
 
         self.locators = ContactsFormLocators()
 
@@ -46,6 +46,12 @@ class ContactsForm(Component):
     def input_email(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_email_input)))
+        element.clear()
+        element.send_keys(text)
+
+    def input_firstname(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_firstname_input)))
         element.clear()
         element.send_keys(text)
 
@@ -74,13 +80,13 @@ class ContactsForm(Component):
         self.wait.until(
             EC.visibility_of_element_located((By.XPATH, self.locators.contact_fullname)))
 
-    def click_return(self):
-        self.wait.until(
-            EC.visibility_of_element_located((By.XPATH, self.locators.contact_return_btn)))
-
-        element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.contact_return_btn)))
-        element.click()
+    def click_return_if_exists(self):
+        try:
+            element = self.wait.until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.contact_return_btn)))
+            element.click()
+        except (TimeoutException, StaleElementReferenceException):
+            pass
 
     def click_contact_block(self, email):
         self.wait.until(

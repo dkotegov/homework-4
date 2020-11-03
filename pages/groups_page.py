@@ -1,13 +1,12 @@
 from .base import Page
 from components.groups_form import GroupsForm
 from components.contacts_form import ContactsForm
-import time
 
 
-class ContactsPage(Page):
+class GroupsPage(Page):
 
     def __init__(self, driver):
-        super(ContactsPage, self).__init__(driver)
+        super(GroupsPage, self).__init__(driver)
 
         self.groups = GroupsForm(self.driver)
         self.contacts = ContactsForm(self.driver)
@@ -60,7 +59,16 @@ class ContactsPage(Page):
         self.contacts.click_create_contact()
         self.contacts.input_email(email)
         self.contacts.click_save()
-        self.contacts.click_return()
+        self.contacts.click_return_if_exists()
+        self.groups.click_group_block("allContacts")
+
+    def create_contact_without_email(self, firstname):
+        self.groups.click_group_block("allContacts")
+        self.contacts.click_create_contact()
+        self.contacts.input_firstname(firstname)
+        self.contacts.click_save()
+        self.contacts.click_return_if_exists()
+        self.groups.click_group_block("allContacts")
 
     def delete_all_contacts(self):
         if self.contacts.click_select_all():
@@ -80,7 +88,7 @@ class ContactsPage(Page):
         self.contacts.click_to_group()
         self.contacts.select_groups(ids)
         self.contacts.click_apply()
-        self.contacts.click_return()
+        self.contacts.click_return_if_exists()
 
     def add_all_contacts_to_groups(self, ids):
         self.groups.click_group_block("allContacts")

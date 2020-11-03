@@ -1,7 +1,7 @@
 # coding=utf-8
 
 import unittest
-from pages.groups_page import ContactsPage
+from pages.groups_page import GroupsPage
 from setup.default_setup import default_setup
 
 
@@ -21,7 +21,7 @@ class GroupsTest(unittest.TestCase):
         default_setup(self)
 
         self.names = GroupsTestNames()
-        self.page = ContactsPage(self.driver)
+        self.page = GroupsPage(self.driver)
 
         self.page.open()
 
