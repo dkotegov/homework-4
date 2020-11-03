@@ -1,11 +1,12 @@
 from tests.pages.page import Page
 from tests.components.login_form import LoginForm
+from tests.components.profile_form import ProfileForm
 
 from selenium.webdriver.support.ui import WebDriverWait
 
 
 class ProfilePage(Page):
-    LOGIN_CONTAINER = '//div[@class=" login-field"]'
+    LOGIN_CONTAINER = '//div[@class="profile-view__profile-area"]'
     PATH = 'me'
 
     def wait_open(self):
@@ -16,13 +17,4 @@ class ProfilePage(Page):
 
     @property
     def profile_form(self):
-        return (self.driver)
-
-    def auth(self, phone, password):
-        login_form = LoginForm(self.driver)
-
-        login_form.open()
-        login_form.wait_open()
-        login_form.set_phone(phone)
-        login_form.set_password(password)
-        login_form.submit()
+        return ProfileForm(self.driver)

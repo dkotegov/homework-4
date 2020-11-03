@@ -10,14 +10,18 @@ class LoginForm(Component):
     INPUT_PASSWORD = '//input[@id="login-field__password-input"]'
     INPUT_PASSWORD_ERROR = '//div[@id="login-field__password-input-wrapper_err"]'
     SUBMIT = '//button[contains(@class,"login-field__submit")]'
+    REGISTRATION = '//button[@class="neon-button login-field__goto-signup"]'
 
     def wait_open(self):
         return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT).is_displayed()
         )
 
+    def registration(self):
+        self.driver.find_element_by_xpath(self.REGISTRATION).click()
+
     def open(self):
-        self.driver.find_element_by_xpath(self.LOGIN).click()
+        self.driver.find_element_by_xpath(self.SUBMIT).click()
 
     def set_phone(self, phone):
         self.driver.find_element_by_xpath(self.INPUT_PHONE).send_keys(phone)

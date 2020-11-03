@@ -15,6 +15,11 @@ class DatabaseFiller():
     PRODUCT_PATH = 'products/{}'
     RESTAURANT_PATH = 'restaurants/{}'
     RESTAURANT_TAG_PATH = 'restaurants/{}/tag/{}'
+    PROFILE_PATH = 'profile'
+    ORDER_PATH = 'orders?page=1&count=20'
+    DELETE_ORDER_PATH = 'orders/{}'
+    CREATE_ORDER_PATH = 'orders'
+    REST_PRODUCTS_PATH = 'restaurants/{}/product?page=1&count=20'
     TAG_PATH = 'rest_tags'
     TEST_REST_NAME = 'Test rest №{}'
     LOGIN = os.environ['ADMIN_LOGIN']
@@ -34,19 +39,87 @@ class DatabaseFiller():
 
         self.csrf_token = response.headers.get('X-Csrf-Token')
 
-    def create_restaurant(self, title, address, radius):
+    def get_profile_id(self):
+        response = self.session.get(
+            urllib.parse.urljoin(self.PATH, self.PROFILE_PATH),
+            headers={'X-Csrf-Token': self.csrf_token}
+        )
+
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
+        body = response.json()
+
+        return body['User']['id']
+
+    def create_order(self, user, restaurant, login, products):
+        restId = self.get_restaurant_id_by_name(restaurant)
+        response = self.session.post(urllib.parse.urljoin(self.PATH, self.CREATE_ORDER_PATH),
+                                     headers={'X-Csrf-Token': self.csrf_token},
+                                     json={
+                                         'userId': user,
+                                         'restId': restId,
+                                         'address': 'ne vazno',
+                                         'comment': 'ne vazno',
+                                         'phone': login,
+                                         'personNum': 4,
+                                         'products': [{'productId': products['id'],
+                                                       'count': 1}],
+                                         'price': 1000,
+                                     },
+                                     )
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
+    def get_user_orders(self):
+        response = self.session.get(
+            urllib.parse.urljoin(self.PATH, self.ORDER_PATH),
+            headers={'X-Csrf-Token': self.csrf_token}
+        )
+
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
+        body = response.json()
+        return body['orders']
+
+    def clean_up_orders(self):
+        orders = self.get_user_orders()
+        for order in orders:
+            self.delete_order(order['id'])
+
+    def delete_order(self, order_id):
+        response = self.session.delete(
+            urllib.parse.urljoin(self.PATH, self.DELETE_ORDER_PATH.format(str(order_id))),
+            headers={'X-Csrf-Token': self.csrf_token}
+        )
+
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
+    def get_restaurant_products(self, restaurant):
+        rest_id = self.get_restaurant_id_by_name(restaurant)
+
+        response = self.session.get(urllib.parse.urljoin(self.PATH, self.REST_PRODUCTS_PATH.format(str(rest_id))),
+                                    headers={'X-Csrf-Token': self.csrf_token}
+                                    )
+
+        body = response.json()
+
+        return body['products']
+
+    def create_restaurant(self, title):
         with open(self.REST_PHOTO_PATH, 'rb') as photo:
             response = self.session.post(urllib.parse.urljoin(self.PATH, self.RESTAURANT_PATH.format('')),
                                          headers={'X-Csrf-Token': self.csrf_token},
                                          data={
                                              'Name': title,
                                              'Description': "This is {}".format(title),
-                                             'Address': address,
-                                             'Radius': radius
+                                             'Address': self.ADDRESS,
+                                             'Radius': 5
                                          },
                                          files={'image': photo}
                                          )
-
         if response.status_code != requests.codes['ok']:
             raise RuntimeError
 
@@ -79,6 +152,18 @@ class DatabaseFiller():
         if response.status_code != requests.codes['ok']:
             raise RuntimeError
 
+    def delete_tag_from_restaurant(self, tag, restaurant):
+        tag_id = self.get_tag_by_name(tag)
+        rest_id = self.get_restaurant_id_by_name(restaurant)
+
+        response = self.session.delete(
+            urllib.parse.urljoin(self.PATH, self.RESTAURANT_TAG_PATH.format(rest_id, tag_id)),
+            headers={'X-Csrf-Token': self.csrf_token}
+        )
+
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
     def create_tag(self, tagname):
         with open(self.TAG_PHOTO_PATH, 'rb') as photo:
             response = self.session.post(
@@ -86,10 +171,19 @@ class DatabaseFiller():
                 headers={'X-Csrf-Token': self.csrf_token},
                 data={
                     'Name': tagname,
-
                 },
                 files={'image': photo}
             )
+
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
+    def delete_tag(self, tagname):
+        id = self.get_tag_by_name(tagname)
+        response = self.session.delete(
+            urllib.parse.urljoin(self.PATH, self.TAG_PATH + '/' + str(id)),
+            headers={'X-Csrf-Token': self.csrf_token}
+        )
 
         if response.status_code != requests.codes['ok']:
             raise RuntimeError
