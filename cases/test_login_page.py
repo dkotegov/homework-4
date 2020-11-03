@@ -29,29 +29,19 @@ class LoginPageTest(unittest.TestCase):
 
     def test_success_login(self):
         login = os.environ.get('LOGIN')
-        self.login_page.login_form.set_login(login)
-
-        password = os.environ.get('PASSWORD')
-        self.login_page.login_form.set_password(password)
-
-        self.login_page.login_form.submit()
+        password = os.environ.get('LOGIN')
+        self.login_page.sign_in(login, password)
 
         nickname = self.login_page.main_header.get_nickname()
-
         self.assertEqual(login, nickname)
 
 
     def test_invalid_login(self):
         login = '123'
-        self.login_page.login_form.set_login(login)
-
         password = '321'
-        self.login_page.login_form.set_password(password)
-
-        self.login_page.login_form.submit()
+        self.login_page.sign_in(login, password)
       
         is_visible = self.login_page.login_form.check_invalid_login()
-
         self.assertTrue(is_visible)
 
 
