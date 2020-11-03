@@ -2,10 +2,10 @@
 
 import sys
 import unittest
-from tests.example_test import DirectoryTest
-from tests.example_test import SortAndFilterTest
-from tests.example_test import CreatingDocumentsTest
-from tests.example_test import TabsAtHomePageTest
+from tests import DirectoryTest
+from tests import SortAndFilterTest
+from tests import CreatingDocumentsTest
+from tests import TabsAtHomePageTest
 
 if __name__ == '__main__':
     loader = unittest.TestLoader()
