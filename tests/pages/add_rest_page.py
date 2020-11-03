@@ -15,7 +15,7 @@ class AddRestaurantPage(Page):
         if description is "":
             description = "Это ресторан {}".format(title)
 
-        form.wait_open()
+        form.wait_visible()
         form.set_address(address)
         form.set_title(title)
         form.set_description(description)

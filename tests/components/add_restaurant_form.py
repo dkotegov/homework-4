@@ -11,7 +11,7 @@ class AddRestaurantForm(Component):
     INPUT_RADIUS = '//input[@id="add-rest-point__rad-input"]'
     SUBMIT = '//button[contains(@class, "add-restaurant__submit")]'
 
-    def wait_open(self):
+    def wait_visible(self):
         return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT).is_displayed()
         )
