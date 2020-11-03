@@ -4,12 +4,13 @@ from base_classes.component import Component
 
 
 class LoginForm(Component):
+    CONTAINER = '//div[@class="auth-form-login"]'
+
     LOGIN = '//input[@id="inputLogin"]'
     PASSWORD = '//input[@id="inputPassword"]'
     SUBMIT = '//div[@id="submit_button"]'
     JOIN_BUTTON = '//a[text()="Регистрация"]'
     INPUT_ERROR = '//div[@id="inputError"]'
-    FORM = '//div[@class="auth-form-login"]'
 
     def set_login(self, login: str):
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
@@ -19,9 +20,10 @@ class LoginForm(Component):
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
+        WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url != 'drello.works')
 
     def open_join(self):
-        self.driver.find_element_by_xpath(self.JOIN_BUTTON).click()   
+        self.driver.find_element_by_xpath(self.JOIN_BUTTON).click()
 
     def check_invalid_login(self):
         return WebDriverWait(self.driver, 0.5, 0.1).until(

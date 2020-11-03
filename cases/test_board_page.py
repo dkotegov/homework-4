@@ -26,7 +26,7 @@ class BoardsPageTest(unittest.TestCase):
 
         login = os.environ.get('LOGIN')
         password = os.environ.get('PASSWORD')
-        self.login_page.sign_in(login, password)
+        self.login_page.login(login, password)
 
     def tearDown(self):
         self.driver.quit()

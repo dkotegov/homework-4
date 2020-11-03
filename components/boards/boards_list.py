@@ -24,4 +24,3 @@ class BoardsList(Component):
             raise Exception('Board is  not found')
 
         board.click()
-

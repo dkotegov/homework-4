@@ -19,4 +19,3 @@ class BoardsPage(Page):
         self.create_board_form.open()
         self.create_board_form.set_board_title(title)
         self.create_board_form.submit()
-
