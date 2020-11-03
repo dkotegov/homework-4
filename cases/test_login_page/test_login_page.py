@@ -6,6 +6,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from pages.login_page import LoginPage
 from pages.join_page import JoinPage
+from pages.boards_page import BoardsPage
 
 
 class LoginPageTest(unittest.TestCase):
