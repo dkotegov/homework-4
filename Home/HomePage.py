@@ -6,7 +6,7 @@ from .TabsAtHome import TabsAtHome
 from .Buttons import Buttons
 from .Documents import Documents
 
-import urlparse
+import urllib.parse
 
 
 class HomePage(Page):
@@ -34,7 +34,7 @@ class HomePage(Page):
         return Documents(self.driver)
 
     def open(self):
-        url = urlparse.urljoin(self.BASE_URL, self.PATH)
+        url = urllib.parse.urljoin(self.BASE_URL, self.PATH)
         self.driver.get(url)
         self.driver.maximize_window()
 

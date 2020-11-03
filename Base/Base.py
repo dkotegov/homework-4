@@ -1,11 +1,6 @@
-import unittest
-import urlparse
+import urllib.parse
 
-from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver import Remote
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -37,6 +32,6 @@ class Page(object):
         self.driver = driver
 
     def open(self):
-        url = urlparse.urljoin(self.BASE_URL, self.PATH)
+        url = urllib.parse.urljoin(self.BASE_URL, self.PATH)
         self.driver.get(url)
         self.driver.maximize_window()

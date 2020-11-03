@@ -1,2 +1,2 @@
-from Base import Page
-from Base import Component
+from Base.Base import Page
+from Base.Base import Component

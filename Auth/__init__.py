@@ -1,2 +1,1 @@
-from Auth import AuthForm
-from Auth import AuthPage
+from Auth.Auth import AuthForm, AuthPage
