@@ -9,7 +9,6 @@ from pages.join_page import JoinPage
 
 
 class LoginPageTest(unittest.TestCase):
-
     login_page = None
 
     def setUp(self):
@@ -29,25 +28,23 @@ class LoginPageTest(unittest.TestCase):
 
     def test_success_login(self):
         login = os.environ.get('LOGIN')
-        password = os.environ.get('LOGIN')
+        password = os.environ.get('PASSWORD')
         self.login_page.sign_in(login, password)
 
         nickname = self.login_page.main_header.get_nickname()
         self.assertEqual(login, nickname)
 
-
     def test_invalid_login(self):
         login = '123'
         password = '321'
         self.login_page.sign_in(login, password)
-      
+
         is_visible = self.login_page.login_form.check_invalid_login()
         self.assertTrue(is_visible)
 
-
     def test_click_on_join(self):
         self.login_page.login_form.open_join()
-      
+
         join_form = JoinPage(self.driver).join_form
 
         self.assertTrue(join_form.is_open)
