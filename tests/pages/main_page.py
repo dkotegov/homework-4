@@ -1,5 +1,6 @@
 from tests.pages.page import Page
 from tests.components.login_form import LoginForm
+from tests.components.main_form import MainForm
 from tests.components.component import Component
 
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,8 +19,8 @@ class MainPage(Page):
         )
     
     @property
-    def auth_form(self):
-        return LoginForm(self.driver)
+    def main_form(self):
+        return MainForm(self.driver)
 
     def auth(self, phone, password):
         login_form = LoginForm(self.driver)
