@@ -24,7 +24,13 @@ class Page(object):
     def url(self):
         return urllib.parse.urljoin(self.BASE_URL, self.PATH)
 
+    def is_open(self):
+        WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url != self.url)
+        print(self.driver.current_url)
+        print(self.url)
+        return self.driver.current_url == self.PROTOCOL + self.url
+
     def open(self):
         self.driver.get(self.location)
-        WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url != self.url)
+        self.is_open()
         self.driver.maximize_window()
