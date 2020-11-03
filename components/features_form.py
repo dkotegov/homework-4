@@ -39,7 +39,7 @@ class FeaturesForm(Component):
 
         self.locators = FeaturesFormLocators()
 
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, 5)
 
     def click_dropdown(self, email):
         element = self.wait.until(

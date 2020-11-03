@@ -50,6 +50,15 @@ class GroupsTest(unittest.TestCase):
 
         self.assertTrue(self.page.group_name_exists(1, self.names.group_name))
 
+    def test_cancel_creating_group(self):
+        """
+        Отмена создания группы
+        """
+        self.page.open_create_popup()
+        self.page.cancel_group_editing()
+
+        self.assertFalse(self.page.create_group_popup_exists())
+
     def test_error_on_empty_group_name(self):
         """
         Ошибка при вводе пустого названия группы
@@ -75,6 +84,16 @@ class GroupsTest(unittest.TestCase):
         self.page.change_group_name(1, self.names.group_name2)
 
         self.assertTrue(self.page.group_name_exists(1, self.names.group_name2))
+
+    def test_cancel_editing_group(self):
+        """
+        Отмена изменения группы
+        """
+        self.page.create_group(self.names.group_name)
+        self.page.open_change_popup(1)
+        self.page.cancel_group_editing()
+
+        self.assertFalse(self.page.create_group_popup_exists())
 
     def test_save_changes_without_changing_name(self):
         """

@@ -25,7 +25,14 @@ class GroupsPage(Page):
         self.groups.input_group_name(name)
         self.groups.click_save()
 
-    def cancel_create_group(self):
+    def open_create_popup(self):
+        self.groups.click_dropdown()
+        self.groups.click_create_group()
+
+    def create_group_popup_exists(self):
+        self.groups.group_popup_exists()
+
+    def cancel_group_editing(self):
         self.groups.click_cancel()
 
     def change_group_name(self, id, name):
@@ -36,8 +43,12 @@ class GroupsPage(Page):
             self.groups.clear_group_name()
         self.groups.click_save()
 
-    def delete_group(self, id):
+    def open_change_popup(self, id):
         self.groups.click_settings(id)
+
+    def delete_group(self, id):
+        if not self.groups.click_settings(id):
+            self.groups.click_settings(id)
         self.groups.delete_group()
 
     def delete_all_groups(self):

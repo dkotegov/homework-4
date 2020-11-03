@@ -11,6 +11,7 @@ class AuthForm(Component):
     PASSWORD = '//input[@name="password"]'
     NEXT = '//button[@data-test-id="next-button"]'
     SUBMIT = '//button[@data-test-id="submit-button"]'
+    NAME = '//i[text()="{}"]'
 
     def set_login(self, login):
         """
@@ -18,7 +19,7 @@ class AuthForm(Component):
         :param login: логин пользователя
         """
         username = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath(self.LOGIN)
+            EC.presence_of_element_located((By.XPATH, self.LOGIN))
         )
         username.send_keys(login)
 
@@ -27,7 +28,7 @@ class AuthForm(Component):
         Открывает окно ввода пароля
         """
         next_button = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath(self.NEXT)
+            EC.presence_of_element_located((By.XPATH, self.NEXT))
         )
         next_button.click()
 
@@ -46,7 +47,7 @@ class AuthForm(Component):
         Завершает авторизацию
         """
         submit = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath(self.SUBMIT)
+            EC.presence_of_element_located((By.XPATH, self.SUBMIT))
         )
         submit.click()
 
@@ -56,5 +57,5 @@ class AuthForm(Component):
         :param name: Имя, которое должно появиться
         """
         WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath( '//i[text()="' + name + '"]')
+            EC.presence_of_element_located((By.XPATH, self.NAME.format(name)))
         )

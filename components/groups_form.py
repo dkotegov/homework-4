@@ -14,6 +14,7 @@ class GroupsFormLocators:
         self.create_group_btn = '//div[@data-test-id="new_group"]'
         self.create_group_btn2 = '//div[@data-test-id="create-new-group"]'
 
+        self.create_group_popup = '//div[@data-test-id="popup-wrapper"]'
         self.create_group_input = '//input[@data-test-id="group-name"]'
         self.create_group_error = '//p[@data-test-id="group-edit-error"]'
         self.create_group_save_btn = '//button[@data-test-id="addressbook-notification-popup-submit"]'
@@ -35,7 +36,7 @@ class GroupsForm(Component):
 
         self.locators = GroupsFormLocators()
 
-        self.wait = WebDriverWait(self.driver, 15)
+        self.wait = WebDriverWait(self.driver, 5)
 
     def click_dropdown(self):
         element = self.wait.until(
@@ -106,9 +107,13 @@ class GroupsForm(Component):
             EC.presence_of_element_located((By.XPATH, self.locators.group_block_settings.format(id))))
         ActionChains(self.driver).move_to_element(element).perform()
 
-        element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.group_block_settings.format(id))))
-        element.click()
+        try:
+            element = self.wait.until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.group_block_settings.format(id))))
+            element.click()
+            return True
+        except TimeoutException:
+            return False
 
     def delete_group(self):
         element = self.wait.until(
@@ -135,3 +140,11 @@ class GroupsForm(Component):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.group_block.format(id))))
         element.click()
+
+    def group_popup_exists(self):
+        try:
+            WebDriverWait(self.driver, 1).until(
+                EC.presence_of_element_located((By.XPATH, self.locators.create_group_popup)))
+            return True
+        except TimeoutException:
+            return False
