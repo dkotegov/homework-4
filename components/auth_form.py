@@ -2,6 +2,8 @@
 
 from selenium.webdriver.support.ui import WebDriverWait
 from components.base import Component
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 
 class AuthForm(Component):
@@ -35,7 +37,7 @@ class AuthForm(Component):
         :param pwd: пароль пользователя
         """
         password = WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath(self.PASSWORD)
+            EC.element_to_be_clickable((By.XPATH, self.PASSWORD))
         )
         password.send_keys(pwd)
 

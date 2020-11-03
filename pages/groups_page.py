@@ -18,7 +18,7 @@ class GroupsPage(Page):
         self.groups.click_save()
 
     def create_group_from_contact_page(self, email, name):
-        self.groups.click_group_block("allContacts")
+        self.groups.click_group_block('allContacts')
         self.contacts.click_contact_block(email)
         self.contacts.click_to_group()
         self.groups.click_create_group_from_contact_page()
@@ -55,20 +55,20 @@ class GroupsPage(Page):
         return self.groups.error_exists()
 
     def create_contact(self, email):
-        self.groups.click_group_block("allContacts")
+        self.groups.click_group_block('allContacts')
         self.contacts.click_create_contact()
         self.contacts.input_email(email)
         self.contacts.click_save()
         self.contacts.click_return_if_exists()
-        self.groups.click_group_block("allContacts")
+        self.groups.click_group_block('allContacts')
 
     def create_contact_without_email(self, firstname):
-        self.groups.click_group_block("allContacts")
+        self.groups.click_group_block('allContacts')
         self.contacts.click_create_contact()
         self.contacts.input_firstname(firstname)
         self.contacts.click_save()
         self.contacts.click_return_if_exists()
-        self.groups.click_group_block("allContacts")
+        self.groups.click_group_block('allContacts')
 
     def delete_all_contacts(self):
         if self.contacts.click_select_all():
@@ -83,7 +83,7 @@ class GroupsPage(Page):
         return self.contacts.contacts_exists(emails)
 
     def add_contact_to_groups(self, email, ids):
-        self.groups.click_group_block("allContacts")
+        self.groups.click_group_block('allContacts')
         self.contacts.click_contact_block(email)
         self.contacts.click_to_group()
         self.contacts.select_groups(ids)
@@ -91,14 +91,14 @@ class GroupsPage(Page):
         self.contacts.click_return_if_exists()
 
     def add_all_contacts_to_groups(self, ids):
-        self.groups.click_group_block("allContacts")
+        self.groups.click_group_block('allContacts')
         self.contacts.click_select_all()
         self.contacts.click_to_group()
         self.contacts.select_groups(ids)
         self.contacts.click_apply()
 
     def add_selected_contacts_to_group(self, emails, ids):
-        self.groups.click_group_block("allContacts")
+        self.groups.click_group_block('allContacts')
         self.contacts.select_contacts(emails)
         self.contacts.click_to_group()
         self.contacts.select_groups(ids)
