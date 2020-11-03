@@ -16,12 +16,15 @@ class MainHeader(Component):
 
     def open_profile(self):
         self.driver.find_element_by_xpath(self.PROFILE_BUTTON).click()
+        WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url != 'drello.works/profile')
 
     def open_boards(self):
         self.driver.find_element_by_xpath(self.BOARDS_BUTTON).click()
+        WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url != 'drello.works/boards')
 
     def open_notifications(self):
         self.driver.find_element_by_xpath(self.NOTIFICATIONS_BUTTON).click()
 
     def logout(self):
         self.driver.find_element_by_xpath(self.LOGOUT_BUTTON).click()
+        WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url != 'drello.works/login')
