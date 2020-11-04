@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import os
 
 from pages.page import Page
@@ -25,26 +25,23 @@ class AskPage(Page):
     VIDEO_LOADER_INPUT = '//input[@data-type="video-input-file"]'
     VIDEO_SUBMIT_BUTTON = '//button[@data-button-name="submit"]'
     CATEGORY_BUTTON = '//div[@name="select_parents_categories"]'
-    CATEGORY_ITEM = '//div[@data-qa="select-list-item"][@data-qa-value="1"]'
+    CATEGORY_ITEM = '//div[@data-qa="select-list-item"][@data-qa-value="38"]'
     SUBCATEGORY_BUTTON = '//div[@name="select_childs_categories"]'
-    SUBCATEGORY_ITEM = '//div[@data-qa="select-list-item"][@data-qa-value="1394"]'
+    SUBCATEGORY_ITEM = '//div[@data-qa="select-list-item"][@data-qa-value="1356"]'
     PUBLISH_BUTTON = '//a[@data-qa="input-question_submit"]'
     PUBLISH_BUTTON_ENABLED = '//a[@data-qa="input-question_submit"][@data-qa-disabled="false"]'
     QUESTION_TOPIC = '//h1[contains(@class,"qtext")]'
 
-    @property
     def topic_has_error(self):
         driver = self.driver
         topic_input = driver.find_element_by_xpath(self.TOPIC_INPUT)
         return topic_input.get_attribute('data-qa-error') != 'undefined'
 
-    @property
     def text_has_error(self):
         driver = self.driver
         text_input = driver.find_element_by_xpath(self.TEXT_INPUT)
         return text_input.get_attribute('data-qa-error') != 'undefined'
 
-    @property
     def is_media_attached(self):
         driver = self.driver
         try:
@@ -53,22 +50,19 @@ class AskPage(Page):
             return False
         return True
 
-    @property
     def has_error_modal(self):
         driver = self.driver
         try:
-            driver.find_element_by_xpath(self.MODAL)
-        except NoSuchElementException:
+            WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.XPATH, self.MODAL)))
+        except TimeoutException:
             return False
         return True
 
-    @property
     def is_button_disabled(self):
         button = self.driver.find_element_by_xpath(self.PUBLISH_BUTTON)
         return button.get_attribute('data-qa-disabled') == 'true'
 
-    @property
-    def question_topic(self):
+    def get_question_topic(self):
         driver = self.driver
         topic_element = driver.find_element_by_xpath(self.QUESTION_TOPIC)
         return topic_element.text
@@ -126,3 +120,4 @@ class AskPage(Page):
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, self.PUBLISH_BUTTON_ENABLED)))
         driver.find_element_by_xpath(self.PUBLISH_BUTTON).click()
         WebDriverWait(driver, 10).until(EC.url_contains('otvet.mail.ru/question/'))
+        return driver.current_url
