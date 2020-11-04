@@ -19,6 +19,10 @@ class ContactsSteps(BaseSteps):
     email_submit_button = '//button[@data-test-id="recovery-addEmail-submit"]'
 
     backup_email_element = '//*[@data-test-id="recovery-emails-list-block"]/div'
+    submit_delete_email_element = '//button[@data-test-id="recovery-deleteEmail-submit"]'
+
+    def submit_delete_email(self):
+        self.wait_to_be_clickable_by_xpath(self.submit_delete_email_element).click()
 
     def click_add_email_button(self):
         self.wait_until_and_get_elem_by_xpath(self.email_add_button).click()

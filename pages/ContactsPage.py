@@ -43,6 +43,7 @@ class ContactsPage(Page):
         contacts_steps = ContactsSteps(self.driver)
 
         contacts_steps.click_delete_email_button()
+        contacts_steps.submit_delete_email()
 
     def has_not_backup_email(self):
         contacts_steps = ContactsSteps(self.driver)
