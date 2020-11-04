@@ -21,6 +21,7 @@ class AuthPage(Page):
     def auth(self, phone, password):
         login_form = LoginForm(self.driver)
 
+        login_form.open_form()
         login_form.wait_visible()
         login_form.set_phone(phone)
         login_form.set_password(password)

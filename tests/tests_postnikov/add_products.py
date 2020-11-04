@@ -10,7 +10,6 @@ from tests.helpers.database import DatabaseFiller
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 
-import time
 
 class AddProductTest(unittest.TestCase):
     LOGIN = os.environ['ADMIN_LOGIN']

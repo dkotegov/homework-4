@@ -20,11 +20,11 @@ if __name__ == '__main__':
         unittest.makeSuite(AddressTest),
         unittest.makeSuite(MainPageTest),
 
-        # unittest.makeSuite(AddRestaurantTest), #work
-        # unittest.makeSuite(AddPointTest), #work
-        # unittest.makeSuite(AddProductTest), #work
-        # unittest.makeSuite(ManageRestaurantTagsTest),
-        # unittest.makeSuite(ManageOrdersTest),
+        unittest.makeSuite(AddRestaurantTest),
+        unittest.makeSuite(AddPointTest),
+        unittest.makeSuite(AddProductTest),
+        unittest.makeSuite(ManageRestaurantTagsTest),
+        unittest.makeSuite(ManageOrdersTest),
     ))
 
     result = unittest.TextTestRunner(verbosity=2).run(suite)

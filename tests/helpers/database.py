@@ -41,7 +41,7 @@ class DatabaseFiller():
                                      })
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         self.csrf_token = response.headers.get('X-Csrf-Token')
 
@@ -54,7 +54,7 @@ class DatabaseFiller():
                                      })
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         self.csrf_token = response.headers.get('X-Csrf-Token')
 
@@ -67,7 +67,7 @@ class DatabaseFiller():
                                      })
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         self.csrf_token = response.headers.get('X-Csrf-Token')
 
@@ -78,7 +78,7 @@ class DatabaseFiller():
         )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         body = response.json()
 
@@ -89,7 +89,7 @@ class DatabaseFiller():
                                      headers={'X-Csrf-Token': self.csrf_token},
         )
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def create_order(self, user, restaurant, login, products):
         restId = self.get_restaurant_id_by_name(restaurant)
@@ -108,7 +108,7 @@ class DatabaseFiller():
                                      },
                                      )
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def get_user_orders(self):
         response = self.session.get(
@@ -117,7 +117,7 @@ class DatabaseFiller():
         )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         body = response.json()
         return body['orders']
@@ -134,7 +134,7 @@ class DatabaseFiller():
         )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def get_restaurant_products(self, restaurant):
         rest_id = self.get_restaurant_id_by_name(restaurant)
@@ -160,7 +160,7 @@ class DatabaseFiller():
                                          files={'image': photo}
                                          )
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def get_restaurant_id_by_name(self, rest_name):
         response = self.session.get(urllib.parse.urljoin(self.PATH, self.RESTAURANT_PATH.format('')),
@@ -168,7 +168,7 @@ class DatabaseFiller():
                                     )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         json_resp = response.json()
         for rest in json_resp['restaurants']:
@@ -187,7 +187,7 @@ class DatabaseFiller():
         )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def delete_tag_from_restaurant(self, tag, restaurant):
         tag_id = self.get_tag_by_name(tag)
@@ -199,7 +199,7 @@ class DatabaseFiller():
         )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def create_tag(self, tagname):
         with open(self.TAG_PHOTO_PATH, 'rb') as photo:
@@ -213,7 +213,7 @@ class DatabaseFiller():
             )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def delete_tag(self, tagname):
         id = self.get_tag_by_name(tagname)
@@ -223,13 +223,13 @@ class DatabaseFiller():
         )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def get_tag_by_name(self, tagname):
         response = self.session.get(urllib.parse.urljoin(self.PATH, self.TAG_PATH))
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         json_resp = response.json()
         id = 0
@@ -249,7 +249,7 @@ class DatabaseFiller():
                                     )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         json_resp = response.json()
         for rest in json_resp['restaurants']:
@@ -269,7 +269,7 @@ class DatabaseFiller():
                                          )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def create_products_for_rests(self, count, price):
         for id in self.rests_id:
@@ -283,7 +283,7 @@ class DatabaseFiller():
                                        )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def delete_rest_products(self, rest_id):
         rest_path = urllib.parse.urljoin(self.PATH, self.RESTAURANT_PATH.format(rest_id)) + '/'
@@ -292,7 +292,7 @@ class DatabaseFiller():
                                     )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         json_resp = response.json()
         for prod in json_resp['products']:
@@ -304,13 +304,13 @@ class DatabaseFiller():
                                        )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
     def delete_restaurant_by_name(self, title):
         id = self.get_restaurant_id_by_name(title)
 
         if id == 0:
-            raise RuntimeError
+            raise RuntimeError('Response status is not OK')
 
         self.delete_rest_products(id)
         self.delete_restaurant(id)

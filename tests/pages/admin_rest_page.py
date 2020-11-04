@@ -2,6 +2,8 @@ from tests.pages.page import Page
 
 from tests.components.add_point_form import AddPointForm
 from tests.components.add_product_form import AddProductForm
+from tests.components.manage_tags_form import ManageTagsForm
+from tests.components.manage_orders_form import ManageOrdersForm
 from tests.helpers.database import DatabaseFiller
 
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,6 +15,8 @@ class AdminRestaurantsPage(Page):
     LIST = '//main[@class="restaurants-list-view"]'
     ADD_POINT_BUTTON = '//a[@id="{}_geo-point-href"]'
     ADD_PRODUCT_BUTTON = '//a[@id="{}_add-product"]'
+    MANAGE_TAGS_BUTTON = '//a[@id="{}_tag-href"]'
+    MANAGE_ORDERS_BUTTON = '//a[@id="{}_orders"]'
     REST_ELEMENT = '//div[@id="{}"]'
     MESSAGE_FIELD = '//div[contains(@class, "restaurant-list-view__message")]'
 
@@ -23,6 +27,14 @@ class AdminRestaurantsPage(Page):
     @property 
     def add_product_form(self):
         return AddProductForm(self.driver)
+
+    @property
+    def manage_tags_form(self):
+        return ManageTagsForm(self.driver)
+
+    @property
+    def manage_orders_form(self):
+        return ManageOrdersForm(self.driver)
 
     def wait_visible(self):
         return WebDriverWait(self.driver, 5, 0.1).until(
@@ -71,3 +83,25 @@ class AdminRestaurantsPage(Page):
         product_form.set_price(price)
         product_form.set_photo(photo_path)
         product_form.submit()
+
+    def open_manage_tags(self, rest_id):
+        rest_element = self.driver.find_element_by_xpath(self.REST_ELEMENT.format(rest_id))
+        ActionChains(self.driver).move_to_element(rest_element)
+        rest_element.click()
+
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.MANAGE_TAGS_BUTTON.format(rest_id)).is_displayed()
+        )
+
+        self.driver.find_element_by_xpath(self.MANAGE_TAGS_BUTTON.format(rest_id)).click()
+
+    def open_manage_orders(self, rest_id):
+        rest_element = self.driver.find_element_by_xpath(self.REST_ELEMENT.format(rest_id))
+        ActionChains(self.driver).move_to_element(rest_element)
+        rest_element.click()
+
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.MANAGE_ORDERS_BUTTON.format(rest_id)).is_displayed()
+        )
+
+        self.driver.find_element_by_xpath(self.MANAGE_ORDERS_BUTTON.format(rest_id)).click()
