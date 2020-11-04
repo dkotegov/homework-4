@@ -10,8 +10,8 @@ class AuthPage(Page):
     BASE_URL = 'https://mail.ru'
     PATH = ''
 
-    EMAIL = 'a.seledkina_test@mail.ru'
-    PASSWORD = os.environ['PASSWORD']
+    EMAIL = os.environ['LOGIN_2']
+    PASSWORD = os.environ['PASSWORD_2']
 
     LOGIN_INPUT = 'mailbox:login-input'
     SUBMIT_BUTTON = 'mailbox:submit-button'
