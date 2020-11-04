@@ -1,3 +1,4 @@
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 
 from base_classes.component import Component
@@ -40,26 +41,26 @@ class JoinForm(Component):
     def open_login(self):
         self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
 
-    def is_open_invalid_name(self):
+    def is_invalid_name(self):
         try:
-            return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.NAME_ERROR).text) != 0)
+            return WebDriverWait(self.driver, 1).until(lambda d: len(d.find_element_by_xpath(self.NAME_ERROR).text) != 0)
         except TimeoutException:
             return False
 
-    def is_open_invalid_surname(self):
+    def is_invalid_surname(self):
         try:
-            return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.SURNAME_ERROR).text) != 0)
+            return WebDriverWait(self.driver, 1).until(lambda d: len(d.find_element_by_xpath(self.SURNAME_ERROR).text) != 0)
         except TimeoutException:
             return False
 
-    def is_open_invalid_login(self):
+    def is_invalid_login(self):
         try:
             return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.LOGIN_ERROR).text) != 0)
         except TimeoutException:
             return False
 
-    def is_open_invalid_password(self):
+    def is_invalid_password(self):
         try:
-            return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.PASSWORD_ERROR).text) != 0)
+            return WebDriverWait(self.driver, 1).until(lambda d: len(d.find_element_by_xpath(self.PASSWORD_ERROR).text) != 0)
         except TimeoutException:
             return False

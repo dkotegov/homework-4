@@ -5,7 +5,7 @@ from components.boards_form import BoardsForm
 
 class LoginPage(Page):
     PATH = 'login'
-    CONTAINER = '//div[contains(@class, "auth-form-login")]'
+    CONTAINER = '//div[@class="auth-form-login"]'
 
     @property
     def login_form(self):

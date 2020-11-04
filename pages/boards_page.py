@@ -5,7 +5,7 @@ from components.boards.boards_list import BoardsList
 
 class BoardsPage(Page):
     PATH = 'boards'
-    CONTAINER = '//div[contains(@class, "boards")]'
+    CONTAINER = '//div[@class="boards"]'
 
     @property
     def create_board_form(self):
