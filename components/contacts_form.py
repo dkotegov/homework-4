@@ -1,3 +1,5 @@
+import time
+
 from .base import Component
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -6,6 +8,7 @@ from selenium.common.exceptions import TimeoutException, StaleElementReferenceEx
 
 
 class ContactsFormLocators:
+    # ToDo add gender and date of birth
 
     def __init__(self):
         self.create_contact_btn = '//button[@data-test-id="add-contact"]'
@@ -16,8 +19,29 @@ class ContactsFormLocators:
         self.delete_contacts_btn = '//button[@data-test-id="addressbook-delete-users"]'
         self.delete_contacts_confirm_btn = '//button[@data-test-id="addressbook-notification-popup-submit"]'
 
-        self.create_contact_email_input = '//input[@name="contacts[0].emails[0]"]'
         self.create_contact_firstname_input = '//input[@name="contacts[0].name.first"]'
+        self.create_contact_lastname_input = '//input[@name="contacts[0].name.last"]'
+
+        self.create_contact_nick_input = '//input[@name="contacts[0].nick"]'
+
+        self.create_contact_company_input = '//input[@name="contacts[0].company"]'
+
+        self.create_contact_email_input = '//input[@name="contacts[0].emails[0]"]'
+
+        self.create_contact_phone_input = '//input[@name="contacts[0].phones[0].phone"]'
+
+        self.create_contact_comment_input = '//textarea[@name="contacts[0].comment"]'
+
+        self.create_contact_job_title_input = '//input[@name="contacts[0].job_title"]'
+
+        self.create_contact_boss_input = '//input[@name="contacts[0].boss"]'
+
+        self.create_contact_address_input = '//textarea[@name="contacts[0].address"]'
+
+        self.create_contact_day_of_birth = '//input[@name="contacts[0].birthday.day"]'
+        self.create_contact_month_of_birth = '//input[@name="contacts[0].birthday.month"]'
+        self.create_contact_year_of_birth = '//input[@name="contacts[0].birthday.year"]'
+
         self.create_contact_save_btn = '//button[@data-test-id="submit"]'
 
         self.contact_fullname = '//h3[@data-test-id="fullname"]'
@@ -27,6 +51,9 @@ class ContactsFormLocators:
         self.contact_to_group_btn = '//button[@data-test-id="group-picker-button"]'
         self.contact_to_group_group = '//div[@data-test-id="group-{}"]'
         self.contact_to_group_apply_btn = '//button[@data-test-id="group-picker-submit"]'
+
+        self.edit_contact_error = '//small[@data-test-id="edit-contact-error"]'
+        self.validation_invalid = '//div[@data-test-id="error-footer-text"]'
 
 
 class ContactsForm(Component):
@@ -43,17 +70,122 @@ class ContactsForm(Component):
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_btn)))
         element.click()
 
+    def input_firstname(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_firstname_input)))
+        element.clear()
+        element.send_keys(text)
+
+    def input_lastname(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_lastname_input)))
+        element.clear()
+        element.send_keys(text)
+
+    def input_nick(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_nick_input)))
+        element.clear()
+        element.send_keys(text)
+
+    def input_company(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_company_input)))
+        element.clear()
+        element.send_keys(text)
+
     def input_email(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_email_input)))
         element.clear()
         element.send_keys(text)
 
-    def input_firstname(self, text):
+    def input_phone(self, text):
         element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_firstname_input)))
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_phone_input)))
         element.clear()
         element.send_keys(text)
+
+    def input_comment(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_comment_input)))
+        element.clear()
+        element.send_keys(text)
+
+    def input_job_title(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_job_title_input)))
+        element.clear()
+        element.send_keys(text)
+
+    def input_boss(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_boss_input)))
+        element.clear()
+        element.send_keys(text)
+
+    def input_address(self, text):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_address_input)))
+        element.clear()
+        element.send_keys(text)
+
+    def input_day_of_birth(self, day):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_day_of_birth)))
+        element.click()
+        element.clear()
+        element.send_keys(day)
+
+    def input_month_of_birth(self, month):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_month_of_birth)))
+        element.clear()
+        element.send_keys(month)
+
+    def input_year_of_birth(self, year):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_year_of_birth)))
+        element.clear()
+        element.send_keys(year)
+
+    def input_date_of_birth(self, date):
+        day = date["day"]
+        self.input_day_of_birth(day)
+
+        month = date["month"]
+        self.input_month_of_birth(month)
+
+        year = date["year"]
+        self.input_year_of_birth(year)
+
+    def fill_form(self, **data):
+        for key, value in data.items():
+            if key == "firstname":
+                self.input_firstname(value)
+            elif key == "lastname":
+                self.input_lastname(value)
+            elif key == "nick":
+                self.input_nick(value)
+            elif key == "company":
+                self.input_company(value)
+            elif key == "email":
+                self.input_email(value)
+            elif key == "phone":
+                self.input_phone(value)
+            elif key == "comment":
+                self.input_comment(value)
+            elif key == "job_title":
+                self.input_job_title(value)
+            elif key == "boss":
+                self.input_boss(value)
+            elif key == "address":
+                self.input_address(value)
+            elif key == "date_of_birth":
+                # ToDo add input
+                pass
+            else:
+                raise ValueError("Unexpected key: " + key)
 
     def click_save(self):
         element = self.wait.until(
@@ -120,11 +252,36 @@ class ContactsForm(Component):
             EC.element_to_be_clickable((By.XPATH, self.locators.delete_contacts_confirm_btn)))
         delete_confirm.click()
 
+    def delete_contacts_if_needed(self):
+        try:
+            select_all = WebDriverWait(self.driver, 1).until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.select_all_btn)))
+            select_all.click()
+        except TimeoutException:
+            return
+        self.delete_contacts()
+
     def contacts_exists(self, emails):
         for email in emails:
             try:
-                WebDriverWait(self.driver, 1).until(
+                WebDriverWait(self.driver, 2).until(
                     EC.presence_of_element_located((By.XPATH, self.locators.contact_block.format(email))))
             except TimeoutException:
                 return False
+        return True
+
+    def check_edit_error(self):
+        try:
+            WebDriverWait(self.driver, 1).until(
+                EC.presence_of_element_located((By.XPATH, self.locators.edit_contact_error)))
+        except TimeoutException:
+            return False
+        return True
+
+    def check_validation_error(self):
+        try:
+            WebDriverWait(self.driver, 1).until(
+                EC.presence_of_element_located((By.XPATH, self.locators.validation_invalid)))
+        except TimeoutException:
+            return False
         return True
