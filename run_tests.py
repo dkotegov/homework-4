@@ -23,7 +23,7 @@ if __name__ == '__main__':
         # unittest.makeSuite(AddRestaurantTest), #work
         # unittest.makeSuite(AddPointTest), #work
         # unittest.makeSuite(AddProductTest), #work
-        # unittest.makeSuite(ManageRestaurantTagsTest),
+        # unittest.makeSuite(ManageRestaurantTagsTest), #work
         # unittest.makeSuite(ManageOrdersTest),
     ))
 

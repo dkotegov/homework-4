@@ -1,5 +1,4 @@
 import os
-import time
 import unittest
 from tests.pages.profile_page import ProfilePage
 from tests.pages.auth_page import AuthPage

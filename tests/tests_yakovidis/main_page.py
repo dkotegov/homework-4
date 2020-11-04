@@ -1,6 +1,5 @@
 import os
 import unittest
-import time
 
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -64,7 +63,7 @@ class MainPageTest(unittest.TestCase):
         filler.create_order(user_id, curr_rec, self.login, products[0])
 
         self.driver.refresh()
-        self.main_page.wait_open()
+        self.main_page.wait_visible()
 
         upd_recommendations = self.main_form.get_recommendations()
         is_exists = False
