@@ -35,7 +35,7 @@ class BoardPageTest(unittest.TestCase):
         self.boards_page.create_board(self.BOARD_TITLE)
 
         self.board_page = BoardPage(self.driver)
-        self.boards_page.wait_for_container()
+        self.board_page.wait_for_container()
 
     def tearDown(self):
         self.board_page.header.open_settings()
