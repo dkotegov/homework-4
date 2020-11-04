@@ -11,26 +11,6 @@ from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class FirstTest(unittest.TestCase):
-    ADDRESS = 'Россия, Москва, 2-я Бауманская улица, 5с1'
-
-    def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy() 
-        )
-
-    def tearDown(self):
-        self.driver.quit()
-
-    def test(self):
-        addr_page = AddressPage(self.driver)
-        addr_page.open()
-
-        addr_page.start_address(self.ADDRESS)
-
 class AddRestaurantTest(unittest.TestCase):
     LOGIN = os.environ['ADMIN_LOGIN']
     PASSWORD = os.environ['ADMIN_PASSWORD']
@@ -40,17 +20,25 @@ class AddRestaurantTest(unittest.TestCase):
     LATITUDE = 37.68456
 
     REST_ADDRESS = 'Россия, Москва, Старокирочный переулок, 16/2с1'
+    UNVALID_ADDRESS = 'Test address'
+
     TITLE = 'Test restaurant'
+    TITLE_MAX_SIZE = 30
+    TITLE_MIN_SIZE = 4
+    UNVALID_SHORT_TITLE = ''.join(['a' for i in range(TITLE_MIN_SIZE-1)])
+    UNVALID_LONG_TITLE = ''.join(['a' for i in range(TITLE_MAX_SIZE+1)])
+
+    DESCRIPTION_MIN_SIZE = 10
+    UNVALID_DESCRIPTION = ''.join(['a' for i in range(DESCRIPTION_MIN_SIZE-1)])
+
     NON_PHOTO = 'data/test_non_photo_file'
     PHOTO = 'data/test_rest_photo.jpg'
     BIG_PHOTO = 'data/test_big_photo.jpg'
-    RADIUS = 10
 
-    ERROR_CLASS = 'checked-input__error'
-    TITLE_ERROR = '//div[@id="add-restaurant__name-input-wrapper_err"]'
-    DESCRIPTION_ERROR = '//div[@id="add-restaurant__desc-textarea-wrapper_err"]'
-    ADDRESS_ERROR = '//div[@id="alone_geo-input__add-rest-point-wrapper_err"]'
-    PHOTO_ERROR = '//div[@id="img-input__error"]'
+    RADIUS = 10
+    UNVALID_RADIUS_NEGATIVE = -10
+    UNVALID_RADIUS_MAX = 100
+    UNVALID_RADIUS_STRING = '{}string'.format(RADIUS)
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -63,12 +51,16 @@ class AddRestaurantTest(unittest.TestCase):
         #Open site page before using local storage
         AddressPage(self.driver).open()
         storage = LocalStorage(self.driver)
+
         storage.set('deliveryGeo', self.ADDRESS)
         storage.set('longitude', self.LONGITUDE)
         storage.set('latitude', self.LATITUDE)
 
+        self.driver.refresh()
+        self.driver.maximize_window()
+
         main_page = MainPage(self.driver)
-        main_page.wait_open()
+        main_page.wait_visible()
 
         main_page.auth(self.LOGIN, self.PASSWORD)
 
@@ -79,41 +71,85 @@ class AddRestaurantTest(unittest.TestCase):
         self.driver.quit()
 
     def testUnvalidTitle(self):
-        self.add_rest.add_restaurant('l', self.REST_ADDRESS, self.RADIUS, self.PHOTO)
+        self.add_rest.add_restaurant('', self.REST_ADDRESS, self.RADIUS, self.PHOTO)
+        form = self.add_rest.add_form
 
         self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
-        self.assertEqual(self.driver.find_element_by_xpath(self.TITLE_ERROR).text, 'Минимальная длина: 4')
+        self.assertEqual(form.title_error(), 'Обязательное поле')
 
-        # self.add_rest.add_restaurant('There is a text of a title is more than 30 characters long', self.REST_ADDRESS, self.RADIUS, self.PHOTO)
-        # self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
-        # self.assertEqual(self.driver.find_element_by_xpath(self.TITLE_ERROR).text, 'Максимальная длина: 30')
+        form.set_title(self.UNVALID_SHORT_TITLE)
+        form.submit()
+
+        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
+        self.assertEqual(form.title_error(), 'Минимальная длина: 4')
+
+        form.clear_title()
+        form.set_title(self.UNVALID_LONG_TITLE)
+
+        self.assertNotEqual(form.title_value(), self.UNVALID_LONG_TITLE)
 
     def testUnvalidDescription(self):
-        self.add_rest.add_restaurant(self.TITLE, self.REST_ADDRESS, self.RADIUS, self.PHOTO, 'l')
+        self.add_rest.add_restaurant(self.TITLE, self.REST_ADDRESS, self.RADIUS, self.PHOTO, '')
+        form = self.add_rest.add_form
 
         self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
-        self.assertEqual(self.driver.find_element_by_xpath(self.DESCRIPTION_ERROR).text, 'Минимальная длина: 10')
+        self.assertEqual(form.description_error(), 'Обязательное поле')
 
-    # def testUnvalidAddress(self):
-    # TODO block button
-        # self.add_rest.add_restaurant(self.TITLE, "Unvalid address", self.RADIUS, self.PHOTO)
+        form.set_description(self.UNVALID_DESCRIPTION)
+        form.submit()
+        
+        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
+        self.assertEqual(form.description_error(), 'Минимальная длина: 10')
 
-        # self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
-        # self.assertEqual(self.driver.find_element_by_xpath(self.ADDRESS_ERROR).text, 'с точностью до дома')
+    def testUnvalidRadius(self):
+        self.add_rest.add_restaurant(self.TITLE, self.REST_ADDRESS, '', self.PHOTO)
+        form = self.add_rest.add_form
 
-# TODO block button submit on errors
+        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
+        self.assertEqual(form.radius_error(), 'Обязательное поле')
 
-    # def testUnvalidRadius(self):
-    #     TODO error on front
+        form.set_radius(self.UNVALID_RADIUS_NEGATIVE)
+        form.submit()
 
-    # def testUnvalidBigPhoto(self):
-    #     TODO error on front
+        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
+        self.assertEqual(form.radius_error(), 'Минимальное значение: 0.1')
+
+        form.clear_radius()
+        form.set_radius(self.UNVALID_RADIUS_MAX)
+        form.submit()
+
+        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
+        self.assertEqual(form.radius_error(), 'Максимальное значение: 50')
+
+        form.clear_radius()
+        form.set_radius(self.UNVALID_RADIUS_STRING)
+
+        self.assertEqual(form.radius_value(), '')
+
+    def testUnvalidAddress(self):
+        self.add_rest.add_restaurant(self.TITLE, self.UNVALID_ADDRESS, self.RADIUS, self.PHOTO)
+        form = self.add_rest.add_form
+
+        WebDriverWait(self.driver, 5, 0.1).until_not(
+            lambda d: form.address_error() == '...'
+        )
+
+        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
+        self.assertEqual(form.address_error(), 'с точностью до дома')
+
+    def testUnvalidBigPhoto(self):
+        self.add_rest.add_restaurant(self.TITLE, self.REST_ADDRESS, self.RADIUS, self.BIG_PHOTO)
+        form = self.add_rest.add_form
+
+        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
+        self.assertEqual(form.photo_error(), 'Максимальный размер файла - 1МБ')
 
     def testUnvalidPhotoFormat(self):
         self.add_rest.add_restaurant(self.TITLE, self.REST_ADDRESS, self.RADIUS, self.NON_PHOTO)
+        form = self.add_rest.add_form
 
         self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
-        self.assertEqual(self.driver.find_element_by_xpath(self.PHOTO_ERROR).text, 'Выберите изображение (.png, .jpg)')
+        self.assertEqual(form.photo_error(), 'Выберите изображение (.png, .jpg)')
 
     def testAddRestaurant(self):
         self.add_rest.add_restaurant(self.TITLE, self.REST_ADDRESS, self.RADIUS, self.PHOTO)

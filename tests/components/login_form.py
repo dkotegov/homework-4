@@ -12,16 +12,21 @@ class LoginForm(Component):
     SUBMIT = '//button[contains(@class,"login-field__submit")]'
     REGISTRATION = '//button[@class="neon-button login-field__goto-signup"]'
 
-    def wait_open(self):
+    def wait_visible(self):
         return WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SUBMIT).is_displayed()
+        )
+
+    def wait_close(self):
+        return WebDriverWait(self.driver, 5, 0.1).until_not(
             lambda d: d.find_element_by_xpath(self.SUBMIT).is_displayed()
         )
 
     def registration(self):
         self.driver.find_element_by_xpath(self.REGISTRATION).click()
 
-    def open(self):
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
+    def open_form(self):
+        self.driver.find_element_by_xpath(self.LOGIN).click()
 
     def set_phone(self, phone):
         self.driver.find_element_by_xpath(self.INPUT_PHONE).send_keys(phone)

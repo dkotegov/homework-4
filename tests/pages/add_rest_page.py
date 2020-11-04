@@ -9,11 +9,11 @@ class AddRestaurantPage(Page):
     def add_form(self):
         return AddRestaurantForm(self.driver)
 
-    def add_restaurant(self, title, address, radius, photo_path, description=""):
+    def add_restaurant(self, title, address, radius, photo_path, description='-'):
         form = AddRestaurantForm(self.driver)
 
-        if description is "":
-            description = "Это ресторан {}".format(title)
+        if description == '-':
+            description = 'Это ресторан {}'.format(title)
 
         form.wait_visible()
         form.set_address(address)

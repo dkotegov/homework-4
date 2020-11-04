@@ -1,7 +1,6 @@
 from tests.components.component import Component
 
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.keys import Keys
 
 
 class AddPointForm(Component):
@@ -37,7 +36,7 @@ class AddPointForm(Component):
     def radius_text(self):
         return self.driver.find_element_by_xpath(self.RADIUS).text
 
-    def clean_radius(self):
+    def clear_radius(self):
         self.driver.find_element_by_xpath(self.RADIUS).clear()
 
     def submit(self):

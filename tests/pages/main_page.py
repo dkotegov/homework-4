@@ -11,7 +11,7 @@ class MainPage(Page):
     REST_LIST = '//div[@class="main-view__restaurant-list"]'
     PATH = ''
 
-    def wait_open(self):
+    def wait_visible(self):
         return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: 
                 d.find_element_by_xpath(self.NAVBAR).is_displayed() and 
@@ -25,8 +25,9 @@ class MainPage(Page):
     def auth(self, phone, password):
         login_form = LoginForm(self.driver)
 
-        login_form.open()
-        login_form.wait_open()
+        login_form.open_form()
+        login_form.wait_visible()
         login_form.set_phone(phone)
         login_form.set_password(password)
         login_form.submit()
+        login_form.wait_close()

@@ -8,16 +8,23 @@ from tests.tests_yakovidis.main_page import MainPageTest
 
 from tests.tests_postnikov.add_restaurants import AddRestaurantTest
 from tests.tests_postnikov.add_rest_point import AddPointTest
-from tests.tests_postnikov.test import AddRestaurantTest
-
+from tests.tests_postnikov.add_products import AddProductTest
+from tests.tests_postnikov.manage_orders import ManageOrdersTest
+from tests.tests_postnikov.rest_tags import ManageRestaurantTagsTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(AuthenticationTest),
-        unittest.makeSuite(ProfileTest),
-        unittest.makeSuite(RegistrationTest),
-        unittest.makeSuite(AddressTest),
-        unittest.makeSuite(MainPageTest)
+        # unittest.makeSuite(AuthenticationTest),
+        # unittest.makeSuite(ProfileTest),
+        # unittest.makeSuite(RegistrationTest),
+        # unittest.makeSuite(AddressTest),
+        # unittest.makeSuite(MainPageTest),
+
+        # unittest.makeSuite(AddRestaurantTest), #work
+        # unittest.makeSuite(AddPointTest), #work
+        # unittest.makeSuite(AddProductTest), #work
+        # unittest.makeSuite(ManageRestaurantTagsTest),
+        # unittest.makeSuite(ManageOrdersTest),
     ))
 
     result = unittest.TextTestRunner(verbosity=2).run(suite)
