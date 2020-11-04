@@ -14,9 +14,9 @@ class AuthPage(Page):
     PASSWORD_INPUT = 'mailbox:password-input'
     LETTERS = 'dataset-letters'
 
-    def login(self, email, password):
+    def login(self, login, password):
         driver = self.driver
-        driver.find_element_by_id(self.LOGIN_INPUT).send_keys(email)
+        driver.find_element_by_id(self.LOGIN_INPUT).send_keys(login)
         driver.find_element_by_id(self.SUBMIT_BUTTON).click()
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, self.PASSWORD_INPUT)))
         driver.find_element_by_id(self.PASSWORD_INPUT).send_keys(password)

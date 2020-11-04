@@ -11,6 +11,7 @@ from pages.question_page import QuestionPage
 class QuestionsTests(unittest.TestCase):
     FIRST_USER = (os.environ['LOGIN_1'], os.environ['PASSWORD_1'])
     SECOND_USER = (os.environ['LOGIN_2'], os.environ['PASSWORD_2'])
+    THIRD_USER = (os.environ['LOGIN_3'], os.environ['PASSWORD_3'])
 
     TOPIC = 'Какую породу собаки выбрать?'
     LONG_TOPIC = 'a' * 121
@@ -28,7 +29,7 @@ class QuestionsTests(unittest.TestCase):
         driver = webdriver.Chrome('./chromedriver')
         auth_page = AuthPage(driver)
         auth_page.open()
-        auth_page.login(*QuestionsTests.SECOND_USER)
+        auth_page.login(*QuestionsTests.FIRST_USER)
 
         ask_page = AskPage(driver)
         ask_page.open()
@@ -42,9 +43,11 @@ class QuestionsTests(unittest.TestCase):
     def setUp(self) -> None:
         self.driver = webdriver.Chrome('./chromedriver')
 
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_page.login(*self.FIRST_USER)
+        name = self.shortDescription()
+        if name != 'skip_setup_login':
+            auth_page = AuthPage(self.driver)
+            auth_page.open()
+            auth_page.login(*self.SECOND_USER)
 
     def tearDown(self) -> None:
         self.driver.quit()
@@ -147,7 +150,13 @@ class QuestionsTests(unittest.TestCase):
         question_page.set_answer(self.LONG_TEXT)
         self.assertEqual(question_page.is_submit_button_disabled(), True)
 
+    @unittest.skip
     def test_answer(self):
+        """skip_setup_login"""
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+        auth_page.login(*self.THIRD_USER)
+
         question_page = QuestionPage(self.driver, QuestionsTests.QUESTION_URL)
         question_page.open()
         question_page.set_answer(self.ANSWER)
