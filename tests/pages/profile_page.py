@@ -11,8 +11,7 @@ class ProfilePage(Page):
 
     def wait_open(self):
         return WebDriverWait(self.driver, 5, 0.1).until(
-            lambda d:
-            d.find_element_by_xpath(self.LOGIN_CONTAINER).is_displayed()
+            lambda d: d.find_element_by_xpath(self.LOGIN_CONTAINER)
         )
 
     @property

@@ -21,7 +21,7 @@ class ProfileForm(Component):
     LOG_OUT_BUTTON = '//button[@id="profile-area__log-out"]'
 
     def wait_open(self):
-        return WebDriverWait(self.driver, 5, 1).until(
+        return WebDriverWait(self.driver, 5, 0.5).until(
             ec.element_to_be_clickable((By.XPATH, self.PROFILE_BLOCK))
         )
 
