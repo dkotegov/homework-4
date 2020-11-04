@@ -25,7 +25,7 @@ class QuestionsTests(unittest.TestCase):
         auth_page.open()
         auth_page.login()
 
-        ask_page = AskPage(QuestionsTests.driver)
+        ask_page = AskPage(driver)
         ask_page.open()
         ask_page.set_topic(QuestionsTests.TOPIC)
         ask_page.set_text(QuestionsTests.TEXT)
@@ -34,14 +34,14 @@ class QuestionsTests(unittest.TestCase):
         QuestionsTests.QUESTION_URL = ask_page.publish_question()
         driver.quit()
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.driver = webdriver.Chrome('./chromedriver')
 
         auth_page = AuthPage(self.driver)
         auth_page.open()
         auth_page.login()
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.driver.quit()
 
     def test_question_topic(self):

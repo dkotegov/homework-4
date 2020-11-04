@@ -32,6 +32,14 @@ class AskPage(Page):
     PUBLISH_BUTTON_ENABLED = '//a[@data-qa="input-question_submit"][@data-qa-disabled="false"]'
     QUESTION_TOPIC = '//h1[contains(@class,"qtext")]'
 
+    TAB_POLL = '//li[@data-qa="tab-item_poll"]'
+    FIRST_OPTION = '//div[@data-qa="ask-poll-item"][@data-qa-key="0"]'
+    SECOND_OPTION = '//div[@data-qa="ask-poll-item"][@data-qa-key="1"]'
+    THIRD_OPTION = '//div[@data-qa="ask-poll-item"][@data-qa-key="2"]'
+    FORTH_OPTION = '//div[@data-qa="ask-poll-item"][@data-qa-key="3"]'
+    OPTION_INPUT = '//descendant::input'
+    OPTION_CLOSE = '//descendant::div[contains(@class,"remove")]'
+
     def topic_has_error(self):
         driver = self.driver
         topic_input = driver.find_element_by_xpath(self.TOPIC_INPUT)
@@ -121,3 +129,36 @@ class AskPage(Page):
         driver.find_element_by_xpath(self.PUBLISH_BUTTON).click()
         WebDriverWait(driver, 10).until(EC.url_contains('otvet.mail.ru/question/'))
         return driver.current_url
+
+    def open_poll_tab(self):
+        driver = self.driver
+        driver.find_element_by_xpath(self.TAB_POLL).click()
+
+    def set_first_option(self, text):
+        driver = self.driver
+        driver.find_element_by_xpath(self.FIRST_OPTION + self.OPTION_INPUT).send_keys(text)
+
+    def set_second_option(self, text):
+        driver = self.driver
+        driver.find_element_by_xpath(self.SECOND_OPTION + self.OPTION_INPUT).send_keys(text)
+
+    def delete_first_option(self):
+        driver = self.driver
+        driver.find_element_by_xpath(self.FIRST_OPTION + self.OPTION_CLOSE).click()
+
+    def get_first_option(self):
+        driver = self.driver
+        option = driver.find_element_by_xpath(self.FIRST_OPTION + self.OPTION_INPUT)
+        return option.get_attribute('value')
+
+    def click_on_third_option(self):
+        driver = self.driver
+        driver.find_element_by_xpath(self.THIRD_OPTION).click()
+
+    def is_forth_option_present(self):
+        driver = self.driver
+        try:
+            driver.find_element_by_xpath(self.FORTH_OPTION)
+        except NoSuchElementException:
+            return False
+        return True

@@ -2,14 +2,16 @@
 
 import unittest
 import sys
-from test_suites.questions_test import QuestionsTests
 import logging
+
+from test_suites.questions_test import QuestionsTests
+from test_suites.polls_test import PollsTest
 
 log = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(QuestionsTests))
+    suite.addTest(unittest.makeSuite(PollsTest))
 
     print(suite)
 
