@@ -94,8 +94,9 @@ class SearchPage(unittest.TestCase):
         browser = self.browser
         input = browser.find_element_by_css_selector(self.main_search_input)
         input.send_keys(Keys.ENTER)
-        WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, self.result_question_link)))
+        WebDriverWait(browser, 20).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,
+                                            self.result_question_link + ", " + self.no_results_title)))
 
     def get_total_count(self):
         browser = self.browser

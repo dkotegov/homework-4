@@ -11,7 +11,7 @@ class CategoryPage(unittest.TestCase):
     category_button = "[data-item-id='category']"
     category_line = "[name='clb1828220']"
     gold_fond_line = "[name='clb1828015']"
-    all_categories_line = "[[href='/categories/']]"
+    all_categories_line = "[href='/categories/']"
     all_categories_header = "[class^='categoriesHeading']"
     browser = webdriver.Chrome('./chromedriver')
     page_main_category = "[class^='page-index--h1']"
