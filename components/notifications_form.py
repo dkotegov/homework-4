@@ -9,32 +9,30 @@ class LocalStorage:
         self.driver = driver
 
     def get(self, key):
-        return self.driver.execute_script("window.localStorage.getItem(arguments[0]);", key)
+        return self.driver.execute_script("return window.localStorage.getItem(arguments[0]);", key)
 
 
 class Notifications(Component):
     CONTAINER = '//div[@class = "header-notifications"]'
     READ_BUTTON = '//div[contains(@class, "js-readNotifications")]'
     DELETE_BUTTON = '//div[contains(@class, "js-deleteNotifications")]'
-
     SOUND_BUTTON = '//div[contains(@class, "js-toggleSound")]'
     NOTIFICATIONS_BUTTON = '//div[contains(@class, "js-toggleNotifications")]'
-    # SOUND_BUTTON_SELECTED = '//div[contains(@class, "js-toggleSound ' + header_button_classname + '")'
-    # NOTIFICATIONS_BUTTON_SELECTED = '//div[contains(@class, "js-toggleNotifications ' + header_button_classname + '")'
 
     @property
     def is_visible(self):
         return self.driver.find_element_by_xpath(self.CONTAINER).is_displayed()
 
+    @property
     def is_notifications_enabled(self):
         return LocalStorage(self.driver).get('enableNotifications') == 'true'
-
+    
+    @property
     def is_sound_enabled(self):
         return LocalStorage(self.driver).get('enableNotificationsSound') == 'true'
 
     def toggle_notifications(self):
         button = self.driver.find_element_by_xpath(self.NOTIFICATIONS_BUTTON)
-        print(button.get_attribute('class'))
         button.click()
 
     def toggle_sound(self):
