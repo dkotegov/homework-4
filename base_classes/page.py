@@ -40,14 +40,14 @@ class Page(object):
 
     def open(self):
         self.driver.get(self.location)
-        WebDriverWait(self.driver, 10).until(lambda d: d.current_url != self.url)
+        WebDriverWait(self.driver, 5).until(lambda d: d.current_url != self.url)
         self.driver.maximize_window()
 
     def wait_for_container(self):
         if self.CONTAINER is None:
             raise NotImplementedError('CONTAINER is None')
 
-        WebDriverWait(self.driver, 10).until(lambda d: d.find_element_by_xpath(self.CONTAINER))
+        WebDriverWait(self.driver, 5).until(lambda d: d.find_element_by_xpath(self.CONTAINER))
 
     def reload(self):
         self.driver.get(self.location)
