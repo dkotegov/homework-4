@@ -29,6 +29,7 @@ class LoginPageTest(unittest.TestCase):
     def test_success_login(self):
         login = os.environ.get('LOGIN')
         password = os.environ.get('PASSWORD')
+
         self.login_page.login(login, password)
 
         nickname = self.login_page.main_header.get_nickname()
@@ -37,14 +38,20 @@ class LoginPageTest(unittest.TestCase):
     def test_invalid_login(self):
         login = '123'
         password = '321'
+
         self.login_page.login(login, password)
 
-        is_visible = self.login_page.login_form.check_invalid_login()
-        self.assertTrue(is_visible)
+        is_open = self.login_page.login_form.is_open_invalid_login()
+        self.assertTrue(is_open)
+
+    def test_empty_inputs_login(self):
+        self.login_page.login_form.submit()
+
+        is_open = self.login_page.login_form.is_open_invalid_login()
+        self.assertTrue(is_open)
 
     def test_click_on_join(self):
         self.login_page.login_form.open_join()
 
         join_form = JoinPage(self.driver).join_form
-
         self.assertTrue(join_form.is_open)

@@ -33,8 +33,7 @@ class Page(object):
             raise NotImplementedError('CONTAINER is None')
 
         try:
-            WebDriverWait(self.driver, 3, 0.1).until(
-                lambda d: d.find_element_by_xpath(self.CONTAINER))
+            WebDriverWait(self.driver, 3).until(lambda d: d.find_element_by_xpath(self.CONTAINER))
         except TimeoutException:
             return False
         return True
@@ -48,6 +47,4 @@ class Page(object):
         if self.CONTAINER is None:
             raise NotImplementedError('CONTAINER is None')
 
-        WebDriverWait(self.driver, 10, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.CONTAINER)
-        )
+        WebDriverWait(self.driver, 10).until(lambda d: d.find_element_by_xpath(self.CONTAINER))
