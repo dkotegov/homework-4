@@ -7,13 +7,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
-class CategoryPage(unittest.TestCase):
+class CategoryPage:
     category_button = "[data-item-id='category']"
     category_line = "[name='clb1828220']"
     gold_fond_line = "[name='clb1828015']"
     all_categories_line = "[href='/categories/']"
     all_categories_header = "[class^='categoriesHeading']"
-    browser = webdriver.Chrome('./chromedriver')
     page_main_category = "[class^='page-index--h1']"
     page_border_category = "[class='black list__title']"
     login_input = "mailbox:login-input"
@@ -23,6 +22,9 @@ class CategoryPage(unittest.TestCase):
     test_password = os.environ.get('PASSWORD_2')
     letter_line = "dataset-letters"
     gold_fond_text = "//*[contains(text(), 'Золотой Фонд проекта Ответы@Mail.Ru')]"
+
+    def __init__(self, browser):
+        self.browser = browser
 
     def open_main_page(self):
         self.browser.get("https://otvet.mail.ru")
@@ -39,12 +41,15 @@ class CategoryPage(unittest.TestCase):
         WebDriverWait(browser, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.page_main_category)))
         return category_text
 
-    def compare_categories(self):
+    def get_main_category_text(self):
         browser = self.browser
-        category_choosen = self.select_category()
         page_main_category = browser.find_element_by_css_selector(self.page_main_category).text
+        return page_main_category
+
+    def get_border_category_text(self):
+        browser = self.browser
         page_border_category = browser.find_element_by_css_selector(self.page_border_category).text
-        self.assertEqual(category_choosen, page_main_category, page_border_category)
+        return page_border_category
 
     def select_all_categories(self):
         browser = self.browser
@@ -65,6 +70,7 @@ class CategoryPage(unittest.TestCase):
     def login(self):
         browser = self.browser
         browser.get("https://mail.ru/")
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, self.login_input)))
         browser.find_element_by_id(self.login_input).send_keys(self.test_email)
         browser.find_element_by_id(self.login_submit_button).click()
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, self.password_input)))

@@ -12,11 +12,10 @@ EMPTY_TEXT = "Задан пустой\nпоисковый запрос"
 EMPTY_RES = "По вашему запросу\nничего не найдено"
 
 
-class SearchPage(unittest.TestCase):
+class SearchPage:
     nav_search = "[bem-id='182']"
     nav_search_button = "[bem-id='185']"
     page_search = "[bem-id='191']"
-    browser = webdriver.Chrome('./chromedriver')
     main_search_text = "search_value"
     value_attribute = "value"
     no_results_title = "[class^='noResultsTitle']"
@@ -37,6 +36,9 @@ class SearchPage(unittest.TestCase):
     subcategory_line = "[data-qa-value='1394']"
     ask_more_button = "[href^='/ask/']"
     question_input_area = "[name='question_text']"
+
+    def __init__(self, browser):
+        self.browser = browser
 
     def input_in_nav_search(self, text):
         browser = self.browser
@@ -75,14 +77,14 @@ class SearchPage(unittest.TestCase):
         WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, self.no_results_title)))
         empty_text = browser.find_element_by_css_selector(self.no_results_title).text
-        self.assertEqual(empty_text, EMPTY_TEXT)
+        return empty_text
 
     def check_empty_res(self):
         browser = self.browser
         WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, self.no_results_title)))
-        empty_text = browser.find_element_by_css_selector(self.no_results_title).text
-        self.assertEqual(empty_text, EMPTY_RES)
+        empty_res = browser.find_element_by_css_selector(self.no_results_title).text
+        return empty_res
 
     def input_in_main_search(self, text):
         browser = self.browser
@@ -108,16 +110,10 @@ class SearchPage(unittest.TestCase):
         browser = self.browser
         browser.find_element_by_css_selector(self.only_question_checkbox).click()
 
-    def compare_counts(self):
-        total_count = self.get_total_count()
-        self.toggle_only_question_checkbox()
-        self.submit_main_search()
-        only_question_count = self.get_total_count()
-        self.assertGreaterEqual(total_count, only_question_count)
-
     def login(self):
         browser = self.browser
         browser.get("https://mail.ru/")
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, self.login_input)))
         browser.find_element_by_id(self.login_input).send_keys(self.test_email)
         browser.find_element_by_id(self.login_submit_button).click()
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, self.password_input)))
@@ -141,19 +137,6 @@ class SearchPage(unittest.TestCase):
     def select_subcategory(self):
         browser = self.browser
         browser.find_element_by_css_selector(self.subcategory_line).click()
-
-    def compare_categories_count(self):
-        total_count = self.get_total_count()
-        self.click_select_category()
-        self.select_category()
-        self.submit_main_search()
-        category_count = self.get_total_count()
-        self.assertGreaterEqual(total_count, category_count)
-        self.click_select_subcategory()
-        self.select_subcategory()
-        self.submit_main_search()
-        subcategory_count = self.get_total_count()
-        self.assertGreaterEqual(category_count, subcategory_count)
 
     def click_ask_more_button(self):
         browser = self.browser
