@@ -2,7 +2,6 @@ import os
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from pages.auth import AuthPage
 from pages.main import MainPage
 from steps.auth import AuthSteps
 
@@ -29,8 +28,7 @@ class AuthTest(unittest.TestCase):
     def test_login_success(self):
         auth_page = AuthSteps(self.driver)
         auth_page.open()
-        alert_text = auth_page.login(self.KEY)
-        self.assertEqual(alert_text, self.AUTH_SUCCESS)
+        auth_page.login(self.KEY)
         to = MainPage.BASE_URL + MainPage.PATH
         auth_page.do_redirect(to)
         self.assertEqual(self.driver.current_url, to)
@@ -42,4 +40,3 @@ class AuthTest(unittest.TestCase):
                 auth_page.open()
                 alert_text = auth_page.login(key)
                 self.assertEqual(alert_text, self.AUTH_FAILED)
-                self.assertEqual(self.driver.current_url, AuthPage.BASE_URL + AuthPage.PATH)

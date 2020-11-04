@@ -39,11 +39,10 @@ class TransformTest(unittest.TestCase):
         transform_page = TransformSteps(self.driver)
         transform_page.set_size(self.HEIGHT, self.WIDTH)
         transform_page.select_image(self.MIDDLE_SOURCE)
-        width, height = transform_page.transform_finished()
-        self.assertEqual("%s" % self.HEIGHT, height)
-        self.assertEqual("%s" % self.WIDTH, width)
+        transform_page.transform_finished()
         size_label = transform_page.check_size_label()
         self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=self.WIDTH, height=self.HEIGHT), size_label)
+
         transform_page.go_to_transform()
 
     def test_transform_wrong_size_failed(self):
@@ -55,6 +54,7 @@ class TransformTest(unittest.TestCase):
                 transform_page.transform()
                 size_label = transform_page.check_size_label()
                 self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=0, height=0), size_label)
+
                 transform_page.go_to_transform()
 
     def test_transform_no_file_failed(self):

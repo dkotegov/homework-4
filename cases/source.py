@@ -37,10 +37,8 @@ class SourceTest(unittest.TestCase):
 
     def test_new_source_success(self):
         source_path = self.BIG_SOURCE
-        source_string = self.BIG_SOURCE_STRING
         source_page = SourceSteps(self.driver)
-        image = source_page.upload_file(source_path)
-        self.assertIn(source_string, image)
+        source_page.upload_file(source_path)
         source_page.save_img(source_path)
         alert = source_page.accept_alert_text()
         self.assertEqual(alert, self.SUCCESS)
