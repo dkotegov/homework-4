@@ -11,6 +11,7 @@ class DatabaseFiller():
     ADDRESS = 'Россия, Москва, Старокирочный переулок, 16/2с1'
     COOKIE_NAME = 'SkyDelivery'
     LOGIN_PATH = 'signin/'
+    LOGOUT_PATH = 'logout/'
     PRODUCTS_PATH = 'product/'
     PRODUCT_PATH = 'products/{}'
     RESTAURANT_PATH = 'restaurants/{}'
@@ -22,16 +23,47 @@ class DatabaseFiller():
     REST_PRODUCTS_PATH = 'restaurants/{}/product?page=1&count=20'
     TAG_PATH = 'rest_tags'
     TEST_REST_NAME = 'Test rest №{}'
-    LOGIN = os.environ['ADMIN_LOGIN']
-    PASSWORD = os.environ['ADMIN_PASSWORD']
+
+    ADMIN_LOGIN = os.environ['ADMIN_LOGIN']
+    ADMIN_PASSWORD = os.environ['ADMIN_PASSWORD']
+    USER_LOGIN = os.environ['LOGIN']
+    USER_PASSWORD = os.environ['PASSWORD']
+    SUPPORT_LOGIN = os.environ['SUP_LOGIN']
+    SUPPORT_PASSWORD = os.environ['SUP_PASSWORD']
     rests_id = []
 
     def admin_auth(self):
         self.session = requests.Session()
         response = self.session.post(urllib.parse.urljoin(self.PATH, self.LOGIN_PATH),
                                      json={
-                                         'phone': self.LOGIN,
-                                         'password': self.PASSWORD
+                                         'phone': self.ADMIN_LOGIN,
+                                         'password': self.ADMIN_PASSWORD
+                                     })
+
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
+        self.csrf_token = response.headers.get('X-Csrf-Token')
+
+    def user_auth(self):
+        self.session = requests.Session()
+        response = self.session.post(urllib.parse.urljoin(self.PATH, self.LOGIN_PATH),
+                                     json={
+                                         'phone': self.USER_LOGIN,
+                                         'password': self.USER_PASSWORD
+                                     })
+
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
+
+        self.csrf_token = response.headers.get('X-Csrf-Token')
+
+    def support_auth(self):
+        self.session = requests.Session()
+        response = self.session.post(urllib.parse.urljoin(self.PATH, self.LOGIN_PATH),
+                                     json={
+                                         'phone': self.SUPPORT_LOGIN,
+                                         'password': self.SUPPORT_PASSWORD
                                      })
 
         if response.status_code != requests.codes['ok']:
@@ -51,6 +83,13 @@ class DatabaseFiller():
         body = response.json()
 
         return body['User']['id']
+
+    def logout(self):
+        response = self.session.post(urllib.parse.urljoin(self.PATH, self.LOGOUT_PATH),
+                                     headers={'X-Csrf-Token': self.csrf_token},
+        )
+        if response.status_code != requests.codes['ok']:
+            raise RuntimeError
 
     def create_order(self, user, restaurant, login, products):
         restId = self.get_restaurant_id_by_name(restaurant)
