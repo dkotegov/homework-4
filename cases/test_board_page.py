@@ -12,6 +12,7 @@ from pages.login_page import LoginPage
 class BoardPageTest(unittest.TestCase):
     BOARD_TITLE = 'TEST BOARD NAME'
     COLUMN_TITLE = 'TEST COLUMN'
+    TASK_TITLE = 'TEST_TASK'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -44,12 +45,18 @@ class BoardPageTest(unittest.TestCase):
         self.driver.quit()
 
     def test_create_column_success(self):
-        new_column_form = self.board_page.columns_list.new_column_form
-        new_column_form.open()
-        new_column_form.set_title(self.COLUMN_TITLE)
-        new_column_form.submit()
-        new_column_form.wait_for_container()
-
+        self.board_page.columns_list.create_column(self.COLUMN_TITLE)
         column = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
+
         self.assertIsNotNone(column)
         self.assertEqual(self.COLUMN_TITLE, column.get_title())
+
+    def test_create_task(self):
+        self.board_page.columns_list.create_column(self.COLUMN_TITLE)
+        column = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
+
+        column.task_list.create_task(self.TASK_TITLE)
+        task = column.task_list.get_task_by_title(self.TASK_TITLE)
+
+        self.assertIsNotNone(task)
+        self.assertEqual(self.TASK_TITLE, task.get_title())

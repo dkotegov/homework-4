@@ -1,14 +1,20 @@
 from base_classes.component import Component
 from components.board.columns.column import Column
-from components.board.columns.new_column_form import NewColumnForm
+from components.board.columns.create_column_form import CreateColumnForm
 
 
 class ColumnsList(Component):
     CONTAINER = '//div[@class="column-list"]'
 
     @property
-    def new_column_form(self):
-        return NewColumnForm(self.driver)
+    def create_column_form(self):
+        return CreateColumnForm(self.driver)
+
+    def create_column(self, title: str):
+        self.create_column_form.open()
+        self.create_column_form.set_title(title)
+        self.create_column_form.submit()
+        self.create_column_form.wait_for_closed()
 
     def get_column_by_title(self, title: str) -> [Column, None]:
         columns = self.driver.find_elements_by_xpath(Column.CONTAINER)

@@ -2,6 +2,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from base_classes.component import Component
+from components.board.tasks.tasks_list import TasksList
 
 
 class Column(Component):
@@ -14,6 +15,10 @@ class Column(Component):
         self.TITLE_INPUT = f'//input[contains(@class, "js-updateColumn") and @data-column-id="{column_id}"]'
         self.DELETE_BUTTON = f'//div[contains(@class, "js-deleteColumn") and @data-column-id="{column_id}"]'
         self.column_id = column_id
+
+    @property
+    def task_list(self):
+        return TasksList(self.driver, self.column_id)
 
     def set_title(self, title: str):
         title_input = self.driver.find_element_by_xpath(self.TITLE_INPUT)
