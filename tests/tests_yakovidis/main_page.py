@@ -48,7 +48,7 @@ class MainPageTest(unittest.TestCase):
 
         self.main_form = self.main_page.main_form
 
-    def test_wrong_name_and_surname(self):
+    def test_recommendation_order(self):
         self.main_form.wait_open()
         recomendations = self.main_form.get_recommendations()
         curr_rec = recomendations[0].text
