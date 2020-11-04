@@ -13,6 +13,7 @@ from pages.join_page import JoinPage
 class HeaderTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
+
         self.driver = webdriver.Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
@@ -38,7 +39,7 @@ class HeaderTest(unittest.TestCase):
     def test_logout(self):
         BoardsPage(self.driver).main_header.logout()
 
-    def test_open_boards(self):
-        profile_page = ProfilePage(self.driver)
-        profile_page.open()
-        profile_page.main_header.open_boards()
+    # def test_open_boards(self):
+    #    profile_page = ProfilePage(self.driver)
+    #    profile_page.open()
+    #    profile_page.main_header.open_boards()
