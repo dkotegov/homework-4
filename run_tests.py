@@ -16,18 +16,17 @@ def create_suite(test_cases) -> unittest.TestSuite:
 
 if __name__ == '__main__':
     tests = [
-        # FolderTests,
-        # WorkWithFilesTests,
-        # TrashBinTests,
-        # HistoryTests,
-        #
-        # TabsAtHomePageTest,
-        # SortAndFilterTest,
-        # CreatingDocumentsTest,
-        # DirectoryTest,
-        #
-        # RecommendTests,
-        # DragAndDropUploadTests,
+        FolderTests,
+        WorkWithFilesTests,
+        TrashBinTests,
+        HistoryTests,
+
+        TabsAtHomePageTest,
+        SortAndFilterTest,
+        CreatingDocumentsTest,
+
+        RecommendTests,
+        DragAndDropUploadTests,
         UsualUploadTests
     ]
 
