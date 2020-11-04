@@ -4,11 +4,11 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-from pages.join_page import JoinPage
+from pages.login_page import LoginPage
 
 
 class JoinPageTest(unittest.TestCase):
-    join_page = None
+    profile_page = None
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -19,19 +19,23 @@ class JoinPageTest(unittest.TestCase):
         )
         self.driver.implicitly_wait(10)
 
-        self.join_page = JoinPage(self.driver)
-
-        self.join_page.open()
+        login_page = LoginPage(self.driver)
+        login_page.open()
+        login_page.login(os.environ.get('LOGIN'), os.environ.get('PASSWORD'))
 
     def tearDown(self):
         self.driver.quit()
 
+
+'''
     def test_success_join(self):
         name = 'Tim'
         surname = 'Razumov'
         login = os.environ.get('REG_LOGIN')
         password = os.environ.get('REG_PASSWORD')
+
         self.join_page.join(name, surname, login, password, password)
 
         nickname = self.join_page.main_header.get_nickname()
         self.assertEqual(login, nickname)
+'''

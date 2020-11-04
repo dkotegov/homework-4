@@ -14,6 +14,7 @@ class LocalStorage:
 
 class Notifications(Component):
     CONTAINER = '//div[@class = "header-notifications"]'
+
     READ_BUTTON = '//div[contains(@class, "js-readNotifications")]'
     DELETE_BUTTON = '//div[contains(@class, "js-deleteNotifications")]'
     SOUND_BUTTON = '//div[contains(@class, "js-toggleSound")]'
@@ -43,3 +44,4 @@ class Notifications(Component):
 
     def delete_notifications(self):
         self.driver.find_element_by_xpath(self.DELETE_BUTTON).click()
+

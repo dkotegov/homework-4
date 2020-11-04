@@ -46,4 +46,3 @@ class HeaderTest(unittest.TestCase):
 
         notifications.toggle_sound()
         self.assertTrue(notifications.is_sound_enabled)
-

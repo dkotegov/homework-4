@@ -12,6 +12,7 @@ from pages.profile_page import ProfilePage
 class HeaderTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
+
         self.driver = webdriver.Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
@@ -38,7 +39,7 @@ class HeaderTest(unittest.TestCase):
         self.boards_page.open()
         self.boards_page.main_header.open_notifications()
 
-        self.assertTrue(self.boards_page.notifications.is_visible)
+        self.assertTrue(self.boards_page.notifications.is_open)
 
     def test_logout(self):
         self.boards_page.open()
