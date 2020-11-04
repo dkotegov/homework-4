@@ -1,3 +1,4 @@
+import os
 import unittest
 from selenium import webdriver
 
@@ -6,6 +7,8 @@ from pages.ask_page import AskPage
 
 
 class PollsTest(unittest.TestCase):
+    USER = (os.environ['LOGIN_1'], os.environ['PASSWORD_1'])
+
     TOPIC = 'Кто ты сегодня?'
     FIRST_OPTION = 'Хорошая уточка'
     SECOND_OPTION = 'Недовольный опоссум'
@@ -15,7 +18,7 @@ class PollsTest(unittest.TestCase):
 
         auth_page = AuthPage(self.driver)
         auth_page.open()
-        auth_page.login()
+        auth_page.login(*self.USER)
 
     def tearDown(self) -> None:
         self.driver.quit()

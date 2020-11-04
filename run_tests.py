@@ -12,8 +12,7 @@ log = logging.getLogger(__name__)
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(QuestionsTests))
-
-    print(suite)
+    suite.addTest(unittest.makeSuite(PollsTest))
 
     result = unittest.TextTestRunner().run(suite)
     successfulRes = result.wasSuccessful()
