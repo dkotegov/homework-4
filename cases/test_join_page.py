@@ -32,10 +32,9 @@ class JoinPageTest(unittest.TestCase):
         login = os.environ.get('REG_LOGIN')
         password = os.environ.get('REG_PASSWORD')
 
-        self.join_page.join(name, surname, login, password, password)
+        is_join = self.join_page.join(name, surname, login, password, password)
 
-        nickname = self.join_page.main_header.get_nickname()
-        self.assertEqual(login, nickname)
+        self.assertTrue(is_join)
 
     def test_invalid_name_join(self):
         name = '1'
@@ -67,10 +66,9 @@ class JoinPageTest(unittest.TestCase):
         login = name + surname
         password = os.environ.get('REG_PASSWORD')
 
-        self.join_page.join(name, surname, login, password, password)
+        is_join = self.join_page.join(name, surname, login, password, password)
 
-        is_open = self.join_page.join_form.is_open_invalid_login()
-        self.assertTrue(is_open)
+        self.assertTrue(not is_join)
 
     def test_invalid_password_join(self):
         password = '1'
@@ -81,13 +79,12 @@ class JoinPageTest(unittest.TestCase):
         self.assertTrue(is_open)
 
     def test_invalid_repeat_password_join(self):
-        name = 'Tim'
-        surname = 'Razumov'
-        login = name + surname
         password = os.environ.get('REG_PASSWORD')
         password2 = password + '1'
 
-        self.join_page.join(name, surname, login, password, password2)
+        self.join_page.join_form.set_password(password)
+        self.join_page.join_form.set_password_repeat(password2)
+        self.join_page.join_form.submit()
 
         is_open = self.join_page.join_form.is_open_invalid_password()
         self.assertTrue(is_open)

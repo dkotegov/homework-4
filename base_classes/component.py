@@ -15,7 +15,7 @@ class Component(object):
             raise NotImplementedError('CONTAINER is None')
 
         try:
-            WebDriverWait(self.driver, 3, 0.1).until(
+            WebDriverWait(self.driver, 1, 0.1).until(
                 lambda d: d.find_element_by_xpath(self.CONTAINER))
         except TimeoutException:
             return False

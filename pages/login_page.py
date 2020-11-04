@@ -1,5 +1,6 @@
 from base_classes.page import Page
 from components.login_form import LoginForm
+from components.boards_form import BoardsForm
 
 
 class LoginPage(Page):
@@ -12,4 +13,7 @@ class LoginPage(Page):
     def login(self, login, password):
         self.login_form.set_login(login)
         self.login_form.set_password(password)
+
         self.login_form.submit()
+
+        return BoardsForm(self.driver).is_open

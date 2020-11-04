@@ -30,10 +30,9 @@ class LoginPageTest(unittest.TestCase):
         login = os.environ.get('LOGIN')
         password = os.environ.get('PASSWORD')
 
-        self.login_page.login(login, password)
+        is_login = self.login_page.login(login, password)
 
-        nickname = self.login_page.main_header.get_nickname()
-        self.assertEqual(login, nickname)
+        self.assertTrue(is_login)
 
     def test_invalid_login(self):
         login = '123'
