@@ -10,7 +10,7 @@ class MainHeader(Component):
     LOGOUT_BUTTON = '//div[@id="submitLogout"]'
 
     def get_nickname(self):
-        return WebDriverWait(self.driver, 10, 0.1).until(
+        return WebDriverWait(self.driver, 10).until(
             lambda d: d.find_element_by_xpath(self.NICKNAME).text.replace('@', '', 1)
         )
 

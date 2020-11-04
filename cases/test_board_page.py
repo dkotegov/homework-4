@@ -9,8 +9,10 @@ from pages.boards_page import BoardsPage
 from pages.login_page import LoginPage
 
 
-class BoardsPageTest(unittest.TestCase):
-    BOARD_NAME = 'TEST BOARD NAME'
+class BoardPageTest(unittest.TestCase):
+    BOARD_TITLE = 'TEST BOARD NAME'
+    COLUMN_TITLE = 'TEST COLUMN'
+    TASK_TITLE = 'TEST_TASK'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -28,16 +30,33 @@ class BoardsPageTest(unittest.TestCase):
         password = os.environ.get('PASSWORD')
         self.login_page.login(login, password)
 
+        self.boards_page = BoardsPage(self.driver)
+        self.boards_page.wait_for_container()
+        self.boards_page.create_board(self.BOARD_TITLE)
+
+        self.board_page = BoardPage(self.driver)
+        self.boards_page.wait_for_container()
+
     def tearDown(self):
+        self.board_page.header.open_settings()
+        self.board_page.settings_popup.delete_board()
+        self.boards_page.wait_for_container()
+
         self.driver.quit()
 
-    def test_board_create_success(self):
-        boards_page = BoardsPage(self.driver)
-        boards_page.wait_for_container()
-        boards_page.create_board(self.BOARD_NAME)
+    def test_create_column_success(self):
+        self.board_page.columns_list.create_column(self.COLUMN_TITLE)
+        column = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
 
-        board_page = BoardPage(self.driver)
-        self.assertEqual(self.BOARD_NAME, board_page.header.get_board_title())
+        self.assertIsNotNone(column)
+        self.assertEqual(self.COLUMN_TITLE, column.get_title())
 
-        board_page.header.open_settings()
-        board_page.settings_popup.delete_board()
+    def test_create_task(self):
+        self.board_page.columns_list.create_column(self.COLUMN_TITLE)
+        column = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
+
+        column.task_list.create_task(self.TASK_TITLE)
+        task = column.task_list.get_task_by_title(self.TASK_TITLE)
+
+        self.assertIsNotNone(task)
+        self.assertEqual(self.TASK_TITLE, task.get_title())
