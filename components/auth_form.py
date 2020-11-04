@@ -57,5 +57,5 @@ class AuthForm(Component):
         :param name: Имя, которое должно появиться
         """
         WebDriverWait(self.driver, 10, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, self.NAME.format(name)))
+            EC.url_matches("https://e.mail.ru/inbox")
         )
