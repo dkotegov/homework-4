@@ -1,6 +1,10 @@
 import os
+import ntpath
 
 from selenium.webdriver import DesiredCapabilities, Remote, FirefoxProfile, ChromeOptions
+
+from Auth import AuthPage
+from TrashBin import TrashBinPage
 
 
 def get_remote_driver(browser):
@@ -19,7 +23,7 @@ def get_remote_driver(browser):
             options=profile
         )
 
-    else:
+    elif browser == "FIREFOX":
         profile = FirefoxProfile()
         profile.set_preference("browser.helperApps.neverAsk.saveToDisk",
                                "multipart/x-zip,application/zip,application/x-zip-compressed,application/x-compressed" +
@@ -35,3 +39,40 @@ def get_remote_driver(browser):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
             browser_profile=profile
         )
+    else:
+        raise RuntimeError("invalid browser name: " + browser)
+
+
+def standard_set_up_auth():
+    browser = os.environ.get('BROWSER', 'CHROME')
+    driver = get_remote_driver(browser)
+
+    login = os.environ['LOGIN']
+    password = os.environ['PASSWORD']
+
+    auth_page = AuthPage(driver)
+    auth_page.auth(login, password)
+
+    return driver
+
+
+def standard_tear_down_cleanup(driver):
+    trash_bin_page = TrashBinPage(driver)
+    trash_bin_page.open()
+    trash_bin_page.home_utils.close_mini_banner_if_exists()
+    trash_bin_page.delete.clear_trash_bin()
+
+    driver.quit()
+
+
+def get_filename(filepath) -> str:
+    head, tail = ntpath.split(filepath)
+
+    filename = tail or ntpath.basename(head)
+
+    return filename
+
+
+def get_file_extension(filepath) -> str:
+    _, file_extension = os.path.splitext(filepath)
+    return file_extension

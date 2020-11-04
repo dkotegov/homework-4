@@ -12,14 +12,7 @@ class TrashBinTests(unittest.TestCase):
     NON_EXIST_FOLDER_NAME = "Not exists"
 
     def setUp(self) -> None:
-        browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = utils.get_remote_driver(browser)
-
-        LOGIN = 'alexersh.testing'
-        PASSWORD = os.environ['PASSWORD']
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        self.driver = utils.standard_set_up_auth()
 
         home_page = HomePage(self.driver)
         home_page.open()
@@ -28,11 +21,7 @@ class TrashBinTests(unittest.TestCase):
         home_page.folders.delete_folder()
 
     def tearDown(self) -> None:
-        trash_bin_page = TrashBinPage(self.driver)
-        trash_bin_page.open()
-        trash_bin_page.delete.clear_trash_bin()
-
-        self.driver.quit()
+        utils.standard_tear_down_cleanup(self.driver)
 
     def check_restore(self, trash_bin_page: TrashBinPage):
         trash_bin_page.open()

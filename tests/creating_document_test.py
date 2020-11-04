@@ -15,17 +15,10 @@ class CreatingDocumentsTest(unittest.TestCase):
     TABLE_NAME = 'Новая таблица.xlsx'
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = utils.get_remote_driver(browser)
-
-        LOGIN = 'alexersh.testing'
-        PASSWORD = os.environ['PASSWORD']
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        self.driver = utils.standard_set_up_auth()
 
     def tearDown(self):
-        self.driver.quit()
+        utils.standard_tear_down_cleanup(self.driver)
 
     def test_create_doc(self):
         home_page = HomePage(self.driver)

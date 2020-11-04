@@ -4,19 +4,34 @@ import unittest
 from tests import *
 
 
-if __name__ == '__main__':
+def create_suite(test_cases) -> unittest.TestSuite:
     loader = unittest.TestLoader()
-    suite = unittest.TestSuite()
+    new_suite = unittest.TestSuite()
 
-    suite.addTests(loader.loadTestsFromTestCase(FolderTests))
-    suite.addTests(loader.loadTestsFromTestCase(WorkWithFilesTests))
-    suite.addTests(loader.loadTestsFromTestCase(TrashBinTests))
-    suite.addTests(loader.loadTestsFromTestCase(HistoryTests))
+    for test_case in test_cases:
+        new_suite.addTests(loader.loadTestsFromTestCase(test_case))
 
-    suite.addTests(loader.loadTestsFromTestCase(TabsAtHomePageTest))
-    suite.addTests(loader.loadTestsFromTestCase(SortAndFilterTest))
-    suite.addTests(loader.loadTestsFromTestCase(CreatingDocumentsTest))
-    suite.addTests(loader.loadTestsFromTestCase(DirectoryTest))
+    return new_suite
+
+
+if __name__ == '__main__':
+    tests = [
+        # FolderTests,
+        # WorkWithFilesTests,
+        # TrashBinTests,
+        # HistoryTests,
+        #
+        # TabsAtHomePageTest,
+        # SortAndFilterTest,
+        # CreatingDocumentsTest,
+        # DirectoryTest,
+        #
+        # RecommendTests,
+        # DragAndDropUploadTests,
+        UsualUploadTests
+    ]
+
+    suite = create_suite(tests)
 
     result = unittest.TextTestRunner(verbosity=3).run(suite)
     sys.exit(not result.wasSuccessful())

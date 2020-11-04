@@ -1,26 +1,15 @@
-import os
 import unittest
-from selenium.webdriver import DesiredCapabilities
-from selenium.webdriver import Remote
 
 import utils
-from Auth import AuthPage
 from Home import HomePage
 
 
 class DirectoryTest(unittest.TestCase):
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = utils.get_remote_driver(browser)
-
-        LOGIN = 'alexersh.testing'
-        PASSWORD = os.environ['PASSWORD']
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        self.driver = utils.standard_set_up_auth()
 
     def tearDown(self):
-        self.driver.quit()
+        utils.standard_tear_down_cleanup(self.driver)
 
     def test_create_directory(self):
         dir_name = "directory_test"

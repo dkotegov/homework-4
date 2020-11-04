@@ -1,30 +1,15 @@
-import os
 import unittest
 import utils
 
-from Auth import AuthPage
 from Home import HomePage
-from TrashBin import TrashBinPage
 
 
 class FolderTests(unittest.TestCase):
     def setUp(self) -> None:
-        browser = os.environ.get('BROWSER', 'CHROME')
-
-        self.driver = utils.get_remote_driver(browser)
-
-        LOGIN = 'alexersh.testing'
-        PASSWORD = os.environ['PASSWORD']
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        self.driver = utils.standard_set_up_auth()
 
     def tearDown(self) -> None:
-        trash_bin_page = TrashBinPage(self.driver)
-        trash_bin_page.open()
-        trash_bin_page.delete.clear_trash_bin()
-
-        self.driver.quit()
+        utils.standard_tear_down_cleanup(self.driver)
 
     def test_create_and_delete_folder(self):
         FOLDER_NAME = "Folder"

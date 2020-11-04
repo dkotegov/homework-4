@@ -17,15 +17,7 @@ class WorkWithFilesTests(unittest.TestCase):
     COPY_AND_MOVE_FOLDER = 'Temp'
 
     def setUp(self) -> None:
-        browser = os.environ.get('BROWSER', 'CHROME')
-
-        self.driver = utils.get_remote_driver(browser)
-
-        LOGIN = 'alexersh.testing'
-        PASSWORD = os.environ['PASSWORD']
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        self.driver = utils.standard_set_up_auth()
 
         home_page = HomePage(self.driver)
         home_page.open()
@@ -45,11 +37,7 @@ class WorkWithFilesTests(unittest.TestCase):
         if exists:
             home_page.files.delete_file_from_toolbar()
 
-        trash_bin_page = TrashBinPage(self.driver)
-        trash_bin_page.open()
-        trash_bin_page.delete.clear_trash_bin()
-
-        self.driver.quit()
+        utils.standard_tear_down_cleanup(self.driver)
 
     def test_download_from_toolbar(self):
         home_page = HomePage(self.driver)

@@ -1,5 +1,6 @@
 from Base import Page
 from TrashBin.TrashBinComponents import *
+from Home.HomeComponents import Utils as HomeUtils
 
 
 class TrashBinPage(Page):
@@ -16,3 +17,7 @@ class TrashBinPage(Page):
     @property
     def delete(self):
         return Delete(self.driver)
+
+    @property
+    def home_utils(self):
+        return HomeUtils(self.driver)

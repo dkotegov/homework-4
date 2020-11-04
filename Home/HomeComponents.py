@@ -66,6 +66,7 @@ class Files(Component):
 
     FILE_BY_NAME = '//a[@data-qa-name="{}"]'
     WORKSPACE = '//div[@class="VirtualList__root--2_JbO VirtualList__root_grid--TvMC0"]'
+    UPLOAD_DROPZONE_INPUT = '//input[@class="UploadDropArea__input--lVhu-"]'
 
     DELETE_BUTTON = '//div[@data-name="remove"]'
     DELETE_CONTEXT_BUTTON = '//div[@id="dropdownList"]//div[@data-name="remove"]'
@@ -79,6 +80,13 @@ class Files(Component):
             self.driver.find_element_by_xpath(self.REWRITE_BUTTON).click()
         while self._check_if_element_exists_by_xpath(self.UPLOAD_IN_PROGRESS):
             pass
+        self._wait_for_elem_by_xpath(self.SUCCESS_UPLOAD)
+
+    def drag_and_drop_file_upload(self, filepath):
+        drop_input = self._wait_until_and_get_invisible_elem_by_xpath(self.UPLOAD_DROPZONE_INPUT)
+
+        drop_input.send_keys(filepath)
+
         self._wait_for_elem_by_xpath(self.SUCCESS_UPLOAD)
 
     def check_if_file_exists(self, filename):

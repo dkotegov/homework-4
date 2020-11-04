@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
 import utils
-from Auth import AuthPage
 from Home import HomePage
 
 
@@ -13,14 +11,7 @@ class TabsAtHomePageTest(unittest.TestCase):
     TABLE_NAME = 'Новая таблица.xlsx'
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = utils.get_remote_driver(browser)
-
-        LOGIN = 'alexersh.testing'
-        PASSWORD = os.environ['PASSWORD']
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        self.driver = utils.standard_set_up_auth()
 
     def tearDown(self):
         self.driver.quit()
@@ -36,12 +27,6 @@ class TabsAtHomePageTest(unittest.TestCase):
         home_page.open()
         home_page.utils.close_banner_if_exists()
         home_page.tabs_at_home_p.select_all_files()
-
-    def test_open_trash(self):
-        home_page = HomePage(self.driver)
-        home_page.open()
-        home_page.utils.close_banner_if_exists()
-        home_page.tabs_at_home_p.open_trash()
 
     def test_open_trash(self):
         home_page = HomePage(self.driver)
