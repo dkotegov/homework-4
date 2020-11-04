@@ -21,7 +21,7 @@ class HeaderTest(unittest.TestCase):
         self.login_page = LoginPage(self.driver)
 
         self.login_page.open()
-        self.login_page.sign_in(os.environ.get('LOGIN'), os.environ.get('PASSWORD'))
+        self.login_page.login(os.environ.get('LOGIN'), os.environ.get('PASSWORD'))
 
     def test_toggle_notifications_enable(self):
         self.boards_page.main_header.open_notifications()

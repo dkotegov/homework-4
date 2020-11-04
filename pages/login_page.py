@@ -4,6 +4,7 @@ from components.login_form import LoginForm
 
 class LoginPage(Page):
     PATH = 'login'
+    CONTAINER = '//div[contains(@class, "auth-form-login")]'
 
     @property
     def login_form(self):

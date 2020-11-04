@@ -23,7 +23,7 @@ class HeaderTest(unittest.TestCase):
         self.profile_page = ProfilePage(self.driver)
 
         self.login_page.open()
-        self.login_page.sign_in(os.environ.get('LOGIN'), os.environ.get('PASSWORD'))
+        self.login_page.login(os.environ.get('LOGIN'), os.environ.get('PASSWORD'))
 
     def tearDown(self):
         self.driver.quit()
@@ -32,22 +32,22 @@ class HeaderTest(unittest.TestCase):
         self.boards_page.open()
         self.boards_page.main_header.open_profile()
 
-        self.assertTrue(self.profile_page.is_open())
+        self.assertTrue(self.profile_page.is_open)
 
     def test_open_notifications(self):
         self.boards_page.open()
         self.boards_page.main_header.open_notifications()
 
-        self.assertTrue(self.boards_page.notifications.is_visible())
+        self.assertTrue(self.boards_page.notifications.is_visible)
 
     def test_logout(self):
         self.boards_page.open()
         self.boards_page.main_header.logout()
 
-        self.assertTrue(self.login_page.is_open())
+        self.assertTrue(self.login_page.is_open)
 
     def test_open_boards(self):
         self.profile_page.open()
         self.profile_page.main_header.open_boards()
 
-        self.assertTrue(self.boards_page.is_open())
+        self.assertTrue(self.boards_page.is_open)

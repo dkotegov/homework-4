@@ -22,6 +22,7 @@ class Notifications(Component):
     # SOUND_BUTTON_SELECTED = '//div[contains(@class, "js-toggleSound ' + header_button_classname + '")'
     # NOTIFICATIONS_BUTTON_SELECTED = '//div[contains(@class, "js-toggleNotifications ' + header_button_classname + '")'
 
+    @property
     def is_visible(self):
         return self.driver.find_element_by_xpath(self.CONTAINER).is_displayed()
 
