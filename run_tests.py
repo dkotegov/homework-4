@@ -24,7 +24,7 @@ if __name__ == '__main__':
         # unittest.makeSuite(AddPointTest), #work
         # unittest.makeSuite(AddProductTest), #work
         # unittest.makeSuite(ManageRestaurantTagsTest), #work
-        # unittest.makeSuite(ManageOrdersTest),
+        unittest.makeSuite(ManageOrdersTest),
     ))
 
     result = unittest.TextTestRunner(verbosity=2).run(suite)

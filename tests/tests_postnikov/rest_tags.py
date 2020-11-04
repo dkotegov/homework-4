@@ -10,7 +10,6 @@ from tests.helpers.local_storage import LocalStorage
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.wait import WebDriverWait
 
-import time
 class ManageRestaurantTagsTest(unittest.TestCase):
     LOGIN = os.environ['ADMIN_LOGIN']
     PASSWORD = os.environ['ADMIN_PASSWORD']
@@ -103,7 +102,6 @@ class ManageRestaurantTagsTest(unittest.TestCase):
         self.filler.add_tag_to_restaurant(self.TAG_NAME, self.filler.TEST_REST_NAME.format(0))
 
         self.driver.refresh()
-        self.driver.maximize_window()
 
         self.form.wait_visible()
         self.form.unset_tag(self.tag_id)
@@ -127,7 +125,6 @@ class ManageRestaurantTagsTest(unittest.TestCase):
         )
 
         self.driver.refresh()
-        self.driver.maximize_window()
 
         main_page.wait_visible()
         self.assertEqual(self.driver.find_element_by_xpath(self.REST_LIST).text, 'К сожалению, мы пока не доставляем в ваш район 🙁')

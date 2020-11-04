@@ -10,6 +10,8 @@ from tests.helpers.local_storage import LocalStorage
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.wait import WebDriverWait
 
+import time
+
 class ManageOrdersTest(unittest.TestCase):
     LOGIN = os.environ['ADMIN_LOGIN']
     PASSWORD = os.environ['ADMIN_PASSWORD']
@@ -55,11 +57,15 @@ class ManageOrdersTest(unittest.TestCase):
         self.rest_id = self.filler.get_restaurant_id_by_name(self.filler.TEST_REST_NAME.format(0))
         self.rest_list_page = AdminRestaurantsPage(self.driver)
 
-        products = self.filler.get_restaurant_products(self.rest_id)
-        self.filler.create_order(self.user_id, self.rest_id, self.LOGIN, products[0])
+        products = self.filler.get_restaurant_products(self.filler.TEST_REST_NAME.format(0))
+        self.filler.create_order(self.user_id, self.filler.TEST_REST_NAME.format(0), self.LOGIN, products[0])
 
         self.rest_list_page.open()
         self.rest_list_page.wait_visible()
+
+        self.rest_list_page.open_manage_orders(self.rest_id)
+        self.form = self.rest_list_page.manage_orders_form
+        self.form.wait_visible()
 
     def tearDown(self):
         self.filler.user_auth()
@@ -69,5 +75,25 @@ class ManageOrdersTest(unittest.TestCase):
         self.driver.quit()
 
     def testChangeOrderStatus(self):
-        pass
+        order_id = self.form.get_order_id(0)
 
+        self.assertEqual(self.form.status(order_id), 'Принят')
+        self.form.change_status(order_id)
+
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: self.form.message() != ''
+        )
+
+        self.driver.refresh()
+        self.form.wait_visible()
+
+        self.assertEqual(self.form.status(order_id), 'У курьера')
+        self.form.change_status(order_id)
+
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: self.form.message() != ''
+        )
+
+        self.driver.refresh()
+        self.form.wait_visible()
+        self.assertEqual(self.form.status(order_id), 'Доставлен')
