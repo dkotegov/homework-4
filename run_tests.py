@@ -20,10 +20,10 @@ if __name__ == '__main__':
         # unittest.makeSuite(AddressTest),
         # unittest.makeSuite(MainPageTest),
 
-        # unittest.makeSuite(AddRestaurantTest), #work
-        # unittest.makeSuite(AddPointTest), #work
-        # unittest.makeSuite(AddProductTest), #work
-        # unittest.makeSuite(ManageRestaurantTagsTest), #work
+        unittest.makeSuite(AddRestaurantTest),
+        unittest.makeSuite(AddPointTest),
+        unittest.makeSuite(AddProductTest),
+        unittest.makeSuite(ManageRestaurantTagsTest),
         unittest.makeSuite(ManageOrdersTest),
     ))
 

@@ -10,8 +10,6 @@ from tests.helpers.local_storage import LocalStorage
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.wait import WebDriverWait
 
-import time
-
 class ManageOrdersTest(unittest.TestCase):
     LOGIN = os.environ['ADMIN_LOGIN']
     PASSWORD = os.environ['ADMIN_PASSWORD']
@@ -37,6 +35,7 @@ class ManageOrdersTest(unittest.TestCase):
         storage.set('longitude', self.LONGITUDE)
         storage.set('latitude', self.LATITUDE)
 
+        self.driver.implicitly_wait(2)
         self.driver.refresh()
         self.driver.maximize_window()
 
@@ -68,32 +67,29 @@ class ManageOrdersTest(unittest.TestCase):
         self.form.wait_visible()
 
     def tearDown(self):
-        self.filler.user_auth()
-        self.filler.clean_up_orders()
         self.filler.admin_auth()
         self.filler.delete_all_rests()
         self.driver.quit()
 
     def testChangeOrderStatus(self):
-        order_id = self.form.get_order_id(0)
+        self.assertEqual(self.form.status(0), 'Принят')
+        self.form.change_status(0)
 
-        self.assertEqual(self.form.status(order_id), 'Принят')
-        self.form.change_status(order_id)
-
-        WebDriverWait(self.driver, 5, 0.1).until(
+        WebDriverWait(self.driver, 5, 0.3).until(
             lambda d: self.form.message() != ''
         )
 
         self.driver.refresh()
         self.form.wait_visible()
 
-        self.assertEqual(self.form.status(order_id), 'У курьера')
-        self.form.change_status(order_id)
+        self.assertEqual(self.form.status(0), 'У курьера')
+        self.form.change_status(0)
 
-        WebDriverWait(self.driver, 5, 0.1).until(
+        WebDriverWait(self.driver, 5, 0.3).until(
             lambda d: self.form.message() != ''
         )
 
         self.driver.refresh()
         self.form.wait_visible()
-        self.assertEqual(self.form.status(order_id), 'Доставлен')
+
+        self.assertEqual(self.form.status(0), 'Доставлен')
