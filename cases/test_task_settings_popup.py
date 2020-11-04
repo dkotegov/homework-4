@@ -17,9 +17,6 @@ class TaskSettingsPopupTest(unittest.TestCase):
     COLUMN_TITLE = 'TEST COLUMN'
     TASK_TITLE = 'TEST_TASK'
 
-    # # TODO: интеграция с колонками
-    # url = 'https://drello.works/boards/245/columns/942/tasks/1172'
-
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 
@@ -52,9 +49,14 @@ class TaskSettingsPopupTest(unittest.TestCase):
         self.popup = TaskSettingsPopup(self.driver)
         self.popup.wait_for_container()
 
-
     def tearDown(self):
         self.popup.close_popup()
+
+        self.boards_page.open()
+        self.boards_page.wait_for_container()
+        self.boards_page.boards_list.open_board(self.BOARD_TITLE)
+        self.board_page.wait_for_container()
+
         self.board_page.header.open_settings()
         self.board_page.settings_popup.delete_board()
         self.boards_page.wait_for_container()
