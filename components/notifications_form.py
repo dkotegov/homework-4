@@ -33,8 +33,7 @@ class Notifications(Component):
         return LocalStorage(self.driver).get('enableNotificationsSound') == 'true'
 
     def toggle_notifications(self):
-        button = self.driver.find_element_by_xpath(self.NOTIFICATIONS_BUTTON)
-        button.click()
+        self.driver.find_element_by_xpath(self.NOTIFICATIONS_BUTTON).click()
 
     def toggle_sound(self):
         self.driver.find_element_by_xpath(self.SOUND_BUTTON).click()
