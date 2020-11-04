@@ -10,9 +10,9 @@ from pages.notif_page import NotificationPage
 
 class NotificationTests(unittest.TestCase):
     browser = webdriver.Chrome('./chromedriver')
-    question_topic = "Где лучше всего наблюдать за гонкой?"
+    question_topic = "Где лучше всего наблюдать за Луной?"
     question_text = ""
-    answer = "По телевизору"
+    answer = "Из окна"
     like = "Понравился"
 
     login_1 = os.environ.get('LOGIN_1')

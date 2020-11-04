@@ -17,7 +17,7 @@ if __name__ == '__main__':
     suite.addTest(unittest.makeSuite(CategoryTests))
     suite.addTest(unittest.makeSuite(LeaderTests))
 
-    print(suite)
+    # print(suite)
 
     result = unittest.TextTestRunner().run(suite)
     successfulRes = result.wasSuccessful()

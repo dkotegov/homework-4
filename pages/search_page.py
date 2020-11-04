@@ -120,6 +120,7 @@ class SearchPage(unittest.TestCase):
         browser.get("https://mail.ru/")
         browser.find_element_by_id(self.login_input).send_keys(self.test_email)
         browser.find_element_by_id(self.login_submit_button).click()
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, self.password_input)))
         browser.find_element_by_id(self.password_input).send_keys(self.test_password)
         browser.find_element_by_id(self.login_submit_button).click()
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.letter_line)))

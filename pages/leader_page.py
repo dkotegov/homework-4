@@ -13,7 +13,7 @@ class LeaderPage(unittest.TestCase):
     password_input = "mailbox:password-input"
     login_submit_button = "mailbox:submit-button"
     test_email = "testmail7171@mail.ru"
-    test_password = os.environ.get('PASSWORD')
+    test_password = os.environ.get('PASSWORD_2')
     letter_line = "dataset-letters"
     browser = webdriver.Chrome('./chromedriver')
     # leader_user = "[data-qa='avatar_link']"
@@ -63,4 +63,4 @@ class LeaderPage(unittest.TestCase):
     def compare_scores(self):
         user_score = self.get_user_score()
         user_profile_score = self.focus_on_user()
-        self.assertEqual(user_score, user_profile_score)
+        self.assertGreaterEqual(user_profile_score, user_score)

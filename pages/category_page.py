@@ -20,7 +20,7 @@ class CategoryPage(unittest.TestCase):
     password_input = "mailbox:password-input"
     login_submit_button = "mailbox:submit-button"
     test_email = "testmail7171@mail.ru"
-    test_password = os.environ.get('PASSWORD')
+    test_password = os.environ.get('PASSWORD_2')
     letter_line = "dataset-letters"
     gold_fond_text = "//*[contains(text(), 'Золотой Фонд проекта Ответы@Mail.Ru')]"
 
@@ -36,7 +36,7 @@ class CategoryPage(unittest.TestCase):
         category = browser.find_element_by_css_selector(self.category_line)
         category_text = category.find_element_by_css_selector("*").text
         category.click()
-        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.page_main_category)))
+        WebDriverWait(browser, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.page_main_category)))
         return category_text
 
     def compare_categories(self):
@@ -51,7 +51,7 @@ class CategoryPage(unittest.TestCase):
         category = browser.find_element_by_css_selector(self.all_categories_line)
         category_text = category.find_element_by_css_selector("*").text
         category.click()
-        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.all_categories_header)))
+        WebDriverWait(browser, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.all_categories_header)))
         return category_text
 
     def select_gold_fond(self):
@@ -67,6 +67,7 @@ class CategoryPage(unittest.TestCase):
         browser.get("https://mail.ru/")
         browser.find_element_by_id(self.login_input).send_keys(self.test_email)
         browser.find_element_by_id(self.login_submit_button).click()
+        WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, self.password_input)))
         browser.find_element_by_id(self.password_input).send_keys(self.test_password)
         browser.find_element_by_id(self.login_submit_button).click()
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.letter_line)))
