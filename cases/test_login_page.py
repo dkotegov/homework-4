@@ -40,14 +40,14 @@ class LoginPageTest(unittest.TestCase):
 
         self.login_page.login(login, password)
 
-        is_open = self.login_page.login_form.is_open_invalid_login()
-        self.assertTrue(is_open)
+        is_invalid = self.login_page.login_form.is_invalid_login()
+        self.assertTrue(is_invalid)
 
     def test_empty_inputs_login(self):
         self.login_page.login_form.submit()
 
-        is_open = self.login_page.login_form.is_open_invalid_login()
-        self.assertTrue(is_open)
+        is_invalid = self.login_page.login_form.is_invalid_login()
+        self.assertTrue(is_invalid)
 
     def test_click_on_join(self):
         self.login_page.login_form.open_join()

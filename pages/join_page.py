@@ -5,6 +5,7 @@ from components.boards_form import BoardsForm
 
 class JoinPage(Page):
     PATH = 'join'
+    CONTAINER = '//div[@class="auth-form-join"]'
 
     @property
     def join_form(self):

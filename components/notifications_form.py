@@ -42,4 +42,3 @@ class Notifications(Component):
 
     def delete_notifications(self):
         self.driver.find_element_by_xpath(self.DELETE_BUTTON).click()
-
