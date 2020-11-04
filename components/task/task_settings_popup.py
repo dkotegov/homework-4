@@ -7,6 +7,7 @@ class TaskSettingsPopup(Component):
     TASK_NAME_TEXT_FIELD = '//input[contains(@class, "js-inputTitle")]'
     TASK_DESCRIPTION_TEXT_FIELD = '//div[contains(@class, "js-inputDescription")]'
     SAVE_DESCRIPTION_BUTTON = '//div[contains(@class, "js-saveTaskDescription")]'
+    ADD_NEW_LABEL_BUTTON = '//div[contains(@class, "js-addNewLabel")]'
 
     def get_task_name(self):
         return self.driver.find_element_by_xpath(self.TASK_NAME_TEXT_FIELD).get_attribute('value')
@@ -25,3 +26,6 @@ class TaskSettingsPopup(Component):
 
     def delete_task(self):
         self.driver.find_element_by_xpath(self.DELETE_BUTTON).click()
+
+    def click_add_new_label_button(self):
+        self.driver.find_element_by_xpath(self.ADD_NEW_LABEL_BUTTON).click()
