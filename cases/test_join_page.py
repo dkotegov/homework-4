@@ -7,6 +7,8 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from pages.join_page import JoinPage
 from pages.login_page import LoginPage
 
+from faker import Faker
+
 
 class JoinPageTest(unittest.TestCase):
     join_page = None
@@ -29,8 +31,8 @@ class JoinPageTest(unittest.TestCase):
     def test_success_join(self):
         name = 'Tim'
         surname = 'Razumov'
-        login = os.environ.get('REG_LOGIN')
-        password = os.environ.get('REG_PASSWORD')
+        login = '{}{}'.format(Faker().first_name(), Faker().random_int())[:15]
+        password = os.environ.get('PASSWORD')
 
         is_join = self.join_page.join(name, surname, login, password, password)
 
@@ -41,30 +43,30 @@ class JoinPageTest(unittest.TestCase):
 
         self.join_page.join_form.set_name(name)
 
-        is_open = self.join_page.join_form.is_open_invalid_name()
-        self.assertTrue(is_open)
+        is_invalid = self.join_page.join_form.is_invalid_name()
+        self.assertTrue(is_invalid)
 
     def test_invalid_surname_join(self):
         surname = '1'
 
         self.join_page.join_form.set_surname(surname)
 
-        is_open = self.join_page.join_form.is_open_invalid_surname()
-        self.assertTrue(is_open)
+        is_invalid = self.join_page.join_form.is_invalid_surname()
+        self.assertTrue(is_invalid)
 
     def test_invalid_login_join(self):
         login = '1'
 
         self.join_page.join_form.set_login(login)
 
-        is_open = self.join_page.join_form.is_open_invalid_login()
-        self.assertTrue(is_open)
+        is_invalid = self.join_page.join_form.is_invalid_login()
+        self.assertTrue(is_invalid)
 
     def test_exists_login_join(self):
         name = 'Tim'
         surname = 'Razumov'
-        login = name + surname
-        password = os.environ.get('REG_PASSWORD')
+        login = os.environ.get('LOGIN')
+        password = os.environ.get('PASSWORD')
 
         is_join = self.join_page.join(name, surname, login, password, password)
 
@@ -75,25 +77,25 @@ class JoinPageTest(unittest.TestCase):
 
         self.join_page.join_form.set_password(password)
 
-        is_open = self.join_page.join_form.is_open_invalid_password()
-        self.assertTrue(is_open)
+        is_invalid = self.join_page.join_form.is_invalid_password()
+        self.assertTrue(is_invalid)
 
     def test_invalid_repeat_password_join(self):
-        password = os.environ.get('REG_PASSWORD')
+        password = os.environ.get('PASSWORD')
         password2 = password + '1'
 
         self.join_page.join_form.set_password(password)
         self.join_page.join_form.set_password_repeat(password2)
         self.join_page.join_form.submit()
 
-        is_open = self.join_page.join_form.is_open_invalid_password()
-        self.assertTrue(is_open)
+        is_invalid = self.join_page.join_form.is_invalid_password()
+        self.assertTrue(is_invalid)
 
     def test_empty_inputs_join(self):
         self.join_page.join_form.submit()
 
-        is_open = self.join_page.join_form.is_open_invalid_name()
-        self.assertTrue(is_open)
+        is_invalid = self.join_page.join_form.is_invalid_name()
+        self.assertTrue(is_invalid)
 
     def test_click_on_login(self):
         self.join_page.join_form.open_login()

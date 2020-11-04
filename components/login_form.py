@@ -1,3 +1,4 @@
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 
 from base_classes.component import Component
@@ -25,7 +26,7 @@ class LoginForm(Component):
     def open_join(self):
         self.driver.find_element_by_xpath(self.JOIN_BUTTON).click()
 
-    def is_open_invalid_login(self):
+    def is_invalid_login(self):
         try:
             return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.INPUT_ERROR).text) != 0)
         except TimeoutException:
