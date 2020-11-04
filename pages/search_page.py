@@ -27,8 +27,8 @@ class SearchPage(unittest.TestCase):
     login_input = "mailbox:login-input"
     password_input = "mailbox:password-input"
     login_submit_button = "mailbox:submit-button"
-    test_email = "testmail7171@mail.ru"
-    test_password = os.environ.get('PASSWORD')
+    test_email = os.environ.get('LOGIN_2')
+    test_password = os.environ.get('PASSWORD_2')
     letter_line = "dataset-letters"
     select_category_button = "[data-qa='select-button']"
     # category = "[data-qa='select-list-item']"
