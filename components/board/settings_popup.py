@@ -2,10 +2,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from base_classes.component import Component
+from components.board.settingc_search_from import SearchForm
 
 
 class SettingsPopup(Component):
-    CONTAINER = '//div[contains(@class, "board-settings")]'
+    CONTAINER = '//div[@class = "board-settings"]'
     DELETE_BOARD_BUTTON = '//div[contains(@class, "js-deleteBoard")]'
     NAME_INPUT = '//input[@id = "js-boardTitleInput"]'
     SAVE_BUTTON = '//div[contains(@class, "js-saveBoard")]'
@@ -15,16 +16,22 @@ class SettingsPopup(Component):
     COPY_LINK = '//div[contains(@class, "js-copyLink")]'
     GENERATE_LINK = '//div[contains(@class, "js-generateLink")]'
 
+    ADD_MEMBER = '//img[contains(@class, "js-findMember")]'
+    MEMBER = '//div[contains(@class, "js-foldUnfoldUserInfo")]'
+    MEMBER_NICK = '//div[@class = "board-settings-members__options--profile-info"]'
+
+    @property
+    def search_form(self):
+        return SearchForm(self.driver)
+
     def delete_board(self):
         self.driver.find_element_by_xpath(self.DELETE_BOARD_BUTTON).click()
 
     def close_popup(self):
-        self.driver.find_element_by_xpath(self.CLOSE_BUTTON).click()
-
-    def wait_for_visible(self):
-        return WebDriverWait(self.driver, 10).until(
-            lambda d: d.find_element_by_xpath(self.CONTAINER)
+        WebDriverWait(self.driver, 5, 0.5).until(
+            lambda d: d.find_element_by_xpath(self.CLOSE_BUTTON)
         )
+        self.driver.find_element_by_xpath(self.CLOSE_BUTTON).click()
 
     def change_name(self, new_name):
         self.driver.find_element_by_xpath(self.NAME_INPUT).clear()
@@ -39,3 +46,29 @@ class SettingsPopup(Component):
 
     def get_link_text(self):
         return self.driver.find_element_by_xpath(self.INVITE_LINK).get_attribute('value')
+
+    def invite_member(self, nickname):
+        self.driver.find_element_by_xpath(self.ADD_MEMBER).click()
+
+        self.search_form.wait_for_container()
+        self.search_form.set_input(nickname)
+        self.search_form.wait_for_search_results()
+        self.search_form.add_to_board(0)
+
+    def get_members_count(self):
+        WebDriverWait(self.driver, 5, 0.5).until(
+            lambda d: self.driver.find_elements_by_xpath(self.MEMBER)
+        )
+        return len(self.driver.find_elements_by_xpath(self.MEMBER))
+
+    def open_member(self, number):
+        WebDriverWait(self.driver, 5, 0.5).until(
+            lambda d: self.driver.find_elements_by_xpath(self.MEMBER)
+        )
+        self.driver.find_elements_by_xpath(self.MEMBER)[number].click()
+
+    def get_member_nickname(self, number):
+        WebDriverWait(self.driver, 5, 0.5).until(
+            lambda d: self.driver.find_elements_by_xpath(self.MEMBER_NICK)
+        )
+        return self.driver.find_elements_by_xpath(self.MEMBER_NICK)[number].text.replace('@', '', 1)

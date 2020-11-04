@@ -27,7 +27,7 @@ class Notifications(Component):
     @property
     def is_notifications_enabled(self):
         return LocalStorage(self.driver).get('enableNotifications') == 'true'
-    
+
     @property
     def is_sound_enabled(self):
         return LocalStorage(self.driver).get('enableNotificationsSound') == 'true'
@@ -43,4 +43,3 @@ class Notifications(Component):
 
     def delete_notifications(self):
         self.driver.find_element_by_xpath(self.DELETE_BUTTON).click()
-
