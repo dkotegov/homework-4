@@ -155,7 +155,7 @@ class DatabaseFiller():
                                              'Name': title,
                                              'Description': "This is {}".format(title),
                                              'Address': self.ADDRESS,
-                                             'Radius': 5
+                                             'Radius': 15
                                          },
                                          files={'image': photo}
                                          )

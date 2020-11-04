@@ -32,7 +32,7 @@ class LoginForm(Component):
         self.driver.find_element_by_xpath(self.INPUT_PHONE).send_keys(phone)
 
     def get_phone_error(self):
-        WebDriverWait(self.driver, 30, 1).until(
+        WebDriverWait(self.driver, 5, 1).until(
             lambda d: d.find_element_by_xpath(self.INPUT_PHONE_ERROR).text != ''
         )
         return self.driver.find_element_by_xpath(self.INPUT_PHONE_ERROR).text
@@ -41,7 +41,7 @@ class LoginForm(Component):
         self.driver.find_element_by_xpath(self.INPUT_PASSWORD).send_keys(password)
 
     def get_password_error(self):
-        WebDriverWait(self.driver, 30, 1).until(
+        WebDriverWait(self.driver, 5, 1).until(
             lambda d: d.find_element_by_xpath(self.INPUT_PASSWORD_ERROR).text != ''
         )
         return self.driver.find_element_by_xpath(self.INPUT_PASSWORD_ERROR).text

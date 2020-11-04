@@ -14,11 +14,11 @@ from tests.tests_postnikov.rest_tags import ManageRestaurantTagsTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        # unittest.makeSuite(AuthenticationTest),
-        # unittest.makeSuite(ProfileTest),
-        # unittest.makeSuite(RegistrationTest),
-        # unittest.makeSuite(AddressTest),
-        # unittest.makeSuite(MainPageTest),
+        unittest.makeSuite(AuthenticationTest),
+        unittest.makeSuite(ProfileTest),
+        unittest.makeSuite(RegistrationTest),
+        unittest.makeSuite(AddressTest),
+        unittest.makeSuite(MainPageTest),
 
         unittest.makeSuite(AddRestaurantTest),
         unittest.makeSuite(AddPointTest),

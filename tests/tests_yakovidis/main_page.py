@@ -47,7 +47,7 @@ class MainPageTest(unittest.TestCase):
 
         self.main_form = self.main_page.main_form
 
-    def test_wrong_name_and_surname(self):
+    def test_recommendation_order(self):
         self.main_form.wait_open()
         recomendations = self.main_form.get_recommendations()
         curr_rec = recomendations[0].text
@@ -76,26 +76,34 @@ class MainPageTest(unittest.TestCase):
         self.assertEqual(is_exists, False)
 
     # TODO: доделать когда по тегам можно будет гулять
-    # def test_tag_search(self):
-    #     self.main_form.wait_open()
-    #
-    #     filler = DatabaseFiller()
-    #     filler.admin_auth()
-    #     filler.create_tag('testtag')
-    #     filler.create_restaurant('testRest')
-    #     filler.add_tag_to_restaurant('testtag', 'testRest')
-    #
-    #     is_exists = False
-    #     restaurants = self.main_form.get_restaurants()
-    #     for item in restaurants:
-    #         if item.text == 'testRest':
-    #             is_exists = True
-    #
-    #     filler.delete_tag_from_restaurant('testtag', 'testRest')
-    #     filler.delete_tag('testtag')
-    #     filler.delete_restaurant_by_name('testRest')
-    #
-    #     self.assertEqual(is_exists, True)
+    def test_tag_search(self):
+        self.main_form.wait_open()
+
+        filler = DatabaseFiller()
+        filler.admin_auth()
+        filler.create_tag('testtag')
+        filler.create_restaurant('testRest')
+        filler.add_tag_to_restaurant('testtag', 'testRest')
+
+        self.driver.refresh()
+        self.main_form.wait_open()
+
+        self.main_form.get_tag_button_by_name('testtag').click()
+
+        self.driver.refresh()
+        self.main_form.wait_open()
+
+        is_exists = False
+        restaurants = self.main_form.get_restaurants()
+        for item in restaurants:
+            if item.text == 'testRest':
+                is_exists = True
+
+        filler.delete_tag_from_restaurant('testtag', 'testRest')
+        filler.delete_tag('testtag')
+        filler.delete_restaurant_by_name('testRest')
+
+        self.assertEqual(is_exists, True)
 
     def tearDown(self):
         self.driver.quit()
