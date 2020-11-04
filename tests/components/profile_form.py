@@ -17,11 +17,12 @@ class ProfileForm(Component):
     PHOTO_IMAGE = '//img[@class="profile-avatar-area__image"]'
     PHOTO_ERROR = '//div[@id="profile-avatar-error"]'
     SAVE_BUTTON = '//button[@id="profile-area__submit"]'
+    PROFILE_BLOCK = '//div[@class="profile-view__profile-area"]'
     LOG_OUT_BUTTON = '//button[@id="profile-area__log-out"]'
 
     def wait_open(self):
-        return WebDriverWait(self.driver, 30, 1).until(
-            ec.element_to_be_clickable((By.XPATH, self.SAVE_BUTTON))
+        return WebDriverWait(self.driver, 5, 1).until(
+            ec.element_to_be_clickable((By.XPATH, self.PROFILE_BLOCK))
         )
 
     def set_name(self, name):
@@ -29,7 +30,7 @@ class ProfileForm(Component):
 
     def get_name_error(self):
         curr_error = self.driver.find_element_by_xpath(self.NAME_ERROR).text
-        WebDriverWait(self.driver, 30, 1).until(
+        WebDriverWait(self.driver, 5, 1).until(
             lambda d: d.find_element_by_xpath(self.NAME_ERROR).text == curr_error
                       and
                       d.find_element_by_xpath(self.NAME_ERROR).text != ''
@@ -47,7 +48,7 @@ class ProfileForm(Component):
 
     def get_surname_error(self):
         curr_error = self.driver.find_element_by_xpath(self.SURNAME_ERROR).text
-        WebDriverWait(self.driver, 30, 1).until(
+        WebDriverWait(self.driver, 5, 1).until(
             lambda d: d.find_element_by_xpath(self.SURNAME_ERROR).text != curr_error
                       and
                       d.find_element_by_xpath(self.SURNAME_ERROR).text != ''
@@ -64,7 +65,7 @@ class ProfileForm(Component):
         self.driver.find_element_by_xpath(self.EMAIL_INPUT).send_keys(email)
 
     def get_email_error(self):
-        WebDriverWait(self.driver, 30, 1).until(
+        WebDriverWait(self.driver, 5, 1).until(
             lambda d: d.find_element_by_xpath(self.EMAIL_ERROR).text != ''
         )
         return self.driver.find_element_by_xpath(self.EMAIL_ERROR).text
@@ -79,13 +80,13 @@ class ProfileForm(Component):
         self.driver.find_element_by_xpath(self.PHOTO_INPUT).send_keys(photo)
 
     def get_photo_src(self):
-        WebDriverWait(self.driver, 10, 1).until(
+        WebDriverWait(self.driver, 5, 1).until(
             lambda d: d.find_element_by_xpath(self.PHOTO_IMAGE).is_displayed()
         )
         return self.driver.find_element_by_xpath(self.PHOTO_IMAGE).get_attribute("src")
 
     def get_photo_error(self):
-        WebDriverWait(self.driver, 30, 1).until(
+        WebDriverWait(self.driver, 5, 1).until(
             lambda d: d.find_element_by_xpath(self.PHOTO_ERROR).text != ''
         )
         return self.driver.find_element_by_xpath(self.PHOTO_ERROR).text

@@ -26,14 +26,14 @@ class AuthenticationTest(unittest.TestCase):
         self.auth_form = self.auth_page.auth_form
 
     def test_wrong_phone_characters(self):
-        self.auth_form.wait_open()
+        self.auth_form.wait_visible()
         self.auth_form.set_phone('symbols')
         error = self.auth_form.get_phone_error()
 
         self.assertEqual(error, 'Обязательное поле', 'nice')
 
     def test_wrong_length_password(self):
-        self.auth_form.wait_open()
+        self.auth_form.wait_visible()
         self.auth_form.set_password('123456')
         error = self.auth_form.get_password_error()
 

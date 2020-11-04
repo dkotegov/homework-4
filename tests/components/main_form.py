@@ -10,6 +10,7 @@ class MainForm(Component):
     NAME_INPUT = '//input[@id="signup-field__fname-input"]'
     NAME_ERROR = '//div[@id="signup-field__fname-input-wrapper_err"]'
     RECOMMENDATION_ITEMS = '//div[@class="recommend-bar__list"]'
+    REST_ITEM = '//div[@id="restaurant-list"]/div'
     RESTS = '//div[@id="restaurant-list"]'
     RESTAURANTS_LIST = '//div[@id="restaurant-list"]/div/a/div/div[@class="restaurant__info"]/span[@class="restaurant__name"]'
     RECOMMENDATION_LIST = '//div[@class="recommend-bar__list"]/div/a/div/div[@class="restaurant__info"]/span[@class="restaurant__name"]'
@@ -17,6 +18,11 @@ class MainForm(Component):
     def wait_open(self):
         return WebDriverWait(self.driver, 5).until(
             lambda d: d.find_element_by_xpath(self.RECOMMENDATION_ITEMS).is_displayed()
+        )
+
+    def wait_restaurants(self):
+        return WebDriverWait(self.driver, 5).until(
+            lambda d: len(d.find_elements_by_xpath(self.REST_ITEM)) > 0
         )
 
     # def set_name(self, name):
@@ -105,3 +111,6 @@ class MainForm(Component):
             lambda d: d.find_element_by_xpath(self.RESTAURANTS_LIST).is_displayed()
         )
         return self.driver.find_elements_by_xpath(self.RESTAURANTS_LIST)
+
+    def get_tag_button_by_name(self, tag_name):
+        return self.driver.find_element_by_xpath('//button[./span[contains(text(), "{}")]]'.format(tag_name))
