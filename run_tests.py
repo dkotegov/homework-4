@@ -8,6 +8,7 @@ from tests.tests_yakovidis.main_page import MainPageTest
 
 from tests.tests_postnikov.add_restaurants import AddRestaurantTest
 from tests.tests_postnikov.add_rest_point import AddPointTest
+from tests.tests_postnikov.add_products import AddProductTest
 
 
 if __name__ == '__main__':
@@ -20,7 +21,7 @@ if __name__ == '__main__':
 
         # unittest.makeSuite(AddRestaurantTest), #work
         # unittest.makeSuite(AddPointTest), #work
-        # unittest.makeSuite(AddProductTest),
+        # unittest.makeSuite(AddProductTest), #work
         # unittest.makeSuite(ManageRestTagsTest),
         # unittest.makeSuite(ManageOrdersTest),
     ))

@@ -29,13 +29,6 @@ class AddPointTest(unittest.TestCase):
 
     URL_FORM = 'http://skydelivery.site/admin/restaurants/{}/add/point'
 
-    ADDRESS_ERROR_TEXT = 'с точностью до дома'
-
-    RADIUS_ERROR_MIN = 'Минимальное значение: 0.1'
-    RADIUS_ERROR_MAX = 'Максимальное значение: 50'
-
-    MESSAGE = 'Точка успешно добавлена'
-
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 
@@ -55,7 +48,7 @@ class AddPointTest(unittest.TestCase):
         self.driver.maximize_window()
 
         main_page = MainPage(self.driver)
-        main_page.wait_open()
+        main_page.wait_visible()
 
         main_page.auth(self.LOGIN, self.PASSWORD)
 
@@ -80,17 +73,18 @@ class AddPointTest(unittest.TestCase):
         self.rest_list_page.add_point(self.rest_id, self.POINT_ADDRESS, self.UNVALID_RADIUS_NEGATIVE)
 
         self.assertEqual(self.driver.current_url, url_add)
-        self.assertEqual(form.radius_error(), self.RADIUS_ERROR_MIN)
+        self.assertEqual(form.radius_error(), 'Минимальное значение: 0.1')
 
         form.clear_radius()
         form.set_radius(self.UNVALID_RADIUS_MAX)
         form.submit()
 
         self.assertEqual(self.driver.current_url, url_add)
-        self.assertEqual(form.radius_error(), self.RADIUS_ERROR_MAX)
+        self.assertEqual(form.radius_error(), 'Максимальное значение: 50')
 
         form.clear_radius()
         form.set_radius(self.UNVALID_RADIUS_STRING)
+        
         self.assertEqual(form.radius_text(), '')
 
     def testUnvalidAddress(self):
@@ -104,7 +98,7 @@ class AddPointTest(unittest.TestCase):
         )
 
         self.assertEqual(self.driver.current_url, url_add)
-        self.assertEqual(form.address_error(), self.ADDRESS_ERROR_TEXT)
+        self.assertEqual(form.address_error(), 'с точностью до дома')
 
     def testAddPoint(self):
         self.rest_list_page.add_point(self.rest_id, self.POINT_ADDRESS, self.RADIUS)
@@ -114,4 +108,4 @@ class AddPointTest(unittest.TestCase):
         )
 
         self.rest_list_page.wait_visible()
-        self.assertEqual(self.rest_list_page.message(), self.MESSAGE)
+        self.assertEqual(self.rest_list_page.message(), 'Точка успешно добавлена')

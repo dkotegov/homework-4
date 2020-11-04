@@ -203,7 +203,7 @@ class DatabaseFiller():
 
     def create_test_restaurants(self, count):
         for i in range(count):
-            self.create_restaurant(self.TEST_REST_NAME.format(i), self.ADDRESS, 5)
+            self.create_restaurant(self.TEST_REST_NAME.format(i))
 
         response = self.session.get(urllib.parse.urljoin(self.PATH, self.RESTAURANT_PATH.format('')),
                                     params={'count': 1000, 'page': 1}

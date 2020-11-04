@@ -60,7 +60,7 @@ class AddRestaurantTest(unittest.TestCase):
         self.driver.maximize_window()
 
         main_page = MainPage(self.driver)
-        main_page.wait_open()
+        main_page.wait_visible()
 
         main_page.auth(self.LOGIN, self.PASSWORD)
 
@@ -86,7 +86,6 @@ class AddRestaurantTest(unittest.TestCase):
         form.clear_title()
         form.set_title(self.UNVALID_LONG_TITLE)
 
-        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
         self.assertNotEqual(form.title_value(), self.UNVALID_LONG_TITLE)
 
     def testUnvalidDescription(self):
@@ -125,7 +124,6 @@ class AddRestaurantTest(unittest.TestCase):
         form.clear_radius()
         form.set_radius(self.UNVALID_RADIUS_STRING)
 
-        self.assertEqual(self.driver.current_url, 'http://skydelivery.site/admin/restaurants/add')
         self.assertEqual(form.radius_value(), '')
 
     def testUnvalidAddress(self):

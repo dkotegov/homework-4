@@ -12,7 +12,7 @@ class LoginForm(Component):
     SUBMIT = '//button[contains(@class,"login-field__submit")]'
     REGISTRATION = '//button[@class="neon-button login-field__goto-signup"]'
 
-    def wait_open(self):
+    def wait_visible(self):
         return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT).is_displayed()
         )

@@ -1,7 +1,6 @@
 from tests.components.component import Component
 
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.keys import Keys
 
 
 class AddPointForm(Component):
