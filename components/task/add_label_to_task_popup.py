@@ -23,4 +23,4 @@ class AddLabelToTaskPopup(Component):
         return label_exist
 
     def close_popup(self):
-        self.driver.find_element_by_xpath('//div[contains(@class, "window-overlay popup")]').click()
+        self.driver.find_element_by_xpath('//i[contains(@class, "fa-user-friends")]').click()
