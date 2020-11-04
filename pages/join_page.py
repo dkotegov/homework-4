@@ -1,5 +1,6 @@
 from base_classes.page import Page
 from components.join_form import JoinForm
+from components.boards_form import BoardsForm
 
 
 class JoinPage(Page):
@@ -17,3 +18,5 @@ class JoinPage(Page):
         self.join_form.set_password_repeat(passwordRepeat)
 
         self.join_form.submit()
+
+        return BoardsForm(self.driver).is_open

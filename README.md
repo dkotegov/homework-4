@@ -6,8 +6,7 @@
 `chmod +x start_*.sh`
 
 ## Подготовка окружения python
-- Проверьте версию питона  
-Я использую 3.6.9, но думаю, что если версия выше этой, то не страшно
+- Проверьте версию питона (у нас минимальная 3.6.9)
 
 - Инициализировать и активировать окружение  
 `python3 -m venv env && source env/bin/activate`
@@ -27,6 +26,9 @@
 
 - Активировать окружение (если работаете через PyCharm, то там окружение само активируется)  
 `source env/bin/activate`
+
+- Деактивировать окружение 
+`deactivate`
 
 - Запустить тесты из активированного окружения  
 `BROWSER=CHROME LOGIN=my_login PASSWORD=my_password REG_LOGIN=my_unique_login REG_PASSWORD=my_password python run_tests.py`

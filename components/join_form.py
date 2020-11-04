@@ -14,6 +14,11 @@ class JoinForm(Component):
     SUBMIT = '//div[@id="submit_button"]'
     LOGIN_BUTTON = '//a[text()="Уже с нами?"]'
 
+    NAME_ERROR = '//div[@id="inputNameError"]'
+    SURNAME_ERROR = '//div[@id="inputSurnameError"]'
+    LOGIN_ERROR = '//div[@id="inputNicknameError"]'
+    PASSWORD_ERROR = '//div[@id="inputPasswordError"]'
+
     def set_name(self, name: str):
         self.driver.find_element_by_xpath(self.NAME).send_keys(name)
 
@@ -31,7 +36,30 @@ class JoinForm(Component):
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
-        WebDriverWait(self.driver, 10).until(lambda d: d.current_url != 'drello.works')
 
     def open_login(self):
         self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
+
+    def is_open_invalid_name(self):
+        try:
+            return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.NAME_ERROR).text) != 0)
+        except TimeoutException:
+            return False
+
+    def is_open_invalid_surname(self):
+        try:
+            return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.SURNAME_ERROR).text) != 0)
+        except TimeoutException:
+            return False
+
+    def is_open_invalid_login(self):
+        try:
+            return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.LOGIN_ERROR).text) != 0)
+        except TimeoutException:
+            return False
+
+    def is_open_invalid_password(self):
+        try:
+            return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.PASSWORD_ERROR).text) != 0)
+        except TimeoutException:
+            return False
