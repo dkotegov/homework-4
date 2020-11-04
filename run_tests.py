@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(PollsTest))
+    suite.addTest(unittest.makeSuite(QuestionsTests))
 
     print(suite)
 

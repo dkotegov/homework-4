@@ -1,3 +1,4 @@
+import os
 from selenium import webdriver
 import unittest
 from selenium.common.exceptions import TimeoutException
@@ -8,6 +9,9 @@ from pages.question_page import QuestionPage
 
 
 class QuestionsTests(unittest.TestCase):
+    FIRST_USER = (os.environ['LOGIN_1'], os.environ['PASSWORD_1'])
+    SECOND_USER = (os.environ['LOGIN_2'], os.environ['PASSWORD_2'])
+
     TOPIC = 'Какую породу собаки выбрать?'
     LONG_TOPIC = 'a' * 121
     TEXT = 'Помогите выбрать породу'
@@ -17,13 +21,14 @@ class QuestionsTests(unittest.TestCase):
     IMAGE_LINK = 'https://cs.pikabu.ru/post_img/2013/05/04/11/1367689620_1544760345.jpg'
     WRONG_IMAGE_LINK = 'https://google.com'
     QUESTION_URL = None
+    ANSWER = 'Пекинеса'
 
     @classmethod
     def setUpClass(cls) -> None:
         driver = webdriver.Chrome('./chromedriver')
         auth_page = AuthPage(driver)
         auth_page.open()
-        auth_page.login()
+        auth_page.login(*QuestionsTests.SECOND_USER)
 
         ask_page = AskPage(driver)
         ask_page.open()
@@ -39,7 +44,7 @@ class QuestionsTests(unittest.TestCase):
 
         auth_page = AuthPage(self.driver)
         auth_page.open()
-        auth_page.login()
+        auth_page.login(*self.FIRST_USER)
 
     def tearDown(self) -> None:
         self.driver.quit()
@@ -124,3 +129,27 @@ class QuestionsTests(unittest.TestCase):
         question_page = QuestionPage(self.driver, QuestionsTests.QUESTION_URL)
         question_page.open()
         self.assertEqual(question_page.get_subcategory(), self.SUBCATEGORY)
+
+    def test_answer_empty_field(self):
+        question_page = QuestionPage(self.driver, QuestionsTests.QUESTION_URL)
+        question_page.open()
+        self.assertEqual(question_page.is_submit_button_disabled(), True)
+
+    def test_answer_long_text_error(self):
+        question_page = QuestionPage(self.driver, QuestionsTests.QUESTION_URL)
+        question_page.open()
+        question_page.set_answer(self.LONG_TEXT)
+        self.assertEqual(question_page.answer_input_has_error(), True)
+
+    def test_answer_long_text_button_disabled(self):
+        question_page = QuestionPage(self.driver, QuestionsTests.QUESTION_URL)
+        question_page.open()
+        question_page.set_answer(self.LONG_TEXT)
+        self.assertEqual(question_page.is_submit_button_disabled(), True)
+
+    def test_answer(self):
+        question_page = QuestionPage(self.driver, QuestionsTests.QUESTION_URL)
+        question_page.open()
+        question_page.set_answer(self.ANSWER)
+        question_page.send_answer()
+        self.assertEqual(question_page.contains_answer(self.ANSWER), True)

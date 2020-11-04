@@ -10,19 +10,16 @@ class AuthPage(Page):
     BASE_URL = 'https://mail.ru'
     PATH = ''
 
-    EMAIL = os.environ['LOGIN_2']
-    PASSWORD = os.environ['PASSWORD_2']
-
     LOGIN_INPUT = 'mailbox:login-input'
     SUBMIT_BUTTON = 'mailbox:submit-button'
     PASSWORD_INPUT = 'mailbox:password-input'
     LETTERS = 'dataset-letters'
 
-    def login(self):
+    def login(self, email, password):
         driver = self.driver
-        driver.find_element_by_id(self.LOGIN_INPUT).send_keys(self.EMAIL)
+        driver.find_element_by_id(self.LOGIN_INPUT).send_keys(email)
         driver.find_element_by_id(self.SUBMIT_BUTTON).click()
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, self.PASSWORD_INPUT)))
-        driver.find_element_by_id(self.PASSWORD_INPUT).send_keys(self.PASSWORD)
+        driver.find_element_by_id(self.PASSWORD_INPUT).send_keys(password)
         driver.find_element_by_id(self.SUBMIT_BUTTON).click()
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.LETTERS)))
