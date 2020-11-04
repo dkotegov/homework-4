@@ -9,8 +9,9 @@ from pages.boards_page import BoardsPage
 from pages.login_page import LoginPage
 
 
-class BoardsPageTest(unittest.TestCase):
-    BOARD_NAME = 'TEST BOARD NAME'
+class BoardPageTest(unittest.TestCase):
+    BOARD_TITLE = 'TEST BOARD NAME'
+    COLUMN_TITLE = 'TEST COLUMN'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -28,16 +29,27 @@ class BoardsPageTest(unittest.TestCase):
         password = os.environ.get('PASSWORD')
         self.login_page.login(login, password)
 
+        self.boards_page = BoardsPage(self.driver)
+        self.boards_page.wait_for_container()
+        self.boards_page.create_board(self.BOARD_TITLE)
+
+        self.board_page = BoardPage(self.driver)
+        self.boards_page.wait_for_container()
+
     def tearDown(self):
+        self.board_page.header.open_settings()
+        self.board_page.settings_popup.delete_board()
+        self.boards_page.wait_for_container()
+
         self.driver.quit()
 
-    def test_board_create_success(self):
-        boards_page = BoardsPage(self.driver)
-        boards_page.wait_for_container()
-        boards_page.create_board(self.BOARD_NAME)
+    def test_create_column_success(self):
+        new_column_form = self.board_page.columns_list.new_column_form
+        new_column_form.open()
+        new_column_form.set_title(self.COLUMN_TITLE)
+        new_column_form.submit()
+        new_column_form.wait_for_container()
 
-        board_page = BoardPage(self.driver)
-        self.assertEqual(self.BOARD_NAME, board_page.header.get_board_title())
-
-        board_page.header.open_settings()
-        board_page.settings_popup.delete_board()
+        column = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
+        self.assertIsNotNone(column)
+        self.assertEqual(self.COLUMN_TITLE, column.get_title())
