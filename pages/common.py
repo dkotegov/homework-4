@@ -29,13 +29,13 @@ class Common:
     def login(self, login, password):
         self.open_page(self.login_page)
         WebDriverWait(self.browser, self.wait_timeout).until(
-            EC.presence_of_element_located((By.XPATH, self.password_button_xpath)))
+            EC.element_to_be_clickable((By.XPATH, self.login_input_xpath)))
 
         self.browser.find_element_by_xpath(self.login_input_xpath).clear()
         self.browser.find_element_by_xpath(self.login_input_xpath).send_keys(login)
         self.browser.find_element_by_xpath(self.password_button_xpath).click()
         WebDriverWait(self.browser, self.wait_timeout).until(
-            EC.presence_of_element_located((By.XPATH, self.confirm_password_button_xpath)))
+            EC.element_to_be_clickable((By.XPATH, self.password_input_xpath)))
 
         self.browser.find_element_by_xpath(self.password_input_xpath).clear()
         self.browser.find_element_by_xpath(self.password_input_xpath).send_keys(password)

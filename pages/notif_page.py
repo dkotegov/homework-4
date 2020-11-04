@@ -16,10 +16,12 @@ class NotificationPage:
     def check_notification(self, text):
         self.common.open_page(self.common.main_page)
         WebDriverWait(self.browser, self.common.wait_timeout).until(
-            EC.presence_of_element_located((By.XPATH, self.bell_button_xpath)))
+            EC.element_to_be_clickable((By.XPATH, self.bell_button_xpath)))
 
         xpath = '//*[contains(text(), "{}")]'.format(text)
 
         self.browser.find_element_by_xpath(self.bell_button_xpath).click()
-        self.browser.find_element_by_xpath(self.notification_list_xpath)
+        WebDriverWait(self.browser, self.common.wait_timeout).until(
+            EC.presence_of_element_located(By.XPATH, self.notification_list_xpath))
+
         self.browser.find_element_by_xpath(xpath)

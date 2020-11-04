@@ -16,7 +16,6 @@ class QuestionPage:
     subcategory_list_xpath = '/html/body/div[2]/div[2]/div[2]/div/div/div/div/div/form/div/div[3]/label[2]/div[2]'
     subcategory_xpath = '/html/body/div[2]/div[2]/div[2]/div/div/div/div/div/form/div/div[3]/label[2]/div[2]/div/div[2]/div/div[2]/div[1]/div/span'
     publish_button_xpath = '/html/body/div[2]/div[2]/div[2]/div/div/div/div/div/form/div/div[5]/a/div'
-    # publish_confirm_xpath = '/html/body/div[2]/div[2]/div[2]/div/div[2]/div[2]/div[2]/div/div/div[1]'
 
     question_like_button_xpath = '/html/body/div[2]/div[2]/div[2]/div/div/div[1]/div/div/div[3]/div[4]/div/div/div[2]/div/a/div'
 
