@@ -51,10 +51,9 @@ class AuthForm(Component):
         )
         submit.click()
 
-    def wait_for_name(self, name):
+    def wait_for_email(self):
         """
-        Ожидает появления имени на экране
-        :param name: Имя, которое должно появиться
+        Ождиает пока не откроется страница с почтой
         """
         WebDriverWait(self.driver, 10, 0.1).until(
             EC.url_matches("https://e.mail.ru/inbox")
