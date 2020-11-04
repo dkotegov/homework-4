@@ -23,7 +23,7 @@ class TasksList(Component):
         self.create_task_form.submit()
         self.create_task_form.wait_for_closed()
 
-    def get_task_by_title(self, title: str):
+    def get_task_by_title(self, title: str) -> [Task, None]:
         tasks = self.driver.find_element_by_xpath(self.CONTAINER).find_elements_by_xpath(Task.CONTAINER)
 
         task_id = None
