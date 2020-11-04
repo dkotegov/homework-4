@@ -11,14 +11,14 @@ from pages.boards_page import BoardsPage
 from pages.login_page import LoginPage
 
 from components.task.task_settings_popup import TaskSettingsPopup
-from components.task.add_label_to_task_popup import AddLabelToTaskPopup
-from components.task.create_label_popup import CreateLabelPopup
 
 class TaskSettingsPopupTest(unittest.TestCase):
-    BOARD_NAME = 'TEST BOARD NAME'
+    BOARD_TITLE = 'TEST BOARD NAME'
+    COLUMN_TITLE = 'TEST COLUMN'
+    TASK_TITLE = 'TEST_TASK'
 
-    # TODO: интеграция с колонками
-    url = 'https://drello.works/boards/245/columns/942/tasks/1172'
+    # # TODO: интеграция с колонками
+    # url = 'https://drello.works/boards/245/columns/942/tasks/1172'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -34,61 +34,71 @@ class TaskSettingsPopupTest(unittest.TestCase):
 
         login = os.environ.get('LOGIN')
         password = os.environ.get('PASSWORD')
-
         self.login_page.login(login, password)
-        BoardsPage(self.driver).wait_for_container()
-        
+
+        self.boards_page = BoardsPage(self.driver)
+        self.boards_page.wait_for_container()
+        self.boards_page.create_board(self.BOARD_TITLE)
+
+        self.board_page = BoardPage(self.driver)
+        self.board_page.wait_for_container()
+
+        self.board_page.columns_list.create_column(self.COLUMN_TITLE)
+        column = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
+        column.task_list.create_task(self.TASK_TITLE)
+        task = column.task_list.get_task_by_title(self.TASK_TITLE)
+        task.open_settings()
+
+        self.popup = TaskSettingsPopup(self.driver)
+        self.popup.wait_for_container()
+
+
     def tearDown(self):
+        self.popup.close_popup()
+        self.board_page.header.open_settings()
+        self.board_page.settings_popup.delete_board()
+        self.boards_page.wait_for_container()
+
         self.driver.quit()
 
     def test_rename_task(self):
-        self.driver.get(self.url)
-        popup = TaskSettingsPopup(self.driver)
-        popup.wait_for_container()
-
         new_name = "Your new name"
-        popup.rename_task(new_name)
+        self.popup.rename_task(new_name)
 
-        self.driver.get(self.url)
-        popup = TaskSettingsPopup(self.driver)
-        popup.wait_for_container()
+        self.driver.refresh()
+        self.popup.wait_for_container()
 
-        self.assertEqual(popup.get_task_name(), new_name)
+        self.assertEqual(self.popup.get_task_name(), new_name)
     
     def test_change_task_description(self):
-        self.driver.get(self.url)
-        popup = TaskSettingsPopup(self.driver)
-        popup.wait_for_container()
-
         description = "Your new description"
-        popup.change_description(description)
+        self.popup.change_description(description)
 
-        self.driver.get(self.url)
-        popup = TaskSettingsPopup(self.driver)
-        popup.wait_for_container()
+        self.driver.refresh()
+        self.popup.wait_for_container()
 
-        self.assertEqual(popup.get_task_description(), description)
+        self.assertEqual(self.popup.get_task_description(), description)
 
-    def test_add_label_to_task(self):
-        self.driver.get(self.url)
-        popup = TaskSettingsPopup(self.driver)
-        popup.wait_for_container()
-        popup.click_add_new_label_button()
-
-        add_label_popup = AddLabelToTaskPopup(self.driver)
-        add_label_popup.wait_for_container()
-        add_label_popup.click_create_new_label_button()
-
-        create_label_popup = CreateLabelPopup(self.driver)
-        create_label_popup.wait_for_container()
-        label_name = 'Second test name'
-        create_label_popup.set_label_name(label_name)
-        create_label_popup.click_create_label_button()
-
-        label_exist = add_label_popup.is_label_with_provided_name_exist(label_name)      
+    def test_create_new_label_for_board(self):
+        label_name = 'Super-super label'
+        self.popup.click_add_new_label_button()
+        self.popup.create_new_label_with_name(label_name)
+        self.popup.close_add_labels_popup()
+        label_exist = self.popup.is_label_with_provided_name_exist(label_name)      
         self.assertTrue(label_exist)
 
-    #def 
+    # def test_add_label_to_task(self):
+    #     self.driver.get(self.url)
+    #     popup = TaskSettingsPopup(self.driver)
+    #     popup.wait_for_container()
+
+    #     label_name = 'Super-super label'
+    #     popup.click_add_new_label_button()
+    #     popup.create_new_label_with_name(label_name)
+
+    #     label_exist = popup.is_label_with_provided_name_exist(label_name)
+    #     self.assertTrue(label_exist)
+        #popup.add_label_with_name_to_task(label_name)
 
     # def test_delete_task(self):
     #     self.driver.get(self.url)
