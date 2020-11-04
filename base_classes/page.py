@@ -48,3 +48,8 @@ class Page(object):
             raise NotImplementedError('CONTAINER is None')
 
         WebDriverWait(self.driver, 10).until(lambda d: d.find_element_by_xpath(self.CONTAINER))
+
+    def reload(self):
+        self.driver.get(self.location)
+        self.driver.refresh()
+        self.wait_for_container()
