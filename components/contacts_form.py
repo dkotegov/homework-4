@@ -1,4 +1,7 @@
+import sys
 import time
+
+from selenium.webdriver.common.keys import Keys
 
 from .base import Component
 from selenium.webdriver.support.ui import WebDriverWait
@@ -65,7 +68,7 @@ class ContactsForm(Component):
     def __init__(self, driver):
         super(ContactsForm, self).__init__(driver)
 
-        self.wait = WebDriverWait(self.driver, 15)
+        self.wait = WebDriverWait(self.driver, 20)
 
         self.locators = ContactsFormLocators()
 
@@ -84,37 +87,48 @@ class ContactsForm(Component):
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_btn)))
         element.click()
 
-    def input_firstname(self, text):
-        if text == '':
-            WebDriverWait(self.driver, 30).until(lambda driver: driver.find_element_by_xpath(self.locators.create_contact_firstname_input).text.strip() != '')
+    def delete_all(self, element):
+        if sys.platform == 'darwin':
+            element.send_keys(Keys.COMMAND, 'a')
+        else:
+            element.send_keys(Keys.CONTROL, 'a')
 
+        element.send_keys(Keys.BACKSPACE)
+        return element
+
+    def input_firstname(self, new_text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_firstname_input)))
         element.clear()
-        element.send_keys(text)
+        element = self.delete_all(element)
+        element.send_keys(new_text)
 
     def input_lastname(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_lastname_input)))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_nick(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_nick_input)))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_company(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_company_input)))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_email(self, text, email_num=0):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_email_input.format(email_num))))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_emails(self, emails):
@@ -128,30 +142,35 @@ class ContactsForm(Component):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_phone_input)))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_comment(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_comment_input)))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_job_title(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_job_title_input)))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_boss(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_boss_input)))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_address(self, text):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_address_input)))
         element.clear()
+        element = self.delete_all(element)
         element.send_keys(text)
 
     def input_day_of_birth(self, day):
@@ -210,7 +229,6 @@ class ContactsForm(Component):
                 self.input_address(value)
             else:
                 raise ValueError("Unexpected key: " + key)
-            print(key, value)
 
     def click_save(self):
         element = self.wait.until(
@@ -279,11 +297,12 @@ class ContactsForm(Component):
 
     def delete_contacts_if_needed(self):
         try:
-            select_all = WebDriverWait(self.driver, 1).until(
+            select_all = self.wait.until(
                 EC.element_to_be_clickable((By.XPATH, self.locators.select_all_btn)))
             select_all.click()
         except TimeoutException:
             return
+
         self.delete_contacts()
 
     def contacts_exists(self, emails):
@@ -300,7 +319,7 @@ class ContactsForm(Component):
 
     def check_edit_error(self):
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, 1).until(
                 EC.presence_of_element_located((By.XPATH, self.locators.edit_contact_error)))
         except TimeoutException:
             return False
@@ -308,7 +327,7 @@ class ContactsForm(Component):
 
     def check_validation_error(self):
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, 1).until(
                 EC.presence_of_element_located((By.XPATH, self.locators.validation_invalid)))
         except TimeoutException:
             return False
