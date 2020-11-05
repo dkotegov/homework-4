@@ -31,6 +31,8 @@ class FeaturesFormLocators:
         self.submit_btn = '//button[@data-test-id="addressbook-notification-popup-submit"]'
         self.cancel_btn = '//button[@data-test-id="addressbook-notification-popup-cancel"]'
 
+        self.calendar_attendee_name = '(//div[@class="attendee__name"])[{}]'
+
 
 class FeaturesForm(Component):
 
@@ -161,3 +163,14 @@ class FeaturesForm(Component):
             element = self.wait.until(
                 EC.element_to_be_clickable((By.XPATH, self.locators.group_option.format(id))))
             element.click()
+
+    def get_attendee_emails(self):
+        element1 = self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.calendar_attendee_name.format(1))))
+        email1 = element1.text
+
+        element2 = self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.calendar_attendee_name.format(2))))
+        email2 = element2.text
+
+        return [email1, email2]

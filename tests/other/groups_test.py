@@ -35,7 +35,7 @@ class GroupsTest(unittest.TestCase):
 
     def test_create_group_from_main_page(self):
         """
-        Создание группы из главной страницы
+        Создание группы через кнопку в сайдбаре
         """
         self.page.create_group(self.names.group_name)
 
@@ -43,25 +43,43 @@ class GroupsTest(unittest.TestCase):
 
     def test_create_group_from_contact_page(self):
         """
-        Создание группы из страницы котакта
+        Создание группы через кнопку в тулбаре на странице контакта
         """
         self.page.create_contact(self.names.contact_email)
         self.page.create_group_from_contact_page(self.names.contact_email, self.names.group_name)
 
         self.assertTrue(self.page.group_name_exists(1, self.names.group_name))
 
-    def test_cancel_creating_group(self):
+    def test_close_editing_group_popup_by_cancel(self):
         """
-        Отмена создания группы
+        Закрытие попапа создания/редактирования группы при клике на “Отмена”
         """
         self.page.open_create_popup()
-        self.page.cancel_group_editing()
+        self.page.cancel_group_editing_by_cancel()
 
         self.assertFalse(self.page.create_group_popup_exists())
 
+    def test_close_editing_group_popup_by_cross(self):
+        """
+        Закрытие попапа создания/редактирования группы при клике на крестик
+        """
+        self.page.open_create_popup()
+        self.page.cancel_group_editing_by_cross()
+
+        self.assertFalse(self.page.create_group_popup_exists())
+
+    def test_not_close_editing_group_popup_by_click_out(self):
+        """
+        Незакрытие попапа создания/редактирования группы при клике вне него
+        """
+        self.page.open_create_popup()
+        self.page.click_out_of_popup()
+
+        self.assertTrue(self.page.create_group_popup_exists())
+
     def test_error_on_empty_group_name(self):
         """
-        Ошибка при вводе пустого названия группы
+        Ошибка при создании группы с пустым названием
         """
         self.page.create_group(u'')
 
@@ -78,26 +96,16 @@ class GroupsTest(unittest.TestCase):
 
     def test_edit_group_name(self):
         """
-        Изменение названия группы
+        Успешное изменение названия группы
         """
         self.page.create_group(self.names.group_name)
         self.page.change_group_name(1, self.names.group_name2)
 
         self.assertTrue(self.page.group_name_exists(1, self.names.group_name2))
 
-    def test_cancel_editing_group(self):
-        """
-        Отмена изменения группы
-        """
-        self.page.create_group(self.names.group_name)
-        self.page.open_change_popup(1)
-        self.page.cancel_group_editing()
-
-        self.assertFalse(self.page.create_group_popup_exists())
-
     def test_save_changes_without_changing_name(self):
         """
-        Сохранение изменений без смены названия
+        Закрытие попапа изменения группы при клике на “Сохранить” без внесения изменений
         """
         self.page.create_group(self.names.group_name)
         self.page.change_group_name(1, self.names.group_name)
@@ -200,17 +208,9 @@ class GroupsTest(unittest.TestCase):
         self.assertTrue(self.page.contacts_exists(
             [self.names.contact_email, self.names.contact_email2], 2))
 
-    def test_add_to_my_contacts_after_creating(self):
-        """
-        Добавление в группу “Мои контакты” при создании контакта
-        """
-        self.page.create_contact(self.names.contact_email)
-
-        self.assertTrue(self.page.contacts_exists([self.names.contact_email, ], "personal"))
-
     def test_delete_contact_from_group(self):
         """
-        Удаление контакта из группы
+        Удаление контакта из группы на странице контакта кнопкой “В группу”
         """
         self.page.create_group(self.names.group_name)
         self.page.create_contact(self.names.contact_email)
@@ -222,7 +222,7 @@ class GroupsTest(unittest.TestCase):
 
     def test_delete_contact_from_several_groups(self):
         """
-        Удаление контакта из нескольких групп
+        Удаление контакта из нескольких групп на странице контакта кнопкой “В группу”
         """
         self.page.create_group(self.names.group_name)
         self.page.create_group(self.names.group_name2)
@@ -236,7 +236,7 @@ class GroupsTest(unittest.TestCase):
 
     def test_delete_selected_contacts_from_group(self):
         """
-        Удаление выделенных контактов из группы
+        Удаление выделенных контактов из группы на главной кнопкой “В группу”
         """
         self.page.create_group(self.names.group_name)
 
@@ -251,7 +251,7 @@ class GroupsTest(unittest.TestCase):
 
     def test_delete_selected_contacts_from_several_groups(self):
         """
-        Удаление выделенных контактов из нескольких групп
+        Удаление выделенных контактов из нескольких групп на главной кнопкой “В группу”
         """
         self.page.create_group(self.names.group_name)
         self.page.create_group(self.names.group_name2)

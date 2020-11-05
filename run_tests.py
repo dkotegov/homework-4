@@ -17,8 +17,8 @@ if __name__ == '__main__':
         # unittest.makeSuite(EditingTest),
         # unittest.makeSuite(DeletionTest),
         unittest.makeSuite(GroupsTest),
-        unittest.makeSuite(FeaturesTest),
-        unittest.makeSuite(ImportExportTest),
+        # unittest.makeSuite(FeaturesTest),
+        # unittest.makeSuite(ImportExportTest),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

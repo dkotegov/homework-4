@@ -4,6 +4,7 @@ import unittest
 from pages.features_page import FeaturesPage
 from pages.groups_page import GroupsPage
 from setup.default_setup import default_setup
+import urllib
 
 
 class FeaturesTestNames:
@@ -31,14 +32,6 @@ class FeaturesTest(unittest.TestCase):
 
         self.driver.quit()
 
-    def test_have_compose_button_on_user_with_email(self):
-        """
-        Наличие кнопки написания письма при наличии почты
-        """
-        self.groups.create_contact(self.names.contact_email)
-
-        self.assertTrue(self.features.compose_button_exists(self.names.contact_email))
-
     def test_not_have_compose_button_on_user_without_email(self):
         """
         Отсутствие кнопки написания письма при отсутствии почты
@@ -49,22 +42,15 @@ class FeaturesTest(unittest.TestCase):
 
     def test_open_new_page_on_compose(self):
         """
-        Открытие страницы e.mail.ru при написании письма
+        Открытие страницы e.mail.ru/compose?to<encode-почта контакта> при написании письма контакту
         """
         self.groups.create_contact(self.names.contact_email)
         self.features.compose(self.names.contact_email)
 
         self.driver.switch_to.window(window_name=self.driver.window_handles[-1])
 
-        self.assertIn("e.mail.ru", self.driver.current_url)
-
-    def test_have_create_event_button_on_user_with_email(self):
-        """
-        Наличие кнопки создания события при наличии почты
-        """
-        self.groups.create_contact(self.names.contact_email)
-
-        self.assertTrue(self.features.create_event_button_exists(self.names.contact_email))
+        expected_url = "e.mail.ru/compose?to={}".format(urllib.quote(self.names.contact_email))
+        self.assertIn(expected_url, self.driver.current_url)
 
     def test_not_have_create_event_button_on_user_without_email(self):
         """
@@ -76,11 +62,14 @@ class FeaturesTest(unittest.TestCase):
 
     def test_open_new_page_on_create_event(self):
         """
-        Открытие calendar.mail.ru при создании события
+        Открытие страницы calendar.mail.ru с двумя участниками (почта пользователя и почта контакта) при создании события
         """
         self.groups.create_contact(self.names.contact_email)
         self.features.create_event(self.names.contact_email)
 
         self.driver.switch_to.window(window_name=self.driver.window_handles[-1])
 
+        emails = self.features.get_attendee_emails()
+        self.assertEqual(emails[0], self.EMAIL)
+        self.assertEqual(emails[1], self.names.contact_email)
         self.assertIn("calendar.mail.ru", self.driver.current_url)

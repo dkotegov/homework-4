@@ -1,6 +1,7 @@
 from .base import Page
 from components.groups_form import GroupsForm
 from components.contacts_form import ContactsForm
+from selenium.webdriver import ActionChains
 
 
 class GroupsPage(Page):
@@ -32,8 +33,14 @@ class GroupsPage(Page):
     def create_group_popup_exists(self):
         return self.groups.group_popup_exists()
 
-    def cancel_group_editing(self):
+    def cancel_group_editing_by_cancel(self):
         self.groups.click_cancel()
+
+    def cancel_group_editing_by_cross(self):
+        self.groups.click_cross()
+
+    def click_out_of_popup(self):
+        ActionChains(self.driver).move_by_offset(100, 100).click().perform()
 
     def change_group_name(self, id, name):
         self.groups.click_settings(id)
