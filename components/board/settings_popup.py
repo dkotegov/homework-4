@@ -18,7 +18,8 @@ class SettingsPopup(Component):
 
     ADD_MEMBER = '//img[contains(@class, "js-findMember")]'
     MEMBER = '//div[contains(@class, "js-foldUnfoldUserInfo")]'
-    MEMBER_NICK = '//div[contains(@class,"board-settings-members__options--profile-info")]'
+    MEMBER_NICK = '//div[contains(@class,"board-settings-members__options--profile-info")' \
+                  ' and not(contains(@class,"board-settings-members__options--profile-info-and-actions"))]'
 
     @property
     def search_form(self):
@@ -72,6 +73,6 @@ class SettingsPopup(Component):
 
     def get_member_nickname(self, number):
         WebDriverWait(self.driver, 5, 0.5).until(
-            lambda d: self.driver.find_elements_by_xpath(self.MEMBER_NICK)
+            lambda d: self.driver.find_elements_by_xpath(self.MEMBER_NICK)[number].text != ''
         )
         return self.driver.find_elements_by_xpath(self.MEMBER_NICK)[number].text.replace('@', '', 1)
