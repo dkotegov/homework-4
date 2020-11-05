@@ -1,42 +1,41 @@
 from pages.defaultPage import Page, Component
+from selenium.webdriver.support.ui import WebDriverWait
 
 
-class AuthPage(Page):
+class LoginPage(Page):
     PATH = ''
 
     @property
     def form(self):
         return AuthForm(self.driver)
 
-    # @property
-    # def top_menu(self):
-    #     return TopMenu(self.driver)
-
-
-# loginBtn: '[id="loginModal"]',
-# loginUser: '[id="loginUser"]',
-# pass: '[id="passUser"]',
-# submitButton: '[id="sendLogin"]',
-# modalCloseInfo: '[id="closeInfo"]',
-
 
 class AuthForm(Component):
-    LOGIN_MODAL = '//[id="loginModal"]'
-    LOGIN = '//input[id="loginUser"]'
-    PASSWORD = '//input[id="passUser"]'
-    SUBMIT = '//button[id="sendLogin"]'
-    LOGIN_CLOSE_INFO = '//[id="closeInfo"]'
-
-    # LOGIN_BUTTON = '//a[text()="Вход для участников"]'
+    LOGIN_MODAL = '//*[@id="loginModal"]'
+    LOGIN = '//*[@id="loginUser"]'
+    PASSWORD = '//*[@id="passUser"]'
+    SUBMIT = '//*[@id="sendLogin"]/input'
+    LOGIN_HELLO_MSG = '//*[@id="closeInfo"]'
 
     def open_form(self):
         self.driver.find_element_by_xpath(self.LOGIN_MODAL).click()
 
     def set_login(self, login):
+        WebDriverWait(self.driver, 20, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.LOGIN)
+        )
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
-    def set_password(self, pwd):
-        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
+    def set_password(self, password):
+        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(password)
 
     def submit(self):
+        WebDriverWait(self.driver, 20, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SUBMIT)
+        )
         self.driver.find_element_by_xpath(self.SUBMIT).click()
+
+    def get_hello_msg(self):
+        WebDriverWait(self.driver, 20, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.LOGIN_HELLO_MSG)
+        )

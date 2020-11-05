@@ -1,37 +1,48 @@
 import os
 import unittest
 
-from pages.login import AuthPage
+from pages.login import LoginPage
 from selenium.webdriver import DesiredCapabilities, Remote
 
 
-
-class ExampleTest(unittest.TestCase):
-
+class LoginTest(unittest.TestCase):
     USERNAME = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
-    # BLOG = 'Флудилка'
-    # TITLE = u'ЗаГоЛоВоК'
-    # MAIN_TEXT = u'Текст под катом! Отображается внутри топика!'
 
     def setUp(self):
-
-        #capabilities = DesiredCapabilities.CHROME
-        #capabilities.update({'logLevel': 'DEBUG'})
-
-        #print('===================\nbrowser:'+capabilities.get('BROWSER', 'ERR GET BROWSER!!!')+'\n---------------------\n')
-
-
+        browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=DesiredCapabilities.CHROME
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
     def tearDown(self):
         self.driver.quit()
 
     def test(self):
-
-        auth_page = AuthPage(self.driver)
+        auth_page = LoginPage(self.driver)
         auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.open_form()
+        auth_form.set_login(self.USERNAME)
+        auth_form.set_password(self.PASSWORD)
+        auth_form.submit()
+
+    def loginBeforeAllTests(self, second_profile=False):
+        USERNAME = os.environ['LOGIN']
+        PASSWORD = os.environ['PASSWORD']
+        if second_profile:
+            USERNAME = os.environ['LOGIN2']
+            PASSWORD = os.environ['PASSWORD2']
+
+        auth_page = LoginPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.open_form()
+        auth_form.set_login(USERNAME)
+        auth_form.set_password(PASSWORD)
+        auth_form.submit()
+        auth_form.get_hello_msg()
 
