@@ -317,7 +317,7 @@ class Share(Component):
 
 
 class PinAndCommentTest(unittest.TestCase):
-    USERNAME = 'testuser'
+    USERNAME = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
     PINNAME = 'Testpin'
     PINURL = 'pin'
@@ -526,7 +526,7 @@ class PinAndCommentTest(unittest.TestCase):
 
 
 class SearchAndMenuTest(unittest.TestCase):
-    USERNAME = 'testuser'
+    USERNAME = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
     TESTPIN = 'Testpin'
     EMPTYSEARCHPIN = 'Пины не найдены'
