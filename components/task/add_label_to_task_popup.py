@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 class AddLabelToTaskPopup(Component):
     CONTAINER = '//div[contains(@class, "js-addNewLabel")]'
     CREATE_NEW_LABEL_BUTTON = '//div[contains(@class, "js-openCreateLabelPopup")]'
@@ -19,7 +20,7 @@ class AddLabelToTaskPopup(Component):
             )
         except TimeoutException:
             label_exist = False
-        
+
         return label_exist
 
     def click_label_with_provided_name(self, label_name):
@@ -31,10 +32,9 @@ class AddLabelToTaskPopup(Component):
             )
         except TimeoutException:
             label_exist = False
-        
+
         assert(label_exist)
         self.driver.find_element_by_xpath(xpath).click()
-
 
     def close_popup(self):
         self.driver.find_element_by_xpath('//i[contains(@class, "fa-user-friends")]').click()

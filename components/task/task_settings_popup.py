@@ -6,6 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 
+
 class TaskSettingsPopup(Component):
     CONTAINER = '//div[@class="task"]'
     DELETE_BUTTON = '//div[contains(@class, "js-deleteTask")]'
@@ -82,7 +83,7 @@ class TaskSettingsPopup(Component):
     def close_add_labels_popup(self):
         assert(self.add_label_to_task_popup.is_open)
         self.add_label_to_task_popup.close_popup()
-    
+
     def close_popup(self):
         assert(self.is_open)
         ActionChains(self.driver).click(

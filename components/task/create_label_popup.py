@@ -1,6 +1,7 @@
 from base_classes.component import Component
 from selenium.webdriver.common.keys import Keys
 
+
 class CreateLabelPopup(Component):
     CONTAINER = '//div[contains(@class, "form pop-over")]'
     CREATE_LABEL_BUTTON = '//div[contains(@class, "js-createLabel")]'

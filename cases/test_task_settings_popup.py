@@ -12,6 +12,7 @@ from pages.login_page import LoginPage
 
 from components.task.task_settings_popup import TaskSettingsPopup
 
+
 class TaskSettingsPopupTest(unittest.TestCase):
     BOARD_TITLE = 'TEST BOARD NAME'
     COLUMN_TITLE = 'TEST COLUMN'
@@ -69,7 +70,7 @@ class TaskSettingsPopupTest(unittest.TestCase):
         self.popup.wait_for_container()
 
         self.assertEqual(self.popup.get_task_name(), new_name)
-    
+
     def test_change_task_description(self):
         description = "Your new description"
         self.popup.change_description(description)
@@ -86,7 +87,7 @@ class TaskSettingsPopupTest(unittest.TestCase):
         self.popup.close_add_labels_popup()
         self.driver.refresh()
         self.popup.wait_for_container()
-        label_exist = self.popup.is_label_with_provided_name_exist(label_name)      
+        label_exist = self.popup.is_label_with_provided_name_exist(label_name)
         self.assertTrue(label_exist)
 
     def test_add_label_to_task(self):
