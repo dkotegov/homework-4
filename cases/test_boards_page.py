@@ -1,8 +1,8 @@
 import os
 import unittest
+import time
 
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from components.boards.board_templates import BoardTemplates
@@ -12,8 +12,6 @@ from pages.login_page import LoginPage
 
 
 class BoardsPageTest(unittest.TestCase):
-    BOARD_NAME = 'TEST BOARD NAME'
-
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 
@@ -37,25 +35,26 @@ class BoardsPageTest(unittest.TestCase):
         self.driver.quit()
 
     def test_board_create_success(self):
-        self.boards_page.create_board(self.BOARD_NAME)
+        board_name = f'test_board_create_success{str(time.time())}'
+
+        self.boards_page.create_board(board_name)
 
         board_page = BoardPage(self.driver)
         board_page.wait_for_container()
-        self.assertEqual(self.BOARD_NAME, board_page.header.get_board_title())
+        self.assertEqual(board_name, board_page.header.get_board_title())
 
         board_page.header.open_settings()
         board_page.settings_popup.delete_board()
 
     def test_board_create_cancel(self):
+        board_name = f'test_board_create_cancel{str(time.time())}'
+
         create_board_form = self.boards_page.create_board_form
         create_board_form.open()
-        create_board_form.set_board_title(self.BOARD_NAME)
+        create_board_form.set_board_title(board_name)
         create_board_form.close()
 
-        board = None
-
-        with self.assertRaises(TimeoutException):
-            board = self.boards_page.boards_list.get_board(self.BOARD_NAME)
+        board = self.boards_page.boards_list.get_board(board_name)
 
         self.assertIsNone(board)
 
@@ -82,16 +81,17 @@ class BoardsPageTest(unittest.TestCase):
         board_page.settings_popup.delete_board()
 
     def test_open_board(self):
-        self.boards_page.create_board(self.BOARD_NAME)
+        board_name = f'test_open_board_{str(time.time())}'
+        self.boards_page.create_board(board_name)
 
         board_page = BoardPage(self.driver)
         board_page.wait_for_container()
 
         self.boards_page.open()
-        self.boards_page.boards_list.open_board(self.BOARD_NAME)
+        self.boards_page.boards_list.open_board(board_name)
 
         board_page.wait_for_container()
-        self.assertEqual(self.BOARD_NAME, board_page.header.get_board_title())
+        self.assertEqual(board_name, board_page.header.get_board_title())
 
         board_page.header.open_settings()
         board_page.settings_popup.delete_board()
