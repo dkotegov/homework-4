@@ -18,5 +18,11 @@ class SearchForm(Component):
             lambda d: len(d.find_elements_by_xpath(self.INVITE_BUTTON)) > 0
         )
 
+    def wait_for_closed(self):
+        WebDriverWait(self.driver, 5).until_not(
+            lambda d: d.find_element_by_xpath(self.CONTAINER).is_displayed()
+        )
+
     def add_to_board(self, number):
         self.driver.find_elements_by_xpath(self.INVITE_BUTTON)[number].click()
+        self.wait_for_closed()

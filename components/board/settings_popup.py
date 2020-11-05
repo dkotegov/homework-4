@@ -18,7 +18,7 @@ class SettingsPopup(Component):
 
     ADD_MEMBER = '//img[contains(@class, "js-findMember")]'
     MEMBER = '//div[contains(@class, "js-foldUnfoldUserInfo")]'
-    MEMBER_NICK = '//div[@class = "board-settings-members__options--profile-info"]'
+    MEMBER_NICK = '//div[contains(@class,"board-settings-members__options--profile-info")]'
 
     @property
     def search_form(self):
@@ -26,6 +26,9 @@ class SettingsPopup(Component):
 
     def delete_board(self):
         self.driver.find_element_by_xpath(self.DELETE_BOARD_BUTTON).click()
+
+    def get_board_title(self) -> str:
+        return self.driver.find_element_by_xpath(self.NAME_INPUT).get_attribute('value')
 
     def close_popup(self):
         WebDriverWait(self.driver, 5, 0.5).until(

@@ -7,6 +7,7 @@ from pages.board_page import BoardPage
 from pages.boards_page import BoardsPage
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class HeaderTest(unittest.TestCase):
@@ -38,14 +39,12 @@ class HeaderTest(unittest.TestCase):
         settings = self.board_page.settings_popup
 
         settings.change_name(new_board_name)
+        self.driver.refresh()
         settings.wait_for_container()
 
-        settings.close_popup()
-        self.board_page.wait_for_container()
+        board_name = settings.get_board_title()
+        self.assertEqual(board_name, new_board_name)
 
-        self.assertTrue(self.board_page.header.check_title(new_board_name))
-
-        self.board_page.header.open_settings()
         settings.delete_board()
 
     def test_generate_invite_link(self):
@@ -53,7 +52,11 @@ class HeaderTest(unittest.TestCase):
 
         old_link = settings.get_link_text()
         settings.generate_link()
-        settings.wait_for_container()
+
+        WebDriverWait(self.driver, 5).until(
+            lambda _: settings.get_link_text() != old_link
+        )
+
         new_link = settings.get_link_text()
 
         self.assertNotEqual(old_link, new_link)
@@ -69,10 +72,6 @@ class HeaderTest(unittest.TestCase):
         invitee_nickname = 'asdasd'
 
         settings.invite_member(invitee_nickname)
-        settings.wait_for_container()
-        settings.wait_for_container()
-        settings.wait_for_container()
-        settings.wait_for_container()  # как-то так(((
 
         self.assertEqual(settings.get_members_count(), 2)
 
