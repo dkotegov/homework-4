@@ -4,7 +4,6 @@ import unittest
 
 from pages.settings_page import SettingsPage
 from setup.default_setup import default_setup
-import time
 
 
 class CreationTest(unittest.TestCase):
@@ -178,6 +177,7 @@ class CreationTest(unittest.TestCase):
 
         self.assertEqual(general.default_signature_id(), 2, "Некорректно выбрана подпись по умолчанию")
         self.assertEqual(general.third_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
+
     def test_no_button(self):
         """
         Отсутствие кнопки создания при наличии трех подписей
