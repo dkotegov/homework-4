@@ -1,5 +1,6 @@
 import unittest
-from selenium import webdriver
+import os
+from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.search_page import SearchPage as page
 
@@ -12,11 +13,17 @@ class SearchTests(unittest.TestCase):
     EMPTY_TEXT = "Задан пустой\nпоисковый запрос"
     EMPTY_RES = "По вашему запросу\nничего не найдено"
 
-    browser = webdriver.Chrome('./chromedriver')
+    browser = None
     page = None
 
     @classmethod
     def setUpClass(cls):
+        browser_name = os.environ.get('BROWSER', 'CHROME')
+        SearchTests.browser = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
+        )
+
         SearchTests.page = page(SearchTests.browser)
         SearchTests.page.login()
 

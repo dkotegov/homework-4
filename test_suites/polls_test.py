@@ -1,6 +1,6 @@
 import os
 import unittest
-from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.auth_page import AuthPage
 from pages.ask_page import AskPage
@@ -14,7 +14,12 @@ class PollsTest(unittest.TestCase):
     SECOND_OPTION = 'Недовольный опоссум'
 
     def setUp(self) -> None:
-        self.driver = webdriver.Chrome('./chromedriver')
+        browser_name = os.environ.get('BROWSER', 'CHROME')
+
+        self.browser = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
+        )
 
         auth_page = AuthPage(self.driver)
         auth_page.open()

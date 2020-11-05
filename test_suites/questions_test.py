@@ -2,6 +2,7 @@ import os
 from selenium import webdriver
 import unittest
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.auth_page import AuthPage
 from pages.ask_page import AskPage
@@ -26,7 +27,12 @@ class QuestionsTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        driver = webdriver.Chrome('./chromedriver')
+        browser_name = os.environ.get('BROWSER', 'CHROME')
+        driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
+        )
+
         auth_page = AuthPage(driver)
         auth_page.open()
         auth_page.login(*QuestionsTests.THIRD_USER)
@@ -41,7 +47,12 @@ class QuestionsTests(unittest.TestCase):
         driver.quit()
 
     def setUp(self) -> None:
-        self.driver = webdriver.Chrome('./chromedriver')
+        browser_name = os.environ.get('BROWSER', 'CHROME')
+
+        self.browser = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
+        )
 
         name = self.shortDescription()
         if name != 'skip_setup_login':

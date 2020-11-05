@@ -1,15 +1,23 @@
 import unittest
+import os
+from selenium.webdriver import DesiredCapabilities, Remote
+
 from selenium import webdriver
 
 from pages.leader_page import LeaderPage as page
 
 
 class LeaderTests(unittest.TestCase):
-    browser = webdriver.Chrome('./chromedriver')
+    browser = None
     page = None
 
     @classmethod
     def setUpClass(cls):
+        browser_name = os.environ.get('BROWSER', 'CHROME')
+        LeaderTests.browser = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
+        )
         LeaderTests.page = page(LeaderTests.browser)
         LeaderTests.page.login()
 

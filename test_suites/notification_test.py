@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.common import Common
 from pages.question_page import QuestionPage
@@ -9,7 +9,7 @@ from pages.notif_page import NotificationPage
 
 
 class NotificationTests(unittest.TestCase):
-    browser = webdriver.Chrome('./chromedriver')
+    # browser = webdriver.Chrome('./chromedriver')
     question_topic = "Что означает, что двигатель троит?"
     question_text = ""
     answer = "один из цилиндров мотора не работает"
@@ -20,6 +20,7 @@ class NotificationTests(unittest.TestCase):
     login_2 = os.environ.get('LOGIN_2')
     password_2 = os.environ.get('PASSWORD_2')
 
+    browser = None
     cmn = None
     question = None
     notif = None
@@ -27,6 +28,12 @@ class NotificationTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        browser_name = os.environ.get('BROWSER', 'CHROME')
+
+        NotificationTests.browser = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
+        )
         NotificationTests.cmn = Common(NotificationTests.browser)
         NotificationTests.question = QuestionPage(NotificationTests.browser)
         NotificationTests.notif = NotificationPage(NotificationTests.browser)
