@@ -41,6 +41,10 @@ class SignatureEditingForm(Component):
     FORBIDDEN_WARNING1 = POPUP1 + '//small[starts-with(text(),"Имя отправителя")]'
     FORBIDDEN_WARNING2 = POPUP2 + '//small[starts-with(text(),"Имя отправителя")]'
 
+    CROSS0 = POPUP0 + '//div[@data-test-id="cross"]'
+    CROSS1 = POPUP1 + '//div[@data-test-id="cross"]'
+    CROSS2 = POPUP2 + '//div[@data-test-id="cross"]'
+
     def set_first_sender_name(self, name):
         """
         Устанавливает имя отправителя в окне редактирования первой подписи
@@ -331,3 +335,30 @@ class SignatureEditingForm(Component):
             return True
         except NoSuchElementException:
             return False
+
+    def close_first(self):
+        """
+        Нажимает на крестик у первой подписи
+        """
+        close = WebDriverWait(self.driver, 5, 0.1).until(
+            EC.element_to_be_clickable((By.XPATH, self.CROSS0))
+        )
+        close.click()
+
+    def close_second(self):
+        """
+        Нажимает на крестик у второй подписи
+        """
+        close = WebDriverWait(self.driver, 5, 0.1).until(
+            EC.element_to_be_clickable((By.XPATH, self.CROSS1))
+        )
+        close.click()
+
+    def close_third(self):
+        """
+        Нажимает на крестик у третьей подписи
+        """
+        close = WebDriverWait(self.driver, 5, 0.1).until(
+            EC.element_to_be_clickable((By.XPATH, self.CROSS2))
+        )
+        close.click()

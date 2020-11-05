@@ -27,8 +27,8 @@ class DeletionTest(unittest.TestCase):
         # Убрать лишние подписи
         self.settings.clear_signatures()
 
-        assert not general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertFalse(general.second_signature_exists(), "Вторая подпись существует")
+        self.assertFalse(general.third_signature_exists(), "Третья подпись существует")
 
         self.settings.create_signature(self.NORMAL0_STRING, False)
         self.settings.create_signature(self.NORMAL1_STRING, False)
@@ -42,18 +42,18 @@ class DeletionTest(unittest.TestCase):
         """
         general = self.settings.general()
 
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
-        assert general.third_signature_name() == self.NORMAL1_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.third_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
 
         self.settings.delete_second_signature()
 
-        assert general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertFalse(general.third_signature_exists(), "Третья подпись существует")
 
-        assert general.second_signature_name() == self.NORMAL1_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
 
     def test_deletion2(self):
         """
@@ -61,32 +61,34 @@ class DeletionTest(unittest.TestCase):
         """
         general = self.settings.general()
 
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
-        assert general.third_signature_name() == self.NORMAL1_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.third_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
 
         self.settings.delete_third_signature()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+
     def test_default_deletion(self):
         """
         Проверка возможности удалить подпись по умолчанию
         """
         general = self.settings.general()
 
-        assert general.default_signature_id() == 0
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
+        self.assertEqual(general.default_signature_id(), 0, "Некорректно выбрана подпись по умолчанию")
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
 
         general.set_second_signature_default()
-        assert general.default_signature_id() == 1
+        self.assertEqual(general.default_signature_id(), 1, "Некорректно выбрана подпись по умолчанию")
 
         self.settings.delete_second_signature()
 
-        assert not general.third_signature_exists()
-        assert general.default_signature_id() == 0 or general.default_signature_id() == 1
+        self.assertFalse(general.third_signature_exists(), "Третья подпись существует")
+        self.assertIn(general.default_signature_id(), [0, 1], "Некорректно выбрана подпись по умолчанию")
+        # assert general.default_signature_id() == 0 or general.default_signature_id() == 1
 
     def test_default_deletion2(self):
         """
@@ -94,17 +96,20 @@ class DeletionTest(unittest.TestCase):
         """
         general = self.settings.general()
 
-        assert general.default_signature_id() == 0
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
+        self.assertEqual(general.default_signature_id(), 0, "Некорректно выбрана подпись по умолчанию")
+        # assert general.default_signature_id() == 0
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
 
         general.set_third_signature_default()
-        assert general.default_signature_id() == 2
+        self.assertEqual(general.default_signature_id(), 2, "Некорректно выбрана подпись по умолчанию")
+        # assert general.default_signature_id() == 2
 
         self.settings.delete_third_signature()
 
-        assert not general.third_signature_exists()
-        assert general.default_signature_id() == 0 or general.default_signature_id() == 1
+        self.assertFalse(general.third_signature_exists(), "Третья подпись существует")
+        self.assertIn(general.default_signature_id(), [0, 1], "Некорректно выбрана подпись по умолчанию")
+        # assert general.default_signature_id() == 0 or general.default_signature_id() == 1
 
     def test_cancel_deletion(self):
         """
@@ -113,20 +118,42 @@ class DeletionTest(unittest.TestCase):
         general = self.settings.general()
         deletion = self.settings.deletion()
 
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
 
         general.remove_second_signature()
         deletion.decline_removing_second()
 
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
 
         general.remove_third_signature()
         deletion.decline_removing_third()
 
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
+
+    def test_cancel_deletion2(self):
+        """
+        Проверка возможности отменить удаление подписи
+        """
+        general = self.settings.general()
+        deletion = self.settings.deletion()
+
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
+
+        general.remove_second_signature()
+        deletion.cancel_removing_second()
+
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
+
+        general.remove_third_signature()
+        deletion.cancel_removing_third()
+
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
 
     def test_cancel_deletion_default(self):
         """
@@ -135,24 +162,24 @@ class DeletionTest(unittest.TestCase):
         general = self.settings.general()
         deletion = self.settings.deletion()
 
-        assert general.default_signature_id() == 0
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
+        self.assertEqual(general.default_signature_id(), 0, "Некорректно выбрана подпись по умолчанию")
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
 
         general.set_second_signature_default()
-        assert general.default_signature_id() == 1
+        self.assertEqual(general.default_signature_id(), 1, "Некорректно выбрана подпись по умолчанию")
 
         general.remove_second_signature()
         deletion.decline_removing_second()
 
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
-        assert general.default_signature_id() == 1
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
+        self.assertEqual(general.default_signature_id(), 1, "Некорректно выбрана подпись по умолчанию")
 
         general.set_third_signature_default()
         general.remove_third_signature()
         deletion.decline_removing_third()
 
-        assert general.second_signature_exists()
-        assert general.third_signature_exists()
-        assert general.default_signature_id() == 2
+        self.assertTrue(general.second_signature_exists(), "Вторая подпись не существует")
+        self.assertTrue(general.third_signature_exists(), "Третья подпись не существует")
+        self.assertEqual(general.default_signature_id(), 2, "Некорректно выбрана подпись по умолчанию")
