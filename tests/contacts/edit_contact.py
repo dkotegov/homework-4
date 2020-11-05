@@ -48,7 +48,6 @@ class EditContactTest(unittest.TestCase):
         }
 
         self.page.create_contact(**self.dmitry_contact)
-
         self.invalid_emails = [
             "это_имейл@mail.ru".decode('utf-8'),
             "email@email",

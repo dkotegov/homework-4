@@ -11,6 +11,7 @@ from tests.signatures.deletion_test import DeletionTest
 from tests.other.groups_test import GroupsTest
 from tests.other.features_test import FeaturesTest
 from tests.other.import_export_test import ImportExportTest
+from tests.contacts.favorites_test import FavoritesTest
 import sys
 
 
@@ -24,7 +25,7 @@ if __name__ == '__main__':
         # unittest.makeSuite(ImportExportTest),
         # unittest.makeSuite(AddContactTest),
         unittest.makeSuite(EditContactTest),
-        # unittest.makeSuite(DeleteContactsTest)
+        # unittest.makeSuite(FavoritesTest),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

@@ -27,7 +27,6 @@ class ContactEditPage(Page):
         self.contact_form.click_edit_contact()
 
         self.contact_form.fill_form(**kwargs)
-
         self.contact_form.click_save()
 
     def fill_form_and_save(self, **kwargs):
