@@ -79,6 +79,9 @@ class ProfilePageTest(unittest.TestCase):
         self.assertNotEqual(old_link, new_link)
 
         self.profile_page.change_avatar(os.path.abspath('files/ava2.jpg'))
+        WebDriverWait(self.driver, 5).until(
+            lambda d: self.profile_page.profile_form.get_avatar_link() != new_link
+        )
 
     def test_change_invalid_format_avatar(self):
         old_link = self.profile_page.profile_form.get_avatar_link()

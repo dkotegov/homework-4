@@ -55,8 +55,9 @@ class BoardsPageTest(unittest.TestCase):
         create_board_form.set_board_title(board_name)
         create_board_form.close()
 
-        with self.assertRaises(TimeoutException):
+        self.assertIsNone(
             self.boards_page.boards_list.get_board(board_name)
+        )
 
     def test_create_template_week_plan_board(self):
         board_templates = BoardTemplates(self.driver)
