@@ -75,7 +75,7 @@ class MainPage(DefaultPage):
                     time.sleep(0.5)
                     break
             if prev_length == len(self.get_todos()):
-                test.fail('Deletion failed')
+                test.fail('Deletion failed but this is a real bug of todo.mail.ru')
             else:
                 prev_length = len(self.get_todos())
 
