@@ -17,14 +17,15 @@ class ColumnsList(Component):
         self.create_column_form.wait_for_closed()
 
     def get_column_by_title(self, title: str) -> [Column, None]:
-        columns = self.driver.find_elements_by_xpath(Column.CONTAINER)
+        column_titles = self.driver.find_elements_by_xpath(Column.TITLE_INPUT)
 
         column_id = None
-        for i in range(len(columns)):
-            raw_column = columns[i]
-            column_title = raw_column.find_element_by_xpath(Column.TITLE_INPUT).get_attribute('value')
+        for i in range(len(column_titles)):
+            title_element = column_titles[i]
+            column_title = title_element.get_attribute('value')
+
             if column_title == title:
-                column_id = int(raw_column.get_attribute('data-column-id'))
+                column_id = int(title_element.get_attribute('data-column-id'))
                 break
 
         if column_id is None:

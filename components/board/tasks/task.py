@@ -13,9 +13,13 @@ class Task(Component):
         self.column_id = column_id
         self.task_id = task_id
 
-        self.CONTAINER = '//div[contains(@class, "js-taskSettings") ' \
-                         f'and @data-column-id="{column_id}"' \
-                         f'and @data-task-id="{task_id}"]'
+        self.CONTAINER = Task.create_xpath(column_id, task_id)
+
+    @staticmethod
+    def create_xpath(column_id: int, task_id: int) -> str:
+        return '//div[contains(@class, "js-taskSettings") ' \
+               f'and @data-column-id="{column_id}"' \
+               f'and @data-task-id="{task_id}"]'
 
     def get_title(self) -> str:
         return self.driver.find_element_by_xpath(self.CONTAINER).find_element_by_xpath(self.TITLE).text

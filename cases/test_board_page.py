@@ -2,8 +2,11 @@ import os
 import unittest
 
 from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
 
+from components.board.tasks.task import Task
 from pages.board_page import BoardPage
 from pages.boards_page import BoardsPage
 from pages.login_page import LoginPage
@@ -12,6 +15,7 @@ from pages.login_page import LoginPage
 class BoardPageTest(unittest.TestCase):
     BOARD_TITLE = 'TEST BOARD NAME'
     COLUMN_TITLE = 'TEST COLUMN'
+    COLUMN_TITLE_2 = 'TEST COLUMN 2'
     TASK_TITLE = 'TEST_TASK'
 
     def setUp(self):
@@ -60,3 +64,26 @@ class BoardPageTest(unittest.TestCase):
 
         self.assertIsNotNone(task)
         self.assertEqual(self.TASK_TITLE, task.get_title())
+
+    def test_move_task(self):
+        self.board_page.columns_list.create_column(self.COLUMN_TITLE)
+        column_from = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
+
+        self.board_page.columns_list.create_column(self.COLUMN_TITLE_2)
+        column_to = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE_2)
+
+        column_from.task_list.create_task(self.TASK_TITLE)
+        task = column_from.task_list.get_task_by_title(self.TASK_TITLE)
+
+        task_element = self.driver.find_element_by_xpath(task.CONTAINER)
+        column_to_element = self.driver.find_element_by_xpath(column_to.CONTAINER)
+        ActionChains(self.driver).drag_and_drop(task_element, column_to_element).perform()
+
+        WebDriverWait(self.driver, 10).until(
+            lambda d: d.find_element_by_xpath(Task.create_xpath(column_to.column_id, task.task_id))
+        )
+
+        moved_task = column_to.task_list.get_task_by_title(self.TASK_TITLE)
+
+        self.assertIsNotNone(moved_task)
+        self.assertEqual(self.TASK_TITLE, moved_task.get_title())
