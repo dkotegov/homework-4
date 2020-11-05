@@ -3,10 +3,10 @@
 # Запуск
 
 ```
-$ ./scripts/grid.sh
+$ ./grid.sh
 ```
 ```
-$ ./scripts/node.sh
+$ ./node.sh
 ```
 ```
 $ export BROWSER=<имя браузера> ("CHROME", "FIREFOX")
