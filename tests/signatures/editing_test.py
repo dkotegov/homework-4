@@ -27,8 +27,8 @@ class EditingTest(unittest.TestCase):
         # Убрать лишние подписи
         self.settings.clear_signatures()
 
-        assert not general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertFalse(general.second_signature_exists(), "Вторая подпись существует")
+        self.assertFalse(general.third_signature_exists(), "Третья подпись существует")
 
         self.settings.create_signature(self.NORMAL0_STRING, False)
         self.settings.create_signature(self.NORMAL1_STRING, False)
@@ -42,14 +42,14 @@ class EditingTest(unittest.TestCase):
         """
         general = self.settings.general()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
-        assert general.third_signature_name() == self.NORMAL1_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.third_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
 
         self.settings.edit_second_signature(self.NORMAL1_STRING, False)
         self.settings.edit_third_signature(self.NORMAL0_STRING, False)
 
-        assert general.second_signature_name() == self.NORMAL1_STRING
-        assert general.third_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.third_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
     def test_unicode_editing(self):
         """
@@ -57,11 +57,11 @@ class EditingTest(unittest.TestCase):
         """
         general = self.settings.general()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
         self.settings.edit_second_signature(self.UNICODE_STRING, False)
 
-        assert general.second_signature_name() == self.UNICODE_STRING
+        self.assertEqual(general.second_signature_name(), self.UNICODE_STRING, "Имена отправителей не совпадают")
 
     def test_empty_editing(self):
         """
@@ -70,7 +70,7 @@ class EditingTest(unittest.TestCase):
         general = self.settings.general()
         editing = self.settings.editing()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
         general.edit_second_signature()
         editing.clear_second_sender_name()
@@ -78,11 +78,11 @@ class EditingTest(unittest.TestCase):
         editing.set_second_sender_name(self.SPACE_STRING)
         editing.save_second()
 
-        assert editing.second_empty_warning_appeared()
+        self.assertTrue(editing.second_empty_warning_appeared(), "Уведомление об ошибке не появилось")
 
         editing.abort_second()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
     def test_forbidden_editing(self):
         """
@@ -91,18 +91,18 @@ class EditingTest(unittest.TestCase):
         general = self.settings.general()
         editing = self.settings.editing()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
         general.edit_second_signature()
         editing.clear_second_sender_name()
         editing.set_second_sender_name(self.FORBIDDEN_STRING)
         editing.save_second()
 
-        assert editing.second_forbidden_warning_appeared()
+        self.assertTrue(editing.second_forbidden_warning_appeared(), "Уведомление не появилось")
 
         editing.abort_second()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
     def test_too_long_editing(self):
         """
@@ -111,7 +111,7 @@ class EditingTest(unittest.TestCase):
         general = self.settings.general()
         editing = self.settings.editing()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
         general.edit_second_signature()
         editing.clear_second_sender_name()
@@ -119,11 +119,11 @@ class EditingTest(unittest.TestCase):
         editing.set_second_sender_name(self.TOO_LONG_STRING)
         editing.save_second()
 
-        assert editing.second_too_long_warning_appeared()
+        self.assertTrue(editing.second_too_long_warning_appeared(), "Уведомление не появилось")
 
         editing.abort_second()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
     def test_cancel_editing(self):
         """
@@ -132,7 +132,7 @@ class EditingTest(unittest.TestCase):
         general = self.settings.general()
         editing = self.settings.editing()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
         general.edit_second_signature()
         editing.clear_second_sender_name()
@@ -140,7 +140,24 @@ class EditingTest(unittest.TestCase):
         editing.set_second_sender_name(self.NORMAL1_STRING)
         editing.abort_second()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+
+    def test_cancel_editing2(self):
+        """
+        Отмена валидных изменений поля "имя отправителя"
+        """
+        general = self.settings.general()
+        editing = self.settings.editing()
+
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+
+        general.edit_second_signature()
+        editing.clear_second_sender_name()
+
+        editing.set_second_sender_name(self.NORMAL1_STRING)
+        editing.close_second()
+
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
     def test_default_editing(self):
         """
@@ -148,17 +165,17 @@ class EditingTest(unittest.TestCase):
         """
         general = self.settings.general()
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
-        assert general.third_signature_name() == self.NORMAL1_STRING
-        assert general.default_signature_id() == 0
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.third_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.default_signature_id(), 0, "Некорректно выбрана подпись по умолчанию")
 
         self.settings.edit_second_signature(self.NORMAL0_STRING, True)
-        assert general.second_signature_name() == self.NORMAL0_STRING
-        assert general.default_signature_id() == 1
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.default_signature_id(), 1, "Некорректно выбрана подпись по умолчанию")
 
         self.settings.edit_third_signature(self.NORMAL1_STRING, True)
-        assert general.third_signature_name() == self.NORMAL1_STRING
-        assert general.default_signature_id() == 2
+        self.assertEqual(general.third_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.default_signature_id(), 2, "Некорректно выбрана подпись по умолчанию")
 
     def test_default_editing2(self):
         """
@@ -166,10 +183,10 @@ class EditingTest(unittest.TestCase):
         """
         general = self.settings.general()
 
-        assert general.default_signature_id() == 0
+        self.assertEqual(general.default_signature_id(), 0, "Некорректно выбрана подпись по умолчанию")
 
         general.set_second_signature_default()
-        assert general.default_signature_id() == 1
+        self.assertEqual(general.default_signature_id(), 1, "Некорректно выбрана подпись по умолчанию")
 
         general.set_third_signature_default()
-        assert general.default_signature_id() == 2
+        self.assertEqual(general.default_signature_id(), 2, "Некорректно выбрана подпись по умолчанию")

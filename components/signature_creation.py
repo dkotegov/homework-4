@@ -22,6 +22,8 @@ class SignatureCreationForm(Component):
     TOO_LONG_WARNING = POPUP + '//small[text()="Имя отправителя должно быть короче 100 символов"] '
     FORBIDDEN_WARNING = POPUP + '//small[starts-with(text(),"Имя отправителя")]'
 
+    CROSS = '//div[@data-test-id="cross"]'
+
     def set_sender_name(self, name):
         """
         Вводит имя отправителя (Не очищает раннее введенные данные)
@@ -123,3 +125,9 @@ class SignatureCreationForm(Component):
             return True
         except NoSuchElementException:
             return False
+
+    def close(self):
+        """
+        Нажимает на кнопку крестика
+        """
+        self.driver.find_element_by_xpath(self.CROSS).click()

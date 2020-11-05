@@ -19,6 +19,7 @@ class GroupsFormLocators:
         self.create_group_error = '//p[@data-test-id="group-edit-error"]'
         self.create_group_save_btn = '//button[@data-test-id="addressbook-notification-popup-submit"]'
         self.create_group_cancel_btn = '//button[@data-test-id="addressbook-notification-popup-cancel"]'
+        self.create_group_cross_btn = '//div[@data-test-id="cross"]'
 
         self.group_blocks = '//a[contains(@data-test-id, "addressbook-group-id")]'
         self.group_block = '//a[@data-test-id="addressbook-group-id:{}"]'
@@ -73,6 +74,11 @@ class GroupsForm(Component):
     def click_cancel(self):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_group_cancel_btn)))
+        element.click()
+
+    def click_cross(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_group_cross_btn)))
         element.click()
 
     def group_name_exists(self, id, name):

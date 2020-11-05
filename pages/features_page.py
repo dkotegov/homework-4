@@ -77,3 +77,6 @@ class FeaturesPage(Page):
 
     def export_popup_exists(self):
         return self.features.export_popup_exists()
+
+    def get_attendee_emails(self):
+        return self.features.get_attendee_emails()

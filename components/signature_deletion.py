@@ -18,6 +18,10 @@ class SignatureDeletionForm(Component):
     DECLINEREMOVAL1 = POPUP1 + '//button[@data-test-id="cancel"]'
     DECLINEREMOVAL2 = POPUP2 + '//button[@data-test-id="cancel"]'
 
+    CROSS0 = POPUP0 + '//div[@data-test-id="cross"]'
+    CROSS1 = POPUP1 + '//div[@data-test-id="cross"]'
+    CROSS2 = POPUP2 + '//div[@data-test-id="cross"]'
+
     def approve_removing_first(self):
         """
         Подтверждает удаление первой подписи
@@ -75,6 +79,36 @@ class SignatureDeletionForm(Component):
         """
         b = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.DECLINEREMOVAL2)
+        )
+        b.click()
+
+    def cancel_removing_first(self):
+        """
+        Нажимает на крестик при удалении первой подписи
+        :return: None
+        """
+        b = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.CROSS0)
+        )
+        b.click()
+
+    def cancel_removing_second(self):
+        """
+        Нажимает на крестик при удалении второй подписи
+        :return: None
+        """
+        b = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.CROSS1)
+        )
+        b.click()
+
+    def cancel_removing_third(self):
+        """
+        Нажимает на крестик при удалении третьей подписи
+        :return: None
+        """
+        b = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.CROSS2)
         )
         b.click()
 

@@ -27,8 +27,8 @@ class CreationTest(unittest.TestCase):
         # Убрать лишние подписи
         self.settings.clear_signatures()
 
-        assert not general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertFalse(general.second_signature_exists(), "Вторая подпись существует")
+        self.assertFalse(general.third_signature_exists(), "Третья подпись существует")
 
     def tearDown(self):
         self.driver.quit()
@@ -42,8 +42,8 @@ class CreationTest(unittest.TestCase):
         self.settings.create_signature(self.NORMAL0_STRING, False)
         self.settings.create_signature(self.NORMAL1_STRING, False)
 
-        assert general.second_signature_name() == self.NORMAL0_STRING
-        assert general.third_signature_name() == self.NORMAL1_STRING
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
+        self.assertEqual(general.third_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
 
     def test_unicode_creation(self):
         """
@@ -53,7 +53,7 @@ class CreationTest(unittest.TestCase):
 
         self.settings.create_signature(self.UNICODE_STRING, False)
 
-        assert general.second_signature_name() == self.UNICODE_STRING
+        self.assertEqual(general.second_signature_name(), self.UNICODE_STRING, "Имена отправителей не совпадают")
 
     def test_empty_creation(self):
         """
@@ -65,14 +65,14 @@ class CreationTest(unittest.TestCase):
         general.create_signature()
         creation.set_sender_name(self.EMPTY_STRING)
         creation.create()
-        assert creation.empty_warning_appeared()
+        self.assertTrue(creation.empty_warning_appeared(), "Уведомление об ошибке не появилось")
 
         assert creation.is_open()
 
         creation.abort()
 
-        assert not general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertFalse(general.second_signature_exists(), "Существует лишняя подпись")
+        self.assertFalse(general.third_signature_exists(), "Существует лишняя подпись")
 
     def test_space_creation(self):
         """
@@ -85,13 +85,13 @@ class CreationTest(unittest.TestCase):
         creation.set_sender_name(self.SPACE_STRING)
         creation.create()
 
-        assert creation.empty_warning_appeared()
-        assert creation.is_open()
+        self.assertTrue(creation.empty_warning_appeared(), "Уведомление об ошибке не появилось")
+        self.assertTrue(creation.is_open(), "Не открыто окно создания")
 
         creation.abort()
 
-        assert not general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertFalse(general.second_signature_exists(), "Существует лишняя подпись")
+        self.assertFalse(general.third_signature_exists(), "Существует лишняя подпись")
 
     def test_forbidden_creation(self):
         """
@@ -103,14 +103,13 @@ class CreationTest(unittest.TestCase):
         general.create_signature()
         creation.set_sender_name(self.FORBIDDEN_STRING)
         creation.create()
-        assert creation.forbidden_warning_appeared()
-
-        assert creation.is_open()
+        self.assertTrue(creation.forbidden_warning_appeared(), "Уведомление об ошибке не появилось")
+        self.assertTrue(creation.is_open(), "Не открыто окно создания")
 
         creation.abort()
 
-        assert not general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertFalse(general.second_signature_exists(), "Существует лишняя подпись")
+        self.assertFalse(general.third_signature_exists(), "Существует лишняя подпись")
 
     def test_abort_creation(self):
         """
@@ -123,8 +122,22 @@ class CreationTest(unittest.TestCase):
         creation.set_sender_name(self.NORMAL0_STRING)
         creation.abort()
 
-        assert not general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertFalse(general.second_signature_exists(), "Существует лишняя подпись")
+        self.assertFalse(general.third_signature_exists(), "Существует лишняя подпись")
+
+    def test_cancel_creation(self):
+        """
+        Отмена создания валидной подписи
+        """
+        general = self.settings.general()
+        creation = self.settings.creation()
+
+        general.create_signature()
+        creation.set_sender_name(self.NORMAL0_STRING)
+        creation.close()
+
+        self.assertFalse(general.second_signature_exists(), "Существует лишняя подпись")
+        self.assertFalse(general.third_signature_exists(), "Существует лишняя подпись")
 
     def test_too_long_creation(self):
         """
@@ -137,13 +150,13 @@ class CreationTest(unittest.TestCase):
         creation.set_sender_name(self.TOO_LONG_STRING)
         creation.create()
 
-        assert creation.too_long_warning_appeared()
-        assert creation.is_open()
+        self.assertTrue(creation.too_long_warning_appeared(), "Уведомление об ошибке не появилось")
+        self.assertTrue(creation.is_open(), "Не открыто окно создания")
 
         creation.abort()
 
-        assert not general.second_signature_exists()
-        assert not general.third_signature_exists()
+        self.assertFalse(general.second_signature_exists(), "Существует лишняя подпись")
+        self.assertFalse(general.third_signature_exists(), "Существует лишняя подпись")
 
     def test_default_creation(self):
         """
@@ -151,28 +164,27 @@ class CreationTest(unittest.TestCase):
         """
         general = self.settings.general()
 
-        assert general.default_signature_id() == 0
+        self.assertEqual(general.default_signature_id(), 0, "Некорректно выбрана подпись по умолчанию")
 
         self.settings.create_signature(self.NORMAL0_STRING, True)
 
-        assert general.default_signature_id() == 1
-        assert general.second_signature_name() == self.NORMAL0_STRING
+        self.assertEqual(general.default_signature_id(), 1, "Некорректно выбрана подпись по умолчанию")
+        self.assertEqual(general.second_signature_name(), self.NORMAL0_STRING, "Имена отправителей не совпадают")
 
         self.settings.create_signature(self.NORMAL1_STRING, True)
 
-        assert general.default_signature_id() == 2
-        assert general.third_signature_name() == self.NORMAL1_STRING
-
+        self.assertEqual(general.default_signature_id(), 2, "Некорректно выбрана подпись по умолчанию")
+        self.assertEqual(general.third_signature_name(), self.NORMAL1_STRING, "Имена отправителей не совпадают")
     def test_no_button(self):
         """
         Отсутствие кнопки создания при наличии трех подписей
         """
         general = self.settings.general()
 
-        assert general.can_create_signature()
+        self.assertTrue(general.can_create_signature(), "Невозможно создать подпись")
 
         self.settings.create_signature(self.NORMAL0_STRING, False)
-        assert general.can_create_signature()
+        self.assertTrue(general.can_create_signature(), "Невозможно создать подпись")
 
         self.settings.create_signature(self.NORMAL1_STRING, False)
-        assert not general.can_create_signature()
+        self.assertFalse(general.can_create_signature(), "Возможно создать подпись")
