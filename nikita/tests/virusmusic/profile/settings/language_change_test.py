@@ -14,7 +14,6 @@ class LanguageChangeTest(Test):
         WebDriverWait(self.driver, 10, 0.1).until(lambda driver:
             page.get_language() == self.LANGUAGE
         )
-        pass
 
     def tearDown(self):
         page = SettingsPage(self.driver)
