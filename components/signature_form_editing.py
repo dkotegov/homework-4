@@ -441,7 +441,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_tab_font_helvetica(self):
         """
-        Проверка клика на helvetica
+        Клика на шрифт helvetica
         """
 
         button = WebDriverWait(self.driver, 5, 0.1).until(
@@ -455,7 +455,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_tab_style(self):
         """
-        Проверка клика на font
+        Клик на font
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_STYLE_TAB)
@@ -468,7 +468,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_tab_style_normal(self):
         """
-        Клика на normal
+        Клик на стиль normal
         """
 
         button = WebDriverWait(self.driver, 5, 0.1).until(
@@ -482,7 +482,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_button_color(self):
         """
-        Проверка клика на color
+        Клика на color для перехода на табы
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_COLOR)
@@ -495,7 +495,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_button_color_tab_color(self):
         """
-        Проверка клика на цвет
+        Клика на таб цвета
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_COLOR_TAB)
@@ -508,7 +508,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_button_color_tab_background(self):
         """
-        Проверка клика на фон
+        Клика на таб фона
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_BACKGROUND_TAB)
@@ -521,7 +521,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_color_tab_orange_color(self):
         """
-        Проверка клика на фон
+        Клик на оранджевый цвет для текста
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_ORANGE_COLOR)
@@ -534,7 +534,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_color_tab_pink_color(self):
         """
-        Проверка клика на фон
+         Клик на розовый цвет для фона
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_PINK_COLOR)

@@ -12,14 +12,10 @@ import time
 class FormEditingTest(unittest.TestCase):
     NORMAL0_STRING = 'Sergei Petrenko'
     NORMAL1_STRING = u'Сергей Петренко'
-
-    UNICODE_STRING = u'åΩ!2#%_=+±§'  # эмодзи не поддерживаются селениумом, инжектить js – геморройно
-    EMPTY_STRING = ''
-    SPACE_STRING = ' '
-
-    FORBIDDEN_STRING = '<>:"'
-
     TOO_LONG_STRING = 'x' * 10250
+    README_PATH = os.getcwd() + "/files/README.md"
+    FAIL_PATH = os.getcwd() + "/files/fail.png"
+    CORRECT_PATH = os.getcwd() + "/files/indus.jpeg"
 
     def setUp(self):
         default_setup(self)
@@ -39,9 +35,9 @@ class FormEditingTest(unittest.TestCase):
         Загрузка файлов
         """
         editing = self.settings.deep_editing()
-        assert editing.upload_inline_input_no_image_error_check(os.getcwd() + "/files/README.md")
-        assert editing.upload_inline_input_no_image_error_check(os.getcwd() + "/files/fail.png")
-        assert not editing.upload_inline_input_no_image_error_check(os.getcwd() + "/files/indus.jpeg")
+        assert editing.upload_inline_input_no_image_error_check(self.README_PATH)
+        assert editing.upload_inline_input_no_image_error_check(self.FAIL_PATH)
+        assert not editing.upload_inline_input_no_image_error_check(self.CORRECT_PATH)
 
     def test_toolbar_buttons_onclick_bold(self):
         """
@@ -190,26 +186,6 @@ class FormEditingTest(unittest.TestCase):
         assert editing.click_button_color()
         assert editing.click_button_color_tab_background()
 
-    # def test_toolbar_color_tab_font_color(self):
-    #     """
-    #        Проверки выбора цвета тектса
-    #     """
-    #     editing = self.settings.deep_editing()
-    #     assert editing.click_button_color()
-    #     assert editing.click_button_color_tab_color()
-    #     assert editing.click_color_tab_orange_color()
-    #     assert editing.get_color_of_text() == 'rgb(243, 144, 29)'
-    #
-    # def test_toolbar_color_tab_background_color(self):
-    #     """
-    #        Проверки выбора цвета фона
-    #     """
-    #     editing = self.settings.deep_editing()
-    #     assert editing.click_button_color()
-    #     assert editing.click_button_color_tab_background()
-    #     assert editing.click_color_tab_pink_color()
-    #     assert editing.get_color_of_text() == 'rgb(255, 0, 255)'
-
     # Добавление ссылок
 
     def test_toolbar_add_link(self):
@@ -240,24 +216,5 @@ class FormEditingTest(unittest.TestCase):
         assert not editing.toolbar_link_check_no_warning()
         assert editing.click_toolbar_link_cancel()
 
-
-    # def test_textarea_set_small_text(self):
-    #     """
-    #        Проверки выбора цвета тектса
-    #     """
-    #     editing = self.settings.deep_editing()
-    #     assert editing.set_text_to_textarea('QA')
-    #     time.sleep(2)
-    #     assert editing.save_signature()
-    #     time.sleep(2)
-    #
-    # def test_textarea_set_big_text(self):
-    #     """
-    #        Проверки выбора цвета тектса
-    #     """
-    #     editing = self.settings.deep_editing()
-    #     assert editing.set_text_to_textarea(self.TOO_LONG_STRING)
-    #     assert editing.save_signature()
-    #     time.sleep(5)
 
 
