@@ -21,7 +21,7 @@ class AddContactTest(unittest.TestCase):
             "lastname": "Болдин".decode('utf-8'),
             "nick": "stalin",
             "company": "Mail.ru Group",
-            "email": "d.boldin@corp.mail.ru",
+            "email": ["d.boldin@corp.mail.ru"],
             "phone": "какой-то телефон(проверяем что нет валидации)".decode('utf-8'),
             "comment": "Это комментарий".decode('utf-8'),
             "job_title": "Стажер".decode('utf-8'),
@@ -34,6 +34,10 @@ class AddContactTest(unittest.TestCase):
             },
         }
 
+        self.contact_with_many_emails = {
+            "email": ["d.boldin@corp.mail.ru", "test@mail.ru"],
+        }
+
         self.invalid_emails = [
             "это_имейл@mail.ru".decode('utf-8'),
             "email@email",
@@ -44,7 +48,6 @@ class AddContactTest(unittest.TestCase):
         self.page.open()
 
         self.page.delete_all_contacts()
-        time.sleep(0.01)
         self.driver.quit()
 
     def test_adding_empty_contact(self):
@@ -60,29 +63,9 @@ class AddContactTest(unittest.TestCase):
          Ошибка при вводе невалидной почты
         """
         for email in self.invalid_emails:
-            self.page.create_contact(email=email)
+            self.page.create_contact(email=[email])
             self.assertTrue(self.page.has_validation_errors())
             self.page.return_back()
-
-    # def test_time_from_future(self):
-    #     """
-    #     Ошибка при вводе даты из будущего
-    #     """
-    #     today = datetime.today()
-    #
-    #     # тогда дату из бущуего поставить невозможно
-    #     if today.day == 31 and today.month == 12:
-    #         pass
-    #
-    #     future_contact = self.dmitry_contact
-    #     future_contact["date_of_birth"] = {
-    #         "day": 31,
-    #         "month": "декабрь".decode('utf-8'),
-    #         "year": today.year,
-    #     }
-    #
-    #     self.page.create_contact(**future_contact)
-    #     self.assertTrue(self.page.has_validation_errors())
 
     def test_contact_adding(self):
         """
@@ -91,8 +74,7 @@ class AddContactTest(unittest.TestCase):
 
         self.page.create_contact(**self.dmitry_contact)
         self.page.open()
-
-        self.assertTrue(self.page.contact_exists(self.dmitry_contact['email']))
+        self.assertTrue(self.page.contact_exists(self.dmitry_contact['email'][0]))
 
     def test_only_name(self):
         """
@@ -128,3 +110,10 @@ class AddContactTest(unittest.TestCase):
         self.page.create_contact(nick="ђћ∆".decode("utf-8"))
         self.assertFalse(self.page.has_any_error())
 
+    def test_two_emails(self):
+        """
+        Проверка создания контакта с двумя email'ами
+        """
+        self.page.create_contact(**self.contact_with_many_emails)
+
+        self.assertFalse(self.page.has_any_error())

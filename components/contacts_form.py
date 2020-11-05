@@ -8,8 +8,6 @@ from selenium.common.exceptions import TimeoutException, StaleElementReferenceEx
 
 
 class ContactsFormLocators:
-    # ToDo add gender and date of birth
-
     def __init__(self):
         self.create_contact_btn = '//button[@data-test-id="add-contact"]'
         self.contact_block = '//div[contains(@data-test-id, "{}")]/a'
@@ -26,7 +24,7 @@ class ContactsFormLocators:
 
         self.create_contact_company_input = '//input[@name="contacts[0].company"]'
 
-        self.create_contact_email_input = '//input[@name="contacts[0].emails[0]"]'
+        self.create_contact_email_input = '//input[@name="contacts[0].emails[{}]"]'
 
         self.create_contact_phone_input = '//input[@name="contacts[0].phones[0].phone"]'
 
@@ -54,6 +52,8 @@ class ContactsFormLocators:
 
         self.edit_contact_error = '//small[@data-test-id="edit-contact-error"]'
         self.validation_invalid = '//div[@data-test-id="error-footer-text"]'
+
+        self.add_new_email_button = '//span[@data-test-id="add-new-field"]'
 
 
 class ContactsForm(Component):
@@ -94,11 +94,18 @@ class ContactsForm(Component):
         element.clear()
         element.send_keys(text)
 
-    def input_email(self, text):
+    def input_email(self, text, email_num=0):
         element = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_email_input)))
+            EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_email_input.format(email_num))))
         element.clear()
         element.send_keys(text)
+
+    def input_emails(self, emails):
+        for i, email in enumerate(emails):
+            element = self.wait.until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.add_new_email_button)))
+            element.click()
+            self.input_email(email, i)
 
     def input_phone(self, text):
         element = self.wait.until(
@@ -170,7 +177,10 @@ class ContactsForm(Component):
             elif key == "company":
                 self.input_company(value)
             elif key == "email":
-                self.input_email(value)
+                if len(value) == 1:
+                    self.input_email(value)
+                else:
+                    self.input_emails(value)
             elif key == "phone":
                 self.input_phone(value)
             elif key == "comment":
@@ -181,9 +191,6 @@ class ContactsForm(Component):
                 self.input_boss(value)
             elif key == "address":
                 self.input_address(value)
-            elif key == "date_of_birth":
-                # ToDo add input
-                pass
             else:
                 raise ValueError("Unexpected key: " + key)
 
@@ -264,15 +271,18 @@ class ContactsForm(Component):
     def contacts_exists(self, emails):
         for email in emails:
             try:
-                WebDriverWait(self.driver, 2).until(
+                WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, self.locators.contact_block.format(email))))
             except TimeoutException:
                 return False
         return True
 
+    def contact_exists_in_source(self, email):
+        return email in self.driver.page_source
+
     def check_edit_error(self):
         try:
-            WebDriverWait(self.driver, 1).until(
+            WebDriverWait(self.driver, 5).until(
                 EC.presence_of_element_located((By.XPATH, self.locators.edit_contact_error)))
         except TimeoutException:
             return False
@@ -280,7 +290,7 @@ class ContactsForm(Component):
 
     def check_validation_error(self):
         try:
-            WebDriverWait(self.driver, 1).until(
+            WebDriverWait(self.driver, 5).until(
                 EC.presence_of_element_located((By.XPATH, self.locators.validation_invalid)))
         except TimeoutException:
             return False

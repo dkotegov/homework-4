@@ -18,7 +18,7 @@ class AuthForm(Component):
         Вводит логин в окне авторизации
         :param login: логин пользователя
         """
-        username = WebDriverWait(self.driver, 10, 0.1).until(
+        username = WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_element_located((By.XPATH, self.LOGIN))
         )
         username.send_keys(login)
@@ -27,7 +27,7 @@ class AuthForm(Component):
         """
         Открывает окно ввода пароля
         """
-        next_button = WebDriverWait(self.driver, 10, 0.1).until(
+        next_button = WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_element_located((By.XPATH, self.NEXT))
         )
         next_button.click()
@@ -37,7 +37,7 @@ class AuthForm(Component):
         Вводит пароль в окне авторизации
         :param pwd: пароль пользователя
         """
-        password = WebDriverWait(self.driver, 10, 0.1).until(
+        password = WebDriverWait(self.driver, 30, 0.1).until(
             EC.element_to_be_clickable((By.XPATH, self.PASSWORD))
         )
         password.send_keys(pwd)
@@ -46,7 +46,7 @@ class AuthForm(Component):
         """
         Завершает авторизацию
         """
-        submit = WebDriverWait(self.driver, 10, 0.1).until(
+        submit = WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_element_located((By.XPATH, self.SUBMIT))
         )
         submit.click()
@@ -55,6 +55,6 @@ class AuthForm(Component):
         """
         Ождиает пока не откроется страница с почтой
         """
-        WebDriverWait(self.driver, 10, 0.1).until(
+        WebDriverWait(self.driver, 30, 0.1).until(
             EC.url_matches("https://e.mail.ru/inbox")
         )
