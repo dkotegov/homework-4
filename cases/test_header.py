@@ -31,24 +31,29 @@ class HeaderTest(unittest.TestCase):
 
     def test_open_profile(self):
         self.boards_page.open()
+        self.boards_page.wait_for_container()
         self.boards_page.main_header.open_profile()
 
         self.assertTrue(self.profile_page.is_open)
 
     def test_open_notifications(self):
         self.boards_page.open()
+        self.boards_page.wait_for_container()
         self.boards_page.main_header.open_notifications()
 
         self.assertTrue(self.boards_page.notifications.is_open)
 
     def test_logout(self):
         self.boards_page.open()
+        self.boards_page.wait_for_container()
+
         self.boards_page.main_header.logout()
 
         self.assertTrue(self.login_page.is_open)
 
     def test_open_boards(self):
         self.profile_page.open()
+        self.profile_page.wait_for_container()
         self.profile_page.main_header.open_boards()
 
         self.assertTrue(self.boards_page.is_open)
