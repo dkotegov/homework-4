@@ -320,7 +320,6 @@ class Share(Component):
 class PinAndCommentTest(unittest.TestCase):
     USERNAME = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
-    PINNAME = 'Testpin'
     PINURL = 'pin'
     INFOMESSAGE = 'Ок'
     COMMENTMESSAGE = 'test'
@@ -342,18 +341,13 @@ class PinAndCommentTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_move_to_pin_page(self):
-        pp = PinPage(self.driver)
-        pp.open_pin()
-
-        self.assertEqual(pp.pin.get_name_pin(), self.PINNAME)
-
     def test_reload_pin_page(self):
         pp = PinPage(self.driver)
         pp.open_pin()
+        before = pp.pin.get_name_pin()
         pp.driver.refresh()
 
-        self.assertEqual(pp.pin.get_name_pin(), self.PINNAME)
+        self.assertEqual(pp.pin.get_name_pin(), before)
 
     def test_click_on_author_name(self):
         pp = PinPage(self.driver)
