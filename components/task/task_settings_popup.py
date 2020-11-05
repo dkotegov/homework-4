@@ -29,11 +29,33 @@ class TaskSettingsPopup(Component):
         self.create_label_popup.set_label_name(name)
         self.create_label_popup.click_create_label_button()
 
+    def add_label_with_name_to_task(self, label_name):
+        assert(self.is_open)
+        self.add_label_to_task_popup.wait_for_container()
+        self.add_label_to_task_popup.click_create_new_label_button()
+
+        self.create_label_popup.wait_for_container()
+        self.create_label_popup.set_label_name(label_name)
+        self.create_label_popup.click_create_label_button()
+
+        self.add_label_to_task_popup.wait_for_container()
+        self.add_label_to_task_popup.click_label_with_provided_name(label_name)
+
     def is_label_with_provided_name_exist(self, name):
         assert(self.is_open)
         self.click_add_new_label_button()
         self.add_label_to_task_popup.wait_for_container()
         return self.add_label_to_task_popup.is_label_with_provided_name_exist(name)
+
+    def is_label_with_provided_name_bind_to_task(self, label_name):
+        assert(self.is_open)
+        label = f'//*[contains(@class, "task-label-list") and text()="{label_name}"]'
+
+        try:
+            self.driver.find_element_by_xpath(label)
+        except:
+            return False
+        return True
 
     def get_task_name(self):
         return self.driver.find_element_by_xpath(self.TASK_NAME_TEXT_FIELD).get_attribute('value')

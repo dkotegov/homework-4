@@ -86,21 +86,24 @@ class TaskSettingsPopupTest(unittest.TestCase):
         self.popup.click_add_new_label_button()
         self.popup.create_new_label_with_name(label_name)
         self.popup.close_add_labels_popup()
+        self.driver.refresh()
+        self.popup.wait_for_container()
         label_exist = self.popup.is_label_with_provided_name_exist(label_name)      
         self.assertTrue(label_exist)
 
-    # def test_add_label_to_task(self):
-    #     self.driver.get(self.url)
-    #     popup = TaskSettingsPopup(self.driver)
-    #     popup.wait_for_container()
+    def test_add_label_to_task(self):
+        label_name = 'Super-super label'
+        self.popup.click_add_new_label_button()
+        self.popup.create_new_label_with_name(label_name)
+        self.popup.close_add_labels_popup()
+        self.driver.refresh()
+        self.popup.wait_for_container()
 
-    #     label_name = 'Super-super label'
-    #     popup.click_add_new_label_button()
-    #     popup.create_new_label_with_name(label_name)
-
-    #     label_exist = popup.is_label_with_provided_name_exist(label_name)
-    #     self.assertTrue(label_exist)
-        #popup.add_label_with_name_to_task(label_name)
+        label_exist = self.popup.is_label_with_provided_name_exist(label_name)
+        self.assertTrue(label_exist)
+        self.popup.add_label_with_name_to_task(label_name)
+        label_binded = self.popup.is_label_with_provided_name_bind_to_task(label_name)
+        self.assertTrue(label_binded)
 
     # def test_delete_task(self):
     #     self.driver.get(self.url)

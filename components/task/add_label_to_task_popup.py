@@ -22,5 +22,19 @@ class AddLabelToTaskPopup(Component):
         
         return label_exist
 
+    def click_label_with_provided_name(self, label_name):
+        xpath = f'//div[contains(@class, "js-addOrRemoveLabel") and text()="{label_name}"]'
+        label_exist = True
+        try:
+            WebDriverWait(self.driver, 3, 0.1).until(
+                lambda d: self.driver.find_element_by_xpath(xpath)
+            )
+        except TimeoutException:
+            label_exist = False
+        
+        assert(label_exist)
+        self.driver.find_element_by_xpath(xpath).click()
+
+
     def close_popup(self):
         self.driver.find_element_by_xpath('//i[contains(@class, "fa-user-friends")]').click()
