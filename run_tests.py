@@ -21,7 +21,13 @@ from tests.notification.noHaveNotif import NoHaveNotif
 from tests.notification.noLoginOpenNotification import NoLoginNotif
 from tests.pin_comment_search_menu import PinAndCommentTest
 
+from romanov.cases.auth_login import AuthLoginTest
+from romanov.cases.auth_reg import AuthRegTest
+from romanov.cases.profile import ProfileTest
+from romanov.cases.settings import SettingsTest
+from romanov.cases.new_pin_desk import NewPinDeskTest
 
+from romanov.app.driver import connect
 
 
 
@@ -46,6 +52,12 @@ if __name__ == '__main__':
 
 
         unittest.makeSuite(PinAndCommentTest),
+        
+        unittest.makeSuite(AuthLoginTest),
+        unittest.makeSuite(AuthRegTest),
+        unittest.makeSuite(ProfileTest),
+        unittest.makeSuite(SettingsTest),
+        unittest.makeSuite(NewPinDeskTest),
 
     ))
     result = unittest.TextTestRunner().run(suite)
