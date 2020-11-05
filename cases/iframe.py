@@ -39,12 +39,9 @@ class IframeTest(unittest.TestCase):
 
         self.frame_page = IframeSteps(self.driver)
 
-        self.createdProj = [self.PROJ_NAME]
-
     def tearDown(self):
         self.frame_page.back_to_menu()
-        for proj in self.createdProj:
-            self.main_page.delete_proj(proj)
+        self.main_page.delete_proj(self.PROJ_NAME)
 
         self.driver.quit()
 

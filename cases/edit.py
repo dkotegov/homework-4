@@ -55,15 +55,12 @@ class EditTest(unittest.TestCase):
 
         self.main_page.go_to_edit(self.proj_id)
 
-        self.createdProj = [self.PROJ_NAME]
-
         self.edit_page = EditSteps(self.driver)
         self.tag_page = TagSteps(self.driver)
 
     def tearDown(self):
         self.edit_page.back_to_menu()
-        for proj in self.createdProj:
-            self.main_page.delete_proj(proj)
+        self.main_page.delete_proj(self.PROJ_NAME)
 
         self.main_page.go_to_tag(self.MIDDLE_SOURCE)
         self.tag_page.delete_source()

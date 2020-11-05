@@ -50,12 +50,9 @@ class WatchTestWithLegend(unittest.TestCase):
         self.main_page.go_to_watch(self.proj_id)
         self.watch_page.wait_to_load()
 
-        self.createdProj = [self.PROJ_NAME]
-
     def tearDown(self):
         self.watch_page.back_to_menu()
-        for proj in self.createdProj:
-            self.main_page.delete_proj(proj)
+        self.main_page.delete_proj(self.PROJ_NAME)
 
         self.driver.quit()
 
@@ -123,13 +120,7 @@ class WatchTestNoLegend(unittest.TestCase):
         self.main_page.go_to_watch(self.proj_id)
         self.watch_page.wait_to_load()
 
-        self.createdProj = [self.PROJ_NAME]
-
     def tearDown(self):
-        self.watch_page.back_to_menu()
-        for proj in self.createdProj:
-            self.main_page.delete_proj(proj)
-
         self.driver.quit()
 
     def test_show_slide_missing_failed(self):
