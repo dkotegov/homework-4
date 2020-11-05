@@ -41,17 +41,15 @@ class TaskSettingsPopupTest(unittest.TestCase):
         self.board_page.wait_for_container()
 
         self.board_page.columns_list.create_column(self.COLUMN_TITLE)
-        column = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
-        column.task_list.create_task(self.TASK_TITLE)
-        task = column.task_list.get_task_by_title(self.TASK_TITLE)
+        self.column = self.board_page.columns_list.get_column_by_title(self.COLUMN_TITLE)
+        self.column.task_list.create_task(self.TASK_TITLE)
+        task = self.column.task_list.get_task_by_title(self.TASK_TITLE)
         task.open_settings()
 
         self.popup = TaskSettingsPopup(self.driver)
         self.popup.wait_for_container()
 
     def tearDown(self):
-        self.popup.close_popup()
-
         self.boards_page.open()
         self.boards_page.wait_for_container()
         self.boards_page.boards_list.open_board(self.BOARD_TITLE)
@@ -105,11 +103,7 @@ class TaskSettingsPopupTest(unittest.TestCase):
         label_binded = self.popup.is_label_with_provided_name_bind_to_task(label_name)
         self.assertTrue(label_binded)
 
-    # def test_delete_task(self):
-    #     self.driver.get(self.url)
-    #     popup = TaskSettingsPopup(self.driver)
-    #     popup.wait_for_container()
-
-    #     popup.delete_task()
-
-
+    def test_delete_task(self):
+        self.popup.delete_task()
+        self.driver.refresh()
+        self.assertIsNone(self.column.task_list.get_task_by_title(self.TASK_TITLE))
