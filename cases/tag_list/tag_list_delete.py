@@ -45,6 +45,3 @@ class TagListDeleteTest(unittest.TestCase):
         tag_page = TagSteps(self.driver)
         alert = tag_page.delete_source()
         self.assertEqual(self.SUCCESS, alert)
-
-
-

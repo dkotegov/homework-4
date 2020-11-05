@@ -24,6 +24,5 @@ class IframeForm(Component):
 
     def iframe_presents(self):
         self.wait_for_visible(self.RESULT)
-        return self.driver.find_element_by_xpath(self.RESULT).get_attribute("innerHTML")
-
-
+        return self.driver.find_element_by_xpath(self.RESULT).\
+            get_attribute("innerHTML")

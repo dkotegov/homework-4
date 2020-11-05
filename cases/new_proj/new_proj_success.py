@@ -29,7 +29,8 @@ class NewProjSuccessTest(unittest.TestCase):
 
         self.main_page = MainSteps(self.driver)
         self.main_page.page.menu.new_proj_click()
-        self.main_page.page.waitRedirect(NewProjPage.BASE_URL + NewProjPage.PATH)
+        self.main_page.page.\
+            waitRedirect(NewProjPage.BASE_URL + NewProjPage.PATH)
 
         self.proj_page = NewProjSteps(self.driver)
 
@@ -42,8 +43,3 @@ class NewProjSuccessTest(unittest.TestCase):
     def test_new_proj_success(self):
         alert = self.proj_page.fill_form(self.PROJ_NAME, self.PROJ_NAME)
         self.assertEqual(alert, self.SUCCESS)
-
-
-
-
-

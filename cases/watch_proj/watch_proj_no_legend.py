@@ -45,4 +45,3 @@ class WatchProjTestNoLegend(unittest.TestCase):
         self.watch_page.open_legend_tab()
         alert = self.watch_page.show_empty_slide()
         self.assertEqual(alert, self.FAILED)
-

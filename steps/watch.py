@@ -42,4 +42,3 @@ class WatchSteps(Steps):
 
     def wait_to_load(self):
         self.page.menu.wait_to_load()
-

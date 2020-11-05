@@ -41,8 +41,3 @@ class RemoveProjTest(unittest.TestCase):
     def test_remove_success(self):
         alert = self.main_page.delete_proj(self.PROJ_NAME)
         self.assertEqual(alert, self.SUCCESS_DELETE)
-
-
-
-
-

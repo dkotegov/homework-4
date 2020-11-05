@@ -39,7 +39,8 @@ class TransformForm(Component):
 
     def load_image(self, name):
         self.wait_for_presence(self.SELECT_FILE_INPUT)
-        self.driver.find_element_by_xpath(self.SELECT_FILE_INPUT).send_keys(name)
+        self.driver.find_element_by_xpath(self.SELECT_FILE_INPUT).\
+            send_keys(name)
 
     def transform_click(self):
         self.wait_for_visible(self.TRANSFORM)
@@ -50,7 +51,8 @@ class CanvasWindow(Component):
     RETURN = '//div[@onclick="goMainMenu()"]'
     REPEAT = '//div[@onclick="updatePage()"]'
     CANVAS = '//canvas[@id="myCanvas"]'
-    SIZE_LABEL = '//td[contains(., "Ширина:")][contains(., "Высота:")]'
+    SIZE_LABEL = '//td[contains(., "Ширина:")]' \
+                 '[contains(., "Высота:")]'
 
     def return_click(self):
         self.wait_for_visible(self.RETURN)
@@ -71,6 +73,3 @@ class CanvasWindow(Component):
     def go_to_transform(self):
         self.wait_for_visible(self.REPEAT)
         self.driver.find_element_by_xpath(self.REPEAT).click()
-
-
-

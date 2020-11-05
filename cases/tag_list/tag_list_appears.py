@@ -47,6 +47,3 @@ class TagListAppearsTest(unittest.TestCase):
     def test_new_source_appears_success(self):
         image = self.tag_page.image_presents(self.BIG_SOURCE_STRING)
         self.assertIn(self.BIG_SOURCE_STRING, image)
-
-
-

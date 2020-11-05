@@ -89,4 +89,3 @@ class WatchProjTestWithLegend(unittest.TestCase):
 
         result = self.watch_page.hide_slide()
         self.assertFalse(result)
-

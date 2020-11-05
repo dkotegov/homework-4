@@ -25,5 +25,3 @@ class TagForm(Component):
     def image_presents(self, value):
         self.wait_for_visible(self.IMG)
         return self.driver.find_element_by_xpath(self.IMG).get_attribute("src")
-
-

@@ -120,9 +120,3 @@ class EditProjTest(unittest.TestCase):
         self.edit_page.open_control_lib()
         alert = self.edit_page.save_proj()
         self.assertEqual(alert, self.SUCCESS_SAVE)
-
-
-
-
-
-

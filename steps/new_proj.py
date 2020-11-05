@@ -14,4 +14,3 @@ class NewProjSteps(Steps):
         self.page.form.set_description(desc)
         self.page.form.submit()
         return self.page.accept_alert_text()
-

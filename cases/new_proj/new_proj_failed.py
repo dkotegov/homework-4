@@ -28,7 +28,8 @@ class NewProjFailedTest(unittest.TestCase):
 
         self.main_page = MainSteps(self.driver)
         self.main_page.page.menu.new_proj_click()
-        self.main_page.page.waitRedirect(NewProjPage.BASE_URL + NewProjPage.PATH)
+        self.main_page.page.\
+            waitRedirect(NewProjPage.BASE_URL + NewProjPage.PATH)
 
     def tearDown(self):
         self.driver.quit()
@@ -37,8 +38,3 @@ class NewProjFailedTest(unittest.TestCase):
         proj_page = NewProjSteps(self.driver)
         alert = proj_page.fill_form("", "")
         self.assertEqual(alert, self.FAILED)
-
-
-
-
-

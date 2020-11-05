@@ -16,4 +16,3 @@ class TagSteps(Steps):
 
     def image_presents(self, value):
         return self.page.form.image_presents(value)
-

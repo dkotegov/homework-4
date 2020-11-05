@@ -34,5 +34,3 @@ class NewProjForm(Component):
     def submit(self):
         self.wait_for_visible(self.CREATE)
         self.driver.find_element_by_xpath(self.CREATE).click()
-
-

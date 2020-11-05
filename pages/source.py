@@ -30,8 +30,10 @@ class NewSourceForm(Component):
 
     def get_image_src(self):
         self.wait_for_visible(self.IMAGE)
-        return self.driver.find_element_by_xpath(self.IMAGE).get_attribute("src")
+        return self.driver.find_element_by_xpath(self.IMAGE).\
+            get_attribute("src")
 
     def load_image(self, name):
         self.wait_for_presence(self.SELECT_FILE_INPUT)
-        self.driver.find_element_by_xpath(self.SELECT_FILE_INPUT).send_keys(name)
+        self.driver.find_element_by_xpath(self.SELECT_FILE_INPUT).\
+            send_keys(name)

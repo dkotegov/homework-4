@@ -28,4 +28,3 @@ class TransformSteps(Steps):
 
     def go_to_transform(self):
         return self.page.canvas.go_to_transform()
-

@@ -41,7 +41,8 @@ class TransformTest(unittest.TestCase):
         transform_page.select_image(self.MIDDLE_SOURCE)
         transform_page.transform_finished()
         size_label = transform_page.check_size_label()
-        self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=self.WIDTH, height=self.HEIGHT), size_label)
+        self.assertIn(self.SIZE_LABEL_SUCCESS.
+                      format(width=self.WIDTH, height=self.HEIGHT), size_label)
 
     def test_transform_canvas_size_success(self):
         transform_page = TransformSteps(self.driver)
@@ -57,7 +58,8 @@ class TransformTest(unittest.TestCase):
         transform_page.select_image(self.MIDDLE_SOURCE)
         transform_page.transform()
         size_label = transform_page.check_size_label()
-        self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=0, height=0), size_label)
+        self.assertIn(self.SIZE_LABEL_SUCCESS.
+                      format(width=0, height=0), size_label)
 
     def test_transform_empty_size_failed(self):
         transform_page = TransformSteps(self.driver)
@@ -65,7 +67,8 @@ class TransformTest(unittest.TestCase):
         transform_page.select_image(self.MIDDLE_SOURCE)
         transform_page.transform()
         size_label = transform_page.check_size_label()
-        self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=0, height=0), size_label)
+        self.assertIn(self.SIZE_LABEL_SUCCESS.
+                      format(width=0, height=0), size_label)
 
     def test_transform_symbol_size_failed(self):
         transform_page = TransformSteps(self.driver)
@@ -73,7 +76,8 @@ class TransformTest(unittest.TestCase):
         transform_page.select_image(self.MIDDLE_SOURCE)
         transform_page.transform()
         size_label = transform_page.check_size_label()
-        self.assertIn(self.SIZE_LABEL_SUCCESS.format(width=0, height=0), size_label)
+        self.assertIn(self.SIZE_LABEL_SUCCESS.
+                      format(width=0, height=0), size_label)
 
     def test_transform_no_file_failed(self):
         transform_page = TransformSteps(self.driver)
@@ -81,8 +85,3 @@ class TransformTest(unittest.TestCase):
         transform_page.transform()
         alert = transform_page.accept_alert_text()
         self.assertEqual(self.FAILED, alert)
-        
-
-
-
-

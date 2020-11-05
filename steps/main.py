@@ -38,15 +38,20 @@ class MainSteps(Steps):
 
     def go_to_tag(self, name):
         self.page.tag_list.tag_click(name)
-        self.page.waitRedirect(TagPage.BASE_URL + TagPage.PATH + "?tag=" + name)
+        self.page.\
+            waitRedirect(TagPage.BASE_URL + TagPage.PATH + "?tag=" + name)
 
     def go_to_edit(self, proj_id):
         self.page.project_list.edit_click(proj_id)
-        self.page.waitRedirect(EditPage.BASE_URL + EditPage.PATH + "?p_id={}".format(proj_id))
+        self.page.waitRedirect(EditPage.BASE_URL +
+                               EditPage.PATH +
+                               "?p_id={}".format(proj_id))
 
     def go_to_watch(self, proj_id):
         self.page.project_list.watch_click(proj_id)
-        self.page.waitRedirect(WatchPage.BASE_URL + WatchPage.PATH + "?p_id={}".format(proj_id))
+        self.page.waitRedirect(WatchPage.BASE_URL +
+                               WatchPage.PATH +
+                               "?p_id={}".format(proj_id))
 
     def go_to_transform(self):
         self.page.menu.transform_click()

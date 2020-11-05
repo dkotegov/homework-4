@@ -34,12 +34,15 @@ class Menu(Component):
     ADD_TEXT_BTN = '//div[@id="createNewLabelBtn"]'
     TEXT_LABEL = '//div[@id="label_text_label_text_0"]'
     SAVE_LEG_BTN = '//div[@onclick="histLegendSave()"]'
-    SAVED_LEG = '//div[@class="history-legend-class"][.//img[contains(@src,"cleverMan")]]'
+    SAVED_LEG = '//div[@class="history-legend-class"]' \
+                '[.//img[contains(@src,"cleverMan")]]'
     WATCH_STORE_BTN = '//div[@onclick="watchMetkaStore()"]'
-    WATCH_TAG_BTN = '//span[contains(@onclick, "opTag")][contains(@onclick, "{name}")]'
+    WATCH_TAG_BTN = '//span[contains(@onclick, "opTag")]' \
+                    '[contains(@onclick, "{name}")]'
     WATCH_TAG_ID = '//div[@id="storeContentMetkiBufBox"]//b'
     LOAD_PIN_BTN = '//div[@id="loadNewMetkiBtn"]'
-    SAVED_PIN = '//div[@class="metka-list-class-metka-elem"][contains(., "Метка {pin_id}")]'
+    SAVED_PIN = '//div[@class="metka-list-class-metka-elem"]' \
+                '[contains(., "Метка {pin_id}")]'
     SAVE_PROJ_BTN = '//div[@id="saveProjectBtn"]'
     LOAD_LAYER = '//input[@id="uploadingFileInputBtn"]'
     ADD_LAYER = '//div[@onclick="addToScene(this, 200, 150, 100, 100)"]'
@@ -55,14 +58,16 @@ class Menu(Component):
 
     def layer_presence(self):
         self.wait_for_visible(self.LAYER)
-        return self.driver.find_element_by_xpath(self.LAYER).get_attribute("src")
+        return self.driver.find_element_by_xpath(self.LAYER).\
+            get_attribute("src")
 
     def layer_not_presence(self):
         self.do_not_wait_presence(self.LAYER)
 
     def set_text_size(self, size):
         self.wait_for_visible(self.TEXT_SIZE_INPUT)
-        self.driver.find_element_by_xpath(self.TEXT_SIZE_INPUT).send_keys(size)
+        self.driver.find_element_by_xpath(self.TEXT_SIZE_INPUT).\
+            send_keys(size)
 
     def save_text(self):
         self.wait_for_visible(self.ADD_TEXT_BTN)
@@ -70,7 +75,8 @@ class Menu(Component):
 
     def default_text_size_presence(self):
         self.wait_for_visible(self.TEXT_LABEL)
-        return self.driver.find_element_by_xpath(self.TEXT_LABEL).get_attribute("style")
+        return self.driver.find_element_by_xpath(self.TEXT_LABEL).\
+            get_attribute("style")
 
     def set_leg_name(self, name):
         self.wait_for_visible(self.LEG_NAME_INPUT)
@@ -82,7 +88,8 @@ class Menu(Component):
 
     def default_leg_presence(self):
         self.wait_for_visible(self.SAVED_LEG)
-        return self.driver.find_element_by_xpath(self.SAVED_LEG).get_attribute("innerText")
+        return self.driver.find_element_by_xpath(self.SAVED_LEG).\
+            get_attribute("innerText")
 
     def watch_store_click(self):
         self.wait_for_visible(self.WATCH_STORE_BTN)
@@ -90,11 +97,14 @@ class Menu(Component):
 
     def watch_tag_click(self, name):
         self.wait_for_visible(self.WATCH_TAG_BTN.format(name=name))
-        self.driver.find_element_by_xpath(self.WATCH_TAG_BTN.format(name=name)).click()
+        self.driver.find_element_by_xpath(
+            self.WATCH_TAG_BTN.format(name=name)
+        ).click()
 
     def get_tag_id(self):
         self.wait_for_visible(self.WATCH_TAG_ID)
-        return self.driver.find_element_by_xpath(self.WATCH_TAG_ID).get_attribute("innerText")
+        return self.driver.find_element_by_xpath(self.WATCH_TAG_ID).\
+            get_attribute("innerText")
 
     def save_pin_click(self):
         self.wait_for_visible(self.LOAD_PIN_BTN)
@@ -102,7 +112,9 @@ class Menu(Component):
 
     def pin_presence(self, pin_id):
         self.wait_for_visible(self.SAVED_PIN.format(pin_id=pin_id))
-        return self.driver.find_element_by_xpath(self.SAVED_PIN.format(pin_id=pin_id)).get_attribute("innerText")
+        return self.driver.find_element_by_xpath(
+            self.SAVED_PIN.format(pin_id=pin_id)
+        ).get_attribute("innerText")
 
     def save_project_click(self):
         self.wait_for_visible(self.SAVE_PROJ_BTN)
@@ -131,36 +143,48 @@ class Tab(Component):
     def pic_lib_click(self):
         self.wait_for_visible(self.PIC_LIB)
         self.driver.find_element_by_xpath(self.PIC_LIB).click()
-        self.wait_for_attribute_value(self.PIC_LIB_BODY, "style", "display: block; height: 345px;")
+        self.wait_for_attribute_value(self.PIC_LIB_BODY,
+                                      "style",
+                                      "display: block; height: 345px;")
 
     def pin_lib_click(self):
         self.wait_for_visible(self.PIN_LIB)
         self.driver.find_element_by_xpath(self.PIN_LIB).click()
-        self.wait_for_attribute_value(self.PIN_LIB_BODY, "style", "display: block; height: 345px;")
+        self.wait_for_attribute_value(self.PIN_LIB_BODY,
+                                      "style",
+                                      "display: block; height: 345px;")
 
     def text_lib_click(self):
         self.wait_for_visible(self.TEXT_LIB)
         self.driver.find_element_by_xpath(self.TEXT_LIB).click()
-        self.wait_for_attribute_value(self.TEXT_LIB_BODY, "style", "display: block; height: 345px;")
+        self.wait_for_attribute_value(self.TEXT_LIB_BODY,
+                                      "style",
+                                      "display: block; height: 345px;")
 
     def leg_lib_click(self):
         self.wait_for_visible(self.LEG_LIB)
         self.driver.find_element_by_xpath(self.LEG_LIB).click()
-        self.wait_for_attribute_value(self.LEG_LIB_BODY, "style", "display: block; height: 345px;")
+        self.wait_for_attribute_value(self.LEG_LIB_BODY,
+                                      "style",
+                                      "display: block; height: 345px;")
 
     def zone_lib_click(self):
         self.wait_for_visible(self.ZONE_LIB)
         self.driver.find_element_by_xpath(self.ZONE_LIB).click()
-        self.wait_for_attribute_value(self.ZONE_LIB_BODY, "style", "display: block; height: 345px;")
+        self.wait_for_attribute_value(self.ZONE_LIB_BODY,
+                                      "style",
+                                      "display: block; height: 345px;")
 
     def group_lib_click(self):
         self.wait_for_visible(self.GROUP_LIB)
         self.driver.find_element_by_xpath(self.GROUP_LIB).click()
-        self.wait_for_attribute_value(self.GROUP_LIB_BODY, "style", "display: block; height: 345px;")
+        self.wait_for_attribute_value(self.GROUP_LIB_BODY,
+                                      "style",
+                                      "display: block; height: 345px;")
 
     def control_lib_click(self):
         self.wait_for_visible(self.CONTROL_LIB)
         self.driver.find_element_by_xpath(self.CONTROL_LIB).click()
-        self.wait_for_attribute_value(self.CONTROL_LIB_BODY, "style", "display: block; height: 345px;")
-
-
+        self.wait_for_attribute_value(self.CONTROL_LIB_BODY,
+                                      "style",
+                                      "display: block; height: 345px;")

@@ -13,4 +13,3 @@ class AuthSteps(Steps):
         self.page.form.set_key(key)
         self.page.form.click_submit()
         return self.page.accept_alert_text()
-

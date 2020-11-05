@@ -54,8 +54,3 @@ class GenIframeTest(unittest.TestCase):
         self.frame_page.generate("a")
         alert = self.frame_page.accept_alert_text()
         self.assertIn(alert, self.FAILED)
-
-
-
-
-

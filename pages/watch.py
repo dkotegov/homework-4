@@ -19,7 +19,8 @@ class Menu(Component):
     LEGENDS_TAB = '//td[@id="btn_hist"]'
     SEARCH_INPUT = '//input[@id="findByTagPlayerField"]'
     SEARCH_BTN = '//div[@id="playerFindBtn"]'
-    LEGEND = '//div[contains(@onclick, "historyShowMe")][.//span[contains(., "{name}")]]'
+    LEGEND = '//div[contains(@onclick, "historyShowMe")]' \
+             '[.//span[contains(., "{name}")]]'
     LEGEND_BOX = '//div[@id="hitMetkaInfoBox"]'
     LEGEND_CLOSE = '//u[@onclick="closeMetInf()"]'
     SLIDE = '//span[@onclick="presentationSlideShowStart()"]'
@@ -46,7 +47,8 @@ class Menu(Component):
 
     def legend_click(self, name):
         self.wait_for_visible(self.LEGEND.format(name=name))
-        self.driver.find_element_by_xpath(self.LEGEND.format(name=name)).click()
+        self.driver.find_element_by_xpath(self.LEGEND.format(name=name)).\
+            click()
 
     def close_legend_click(self):
         self.wait_for_visible(self.LEGEND_CLOSE)
@@ -62,13 +64,15 @@ class Menu(Component):
 
     def is_legend_visible(self):
         self.wait_for_presence(self.LEGEND_BOX)
-        return not self.driver.find_element_by_xpath(self.LEGEND_BOX).get_attribute("hidden")
+        return not self.driver.find_element_by_xpath(self.LEGEND_BOX).\
+            get_attribute("hidden")
 
     def is_full_screen_visible(self):
         self.wait_for_presence(self.FULL_SCREEN)
-        return not self.driver.find_element_by_xpath(self.FULL_SCREEN).get_attribute("hidden")
+        return not self.driver.find_element_by_xpath(self.FULL_SCREEN).\
+            get_attribute("hidden")
 
     def is_slide_show_visible(self):
         self.wait_for_presence(self.SLIDE_BOX)
-        return not self.driver.find_element_by_xpath(self.SLIDE_BOX).get_attribute("hidden")
-
+        return not self.driver.find_element_by_xpath(self.SLIDE_BOX).\
+            get_attribute("hidden")

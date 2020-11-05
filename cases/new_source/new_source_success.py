@@ -44,6 +44,3 @@ class NewSourceSuccessTest(unittest.TestCase):
         self.source_page.save_img(self.BIG_SOURCE)
         alert = self.source_page.accept_alert_text()
         self.assertEqual(alert, self.SUCCESS)
-
-
-
