@@ -9,7 +9,7 @@ class CreateColumnForm(Component):
     CLOSE_BUTTON = '//div[@id="closeNewColumnFormButton"]'
     SUBMIT_BUTTON = '//div[@id="addColumnButton"]'
 
-    CLOSED_FORM = '//div[@class="column-list-add-column-button js-addNewColumn"]'
+    CLOSED_FORM = '//div[contains(@class,"column-list-add-column-button") and contains(@class,"js-addNewColumn")]'
 
     def open(self):
         self.driver.find_element_by_xpath(self.CONTAINER).click()

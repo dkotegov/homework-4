@@ -2,6 +2,7 @@ from base_classes.component import Component
 
 
 class SettingsPopup(Component):
+    CONTAINER = '//div[@class = "board-settings"]'
     DELETE_BOARD_BUTTON = '//div[contains(@class, "js-deleteBoard")]'
 
     def delete_board(self):
