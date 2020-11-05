@@ -12,6 +12,7 @@ from tests.other.groups_test import GroupsTest
 from tests.other.features_test import FeaturesTest
 from tests.other.import_export_test import ImportExportTest
 from tests.contacts.favorites_test import FavoritesTest
+from tests.editor.form_editing_test import FormEditingTest
 import sys
 
 
@@ -27,6 +28,7 @@ if __name__ == '__main__':
         unittest.makeSuite(EditContactTest),
         unittest.makeSuite(FavoritesTest),
         unittest.makeSuite(GroupsTest),
+        unittest.makeSuite(FormEditingTest),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

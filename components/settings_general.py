@@ -38,7 +38,7 @@ class SettingsGeneralForm(Component):
         """
         Нажимает на кнопку создания подписи
         """
-        add_button = WebDriverWait(self.driver, 1, 0.1).until(
+        add_button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.ADD)
         )
         add_button.click()

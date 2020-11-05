@@ -3,7 +3,7 @@ import os
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from setup.auth import setup_auth
-
+import time
 
 def default_setup(t):
     """ Осуществляет авторизацию в account.mail.ru и настраивает браузер.

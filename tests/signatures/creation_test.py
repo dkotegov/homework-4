@@ -4,6 +4,7 @@ import unittest
 
 from pages.settings_page import SettingsPage
 from setup.default_setup import default_setup
+import time
 
 
 class CreationTest(unittest.TestCase):
@@ -19,6 +20,7 @@ class CreationTest(unittest.TestCase):
     TOO_LONG_STRING = 'x' * 101
 
     def setUp(self):
+
         default_setup(self)
 
         self.settings = SettingsPage(self.driver)
@@ -32,6 +34,7 @@ class CreationTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+
 
     def test_valid_creation(self):
         """
