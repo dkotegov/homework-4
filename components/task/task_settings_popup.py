@@ -1,6 +1,7 @@
 from base_classes.component import Component
 from components.task.add_label_to_task_popup import AddLabelToTaskPopup
 from components.task.create_label_popup import CreateLabelPopup
+from components.task.create_checklist_popup import CreateChecklistPopup
 from selenium.webdriver.common.action_chains import ActionChains
 
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -15,11 +16,13 @@ class TaskSettingsPopup(Component):
     SAVE_DESCRIPTION_BUTTON = '//div[contains(@class, "js-saveTaskDescription")]'
     ADD_NEW_LABEL_BUTTON = '//div[contains(@class, "js-addNewLabel")]'
     CLOSE_POPUP_BUTTON = '//*[contains(@class, "js-closeTaskButton")]'
+    ADD_NEW_CHECKLIST_BUTTON = '//*[contains(@class, "js-addNewChecklist")]'
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
         self.add_label_to_task_popup = AddLabelToTaskPopup(self.driver)
         self.create_label_popup = CreateLabelPopup(self.driver)
+        self.create_checklist_popup = CreateChecklistPopup(self.driver)
 
     def create_new_label_with_name(self, name):
         assert(self.is_open)
@@ -59,6 +62,16 @@ class TaskSettingsPopup(Component):
             return False
         return True
 
+    def is_checklist_with_provided_name_exist(self, checklist_name):
+        assert(self.is_open)
+        checklist = f'//*[contains(@class, "checklist-title") and text()="{checklist_name}"]'
+
+        try:
+            self.driver.find_element_by_xpath(checklist)
+        except:
+            return False
+        return True
+
     def get_task_name(self):
         return self.driver.find_element_by_xpath(self.TASK_NAME_TEXT_FIELD).get_attribute('value')
 
@@ -73,6 +86,11 @@ class TaskSettingsPopup(Component):
         self.driver.find_element_by_xpath(self.TASK_DESCRIPTION_TEXT_FIELD).clear()
         self.driver.find_element_by_xpath(self.TASK_DESCRIPTION_TEXT_FIELD).send_keys(description)
         self.driver.find_element_by_xpath(self.SAVE_DESCRIPTION_BUTTON).click()
+
+    def create_new_checklist_with_name(self, name: str):
+        self.driver.find_element_by_xpath(self.ADD_NEW_CHECKLIST_BUTTON).click()
+        self.create_checklist_popup.set_checklist_name(name)
+        self.create_checklist_popup.click_create_checklist_button()
 
     def delete_task(self):
         self.driver.find_element_by_xpath(self.DELETE_BUTTON).click()

@@ -62,49 +62,54 @@ class TaskSettingsPopupTest(unittest.TestCase):
 
         self.driver.quit()
 
-    def test_rename_task(self):
-        new_name = "Your new name"
-        self.popup.rename_task(new_name)
+    # def test_rename_task(self):
+    #     new_name = "Your new name"
+    #     self.popup.rename_task(new_name)
 
-        self.driver.refresh()
-        self.popup.wait_for_container()
+    #     self.driver.refresh()
+    #     self.popup.wait_for_container()
 
-        self.assertEqual(self.popup.get_task_name(), new_name)
+    #     self.assertEqual(self.popup.get_task_name(), new_name)
 
-    def test_change_task_description(self):
-        description = "Your new description"
-        self.popup.change_description(description)
+    # def test_change_task_description(self):
+    #     description = "Your new description"
+    #     self.popup.change_description(description)
 
-        self.driver.refresh()
-        self.popup.wait_for_container()
+    #     self.driver.refresh()
+    #     self.popup.wait_for_container()
 
-        self.assertEqual(self.popup.get_task_description(), description)
+    #     self.assertEqual(self.popup.get_task_description(), description)
 
-    def test_create_new_label_for_board(self):
-        label_name = 'Super-super label'
-        self.popup.click_add_new_label_button()
-        self.popup.create_new_label_with_name(label_name)
-        self.popup.close_add_labels_popup()
-        self.driver.refresh()
-        self.popup.wait_for_container()
-        label_exist = self.popup.is_label_with_provided_name_exist(label_name)
-        self.assertTrue(label_exist)
+    # def test_create_new_label_for_board(self):
+    #     label_name = 'Super-super label'
+    #     self.popup.click_add_new_label_button()
+    #     self.popup.create_new_label_with_name(label_name)
+    #     self.popup.close_add_labels_popup()
+    #     self.driver.refresh()
+    #     self.popup.wait_for_container()
+    #     label_exist = self.popup.is_label_with_provided_name_exist(label_name)
+    #     self.assertTrue(label_exist)
 
-    def test_add_label_to_task(self):
-        label_name = 'Super-super label'
-        self.popup.click_add_new_label_button()
-        self.popup.create_new_label_with_name(label_name)
-        self.popup.close_add_labels_popup()
-        self.driver.refresh()
-        self.popup.wait_for_container()
+    # def test_add_label_to_task(self):
+    #     label_name = 'Super-super label'
+    #     self.popup.click_add_new_label_button()
+    #     self.popup.create_new_label_with_name(label_name)
+    #     self.popup.close_add_labels_popup()
+    #     self.driver.refresh()
+    #     self.popup.wait_for_container()
 
-        label_exist = self.popup.is_label_with_provided_name_exist(label_name)
-        self.assertTrue(label_exist)
-        self.popup.add_label_with_name_to_task(label_name)
-        label_binded = self.popup.is_label_with_provided_name_bind_to_task(label_name)
-        self.assertTrue(label_binded)
+    #     label_exist = self.popup.is_label_with_provided_name_exist(label_name)
+    #     self.assertTrue(label_exist)
+    #     self.popup.add_label_with_name_to_task(label_name)
+    #     label_binded = self.popup.is_label_with_provided_name_bind_to_task(label_name)
+    #     self.assertTrue(label_binded)
 
-    def test_delete_task(self):
-        self.popup.delete_task()
-        self.driver.refresh()
-        self.assertIsNone(self.column.task_list.get_task_by_title(self.TASK_TITLE))
+    # def test_delete_task(self):
+    #     self.popup.delete_task()
+    #     self.driver.refresh()
+    #     self.assertIsNone(self.column.task_list.get_task_by_title(self.TASK_TITLE))
+
+    def test_create_checklist(self):
+        checklist_name = 'New checklist'
+        self.popup.create_new_checklist_with_name(checklist_name)
+        self.assertTrue(self.popup.is_checklist_with_provided_name_exist(checklist_name))
