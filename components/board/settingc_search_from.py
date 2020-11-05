@@ -1,3 +1,4 @@
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
 from base_classes.component import Component
 
@@ -18,8 +19,13 @@ class SearchForm(Component):
             lambda d: len(d.find_elements_by_xpath(self.INVITE_BUTTON)) > 0
         )
 
+    def wait_for_visible(self):
+        WebDriverWait(self.driver, 5, ignored_exceptions=[NoSuchElementException, StaleElementReferenceException]).until(
+            lambda d: d.find_element_by_xpath(self.CONTAINER).is_displayed()
+        )
+
     def wait_for_closed(self):
-        WebDriverWait(self.driver, 5).until_not(
+        WebDriverWait(self.driver, 5, ignored_exceptions=[NoSuchElementException, StaleElementReferenceException]).until_not(
             lambda d: d.find_element_by_xpath(self.CONTAINER).is_displayed()
         )
 

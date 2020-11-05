@@ -69,7 +69,7 @@ class HeaderTest(unittest.TestCase):
 
     def test_invite_member(self):
         settings = self.board_page.settings_popup
-        invitee_nickname = 'asdasd'
+        invitee_nickname = 'a'
 
         settings.invite_member(invitee_nickname)
 
