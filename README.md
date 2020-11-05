@@ -1,6 +1,6 @@
 ## Homework #4
 
-####How to run:
+#### How to run:
 
 ```shell script
 ./grid.sh
