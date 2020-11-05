@@ -55,6 +55,10 @@ class ContactsFormLocators:
 
         self.add_new_email_button = '//span[@data-test-id="add-new-field"]'
 
+        self.first_contact_button = '//div[@data-test-id="addressbook-user-item"]'
+
+        self.click_edit_button = '//button[@data-test-id="addressbook-edit"]'
+
 
 class ContactsForm(Component):
 
@@ -65,12 +69,25 @@ class ContactsForm(Component):
 
         self.locators = ContactsFormLocators()
 
+    def click_on_contact(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.first_contact_button)))
+        element.click()
+
+    def click_edit_contact(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.click_edit_button)))
+        element.click()
+
     def click_create_contact(self):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_btn)))
         element.click()
 
     def input_firstname(self, text):
+        if text == '':
+            WebDriverWait(self.driver, 30).until(lambda driver: driver.find_element_by_xpath(self.locators.create_contact_firstname_input).text.strip() != '')
+
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.create_contact_firstname_input)))
         element.clear()
@@ -193,6 +210,7 @@ class ContactsForm(Component):
                 self.input_address(value)
             else:
                 raise ValueError("Unexpected key: " + key)
+            print(key, value)
 
     def click_save(self):
         element = self.wait.until(
