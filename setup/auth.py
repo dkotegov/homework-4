@@ -11,4 +11,4 @@ def setup_auth(test):
     auth_form.to_password()
     auth_form.set_password(test.PASSWORD)
     auth_form.submit()
-    auth_form.wait_for_name(test.EMAIL)
+    auth_form.wait_for_email()
