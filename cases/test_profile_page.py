@@ -4,6 +4,7 @@ import unittest
 
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.login_page import LoginPage
 from pages.profile_page import ProfilePage
@@ -69,22 +70,36 @@ class ProfilePageTest(unittest.TestCase):
         old_link = self.profile_page.profile_form.get_avatar_link()
 
         self.profile_page.change_avatar(os.path.abspath('files/ava1.jpg'))
-        new_link = self.profile_page.profile_form.get_avatar_link()
 
+        WebDriverWait(self.driver, 5).until(
+            lambda d: self.profile_page.profile_form.get_avatar_link() != old_link
+        )
+
+        new_link = self.profile_page.profile_form.get_avatar_link()
         self.assertNotEqual(old_link, new_link)
 
         self.profile_page.change_avatar(os.path.abspath('files/ava2.jpg'))
+        WebDriverWait(self.driver, 5).until(
+            lambda d: self.profile_page.profile_form.get_avatar_link() != new_link
+        )
 
     def test_change_invalid_format_avatar(self):
         old_link = self.profile_page.profile_form.get_avatar_link()
 
         self.profile_page.change_avatar(os.path.abspath('files/1.txt'))
+        self.driver.refresh()
+        self.profile_page.wait_for_container()
+
         new_link = self.profile_page.profile_form.get_avatar_link()
+        self.assertEqual(old_link, new_link)
 
     def test_change_invalid_size_avatar(self):
         old_link = self.profile_page.profile_form.get_avatar_link()
 
         self.profile_page.change_avatar(os.path.abspath('files/ava_big.jpg'))
+        self.driver.refresh()
+        self.profile_page.wait_for_container()
+
         new_link = self.profile_page.profile_form.get_avatar_link()
 
         self.assertEqual(old_link, new_link)

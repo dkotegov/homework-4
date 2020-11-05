@@ -30,11 +30,6 @@ class ProfilePage(Page):
 
     def change_avatar(self, path_to_avatar: str):
         self.profile_form.set_avatar(path_to_avatar)
-        if self.profile_form.is_invalid_avatar():
-            return False
-
-        self.reload()
-        return True
 
     def change_password(self, old_password, new_password, new_password_repeat: str):
         self.profile_form.set_old_password(old_password)

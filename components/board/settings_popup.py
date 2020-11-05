@@ -54,7 +54,7 @@ class SettingsPopup(Component):
     def invite_member(self, nickname):
         self.driver.find_element_by_xpath(self.ADD_MEMBER).click()
 
-        self.search_form.wait_for_container()
+        self.search_form.wait_for_visible()
         self.search_form.set_input(nickname)
         self.search_form.wait_for_search_results()
         self.search_form.add_to_board(0)
