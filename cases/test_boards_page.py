@@ -2,8 +2,10 @@ import os
 import unittest
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+from components.boards.board_templates import BoardTemplates
 from pages.board_page import BoardPage
 from pages.boards_page import BoardsPage
 from pages.login_page import LoginPage
@@ -28,15 +30,67 @@ class BoardsPageTest(unittest.TestCase):
         password = os.environ.get('PASSWORD')
         self.login_page.login(login, password)
 
+        self.boards_page = BoardsPage(self.driver)
+        self.boards_page.wait_for_container()
+
     def tearDown(self):
         self.driver.quit()
 
     def test_board_create_success(self):
-        boards_page = BoardsPage(self.driver)
-        boards_page.wait_for_container()
-        boards_page.create_board(self.BOARD_NAME)
+        self.boards_page.create_board(self.BOARD_NAME)
 
         board_page = BoardPage(self.driver)
+        board_page.wait_for_container()
+        self.assertEqual(self.BOARD_NAME, board_page.header.get_board_title())
+
+        board_page.header.open_settings()
+        board_page.settings_popup.delete_board()
+
+    def test_board_create_cancel(self):
+        create_board_form = self.boards_page.create_board_form
+        create_board_form.open()
+        create_board_form.set_board_title(self.BOARD_NAME)
+        create_board_form.close()
+
+        board = None
+
+        with self.assertRaises(TimeoutException):
+            board = self.boards_page.boards_list.get_board(self.BOARD_NAME)
+
+        self.assertIsNone(board)
+
+    def test_create_template_week_plan_board(self):
+        board_templates = BoardTemplates(self.driver)
+        board_templates.create_week_plan_board()
+
+        board_page = BoardPage(self.driver)
+        board_page.wait_for_container()
+        self.assertEqual(board_templates.WEEK_PLAN_BOARD_NAME, board_page.header.get_board_title())
+
+        board_page.header.open_settings()
+        board_page.settings_popup.delete_board()
+
+    def test_create_template_management_board(self):
+        board_templates = BoardTemplates(self.driver)
+        board_templates.create_project_management_board()
+
+        board_page = BoardPage(self.driver)
+        board_page.wait_for_container()
+        self.assertEqual(board_templates.PROJECT_MANAGEMENT_BOARD_NAME, board_page.header.get_board_title())
+
+        board_page.header.open_settings()
+        board_page.settings_popup.delete_board()
+
+    def test_open_board(self):
+        self.boards_page.create_board(self.BOARD_NAME)
+
+        board_page = BoardPage(self.driver)
+        board_page.wait_for_container()
+
+        self.boards_page.open()
+        self.boards_page.boards_list.open_board(self.BOARD_NAME)
+
+        board_page.wait_for_container()
         self.assertEqual(self.BOARD_NAME, board_page.header.get_board_title())
 
         board_page.header.open_settings()
