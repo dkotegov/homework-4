@@ -28,6 +28,6 @@ class LoginForm(Component):
 
     def is_invalid_login(self):
         try:
-            return WebDriverWait(self.driver, 3).until(lambda d: len(d.find_element_by_xpath(self.INPUT_ERROR).text) != 0)
+            return WebDriverWait(self.driver, 2).until(lambda d: len(d.find_element_by_xpath(self.INPUT_ERROR).text) != 0)
         except TimeoutException:
             return False

@@ -1,4 +1,5 @@
 import os
+import time
 import unittest
 
 from selenium import webdriver
@@ -40,6 +41,23 @@ class ProfilePageTest(unittest.TestCase):
 
         self.profile_page.change_name(old_name)
 
+    def test_change_name_success(self):
+        old_name = self.profile_page.profile_form.get_name()
+        new_name = old_name + 'a'
+
+        self.profile_page.change_name(new_name)
+
+        self.assertEqual(new_name, self.profile_page.profile_form.get_name())
+
+        self.profile_page.change_name(old_name)
+
+    def test_change_invalid_name(self):
+        name = 'a'
+
+        is_change = self.profile_page.change_name(name)
+
+        self.assertTrue(not is_change)
+
     def test_change_surname_success(self):
         old_surname = self.profile_page.profile_form.get_surname()
         new_surname = old_surname + 'a'
@@ -50,15 +68,36 @@ class ProfilePageTest(unittest.TestCase):
 
         self.profile_page.change_surname(old_surname)
 
-    def test_change_surname_success(self):
-        old_surname = self.profile_page.profile_form.get_surname()
-        new_surname = old_surname + 'a'
+    def test_change_invalid_surname(self):
+        surname = 'a'
 
-        self.profile_page.change_surname(new_surname)
+        is_change = self.profile_page.change_surname(surname)
 
-        self.assertEqual(new_surname, self.profile_page.profile_form.get_surname())
+        self.assertTrue(not is_change)
 
-        self.profile_page.change_surname(old_surname)
+    def test_change_avatar_success(self):
+        old_link = self.profile_page.profile_form.get_avatar_link()
+
+        self.profile_page.change_avatar('files/ava1.jpg')
+        new_link = self.profile_page.profile_form.get_avatar_link()
+
+        self.assertNotEqual(old_link, new_link)
+
+        self.profile_page.change_avatar('files/ava2.jpg')
+
+    def test_change_invalid_format_avatar(self):
+        old_link = self.profile_page.profile_form.get_avatar_link()
+
+        self.profile_page.change_avatar('files/1.txt')
+        new_link = self.profile_page.profile_form.get_avatar_link()
+
+    def test_change_invalid_size_avatar(self):
+        old_link = self.profile_page.profile_form.get_avatar_link()
+
+        self.profile_page.change_avatar('files/ava_big.jpg')
+        new_link = self.profile_page.profile_form.get_avatar_link()
+
+        self.assertEqual(old_link, new_link)
 
     def test_change_password_success(self):
         old_password = os.environ.get('PASSWORD')
@@ -69,6 +108,31 @@ class ProfilePageTest(unittest.TestCase):
         self.assertTrue(is_changed)
 
         self.profile_page.change_password(new_password, old_password, old_password)
+
+    def test_change_invalid_old_password(self):
+        old_password = '1'
+        new_password = str(time.time())
+
+        is_changed = self.profile_page.change_password(old_password, new_password, new_password)
+
+        self.assertTrue(not is_changed)
+
+    def test_change_invalid_new_password(self):
+        old_password = os.environ.get('PASSWORD')
+        new_password = '1'
+
+        is_changed = self.profile_page.change_password(old_password, new_password, new_password)
+
+        self.assertTrue(not is_changed)
+
+    def test_change_invalid_repeat_password(self):
+        old_password = os.environ.get('PASSWORD')
+        new_password = old_password + '1'
+        new_password2 = old_password + '2'
+
+        is_changed = self.profile_page.change_password(old_password, new_password, new_password2)
+
+        self.assertTrue(not is_changed)
 
     def test_change_email_success(self):
         old_email = self.profile_page.profile_form.get_email()
@@ -81,3 +145,10 @@ class ProfilePageTest(unittest.TestCase):
 
         if not empty_old_email:
             self.profile_page.change_email(old_email)
+
+    def test_change_email_success(self):
+        email = 'a'
+
+        is_change = self.profile_page.change_email(email)
+
+        self.assertTrue(not is_change)

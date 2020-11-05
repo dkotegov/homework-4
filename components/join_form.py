@@ -43,13 +43,13 @@ class JoinForm(Component):
 
     def is_invalid_name(self):
         try:
-            return WebDriverWait(self.driver, 1).until(lambda d: len(d.find_element_by_xpath(self.NAME_ERROR).text) != 0)
+            return WebDriverWait(self.driver, 2).until(lambda d: len(d.find_element_by_xpath(self.NAME_ERROR).text) != 0)
         except TimeoutException:
             return False
 
     def is_invalid_surname(self):
         try:
-            return WebDriverWait(self.driver, 1).until(lambda d: len(d.find_element_by_xpath(self.SURNAME_ERROR).text) != 0)
+            return WebDriverWait(self.driver, 2).until(lambda d: len(d.find_element_by_xpath(self.SURNAME_ERROR).text) != 0)
         except TimeoutException:
             return False
 
@@ -61,6 +61,6 @@ class JoinForm(Component):
 
     def is_invalid_password(self):
         try:
-            return WebDriverWait(self.driver, 1).until(lambda d: len(d.find_element_by_xpath(self.PASSWORD_ERROR).text) != 0)
+            return WebDriverWait(self.driver, 2).until(lambda d: len(d.find_element_by_xpath(self.PASSWORD_ERROR).text) != 0)
         except TimeoutException:
             return False
