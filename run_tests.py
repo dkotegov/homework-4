@@ -17,16 +17,15 @@ import sys
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        # unittest.makeSuite(CreationTest),
-        # unittest.makeSuite(EditingTest),
-        # unittest.makeSuite(DeletionTest),
-
-        # unittest.makeSuite(GroupsTest),
-        # unittest.makeSuite(FeaturesTest),
-        # unittest.makeSuite(ImportExportTest),
-        # unittest.makeSuite(AddContactTest),
+        unittest.makeSuite(CreationTest),
+        unittest.makeSuite(EditingTest),
+        unittest.makeSuite(DeletionTest),
+        unittest.makeSuite(GroupsTest),
+        unittest.makeSuite(FeaturesTest),
+        unittest.makeSuite(ImportExportTest),
+        unittest.makeSuite(AddContactTest),
         unittest.makeSuite(EditContactTest),
-        # unittest.makeSuite(FavoritesTest),
+        unittest.makeSuite(FavoritesTest),
         unittest.makeSuite(GroupsTest),
     ))
     result = unittest.TextTestRunner().run(suite)
