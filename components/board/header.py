@@ -16,5 +16,8 @@ class Header(Component):
             return False
         return True
 
+    def get_board_title(self):
+        return self.driver.find_element_by_xpath(self.BOARD_TITLE).text
+
     def open_settings(self):
         self.driver.find_element_by_xpath(self.BOARD_SETTINGS_BUTTON).click()
