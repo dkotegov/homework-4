@@ -21,9 +21,27 @@ class NoHaveNotif(unittest.TestCase):
         self.driver.quit()
 
     def test(self):
+
+        USERNAME2 = os.environ.get('LOGIN2', 'no_test')
+        PASSWORD2 = os.environ.get('PASSWORD2', 'no_test')
+        PIN_ID = os.environ.get('PIN_ID', 'no_test')
+
+        if USERNAME2 == 'no_test':
+            print('TEST HaveNotif: not have USERNAME2 ! skip')
+            return
+
+        if PASSWORD2 == 'no_test':
+            print('TEST HaveNotif: not have PASSWORD2 ! skip')
+            return
+
+        if PIN_ID == 'no_test':
+            print('TEST HaveNotif: not have PIN_ID! skip')
+            return
+
+
         login_act = LoginTest()
         login_act.driver = self.driver
-        login_act.loginBeforeAllTests()
+        login_act.loginBeforeAllTests(second_profile=True)
 
         notif_page = Notification(self.driver)
         notif_page.open()

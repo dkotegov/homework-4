@@ -56,12 +56,9 @@ class HaveNotif(unittest.TestCase):
 
         comment = pp.pin.comment
 
-        before = comment.get_amount_of_comments()
         comment.set_comment_text(self.COMMENT_TEXT)
         comment.send_comment()
         comment.driver.refresh()
-
-        self.assertEqual(comment.get_amount_of_comments(), before + 1)
         #  Evgen part end
 
         self.driver.delete_all_cookies()

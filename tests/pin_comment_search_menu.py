@@ -232,7 +232,7 @@ class Comment(Component):
         ).click()
 
     def get_amount_of_comments(self):
-        parent =  WebDriverWait(self.driver, 30, 0.1).until(
+        parent = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_id("commentBlock")
         )
 
