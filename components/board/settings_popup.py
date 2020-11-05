@@ -18,7 +18,8 @@ class SettingsPopup(Component):
 
     ADD_MEMBER = '//img[contains(@class, "js-findMember")]'
     MEMBER = '//div[contains(@class, "js-foldUnfoldUserInfo")]'
-    MEMBER_NICK = '//div[contains(@class,"board-settings-members__options--profile-info")]'
+    MEMBER_NICK = '//div[contains(@class,"board-settings-members__options--profile-info")' \
+                  ' and not(contains(@class,"board-settings-members__options--profile-info-and-actions"))]'
 
     @property
     def search_form(self):
