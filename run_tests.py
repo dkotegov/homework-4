@@ -2,17 +2,17 @@
 
 import unittest
 
-from tests.signatures.creation_test import CreationTest
-from tests.signatures.editing_test import EditingTest
-from tests.signatures.deletion_test import DeletionTest
-from tests.editor.deep_editing_test import DeepEditingTest
+# from tests.signatures.creation_test import CreationTest
+# from tests.signatures.editing_test import EditingTest
+# from tests.signatures.deletion_test import DeletionTest
+from tests.editor.form_editing_test import FormEditingTest
 import sys
 
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         # unittest.makeSuite(EditingTest),
-        unittest.makeSuite(DeepEditingTest),
+        unittest.makeSuite(FormEditingTest),
         # unittest.makeSuite(CreationTest),
         # unittest.makeSuite(DeletionTest),
 

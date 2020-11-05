@@ -6,7 +6,7 @@ from components.settings_general import SettingsGeneralForm
 from components.signature_creation import SignatureCreationForm
 from components.signature_deletion import SignatureDeletionForm
 from components.signature_editing import SignatureEditingForm
-from components.signature_deep_editing import SignatureDeepEditingForm
+from components.signature_form_editing import SignatureDeepEditingForm
 
 
 class SettingsPage(Page):

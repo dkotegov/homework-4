@@ -43,7 +43,7 @@ class SignatureDeepEditingForm(Component):
     FORBIDDEN_WARNING1 = POPUP1 + '//small[starts-with(text(),"Имя отправителя")]'
     FORBIDDEN_WARNING2 = POPUP2 + '//small[starts-with(text(),"Имя отправителя")]'
 
-    # Редактор
+    # Все для тулбара
 
     EDITOR_TOOLBAR0 = POPUP0 + '//div[@data-test-id="editor"]'
     EDITOR_TOOLBAR_TOOL_BOLD0 = '//div[@data-test-id="bold"]'
@@ -55,11 +55,14 @@ class SignatureDeepEditingForm(Component):
     EDITOR_TOOLBAR_TOOL_UNDERLINE0 = '//div[@data-test-id="underline"]'
     EDITOR_TOOLBAR_TOOL_UNDERLINE_ACTIVE0 = '//div[@data-test-id="underline:active"]'
 
+    EDITOR_TOOLBAR_TOOL_FONT = '//div[@data-test-id="font"]'
+    EDITOR_TOOLBAR_TOOL_COLOR = '//div[@data-test-id="color"]'
+
     EDITOR_TOOLBAR_TOOL_UNDO0 = '//div[@data-test-id="undo"]'
     EDITOR_TOOLBAR_TOOL_REDO0 = '//div[@data-test-id="redo"]'
+
     EDITOR_TOOLBAR_TOOL_LINK0 = '//div[@data-test-id="link"]'
     EDITOR_TOOLBAR_TOOL_INLINE_INPUT0 = '//div[@data-test-id="inline-input"]/button[@type="button"]/input[@type="file"]'
-    EDITOR_TOOLBAR_TOOL_UNFORMAT0 = '//div[@data-test-id="unformat"]'
 
     EDITOR_TOOLBAR_TOOL_ALIGN0 = '//div[@data-test-id="align"]'
 
@@ -71,14 +74,36 @@ class SignatureDeepEditingForm(Component):
     EDITOR_TOOLBAR_TOOL_ALIGN_RIGHT_ACTIVE = '//span[@data-test-id="right:active"]'
     EDITOR_TOOLBAR_TOOL_ALIGN_CENTER_ACTIVE = '//span[@data-test-id="center:active"]'
 
-    EDITOR_TOOLBAR_TOOL_INDENT_INCREASE = '//div[@data-test-id="right"]'
+    EDITOR_TOOLBAR_TOOL_INDENT0 = '//div[@data-test-id="indent"]'
+    EDITOR_TOOLBAR_TOOL_INDENT_INCREASE = '//div[@data-test-id="increase"]'
     EDITOR_TOOLBAR_TOOL_INDENT_DECREASE = '//div[@data-test-id="decrease"]'
 
-    EDITOR_TOOLBAR_TOOL_STYLE_TAB = '//span[@data-test-id="right"]'
-    EDITOR_TOOLBAR_TOOL_FONT_TAB = '//span[@data-test-id="decrease"]'
+    EDITOR_TOOLBAR_TOOL_STYLE_TAB = '//span[@data-test-id="style-tab"]'
+    EDITOR_TOOLBAR_TOOL_FONT_TAB = '//span[@data-test-id="font-tab"]'
 
-    EDITOR_TOOLBAR_TOOL_INDENT0 = '//div[@data-test-id="indent"]'
+    EDITOR_TOOLBAR_TOOL_FONT_HELVETICA = '//div[@data-test-id="Helvetica"]'
+    EDITOR_TOOLBAR_TOOL_STYLE_NORMAL = '//div[@data-test-id="normal"]'
 
+    EDITOR_TOOLBAR_TOOL_COLOR_TAB = '//span[@data-test-id="color-tab"]'
+    EDITOR_TOOLBAR_TOOL_BACKGROUND_TAB = '//span[@data-test-id="bg-tab"]'
+
+    EDITOR_TOOLBAR_TOOL_COLOR_EXAMPLE_TEXT = '//span[starts-with(text(),"Пример оформления текста")]'
+
+    EDITOR_TOOLBAR_TOOL_ORANGE_COLOR = '//div[@data-test-id="rgb(243, 144, 29)"]'
+    EDITOR_TOOLBAR_TOOL_PINK_COLOR = '//div[@data-test-id="rgb(255, 0, 255)"]'
+
+    EDITOR_TOOLBAR_LINK_INPUT = '//input[@data-test-id="link"]'
+    EDITOR_TOOLBAR_LINK_TEXT_INPUT = '//form[@data-test-id="link-editor"]//input[@data-test-id="text"]'
+
+    EDITOR_TOOLBAR_LINK_SAVE = '//form[@data-test-id="link-editor"]//button[@data-test-id="save"]'
+    EDITOR_TOOLBAR_LINK_CANCEL = '//form[@data-test-id="link-editor"]//button[@data-test-id="cancel"]'
+
+    EDITOR_TOOLBAR_LINK_ERROR_MESSAGE_CONTAINER = '//div[@data-test-id="error-footer-text"]'
+
+    # todo проверки форматирования
+    EDITOR_TOOLBAR_TOOL_UNFORMAT0 = '//div[@data-test-id="unformat"]'
+
+    EDITOR_TEXTAREA_FIELD = '//div[@role="textbox"]'
     EDITOR_ERROR_FOOTER_TEXT = '//div[@data-test-id="error-footer-text"]/small[starts-with(text(),"Подпись не должна ' \
                                'быть длиннее 10240 символов")] '
 
@@ -171,19 +196,18 @@ class SignatureDeepEditingForm(Component):
         """
         Проверка клика на italic
         """
-        undo_button = WebDriverWait(self.driver, 5, 0.1).until(
+        button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_ITALIC0)
         )
         try:
-            # Проверка на :active
-            undo_button.click()
+            button.click()
             return True
         except:
             return False
 
     def check_is_active_italic(self):
         """
-        Проверка нажатия на italic
+        Проверка клика на italic
         """
         try:
             button = WebDriverWait(self.driver, 5, 0.1).until(
@@ -227,27 +251,10 @@ class SignatureDeepEditingForm(Component):
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_UNFORMAT0)
         )
         try:
-            # Проверка на откат всего
             button.click()
             return True
         except:
             return False
-
-    def set_big_signature_text(self, text):
-        """
-        Проверка на ошибку с большим текстом
-        """
-        #todo найти куда пихать текст на дохуя символов
-        button = WebDriverWait(self.driver, 5, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_UNFORMAT0)
-        )
-        try:
-            #todo проверка на наличие текста внизу
-            button.click()
-            return True
-        except:
-            return False
-
 
     def click_redo(self):
         """
@@ -277,7 +284,7 @@ class SignatureDeepEditingForm(Component):
 
     def click_align(self):
         """
-        Проверка клика на undo
+        Клика на undo
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_ALIGN0)
@@ -290,7 +297,7 @@ class SignatureDeepEditingForm(Component):
 
     def check_align_data_list_button_center(self):
         """
-        Проверка клика на undo
+        Клик на отцентровку
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_ALIGN_CENTER)
@@ -303,7 +310,7 @@ class SignatureDeepEditingForm(Component):
 
     def check_align_data_list_button_center_active(self):
         """
-        Проверка клика на undo
+        Проверка клика на отцентровку
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_ALIGN_CENTER_ACTIVE)
@@ -316,7 +323,7 @@ class SignatureDeepEditingForm(Component):
 
     def check_align_data_list_button_left(self):
         """
-        Проверка клика на undo
+        Клика на левое выравнивание
         """
         button = WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_ALIGN_LEFT)
@@ -368,12 +375,12 @@ class SignatureDeepEditingForm(Component):
 
     def click_indent(self):
         """
-        Проверка клика на undo
+        Проверка клика на indent
         """
-        button = WebDriverWait(self.driver, 5, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_INDENT0)
-        )
         try:
+            button = WebDriverWait(self.driver, 5, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_INDENT0)
+            )
             button.click()
             return True
         except:
@@ -394,7 +401,7 @@ class SignatureDeepEditingForm(Component):
 
     def check_indent_decrease(self):
         """
-        Проверка клика на increase
+        Клика на decrease
         """
         try:
             button = WebDriverWait(self.driver, 5, 0.1).until(
@@ -405,13 +412,254 @@ class SignatureDeepEditingForm(Component):
         except:
             return False
 
-    def click_fonts(self):
+    def click_font(self):
         """
-        Проверка клика на increase
+        Проверка клика на font
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_FONT)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_tab_font(self):
+        """
+        Проверка клика на font
+        """
+
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_FONT_TAB)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_tab_font_helvetica(self):
+        """
+        Проверка клика на helvetica
+        """
+
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_FONT_HELVETICA)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_tab_style(self):
+        """
+        Проверка клика на font
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_STYLE_TAB)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_tab_style_normal(self):
+        """
+        Клика на normal
+        """
+
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_STYLE_NORMAL)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_button_color(self):
+        """
+        Проверка клика на color
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_COLOR)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_button_color_tab_color(self):
+        """
+        Проверка клика на цвет
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_COLOR_TAB)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_button_color_tab_background(self):
+        """
+        Проверка клика на фон
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_BACKGROUND_TAB)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_color_tab_orange_color(self):
+        """
+        Проверка клика на фон
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_ORANGE_COLOR)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_color_tab_pink_color(self):
+        """
+        Проверка клика на фон
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_PINK_COLOR)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def get_color_of_text(self):
+        """
+        Проверка клика на фон
+        """
+        text = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_COLOR_EXAMPLE_TEXT)
+        )
+        return text.value_of_css_property('color')
+
+    def get_color_of_background(self):
+        """
+        Проверка клика на фон
+        """
+        text = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_COLOR_EXAMPLE_TEXT)
+        )
+        return text.value_of_css_property('background-color')
+
+    def click_button_link(self):
+        """
+           Проверка клика на link
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_LINK0)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def set_toolbar_link(self, text):
+        """
+        Ввод ссылки
         """
         try:
-            button = WebDriverWait(self.driver, 5, 0.1).until(
-                lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_TOOL_INDENT_DECREASE)
+            link = WebDriverWait(self.driver, 5, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_LINK_INPUT)
+            )
+            link.send_keys(text)
+            return True
+        except:
+            return False
+
+    def set_toolbar_link_text(self, text):
+        """
+        Ввод текста ссылки
+        """
+        try:
+            link = WebDriverWait(self.driver, 5, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_LINK_TEXT_INPUT)
+            )
+            link.send_keys(text)
+            return True
+        except:
+            return False
+
+    def click_toolbar_link_save(self):
+        """
+        Сохранение ссылки
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_LINK_SAVE)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def click_toolbar_link_cancel(self):
+        """
+        Отмена добавления ссылки
+        """
+        button = WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.EDITOR_TOOLBAR_LINK_CANCEL)
+        )
+        try:
+            button.click()
+            return True
+        except:
+            return False
+
+    def toolbar_link_check_no_warning(self):
+        """
+        Проверка наличия ворнинга о некорректной ссылке
+        """
+        try:
+            warining = WebDriverWait(self.driver, 2, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.EDITOR_ERROR_FOOTER_TEXT)
+            )
+            return True
+        except:
+            return False
+
+    def set_text_to_textarea(self, text):
+        """
+        Добавление текста в текстовый блок
+        """
+        try:
+            textarea = WebDriverWait(self.driver, 2, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.EDITOR_TEXTAREA_FIELD)
+            )
+            textarea.send_keys(text)
+            return True
+        except:
+            return False
+
+    def save_signature(self):
+        """
+        Проверка сохранения
+        """
+        try:
+            button = WebDriverWait(self.driver, 2, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.SAVE0)
             )
             button.click()
             return True
