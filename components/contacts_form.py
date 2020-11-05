@@ -11,6 +11,8 @@ class ContactsFormLocators:
     def __init__(self):
         self.create_contact_btn = '//button[@data-test-id="add-contact"]'
         self.contact_block = '//div[contains(@data-test-id, "{}")]/a'
+        self.contact_dropdown = '//div[contains(@data-test-id, "{}")]/a//div[@class="dropdown-1-2-89"]'
+        self.contact_dropdown_delete = '//div[@data-test-id="more-delete"]'
         self.contact_block_avatar = self.contact_block + '/div[@data-test-id="addressbook-item-avatar"]'
 
         self.select_all_btn = '//button[@data-test-id="addressbook-select-all-users"]'
@@ -59,6 +61,10 @@ class ContactsFormLocators:
 
         self.click_edit_button = '//button[@data-test-id="addressbook-edit"]'
 
+        self.click_remove_button = '//button[@data-test-id="addressbook-remove"]'
+
+        self.open_personal_contacts = '//a[@data-test-id="addressbook-group-id:personal"]'
+
 
 class ContactsForm(Component):
 
@@ -74,9 +80,19 @@ class ContactsForm(Component):
             EC.element_to_be_clickable((By.XPATH, self.locators.first_contact_button)))
         element.click()
 
+    def open_personal_contacts(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.open_personal_contacts)))
+        element.click()
+
     def click_edit_contact(self):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.click_edit_button)))
+        element.click()
+
+    def click_remove_contact(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.click_remove_button)))
         element.click()
 
     def click_create_contact(self):
@@ -239,8 +255,9 @@ class ContactsForm(Component):
 
     def click_return_if_exists(self):
         try:
-            element = self.wait.until(
-                EC.element_to_be_clickable((By.XPATH, self.locators.contact_return_btn)))
+            element = WebDriverWait(self.driver, 5, 0.1).until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.contact_return_btn))
+            )
             element.click()
         except (TimeoutException, StaleElementReferenceException):
             pass
@@ -251,6 +268,22 @@ class ContactsForm(Component):
 
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.contact_block.format(email))))
+        element.click()
+
+    def click_contact_dropdown(self, email):
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.contact_dropdown.format(email))))
+
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.contact_dropdown.format(email))))
+        element.click()
+
+    def click_delete_in_dropdown(self):
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.contact_dropdown_delete)))
+
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.contact_dropdown_delete)))
         element.click()
 
     def click_select_all(self):

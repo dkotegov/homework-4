@@ -2,6 +2,7 @@
 
 import unittest
 
+from tests.contacts.delete_contact_test import DeleteContactsTest
 from tests.contacts.add_contact_test import AddContactTest
 from tests.contacts.edit_contact import EditContactTest
 from tests.signatures.creation_test import CreationTest
@@ -22,7 +23,8 @@ if __name__ == '__main__':
         # unittest.makeSuite(FeaturesTest),
         # unittest.makeSuite(ImportExportTest),
         # unittest.makeSuite(AddContactTest),
-        unittest.makeSuite(EditContactTest),
+        # unittest.makeSuite(EditContactTest),
+        unittest.makeSuite(DeleteContactsTest)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
