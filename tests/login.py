@@ -6,6 +6,7 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 
 class LoginTest(unittest.TestCase):
+
     USERNAME = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
 

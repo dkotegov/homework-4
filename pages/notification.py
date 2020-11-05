@@ -17,6 +17,8 @@ class Notification(Page):
 class NotificationModal(Component):
     NOTIF_HELLO_MSG = '//*[@class="mini_title"]'
     NOTIF_LOAD_MSG = '//*[@id="content"]/h2'
+    NOTIF_BLOCK = '//*[@id="notifBlock"]'
+
 
     def get_msg(self):
         WebDriverWait(self.driver, 20, 0.1).until(
@@ -29,6 +31,15 @@ class NotificationModal(Component):
             lambda d: d.find_element_by_xpath(self.NOTIF_LOAD_MSG)
         )
         return self.driver.find_element_by_xpath(self.NOTIF_LOAD_MSG).get_attribute('innerText')
+
+    def get_last_notif_text(self):
+        WebDriverWait(self.driver, 20, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.NOTIF_BLOCK)
+        )
+        html = self.driver.find_element_by_xpath(self.NOTIF_BLOCK).get_attribute('innerHTML')
+        return html.split('class="notif_text">')[1].split('</div>')[0]
+
+
 
 
 class TopMenu(Component):

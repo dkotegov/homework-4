@@ -19,6 +19,9 @@ class AuthForm(Component):
 
     def open_form(self):
         self.driver.find_element_by_xpath(self.LOGIN_MODAL).click()
+        WebDriverWait(self.driver, 20, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.LOGIN_MODAL)
+        )
 
     def set_login(self, login):
         WebDriverWait(self.driver, 20, 0.1).until(

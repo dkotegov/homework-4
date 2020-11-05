@@ -66,3 +66,4 @@ class FeedArea(Component):
     def show_sub(self):
         self.driver.get('https://zinterest.ru/subs')  # hardcore, replace tip menu acts
 
+

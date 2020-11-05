@@ -1,13 +1,17 @@
 import os
+import time
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.notification import Notification
 from tests.login import LoginTest
+from tests.pin_comment_search_menu import PinPage
 
 
 class HaveNotif(unittest.TestCase):
+
+    COMMENT_TEXT = 'text'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -21,20 +25,50 @@ class HaveNotif(unittest.TestCase):
 
     def test(self):
 
-        USERNAME = os.environ.get('LOGIN2', 'no_test')
-        PASSWORD = os.environ.get('PASSWORD2', 'no_test')
+        USERNAME2 = os.environ.get('LOGIN2', 'no_test')
+        PASSWORD2 = os.environ.get('PASSWORD2', 'no_test')
+        PIN_ID = os.environ.get('PIN_ID', 'no_test')
 
-        if USERNAME == PASSWORD == 'no_test':
-            print('TEST HaveNotif: not have LOGIN2 and PASSWORD2! skip')
+        if USERNAME2 == 'no_test':
+            print('TEST HaveNotif: not have USERNAME2 ! skip')
             return
+
+        if PASSWORD2 == 'no_test':
+            print('TEST HaveNotif: not have PASSWORD2 ! skip')
+            return
+
+        if PIN_ID == 'no_test':
+            print('TEST HaveNotif: not have PIN_ID! skip')
+            return
+
+
 
         login_act = LoginTest()
         login_act.driver = self.driver
         login_act.loginBeforeAllTests(second_profile=True)
 
-        # write comment
+        # write comment Evgen part start
+        pp = PinPage(self.driver)
+
+        pin_path = pp.BASE_URL + 'pin/' + PIN_ID
+
+        pp.open_pin(pin_path)
+
+        comment = pp.pin.comment
+
+        before = comment.get_amount_of_comments()
+        comment.set_comment_text(self.COMMENT_TEXT)
+        comment.send_comment()
+        comment.driver.refresh()
+
+        self.assertEqual(comment.get_amount_of_comments(), before + 1)
+        #  Evgen part end
 
         self.driver.delete_all_cookies()
+        self.driver.refresh()
+
+
+        self.driver.get(pp.BASE_URL + 'logout')
         self.driver.refresh()
 
         login_act.loginBeforeAllTests()
@@ -44,7 +78,8 @@ class HaveNotif(unittest.TestCase):
 
         notif_modal = notif_page.notification_modal
 
-        #get some notif
+        notif_text = notif_modal.get_last_notif_text()
 
-        #msg = notif_modal.get_msg()
-        #self.assertEqual(self.NO_NOTIFICATION, msg)
+        self.assert_(notif_text, USERNAME2)
+        self.assert_(notif_text, self.COMMENT_TEXT)
+

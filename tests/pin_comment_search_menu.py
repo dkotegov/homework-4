@@ -40,8 +40,11 @@ class AuthPage(Page):
 class PinPage(Page):
     PATH = '/pin/339'
 
-    def open_pin(self):
-        url = urljoin(super().BASE_URL, self.PATH)
+    def open_pin(self, pin_path=''):
+        if pin_path == '':
+            url = urljoin(super().BASE_URL, self.PATH)
+        else:
+            url = urljoin(super().BASE_URL, pin_path)
         self.driver.get(url)
         self.driver.maximize_window()
 
@@ -268,14 +271,12 @@ class PinAndCommentTest(unittest.TestCase):
     PINNAME = 'Testpin'
 
     def setUp(self):
+
         browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = webdriver.Chrome('./chromedriver')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
-        #browser = os.environ.get('BROWSER', 'CHROME')
-        #self.driver = webdriver.Chrome('./chromedriver')
 
     def tearDown(self):
         self.driver.quit()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 import sys
 import unittest
@@ -16,8 +16,14 @@ from tests.feed.myPinsFeed import MyPins
 from tests.feed.subscriptionsFeed import SubFeed
 from tests.login import LoginTest
 from tests.chat.supportPage import OpenSupportPage
+from tests.notification.havaNotif import HaveNotif
 from tests.notification.noHaveNotif import NoHaveNotif
 from tests.notification.noLoginOpenNotification import NoLoginNotif
+from tests.pin_comment_search_menu import PinAndCommentTest
+
+
+
+
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -36,8 +42,10 @@ if __name__ == '__main__':
         unittest.makeSuite(MyDesk),
         unittest.makeSuite(GetUserPinsNoLogin),
         unittest.makeSuite(SubFeed),
+        unittest.makeSuite(HaveNotif),
 
 
+        unittest.makeSuite(PinAndCommentTest),
 
     ))
     result = unittest.TextTestRunner().run(suite)
