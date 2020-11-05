@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, WebDriverException
+from selenium.webdriver import ActionChains
 
 
 class ContactsFormLocators:
@@ -12,6 +13,7 @@ class ContactsFormLocators:
         self.create_contact_btn = '//button[@data-test-id="add-contact"]'
         self.contact_block = '//div[contains(@data-test-id, "{}")]/a'
         self.contact_block_avatar = self.contact_block + '/div[@data-test-id="addressbook-item-avatar"]'
+        self.contact_block_star = self.contact_block + '//div[@data-test-id="favorite-icon"]'
 
         self.select_all_btn = '//button[@data-test-id="addressbook-select-all-users"]'
         self.delete_contacts_btn = '//button[@data-test-id="addressbook-delete-users"]'
@@ -58,6 +60,8 @@ class ContactsFormLocators:
         self.first_contact_button = '//div[@data-test-id="addressbook-user-item"]'
 
         self.click_edit_button = '//button[@data-test-id="addressbook-edit"]'
+
+        self.contact_favorites_button = '//div[@data-test-id="favorite-icon"]'
 
 
 class ContactsForm(Component):
@@ -289,7 +293,7 @@ class ContactsForm(Component):
     def contacts_exists(self, emails):
         for email in emails:
             try:
-                WebDriverWait(self.driver, 10).until(
+                WebDriverWait(self.driver, 1).until(
                     EC.presence_of_element_located((By.XPATH, self.locators.contact_block.format(email))))
             except TimeoutException:
                 return False
@@ -313,3 +317,24 @@ class ContactsForm(Component):
         except TimeoutException:
             return False
         return True
+
+    def click_favorites(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.contact_favorites_button)))
+        element.click()
+
+    def click_star_on_contact_list(self, email):
+        self.wait.until(
+            EC.visibility_of_all_elements_located((By.XPATH, self.locators.contact_block.format(email))))
+
+        element = self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.contact_block.format(email))))
+        ActionChains(self.driver).move_to_element(element).perform()
+
+        try:
+            element = self.wait.until(
+                EC.element_to_be_clickable((By.XPATH, self.locators.contact_block_star.format(email))))
+            element.click()
+            return True
+        except TimeoutException:
+            return False
