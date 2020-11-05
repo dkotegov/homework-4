@@ -58,5 +58,13 @@ docs/_build/
 # PyBuilder
 target/
 
+.idea/
+venv/
+chromedriver
+geckodriver
+selenium*
+run_*
+.gitignore
+
 #Ipython Notebook
 .ipynb_checkpoints
