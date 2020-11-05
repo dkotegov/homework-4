@@ -1,7 +1,5 @@
 import os
-import unittest
 
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -30,7 +28,6 @@ class SearchPage:
     test_password = os.environ.get('PASSWORD_2')
     letter_line = "dataset-letters"
     select_category_button = "[data-qa='select-button']"
-    # category = "[data-qa='select-list-item']"
     category_line = "[data-qa-value='1']"
     select_subcategory_button = "[data-qa-value='allSubCats']"
     subcategory_line = "[data-qa-value='1394']"

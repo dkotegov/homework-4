@@ -14,7 +14,6 @@ class LeaderPage:
     test_email = "testmail7171@mail.ru"
     test_password = os.environ.get('PASSWORD_2')
     letter_line = "dataset-letters"
-    # leader_user = "[data-qa='avatar_link']"
     leader_user = "[class^='topUserItem']"
     leader_user_score = "[class^='pointsDiffTop']"
     leader_user_profile = "[class^='rank']"
