@@ -1,6 +1,7 @@
 from base_classes.component import Component
 from components.task.add_label_to_task_popup import AddLabelToTaskPopup
 from components.task.create_label_popup import CreateLabelPopup
+from selenium.webdriver.common.action_chains import ActionChains
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
@@ -84,4 +85,6 @@ class TaskSettingsPopup(Component):
     
     def close_popup(self):
         assert(self.is_open)
-        self.driver.find_element_by_xpath(self.CLOSE_POPUP_BUTTON).click()
+        ActionChains(self.driver).click(
+            self.driver.find_element_by_xpath(self.CLOSE_POPUP_BUTTON)
+        )
