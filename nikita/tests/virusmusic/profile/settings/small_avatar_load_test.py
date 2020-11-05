@@ -5,7 +5,7 @@ from nikita.pages.virusmusic.profile.settings import SettingsPage
 from nikita.utils import wait_for_pop_up
 
 class SmallAvatarLoadTest(Test):
-    SMALL_AVATAR_PATH = os.getcwd() + '/resources/small_avatar.png'
+    SMALL_AVATAR_PATH = os.getcwd() + '/nikita/resources/small_avatar.png'
 
     def test(self):
         page = SettingsPage(self.driver)

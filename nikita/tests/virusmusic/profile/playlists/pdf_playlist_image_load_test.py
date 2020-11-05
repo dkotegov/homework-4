@@ -6,7 +6,7 @@ from nikita.utils import wait_for_pop_up
 from nikita.constants import PLAYLIST_NAME
 
 class PdfPlaylistImageLoadTest(PlaylistTest):
-    PDF_PATH = os.getcwd() + '/resources/RK-3.pdf'
+    PDF_PATH = os.getcwd() + '/nikita/resources/RK-3.pdf'
 
     def test(self):
         page = ProfilePlaylistsPage(self.driver)

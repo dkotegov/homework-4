@@ -3,7 +3,7 @@ from margarita.tests.virusmusic.tracks.default import TrackTestNoAuth
 from margarita.pages.virusmusic.main_page import MainPage
 from margarita.pages.virusmusic.profile import ProfilePlaylistsPage
 from margarita.pages.virusmusic.playlists import PlaylistPage
-import utils
+import margarita.utils
 
 class TrackAddAndRemoveFromPlaylistTest(TrackTestAuth):
     def test(self):

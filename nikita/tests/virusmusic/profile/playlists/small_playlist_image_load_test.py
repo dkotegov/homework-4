@@ -6,7 +6,7 @@ from nikita.utils import wait_for_pop_up
 from nikita.constants import PLAYLIST_NAME
 
 class SmallPlaylistImageLoadTest(PlaylistTest):
-    SMALL_IMAGE_PATH = os.getcwd() + '/resources/small_avatar.png'
+    SMALL_IMAGE_PATH = os.getcwd() + '/nikita/resources/small_avatar.png'
 
     def test(self):
         page = ProfilePlaylistsPage(self.driver)

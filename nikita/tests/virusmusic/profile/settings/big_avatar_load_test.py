@@ -5,7 +5,7 @@ from nikita.pages.virusmusic.profile.settings import SettingsPage
 from nikita.constants import AVATAR_ERROR_ID, AVATAR_ERROR_SIZE_MESSAGE
 
 class BigAvatarLoadTest(Test):
-    BIG_AVATAR_PATH = os.getcwd() + '/resources/iiL9jsEie_w.jpg'
+    BIG_AVATAR_PATH = os.getcwd() + '/nikita/resources/iiL9jsEie_w.jpg'
 
     def test(self):
         page = SettingsPage(self.driver)

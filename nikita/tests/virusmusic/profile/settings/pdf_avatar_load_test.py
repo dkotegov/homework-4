@@ -5,7 +5,7 @@ from nikita.pages.virusmusic.profile.settings import SettingsPage
 from nikita.constants import AVATAR_ERROR_ID, AVATAR_ERROR_EXTENSION_MESSAGE
 
 class PdfAvatarLoadTest(Test):
-    PDF_AVATAR_PATH = os.getcwd() + '/resources/RK-3.pdf'
+    PDF_AVATAR_PATH = os.getcwd() + '/nikita/resources/RK-3.pdf'
 
     def test(self):
         page = SettingsPage(self.driver)

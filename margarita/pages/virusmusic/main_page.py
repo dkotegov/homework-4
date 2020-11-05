@@ -4,7 +4,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import ActionChains
 
 from margarita.pages.default import Page
-import utils
+import margarita.utils as utils
 
 
 class MainPage(Page):
