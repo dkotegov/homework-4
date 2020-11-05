@@ -59,7 +59,6 @@ class EditContactTest(unittest.TestCase):
         self.page.open()
 
         self.page.delete_all_contacts()
-        time.sleep(1)
         self.driver.quit()
 
     def test_edit_empty(self):
