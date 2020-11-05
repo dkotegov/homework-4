@@ -18,15 +18,15 @@ import sys
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        # unittest.makeSuite(GroupsTest),
-        # unittest.makeSuite(FeaturesTest),
-        # unittest.makeSuite(ImportExportTest),
+        unittest.makeSuite(GroupsTest),
+        unittest.makeSuite(FeaturesTest),
+        unittest.makeSuite(ImportExportTest),
 
-        # unittest.makeSuite(FormEditingTest),
+        unittest.makeSuite(FormEditingTest),
 
-        # unittest.makeSuite(CreationTest),
-        # unittest.makeSuite(EditingTest),
-        # unittest.makeSuite(DeletionTest),
+        unittest.makeSuite(CreationTest),
+        unittest.makeSuite(EditingTest),
+        unittest.makeSuite(DeletionTest),
 
         unittest.makeSuite(AddContactTest),
         unittest.makeSuite(DeleteContactsTest),
