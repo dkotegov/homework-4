@@ -150,7 +150,6 @@ class QuestionsTests(unittest.TestCase):
         question_page.set_answer(self.LONG_TEXT)
         self.assertEqual(question_page.is_submit_button_disabled(), True)
 
-    @unittest.skip
     def test_answer(self):
         """skip_setup_login"""
         auth_page = AuthPage(self.driver)

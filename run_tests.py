@@ -3,6 +3,7 @@
 import logging
 import sys
 import unittest
+
 from test_suites.search_test import SearchTests
 from test_suites.notification_test import NotificationTests
 from test_suites.category_test import CategoryTests
