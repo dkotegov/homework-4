@@ -11,7 +11,7 @@ from steps.tag import TagSteps
 
 
 # Редактирование проект
-class EditTest(unittest.TestCase):
+class EditProjTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
     SUCCESS = 'Добавление прошло успешно'
     SUCCESS_SAVE = 'Сохранение прошло успешно'

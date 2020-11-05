@@ -9,7 +9,7 @@ from steps.tag import TagSteps
 
 
 # Список тегов
-class TagTest(unittest.TestCase):
+class TagListAppearsTest(unittest.TestCase):
     BIG_SOURCE = './sources/big_source.jpeg'
     BIG_SOURCE_STRING = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAg'
     SUCCESS = 'Удаление прошло успешно'
@@ -37,22 +37,16 @@ class TagTest(unittest.TestCase):
         self.source_page.back_to_menu()
 
         self.main_page.go_to_tag(self.BIG_SOURCE)
+        self.tag_page = TagSteps(self.driver)
 
     def tearDown(self):
+        self.tag_page.delete_source()
+
         self.driver.quit()
 
     def test_new_source_appears_success(self):
-        tag_page = TagSteps(self.driver)
-        image = tag_page.image_presents(self.BIG_SOURCE_STRING)
+        image = self.tag_page.image_presents(self.BIG_SOURCE_STRING)
         self.assertIn(self.BIG_SOURCE_STRING, image)
-
-        # Очистить созданное
-        tag_page.delete_source()
-
-    def test_new_source_delete_success(self):
-        tag_page = TagSteps(self.driver)
-        alert = tag_page.delete_source()
-        self.assertEqual(self.SUCCESS, alert)
 
 
 

@@ -9,9 +9,8 @@ from steps.new_proj import NewProjSteps
 
 
 # Добавление проекта
-class NewProjTest(unittest.TestCase):
+class NewProjFailedTest(unittest.TestCase):
     KEY = os.environ['PASSWORD']
-    SUCCESS = 'Создание проекта прошло успешно'
     FAILED = 'Название пусто'
     PROJ_NAME = 'ВралУЫЕдр'
 
@@ -33,14 +32,6 @@ class NewProjTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-
-    def test_new_proj_success(self):
-        proj_page = NewProjSteps(self.driver)
-        alert = proj_page.fill_form(self.PROJ_NAME, self.PROJ_NAME)
-        self.assertEqual(alert, self.SUCCESS)
-
-        proj_page.back_to_menu()
-        self.main_page.delete_proj(self.PROJ_NAME)
 
     def test_no_tag_failed(self):
         proj_page = NewProjSteps(self.driver)
