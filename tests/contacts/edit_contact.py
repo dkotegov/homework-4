@@ -62,95 +62,94 @@ class EditContactTest(unittest.TestCase):
         time.sleep(1)
         self.driver.quit()
 
-    # def test_edit_empty(self):
-    #     """
-    #         Ошибка при заполнении контакта пустыми полями
-    #     """
-    #
-    #     empty_data = {
-    #         "firstname": '',
-    #         "lastname": '',
-    #         "nick": '',
-    #         "company": '',
-    #         "email": [''],
-    #         "phone": '',
-    #         "comment": '',
-    #         "job_title": '',
-    #         "boss": '',
-    #         "address": '',
-    #     }
-    #     self.page.edit_contact(**empty_data)
-    #
-    #     self.assertTrue(self.page.has_error())
+    def test_edit_empty(self):
+        """
+            Ошибка при заполнении контакта пустыми полями
+        """
 
-    # def test_invalid_email(self):
-    #     """
-    #      Ошибка при вводе невалидной почты
-    #     """
-    #     self.page.edit_contact(email=[self.invalid_emails[0]])
-    #     self.assertTrue(self.page.has_validation_errors())
-    #
-    #     for email in self.invalid_emails[1:]:
-    #         self.page.fill_form_and_save(email=[email])
-    #         self.assertTrue(self.page.has_validation_errors())
+        empty_data = {
+            "firstname": '',
+            "lastname": '',
+            "nick": '',
+            "company": '',
+            "email": [''],
+            "phone": '',
+            "comment": '',
+            "job_title": '',
+            "boss": '',
+            "address": '',
+        }
+        self.page.edit_contact(**empty_data)
 
-    # def test_edit_ok(self):
-    #     """
-    #     Проврека успешного редактирования контакта
-    #     """
-    #     self.page.edit_contact(**self.data_for_edit)
-    #     self.page.open()
-    #     self.assertTrue(self.page.contact_exists(self.data_for_edit['email'][0]))
+        self.assertTrue(self.page.has_error())
 
-    # def test_only_email(self):
-    #     """
-    #     Оставить заполненным только email
-    #     """
-    #
-    #     only_email = {
-    #         "firstname": '',
-    #         "lastname": '',
-    #         "nick": '',
-    #         "company": '',
-    #         "email": ['new@email.com'],
-    #         "phone": '',
-    #         "comment": '',
-    #         "job_title": '',
-    #         "boss": '',
-    #         "address": '',
-    #     }
-    #     self.page.edit_contact(**only_email)
-    #
-    #     self.assertFalse(self.page.has_error())
+    def test_invalid_email(self):
+        """
+         Ошибка при вводе невалидной почты
+        """
+        self.page.edit_contact(email=[self.invalid_emails[0]])
+        self.assertTrue(self.page.has_validation_errors())
 
-    # def test_edit_latin(self):
-    #     """
-    #     Проверка редактирования контакта только с латинскими символами в имени
-    #     """
-    #     only_email = {
-    #         "nick": "some nick"
-    #     }
-    #
-    #     self.page.edit_contact(**only_email)
-    #     self.assertFalse(self.page.has_any_error())
+        for email in self.invalid_emails[1:]:
+            self.page.fill_form_and_save(email=[email])
+            self.assertTrue(self.page.has_validation_errors())
 
-    # def test_unicode(self):
-    #     """
-    #     Проверка редактирования контакта с нетипичными unicode символами
-    #     """
-    #     only_nick = {
-    #         "nick": "ђћ∆".decode("utf-8")
-    #     }
-    #
-    #     self.page.edit_contact(**only_nick)
-    #     self.assertFalse(self.page.has_any_error())
+    def test_edit_ok(self):
+        """
+        Проврека успешного редактирования контакта
+        """
+        self.page.edit_contact(**self.data_for_edit)
+        self.page.open()
+        self.assertTrue(self.page.contact_exists(self.data_for_edit['email'][0]))
 
-    # def test_same_contacts(self):
-    #     """
-    #     Исправление контакта на уже существующий
-    #     """
-    #     self.page.open()
-    #     self.page.create_contact(**self.sergey_contact)
-    #     time.sleep(5)
-    #     self.page.edit_contact(**self.dmitry_contact)
-    #     self.assertFalse(self.page.has_any_error())
+    def test_only_email(self):
+        """
+        Оставить заполненным только email
+        """
+
+        only_email = {
+            "firstname": '',
+            "lastname": '',
+            "nick": '',
+            "company": '',
+            "email": ['new@email.com'],
+            "phone": '',
+            "comment": '',
+            "job_title": '',
+            "boss": '',
+            "address": '',
+        }
+        self.page.edit_contact(**only_email)
+
+        self.assertFalse(self.page.has_error())
+
+    def test_edit_latin(self):
+        """
+        Проверка редактирования контакта только с латинскими символами в имени
+        """
+        only_email = {
+            "nick": "some nick"
+        }
+
+        self.page.edit_contact(**only_email)
+        self.assertFalse(self.page.has_any_error())
+
+    def test_unicode(self):
+        """
+        Проверка редактирования контакта с нетипичными unicode символами
+        """
+        only_nick = {
+            "nick": "ђћ∆".decode("utf-8")
+        }
+
+        self.page.edit_contact(**only_nick)
+        self.assertFalse(self.page.has_any_error())
+
+    def test_same_contacts(self):
+        """
+        Исправление контакта на уже существующий
+        """
+        self.page.open()
+        self.page.create_contact(**self.sergey_contact)
+        self.page.edit_contact(**self.dmitry_contact)
+        self.assertFalse(self.page.has_any_error())

@@ -48,3 +48,6 @@ class ContactAddingPage(Page):
 
     def return_back(self):
         return self.contact_form.click_return_if_exists()
+
+    def wait_for_return_back(self):
+        return self.contact_form.click_return()
