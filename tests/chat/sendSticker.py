@@ -33,9 +33,9 @@ class SendSticker(unittest.TestCase):
 
         chat_messages = chat_page.messages
         chat_messages.open_sticker_menu()
+        msg_count = chat_messages.get_msg_count()
         chat_messages.click_first_sticker()
-        chat_messages.send_msg()
-        chat_messages.wait_new_msg()
+        chat_messages.wait_new_msg(msg_count + 1)
         sticker_path = chat_messages.get_sticker_path()
 
         self.assertEqual(sticker_path, self.STICKER_PATH)

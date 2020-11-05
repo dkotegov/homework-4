@@ -34,12 +34,15 @@ class SendMessage(unittest.TestCase):
         chat_contacts = chat_page.contacts
         chat_contacts.go_support()
 
-        # self.MSG = self.MSG_10_CHAR * 60  # for test 50 and 150 msg char
+        # self.MSG = self.MSG_10_CHAR * 60  # for test 50 and 150 msg char (bad css, not have screen check)
 
         chat_messages = chat_page.messages
         chat_messages.set_msg(self.MSG)
+        msg_count = chat_messages.get_msg_count()
+
         chat_messages.send_msg()
-        chat_messages.wait_new_msg()
+
+        chat_messages.wait_new_msg(msg_count + 1)
         new_msg = chat_messages.get_last_msg()
 
         self.assertEqual(new_msg, self.MSG)

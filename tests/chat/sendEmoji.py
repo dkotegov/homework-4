@@ -34,8 +34,9 @@ class SendEmoji(unittest.TestCase):
         chat_messages = chat_page.messages
         chat_messages.open_emoji_menu()
         chat_messages.click_emoji_pizza()
+        msg_count = chat_messages.get_msg_count()
         chat_messages.send_msg()
-        chat_messages.wait_new_msg()
+        chat_messages.wait_new_msg(msg_count + 1)
         new_msg = chat_messages.get_last_msg()
 
         self.assertEqual(new_msg, self.EMOJI)

@@ -31,9 +31,15 @@ class MainFeed(unittest.TestCase):
 
         feed_area = feed_page.feed_area
 
+        feed_area.wait_new_pins(5)
+
         have_before_scroll = feed_area.get_pins_count()
 
+        feed_area.wait_new_pins(have_before_scroll - 5)
+
         feed_area.scroll()
+
+        feed_area.wait_new_pins(have_before_scroll + 5)
 
         have_after_scroll = feed_area.get_pins_count()
 

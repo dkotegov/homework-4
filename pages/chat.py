@@ -93,11 +93,15 @@ class Messages(Component):
     def send_msg(self):
         self.driver.find_element_by_xpath(self.CHAT_SEND_MSG_BTN).click()
 
-    def wait_new_msg(self):
+    def get_msg_count(self):
+        html_history = self.driver.find_element_by_xpath(self.CHAT_HISTORY).get_attribute('innerHTML')
+        return len(html_history.split('<li class=')) - 1
+
+    def wait_new_msg(self, msg_number):
+        x_path_selector = self.CHAT_HISTORY + '/div['+str(msg_number)+']/li'
         WebDriverWait(self.driver, 20, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.CHAT_HISTORY)  # replace CHAT_HISTORY! (CHAT_LAST_MSG)
+            lambda d: d.find_element_by_xpath(x_path_selector)
         )
-        time.sleep(0.5)  # BAD, but don't know how to wait new msg
 
     def get_last_msg(self):
         history_html = self.driver.find_element_by_xpath(self.CHAT_HISTORY).get_attribute('innerHTML')
