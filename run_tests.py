@@ -5,11 +5,11 @@ import sys
 import unittest
 
 from test_suites.search_test import SearchTests
-from test_suites.notification_test import NotificationTests
+# from test_suites.notification_test import NotificationTests
 from test_suites.category_test import CategoryTests
-from test_suites.leaders_test import LeaderTests
-from test_suites.questions_test import QuestionsTests
-from test_suites.polls_test import PollsTest
+# from test_suites.leaders_test import LeaderTests
+# from test_suites.questions_test import QuestionsTests
+# from test_suites.polls_test import PollsTest
 
 log = logging.getLogger(__name__)
 
