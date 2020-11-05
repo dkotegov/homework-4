@@ -28,7 +28,6 @@ class SettingsPage(Page):
     def deep_editing(self):
         return SignatureDeepEditingForm(self.driver)
 
-
     def delete_first_signature(self):
         """
         Шорткат для удаления первой подписи
@@ -153,6 +152,5 @@ class SettingsPage(Page):
         editing = self.editing()
 
         general.edit_first_signature()
-
 
         editing.save_first()
