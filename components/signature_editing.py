@@ -331,3 +331,5 @@ class SignatureEditingForm(Component):
             return True
         except NoSuchElementException:
             return False
+
+

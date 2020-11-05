@@ -6,6 +6,7 @@ from components.settings_general import SettingsGeneralForm
 from components.signature_creation import SignatureCreationForm
 from components.signature_deletion import SignatureDeletionForm
 from components.signature_editing import SignatureEditingForm
+from components.signature_deep_editing import SignatureDeepEditingForm
 
 
 class SettingsPage(Page):
@@ -23,6 +24,10 @@ class SettingsPage(Page):
 
     def editing(self):
         return SignatureEditingForm(self.driver)
+
+    def deep_editing(self):
+        return SignatureDeepEditingForm(self.driver)
+
 
     def delete_first_signature(self):
         """
@@ -138,3 +143,16 @@ class SettingsPage(Page):
             editing.mark_third_as_default()
 
         editing.save_third()
+
+    def edit_first_signature_deep(self):
+        """
+        Шорткат для изменения первой подписи Серега
+        :return: None
+        """
+        general = self.general()
+        editing = self.editing()
+
+        general.edit_first_signature()
+
+
+        editing.save_first()

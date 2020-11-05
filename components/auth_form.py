@@ -54,5 +54,5 @@ class AuthForm(Component):
         :param name: Имя, которое должно появиться
         """
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: self.driver.find_element_by_xpath( '//i[text()="' + name + '"]')
+            lambda d: self.driver.find_element_by_xpath('//i[text()="' + name + '"]')
         )
