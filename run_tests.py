@@ -19,7 +19,7 @@ from tests.chat.supportPage import OpenSupportPage
 from tests.notification.havaNotif import HaveNotif
 from tests.notification.noHaveNotif import NoHaveNotif
 from tests.notification.noLoginOpenNotification import NoLoginNotif
-from tests.pin_comment_search_menu import PinAndCommentTest
+from tests.pin_comment_search_menu import PinAndCommentTest, SearchAndMenuTest
 
 from romanov.cases.auth_login import AuthLoginTest
 from romanov.cases.auth_reg import AuthRegTest
@@ -52,6 +52,7 @@ if __name__ == '__main__':
 
 
         unittest.makeSuite(PinAndCommentTest),
+        unittest.makeSuite(SearchAndMenuTest),
         
         unittest.makeSuite(AuthLoginTest),
         unittest.makeSuite(AuthRegTest),
