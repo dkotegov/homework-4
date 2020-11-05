@@ -35,11 +35,12 @@ class AuthPage(Page):
 
 
 class PinPage(Page):
-    PATH = '/pin/339'
+    PINID = os.environ['PIN_ID']
+    PATH = '/pin/'
 
     def open_pin(self, pin_path=''):
         if pin_path == '':
-            url = urljoin(super().BASE_URL, self.PATH)
+            url = urljoin(super().BASE_URL, self.PATH + self.PINID)
         else:
             url = urljoin(super().BASE_URL, pin_path)
         self.driver.get(url)
