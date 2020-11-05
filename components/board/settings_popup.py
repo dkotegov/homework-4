@@ -73,6 +73,6 @@ class SettingsPopup(Component):
 
     def get_member_nickname(self, number):
         WebDriverWait(self.driver, 5, 0.5).until(
-            lambda d: self.driver.find_elements_by_xpath(self.MEMBER_NICK)
+            lambda d: self.driver.find_elements_by_xpath(self.MEMBER_NICK)[number].text != ''
         )
         return self.driver.find_elements_by_xpath(self.MEMBER_NICK)[number].text.replace('@', '', 1)
