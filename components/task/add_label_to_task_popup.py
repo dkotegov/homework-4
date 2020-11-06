@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class AddLabelToTaskPopup(Component):
-    CONTAINER = '//div[contains(@class, "js-addNewLabel")]'
+    CONTAINER = '//div[contains(@class, "js-openCreateLabelPopup")]'
     CREATE_NEW_LABEL_BUTTON = '//div[contains(@class, "js-openCreateLabelPopup")]'
 
     def click_create_new_label_button(self):
