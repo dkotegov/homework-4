@@ -14,8 +14,9 @@ class PersonaInfoSteps(BaseSteps):
     input_reserver_email = '/html/body/div[2]/div[2]/div/div/div[2]/form/div[4]/div/div/div/input'
     result_email_span = '/html/body/div[2]/div[2]/div/div/div[2]/form/div[4]/div[2]/small/span'
     correct_email_header = '/html/body/div[2]/div[2]/div/div/div[2]/div/h1'
-    delete_email_path = '//*[@id="root"]/div/div[3]/div/div/div[10]/div/div[2]/div/div[3]/button'
+    delete_email_path = '//*[@id="root"]/div/div[3]/div/div/div[12]/div/div[2]/div/div[3]/button'
     confirm_delete_email_button = '/html/body/div[2]/div[2]/div/div/div[2]/form/button[1]'
+    delete_header = '/html/body/div[2]/div[2]/div/div/div[2]/div/h1'
 
     def click_personal_info_settings(self) -> str:
         """
@@ -77,3 +78,12 @@ class PersonaInfoSteps(BaseSteps):
 
     def clear_email(self):
         self.wait_until_and_get_elem_by_xpath(self.input_reserver_email).clear()
+
+    def check_if_deleted(self) -> bool:
+        try:
+            text = self.wait_until_and_get_elem_by_xpath(self.delete_header).text
+            if (text == 'Резервная почта удалена'):
+                return True
+            return False
+        except Exception:
+            return True
