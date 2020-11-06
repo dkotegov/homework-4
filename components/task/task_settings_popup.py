@@ -1,3 +1,5 @@
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
+
 from base_classes.component import Component
 from components.task.add_label_to_task_popup import AddLabelToTaskPopup
 from components.task.create_label_popup import CreateLabelPopup
@@ -92,11 +94,19 @@ class TaskSettingsPopup(Component):
     def rename_task(self, new_name: str):
         self.driver.find_element_by_xpath(self.TASK_NAME_TEXT_FIELD).clear()
         self.driver.find_element_by_xpath(self.TASK_NAME_TEXT_FIELD).send_keys(new_name, Keys.ENTER)
+        assert (not self.create_label_popup.is_open)
 
     def change_description(self, description: str):
         self.driver.find_element_by_xpath(self.TASK_DESCRIPTION_TEXT_FIELD).clear()
         self.driver.find_element_by_xpath(self.TASK_DESCRIPTION_TEXT_FIELD).send_keys(description)
+
+        self.driver.find_element_by_xpath(self.COMMENT_INPUT).send_keys('string that will disappear after success')
         self.driver.find_element_by_xpath(self.SAVE_DESCRIPTION_BUTTON).click()
+
+        WebDriverWait(self.driver, 5,
+                      ignored_exceptions=[NoSuchElementException, StaleElementReferenceException]).until(
+            lambda _: self.driver.find_element_by_xpath(self.COMMENT_INPUT).get_attribute('value') is None
+        )
 
     def create_new_checklist_with_name(self, name: str):
         self.driver.find_element_by_xpath(self.ADD_NEW_CHECKLIST_BUTTON).click()
@@ -127,6 +137,10 @@ class TaskSettingsPopup(Component):
 
     def delete_task(self):
         self.driver.find_element_by_xpath(self.DELETE_BUTTON).click()
+
+        WebDriverWait(self.driver, 5).until_not(
+            lambda _: self.is_open
+        )
 
     def delete_checklist_with_name(self, name: str):
         assert(self.is_open)
@@ -161,8 +175,18 @@ class TaskSettingsPopup(Component):
 
     def create_comment_with_text(self, text: str):
         assert(self.is_open)
+        old_description = self.driver.find_element_by_xpath(self.TASK_DESCRIPTION_TEXT_FIELD).get_attribute('value')
+        new_description = 'this string will disappear after success'
+        self.driver.find_element_by_xpath(self.TASK_DESCRIPTION_TEXT_FIELD).send_keys(new_description)
+
         self.driver.find_element_by_xpath(self.COMMENT_INPUT).send_keys(text)
         self.driver.find_element_by_xpath(self.SAVE_COMMENT_BUTTON).click()
+
+        WebDriverWait(self.driver, 5,
+                      ignored_exceptions=[NoSuchElementException, StaleElementReferenceException]).until(
+            lambda _: self.driver.find_element_by_xpath(self.TASK_DESCRIPTION_TEXT_FIELD).get_attribute(
+                'value') == old_description
+        )
 
     def delete_comment(self):
         assert(self.is_open)
@@ -185,7 +209,7 @@ class TaskSettingsPopup(Component):
 
     def is_comment_with_provided_text_exist(self, text: str):
         assert(self.is_open)
-        comment_xpath = f'//*[contains(@class, "task-settings-comment") and text()="{text}"]'
+        comment_xpath = f'//div[@class="task-settings-comment__text" and contains(text(), "{text}")]'
         try:
             self.driver.find_element_by_xpath(comment_xpath)
         except:
