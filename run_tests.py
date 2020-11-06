@@ -18,7 +18,6 @@ if __name__ == '__main__':
             unittest.makeSuite(PasswordTest),
             unittest.makeSuite(ContactsTest),
             unittest.makeSuite(SecurityTest),
-
         )
     )
     result = unittest.TextTestRunner().run(suites)

@@ -31,18 +31,18 @@ class PersonalDataSteps(BaseSteps):
 
     def upload_avatar(self, path: str):
         # time sleeps only for correct pyautogui work
-        time.sleep(2)
+        time.sleep(3)
         splited = path.split('/')
         last_el = len(splited) - 1
         file_name = splited[last_el]
         directory_path = '/'.join(splited[0:last_el])
 
         pyautogui.write('/')
-        time.sleep(2)
+        time.sleep(3)
 
         pyautogui.write(directory_path[1:] + '/', interval=0.15)
         pyautogui.press('return')
-        time.sleep(2)
+        time.sleep(3)
         pyautogui.write(file_name, interval=0.15)
         pyautogui.press('return')
 
