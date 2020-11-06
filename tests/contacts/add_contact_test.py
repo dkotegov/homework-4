@@ -57,7 +57,7 @@ class AddContactTest(unittest.TestCase):
          Ошибка при вводе невалидной почты
         """
         for email in self.invalid_emails:
-            self.page.create_contact(email=[email])
+            self.page.create_contact(close=False, email=[email])
             self.assertTrue(self.page.has_validation_errors())
             self.page.return_back()
 
@@ -117,7 +117,7 @@ class AddContactTest(unittest.TestCase):
         Проврека создания двух идентичных контактов
         """
 
-        for _ in range(2):
-            self.page.create_contact(**self.dmitry_contact)
+        self.page.create_contact(**self.dmitry_contact)
+        self.page.create_contact(close=False, **self.dmitry_contact)
 
         self.assertFalse(self.page.has_any_error())

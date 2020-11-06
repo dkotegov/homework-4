@@ -11,16 +11,14 @@ class SignatureCreationForm(Component):
 
     POPUP = '//div[@data-test-id="signature-create-popup"]'
 
-    CANCEL = POPUP + '//span[text()="Отменить"]'
+    CANCEL = POPUP + '//button[@data-test-id="cancel"]'
     SAVE = POPUP + '//button[@data-test-id="save"]'
 
     SENDER_NAME = POPUP + '//input[@data-test-id="name_input"]'
 
     AS_DEFAULT = POPUP + '//label[@data-test-id="active-disabled"]'
 
-    EMPTY_WARNING = POPUP + '//small[text()="Заполните обязательное поле"]'
-    TOO_LONG_WARNING = POPUP + '//small[text()="Имя отправителя должно быть короче 100 символов"] '
-    FORBIDDEN_WARNING = POPUP + '//small[starts-with(text(),"Имя отправителя")]'
+    WARNING = POPUP + '//div[@data-test-id="error-footer-text"]'
 
     CROSS = '//div[@data-test-id="cross"]'
 
@@ -67,7 +65,7 @@ class SignatureCreationForm(Component):
         :return: True, False
         """
         try:
-            self.driver.find_element_by_xpath(self.EMPTY_WARNING)
+            self.driver.find_element_by_xpath(self.WARNING)
             return True
         except NoSuchElementException:
             return False
@@ -78,7 +76,7 @@ class SignatureCreationForm(Component):
         :return: True, False
         """
         try:
-            self.driver.find_element_by_xpath(self.FORBIDDEN_WARNING)
+            self.driver.find_element_by_xpath(self.WARNING)
             return True
         except NoSuchElementException:
             return False
@@ -89,7 +87,7 @@ class SignatureCreationForm(Component):
         :return: True, False
         """
         try:
-            self.driver.find_element_by_xpath(self.TOO_LONG_WARNING)
+            self.driver.find_element_by_xpath(self.WARNING)
             return True
         except NoSuchElementException:
             return False

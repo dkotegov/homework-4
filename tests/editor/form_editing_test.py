@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import os
 import unittest
 
 from pages.settings_page import SettingsPage
 from setup.default_setup import default_setup
-
-import os
 import time
 
 
@@ -215,6 +214,3 @@ class FormEditingTest(unittest.TestCase):
         assert editing.set_toolbar_link('hppts://test.ru')
         assert not editing.toolbar_link_check_no_warning()
         assert editing.click_toolbar_link_cancel()
-
-
-

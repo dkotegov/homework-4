@@ -13,9 +13,9 @@ class SignatureEditingForm(Component):
     POPUP1 = '//div[@data-test-id="signature-edit:1-popup"]'
     POPUP2 = '//div[@data-test-id="signature-edit:2-popup"]'
 
-    CANCEL0 = POPUP0 + '//span[text()="Отменить"]'
-    CANCEL1 = POPUP1 + '//span[text()="Отменить"]'
-    CANCEL2 = POPUP2 + '//span[text()="Отменить"]'
+    CANCEL0 = POPUP0 + '//button[@data-test-id="cancel"]'
+    CANCEL1 = POPUP1 + '//button[@data-test-id="cancel"]'
+    CANCEL2 = POPUP2 + '//button[@data-test-id="cancel"]'
 
     SAVE0 = POPUP0 + '//button[@data-test-id="save"]'
     SAVE1 = POPUP1 + '//button[@data-test-id="save"]'
@@ -29,17 +29,9 @@ class SignatureEditingForm(Component):
     AS_DEFAULT1 = POPUP1 + '//label[@data-test-id="active-disabled"]'
     AS_DEFAULT2 = POPUP2 + '//label[@data-test-id="active-disabled"]'
 
-    EMPTY_WARNING0 = POPUP0 + '//small[text()="Заполните обязательное поле"]'
-    EMPTY_WARNING1 = POPUP1 + '//small[text()="Заполните обязательное поле"]'
-    EMPTY_WARNING2 = POPUP2 + '//small[text()="Заполните обязательное поле"]'
-
-    TOO_LONG_WARNING0 = POPUP0 + '//small[text()="Имя отправителя должно быть короче 100 символов"] '
-    TOO_LONG_WARNING1 = POPUP1 + '//small[text()="Имя отправителя должно быть короче 100 символов"] '
-    TOO_LONG_WARNING2 = POPUP2 + '//small[text()="Имя отправителя должно быть короче 100 символов"] '
-
-    FORBIDDEN_WARNING0 = POPUP0 + '//small[starts-with(text(),"Имя отправителя")]'
-    FORBIDDEN_WARNING1 = POPUP1 + '//small[starts-with(text(),"Имя отправителя")]'
-    FORBIDDEN_WARNING2 = POPUP2 + '//small[starts-with(text(),"Имя отправителя")]'
+    WARNING0 = POPUP0 + '//div[@data-test-id="error-footer-text"]'
+    WARNING1 = POPUP1 + '//div[@data-test-id="error-footer-text"]'
+    WARNING2 = POPUP2 + '//div[@data-test-id="error-footer-text"]'
 
     CROSS0 = POPUP0 + '//div[@data-test-id="cross"]'
     CROSS1 = POPUP1 + '//div[@data-test-id="cross"]'
@@ -161,7 +153,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о пустом вводе имени отпраивтеля у первой подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.EMPTY_WARNING0)
+            self.driver.find_element_by_xpath(self.WARNING0)
             return True
         except NoSuchElementException:
             return False
@@ -171,7 +163,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о пустом вводе имени отпраивтеля у второй подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.EMPTY_WARNING1)
+            self.driver.find_element_by_xpath(self.WARNING1)
             return True
         except NoSuchElementException:
             return False
@@ -181,7 +173,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о пустом вводе имени отпраивтеля у третьей подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.EMPTY_WARNING2)
+            self.driver.find_element_by_xpath(self.WARNING2)
             return True
         except NoSuchElementException:
             return False
@@ -191,7 +183,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о некорректных символах в имени отпраивтеля у первой подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.FORBIDDEN_WARNING0)
+            self.driver.find_element_by_xpath(self.WARNING0)
             return True
         except NoSuchElementException:
             return False
@@ -201,7 +193,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о некорректных символах в имени отпраивтеля у второй подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.FORBIDDEN_WARNING1)
+            self.driver.find_element_by_xpath(self.WARNING1)
             return True
         except NoSuchElementException:
             return False
@@ -211,7 +203,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о некорректных символах в имени отпраивтеля у третьей подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.FORBIDDEN_WARNING2)
+            self.driver.find_element_by_xpath(self.WARNING2)
             return True
         except NoSuchElementException:
             return False
@@ -221,7 +213,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о слишком длинном имени отпраивтеля у первой подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.TOO_LONG_WARNING0)
+            self.driver.find_element_by_xpath(self.WARNING0)
             return True
         except NoSuchElementException:
             return False
@@ -231,7 +223,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о слишком длинном имени отпраивтеля у второй подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.TOO_LONG_WARNING1)
+            self.driver.find_element_by_xpath(self.WARNING1)
             return True
         except NoSuchElementException:
             return False
@@ -241,7 +233,7 @@ class SignatureEditingForm(Component):
         Проверяет, появилось ли сообщение о слишком длинном имени отпраивтеля у третьей подписи
         """
         try:
-            self.driver.find_element_by_xpath(self.TOO_LONG_WARNING2)
+            self.driver.find_element_by_xpath(self.WARNING2)
             return True
         except NoSuchElementException:
             return False

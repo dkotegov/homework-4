@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class SettingsGeneralForm(Component):
-    ADD = '//span[text()="Добавить"]'
+    ADD = '//button[@data-test-id="create"]'
     
     CONTAINER0 = '//div[@data-test-id="signature:0"]'
     CONTAINER1 = '//div[@data-test-id="signature:1"]'

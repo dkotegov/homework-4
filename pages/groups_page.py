@@ -94,10 +94,6 @@ class GroupsPage(Page):
 
     def contacts_exists(self, emails, id):
         self.groups.click_group_block(id)
-        if self.contacts.contacts_exists(emails):
-            return True
-        self.driver.refresh()
-        self.groups.click_group_block(id)
         return self.contacts.contacts_exists(emails)
 
     def add_contact_to_groups(self, email, ids):

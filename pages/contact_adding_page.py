@@ -4,6 +4,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 
 from components.contacts_form import ContactsForm
+from components.groups_form import GroupsForm
 from .base import Page
 
 
@@ -16,12 +17,16 @@ class ContactAddingPage(Page):
         super(ContactAddingPage, self).__init__(driver)
 
         self.contact_form = ContactsForm(self.driver)
+        self.group_form = GroupsForm(self.driver)
 
-    def create_contact(self, **kwargs):
+    def create_contact(self, close=True, **kwargs):
+        self.group_form.click_group_block('allContacts')
         self.contact_form.click_create_contact()
-
         self.contact_form.fill_form(**kwargs)
         self.contact_form.click_save()
+        if close:
+            self.contact_form.click_return_if_exists()
+            self.group_form.click_group_block('allContacts')
 
     def try_to_create_empty_contact(self):
         self.contact_form.click_create_contact()
@@ -44,10 +49,14 @@ class ContactAddingPage(Page):
         return self.contact_form.contacts_exists([email])
 
     def delete_all_contacts(self):
-        return self.contact_form.delete_contacts_if_needed()
+        if self.contact_form.click_select_all():
+            self.contact_form.delete_contacts()
 
     def return_back(self):
         return self.contact_form.click_return_if_exists()
 
     def wait_for_return_back(self):
-        return self.contact_form.click_return()
+        return self.contact_form.click_return_if_exists()
+
+    def open_contact_page(self, email):
+        self.contact_form.click_contact_block(email)

@@ -32,7 +32,6 @@ if __name__ == '__main__':
         unittest.makeSuite(DeleteContactsTest),
         unittest.makeSuite(EditContactTest),
         unittest.makeSuite(FavoritesTest),
-        unittest.makeSuite(GroupsTest),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

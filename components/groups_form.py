@@ -91,10 +91,10 @@ class GroupsForm(Component):
 
     def group_exists(self, id):
         try:
-            self.wait.until(
+            WebDriverWait(self.driver, 1).until(
                 EC.presence_of_element_located((By.XPATH, self.locators.group_block.format(id))))
             return True
-        except NoSuchElementException:
+        except TimeoutException:
             return False
 
     def error_exists(self):

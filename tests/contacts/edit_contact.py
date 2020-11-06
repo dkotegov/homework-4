@@ -5,6 +5,7 @@ import unittest
 from selenium.webdriver.common.keys import Keys
 
 from pages.contact_edit_page import ContactEditPage
+from pages.contact_adding_page import ContactAddingPage
 from setup.default_setup import default_setup
 
 
@@ -13,6 +14,7 @@ class EditContactTest(unittest.TestCase):
         default_setup(self)
 
         self.page = ContactEditPage(self.driver)
+        self.add_page = ContactAddingPage(self.driver)
 
         self.page.open()
 
@@ -53,6 +55,8 @@ class EditContactTest(unittest.TestCase):
             "email@email",
             "email.ru",
         ]
+
+        self.add_page.open_contact_page("d.boldin@corp.mail.ru")
 
     def tearDown(self):
         self.page.open()
@@ -149,5 +153,6 @@ class EditContactTest(unittest.TestCase):
         """
         self.page.open()
         self.page.create_contact(**self.sergey_contact)
+        self.add_page.open_contact_page("s.petrenko@kts.studio")
         self.page.edit_contact(**self.dmitry_contact)
         self.assertFalse(self.page.has_any_error())

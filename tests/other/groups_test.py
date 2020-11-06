@@ -137,6 +137,7 @@ class GroupsTest(unittest.TestCase):
         """
         self.page.create_group(self.names.group_name)
         self.page.delete_group(1)
+        self.driver.refresh()
 
         self.assertFalse(self.page.group_exists(1))
 
@@ -150,6 +151,7 @@ class GroupsTest(unittest.TestCase):
         self.page.add_contact_to_groups(self.names.contact_email, [1, ])
 
         self.page.delete_group(1)
+        self.driver.refresh()
 
         self.assertFalse(self.page.group_exists(1))
 
@@ -187,6 +189,7 @@ class GroupsTest(unittest.TestCase):
         self.page.create_contact(self.names.contact_email2)
 
         self.page.add_all_contacts_to_groups([1, ])
+        self.driver.refresh()
 
         self.assertTrue(self.page.contacts_exists(
           [self.names.contact_email, self.names.contact_email2], 1))
@@ -202,6 +205,7 @@ class GroupsTest(unittest.TestCase):
         self.page.create_contact(self.names.contact_email2)
 
         self.page.add_all_contacts_to_groups([1, 2])
+        self.driver.refresh()
 
         self.assertTrue(self.page.contacts_exists(
             [self.names.contact_email, self.names.contact_email2], 1))
@@ -245,6 +249,7 @@ class GroupsTest(unittest.TestCase):
 
         self.page.add_all_contacts_to_groups([1, ])
         self.page.add_all_contacts_to_groups([1, ])  # second call deletes from groups
+        self.driver.refresh()
 
         self.assertFalse(self.page.contacts_exists(
             [self.names.contact_email, self.names.contact_email2], 1))
@@ -261,6 +266,7 @@ class GroupsTest(unittest.TestCase):
 
         self.page.add_all_contacts_to_groups([1, 2])
         self.page.add_all_contacts_to_groups([1, 2])  # second call deletes from groups
+        self.driver.refresh()
 
         self.assertFalse(self.page.contacts_exists(
             [self.names.contact_email, self.names.contact_email2], 1))

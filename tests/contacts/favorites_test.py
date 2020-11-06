@@ -87,4 +87,5 @@ class FavoritesTest(unittest.TestCase):
         self.favorites.add_to_favorites_from_contact_page(email)
         self.favorites.add_to_favorites_from_contact_page(email)  # second call deletes from favorites
 
+        self.driver.refresh()
         self.assertFalse(self.groups.contacts_exists([email, ], 'star'))

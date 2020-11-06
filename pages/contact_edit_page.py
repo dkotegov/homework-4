@@ -3,6 +3,7 @@ import time
 
 from components.contacts_form import ContactsForm
 from components.remove_contact_form import RemoveContactForm
+from components.groups_form import GroupsForm
 from pages.base import Page
 
 
@@ -16,12 +17,16 @@ class ContactEditPage(Page):
 
         self.contact_form = ContactsForm(self.driver)
         self.removal_form = RemoveContactForm(self.driver)
+        self.group_form = GroupsForm(self.driver)
 
-    def create_contact(self, **kwargs):
+    def create_contact(self, close=True, **kwargs):
+        self.group_form.click_group_block('allContacts')
         self.contact_form.click_create_contact()
-
         self.contact_form.fill_form(**kwargs)
         self.contact_form.click_save()
+        if close:
+            self.contact_form.click_return_if_exists()
+            self.group_form.click_group_block('allContacts')
 
     def edit_contact(self, **kwargs):
         self.contact_form.click_edit_contact()

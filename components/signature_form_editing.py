@@ -81,7 +81,7 @@ class SignatureDeepEditingForm(Component):
     EDITOR_TOOLBAR_TOOL_STYLE_TAB = '//span[@data-test-id="style-tab"]'
     EDITOR_TOOLBAR_TOOL_FONT_TAB = '//span[@data-test-id="font-tab"]'
 
-    EDITOR_TOOLBAR_TOOL_FONT_HELVETICA = '//div[@data-test-id="Helvetica"]'
+    EDITOR_TOOLBAR_TOOL_FONT_HELVETICA = '//div[@data-test-id="Arial"]'
     EDITOR_TOOLBAR_TOOL_STYLE_NORMAL = '//div[@data-test-id="normal"]'
 
     EDITOR_TOOLBAR_TOOL_COLOR_TAB = '//span[@data-test-id="color-tab"]'
