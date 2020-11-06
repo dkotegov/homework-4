@@ -28,6 +28,7 @@ class PersonalDataSteps(BaseSteps):
     submit_change_avatar_paht = '/html/body/div[2]/div[2]/div/div[2]/div/button[1]'
     upload_process = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]/div[1]'
     photo_ready = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]'
+    accept_city_popup = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[2]/div[6]/div[2]/div[2]/div/div/div/div/div'
 
     def upload_avatar(self, path: str):
         # time sleeps only for correct pyautogui work
@@ -66,6 +67,11 @@ class PersonalDataSteps(BaseSteps):
 
     def fill_city(self, city):
         self.fill_input(self.city_path, city)
+        if (city != ""):
+            try:
+                self.wait_until_and_get_elem_by_xpath(self.accept_city_popup).click()
+            except Exception:
+                pass
 
     def collect_errors(self) -> InputAnnotationsErrors:
         """

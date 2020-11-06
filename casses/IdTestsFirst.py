@@ -64,6 +64,7 @@ class IdMainPageAndPersonalDataTests(unittest.TestCase):
         print("done test_avatar_change")
 
     def test_click_add_reserve_email(self):
+        self.clear_email_after_tests()
         self.go_to_main()
         ok = self.main_page.click_add_reserve_email()
         self.assertTrue(ok)
@@ -92,6 +93,7 @@ class IdMainPageAndPersonalDataTests(unittest.TestCase):
         print("done test_check_correct_email")
 
     def test_fill_form_with_empty_city(self):
+        #not
         self.data_page.open(self.data_page.BASE_URL)
         errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "")
         self.assertEqual(errors.city_err, "Укажите город")
@@ -102,25 +104,25 @@ class IdMainPageAndPersonalDataTests(unittest.TestCase):
 
     def test_fill_form_with_empty_name(self):
         self.data_page.open(self.data_page.BASE_URL)
-        errors = self.data_page.fill_form("", "Фамилия", "Никнейм", "Москва, Россия")
+        errors = self.data_page.fill_form("", "Фамилия", "Никнейм", "Москва")
         self.assertEqual(errors.city_err, "")
         self.assertEqual(errors.name_err, "Укажите имя")
         self.assertEqual(errors.last_name_err, "")
         self.assertEqual(errors.nickname_err, "")
         print("done test_fill_form_with_empty_name")
 
-    def test_fill_with_wrong_city(self):
+    def test_city_wrong(self):
         self.data_page.open(self.data_page.BASE_URL)
-        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "Несуществует")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "123")
         self.assertEqual(errors.city_err, "Проверьте название города")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
         self.assertEqual(errors.nickname_err, "")
-        print("done test_fill_form_with_wrong_city")
+        print("done test_city_wrong")
 
     def test_fill_with_empty_nickanme(self):
         self.data_page.open(self.data_page.BASE_URL)
-        errors = self.data_page.fill_form("Имя", "Фамилия", "", "Москва, Россия")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "", "Москва")
         self.assertEqual(errors.city_err, "")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
@@ -134,7 +136,7 @@ class IdMainPageAndPersonalDataTests(unittest.TestCase):
 
     def test_all_ok_data(self):
         self.data_page.open(self.data_page.BASE_URL)
-        errors = self.data_page.fill_form("Имя2", "Фамилия2", "Никнейм2", "Москва, Россия")
+        errors = self.data_page.fill_form("Имя2", "Фамилия2", "Никнейм2", "Москва")
         self.check_no_errors(errors)
         self.data_page.reload()
         newName, newSurname = self.main_page.get_name_surname_from_left_bar()
