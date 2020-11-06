@@ -49,24 +49,19 @@ class IdMainPageAndPersonalDataTests(unittest.TestCase):
         self.assertTrue(ok)
         print("done go to all settings")
 
-    def test_change_avatar(self):
-        self.data_page.open(self.data_page.BASE_URL)
-        test_path = os.path.abspath("./avatar.jpg")
-        self.assertTrue(self.data_page.change_avatar(test_path))
-        self.data_page.open(self.data_page.BASE_URL)
-        self.assertTrue(self.data_page.change_avatar_by_avatar(test_path))
-        print("done test_change_avatar")
-
     def test_change_personal_info(self):
         self.go_to_main()
         ok = self.main_page.click_change_personal_info()
         self.assertTrue(ok)
         print("done change personal info")
 
-    def test_equality_names(self):
-        self.go_to_main()
-        self.assertEqual(self.main_page.get_name_surname_from_left_bar(), self.main_page.get_name_surname_from_card())
-        print("done test equality name")
+    def test_avatar_change(self):
+        self.data_page.open(self.data_page.BASE_URL)
+        test_path = os.path.abspath("./avatar.jpg")
+        self.assertTrue(self.data_page.change_avatar(test_path))
+        self.data_page.open(self.data_page.BASE_URL)
+        self.assertTrue(self.data_page.change_avatar_by_avatar(test_path))
+        print("done test_avatar_change")
 
     def test_click_add_reserve_email(self):
         self.go_to_main()
@@ -116,7 +111,7 @@ class IdMainPageAndPersonalDataTests(unittest.TestCase):
 
     def test_fill_with_wrong_city(self):
         self.data_page.open(self.data_page.BASE_URL)
-        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "123")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "Несуществует")
         self.assertEqual(errors.city_err, "Проверьте название города")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
