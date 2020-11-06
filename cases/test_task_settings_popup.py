@@ -25,7 +25,7 @@ class TaskSettingsPopupTest(unittest.TestCase):
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(3)
 
         self.login_page = LoginPage(self.driver)
         self.login_page.open()
@@ -75,9 +75,6 @@ class TaskSettingsPopupTest(unittest.TestCase):
         description = "Your new description"
         self.popup.change_description(description)
 
-        self.driver.refresh()
-        self.popup.wait_for_container()
-
         self.assertEqual(self.popup.get_task_description(), description)
 
     def test_create_new_label_for_board(self):
@@ -106,10 +103,46 @@ class TaskSettingsPopupTest(unittest.TestCase):
 
     def test_delete_task(self):
         self.popup.delete_task()
-        self.driver.refresh()
         self.assertIsNone(self.column.task_list.get_task_by_title(self.TASK_TITLE))
 
     def test_create_checklist(self):
         checklist_name = 'New checklist'
         self.popup.create_new_checklist_with_name(checklist_name)
         self.assertTrue(self.popup.is_checklist_with_provided_name_exist(checklist_name))
+
+    def test_delete_checklist(self):
+        checklist_name = 'New checklist'
+        self.popup.create_new_checklist_with_name(checklist_name)
+        self.popup.delete_checklist_with_name(checklist_name)
+        self.driver.refresh()
+        self.popup.wait_for_container()
+        self.assertFalse(self.popup.is_checklist_with_provided_name_exist(checklist_name))
+
+    def test_create_comment(self):
+        comment_text = 'New comment text'
+        self.popup.create_comment_with_text(comment_text)
+
+        self.assertTrue(self.popup.is_comment_with_provided_text_exist(comment_text))
+
+    def test_delete_comment(self):
+        comment_text = 'New comment text'
+        self.popup.create_comment_with_text(comment_text)
+        self.popup.delete_comment()
+
+        self.assertFalse(self.popup.is_comment_with_provided_text_exist(comment_text))
+
+    def test_add_item_to_checklist(self):
+        checklist_name = 'New checklist'
+        self.popup.create_new_checklist_with_name(checklist_name)
+        item_text = 'New text'
+        self.popup.add_item_into_checklist(item_text)
+        self.assertTrue(self.popup.is_checklist_item_with_provided_text_exist(item_text))
+
+    def test_mark_item_in_checklist(self):
+        checklist_name = 'New checklist'
+        self.popup.create_new_checklist_with_name(checklist_name)
+        item_text = 'New text'
+        self.popup.add_item_into_checklist(item_text)
+        self.popup.click_on_item_checkbox()
+
+        self.assertTrue(self.popup.is_item_in_checklist_marked())
