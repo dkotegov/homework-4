@@ -113,3 +113,44 @@ class TaskSettingsPopupTest(unittest.TestCase):
         checklist_name = 'New checklist'
         self.popup.create_new_checklist_with_name(checklist_name)
         self.assertTrue(self.popup.is_checklist_with_provided_name_exist(checklist_name))
+
+    def test_delete_checklist(self):
+        checklist_name = 'New checklist'
+        self.popup.create_new_checklist_with_name(checklist_name)
+        self.popup.delete_checklist_with_name(checklist_name)
+        self.driver.refresh()
+        self.popup.wait_for_container()
+        self.assertFalse(self.popup.is_checklist_with_provided_name_exist(checklist_name))
+
+    def test_create_comment(self):
+        comment_text = 'New comment text'
+        self.popup.create_comment_with_text(comment_text)
+        self.driver.refresh()
+        self.popup.wait_for_container()
+        self.assertTrue(self.popup.is_comment_with_provided_text_exist(comment_text))
+
+    def test_delete_comment(self):
+        comment_text = 'New comment text'
+        self.popup.create_comment_with_text(comment_text)
+        self.driver.refresh()
+        self.popup.wait_for_container()
+
+        self.popup.delete_comment()
+
+        self.assertFalse(self.popup.is_comment_with_provided_text_exist(comment_text))
+
+    def test_add_item_to_checklist(self):
+        checklist_name = 'New checklist'
+        self.popup.create_new_checklist_with_name(checklist_name)
+        item_text = 'New text'
+        self.popup.add_item_into_checklist(item_text)
+        self.assertTrue(self.popup.is_checklist_item_with_provided_text_exist(item_text))
+
+    def test_mark_item_in_checklist(self):
+        checklist_name = 'New checklist'
+        self.popup.create_new_checklist_with_name(checklist_name)
+        item_text = 'New text'
+        self.popup.add_item_into_checklist(item_text)
+        self.popup.click_on_item_checkbox()
+
+        self.assertTrue(self.popup.is_item_in_checklist_marked())
