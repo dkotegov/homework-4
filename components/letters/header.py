@@ -1,7 +1,7 @@
-from components.base import BaseComponent
+from steps.BaseSteps import BaseSteps
 
 
-class LettersHeader(BaseComponent):
+class LettersHeader(BaseSteps):
     EMAIL = '//span[@id="PH_authMenu_button"]'
 
     @property

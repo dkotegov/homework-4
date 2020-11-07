@@ -1,10 +1,10 @@
-from components.base import BaseComponent
+from steps.BaseSteps import BaseSteps
 from components.folders.folder import Folder
 from components.folders.attachment_select import AttachmentSelect
 from components.folders.password_from import PasswordForm
 
 
-class AddFolderForm(BaseComponent):
+class AddFolderForm(BaseSteps):
     ADD_FOLDER_BUTTON = '//button[@data-test-id="create"]'
     FOLDER_NAME_INPUT = '//input[@data-test-id="name"]'
     POP3_CHECKBOX = '//label[@data-test-id="pop3"]'

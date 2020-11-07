@@ -6,6 +6,7 @@ from enum import Enum
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from pages.FoldersPage import FoldersPage
+from steps.FoldersSteps import FoldersSteps
 from pages.UpdateFolderPage import UpdateFolderPage
 from pages.UpdatePasswordPage import UpdatePasswordPage
 from pages.AuthPage import AuthPage
@@ -30,6 +31,11 @@ class FoldersTestSecond(unittest.TestCase):
         self.page_steps_first = FoldersSteps(self.driver)
         self.update_folder = UpdateFolderPage(self.driver)
         self.update_password = UpdatePasswordPage(self.driver)
+        self.folderSteps = FoldersSteps(self.driver)
+
+        self.folderSteps.add_folder('folder', 'Входящие')
+        self.folderSteps.wait_folder('folder')
+
         self.__password_context = {
             'password': 'qwertyuiop',
             're_password': 'qwertyuiop',
@@ -43,6 +49,7 @@ class FoldersTestSecond(unittest.TestCase):
     def tearDown(self) -> None:
         self.page_steps_first.wait_folder('tempfolder')
         self.page_steps_first.delete_folder('tempfolder')
+
         self.driver.quit()
 
     def go_to_main_folders(self):
