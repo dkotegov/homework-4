@@ -1,4 +1,5 @@
 import os
+import time
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
@@ -10,22 +11,22 @@ class BaseTest(unittest.TestCase):
     def setUp(self, auth=None):
         super().__init__()
 
-        browser = os.environ.get('BROWSER', 'CHROME')
-
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
+        if not hasattr(self, 'driver'):
+            browser = os.environ.get('BROWSER', 'CHROME')
+            self.driver = Remote(
+                command_executor='http://127.0.0.1:4444/wd/hub',
+                desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+            )
 
         if auth == 'user':
             self.login = os.environ.get('LOGIN')
             self.password = os.environ.get('PASSWORD')
         elif auth == 'admin':
             self.login = os.environ.get('ADMIN_LOGIN')
-            self.login = os.environ.get('ADMIN_PASSWORD')
+            self.password = os.environ.get('ADMIN_PASSWORD')
         elif auth == 'support':
-            self.login = os.environ.get('SUPPORT_LOGIN')
-            self.login = os.environ.get('SUPPORT_PASSWORD')
+            self.login = os.environ.get('SUP_LOGIN')
+            self.password = os.environ.get('SUP_PASSWORD')
 
         if auth is not None:
             auth_page = AuthPage(self.driver)

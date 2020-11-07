@@ -28,3 +28,6 @@ class ChatTest(BaseTest):
 
         self.chatPage.send_message(long_message)
         self.assertEqual(self.chatPage.last_message, long_message)
+
+    def default_message(self):
+        return self.chatPage.DEFAULT_MESSAGE
