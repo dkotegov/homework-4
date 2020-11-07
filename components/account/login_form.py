@@ -1,7 +1,7 @@
-from components.base import BaseComponent
+from steps.BaseSteps import BaseSteps
 
 
-class LoginForm(BaseComponent):
+class LoginForm(BaseSteps):
     LOGIN = '//input[@name="username"]'
     PASSWORD = '//input[@name="password"]'
     NEXT_BUTTON = '//button[@data-test-id="next-button"]'

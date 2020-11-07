@@ -1,8 +1,8 @@
-from components.base import BaseComponent
+from steps.BaseSteps import BaseSteps
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class Folder(BaseComponent):
+class Folder(BaseSteps):
     DELETE_FOLDER = '//button[@data-test-id="folder-delete"]'
     APPLY_BUTTON = '//button[@data-test-id="submit"]'
     PASSWORD_INPUT = '//input[@data-test-id="folderPassword"]'

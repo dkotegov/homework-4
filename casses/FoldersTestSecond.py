@@ -6,6 +6,7 @@ from enum import Enum
 
 from selenium.webdriver import DesiredCapabilities, Remote
 from pages.FoldersPage import FoldersPage
+from steps.FoldersSteps import FoldersSteps
 from pages.UpdateFolderPage import UpdateFolderPage
 from pages.UpdatePasswordPage import UpdatePasswordPage
 from pages.AuthPage import AuthPage
@@ -28,6 +29,11 @@ class FoldersTestSecond(unittest.TestCase):
         self.main_page_folders = FoldersPage(self.driver)
         self.update_folder = UpdateFolderPage(self.driver)
         self.update_password = UpdatePasswordPage(self.driver)
+        self.folderSteps = FoldersSteps(self.driver)
+
+        self.folderSteps.add_folder('folder', 'Входящие')
+        self.folderSteps.wait_folder('folder')
+
         self.__password_context = {
             'password': 'qwertyuiop',
             're_password': 'qwertyuiop',
@@ -37,6 +43,7 @@ class FoldersTestSecond(unittest.TestCase):
         }
 
     def tearDown(self) -> None:
+        self.folderSteps.delete_folder('folder')
         self.driver.quit()
 
     def go_to_main_folders(self):
@@ -145,28 +152,28 @@ class FoldersTestSecond(unittest.TestCase):
         self.update_password.set_password(context)
         self.assertTrue(self.update_password.close())
 
-    def test_cancel_update_folder_form(self):
-        self.go_to_main_folders()
-        ok = self.main_page_folders.click_pencil_icon()
-        self.assertTrue(ok)
-        self.update_folder.fill_checkbox({"password": True})
-        self.update_folder.save_changes()
-        context = self.__password_context.copy()
-        context['current_password'] = ''
-        self.update_password.set_password(context)
-        self.assertTrue(self.update_password.back())
-        self.assertTrue(self.update_password.back())
-
-    def test_valid_update_folder_form(self):
-        self.go_to_main_folders()
-        ok = self.main_page_folders.click_pencil_icon()
-        self.assertTrue(ok)
-        self.update_folder.fill_checkbox({"password": True})
-        self.update_folder.save_changes()
-        context = self.__password_context.copy()
-        self.update_password.set_password(context)
-        ok = self.main_page_folders.click_pencil_icon()
-        self.assertTrue(ok)
-        self.update_folder.fill_checkbox({"password": False})
-        self.update_password.update_password_steps.set_current_password(context['current_password'])
-        self.update_password.update_password_steps.save()
+    # def test_cancel_update_folder_form(self):
+    #     self.go_to_main_folders()
+    #     ok = self.main_page_folders.click_pencil_icon()
+    #     self.assertTrue(ok)
+    #     self.update_folder.fill_checkbox({"password": True})
+    #     self.update_folder.save_changes()
+    #     context = self.__password_context.copy()
+    #     context['current_password'] = ''
+    #     self.update_password.set_password(context)
+    #     self.assertTrue(self.update_password.back())
+    #     self.assertTrue(self.update_password.back())
+    #
+    # def test_valid_update_folder_form(self):
+    #     self.go_to_main_folders()
+    #     ok = self.main_page_folders.click_pencil_icon()
+    #     self.assertTrue(ok)
+    #     self.update_folder.fill_checkbox({"password": True})
+    #     self.update_folder.save_changes()
+    #     context = self.__password_context.copy()
+    #     self.update_password.set_password(context)
+    #     ok = self.main_page_folders.click_pencil_icon()
+    #     self.assertTrue(ok)
+    #     self.update_folder.fill_checkbox({"password": False})
+    #     self.update_password.update_password_steps.set_current_password(context['current_password'])
+    #     self.update_password.update_password_steps.save()
