@@ -160,7 +160,7 @@ class DatabaseFiller():
                                          files={'image': photo}
                                          )
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError('Response status is not OK')
+            raise RuntimeError('Response status is not OK: ', response.json()['error'])
 
     def get_restaurant_id_by_name(self, rest_name):
         response = self.session.get(urllib.parse.urljoin(self.PATH, self.RESTAURANT_PATH.format('')),
@@ -168,7 +168,7 @@ class DatabaseFiller():
                                     )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError('Response status is not OK')
+            raise RuntimeError('Response status is not OK:')
 
         json_resp = response.json()
         for rest in json_resp['restaurants']:
