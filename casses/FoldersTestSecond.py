@@ -9,6 +9,7 @@ from pages.FoldersPage import FoldersPage
 from pages.UpdateFolderPage import UpdateFolderPage
 from pages.UpdatePasswordPage import UpdatePasswordPage
 from pages.AuthPage import AuthPage
+from steps.FoldersSteps import FoldersSteps
 
 
 class FoldersTestSecond(unittest.TestCase):
@@ -26,6 +27,7 @@ class FoldersTestSecond(unittest.TestCase):
         auth_page.auth(LOGIN, PASSWORD)
 
         self.main_page_folders = FoldersPage(self.driver)
+        self.page_steps_first = FoldersSteps(self.driver)
         self.update_folder = UpdateFolderPage(self.driver)
         self.update_password = UpdatePasswordPage(self.driver)
         self.__password_context = {
@@ -35,8 +37,12 @@ class FoldersTestSecond(unittest.TestCase):
             'question_answer': 'because',
             'current_password': os.environ['PASSWORD']
         }
+        self.go_to_main_folders()
+        self.main_page_folders.add_folder('tempfolder', 'Папка на верхнем уровне')
 
     def tearDown(self) -> None:
+        self.page_steps_first.wait_folder('tempfolder')
+        self.page_steps_first.delete_folder('tempfolder')
         self.driver.quit()
 
     def go_to_main_folders(self):
@@ -155,7 +161,7 @@ class FoldersTestSecond(unittest.TestCase):
         context['current_password'] = ''
         self.update_password.set_password(context)
         self.assertTrue(self.update_password.back())
-        self.assertTrue(self.update_password.back())
+        # self.assertTrue(self.update_password.back())
 
     def test_valid_update_folder_form(self):
         self.go_to_main_folders()
