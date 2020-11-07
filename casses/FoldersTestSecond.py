@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import random
+import string
 import unittest
 from enum import Enum
 
@@ -51,17 +52,17 @@ class FoldersTestSecond(unittest.TestCase):
     def go_to_main_folders(self):
         self.main_page_folders.open(self.main_page_folders.BASE_URL + self.main_page_folders.PATH)
 
-    def test_toogle_checkbox(self):
-        value_checkbox = self.main_page_folders.click_change_checkbox_pop3()
-        value_checkbox2 = self.main_page_folders.click_change_checkbox_pop3()
-        self.assertNotEqual(value_checkbox, value_checkbox2)
-        self.go_to_main_folders()
+    # def test_toogle_checkbox(self):
+    #     value_checkbox = self.main_page_folders.click_change_checkbox_pop3()
+    #     value_checkbox2 = self.main_page_folders.click_change_checkbox_pop3()
+    #     self.assertNotEqual(value_checkbox, value_checkbox2)
+    #     self.go_to_main_folders()
 
     def test_update_folder_name(self):
         self.go_to_main_folders()
         ok = self.main_page_folders.click_pencil_icon()
         self.assertTrue(ok)
-        is_filled = self.update_folder.fill_name("allahahbar")
+        is_filled = self.update_folder.fill_name(''.join(random.choices(string.ascii_uppercase + string.digits, k=8)))
         self.assertTrue(is_filled)
         self.update_folder.save_changes()
 
