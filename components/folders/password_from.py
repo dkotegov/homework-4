@@ -1,7 +1,7 @@
-from components.base import BaseComponent
+from steps.BaseSteps import BaseSteps
 
 
-class PasswordForm(BaseComponent):
+class PasswordForm(BaseSteps):
     PASSWORD_INPUT = '//input[@data-test-id="password"]'
     RE_PASSWORD_INPUT = '//input[@data-test-id="passwordRepeat"]'
     SECRET_QUESTION_INPUT = '//input[@data-test-id="question"]'

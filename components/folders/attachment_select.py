@@ -1,7 +1,7 @@
-from components.base import BaseComponent
+from steps.BaseSteps import BaseSteps
 
 
-class AttachmentSelect(BaseComponent):
+class AttachmentSelect(BaseSteps):
     OPEN_BUTTON = '//span[@data-test-id="createFolder-select-value"]'
     FOLDER_TOP_SELECT = '//div[@data-test-id="select-value:-1"]'
     INCOMING_SELECT = '//div[@data-test-id="select-value:0"]'
