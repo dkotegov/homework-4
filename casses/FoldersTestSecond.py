@@ -5,11 +5,11 @@ import unittest
 from enum import Enum
 
 from selenium.webdriver import DesiredCapabilities, Remote
+
+from pages.AuthPage import AuthPage
 from pages.FoldersPage import FoldersPage
-from steps.FoldersSteps import FoldersSteps
 from pages.UpdateFolderPage import UpdateFolderPage
 from pages.UpdatePasswordPage import UpdatePasswordPage
-from pages.AuthPage import AuthPage
 from steps.FoldersSteps import FoldersSteps
 
 
@@ -28,7 +28,6 @@ class FoldersTestSecond(unittest.TestCase):
         auth_page.auth(LOGIN, PASSWORD)
 
         self.main_page_folders = FoldersPage(self.driver)
-        self.page_steps_first = FoldersSteps(self.driver)
         self.update_folder = UpdateFolderPage(self.driver)
         self.update_password = UpdatePasswordPage(self.driver)
         self.folderSteps = FoldersSteps(self.driver)
@@ -44,12 +43,9 @@ class FoldersTestSecond(unittest.TestCase):
             'current_password': os.environ['PASSWORD']
         }
         self.go_to_main_folders()
-        self.main_page_folders.add_folder('tempfolder', 'Папка на верхнем уровне')
 
     def tearDown(self) -> None:
-        self.page_steps_first.wait_folder('tempfolder')
-        self.page_steps_first.delete_folder('tempfolder')
-
+        self.folderSteps.delete_folder('folder')
         self.driver.quit()
 
     def go_to_main_folders(self):
