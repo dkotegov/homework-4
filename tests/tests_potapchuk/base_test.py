@@ -11,7 +11,7 @@ from tests.pages.restaurant_page import RestaurantPage
 
 
 class BaseTest(unittest.TestCase):
-    DEFAULT_REST_NAME = 'default====-+'
+    DEFAULT_REST_NAME = 'default==-+'
     DEFAULT_PROD_NAME = 'product%s'
     DEFAULT_PROD_PRICE = 100
 
