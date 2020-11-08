@@ -58,13 +58,13 @@ class FoldersTestSecond(unittest.TestCase):
     #     self.assertNotEqual(value_checkbox, value_checkbox2)
     #     self.go_to_main_folders()
 
-    def test_update_folder_name(self):
-        self.go_to_main_folders()
-        ok = self.main_page_folders.click_pencil_icon()
-        self.assertTrue(ok)
-        is_filled = self.update_folder.fill_name(''.join(random.choices(string.ascii_uppercase + string.digits, k=8)))
-        self.assertTrue(is_filled)
-        self.update_folder.save_changes()
+    # def test_update_folder_name(self):
+    #     self.go_to_main_folders()
+    #     ok = self.main_page_folders.click_pencil_icon()
+    #     self.assertTrue(ok)
+    #     is_filled = self.update_folder.fill_name(''.join(random.choices(string.ascii_uppercase + string.digits, k=8)))
+    #     self.assertTrue(is_filled)
+    #     self.update_folder.save_changes()
 
     def test_select_top_folder(self):
         self.go_to_main_folders()
