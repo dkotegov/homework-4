@@ -6,7 +6,7 @@ from tests.pages.page import Page
 
 
 class RestaurantPage(Page):
-    def __init__(self, driver, rest_id, product_page=1):
+    def __init__(self, driver, rest_id=-1, product_page=1):
         super().__init__(driver)
         self.rest_id = rest_id
         self.prod_page = product_page
