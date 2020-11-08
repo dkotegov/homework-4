@@ -1,9 +1,9 @@
 import os
-import time
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+from tests.helpers.database import DatabaseFiller
 from tests.pages.auth_page import AuthPage
 
 
@@ -37,3 +37,15 @@ class BaseTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+
+    def create_restaurant(self):
+        self.DEFAULT_REST_NAME = self.clear_restaurant.__name__
+        self.filler = DatabaseFiller()
+        self.filler.admin_auth()
+        self.filler.create_restaurant(self.DEFAULT_REST_NAME)
+        self.rest_id = self.filler.get_restaurant_id_by_name(
+            self.DEFAULT_REST_NAME
+        )
+
+    def clear_restaurant(self):
+        self.filler.delete_restaurant(self.rest_id)

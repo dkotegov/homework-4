@@ -1,4 +1,3 @@
-from tests.helpers.database import DatabaseFiller
 from tests.pages.feedback_page import FeedbackPage
 from tests.tests_potapchuk.base_test import BaseTest
 
@@ -7,7 +6,7 @@ class FeedbackTest(BaseTest):
     DEFAULT_REST_NAME = 'FeedbackTestBaseTest_________'
 
     def setUp(self):
-        self.create_restaurant()
+        super().create_restaurant()
         super().setUp(auth='user')
 
         self.feedbackPage = FeedbackPage(self.driver, self.rest_id)
@@ -15,8 +14,9 @@ class FeedbackTest(BaseTest):
         self.feedbackPage.wait_visible()
 
     def tearDown(self):
-        super(FeedbackTest, self).tearDown()
-        self.clear_restaurant()
+        super().clear_restaurant()
+        super().tearDown()
+
 
     def test_feedback(self):
         feedback = self.test_feedback.__name__
@@ -33,14 +33,3 @@ class FeedbackTest(BaseTest):
                 mark,
                 self.feedbackPage.restaurant_mark(),
             )
-
-    def create_restaurant(self):
-        self.filler = DatabaseFiller()
-        self.filler.admin_auth()
-        self.filler.create_restaurant(self.DEFAULT_REST_NAME)
-        self.rest_id = self.filler.get_restaurant_id_by_name(
-            self.DEFAULT_REST_NAME
-        )
-
-    def clear_restaurant(self):
-        self.filler.delete_restaurant(self.rest_id)
