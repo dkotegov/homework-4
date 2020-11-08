@@ -7,11 +7,17 @@ class OrderPage(Page):
     PATH = 'checkout'
 
     def wait_visible(self):
-        return WebDriverWait(self.driver, 5, 0.1).until(
-            lambda d: checkout_button(d).is_displayed() and
-                      email_input(d).is_displayed() and
-                      phone_input(d).is_displayed() and
-                      15 == len(self.phone())
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: checkout_button(d).is_displayed()
+        )
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: email_input(d).is_displayed()
+        )
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: phone_input(d).is_displayed()
+        )
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: 15 == len(self.phone())
         )
 
     def set_phone(self, text):

@@ -32,6 +32,7 @@ class OrderHistoryPage(Page):
     def decline_last_order(self):
         old_num = self.order_num()
         last_card = history_cards(self.driver)[-1]
+        last_card.click()
         decline_button(last_card).click()
         self.wait_decline_button_is_visible(last_card)
         decline_button(last_card).click()

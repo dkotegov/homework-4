@@ -20,7 +20,7 @@ class ChatListTest(BaseTest):
     def testRecvUserMessage(self):
         self.chatListPage.click_user_chat_card(self.user_id)
         chat_page = ChatPage(self.driver)
-        chat_page.wait_visible()
+        chat_page.wait_message_text_visible()
         self.assertEqual(chat_page.last_message, self.sent_message)
 
 

@@ -10,8 +10,12 @@ class ChatPage(Page):
     def wait_visible(self):
         WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: message_input(d).is_displayed() and
-                      send_button(d).is_displayed() and
-                      message_text(d).is_displayed()
+                      send_button(d).is_displayed()
+        )
+
+    def wait_message_text_visible(self):
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: message_text(d).is_displayed()
         )
 
     def send_message(self, message):

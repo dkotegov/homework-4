@@ -69,7 +69,7 @@ class AdminRestaurantsPage(Page):
         ActionChains(self.driver).move_to_element(rest_element)
         rest_element.click()
 
-        WebDriverWait(self.driver, 5, 0.1).until(
+        WebDriverWait(self.driver, 5, 0.3).until(
             lambda d: d.find_element_by_xpath(self.ADD_PRODUCT_BUTTON.format(rest_id)).is_displayed()
         )
 

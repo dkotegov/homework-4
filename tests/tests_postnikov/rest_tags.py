@@ -1,4 +1,5 @@
 import os
+import time
 import unittest
 
 from tests.pages.address_page import AddressPage
@@ -18,7 +19,7 @@ class ManageRestaurantTagsTest(unittest.TestCase):
     LONGITUDE = 55.765985
     LATITUDE = 37.68456
 
-    TAG_NAME = 'Test Tag'
+    TAG_NAME = ('Test Tag%s' % time.asctime()).replace(' ', '')
 
     MAIN_URL = 'http://skydelivery.site/restaurant_list/1'
     REST_ELEMENT = '//div[contains(@class, "restaurant-list__restaurant-{}")]'
@@ -73,7 +74,8 @@ class ManageRestaurantTagsTest(unittest.TestCase):
     def testAddTagToRestaurant(self):
         self.form.set_tag(self.tag_id)
         self.form.submit()
-    
+
+        self.form.wait_visible()
         WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: self.form.message() != '' 
         )
@@ -87,12 +89,12 @@ class ManageRestaurantTagsTest(unittest.TestCase):
         main_form.wait_open()
         main_form.set_tag(self.tag_id)
 
-        WebDriverWait(self.driver, 5, 0.1).until(
+        WebDriverWait(self.driver, 5, 0.3).until(
             lambda d: d.current_url == self.MAIN_URL 
         )
 
         main_page.wait_visible()
-        WebDriverWait(self.driver, 5, 0.1).until(
+        WebDriverWait(self.driver, 5, 0.3).until(
             lambda d: d.find_element_by_xpath(self.REST_LIST).find_element_by_xpath(self.REST_ELEMENT.format(self.rest_id)).is_displayed()
         )
         rest_el = self.driver.find_element_by_xpath(self.REST_LIST).find_element_by_xpath(self.REST_ELEMENT.format(self.rest_id))

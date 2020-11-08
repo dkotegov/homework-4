@@ -143,7 +143,7 @@ class AddProductTest(unittest.TestCase):
     def testAddProduct(self):
         self.rest_list_page.add_product(self.rest_id, self.TITLE, self.PRICE, self.PHOTO)
         
-        WebDriverWait(self.driver, 5, 0.1).until(
+        WebDriverWait(self.driver, 5, 0.2).until(
             lambda d: d.current_url == self.URL_RESTAURANT.format(self.rest_id) and
             d.find_element_by_xpath(self.PRODUCT_LIST).is_displayed() and
             d.find_element_by_xpath(self.PRODUCT_CARD).is_displayed()
