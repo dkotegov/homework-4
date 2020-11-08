@@ -6,12 +6,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class AuthPage(Page):
     LOGIN_CONTAINER = '//div[@class=" login-field"]'
+    SUBMIT = '//button[contains(@class,"login-field__submit")]'
     PATH = 'me'
 
     def wait_open(self):
         return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d:
-            d.find_element_by_xpath(self.LOGIN_CONTAINER).is_displayed()
+            d.find_element_by_xpath(self.SUBMIT).is_displayed()
         )
 
     @property
