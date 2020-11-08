@@ -4,16 +4,18 @@ import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from tests.helpers.database import DatabaseFiller
+from tests.pages.address_page import AddressPage
 from tests.pages.auth_page import AuthPage
+from tests.pages.order_page import OrderPage
 from tests.pages.restaurant_page import RestaurantPage
 
 
 class BaseTest(unittest.TestCase):
-    DEFAULT_REST_NAME = 'default++++++'
+    DEFAULT_REST_NAME = 'default====-+'
     DEFAULT_PROD_NAME = 'product%s'
     DEFAULT_PROD_PRICE = 100
 
-    def setUp(self, auth=None):
+    def setUp(self, auth=None, with_address=False):
         super().__init__()
 
         if not hasattr(self, 'driver'):
@@ -39,6 +41,11 @@ class BaseTest(unittest.TestCase):
             auth_page.wait_open()
             auth_page.auth(self.login, self.password)
             self.isAuthenticated = True
+
+        if with_address:
+            address_page = AddressPage(self.driver)
+            address_page.open()
+            address_page.start_address(DatabaseFiller().ADDRESS)
 
     def tearDown(self):
         self.driver.quit()
@@ -70,3 +77,11 @@ class BaseTest(unittest.TestCase):
         rest.open()
         rest.wait_visible()
         rest.add_product(0)
+
+    def checkout_order(self, rest_id):
+        self.order_product(rest_id)
+
+        order = OrderPage(self.driver)
+        order.open()
+        order.wait_visible()
+        order.click_checkout_button()

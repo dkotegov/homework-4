@@ -10,7 +10,8 @@ class OrderPage(Page):
         return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: checkout_button(d).is_displayed() and
                       email_input(d).is_displayed() and
-                      phone_input(d).is_displayed()
+                      phone_input(d).is_displayed() and
+                      15 == len(self.phone())
         )
 
     def set_phone(self, text):
@@ -44,6 +45,7 @@ class OrderPage(Page):
         return WebDriverWait(self.driver, 5, 0.1).until(
             lambda d: len(phone_error(d).get_attribute('innerText')) > 0
         )
+
 
 def phone_error(driver):
     return driver.find_element_by_css_selector(
