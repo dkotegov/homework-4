@@ -5,11 +5,12 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 from tests.helpers.database import DatabaseFiller
 from tests.pages.auth_page import AuthPage
+from tests.pages.restaurant_page import RestaurantPage
 
 
 class BaseTest(unittest.TestCase):
-    DEFAULT_REST_NAME = 'default________'
-    DEFAULT_PROD_NAME = 'product%s________'
+    DEFAULT_REST_NAME = 'default++++++'
+    DEFAULT_PROD_NAME = 'product%s'
     DEFAULT_PROD_PRICE = 100
 
     def setUp(self, auth=None):
@@ -63,3 +64,9 @@ class BaseTest(unittest.TestCase):
 
     def clear_restaurant(self):
         self.filler.delete_restaurant(self.rest_id)
+
+    def order_product(self, rest_id):
+        rest = RestaurantPage(self.driver, rest_id, 1)
+        rest.open()
+        rest.wait_visible()
+        rest.add_product(0)
