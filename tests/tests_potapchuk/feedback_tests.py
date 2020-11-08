@@ -3,10 +3,6 @@ from tests.pages.feedback_page import FeedbackPage
 from tests.tests_potapchuk.base_test import BaseTest
 
 
-def create_restaurant():
-    pass
-
-
 class FeedbackTest(BaseTest):
     DEFAULT_REST_NAME = 'FeedbackTestBaseTest_________'
 
