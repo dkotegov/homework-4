@@ -8,6 +8,10 @@ from tests.pages.auth_page import AuthPage
 
 
 class BaseTest(unittest.TestCase):
+    DEFAULT_REST_NAME = 'default________'
+    DEFAULT_PROD_NAME = 'product%s________'
+    DEFAULT_PROD_PRICE = 100
+
     def setUp(self, auth=None):
         super().__init__()
 
@@ -39,13 +43,23 @@ class BaseTest(unittest.TestCase):
         self.driver.quit()
 
     def create_restaurant(self):
-        self.DEFAULT_REST_NAME = self.clear_restaurant.__name__
         self.filler = DatabaseFiller()
         self.filler.admin_auth()
         self.filler.create_restaurant(self.DEFAULT_REST_NAME)
         self.rest_id = self.filler.get_restaurant_id_by_name(
             self.DEFAULT_REST_NAME
         )
+
+    def create_restaurant_with_products(self, prod_num):
+        self.prod_num = prod_num
+        self.create_restaurant()
+
+        for i in range(prod_num):
+            self.filler.create_product(
+                self.rest_id,
+                self.DEFAULT_PROD_NAME % i,
+                self.DEFAULT_PROD_PRICE,
+            )
 
     def clear_restaurant(self):
         self.filler.delete_restaurant(self.rest_id)
