@@ -1,4 +1,5 @@
 import os
+import time
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
@@ -11,7 +12,7 @@ from tests.pages.restaurant_page import RestaurantPage
 
 
 class BaseTest(unittest.TestCase):
-    DEFAULT_REST_NAME = 'default==-+'
+    DEFAULT_REST_NAME = ('default=%s' % time.asctime()).replace(' ', '')
     DEFAULT_PROD_NAME = 'product%s'
     DEFAULT_PROD_PRICE = 100
 

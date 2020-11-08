@@ -23,7 +23,7 @@ class OrderHistoryTest(BaseTest):
         )
         self.assertEqual(
             self.DEFAULT_PROD_PRICE,
-            parseInt(self.historyPage.last_product_price()),
+            parse_int(self.historyPage.last_product_price()),
         )
         self.assertEqual(
             self.DEFAULT_PROD_NAME % 0,
@@ -37,10 +37,7 @@ class OrderHistoryTest(BaseTest):
         self.assertEqual(last_num - 1, cur_num)
 
 
-
-
-
-def parseInt(string):
+def parse_int(string):
     try:
         return int(''.join([x for x in string if x.isdigit()]))
     except:

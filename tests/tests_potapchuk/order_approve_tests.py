@@ -6,7 +6,7 @@ from tests.tests_potapchuk.base_test import BaseTest
 class OrderApproveTest(BaseTest):
     def setUp(self):
         super().create_restaurant_with_products(2)
-        super().setUp(auth='user')
+        super().setUp(auth='user', with_address=True)
         super().order_product(self.rest_id)
 
         self.orderPage = OrderPage(self.driver)

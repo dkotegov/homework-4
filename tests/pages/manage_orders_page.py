@@ -55,6 +55,11 @@ class ManageOrderPage(Page):
         )
 
     def show_notifs(self):
+        WebDriverWait(self.driver, 5, 0.1).until(
+            lambda d: EC.element_to_be_clickable(
+                notif_icon(self.driver)
+            )
+        )
         notif_icon(self.driver).click()
         self.wait_notif_appear()
 

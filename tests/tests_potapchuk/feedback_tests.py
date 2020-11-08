@@ -3,8 +3,6 @@ from tests.tests_potapchuk.base_test import BaseTest
 
 
 class FeedbackTest(BaseTest):
-    DEFAULT_REST_NAME = 'FeedbackTestBaseTest_________'
-
     def setUp(self):
         super().create_restaurant()
         super().setUp(auth='user')
