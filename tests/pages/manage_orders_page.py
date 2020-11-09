@@ -50,22 +50,20 @@ class ManageOrderPage(Page):
         self.hide_notifs()
 
     def wait_notif_appear(self):
-        return WebDriverWait(self.driver, 5, 0.1).until(
+        return WebDriverWait(self.driver, 5, 0.5).until(
             lambda d: notif_container(d).is_displayed()
         )
 
     def show_notifs(self):
-        WebDriverWait(self.driver, 5, 0.1).until(
-            lambda d: EC.element_to_be_clickable(
-                notif_icon(self.driver)
-            )
+        WebDriverWait(self.driver, 5, 0.5).until(
+            lambda d: notif_icon(d).is_displayed()
         )
         notif_icon(self.driver).click()
         self.wait_notif_appear()
 
     def hide_notifs(self):
         ActionChains(self.driver).move_by_offset(100, 100).click().perform()
-        WebDriverWait(self.driver, 5, 0.1).until(
+        WebDriverWait(self.driver, 5, 0.5).until(
             lambda d: not notif_hider(d).is_displayed()
         )
 
