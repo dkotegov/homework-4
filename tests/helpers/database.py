@@ -1,4 +1,6 @@
 import os
+import time
+
 import requests
 import urllib.parse
 
@@ -22,7 +24,7 @@ class DatabaseFiller():
     CREATE_ORDER_PATH = 'orders'
     REST_PRODUCTS_PATH = 'restaurants/{}/product?page=1&count=20'
     TAG_PATH = 'rest_tags'
-    TEST_REST_NAME = 'Test rest №{}'
+    TEST_REST_NAME = ('Test rest №{}%s' % time.asctime()).replace(' ', '')
 
     ADMIN_LOGIN = os.environ['ADMIN_LOGIN']
     ADMIN_PASSWORD = os.environ['ADMIN_PASSWORD']
@@ -160,7 +162,7 @@ class DatabaseFiller():
                                          files={'image': photo}
                                          )
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError('Response status is not OK')
+            raise RuntimeError('Response status is not OK: ', response.json()['error'])
 
     def get_restaurant_id_by_name(self, rest_name):
         response = self.session.get(urllib.parse.urljoin(self.PATH, self.RESTAURANT_PATH.format('')),
@@ -168,7 +170,7 @@ class DatabaseFiller():
                                     )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError('Response status is not OK')
+            raise RuntimeError('Response status is not OK:')
 
         json_resp = response.json()
         for rest in json_resp['restaurants']:
@@ -213,7 +215,7 @@ class DatabaseFiller():
             )
 
         if response.status_code != requests.codes['ok']:
-            raise RuntimeError('Response status is not OK')
+            raise RuntimeError('Response status is not OK: ', response.json()['error'])
 
     def delete_tag(self, tagname):
         id = self.get_tag_by_name(tagname)
@@ -253,7 +255,7 @@ class DatabaseFiller():
 
         json_resp = response.json()
         for rest in json_resp['restaurants']:
-            if 'Test rest' in rest['name']:
+            if 'Testrest' in rest['name']:
                 self.rests_id.append(rest['id'])
 
     def create_product(self, rest_id, title, price):

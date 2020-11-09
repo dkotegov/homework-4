@@ -22,7 +22,7 @@ class ProfileForm(Component):
 
     def wait_open(self):
         return WebDriverWait(self.driver, 5, 0.5).until(
-            ec.element_to_be_clickable((By.XPATH, self.PROFILE_BLOCK))
+            ec.element_to_be_clickable((By.XPATH, self.SAVE_BUTTON))
         )
 
     def set_name(self, name):
