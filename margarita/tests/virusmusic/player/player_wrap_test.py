@@ -1,7 +1,7 @@
 from time import sleep
 
-from margarita.tests.virusmusic.player.default import Test
 from margarita.pages.virusmusic.main_page import MainPage
+from margarita.tests.virusmusic.player.default import Test
 
 
 class TestWrapPlayer(Test):

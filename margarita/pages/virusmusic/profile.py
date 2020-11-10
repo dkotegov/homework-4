@@ -1,7 +1,7 @@
 from selenium.webdriver.common.keys import Keys
 
-from margarita.pages.default import Page
-from margarita.utils import wait_for_element_by_selector, wait_for_pop_up
+from margarita.pages.virusmusic.default import Page
+from margarita.utils import wait_for_element_by_selector
 
 
 class ProfilePlaylistsPage(Page):

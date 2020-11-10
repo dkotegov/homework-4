@@ -3,7 +3,8 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from pages.virusmusic.auth import AuthPage
+from margarita.pages.virusmusic.auth import AuthPage
+
 
 class Test(unittest.TestCase):
     def setUp(self):
@@ -12,10 +13,10 @@ class Test(unittest.TestCase):
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
-        authPage = AuthPage(self.driver)
-        authPage.auth()
+        auth_page = AuthPage(self.driver)
+        auth_page.auth()
         self.assertEqual(
-            authPage.get_navbar_login(),
+            auth_page.get_navbar_login(),
             os.environ['LOGIN']
         )
 

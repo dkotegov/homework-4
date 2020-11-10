@@ -1,5 +1,5 @@
-from margarita.tests.virusmusic.player.default import Test
 from margarita.pages.virusmusic.main_page import MainPage
+from margarita.tests.virusmusic.player.default import Test
 
 
 class TrackPlayTest(Test):
@@ -60,6 +60,7 @@ class TrackPrevQueueTest(Test):
         current_after = page.get_current_id()
         self.assertNotEqual(current_before, current_after)
 
+
 class ShuffleQueueTest(Test):
     def test(self):
         page = MainPage(self.driver)
@@ -72,6 +73,7 @@ class ShuffleQueueTest(Test):
         page.shuffle()
         next_track_after = page.play_next()
         self.assertNotEqual(next_track_before, next_track_after)
+
 
 class CycleQueueTest(Test):
     def test(self):

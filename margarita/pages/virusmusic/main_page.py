@@ -1,10 +1,8 @@
-import time
-
-from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import ActionChains
 
-from margarita.pages.default import Page
 import margarita.utils as utils
+from margarita.pages.virusmusic.default import Page
+from margarita.components.virsumusic.search_form import SearchForm
 
 
 class MainPage(Page):
@@ -34,6 +32,9 @@ class MainPage(Page):
 
     SHUFFLE_SELECTOR = 'img.playlist-control-button.shuffle'
     CYCLE_SELECTOR = 'img.playlist-control-button.repeat'
+
+    CLASS_NOT_FOUND = '//div[@class="no-found"]'
+
     def get_first_track_id(self):
         return utils.wait_for_element_by_xpath(self.driver, self.FIRST_TRACK_IN_LIST).get_attribute(self.TRACK_ID)
 
@@ -71,8 +72,9 @@ class MainPage(Page):
             return False
 
     def press_add_to_playlist(self, track_id, playlist_name, playlist_id):
-        utils.wait_for_element_by_xpath(self.driver,  self.TRACK_BY_ID.format(track_id))
-        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.TRACK_BY_ID.format(track_id))).perform()
+        utils.wait_for_element_by_xpath(self.driver, self.TRACK_BY_ID.format(track_id))
+        ActionChains(self.driver).move_to_element(self.driver.find_element_by_xpath(self.TRACK_BY_ID.format(track_id))) \
+            .perform()
         utils.wait_for_element_by_xpath(self.driver, self.ADD_BUTTON_BY_ID.format(track_id)).click()
         playlist = utils.wait_for_element_by_xpath(self.driver, self.PLAYLIST_BY_ID.format(playlist_id))
         ActionChains(self.driver).move_to_element(playlist).click(playlist).perform()
@@ -88,7 +90,8 @@ class MainPage(Page):
         return pos
 
     def wrap_player(self):
-        ActionChains(self.driver).move_to_element(utils.wait_for_element_by_xpath(self.driver, self.TRIGGER_BUTTON)).click(self.driver.find_element_by_xpath(self.PLAYER_ARROW)).perform()
+        ActionChains(self.driver).move_to_element(utils.wait_for_element_by_xpath(self.driver, self.TRIGGER_BUTTON)) \
+            .click(self.driver.find_element_by_xpath(self.PLAYER_ARROW)).perform()
 
     def remove_from_queue(self, track_id):
         track = utils.wait_for_element_by_xpath(self.driver, self.TRACK_IN_QUEUE.format(track_id))
@@ -109,7 +112,7 @@ class MainPage(Page):
         utils.wait_for_element_by_xpath(self.driver, self.PLAY_TRACK_BY_NUM_BUTTON.format(track_num)).click()
 
     def play_next(self):
-        utils.wait_for_element_by_xpath(self.driver, self.PLAYER_NEXT).click()
+        utils.wait_for_element_to_be_clickable_by_xpath(self.driver, self.PLAYER_NEXT).click()
 
     def play_prev(self):
         utils.wait_for_element_by_xpath(self.driver, self.PLAYER_PREV).click()
@@ -119,3 +122,18 @@ class MainPage(Page):
 
     def cycle(self):
         utils.wait_for_element_by_selector(self.driver, self.CYCLE_SELECTOR).click()
+
+    def enter_search(self, string):
+        search_form = SearchForm(self.driver)
+        search_form.enter_string(string)
+
+    def search_result(self, type, artist_name):
+        search_form = SearchForm(self.driver)
+        search_form.search_result(type, artist_name)
+
+    def press_search_button(self):
+        search_form = SearchForm(self.driver)
+        search_form.search()
+
+    def wait_for_not_found_search(self):
+        utils.wait_for_element_by_xpath(self.driver, self.CLASS_NOT_FOUND)

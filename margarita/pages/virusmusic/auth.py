@@ -1,7 +1,7 @@
 import os
 
-from margarita.pages.default import Page
-from margarita.components.virsumusic.auth_form import AuthForm
+from margarita.pages.virusmusic.default import Page
+from nikita.components.virusmusic.auth_form import AuthForm
 from margarita.utils import wait_for_element_by_selector, wait_for_url
 from margarita.constants import BASE_URL
 

@@ -27,6 +27,11 @@ def wait_for_element_to_be_clickable_by_selector(driver, selector):
         expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, selector))
     )
 
+def wait_for_element_to_be_clickable_by_xpath(driver, selector):
+    return WebDriverWait(driver, 10, 0.1).until(
+        expected_conditions.element_to_be_clickable((By.XPATH, selector))
+    )
+
 
 def wait_for_url(driver, url):
     return WebDriverWait(driver, 10, 0.1).until(

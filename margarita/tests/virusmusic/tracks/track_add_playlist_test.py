@@ -1,9 +1,8 @@
-from margarita.tests.virusmusic.tracks.default import TrackTestAuth
-from margarita.tests.virusmusic.tracks.default import TrackTestNoAuth
 from margarita.pages.virusmusic.main_page import MainPage
 from margarita.pages.virusmusic.profile import ProfilePlaylistsPage
-from margarita.pages.virusmusic.playlists import PlaylistPage
-import margarita.utils
+from margarita.tests.virusmusic.tracks.default import TrackTestAuth
+from nikita.pages.virusmusic.playlist import PlaylistPage
+
 
 class TrackAddAndRemoveFromPlaylistTest(TrackTestAuth):
     def test(self):
@@ -20,13 +19,3 @@ class TrackAddAndRemoveFromPlaylistTest(TrackTestAuth):
         playlist = PlaylistPage(self.driver, playlist_id)
         playlist.delete()
         self.assertNotEqual(is_added_before, is_added_after)
-
-
-# site has a bug
-class TrackAddToPlaylistTestNoAuth(TrackTestNoAuth):
-    def test(self):
-        page = MainPage(self.driver)
-        page.open()
-        track_id = page.get_first_track_id()
-
-        self.assertFalse(page.is_add_visible(track_id))
