@@ -291,6 +291,7 @@ class Share(Component):
     WHATSAPP = "//*[@id='modal']/div/div[2]/div[2]/a[1]/div"
     TWITTER = "//*[@id='modal']/div/div[2]/div[2]/a[2]/div"
     FACEBOOK = "//*[@id='modal']/div/div[2]/div[2]/a[3]/div"
+    PAGETITLE = "/html/head/title"
 
     def open_form(self):
         WebDriverWait(self.driver, 30, 0.1).until(
@@ -314,6 +315,10 @@ class Share(Component):
 
     def get_share_url(self):
         self.driver.switch_to_window(self.driver.window_handles[-1])
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.PAGETITLE)
+        )
+
         return self.driver.current_url
 
 
