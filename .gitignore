@@ -69,4 +69,6 @@ run_*
 #Ipython Notebook
 .ipynb_checkpoints
 
-.idea/.DS_Store
+.idea/
+
+.DS_Store
