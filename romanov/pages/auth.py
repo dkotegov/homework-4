@@ -5,14 +5,13 @@ reg_btn = 'regModal'
 login_input = 'loginUser'
 pass_input = 'passUser'
 email_input = 'emailUser'
-login_btn_modal = 'sendLogin'
-reg_btn_modal = 'sendReg'
+login_btn_modal = '#sendLogin input'
+reg_btn_modal = '#sendReg input'
 close_btn_modal = 'closeInfo'
 modal_start = 'div[class="great_title"]'
 modal_info = '#infoModalMessage div.mini_title'
 menu_user = '#loginPart div.icons'
 cookie_session = 'session_id'
-
 
 class Pages:
     @staticmethod
@@ -47,12 +46,12 @@ class Pages:
 
     @staticmethod
     def click_login():
-        btn = connect.find_el_id(login_btn_modal)
+        btn = connect.find_el_css(login_btn_modal)
         btn.click_after_wait()
 
     @staticmethod
     def click_reg():
-        btn = connect.find_el_id(reg_btn_modal)
+        btn = connect.find_el_css(reg_btn_modal)
         btn.click_after_wait()
 
     @staticmethod

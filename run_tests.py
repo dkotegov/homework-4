@@ -50,7 +50,6 @@ if __name__ == '__main__':
         unittest.makeSuite(SubFeed),
         unittest.makeSuite(HaveNotif),
 
-
         unittest.makeSuite(PinAndCommentTest),
         unittest.makeSuite(SearchAndMenuTest),
         
@@ -59,7 +58,6 @@ if __name__ == '__main__':
         unittest.makeSuite(ProfileTest),
         unittest.makeSuite(SettingsTest),
         unittest.makeSuite(NewPinDeskTest),
-
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

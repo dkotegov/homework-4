@@ -1,7 +1,8 @@
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.expected_conditions import element_to_be_clickable, presence_of_element_located
-
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 class wait_for_the_attribute_value(object):
@@ -19,10 +20,11 @@ class wait_for_the_attribute_value(object):
             return False
 
 class MyWebElement:
-    def __init__(self, el: WebElement, id=None, css=None):
+    def __init__(self, el: WebElement, id=None, css=None, xpath=None):
         self.el: WebElement = el
         self.id = id
         self.css = css
+        self.xpath = xpath
 
     def click(self):
         self.el.click()
@@ -36,6 +38,8 @@ class MyWebElement:
             connect.wait.until(element_to_be_clickable((By.ID, self.id))).click()
         elif self.css:
             connect.wait.until(element_to_be_clickable((By.CSS_SELECTOR, self.css))).click()
+        else:
+            connect.wait.until(element_to_be_clickable((By.XPATH, self.xpath))).click()
 
     def change_wait(self, key, value=None):
         from romanov.app.driver import connect

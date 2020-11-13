@@ -22,7 +22,7 @@ class Connect:
             self.options.add_argument("--incognito")
         elif self.browser == 'FIREFOX':
             self.options = FirefoxOptions()
-            self.options.addArguments("-private")
+            self.options.add_argument("-private")
 
         self.driver: Remote = None
         self.wait: WebDriverWait = None
@@ -38,17 +38,22 @@ class Connect:
     def destroy(self):
         self.driver.quit()
 
-    def load_wait(self, id=None, css=None):
+    def load_wait(self, id=None, css=None, xpath=None):
         if css:
             self.wait.until(presence_of_element_located((By.CSS_SELECTOR, css)))
-        else:
+        elif id:
             self.wait.until(presence_of_element_located((By.ID, id)))
+        else:
+            self.wait.until(presence_of_element_located((By.XPATH, xpath)))
 
     def find_el_id(self, id):
         return MyWebElement(self.driver.find_element_by_id(id), id=id)
 
     def find_el_css(self, css):
         return MyWebElement(self.driver.find_element_by_css_selector(css), css=css)
+
+    def find_el_xpath(self, xpath):
+        return MyWebElement(self.driver.find_element_by_xpath(xpath), xpath=xpath)
 
     def find_els_css(self, css):
         return [MyWebElement(el) for el in self.driver.find_elements_by_css_selector(css)]
