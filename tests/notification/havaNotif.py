@@ -10,7 +10,6 @@ from tests.pin_comment_search_menu import PinPage
 
 
 class HaveNotif(unittest.TestCase):
-
     COMMENT_TEXT = 'text'
 
     def setUp(self):
@@ -41,32 +40,26 @@ class HaveNotif(unittest.TestCase):
             print('TEST HaveNotif: not have PIN_ID! skip')
             return
 
-
-
         login_act = LoginTest()
         login_act.driver = self.driver
         login_act.loginBeforeAllTests(second_profile=True)
 
-        # write comment Evgen part start
         pp = PinPage(self.driver)
-
         pin_path = pp.BASE_URL + 'pin/' + PIN_ID
-
         pp.open_pin(pin_path)
 
         comment = pp.pin.comment
-
         comment.set_comment_text(self.COMMENT_TEXT)
         comment.send_comment()
         comment.driver.refresh()
-        #  Evgen part end
 
-        self.driver.delete_all_cookies()
-        self.driver.refresh()
-
+        # self.driver.delete_all_cookies() не работает
+        # self.driver.add_cookie({'name': 'session_id', 'value': '=)'}) добавляет - не заменяет
+        # self.driver.delete_cookie('session_id') не работает
 
         self.driver.get(pp.BASE_URL + 'logout')
-        self.driver.refresh()
+        time.sleep(2)  # работает но слоупок
+        self.driver.get(pp.BASE_URL)
 
         login_act.loginBeforeAllTests()
 
@@ -79,4 +72,3 @@ class HaveNotif(unittest.TestCase):
 
         self.assert_(notif_text, USERNAME2)
         self.assert_(notif_text, self.COMMENT_TEXT)
-

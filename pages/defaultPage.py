@@ -15,5 +15,6 @@ class Page(object):
 
 
 class Component(object):
+    BASE_URL = 'https://zinterest.ru/'
     def __init__(self, driver):
         self.driver = driver

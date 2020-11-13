@@ -1,8 +1,11 @@
 import os
+import time
 import unittest
 
 from pages.login import LoginPage
 from selenium.webdriver import DesiredCapabilities, Remote
+
+from romanov.app.driver import Connect
 
 
 class LoginTest(unittest.TestCase):

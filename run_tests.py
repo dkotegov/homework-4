@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
         unittest.makeSuite(PinAndCommentTest),
         unittest.makeSuite(SearchAndMenuTest),
-        
+
         unittest.makeSuite(AuthLoginTest),
         unittest.makeSuite(AuthRegTest),
         unittest.makeSuite(ProfileTest),
