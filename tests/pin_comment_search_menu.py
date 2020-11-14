@@ -7,7 +7,7 @@ from selenium.webdriver import DesiredCapabilities, Remote, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.expected_conditions import element_to_be_clickable
 from selenium.webdriver.support.ui import WebDriverWait
-
+import time
 
 class Page(object):
     BASE_URL = 'https://zinterest.ru/'
@@ -194,7 +194,7 @@ class Pin(Component):
     AUTHORNAME = "//div[@class='author']/div"
     AUTHORAVATAR = "//div[@class='author']/img"
     SAVEFORM = "//div[@class='up']/div/input"
-    SAVEPIN = "//*[@id='saveChoosePin']"
+    SAVEPIN = "saveChoosePin"
     MESSAGE = "//*[@id='closeInfo']"
 
     def get_name_pin(self):
@@ -223,9 +223,11 @@ class Pin(Component):
         ).click()
 
     def save_pin(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.SAVEPIN)
-        ).click()
+        elem = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_id(self.SAVEPIN)
+        )
+        time.sleep(1)
+        elem.click()
 
     def get_save_info(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
@@ -261,7 +263,7 @@ class Comment(Component):
     SENDCOMMENTID = 'sendComment'
     COMMENTS = 'commentBlock'
     COMMENTBLOCK = "//div[@class='comment_item']"
-    FIRSTCOMMENT = "//*[@id='commentBlock']/div[1]"
+    COMMENT = "//*[@id='commentBlock']/div[%d]"
 
     def set_comment_text(self, text):
         WebDriverWait(self.driver, 30, 0.1).until(
@@ -273,10 +275,14 @@ class Comment(Component):
             lambda d: d.find_element_by_id(self.SENDCOMMENTID)
         ).click()
 
+    def wait_new_comment(self, before):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.COMMENT % (before + 1)))
+
     def get_amount_of_comments(self):
         try:
             WebDriverWait(self.driver, 30, 0.1).until(
-                lambda d: d.find_element_by_xpath(self.FIRSTCOMMENT))
+                lambda d: d.find_element_by_xpath(self.COMMENT % 1))
             parent = WebDriverWait(self.driver, 30, 0.1).until(
                 lambda d: d.find_element_by_id(self.COMMENTS)
             )
@@ -315,6 +321,7 @@ class Share(Component):
 
     def get_share_url(self):
         self.driver.switch_to_window(self.driver.window_handles[-1])
+        time.sleep(1)
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.PAGETITLE)
         )
@@ -322,12 +329,11 @@ class Share(Component):
         return self.driver.current_url
 
 
-class PinAndCommentTest(unittest.TestCase):
+class PinTest(unittest.TestCase):
     USERNAME = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
     PINURL = 'pin'
     INFOMESSAGE = 'Ок'
-    COMMENTMESSAGE = 'test'
     LOGIN = 'Авторизация'
     TWITTER = 'twitter'
     WHATSAPP = 'whatsapp'
@@ -430,60 +436,6 @@ class PinAndCommentTest(unittest.TestCase):
         pin.auth_form.get_form_name()
         self.assertEqual(pin.auth_form.get_form_name(), self.LOGIN)
 
-    def test_write_comment_by_auth_user(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-
-        auth_form = auth_page.form
-        auth_form.open_form()
-        auth_form.set_login(self.USERNAME)
-        auth_form.set_password(self.PASSWORD)
-        auth_form.submit()
-
-        pp = PinPage(self.driver)
-        pp.open_pin()
-
-        comment = pp.pin.comment
-
-        before = comment.get_amount_of_comments()
-        comment.set_comment_text(self.COMMENTMESSAGE)
-        comment.send_comment()
-        comment.driver.refresh()
-
-        self.assertEqual(comment.get_amount_of_comments(), before + 1)
-
-    def test_write_empty_comment_by_auth_user(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-
-        auth_form = auth_page.form
-        auth_form.open_form()
-        auth_form.set_login(self.USERNAME)
-        auth_form.set_password(self.PASSWORD)
-        auth_form.submit()
-
-        pp = PinPage(self.driver)
-        pp.open_pin()
-
-        comment = pp.pin.comment
-        before = comment.get_amount_of_comments()
-        comment.set_comment_text('')
-        comment.send_comment()
-
-        self.assertEqual(comment.get_amount_of_comments(), before)
-
-    def test_write_comment_by_unauth_user(self):
-        pp = PinPage(self.driver)
-        pp.open_pin()
-
-        comment = pp.pin.comment
-
-        before = comment.get_amount_of_comments()
-        comment.set_comment_text('')
-        comment.send_comment()
-
-        self.assertEqual(comment.get_amount_of_comments(), before)
-
     def test_click_on_pin_on_main(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
@@ -525,16 +477,82 @@ class PinAndCommentTest(unittest.TestCase):
         self.assertIn(self.PINURL, self.driver.current_url)
 
 
-class SearchAndMenuTest(unittest.TestCase):
+class CommentTest(unittest.TestCase):
+    USERNAME = os.environ['LOGIN']
+    PASSWORD = os.environ['PASSWORD']
+    COMMENTMESSAGE = 'test'
+
+    def setUp(self):
+        browser = os.environ.get('BROWSER', 'CHROME')
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+
+    def tearDown(self):
+        self.driver.quit()
+
+    def test_write_comment_by_auth_user(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.open_form()
+        auth_form.set_login(self.USERNAME)
+        auth_form.set_password(self.PASSWORD)
+        auth_form.submit()
+
+        pp = PinPage(self.driver)
+        pp.open_pin()
+
+        comment = pp.pin.comment
+
+        before = comment.get_amount_of_comments()
+        comment.set_comment_text(self.COMMENTMESSAGE)
+        comment.send_comment()
+        comment.wait_new_comment(before)
+
+        self.assertEqual(comment.get_amount_of_comments(), before + 1)
+
+    def test_write_empty_comment_by_auth_user(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.open_form()
+        auth_form.set_login(self.USERNAME)
+        auth_form.set_password(self.PASSWORD)
+        auth_form.submit()
+
+        pp = PinPage(self.driver)
+        pp.open_pin()
+
+        comment = pp.pin.comment
+        before = comment.get_amount_of_comments()
+        comment.set_comment_text('')
+        comment.send_comment()
+
+        self.assertEqual(comment.get_amount_of_comments(), before)
+
+    def test_write_comment_by_unauth_user(self):
+        pp = PinPage(self.driver)
+        pp.open_pin()
+
+        comment = pp.pin.comment
+
+        before = comment.get_amount_of_comments()
+        comment.set_comment_text('')
+        comment.send_comment()
+
+        self.assertEqual(comment.get_amount_of_comments(), before)
+
+
+class SearchTest(unittest.TestCase):
     USERNAME = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
     TESTPIN = 'Testpin'
     EMPTYSEARCHPIN = 'Пины не найдены'
     EMPTYSEARCHUSER = 'Пользователи не найдены'
-    SMARTFEEDTITLE = 'Умная лента'
-    NOTIFICATIONSTITLE = 'Notifications'
-    CHATSTITLE = 'Chats'
-    PROFILETITLE = 'Profile'
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
@@ -555,6 +573,69 @@ class SearchAndMenuTest(unittest.TestCase):
         search_line.set_text('')
         search_line.search()
         self.assertEqual(search_line.get_info(), self.EMPTYSEARCHPIN)
+
+    def test_check_search_line(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.open_form()
+        auth_form.set_login(self.USERNAME)
+        auth_form.set_password(self.PASSWORD)
+        auth_form.submit()
+
+        search_page = SearchPage(self.driver)
+        search_page.open()
+
+        search_line = search_page.line
+        search_line.set_text(self.TESTPIN)
+        search_line.search()
+        search_line.switch_menu()
+
+        self.assertEqual(search_line.get_text(), self.TESTPIN)
+
+    def test_search_pin(self):
+        search_page = SearchPage(self.driver)
+        search_page.open()
+
+        search_line = search_page.line
+        search_line.set_text(self.TESTPIN)
+        search_line.search()
+        search_line.open_pin()
+
+        self.assertEqual(self.TESTPIN, search_line.pin.get_name_pin())
+
+    def test_search_user(self):
+        search_page = SearchPage(self.driver)
+        search_page.open()
+
+        search_line = search_page.line
+
+        search_line.set_user_filter()
+        search_line.set_text(self.USERNAME)
+        search_line.search()
+
+        self.assertEqual(search_line.get_user_name(), self.USERNAME)
+
+
+class MenuTest(unittest.TestCase):
+    USERNAME = os.environ['LOGIN']
+    PASSWORD = os.environ['PASSWORD']
+    TESTPIN = 'Testpin'
+    SMARTFEEDTITLE = 'Умная лента'
+    NOTIFICATIONSTITLE = 'Notifications'
+    CHATSTITLE = 'Chats'
+    PROFILETITLE = 'Profile'
+
+    def setUp(self):
+        browser = os.environ.get('BROWSER', 'CHROME')
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
+
+    def tearDown(self):
+        self.driver.quit()
 
     def test_switch_to_smart_feed(self):
         auth_page = AuthPage(self.driver)
@@ -615,46 +696,3 @@ class SearchAndMenuTest(unittest.TestCase):
         top.switch_to_profile()
 
         self.assertEqual(top.get_title(), self.PROFILETITLE)
-
-    def test_check_search_line(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-
-        auth_form = auth_page.form
-        auth_form.open_form()
-        auth_form.set_login(self.USERNAME)
-        auth_form.set_password(self.PASSWORD)
-        auth_form.submit()
-
-        search_page = SearchPage(self.driver)
-        search_page.open()
-
-        search_line = search_page.line
-        search_line.set_text(self.TESTPIN)
-        search_line.search()
-        search_line.switch_menu()
-
-        self.assertEqual(search_line.get_text(), self.TESTPIN)
-
-    def test_search_pin(self):
-        search_page = SearchPage(self.driver)
-        search_page.open()
-
-        search_line = search_page.line
-        search_line.set_text(self.TESTPIN)
-        search_line.search()
-        search_line.open_pin()
-
-        self.assertEqual(self.TESTPIN, search_line.pin.get_name_pin())
-
-    def test_search_user(self):
-        search_page = SearchPage(self.driver)
-        search_page.open()
-
-        search_line = search_page.line
-
-        search_line.set_user_filter()
-        search_line.set_text(self.USERNAME)
-        search_line.search()
-
-        self.assertEqual(search_line.get_user_name(), self.USERNAME)
