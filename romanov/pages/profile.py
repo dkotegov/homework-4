@@ -88,8 +88,8 @@ class Pages:
     @staticmethod
     def find_empty_feed():
         connect.load_wait(css=info_feed)
-        label = connect.find_el_css(info_feed).el.text
-        assert label != ''
+        label = connect.find_el_css(info_feed)
+        label.change_wait_text('Нет пинов у данного пользователя')
 
     @staticmethod
     def click_exit():
