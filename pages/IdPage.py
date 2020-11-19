@@ -66,3 +66,9 @@ class Main_page(Page):
 
     def open_popup(self):
         self.open("https://id.mail.ru/contacts?open-add-extra-email=1")
+
+    def close_pop_up(self) -> bool:
+        text = self.personal_info_steps.close_pop_up()
+        if text == "Контакты и адреса":
+            return True
+        return False

@@ -17,6 +17,7 @@ class PersonaInfoSteps(BaseSteps):
     delete_email_path = '//*[@id="root"]/div/div[3]/div/div/div[12]/div/div[2]/div/div[3]/button'
     confirm_delete_email_button = '/html/body/div[2]/div[2]/div/div/div[2]/form/button[1]'
     delete_header = '/html/body/div[2]/div[2]/div/div/div[2]/div/h1'
+    close_btn = '/html/body/div[2]/div[2]/div/div/div[2]/form/button[2]'
 
     def click_personal_info_settings(self) -> str:
         """
@@ -87,3 +88,7 @@ class PersonaInfoSteps(BaseSteps):
             return False
         except Exception:
             return True
+
+    def close_pop_up(self):
+        self.wait_until_and_get_elem_by_xpath(self.close_btn).click()
+        return self.wait_until_and_get_elem_by_xpath(self.contacts_header).text

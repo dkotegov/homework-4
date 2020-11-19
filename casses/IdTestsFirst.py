@@ -93,7 +93,6 @@ class IdMainPageAndPersonalDataTests(unittest.TestCase):
         print("done test_check_correct_email")
 
     def test_fill_form_with_empty_city(self):
-        #not
         self.data_page.open(self.data_page.BASE_URL)
         errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "")
         self.assertEqual(errors.city_err, "Укажите город")
@@ -143,3 +142,51 @@ class IdMainPageAndPersonalDataTests(unittest.TestCase):
         self.assertEqual(newName, "Имя2")
         self.assertEqual(newSurname, "Фамилия2")
         print("done test_all_ok_data")
+
+    def test_city_different_case(self):
+        self.data_page.open(self.data_page.BASE_URL)
+        errors = self.data_page.fill_form("Имя3", "Фамилия3", "Никнейм3", "МоСкВа")
+        self.check_no_errors(errors)
+        self.data_page.reload()
+        newName, newSurname = self.main_page.get_name_surname_from_left_bar()
+        self.assertEqual(newName, "Имя3")
+        self.assertEqual(newSurname, "Фамилия3")
+        print("done test_different_case")
+
+    def test_long_input(self):
+        self.data_page.open(self.data_page.BASE_URL)
+        errors = self.data_page.fill_form("ashgdjhasgdhasjkdhaskjhdkjashdkjashkjdhaskjhdkjashkdjhaskjdhkjashdkj",
+                                          "ashgdjhasgdhasjkdhaskjhdkjashdkjashkjdhaskjhdkjashkdjhaskjdhkjashdkj",
+                                          "ashgdjhasgdhasjkdhaskjhdkjashdkjashkjdhaskjhdkjashkdjhaskjdhkjashdkj",
+                                          "Москва")
+        self.assertEqual(errors.city_err,
+                         "")
+        self.assertEqual(errors.name_err,
+                         "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов")
+        self.assertEqual(errors.last_name_err,
+                         "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов")
+        self.assertEqual(errors.nickname_err,
+                         "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов")
+        print("done test_long_input")
+
+    def test_inputs_special_char(self):
+        self.data_page.open(self.data_page.BASE_URL)
+        errors = self.data_page.fill_form("%$^&!@$^!@*!@*",
+                                          "%$^&!@$^!@*!@*",
+                                          "%$^&!@$^!@*!@*",
+                                          "Москва")
+        self.assertEqual(errors.city_err,
+                         "")
+        self.assertEqual(errors.name_err,
+                         "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов")
+        self.assertEqual(errors.last_name_err,
+                         "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов")
+        self.assertEqual(errors.nickname_err,
+                         "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов")
+        print("done test_inputs_special_char")
+
+    def test_close_popup(self):
+        self.go_to_popup()
+        ok = self.main_page.close_pop_up()
+        self.assertTrue(ok)
+        print("done test_close_popup")

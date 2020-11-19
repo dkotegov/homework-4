@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver import Remote
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -34,7 +36,7 @@ class BaseSteps(object):
 
     def get_element_text(self, path) -> str:
         try:
-            return self.driver.find_element_by_xpath(path).text
+            return self.wait_until_and_get_elem_by_xpath(path).text
         except Exception:
             return ""
 
