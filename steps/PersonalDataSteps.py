@@ -66,8 +66,8 @@ class PersonalDataSteps(BaseSteps):
         self.fill_input(self.nickname_path, nickname)
 
     def fill_city(self, city):
-        self.fill_input(self.city_path, city)
-        if (city != ""):
+        self.fill_city_input(self.city_path, city)
+        if city != "":
             try:
                 self.wait_until_and_get_elem_by_xpath(self.accept_city_popup).click()
             except Exception:
@@ -98,3 +98,20 @@ class PersonalDataSteps(BaseSteps):
             return True
         except TimeoutError:
             return False
+
+    def fill_city_input(self, city_path, city):
+        """
+        Так как pop up с выбором города очень тупой и использует React,
+         мы будем ждать пока он раздуплиться, иначе просто не работает(я пытался)
+        :param city_path:
+        :param city:
+        :return:
+        """
+        el = self.wait_until_and_get_elem_by_xpath(city_path)
+        el.click()
+        clear(el)
+        time.sleep(2)
+        el.send_keys(city)
+        time.sleep(2)
+        el.submit()
+        time.sleep(2)
