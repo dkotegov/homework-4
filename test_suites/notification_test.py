@@ -9,16 +9,17 @@ from pages.notif_page import NotificationPage
 
 
 class NotificationTests(unittest.TestCase):
-    # browser = webdriver.Chrome('./chromedriver')
-    question_topic = "Что означает, что двигатель троит?"
-    question_text = ""
-    answer = "один из цилиндров мотора не работает"
-    like = "Понравился"
-
-    login_1 = os.environ.get('LOGIN_1')
-    password_1 = os.environ.get('PASSWORD_1')
-    login_2 = os.environ.get('LOGIN_2')
-    password_2 = os.environ.get('PASSWORD_2')
+    LOGIN_1 = os.environ.get('LOGIN_1')
+    PASSWORD_1 = os.environ.get('PASSWORD_1')
+    LOGIN_2 = os.environ.get('LOGIN_2')
+    PASSWORD_2 = os.environ.get('PASSWORD_2')
+    QUESTION_TOPIC = os.environ.get('QUESTION')
+    QUESTION_TEXT = ""
+    ANSWER = os.environ.get('ANSWER')
+    COMMENT = 'хороший ответ'
+    LIKE_QUESTION_NOTIF = 'Понравился ваш вопрос'
+    LIKE_ANSWER_NOTIF = 'Понравился ваш ответ'
+    COMMENT_NOTIF = "Новые комментарии"
 
     browser = None
     cmn = None
@@ -38,27 +39,45 @@ class NotificationTests(unittest.TestCase):
         NotificationTests.question = QuestionPage(NotificationTests.browser)
         NotificationTests.notif = NotificationPage(NotificationTests.browser)
 
-        NotificationTests.cmn.login(NotificationTests.login_1, NotificationTests.password_1)
-        NotificationTests.question_url = NotificationTests.question.ask_question(NotificationTests.question_topic,
-                                                                                 NotificationTests.question_text)
+        NotificationTests.cmn.login(NotificationTests.LOGIN_1, NotificationTests.PASSWORD_1)
+        NotificationTests.question_url = NotificationTests.question.ask_question(NotificationTests.QUESTION_TOPIC,
+                                                                                 NotificationTests.QUESTION_TEXT)
         NotificationTests.cmn.logout()
 
     def test_notification_for_answer_to_question(self):
-        self.cmn.login(self.login_2, self.password_2)
-        self.question.answer_question(self.question_url, self.answer)
+        self.cmn.login(self.LOGIN_2, self.PASSWORD_2)
+        self.question.answer_question(self.question_url, self.ANSWER)
         self.cmn.logout()
 
-        self.cmn.login(self.login_1, self.password_1)
-        self.notif.check_notification(self.question_topic)
+        self.cmn.login(self.LOGIN_1, self.PASSWORD_1)
+        self.notif.check_notification(self.QUESTION_TOPIC)
         self.cmn.logout()
 
     def test_notification_for_like_to_question(self):
-        self.cmn.login(self.login_2, self.password_2)
+        self.cmn.login(self.LOGIN_2, self.PASSWORD_2)
         self.question.like_question(self.question_url)
         self.cmn.logout()
 
-        self.cmn.login(self.login_1, self.password_1)
-        self.notif.check_notification(self.like)
+        self.cmn.login(self.LOGIN_1, self.PASSWORD_1)
+        self.notif.check_notification(self.LIKE_QUESTION_NOTIF)
+        self.cmn.logout()
+
+    def test_notification_for_like_to_answer(self):
+        self.cmn.login(self.LOGIN_1, self.PASSWORD_1)
+        self.question.like_answer(self.question_url, self.ANSWER)
+        self.cmn.logout()
+
+        self.cmn.login(self.LOGIN_2, self.PASSWORD_2)
+        self.notif.check_notification(self.LIKE_ANSWER_NOTIF)
+        self.cmn.logout()
+
+    def test_notification_for_comment_to_answer(self):
+        self.cmn.login(self.LOGIN_1, self.PASSWORD_1)
+        self.question.comment_answer(self.question_url, self.ANSWER, self.COMMENT)
+        self.cmn.logout()
+
+        self.cmn.login(self.LOGIN_2, self.PASSWORD_2)
+        self.notif.check_notification(self.COMMENT_NOTIF)
         self.cmn.logout()
 
     @classmethod

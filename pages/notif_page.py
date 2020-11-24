@@ -6,22 +6,22 @@ from pages.common import Common
 
 
 class NotificationPage:
-    bell_button_xpath = '//*[@id="portal-menu__toolbar"]/div[1]/div/div[2]/div/span/span[2]/span[6]/span[1]/span[3]/span/span/span'
-    notification_list_xpath = '//*[@id="portal-menu__toolbar"]/div[1]/div/div[2]/div/span/span[2]/span[6]/span[2]'
+    BELL_BUTTON_XPATH = '//span[contains(@class,"pm-uh-notification-i")]'
+    NOTIFICATION_LIST_XPATH = '//div[contains(@class,"vue-dropdown-notifications")]'
 
     def __init__(self, browser):
         self.browser = browser
         self.common = Common(browser)
 
     def check_notification(self, text):
-        self.common.open_page(self.common.main_page)
-        WebDriverWait(self.browser, self.common.wait_timeout).until(
-            EC.element_to_be_clickable((By.XPATH, self.bell_button_xpath)))
+        self.common.open_page(self.common.MAIN_PAGE)
+        WebDriverWait(self.browser, self.common.WAIT_TIMEOUT).until(
+            EC.presence_of_element_located((By.XPATH, self.BELL_BUTTON_XPATH)))
 
-        xpath = '//*[contains(text(), "{}")]'.format(text)
+        xpath = '//div[contains(text(), "{}")]'.format(text)
 
-        self.browser.find_element_by_xpath(self.bell_button_xpath).click()
-        WebDriverWait(self.browser, self.common.wait_timeout).until(
-            EC.presence_of_element_located(By.XPATH, self.notification_list_xpath))
+        self.browser.find_element_by_xpath(self.BELL_BUTTON_XPATH).click()
+        WebDriverWait(self.browser, self.common.WAIT_TIMEOUT).until(
+            EC.presence_of_element_located((By.XPATH, self.NOTIFICATION_LIST_XPATH)))
 
         self.browser.find_element_by_xpath(xpath)
