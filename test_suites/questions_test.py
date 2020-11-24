@@ -1,5 +1,4 @@
 import os
-from selenium import webdriver
 import unittest
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import DesiredCapabilities, Remote
@@ -10,9 +9,7 @@ from pages.show_question_page import QuestionPage
 
 
 class QuestionsTests(unittest.TestCase):
-    FIRST_USER = (os.environ['LOGIN_1'], os.environ['PASSWORD_1'])
-    SECOND_USER = (os.environ['LOGIN_2'], os.environ['PASSWORD_2'])
-    THIRD_USER = (os.environ['LOGIN_3'], os.environ['PASSWORD_3'])
+    USER = (os.environ['LOGIN_1'], os.environ['PASSWORD_1'])
 
     TOPIC = 'Какую породу собаки выбрать?'
     LONG_TOPIC = 'a' * 121
@@ -22,43 +19,19 @@ class QuestionsTests(unittest.TestCase):
     SUBCATEGORY = 'Домашние животные'
     IMAGE_LINK = 'https://cs.pikabu.ru/post_img/2013/05/04/11/1367689620_1544760345.jpg'
     WRONG_IMAGE_LINK = 'https://google.com'
-    QUESTION_URL = None
-    ANSWER = 'Пекинеса'
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        browser_name = os.environ.get('BROWSER', 'CHROME')
-        driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
-        )
-
-        auth_page = AuthPage(driver)
-        auth_page.open()
-        auth_page.login(*QuestionsTests.THIRD_USER)
-
-        ask_page = AskPage(driver)
-        ask_page.open()
-        ask_page.set_topic(QuestionsTests.TOPIC)
-        ask_page.set_text(QuestionsTests.TEXT)
-        ask_page.set_category()
-        ask_page.set_subcategory()
-        QuestionsTests.QUESTION_URL = ask_page.publish_question()
-        driver.quit()
+    QUESTION_URL = 'https://otvet.mail.ru/question/222742826'
 
     def setUp(self) -> None:
         browser_name = os.environ.get('BROWSER', 'CHROME')
 
-        self.browser = Remote(
+        self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
         )
 
-        name = self.shortDescription()
-        if name != 'skip_setup_login':
-            auth_page = AuthPage(self.driver)
-            auth_page.open()
-            auth_page.login(*self.SECOND_USER)
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+        auth_page.login(*self.USER)
 
     def tearDown(self) -> None:
         self.driver.quit()
@@ -160,15 +133,3 @@ class QuestionsTests(unittest.TestCase):
         question_page.open()
         question_page.set_answer(self.LONG_TEXT)
         self.assertEqual(question_page.is_submit_button_disabled(), True)
-
-    def test_answer(self):
-        """skip_setup_login"""
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-        auth_page.login(*self.FIRST_USER)
-
-        question_page = QuestionPage(self.driver, QuestionsTests.QUESTION_URL)
-        question_page.open()
-        question_page.set_answer(self.ANSWER)
-        question_page.send_answer()
-        self.assertEqual(question_page.contains_answer(self.ANSWER), True)

@@ -16,7 +16,7 @@ class PollsTest(unittest.TestCase):
     def setUp(self) -> None:
         browser_name = os.environ.get('BROWSER', 'CHROME')
 
-        self.browser = Remote(
+        self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=getattr(DesiredCapabilities, browser_name).copy()
         )

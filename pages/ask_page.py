@@ -123,13 +123,6 @@ class AskPage(Page):
         driver.find_element_by_xpath(self.SUBCATEGORY_BUTTON).click()
         driver.find_element_by_xpath(self.SUBCATEGORY_ITEM).click()
 
-    def publish_question(self):
-        driver = self.driver
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, self.PUBLISH_BUTTON_ENABLED)))
-        driver.find_element_by_xpath(self.PUBLISH_BUTTON).click()
-        WebDriverWait(driver, 10).until(EC.url_contains('otvet.mail.ru/question/'))
-        return driver.current_url
-
     def open_poll_tab(self):
         driver = self.driver
         driver.find_element_by_xpath(self.TAB_POLL).click()

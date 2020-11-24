@@ -57,10 +57,6 @@ class QuestionPage(Page):
         answer_input = driver.find_element_by_xpath(self.ANSWER_INPUT)
         return answer_input.get_attribute('data-qa-error') != 'undefined'
 
-    def send_answer(self):
-        driver = self.driver
-        driver.find_element_by_xpath(self.ANSWER_SUBMIT_BUTTON).click()
-
     def contains_answer(self, text):
         driver = self.driver
         try:
