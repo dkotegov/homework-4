@@ -17,6 +17,7 @@ class NotificationTests(unittest.TestCase):
     QUESTION_TEXT = ""
     ANSWER = os.environ.get('ANSWER')
     COMMENT = 'хороший ответ'
+    ANSWER_NOTIF = 'ответ'
     LIKE_QUESTION_NOTIF = 'Понравился ваш вопрос'
     LIKE_ANSWER_NOTIF = 'Понравился ваш ответ'
     COMMENT_NOTIF = "Новые комментарии"
@@ -50,8 +51,7 @@ class NotificationTests(unittest.TestCase):
         self.cmn.logout()
 
         self.cmn.login(self.LOGIN_1, self.PASSWORD_1)
-        self.notif.check_notification(self.QUESTION_TOPIC)
-        self.cmn.logout()
+        self.notif.check_notification(self.ANSWER_NOTIF)
 
     def test_notification_for_like_to_question(self):
         self.cmn.login(self.LOGIN_2, self.PASSWORD_2)
@@ -60,7 +60,6 @@ class NotificationTests(unittest.TestCase):
 
         self.cmn.login(self.LOGIN_1, self.PASSWORD_1)
         self.notif.check_notification(self.LIKE_QUESTION_NOTIF)
-        self.cmn.logout()
 
     def test_notification_for_like_to_answer(self):
         self.cmn.login(self.LOGIN_1, self.PASSWORD_1)
@@ -69,7 +68,6 @@ class NotificationTests(unittest.TestCase):
 
         self.cmn.login(self.LOGIN_2, self.PASSWORD_2)
         self.notif.check_notification(self.LIKE_ANSWER_NOTIF)
-        self.cmn.logout()
 
     def test_notification_for_comment_to_answer(self):
         self.cmn.login(self.LOGIN_1, self.PASSWORD_1)
@@ -78,6 +76,8 @@ class NotificationTests(unittest.TestCase):
 
         self.cmn.login(self.LOGIN_2, self.PASSWORD_2)
         self.notif.check_notification(self.COMMENT_NOTIF)
+
+    def tearDown(self):
         self.cmn.logout()
 
     @classmethod
