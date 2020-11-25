@@ -11,8 +11,8 @@ class LeaderPage:
     login_input = "mailbox:login-input"
     password_input = "mailbox:password-input"
     login_submit_button = "mailbox:submit-button"
-    test_email = "testmail7171@mail.ru"
-    test_password = os.environ.get('PASSWORD_2')
+    test_email = os.environ.get('LOGIN_1')
+    test_password = os.environ.get('PASSWORD_1')
     letter_line = "dataset-letters"
     leader_user = "[class^='topUserItem']"
     leader_user_score = "[class^='pointsDiffTop']"

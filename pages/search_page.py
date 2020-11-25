@@ -24,8 +24,8 @@ class SearchPage:
     login_input = "mailbox:login-input"
     password_input = "mailbox:password-input"
     login_submit_button = "mailbox:submit-button"
-    test_email = os.environ.get('LOGIN_2')
-    test_password = os.environ.get('PASSWORD_2')
+    test_email = os.environ.get('LOGIN_1')
+    test_password = os.environ.get('PASSWORD_1')
     letter_line = "dataset-letters"
     select_category_button = "[data-qa='select-button']"
     category_line = "[data-qa-value='1']"
@@ -114,7 +114,6 @@ class SearchPage:
         browser.find_element_by_id(self.password_input).send_keys(self.test_password)
         browser.find_element_by_id(self.login_submit_button).click()
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, self.letter_line)))
-        print("LOGIN")
 
     def click_select_category(self):
         browser = self.browser

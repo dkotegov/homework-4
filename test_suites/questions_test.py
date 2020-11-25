@@ -9,7 +9,7 @@ from pages.show_question_page import QuestionPage
 
 
 class QuestionsTests(unittest.TestCase):
-    USER = (os.environ['LOGIN_1'], os.environ['PASSWORD_1'])
+    USER = (os.environ.get('LOGIN_1'), os.environ.get('PASSWORD_1'))
 
     TOPIC = 'Какую породу собаки выбрать?'
     LONG_TOPIC = 'a' * 121

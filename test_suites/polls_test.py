@@ -7,7 +7,7 @@ from pages.ask_page import AskPage
 
 
 class PollsTest(unittest.TestCase):
-    USER = (os.environ['LOGIN_3'], os.environ['PASSWORD_3'])
+    USER = (os.environ.get('LOGIN_3'), os.environ.get('PASSWORD_3'))
 
     TOPIC = 'Кто ты сегодня?'
     FIRST_OPTION = 'Хорошая уточка'

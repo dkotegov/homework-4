@@ -16,8 +16,8 @@ class CategoryPage:
     login_input = "mailbox:login-input"
     password_input = "mailbox:password-input"
     login_submit_button = "mailbox:submit-button"
-    test_email = "testmail7171@mail.ru"
-    test_password = os.environ.get('PASSWORD_2')
+    test_email = os.environ.get('LOGIN_1')
+    test_password = os.environ.get('PASSWORD_1')
     letter_line = "dataset-letters"
     gold_fond_text = "//*[contains(text(), 'Золотой Фонд проекта Ответы@Mail.Ru')]"
 
