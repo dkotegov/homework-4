@@ -20,7 +20,7 @@ class SearchPage:
     main_search_input = "[data-qa='input']"
     results_numb = "[class^='totalResults']"
     only_question_checkbox = "[class^='checkbox']"
-    result_question_link = "[class^='question__link_holder']"
+    result_question_link = "[class^='question__link']"
     login_input = "mailbox:login-input"
     password_input = "mailbox:password-input"
     login_submit_button = "mailbox:submit-button"
@@ -59,9 +59,6 @@ class SearchPage:
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, self.main_search_text)))
         str_text = browser.find_element_by_name(self.main_search_text).get_attribute(self.value_attribute)
         return str_text
-
-    def compare_search_text(self):
-        self.assertEqual(self.get_main_search_text(), self.get_nav_search_text())
 
     def open_otvet_page(self):
         self.browser.get("https://otvet.mail.ru")
@@ -145,7 +142,3 @@ class SearchPage:
         question_text = browser.find_element_by_css_selector(self.question_input_area). \
             get_attribute(self.value_attribute)
         return question_text
-
-    def compare_text(self, text):
-        question_text = self.get_question_input_text()
-        self.assertEqual(text, question_text)
