@@ -17,7 +17,6 @@ class QuestionsTests(unittest.TestCase):
     LONG_TEXT = 'a' * 3801
     CATEGORY = 'Животные, Растения'
     SUBCATEGORY = 'Домашние животные'
-    IMAGE_LINK = 'https://cs.pikabu.ru/post_img/2013/05/04/11/1367689620_1544760345.jpg'
     WRONG_IMAGE_LINK = 'https://google.com'
     QUESTION_URL = 'https://otvet.mail.ru/question/222742826'
 
@@ -85,12 +84,6 @@ class QuestionsTests(unittest.TestCase):
         ask_page = AskPage(self.driver)
         ask_page.open()
         ask_page.attach_photo_from_computer()
-        self.assertEqual(ask_page.is_media_attached(), True)
-
-    def test_attach_image_by_link(self):
-        ask_page = AskPage(self.driver)
-        ask_page.open()
-        ask_page.attach_photo_by_link(self.IMAGE_LINK)
         self.assertEqual(ask_page.is_media_attached(), True)
 
     def test_attach_image_by_link_error(self):

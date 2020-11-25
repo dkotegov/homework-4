@@ -53,8 +53,8 @@ class AskPage(Page):
     def is_media_attached(self):
         driver = self.driver
         try:
-            driver.find_element_by_xpath(self.ATTACHED_MEDIA)
-        except NoSuchElementException:
+            WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.XPATH, self.ATTACHED_MEDIA)))
+        except TimeoutException:
             return False
         return True
 
