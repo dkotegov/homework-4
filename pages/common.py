@@ -8,7 +8,7 @@ class Common:
     MAIN_PAGE = 'https://otvet.mail.ru'
     WAIT_TIMEOUT = 20
 
-    HEADLINER_XPATH = '//*[@id="portal-headline"]/table/tbody/tr'
+    HEADLINER_XPATH = '//div[@id="portal-headline"]'
     LOGIN_INPUT_XPATH = '//*[@id="mailbox:login-input"]'
     PASSWORD_BUTTON_XPATH = '//*[@id="mailbox:submit-button"]/input'
     PASSWORD_INPUT_XPATH = '//*[@id="mailbox:password-input"]'
