@@ -4,6 +4,7 @@ import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+from pages.login import LoginPage
 from pages.notification import Notification
 from tests.login import LoginTest
 from tests.pin_comment_search_menu import PinPage
@@ -53,12 +54,11 @@ class HaveNotif(unittest.TestCase):
         comment.send_comment()
         comment.driver.refresh()
 
-        # self.driver.delete_all_cookies() не работает
-        # self.driver.add_cookie({'name': 'session_id', 'value': '=)'}) добавляет - не заменяет
-        # self.driver.delete_cookie('session_id') не работает
-
         self.driver.get(pp.BASE_URL + 'logout')
-        time.sleep(2)  # работает но слоупок
+
+        lp = LoginPage(self.driver).form
+        self.assertTrue(lp.wait_logout())
+
         self.driver.get(pp.BASE_URL)
 
         login_act.loginBeforeAllTests()

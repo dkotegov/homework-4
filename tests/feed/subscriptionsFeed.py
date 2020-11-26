@@ -1,9 +1,12 @@
 import os
+import time
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.feed import FeedPage
+from pages.notification import Notification
+from pages.profile import ProfilePage
 from tests.login import LoginTest
 
 
@@ -24,16 +27,20 @@ class SubFeed(unittest.TestCase):
         login_act.driver = self.driver
         login_act.loginBeforeAllTests()
 
+        notif_page = Notification(self.driver)
+        top_menu = notif_page.top_menu
+        top_menu.go_to_my_profile()
+
+        profile_page = ProfilePage(self.driver)
+        profile_area = profile_page.profile_area
+        sub_names = profile_area.get_my_subs_names()
+
         feed_page = FeedPage(self.driver)
         feed_area = feed_page.feed_area
         feed_area.show_sub()
 
-        feed_area.get_pins_count()  # don't check return value, err if not found columns div
+        authors = feed_area.get_pins_authors()
 
-        self.driver.refresh()
-
-        feed_area.get_pins_count()
-
-
-
-
+        for check_author in authors:
+            if check_author not in sub_names:
+                self.assert_(False, check_author + " not your sub")
