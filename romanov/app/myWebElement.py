@@ -19,6 +19,18 @@ class wait_for_the_attribute_value(object):
         except StaleElementReferenceException:
             return False
 
+class wait_for_the_text(object):
+    def __init__(self, locator, text=None):
+        self.locator = locator
+        self.text = text
+
+    def __call__(self, driver):
+        try:
+            element_text = EC._find_element(driver, self.locator).text
+            return element_text == self.text
+        except StaleElementReferenceException:
+            return False
+
 class MyWebElement:
     def __init__(self, el: WebElement, id=None, css=None, xpath=None):
         self.el: WebElement = el
@@ -48,3 +60,9 @@ class MyWebElement:
         elif self.css:
             connect.wait.until(wait_for_the_attribute_value((By.CSS_SELECTOR, self.css), key, value))
 
+    def change_wait_text(self, text):
+        from romanov.app.driver import connect
+        if self.id:
+            connect.wait.until(wait_for_the_text((By.ID, self.id), text))
+        elif self.css:
+            connect.wait.until(wait_for_the_text((By.CSS_SELECTOR, self.css), text))
