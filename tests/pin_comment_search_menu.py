@@ -3,11 +3,12 @@ import unittest
 from urllib.parse import urljoin
 
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import DesiredCapabilities, Remote, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.expected_conditions import element_to_be_clickable
 from selenium.webdriver.support.ui import WebDriverWait
-import time
+
 
 class Page(object):
     BASE_URL = 'https://zinterest.ru/'
@@ -57,12 +58,12 @@ class Component(object):
 
 
 class AuthForm(Component):
-    LOGIN = 'loginUser'
-    PASSWORD = 'passUser'
+    LOGIN_ELEM = 'loginUser'
+    PASSWORD_ELEM = 'passUser'
     SUBMIT = "//input[@value='Войти']"
     LOGIN_BUTTON = 'loginModal'
     INFO = 'closeInfo'
-    TITLE = "//*[@id='modal']/div/div[2]/div[1]"
+    TITLE = "title"
 
     def open_form(self):
         WebDriverWait(self.driver, 30, 0.1).until(
@@ -70,10 +71,10 @@ class AuthForm(Component):
         ).click()
 
     def set_login(self, login):
-        self.driver.find_element_by_id(self.LOGIN).send_keys(login)
+        self.driver.find_element_by_id(self.LOGIN_ELEM).send_keys(login)
 
     def set_password(self, pwd):
-        self.driver.find_element_by_id(self.PASSWORD).send_keys(pwd)
+        self.driver.find_element_by_id(self.PASSWORD_ELEM).send_keys(pwd)
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
@@ -84,7 +85,7 @@ class AuthForm(Component):
 
     def get_form_name(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.TITLE).text)
+            lambda d: d.find_element_by_class_name(self.TITLE).text)
 
 
 class Top(Component):
@@ -115,7 +116,7 @@ class Top(Component):
 
 class Feed(Page):
     SMARTFEED = 'smartLink'
-    PIN = "//div[@id='columns']/div[@class='card'][1]/div/img"
+    PIN = "//div[@class='container']/img"
 
     def move_to_pin_page(self):
         WebDriverWait(self.driver, 20, 0.1).until(
@@ -139,8 +140,8 @@ class SearchLine(Component):
     LIST = "search_selected_obj"
     USER_FILTER = "search_select_user_vars"
     INFO = "main_page_info"
-    USER = "//*[@id='mainDesk']/div/div/div/h3"
-    PIN = "//div[@id='columns']/div[@class='card'][1]/div/img"
+    USER = "find_user_login"
+    PIN = "//div[@class='container']/img"
 
     @property
     def pin(self):
@@ -186,14 +187,14 @@ class SearchLine(Component):
 
     def get_user_name(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.USER)).text
+            lambda d: d.find_element_by_class_name(self.USER)).text
 
 
 class Pin(Component):
     PINNAME = "//div[@class='header']/h1"
     AUTHORNAME = "//div[@class='author']/div"
     AUTHORAVATAR = "//div[@class='author']/img"
-    SAVEFORM = "//div[@class='up']/div/input"
+    SAVEFORM = "saveBtnModal"
     SAVEPIN = "saveChoosePin"
     MESSAGE = "//*[@id='closeInfo']"
 
@@ -219,14 +220,11 @@ class Pin(Component):
 
     def click_on_save_pin(self):
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.SAVEFORM)
+            lambda d: d.find_element_by_id(self.SAVEFORM)
         ).click()
 
     def save_pin(self):
-        elem = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_id(self.SAVEPIN)
-        )
-        time.sleep(1)
+        elem = WebDriverWait(self.driver, 30, 0.1).until(EC.element_to_be_clickable((By.ID,self.SAVEPIN)))
         elem.click()
 
     def get_save_info(self):
@@ -251,11 +249,11 @@ class Pin(Component):
 
 
 class User(Component):
-    USERNAME = "//*[@id='content']/div/div/div[3]/div[2]"
+    USERNAME = "nickname"
 
     def get_name(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.USERNAME).text)
+            lambda d: d.find_element_by_class_name(self.USERNAME).text)
 
 
 class Comment(Component):
@@ -294,39 +292,21 @@ class Comment(Component):
 
 class Share(Component):
     SHAREID = 'sharePinModal'
-    WHATSAPP = "//*[@id='modal']/div/div[2]/div[2]/a[1]/div"
-    TWITTER = "//*[@id='modal']/div/div[2]/div[2]/a[2]/div"
-    FACEBOOK = "//*[@id='modal']/div/div[2]/div[2]/a[3]/div"
-    PAGETITLE = "/html/head/title"
 
     def open_form(self):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_id(self.SHAREID)
         ).click()
 
-    def share_in_whatsapp(self):
+    def share_in_service(self, name):
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.WHATSAPP)
+            lambda d: d.find_element_by_xpath('//a[contains(@href,"%s")]' % name)
         ).click()
 
-    def share_in_twitter(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.TWITTER)
-        ).click()
-
-    def share_in_facebook(self):
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.FACEBOOK)
-        ).click()
-
-    def get_share_url(self):
-        self.driver.switch_to_window(self.driver.window_handles[-1])
-        time.sleep(1)
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.PAGETITLE)
-        )
-
-        return self.driver.current_url
+    def new_window_is_exist(self):
+        if len(self.driver.window_handles) > 1:
+            return True
+        return False
 
 
 class PinTest(unittest.TestCase):
@@ -338,9 +318,7 @@ class PinTest(unittest.TestCase):
     TWITTER = 'twitter'
     WHATSAPP = 'whatsapp'
     FACEBOOK = 'facebook'
-    AUTHORPIN = "//*[@id='content']/div/div/div[3]/div[2]"
     MESSAGE = "//*[@id='closeInfo']"
-    LOGINMESSAGE = "//*[@id='modal']/div/div[2]/div[1]"
 
     def setUp(self):
 
@@ -379,15 +357,15 @@ class PinTest(unittest.TestCase):
         pin.click_on_author_avatar()
         self.assertEqual(name, pin.user.get_name())
 
-    def test_share_in_whatsapp(self):
+    def test_share_in_facebook(self):
         pp = PinPage(self.driver)
         pp.open_pin()
 
         share = pp.pin.share
         share.open_form()
-        share.share_in_whatsapp()
+        share.share_in_service('facebook')
 
-        self.assertIn(self.WHATSAPP, share.get_share_url())
+        self.assertTrue(share.new_window_is_exist())
 
     def test_share_in_twitter(self):
         pp = PinPage(self.driver)
@@ -395,19 +373,19 @@ class PinTest(unittest.TestCase):
 
         share = pp.pin.share
         share.open_form()
-        share.share_in_twitter()
+        share.share_in_service('twitter')
 
-        self.assertIn(self.TWITTER, share.get_share_url())
+        self.assertTrue(share.new_window_is_exist())
 
-    def test_share_in_facebook(self):
+    def test_share_in_whatsapp(self):
         pp = PinPage(self.driver)
         pp.open_pin()
 
         share = pp.pin.share
         share.open_form()
-        share.share_in_facebook()
+        share.share_in_service('whatsapp')
 
-        self.assertIn(self.FACEBOOK, share.get_share_url())
+        self.assertTrue(share.new_window_is_exist())
 
     def test_save_pin_by_authorized_user(self):
         auth_page = AuthPage(self.driver)
