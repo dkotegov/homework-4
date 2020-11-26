@@ -34,8 +34,6 @@ class SendMessage(unittest.TestCase):
         chat_contacts = chat_page.contacts
         chat_contacts.go_support()
 
-        # self.MSG = self.MSG_10_CHAR * 60  # for test 50 and 150 msg char (bad css, not have screen check)
-
         chat_messages = chat_page.messages
         chat_messages.set_msg(self.MSG)
         msg_count = chat_messages.get_msg_count()
@@ -50,5 +48,5 @@ class SendMessage(unittest.TestCase):
         date_and_time_last_msg = chat_messages.get_last_msg()
         time = date_and_time_last_msg.split(' ')
 
-        self.assert_(len(time) < 4, 'not enough numbers for date')  # replace '<' to '>' for true test
+        self.assert_(len(time) < 4, 'not enough numbers for date')
 

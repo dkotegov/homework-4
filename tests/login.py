@@ -1,11 +1,8 @@
 import os
-import time
 import unittest
 
 from pages.login import LoginPage
 from selenium.webdriver import DesiredCapabilities, Remote
-
-from romanov.app.driver import Connect
 
 
 class LoginTest(unittest.TestCase):
@@ -32,6 +29,11 @@ class LoginTest(unittest.TestCase):
         auth_form.set_login(self.USERNAME)
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
+        hello_msg = auth_form.get_hello_msg()
+        true_hello_msg = auth_form.get_true_hello_msg()
+        self.assertEqual(hello_msg, true_hello_msg)
+
+
 
     def loginBeforeAllTests(self, second_profile=False):
         USERNAME = os.environ['LOGIN']
@@ -48,5 +50,7 @@ class LoginTest(unittest.TestCase):
         auth_form.set_login(USERNAME)
         auth_form.set_password(PASSWORD)
         auth_form.submit()
-        auth_form.get_hello_msg()
-
+        hello_msg = auth_form.get_hello_msg()
+        true_hello_msg = auth_form.get_true_hello_msg()
+        self.assertEqual(hello_msg, true_hello_msg)
+        self.driver.refresh()

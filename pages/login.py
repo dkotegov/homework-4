@@ -1,6 +1,8 @@
+
 from pages.defaultPage import Page, Component
 from selenium.webdriver.support.ui import WebDriverWait
 
+from selenium.common.exceptions import TimeoutException
 
 class LoginPage(Page):
     PATH = ''
@@ -16,13 +18,18 @@ class AuthForm(Component):
     PASSWORD = '//*[@id="passUser"]'
     SUBMIT = '//*[@id="sendLogin"]/input'
     LOGIN_HELLO_MSG = '//*[@id="closeInfo"]'
+    LOGIN_HELLO_MSG_TITLE = '//*[@class="great_title"]'
+
+    TRUE_HELLO_MSG = "С возвращением!"
+
+    def get_true_hello_msg(self):
+        return self.TRUE_HELLO_MSG
 
     def open_form(self):
         WebDriverWait(self.driver, 20, 0.1).until(
             lambda d: d.find_element_by_xpath(self.LOGIN_MODAL)
         )
         self.driver.find_element_by_xpath(self.LOGIN_MODAL).click()
-
 
     def set_login(self, login):
         WebDriverWait(self.driver, 20, 0.1).until(
@@ -40,6 +47,22 @@ class AuthForm(Component):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
     def get_hello_msg(self):
-        WebDriverWait(self.driver, 20, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.LOGIN_HELLO_MSG)
+        msg_element = WebDriverWait(self.driver, 20, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.LOGIN_HELLO_MSG_TITLE)
         )
+        return msg_element.get_attribute('innerText')
+
+    def wait_logout(self):
+        wait_times = 5
+        for number in range(wait_times):
+            try:
+                WebDriverWait(self.driver, 0.5, 0.1).until(
+                    lambda d: d.find_element_by_xpath(self.LOGIN_MODAL)
+                )
+            except TimeoutException:
+                self.driver.get(self.BASE_URL)
+                wait_times -= 1
+                continue
+            break
+
+        return True if wait_times > 0 else False

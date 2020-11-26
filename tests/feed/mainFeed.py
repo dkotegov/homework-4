@@ -43,6 +43,6 @@ class MainFeed(unittest.TestCase):
 
         have_after_scroll = feed_area.get_pins_count()
 
-        self.assert_(have_before_scroll*2 == have_after_scroll)
+        self.assert_(have_before_scroll * 2 == have_after_scroll)
 
 

@@ -34,7 +34,10 @@ class FeedArea(Component):
         )
 
     def scroll(self):
-        time.sleep(1)  # bad, replace until set scroll script
+        # bad solution line 21
+        # anti-pattern test for anti-pattern dev
+        # https://github.com/frontend-park-mail-ru/2020_1_Color_noise/blob/develop/src/views/createDesk.js
+        time.sleep(1)
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     def get_pins_authors(self):
@@ -66,6 +69,6 @@ class FeedArea(Component):
         return self.driver.find_element_by_xpath(self.MAIN_PAGE_INFO).get_attribute('innerText')
 
     def show_sub(self):
-        self.driver.get(self.BASE_URL + '/subs')
+        self.driver.get(self.BASE_URL + 'subs')
 
 

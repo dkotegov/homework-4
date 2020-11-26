@@ -6,7 +6,6 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 from tests.login import LoginTest
 
-
 class ClickContactFromMsgHistory(unittest.TestCase):
     SUPPORT_NAME = 'Support'
 
