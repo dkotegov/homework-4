@@ -14,6 +14,7 @@ class AddFolderForm(BaseSteps):
     CANCEL_CREATE_FOLDER_BUTTON = '//button[@data-test-id="cancel"]'
     CLOSE_CREATE_FOLDER_BUTTON = '//div[@data-test-id="cross"]'
     EMPTY_FOLDER_NAME_ERROR = '//span[@data-test-id="emptyFolderName"]'
+    FORM_DIV = '//div[@data-test-id="popup-wrapper"]'
 
     @property
     def select(self):
@@ -50,6 +51,10 @@ class AddFolderForm(BaseSteps):
 
     def close(self):
         self.wait_until_and_get_elem_by_xpath(self.CLOSE_CREATE_FOLDER_BUTTON).click()
+
+    @property
+    def form_opened(self):
+        return len(self.driver.find_elements_by_xpath(self.FORM_DIV)) != 0
 
     @property
     def empty_folder_name_error(self):
