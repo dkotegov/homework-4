@@ -2,7 +2,8 @@
 import sys
 import unittest
 
-from casses import IdMainPageAndPersonalDataTests
+from casses.MainPageCase import MainPageTests
+from casses.PersonalDataCase import PersonalDataTests
 from casses.ContactsCase import ContactsTest
 from casses.FoldersTestFirst import FoldersTest
 from casses.FoldersTestSecond import FoldersTestSecond
@@ -12,7 +13,8 @@ from casses.SecurityCase import SecurityTest
 if __name__ == "__main__":
     suites = unittest.TestSuite(
         (
-            unittest.makeSuite(IdMainPageAndPersonalDataTests),
+            unittest.makeSuite(MainPageTests),
+            unittest.makeSuite(PersonalDataTests),
             # unittest.makeSuite(FoldersTest),
             # unittest.makeSuite(FoldersTestSecond),
             # unittest.makeSuite(PasswordTest),
