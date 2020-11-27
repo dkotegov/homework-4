@@ -18,7 +18,7 @@ class PersonalDataSteps(BaseSteps):
     last_name_path = '//input[@data-test-id="lastname-field-input"]'
     nickname_path = '//input[@data-test-id="nickname-field-input"]'
     city_path = '//input[@data-test-id="city-field-input"]'
-    submit_btn_path = '//input[@data-test-id="save-button"]'
+    submit_btn_path = '//button[@data-test-id="save-button"]'
     name_err_path = '//small[@data-test-id="firstname-field-error"]'
     last_name_err_path = '//small[@data-test-id="lastname-field-error"]'
     nickname_err_path = '//small[@data-test-id="nickname-field-error"]'
@@ -92,8 +92,5 @@ class PersonalDataSteps(BaseSteps):
         el = self.wait_until_and_get_elem_by_xpath(city_path)
         el.click()
         clear(el)
-        time.sleep(2)
         el.send_keys(city)
-        time.sleep(2)
         el.submit()
-        time.sleep(2)
