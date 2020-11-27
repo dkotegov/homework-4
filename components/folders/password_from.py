@@ -21,16 +21,24 @@ class PasswordForm(BaseSteps):
         self.wait_until_and_get_elem_by_xpath(self.PASSWORD_INPUT).send_keys(password)
 
     def set_re_password(self, re_password):
-        self.wait_until_and_get_elem_by_xpath(self.RE_PASSWORD_INPUT).send_keys(re_password)
+        self.wait_until_and_get_elem_by_xpath(self.RE_PASSWORD_INPUT).send_keys(
+            re_password
+        )
 
     def set_question(self, question):
-        self.wait_until_and_get_elem_by_xpath(self.SECRET_QUESTION_INPUT).send_keys(question)
+        self.wait_until_and_get_elem_by_xpath(self.SECRET_QUESTION_INPUT).send_keys(
+            question
+        )
 
     def set_question_answer(self, answer):
-        self.wait_until_and_get_elem_by_xpath(self.QUESTION_ANSWER_INPUT).send_keys(answer)
+        self.wait_until_and_get_elem_by_xpath(self.QUESTION_ANSWER_INPUT).send_keys(
+            answer
+        )
 
     def set_current_password(self, current_password):
-        self.wait_until_and_get_elem_by_xpath(self.CURRENT_PASSWORD_INPUT).send_keys(current_password)
+        self.wait_until_and_get_elem_by_xpath(self.CURRENT_PASSWORD_INPUT).send_keys(
+            current_password
+        )
 
     def save(self):
         self.wait_until_and_get_elem_by_xpath(self.SAVE_BUTTON).click()
@@ -47,16 +55,31 @@ class PasswordForm(BaseSteps):
 
     @property
     def invalid_re_password_error(self):
-        return len(self.driver.find_elements_by_xpath(self.INVALID_RE_PASSWORD_ERROR)) != 0
+        return (
+            len(self.driver.find_elements_by_xpath(self.INVALID_RE_PASSWORD_ERROR)) != 0
+        )
 
     @property
     def invalid_secret_question_error(self):
-        return len(self.driver.find_elements_by_xpath(self.INVALID_SECRET_QUESTION_ERROR)) != 0
+        return (
+            len(self.driver.find_elements_by_xpath(self.INVALID_SECRET_QUESTION_ERROR))
+            != 0
+        )
 
     @property
     def invalid_secret_question_answer_error(self):
-        return len(self.driver.find_elements_by_xpath(self.INVALID_SECRET_QUESTION_ANSWER_ERROR)) != 0
+        return (
+            len(
+                self.driver.find_elements_by_xpath(
+                    self.INVALID_SECRET_QUESTION_ANSWER_ERROR
+                )
+            )
+            != 0
+        )
 
     @property
     def invalid_user_password_error(self):
-        return len(self.driver.find_elements_by_xpath(self.INVALID_USER_PASSWORD_ERROR)) != 0
+        return (
+            len(self.driver.find_elements_by_xpath(self.INVALID_USER_PASSWORD_ERROR))
+            != 0
+        )

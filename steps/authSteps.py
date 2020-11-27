@@ -20,4 +20,4 @@ class AuthForm(BaseSteps):
         self.wait_until_and_get_elem_by_xpath(self.SUBMIT_BUTTON).click()
 
     def wait_for_cookie(self):
-        self.wait_for_url('https://e.mail.ru/inbox/?afterReload=1')
+        self.wait_for_url("https://e.mail.ru/inbox/?afterReload=1")

@@ -3,8 +3,8 @@ from .BasePage import *
 
 
 class UpdateFolderPage(Page):
-    BASE_URL = 'https://e.mail.ru/settings/folders'
-    PATH = ''
+    BASE_URL = "https://e.mail.ru/settings/folders"
+    PATH = ""
 
     @property
     def update_steps(self):

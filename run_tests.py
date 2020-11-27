@@ -9,15 +9,15 @@ from casses.FoldersTestSecond import FoldersTestSecond
 from casses.PasswordCase import PasswordTest
 from casses.SecurityCase import SecurityTest
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     suites = unittest.TestSuite(
         (
             unittest.makeSuite(IdMainPageAndPersonalDataTests),
-            unittest.makeSuite(FoldersTest),
-            unittest.makeSuite(FoldersTestSecond),
-            unittest.makeSuite(PasswordTest),
-            unittest.makeSuite(ContactsTest),
-            unittest.makeSuite(SecurityTest),
+            # unittest.makeSuite(FoldersTest),
+            # unittest.makeSuite(FoldersTestSecond),
+            # unittest.makeSuite(PasswordTest),
+            # unittest.makeSuite(ContactsTest),
+            # unittest.makeSuite(SecurityTest),
         )
     )
     result = unittest.TextTestRunner().run(suites)

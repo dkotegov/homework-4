@@ -1,10 +1,11 @@
-from steps.IdSteps import *
-from .BasePage import *
+from steps.IdSteps import PersonaInfoSteps
+from .BasePage import Page
+from selenium.common.exceptions import TimeoutException
 
 
 class Main_page(Page):
-    BASE_URL = 'https://id.mail.ru'
-    PATH = ''
+    BASE_URL = "https://id.mail.ru"
+    PATH = ""
 
     @property
     def personal_info_steps(self):
@@ -15,7 +16,7 @@ class Main_page(Page):
         :return: Произошел ли удачный переход на страницу смены информации
         """
         text = self.personal_info_steps.click_personal_info_settings()
-        if (text == "Личные данные"):
+        if text == "Личные данные":
             return True
         return False
 
@@ -24,7 +25,7 @@ class Main_page(Page):
         :return: Произошел ли удачный переход
         """
         text = self.personal_info_steps.click_all_settings()
-        if (text == "Контакты и адреса"):
+        if text == "Контакты и адреса":
             return True
         return False
 
@@ -39,7 +40,7 @@ class Main_page(Page):
         :return: Произошел ли удачный переход
         """
         text = self.personal_info_steps.click_add_reserve_email()
-        if (text == "Добавление резервной почты"):
+        if text == "Добавление резервной почты":
             return True
         return False
 
@@ -52,7 +53,7 @@ class Main_page(Page):
         self.personal_info_steps.click_confirm_email()
         try:
             return self.personal_info_steps.check_input_email_result()
-        except Exception:
+        except TimeoutException:
             return self.personal_info_steps.get_correct_email_header()
 
     def check_correct_email_header(self):
