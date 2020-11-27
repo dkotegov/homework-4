@@ -2,22 +2,32 @@
 import sys
 import unittest
 
+from casses.Folders.FolderCheckboxTest import FolderCheckboxTest
+from casses.Folders.FolderNameTest import FolderNameTest
+from casses.Folders.FolderTypeTest import FolderTypeTest
+from casses.Folders.InvalidFolderPasswordFormTest import InvalidFolderPasswordFormTest
+from casses.Folders.CloseFolderFormTest import CloseFolderFormTest
 from casses import IdMainPageAndPersonalDataTests
 from casses.ContactsCase import ContactsTest
-from casses.FoldersTestFirst import FoldersTest
 from casses.FoldersTestSecond import FoldersTestSecond
 from casses.PasswordCase import PasswordTest
 from casses.SecurityCase import SecurityTest
+
 
 if __name__ == '__main__':
     suites = unittest.TestSuite(
         (
             unittest.makeSuite(IdMainPageAndPersonalDataTests),
-            unittest.makeSuite(FoldersTest),
             unittest.makeSuite(FoldersTestSecond),
             unittest.makeSuite(PasswordTest),
             unittest.makeSuite(ContactsTest),
             unittest.makeSuite(SecurityTest),
+
+            unittest.makeSuite(FolderCheckboxTest),
+            unittest.makeSuite(FolderNameTest),
+            unittest.makeSuite(FolderTypeTest),
+            unittest.makeSuite(InvalidFolderPasswordFormTest),
+            unittest.makeSuite(CloseFolderFormTest),
         )
     )
     result = unittest.TextTestRunner().run(suites)

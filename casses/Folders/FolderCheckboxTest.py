@@ -10,8 +10,8 @@ class FolderCheckboxTest(BaseTest, unittest.TestCase):
     def setUp(self):
         super(FolderCheckboxTest, self).setUp()
         self.folderSteps = FoldersSteps(self.driver)
-        self.__folder_name = "folder"
-        self.__folder_password_context = {
+        self.__folderName = "folder"
+        self.__folderPasswordContext = {
             'folder_password': 'qwertyuiop',
             'folder_re_password': 'qwertyuiop',
             'question': 'why?',
@@ -20,7 +20,7 @@ class FolderCheckboxTest(BaseTest, unittest.TestCase):
         }
 
     def tearDown(self):
-        self.folderSteps.delete_folder(self.__folder_name, self.__folder_password_context['folder_password'])
+        self.folderSteps.delete_folder(self.__folderName, self.__folderPasswordContext['folder_password'])
         super(FolderCheckboxTest, self).tearDown()
 
     def test_pop3_check_box(self):
@@ -28,21 +28,21 @@ class FolderCheckboxTest(BaseTest, unittest.TestCase):
         Проверка создания папки pop3
         """
 
-        self.folderSteps.add_folder(self.__folder_name, '', ['pop3'])
-        self.assertTrue(self.folderSteps.wait_folder(self.__folder_name))
+        self.folderSteps.add_folder(self.__folderName, '', ['pop3'])
+        self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
 
     def test_archive_check_box(self):
         """
         Проверка создания архивированной папки
         """
 
-        self.folderSteps.add_folder(self.__folder_name, '', ['archive'])
-        self.assertTrue(self.folderSteps.wait_folder(self.__folder_name))
+        self.folderSteps.add_folder(self.__folderName, '', ['archive'])
+        self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
 
     def test_folder_with_password(self):
         """
         Проверка создания папки с паролем
         """
 
-        self.folderSteps.add_folder(self.__folder_name, '', ['has password'], self.__folder_password_context)
-        self.assertTrue(self.folderSteps.wait_folder(self.__folder_name))
+        self.folderSteps.add_folder(self.__folderName, '', ['has password'], self.__folderPasswordContext)
+        self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
