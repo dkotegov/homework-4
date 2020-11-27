@@ -12,10 +12,11 @@ class Data_page(Page):
 
     def change_avatar(self, path):
         self.personal_data_steps.upload_avatar(path)
+        self.personal_data_steps.click_submit_avatar_btn()
         return self.personal_data_steps.check_if_uploaded()
 
     def fill_form(
-        self, name: str, last_name: str, nickname: str, city: str
+            self, name: str, last_name: str, nickname: str, city: str
     ) -> InputAnnotationsErrors:
         self.personal_data_steps.fill_name(name)
         self.personal_data_steps.fill_last_name(last_name)

@@ -13,8 +13,8 @@ from casses.SecurityCase import SecurityTest
 if __name__ == "__main__":
     suites = unittest.TestSuite(
         (
-            unittest.makeSuite(MainPageTests),
             unittest.makeSuite(PersonalDataTests),
+            unittest.makeSuite(MainPageTests),
             # unittest.makeSuite(FoldersTest),
             # unittest.makeSuite(FoldersTestSecond),
             # unittest.makeSuite(PasswordTest),

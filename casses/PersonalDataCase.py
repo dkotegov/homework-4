@@ -107,3 +107,8 @@ class PersonalDataTests(unittest.TestCase):
             errors.nickname_err,
             "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов",
         )
+
+    def test_change_avatar(self):
+        self.data_page.open(self.data_page.BASE_URL)
+        test_path = os.path.abspath("./avatar.jpg")
+        self.assertTrue(self.data_page.change_avatar(test_path))

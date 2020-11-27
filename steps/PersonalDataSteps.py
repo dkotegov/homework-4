@@ -1,11 +1,12 @@
 import time
+
 from .BaseSteps import BaseSteps, clear
 from selenium.common.exceptions import TimeoutException
 
 
 class InputAnnotationsErrors:
     def __init__(
-        self, name_err: str, last_name_err: str, nickname_err: str, city_err: str
+            self, name_err: str, last_name_err: str, nickname_err: str, city_err: str
     ):
         self.name_err = name_err
         self.last_name_err = last_name_err
@@ -23,20 +24,21 @@ class PersonalDataSteps(BaseSteps):
     last_name_err_path = '//small[@data-test-id="lastname-field-error"]'
     nickname_err_path = '//small[@data-test-id="nickname-field-error"]'
     city_err_path = '//small[@data-test-id="city-field-error"]'
-    avatar_input = '//input[@data-test-id="photo-file-input"]'
+    avatar_input = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[2]/input'
 
     upload_process = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]/div[1]'
     photo_ready = (
         '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]'
     )
     accept_city_popup = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[2]/div[6]/div[2]/div[2]/div/div/div/div/div'
+    submit_change_avatar_path = '/html/body/div[2]/div[2]/div/div[2]/div/button[1]'
 
     def upload_avatar(self, path: str):
         el = self.wait_until_and_get_invisible_elem_by_xpath(self.avatar_input)
-        try:
-            el.send_keys(path)
-        except Exception as e:
-            print("exc: ", e)
+        el.send_keys(path)
+
+    def click_submit_avatar_btn(self):
+        self.wait_to_be_clickable_by_xpath(self.submit_change_avatar_path).click()
 
     def fill_name(self, name):
         self.fill_input(self.name_path, name)
@@ -50,10 +52,7 @@ class PersonalDataSteps(BaseSteps):
     def fill_city(self, city):
         self.fill_city_input(self.city_path, city)
         if city != "":
-            try:
-                self.wait_until_and_get_elem_by_xpath(self.accept_city_popup).click()
-            except TimeoutException:
-                pass
+            self.click_on_popup_el_if_popup_exist(self.accept_city_popup)
 
     def collect_errors(self) -> InputAnnotationsErrors:
         """
@@ -92,5 +91,8 @@ class PersonalDataSteps(BaseSteps):
         el = self.wait_until_and_get_elem_by_xpath(city_path)
         el.click()
         clear(el)
+        time.sleep(2)
         el.send_keys(city)
+        time.sleep(2)
         el.submit()
+        time.sleep(2)

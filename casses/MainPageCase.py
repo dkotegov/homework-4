@@ -51,11 +51,6 @@ class MainPageTests(unittest.TestCase):
         ok = self.main_page.click_change_personal_info()
         self.assertTrue(ok)
 
-    # def test_avatar_change(self):
-    #     self.data_page.open(self.data_page.BASE_URL)
-    #     test_path = os.path.abspath("./avatar.jpg")
-    #     self.assertTrue(self.data_page.change_avatar(test_path))
-
     def test_click_add_reserve_email(self):
         self.clear_email_after_tests()
         self.go_to_main()
