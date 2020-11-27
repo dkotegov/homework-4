@@ -6,6 +6,7 @@ from pages.AuthPage import AuthPage
 
 
 class BaseTest(unittest.TestCase):
+    """Базовый тестовый класс"""
 
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
