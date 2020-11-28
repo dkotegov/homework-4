@@ -52,17 +52,9 @@ class AuthForm(Component):
         )
         return msg_element.get_attribute('innerText')
 
-    def wait_logout(self):
-        wait_times = 5
-        for number in range(wait_times):
-            try:
-                WebDriverWait(self.driver, 0.5, 0.1).until(
-                    lambda d: d.find_element_by_xpath(self.LOGIN_MODAL)
-                )
-            except TimeoutException:
-                self.driver.get(self.BASE_URL)
-                wait_times -= 1
-                continue
-            break
-
-        return True if wait_times > 0 else False
+    def logout(self):
+        self.driver.get(self.BASE_URL + 'logout')
+        WebDriverWait(self.driver, 20, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.LOGIN_MODAL)
+        )
+        return True

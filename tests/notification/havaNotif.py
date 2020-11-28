@@ -52,12 +52,10 @@ class HaveNotif(unittest.TestCase):
         comment = pp.pin.comment
         comment.set_comment_text(self.COMMENT_TEXT)
         comment.send_comment()
-        comment.driver.refresh()
 
-        self.driver.get(pp.BASE_URL + 'logout')
 
         lp = LoginPage(self.driver).form
-        self.assertTrue(lp.wait_logout())
+        self.assertTrue(lp.logout())
 
         self.driver.get(pp.BASE_URL)
 
