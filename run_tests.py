@@ -15,11 +15,11 @@ if __name__ == "__main__":
         (
             unittest.makeSuite(PersonalDataTests),
             unittest.makeSuite(MainPageTests),
-            # unittest.makeSuite(FoldersTest),
-            # unittest.makeSuite(FoldersTestSecond),
-            # unittest.makeSuite(PasswordTest),
-            # unittest.makeSuite(ContactsTest),
-            # unittest.makeSuite(SecurityTest),
+            unittest.makeSuite(FoldersTest),
+            unittest.makeSuite(FoldersTestSecond),
+            unittest.makeSuite(PasswordTest),
+            unittest.makeSuite(ContactsTest),
+            unittest.makeSuite(SecurityTest),
         )
     )
     result = unittest.TextTestRunner().run(suites)

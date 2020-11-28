@@ -54,7 +54,7 @@ class Main_page(Page):
         try:
             return self.personal_info_steps.check_input_email_result()  # Проверяем есть ли сообщение об ошибке
         except TimeoutException:
-            return self.personal_info_steps.get_correct_email_header()
+            return self.personal_info_steps.get_correct_email_header()  # Если его нет, значит запрос корректный
 
     def check_correct_email_header(self):
         return self.personal_info_steps.get_correct_email_header()

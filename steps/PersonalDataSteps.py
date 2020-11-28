@@ -72,9 +72,6 @@ class PersonalDataSteps(BaseSteps):
     def check_if_uploaded(self):
         try:
             self.wait_until_and_get_elem_by_xpath(self.upload_process)
-        except TimeoutException:
-            return False
-        try:
             self.wait_until_and_get_elem_by_xpath(self.photo_ready)
             return True
         except TimeoutException:

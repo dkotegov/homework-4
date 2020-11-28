@@ -43,18 +43,18 @@ class MainPageTests(unittest.TestCase):
 
     def test_go_to_all_settings(self):
         self.go_to_main()
-        ok = self.main_page.click_get_all_settings()
+        ok = self.main_page.click_get_all_settings() # Произошел ли успешный переход
         self.assertTrue(ok)
 
     def test_change_personal_info(self):
         self.go_to_main()
-        ok = self.main_page.click_change_personal_info()
+        ok = self.main_page.click_change_personal_info() # Произошел ли успешный переход
         self.assertTrue(ok)
 
     def test_click_add_reserve_email(self):
         self.clear_email_after_tests()
         self.go_to_main()
-        ok = self.main_page.click_add_reserve_email()
+        ok = self.main_page.click_add_reserve_email() # Произошел ли успешный переход
         self.assertTrue(ok)
 
     def test_check_empty_email(self):
