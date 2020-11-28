@@ -2,11 +2,11 @@
 import sys
 import unittest
 
-from casses.Folders.FolderCheckboxTest import FolderCheckboxTest
-from casses.Folders.FolderNameTest import FolderNameTest
-from casses.Folders.FolderTypeTest import FolderTypeTest
-from casses.Folders.InvalidFolderPasswordFormTest import InvalidFolderPasswordFormTest
-from casses.Folders.CloseFolderFormTest import CloseFolderFormTest
+from casses.folders.FolderCheckboxTest import FolderCheckboxTest
+from casses.folders.FolderNameTest import FolderNameTest
+from casses.folders.FolderTypeTest import FolderTypeTest
+from casses.folders.InvalidFolderPasswordFormTest import InvalidFolderPasswordFormTest
+from casses.folders.CloseFolderFormTest import CloseFolderFormTest
 from casses import IdMainPageAndPersonalDataTests
 from casses.ContactsCase import ContactsTest
 from casses.FoldersTestSecond import FoldersTestSecond

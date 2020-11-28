@@ -2,7 +2,7 @@ import os
 import unittest
 
 from steps.FoldersSteps import FoldersSteps
-from casses.Base.BaseTest import BaseTest
+from casses.base.BaseTest import BaseTest
 
 
 class FolderCheckboxTest(BaseTest, unittest.TestCase):
