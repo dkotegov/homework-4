@@ -12,7 +12,7 @@ class PersonaInfoSteps(BaseSteps):
     reserve_email_header_pop_up = '//h1[@data-test-id="recovery-preview-addEmail-header"]/span'
     confirm_reserve_email_btn_path = '//button[@data-test-id="recovery-addEmail-submit"]'
     reserve_email_input = '//input[@data-test-id="recovery-addEmail-emailField-input"]'
-    result_email_span = '//small[@data-test-id="recovery-error-invalidEmail"]/span'
+    result_email_span = '//div[@data-test-id="error-footer-text"]/small/span'
     correct_email_header = '//h1[@data-test-id="recovery-success-addscc-header"]'
     delete_email_path = '//button[@data-test-id="recovery-delete-email-button"]'
     confirm_delete_email_button = '//button[@data-test-id="recovery-deleteEmail-submit"]'

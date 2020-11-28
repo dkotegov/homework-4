@@ -24,7 +24,7 @@ class PersonalDataSteps(BaseSteps):
     last_name_err_path = '//small[@data-test-id="lastname-field-error"]'
     nickname_err_path = '//small[@data-test-id="nickname-field-error"]'
     city_err_path = '//small[@data-test-id="city-field-error"]'
-    avatar_input = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[2]/input'
+    avatar_input = '//input[@data-test-id="photo-file-input"]'
 
     upload_process = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]/div[1]'
     photo_ready = (
