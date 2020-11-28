@@ -52,7 +52,7 @@ class Main_page(Page):
         self.personal_info_steps.insert_reserve_email(email)
         self.personal_info_steps.click_confirm_email()
         try:
-            return self.personal_info_steps.check_input_email_result()
+            return self.personal_info_steps.check_input_email_result()  # Проверяем есть ли сообщение об ошибке
         except TimeoutException:
             return self.personal_info_steps.get_correct_email_header()
 
@@ -68,8 +68,5 @@ class Main_page(Page):
     def open_popup(self):
         self.open("https://id.mail.ru/contacts?open-add-extra-email=1")
 
-    def close_pop_up(self) -> bool:
-        text = self.personal_info_steps.close_pop_up()
-        if text == "Контакты и адреса":
-            return True
-        return False
+    def close_pop_up(self) -> str:
+        return self.personal_info_steps.close_pop_up()

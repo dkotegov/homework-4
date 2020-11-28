@@ -75,3 +75,9 @@ class MainPageTests(unittest.TestCase):
         header = self.main_page.add_email("correct@yandex.ru")
         self.assertEqual(header, "Резервная почта добавлена")
         self.clear_email_after_tests()
+
+    def test_close_pop_up(self):
+        self.clear_email_after_tests()
+        self.go_to_popup()
+        page_header_text = self.main_page.close_pop_up()
+        self.assertEqual(page_header_text, "Контакты и адреса")

@@ -53,6 +53,12 @@ class BaseSteps(object):
         except TimeoutException:
             return ""
 
+    def wait_until_and_get_elements_by_xpath(self, xpath) -> list:
+        WebDriverWait(self.driver, 15, 0.1).until(
+            EC.visibility_of_element_located((By.XPATH, xpath))
+        )
+        return self.driver.find_elements_by_xpath(xpath)
+
     def wait_until_and_check_invisibility_of_element(self, elem):
         return WebDriverWait(self.driver, 15, 0.1).until(
             EC.invisibility_of_element_located((By.XPATH, elem))
