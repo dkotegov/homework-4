@@ -93,13 +93,8 @@ class PersonaInfoSteps(BaseSteps):
         self.wait_until_and_get_elem_by_xpath(self.reserve_email_input).clear()
 
     def check_if_deleted(self) -> bool:
-        try:
-            text = self.wait_until_and_get_elem_by_xpath(self.delete_header).text
-            if text == "Резервная почта удалена":
-                return True
-            return False
-        except TimeoutException:
-            return True
+        text = self.wait_until_and_get_elem_by_xpath(self.delete_header).text
+        return text == "Резервная почта удалена"
 
     def close_pop_up(self):
         self.wait_until_and_get_elem_by_xpath(self.close_btn).click()

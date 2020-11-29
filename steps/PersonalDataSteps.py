@@ -25,20 +25,17 @@ class PersonalDataSteps(BaseSteps):
     nickname_err_path = '//small[@data-test-id="nickname-field-error"]'
     city_err_path = '//small[@data-test-id="city-field-error"]'
     avatar_input = '//input[@data-test-id="photo-file-input"]'
-
-    upload_process = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]/div[1]'
-    photo_ready = (
-        '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]'
-    )
-    accept_city_popup = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[2]/div[6]/div[2]/div[2]/div/div/div/div/div'
-    submit_change_avatar_path = '/html/body/div[2]/div[2]/div/div[2]/div/button[1]'
+    upload_process = '//div[@data-test-id="photo-upload-progress"]'
+    photo_ready = '//div[@data-test-id="photo-overlay"]'
+    accept_city_popup = '//div[@data-test-id="select-value:Москва, Россия"]'
 
     def upload_avatar(self, path: str):
         el = self.wait_until_and_get_invisible_elem_by_xpath(self.avatar_input)
         el.send_keys(path)
 
     def click_submit_avatar_btn(self):
-        self.wait_to_be_clickable_by_xpath(self.submit_change_avatar_path).click()
+        submit_avatar_btn = self.wait_until_and_get_elements_by_xpath(self.submit_btn_path)[1]
+        submit_avatar_btn.click()
 
     def fill_name(self, name):
         self.fill_input(self.name_path, name)

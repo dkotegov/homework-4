@@ -1,5 +1,3 @@
-import time
-
 from selenium.webdriver import Remote
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -34,7 +32,7 @@ class BaseSteps(object):
             WebDriverWait(self.driver, 15, 0.1).until(
                 EC.element_to_be_clickable((By.XPATH, elem))
             )
-        except Exception:
+        except TimeoutException:
             return self.driver.find_element_by_xpath(elem)
 
     def wait_for_url(self, url):

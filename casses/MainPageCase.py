@@ -38,7 +38,7 @@ class MainPageTests(unittest.TestCase):
     def clear_email_after_tests(self):
         try:
             self.main_page.clear_reserve_email()
-        except TimeoutException:
+        except TimeoutException: # Значит Email уже очищен
             pass
 
     def test_go_to_all_settings(self):
