@@ -1,10 +1,11 @@
-from steps.IdSteps import *
-from .BasePage import *
+from steps.IdSteps import PersonaInfoSteps
+from .BasePage import Page
+from selenium.common.exceptions import TimeoutException
 
 
 class Main_page(Page):
-    BASE_URL = 'https://id.mail.ru'
-    PATH = ''
+    BASE_URL = "https://id.mail.ru"
+    PATH = ""
 
     @property
     def personal_info_steps(self):
@@ -15,7 +16,7 @@ class Main_page(Page):
         :return: Произошел ли удачный переход на страницу смены информации
         """
         text = self.personal_info_steps.click_personal_info_settings()
-        if (text == "Личные данные"):
+        if text == "Личные данные":
             return True
         return False
 
@@ -24,7 +25,7 @@ class Main_page(Page):
         :return: Произошел ли удачный переход
         """
         text = self.personal_info_steps.click_all_settings()
-        if (text == "Контакты и адреса"):
+        if text == "Контакты и адреса":
             return True
         return False
 
@@ -39,7 +40,7 @@ class Main_page(Page):
         :return: Произошел ли удачный переход
         """
         text = self.personal_info_steps.click_add_reserve_email()
-        if (text == "Добавление резервной почты"):
+        if text == "Добавление резервной почты":
             return True
         return False
 
@@ -51,9 +52,9 @@ class Main_page(Page):
         self.personal_info_steps.insert_reserve_email(email)
         self.personal_info_steps.click_confirm_email()
         try:
-            return self.personal_info_steps.check_input_email_result()
-        except Exception:
-            return self.personal_info_steps.get_correct_email_header()
+            return self.personal_info_steps.check_input_email_result()  # Проверяем есть ли сообщение об ошибке
+        except TimeoutException:
+            return self.personal_info_steps.get_correct_email_header()  # Если его нет, значит запрос корректный
 
     def check_correct_email_header(self):
         return self.personal_info_steps.get_correct_email_header()
@@ -67,8 +68,5 @@ class Main_page(Page):
     def open_popup(self):
         self.open("https://id.mail.ru/contacts?open-add-extra-email=1")
 
-    def close_pop_up(self) -> bool:
-        text = self.personal_info_steps.close_pop_up()
-        if text == "Контакты и адреса":
-            return True
-        return False
+    def close_pop_up(self) -> str:
+        return self.personal_info_steps.close_pop_up()

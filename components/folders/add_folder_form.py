@@ -53,12 +53,17 @@ class AddFolderForm(BaseSteps):
 
     @property
     def empty_folder_name_error(self):
-        return len(self.driver.find_elements_by_xpath(self.CANCEL_CREATE_FOLDER_BUTTON)) != 0
+        return (
+            len(self.driver.find_elements_by_xpath(self.CANCEL_CREATE_FOLDER_BUTTON))
+            != 0
+        )
 
     @property
     def get_password_form_errors(self):
-        return {'invalidPassword': self.password.invalid_password_error,
-                'invalidRePassword': self.password.invalid_re_password_error,
-                'invalidSecretQuestion': self.password.invalid_secret_question_error,
-                'invalidSecretQuestionAnswer': self.password.invalid_secret_question_answer_error,
-                'invalidUserPassword': self.password.invalid_user_password_error}
+        return {
+            "invalidPassword": self.password.invalid_password_error,
+            "invalidRePassword": self.password.invalid_re_password_error,
+            "invalidSecretQuestion": self.password.invalid_secret_question_error,
+            "invalidSecretQuestionAnswer": self.password.invalid_secret_question_answer_error,
+            "invalidUserPassword": self.password.invalid_user_password_error,
+        }

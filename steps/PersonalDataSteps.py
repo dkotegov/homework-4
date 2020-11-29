@@ -1,12 +1,13 @@
 import time
 
-import pyautogui
-
-from .BaseSteps import *
+from .BaseSteps import BaseSteps, clear
+from selenium.common.exceptions import TimeoutException
 
 
 class InputAnnotationsErrors:
-    def __init__(self, name_err: str, last_name_err: str, nickname_err: str, city_err: str):
+    def __init__(
+            self, name_err: str, last_name_err: str, nickname_err: str, city_err: str
+    ):
         self.name_err = name_err
         self.last_name_err = last_name_err
         self.nickname_err = nickname_err
@@ -14,47 +15,27 @@ class InputAnnotationsErrors:
 
 
 class PersonalDataSteps(BaseSteps):
-    change_btn_path = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[2]/button'
-    avatar_path = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]'
-    name_path = '/html/body/div/div[1]/div[3]/div/div[3]/div/div/div/form/div/div[2]/div[1]/div/div[2]/div/div/input'
-    last_name_path = '/html/body/div/div[1]/div[3]/div/div[3]/div/div/div/form/div/div[2]/div[2]/div/div[2]/div/div/input'
-    nickname_path = '/html/body/div/div[1]/div[3]/div/div[3]/div/div/div/form/div/div[2]/div[3]/div/div[2]/div/div/input'
-    city_path = '/html/body/div/div[1]/div[3]/div/div[3]/div/div/div/form/div/div[2]/div[6]/div[2]/div/div/input'
-    submit_btn_path = '/html/body/div/div[1]/div[3]/div/div[3]/div/div/div/form/div/div[2]/button[1]'
-    name_err_path = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[2]/div[1]/div/div[3]/small'
-    last_name_err_path = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[2]/div[2]/div/div[3]/small'
-    nickname_err_path = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[2]/div[3]/div/div[3]/small'
-    city_err_path = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[2]/div[6]/div[3]/small'
-    submit_change_avatar_paht = '/html/body/div[2]/div[2]/div/div[2]/div/button[1]'
-    upload_process = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]/div[1]'
-    photo_ready = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[1]/div/div/div[1]/div[2]'
-    accept_city_popup = '//*[@id="root"]/div/div[3]/div/div/div/form/div/div[2]/div[6]/div[2]/div[2]/div/div/div/div/div'
+    name_path = '//input[@data-test-id="firstname-field-input"]'
+    last_name_path = '//input[@data-test-id="lastname-field-input"]'
+    nickname_path = '//input[@data-test-id="nickname-field-input"]'
+    city_path = '//input[@data-test-id="city-field-input"]'
+    submit_btn_path = '//button[@data-test-id="save-button"]'
+    name_err_path = '//small[@data-test-id="firstname-field-error"]'
+    last_name_err_path = '//small[@data-test-id="lastname-field-error"]'
+    nickname_err_path = '//small[@data-test-id="nickname-field-error"]'
+    city_err_path = '//small[@data-test-id="city-field-error"]'
+    avatar_input = '//input[@data-test-id="photo-file-input"]'
+    upload_process = '//div[@data-test-id="photo-upload-progress"]'
+    photo_ready = '//div[@data-test-id="photo-overlay"]'
+    accept_city_popup = '//div[@data-test-id="select-value:Москва, Россия"]'
 
     def upload_avatar(self, path: str):
-        # time sleeps only for correct pyautogui work
-        time.sleep(3)
-        splited = path.split('/')
-        last_el = len(splited) - 1
-        file_name = splited[last_el]
-        directory_path = '/'.join(splited[0:last_el])
-
-        pyautogui.write('/')
-        time.sleep(3)
-
-        pyautogui.write(directory_path[1:] + '/', interval=0.15)
-        pyautogui.press('return')
-        time.sleep(3)
-        pyautogui.write(file_name, interval=0.15)
-        pyautogui.press('return')
+        el = self.wait_until_and_get_invisible_elem_by_xpath(self.avatar_input)
+        el.send_keys(path)
 
     def click_submit_avatar_btn(self):
-        self.wait_to_be_clickable_by_xpath(self.submit_change_avatar_paht).click()
-
-    def click_on_change_button(self):
-        self.wait_until_and_get_elem_by_xpath(self.change_btn_path).click()
-
-    def click_on_avtar(self):
-        self.wait_until_and_get_elem_by_xpath(self.avatar_path).click()
+        submit_avatar_btn = self.wait_until_and_get_elements_by_xpath(self.submit_btn_path)[1]
+        submit_avatar_btn.click()
 
     def fill_name(self, name):
         self.fill_input(self.name_path, name)
@@ -68,10 +49,7 @@ class PersonalDataSteps(BaseSteps):
     def fill_city(self, city):
         self.fill_city_input(self.city_path, city)
         if city != "":
-            try:
-                self.wait_until_and_get_elem_by_xpath(self.accept_city_popup).click()
-            except Exception:
-                pass
+            self.click_on_popup_el_if_popup_exist(self.accept_city_popup)
 
     def collect_errors(self) -> InputAnnotationsErrors:
         """
@@ -91,12 +69,9 @@ class PersonalDataSteps(BaseSteps):
     def check_if_uploaded(self):
         try:
             self.wait_until_and_get_elem_by_xpath(self.upload_process)
-        except TimeoutError:
-            return False
-        try:
             self.wait_until_and_get_elem_by_xpath(self.photo_ready)
             return True
-        except TimeoutError:
+        except TimeoutException:
             return False
 
     def fill_city_input(self, city_path, city):

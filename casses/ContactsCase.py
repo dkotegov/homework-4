@@ -9,14 +9,14 @@ from pages.ContactsPage import ContactsPage
 
 class ContactsTest(unittest.TestCase):
     def setUp(self) -> None:
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get("BROWSER", "CHROME")
         self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+            command_executor="http://127.0.0.1:4444/wd/hub",
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
         )
 
-        LOGIN = os.environ['LOGIN']
-        PASSWORD = os.environ['PASSWORD']
+        LOGIN = os.environ["LOGIN"]
+        PASSWORD = os.environ["PASSWORD"]
         self.password = PASSWORD
         self.login = LOGIN
 
@@ -39,7 +39,7 @@ class ContactsTest(unittest.TestCase):
 
     def test_delete_email(self):
         self.page.open_add_email_popup()
-        self.page.add_backup_email('test_login_a.elagin1@mail.ru')
+        self.page.add_backup_email("test_login_a.elagin1@mail.ru")
 
         self.page.open()
         self.page.delete_email()
@@ -49,9 +49,11 @@ class ContactsTest(unittest.TestCase):
     def test_invalid_phone(self):
         self.page.open_add_phone_popup()
 
-        self.page.send_phone('1231')
+        self.page.send_phone("1231")
 
-        self.assertEqual(self.page.get_phone_error(), 'Неправильный номер. Укажите другой.')
+        self.assertEqual(
+            self.page.get_phone_error(), "Неправильный номер. Укажите другой."
+        )
 
     def test_close_phone_popup(self):
         self.page.open_add_phone_popup()

@@ -12,14 +12,16 @@ class ContactsSteps(BaseSteps):
     phone_input = '//input[@data-test-id="phone-input"]'
     email_input = '//input[@data-test-id="recovery-addEmail-emailField-input"]'
     phone_input_error = '//*[@data-test-id="recovery-error-invalidPhone"]/span'
-    
+
     close_popup_button = '//*[@data-test-id="cross"]'
     cancle_popup_button = '//button[@data-test-id="recovery-addPhone-cancel"]'
     phone_submit_button = '//button[@data-test-id="recovery-addPhone-submit"]'
     email_submit_button = '//button[@data-test-id="recovery-addEmail-submit"]'
 
     backup_email_element = '//*[@data-test-id="recovery-emails-list-block"]/div'
-    submit_delete_email_element = '//button[@data-test-id="recovery-deleteEmail-submit"]'
+    submit_delete_email_element = (
+        '//button[@data-test-id="recovery-deleteEmail-submit"]'
+    )
 
     def submit_delete_email(self):
         self.wait_to_be_clickable_by_xpath(self.submit_delete_email_element).click()
@@ -29,10 +31,10 @@ class ContactsSteps(BaseSteps):
 
     def click_add_phone_button(self):
         self.wait_until_and_get_elem_by_xpath(self.phone_add_button).click()
-    
+
     def click_delete_email_button(self):
         self.wait_until_and_get_elem_by_xpath(self.delete_email_button).click()
-    
+
     def click_close_popup_button(self):
         self.wait_until_and_get_elem_by_xpath(self.close_popup_button).click()
 
@@ -58,20 +60,36 @@ class ContactsSteps(BaseSteps):
         return self.wait_until_and_get_elem_by_xpath(self.backup_email_element)
 
     def has_not_backup_email(self):
-        return self.wait_until_and_check_invisibility_of_element(self.backup_email_element)
+        return self.wait_until_and_check_invisibility_of_element(
+            self.backup_email_element
+        )
 
     def is_add_email_popup_title_invisible(self):
-        return self.wait_until_and_check_invisibility_of_element(self.add_email_popup_title)
+        return self.wait_until_and_check_invisibility_of_element(
+            self.add_email_popup_title
+        )
 
     def is_add_phone_popup_title_invisible(self):
-        return self.wait_until_and_check_invisibility_of_element(self.add_phone_popup_title)
+        return self.wait_until_and_check_invisibility_of_element(
+            self.add_phone_popup_title
+        )
 
     def is_add_email_popup_title_visible(self):
-        return not self.wait_until_and_get_elem_by_xpath(self.add_email_popup_title) is None
+        return (
+            not self.wait_until_and_get_elem_by_xpath(self.add_email_popup_title)
+            is None
+        )
 
     def is_add_phone_popup_title_visible(self):
-        return not self.wait_until_and_get_elem_by_xpath(self.add_phone_popup_title) is None
+        return (
+            not self.wait_until_and_get_elem_by_xpath(self.add_phone_popup_title)
+            is None
+        )
 
     def is_add_phone_popup_title_close(self):
-        return not self.wait_until_and_check_invisibility_of_element(self.add_phone_popup_title) is None
-
+        return (
+            not self.wait_until_and_check_invisibility_of_element(
+                self.add_phone_popup_title
+            )
+            is None
+        )

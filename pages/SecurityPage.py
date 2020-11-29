@@ -4,7 +4,7 @@ from steps.SecuritySteps import SecuritySteps
 
 
 class SecurityPage(Page):
-    PATH = 'security'
+    PATH = "security"
 
     def click_devices_link(self):
         security_steps = SecuritySteps(self.driver)
@@ -14,7 +14,6 @@ class SecurityPage(Page):
             return True
         return False
 
-        
     def click_services_link(self):
         security_steps = SecuritySteps(self.driver)
         text = security_steps.click_services_link()
@@ -37,7 +36,6 @@ class SecurityPage(Page):
 
         if text == "Надёжный пароль":
             return True
-        print(text)
         return False
 
     def click_keys_more_link(self):
@@ -46,7 +44,6 @@ class SecurityPage(Page):
 
         if text == "Вход по электронному ключу":
             return True
-        print(text)
         return False
 
     def click_twofact_more_link(self):
@@ -55,10 +52,8 @@ class SecurityPage(Page):
 
         if text == "Двухфакторная аутентификация":
             return True
-        print(text)
         return False
-    
-        
+
     def click_setPassword_link(self):
         security_steps = SecuritySteps(self.driver)
         popup = security_steps.click_setpassword_link()
@@ -75,7 +70,6 @@ class SecurityPage(Page):
             return True
         return False
 
-        
     def click_oauth_link(self):
         security_steps = SecuritySteps(self.driver)
         text = security_steps.click_oauth_link()

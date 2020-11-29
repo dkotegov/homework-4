@@ -1,4 +1,3 @@
-
 from selenium.common.exceptions import TimeoutException
 
 from .BaseSteps import *
@@ -16,11 +15,13 @@ class MainPageFoldersSteps(BaseSteps):
         """
         self.wait_until_and_get_elem_by_xpath(self.pop3_checkbox_path).click()
 
-        return self.wait_until_and_get_elem_by_xpath(self.pop3_checkbox_div_path).get_attribute('class')
+        return self.wait_until_and_get_elem_by_xpath(
+            self.pop3_checkbox_div_path
+        ).get_attribute("class")
 
     def click_pencil_button(self) -> bool:
         """
-                :return: True если открылось модальное окно
+        :return: True если открылось модальное окно
         """
         try:
             self.wait_until_and_get_elem_by_xpath(self.update_folder_path).click()
