@@ -4,31 +4,36 @@ from steps.BaseSteps import BaseSteps
 class SecuritySteps(BaseSteps):
     devices_page_title = '//*[@data-test-id="caption-text"]'
     devices_link = '//*[@data-test-id="device-and-apps-item"]'
-    
+
     services_link = '//*[@data-test-id="external-services-item"]'
     services_page_title = '//*[@data-test-id="oauth-applications"]/div/h1'
-    
+
     history_link = '//*[@data-test-id="actions-history-item"]'
     history_page_title = '//*[@data-test-id="settings-actions"]/div[1]/h1'
-    
+
     setpassword_button = '//*[@data-test-id="password-action"]'
     setpassword_page_title = '//*[@data-test-id="popup-wrapper"]'
-    
+
     keys_page_title = '//*[@data-test-id="caption"]'
     keys_link = '//*[@data-test-id="electronic-keys-item"]'
 
     oauth2_link = '//*[@data-test-id="twofa-item"]'
     oauth2_page_title = '//*[@class="b-panel__header__text"]'
 
-    password_more_link = '//*[@data-test-id="password-item"]//*[@data-test-id="item-details"]'
+    password_more_link = (
+        '//*[@data-test-id="password-item"]//*[@data-test-id="item-details"]'
+    )
     password_more_page_title = '//div[@class="h-header__text"]'
 
-    keys_more_link = '//*[@data-test-id="electronic-keys-item"]//*[@data-test-id="item-details"]'
+    keys_more_link = (
+        '//*[@data-test-id="electronic-keys-item"]//*[@data-test-id="item-details"]'
+    )
     keys_more_page_title = '//div[@class="h-header__text"]'
 
-    twofact_more_link = '//*[@data-test-id="twofa-item"]//*[@data-test-id="item-details"]'
+    twofact_more_link = (
+        '//*[@data-test-id="twofa-item"]//*[@data-test-id="item-details"]'
+    )
     twofact_more_page_title = '//div[@class="h-header__text"]'
-
 
     def click_devices_link(self):
         self.wait_until_and_get_elem_by_xpath(self.devices_link).click()
@@ -61,7 +66,6 @@ class SecuritySteps(BaseSteps):
     def click_twofact_more_link(self):
         self.wait_until_and_get_elem_by_xpath(self.twofact_more_link).click()
         return self.wait_until_and_get_elem_by_xpath(self.twofact_more_page_title).text
-        
 
     def click_keys_more_link(self):
         self.wait_until_and_get_elem_by_xpath(self.keys_more_link).click()
@@ -78,5 +82,3 @@ class SecuritySteps(BaseSteps):
     def click_oauth_link(self):
         self.wait_until_and_get_elem_by_xpath(self.oauth2_link).click()
         return self.wait_until_and_get_elem_by_xpath(self.oauth2_page_title).text
-
-     
