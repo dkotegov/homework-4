@@ -18,7 +18,7 @@ class FoldersSteps(BaseSteps):
             self.set_password(password_context)
 
     def wait_folder(self, name):
-        self.folders_page.add_folder.folder.wait_folder(name)
+        return self.folders_page.add_folder.folder.wait_folder(name)
 
     def select_folder_option(self, option):
         if option:
@@ -41,17 +41,11 @@ class FoldersSteps(BaseSteps):
             self.folders_page.add_folder.set_has_password()
 
     def set_password(self, password_context):
-        self.folders_page.add_folder.password.set_password(password_context["password"])
-        self.folders_page.add_folder.password.set_re_password(
-            password_context["re_password"]
-        )
-        self.folders_page.add_folder.password.set_question(password_context["question"])
-        self.folders_page.add_folder.password.set_question_answer(
-            password_context["question_answer"]
-        )
-        self.folders_page.add_folder.password.set_current_password(
-            password_context["current_password"]
-        )
+        self.folders_page.add_folder.password.set_password(password_context['folder_password'])
+        self.folders_page.add_folder.password.set_re_password(password_context['folder_re_password'])
+        self.folders_page.add_folder.password.set_question(password_context['question'])
+        self.folders_page.add_folder.password.set_question_answer(password_context['question_answer'])
+        self.folders_page.add_folder.password.set_current_password(password_context['current_password'])
         self.folders_page.add_folder.password.save()
 
     def delete_folder(self, name, password=""):
