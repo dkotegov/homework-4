@@ -1,4 +1,3 @@
-from steps.authSteps import *
 from pages.BasePage import Page
 from steps.SecuritySteps import SecuritySteps
 
@@ -8,72 +7,65 @@ class SecurityPage(Page):
 
     def click_devices_link(self):
         security_steps = SecuritySteps(self.driver)
-        text = security_steps.click_devices_link()
+        security_steps.click_devices_link()
 
-        if text == "Устройства и приложения":
-            return True
-        return False
+    def is_device_page_open(self) -> bool:
+        security_steps = SecuritySteps(self.driver)
+        return not (security_steps.get_device_page() is None)
 
     def click_services_link(self):
         security_steps = SecuritySteps(self.driver)
-        text = security_steps.click_services_link()
+        security_steps.click_services_link()
 
-        if text == "Управление приложениями":
-            return True
-        return False
+    def is_service_page_open(self) -> bool:
+        security_steps = SecuritySteps(self.driver)
+        return not (security_steps.get_service_page() is None)
+
+    def is_history_page_open(self) -> bool:
+        security_steps = SecuritySteps(self.driver)
+        return not (security_steps.get_history_page() is None)
 
     def click_history_link(self):
         security_steps = SecuritySteps(self.driver)
-        text = security_steps.click_history_link()
-
-        if text == "Лог действий":
-            return True
-        return False
-
-    def click_password_more_link(self):
-        security_steps = SecuritySteps(self.driver)
-        text = security_steps.click_password_more_link()
-
-        if text == "Надёжный пароль":
-            return True
-        return False
+        security_steps.click_history_link()
 
     def click_keys_more_link(self):
         security_steps = SecuritySteps(self.driver)
-        text = security_steps.click_keys_more_link()
+        security_steps.click_keys_more_link()
 
-        if text == "Вход по электронному ключу":
-            return True
-        return False
-
-    def click_twofact_more_link(self):
+    def is_keys_more_page_load(self) -> bool:
         security_steps = SecuritySteps(self.driver)
-        text = security_steps.click_twofact_more_link()
+        return security_steps.is_url_equal('help.mail.ru/id/login/way/keys')
 
-        if text == "Двухфакторная аутентификация":
-            return True
-        return False
-
-    def click_setPassword_link(self):
+    def click_2fact_more_link(self):
         security_steps = SecuritySteps(self.driver)
-        popup = security_steps.click_setpassword_link()
+        security_steps.click_2fact_more_link()
 
-        if popup:
-            return True
-        return False
+    def is_2fact_more_page_load(self) -> bool:
+        security_steps = SecuritySteps(self.driver)
+        return security_steps.is_url_equal('help.mail.ru/id/protection/2auth')
+
+    def is_keys_page_load(self) -> bool:
+        security_steps = SecuritySteps(self.driver)
+        return security_steps.is_url_equal('account.mail.ru/security/authentication/keys')
+
+
+    def is_2fact_page_load(self) -> bool:
+        security_steps = SecuritySteps(self.driver)
+        return security_steps.is_url_equal('account.mail.ru/user/2-step-auth')
+
+    def click_set_password_link(self):
+        security_steps = SecuritySteps(self.driver)
+        security_steps.click_set_password_link()
+
+    def is_set_password_popup_open(self) -> bool:
+        security_steps = SecuritySteps(self.driver)
+        return not (security_steps.get_set_password_popup() is None)
 
     def click_keys_link(self):
         security_steps = SecuritySteps(self.driver)
-        text = security_steps.click_keys_link()
+        security_steps.click_keys_link()
 
-        if text == "Электронные ключи":
-            return True
-        return False
-
-    def click_oauth_link(self):
+    def click_2fact_link(self):
         security_steps = SecuritySteps(self.driver)
-        text = security_steps.click_oauth_link()
-
-        if text == "Двухфакторная аутентификация" or text == "Добавить номер телефона":
-            return True
-        return False
+        security_steps.click_2fact_link()

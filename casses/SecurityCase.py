@@ -1,8 +1,6 @@
 import os
 import unittest
-
 from selenium.webdriver import DesiredCapabilities, Remote
-
 from pages.AuthPage import AuthPage
 from pages.SecurityPage import SecurityPage
 
@@ -30,33 +28,33 @@ class SecurityTest(unittest.TestCase):
         self.driver.quit()
 
     def test_click_devices_link(self):
-        isOkey = self.page.click_devices_link()
-        self.assertTrue(isOkey)
+        self.page.click_devices_link()
+        self.assertTrue(self.page.is_device_page_open())
 
     def test_click_services_link(self):
-        isOkey = self.page.click_services_link()
-        self.assertTrue(isOkey)
+        self.page.click_services_link()
+        self.assertTrue(self.page.is_service_page_open())
 
     def test_click_setPassword_link(self):
-        isOkey = self.page.click_setPassword_link()
-        self.assertTrue(isOkey)
+        self.page.click_set_password_link()
+        self.assertTrue(self.page.is_set_password_popup_open())
 
     def test_click_history_link(self):
-        isOkey = self.page.click_history_link()
-        self.assertTrue(isOkey)
+        self.page.click_history_link()
+        self.assertTrue(self.page.is_history_page_open())
 
-    def test_click_oauth_link(self):
-        isOkey = self.page.click_oauth_link()
-        self.assertTrue(isOkey)
+    def test_click_2fact_link(self):
+        self.page.click_2fact_link()
+        self.assertTrue(self.page.is_2fact_page_load())
 
     def test_click_keys_link(self):
-        isOkey = self.page.click_keys_link()
-        self.assertTrue(isOkey)
+        self.page.click_keys_link()
+        self.assertTrue(self.page.is_keys_page_load())
 
-    def test_click_twofact_more_link(self):
-        isOkey = self.page.click_twofact_more_link()
-        self.assertTrue(isOkey)
+    def test_click_2fact_more_link(self):
+        self.page.click_2fact_more_link()
+        self.assertTrue(self.page.is_2fact_more_page_load())
 
     def test_click_keys_more_link(self):
-        isOkey = self.page.click_keys_more_link()
-        self.assertTrue(isOkey)
+        self.page.click_keys_more_link()
+        self.assertTrue(self.page.is_keys_more_page_load())

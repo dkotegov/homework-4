@@ -1,5 +1,4 @@
 from pages.BasePage import Page
-from steps.authSteps import *
 from steps.PasswordPopupSteps import PasswordPopupSteps
 from pages.SecurityPage import SecurityPage
 import time
@@ -11,12 +10,13 @@ class PasswordPopup(Page):
     def is_password_changed(self):
         password_steps = PasswordPopupSteps(self.driver)
 
-        return not password_steps.get_popup_password_chnged() is None
+        return not password_steps.get_popup_password_changed() is None
+
 
     def open(self, url=None):
         super().open(url)
         security_page = SecurityPage(self.driver)
-        security_page.click_setPassword_link()
+        security_page.click_set_password_link()
 
     def change_new_password_visibility(self):
         password_steps = PasswordPopupSteps(self.driver)
@@ -26,13 +26,22 @@ class PasswordPopup(Page):
         password_steps = PasswordPopupSteps(self.driver)
         password_steps.toggle_old_password_visibility()
 
+    def set_new_password(self, password):
+        password_steps = PasswordPopupSteps(self.driver)
+
+        password_steps.set_new_password_value(password)
+
+    def check_password_security_value_equal(self, status):
+        password_steps = PasswordPopupSteps(self.driver)
+
+        return not password_steps.get_new_password_security_status_element(status) is None
+
     def set_new_password_and_get_password_security_value(self, password):
         password_steps = PasswordPopupSteps(self.driver)
 
-        password_steps.clean_new_password()
+
         password_steps.set_new_password_value(password)
 
-        time.sleep(0.5)
         text = self.get_new_password_security()
 
         password_steps.clean_new_password()
@@ -64,9 +73,9 @@ class PasswordPopup(Page):
     def is_new_password_visible(self):
         password_steps = PasswordPopupSteps(self.driver)
 
-        return (password_steps.get_new_password_input_type() == "text") and (
-            password_steps.get_repeat_password_input_type() == "text"
-        )
+        return (password_steps.get_new_password_input_type() == 'text') and (
+                    password_steps.get_repeat_password_input_type() == 'text')
+
 
     def submit_form(self):
         password_steps = PasswordPopupSteps(self.driver)
@@ -101,6 +110,10 @@ class PasswordPopup(Page):
         password_steps = PasswordPopupSteps(self.driver)
         return password_steps.is_new_password_invalid()
 
+    def is_repeat_password_equal(self):
+        password_steps = PasswordPopupSteps(self.driver)
+        return password_steps.is_repeat_password_error()
+
     def is_current_password_error(self):
         password_steps = PasswordPopupSteps(self.driver)
         return password_steps.is_current_password_invalid()
@@ -124,4 +137,5 @@ class PasswordPopup(Page):
 
     def is_popup_open(self):
         password_steps = PasswordPopupSteps(self.driver)
-        return not password_steps.is_popup_unvisible()
+        return not password_steps.is_popup_invisible()
+

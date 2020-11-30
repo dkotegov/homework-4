@@ -38,6 +38,9 @@ class BaseSteps(object):
     def wait_for_url(self, url):
         return WebDriverWait(self.driver, 15, 0.1).until(EC.url_to_be(url))
 
+    def is_url_equal(self, url):
+        return WebDriverWait(self.driver, 15, 0.1).until(EC.url_contains(url))
+
     def fill_input(self, path, info):
         el = self.wait_until_and_get_elem_by_xpath(path)
         el.click()
