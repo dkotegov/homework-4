@@ -3,8 +3,8 @@ from .BasePage import *
 
 
 class LettersPage(Page):
-    BASE_URL = 'https://e.mail.ru'
-    PATH = ''
+    BASE_URL = "https://e.mail.ru"
+    PATH = ""
 
     @property
     def header(self):

@@ -22,7 +22,7 @@ class UpdateFolderSteps(BaseSteps):
 
     def toggle_checkbox_pop3(self) -> bool:
         """
-                :return: True if checked, false if not checked
+        :return: True if checked, false if not checked
         """
         checkbox = self.wait_until_and_get_elem_by_xpath(self.checkbox_pop3_path)
         checkbox.click()
@@ -30,29 +30,29 @@ class UpdateFolderSteps(BaseSteps):
 
     def toggle_checkbox_make_archive(self) -> bool:
         """
-                :return: True if checked, false if not checked
+        :return: True if checked, false if not checked
         """
         self.wait_until_and_get_elem_by_xpath(self.checkbox_archive_path).click()
-        checkbox_classes: str = self. \
-            wait_until_and_get_elem_by_xpath(self.checkbox_archive_path) \
-            .get_attribute('class')
+        checkbox_classes: str = self.wait_until_and_get_elem_by_xpath(
+            self.checkbox_archive_path
+        ).get_attribute("class")
 
         return len(checkbox_classes.split()) == 2 or False
 
     def toggle_checkbox_password(self) -> bool:
         """
-                :return: True if checked, false if not checked
+        :return: True if checked, false if not checked
         """
         self.wait_until_and_get_elem_by_xpath(self.checkbox_password_path).click()
-        checkbox_classes: str = self. \
-            wait_until_and_get_elem_by_xpath(self.checkbox_password_path + '/div') \
-            .get_attribute('class')
+        checkbox_classes: str = self.wait_until_and_get_elem_by_xpath(
+            self.checkbox_password_path + "/div"
+        ).get_attribute("class")
 
         return len(checkbox_classes.split()) == 2 or False
 
     def set_value_of_drop_list(self, value: str) -> bool:
         """
-                :return: Вернет True если пункт переключился
+        :return: Вернет True если пункт переключился
         """
         self.open()
         if value == "incoming":
@@ -66,7 +66,7 @@ class UpdateFolderSteps(BaseSteps):
 
     def set_input_name(self, value: str) -> str:
         """
-                :return: Вернет слово из input
+        :return: Вернет слово из input
         """
         selected_item = self.wait_until_and_get_elem_by_xpath(self.input_name_path)
         self.fill_input(self.input_name_path, value)
@@ -76,21 +76,21 @@ class UpdateFolderSteps(BaseSteps):
 
     def click_save_button(self) -> bool:
         """
-                :return: Если закрылось окно то True
+        :return: Если закрылось окно то True
         """
         self.wait_until_and_get_elem_by_xpath(self.save_button_path).click()
         return len(self.driver.find_elements_by_xpath(self.modal_header_path)) == 0
 
     def click_cross_button(self) -> str:
         """
-                :return: Текст в хедере модального окна
+        :return: Текст в хедере модального окна
         """
         self.wait_until_and_get_elem_by_xpath(self.cross_path).click()
         return self.wait_until_and_get_elem_by_xpath(self.modal_header_path).text
 
     def click_cancel_button(self) -> str:
         """
-                :return: Текст в хедере модального окна
+        :return: Текст в хедере модального окна
         """
         self.wait_until_and_get_elem_by_xpath(self.cancel_button_path).click()
         return self.wait_until_and_get_elem_by_xpath(self.modal_header_path).text

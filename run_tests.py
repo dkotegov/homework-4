@@ -7,17 +7,21 @@ from casses.folders.FolderNameTest import FolderNameTest
 from casses.folders.FolderTypeTest import FolderTypeTest
 from casses.folders.InvalidFolderPasswordFormTest import InvalidFolderPasswordFormTest
 from casses.folders.CloseFolderFormTest import CloseFolderFormTest
-from casses import IdMainPageAndPersonalDataTests
+
+from casses.MainPageCase import MainPageTests
+from casses.PersonalDataCase import PersonalDataTests
+
 from casses.ContactsCase import ContactsTest
 from casses.FoldersTestSecond import FoldersTestSecond
 from casses.PasswordCase import PasswordTest
 from casses.SecurityCase import SecurityTest
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     suites = unittest.TestSuite(
         (
-            unittest.makeSuite(IdMainPageAndPersonalDataTests),
+            unittest.makeSuite(PersonalDataTests),
+            unittest.makeSuite(MainPageTests),
+
             unittest.makeSuite(FoldersTestSecond),
             unittest.makeSuite(PasswordTest),
             unittest.makeSuite(ContactsTest),

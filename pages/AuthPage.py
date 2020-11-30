@@ -3,8 +3,8 @@ from .BasePage import *
 
 
 class AuthPage(Page):
-    BASE_URL = 'https://account.mail.ru'
-    PATH = ''
+    BASE_URL = "https://account.mail.ru"
+    PATH = ""
 
     @property
     def login_form(self):

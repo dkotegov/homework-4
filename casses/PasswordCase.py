@@ -8,16 +8,15 @@ from pages.PasswordPopup import PasswordPopup
 
 
 class PasswordTest(unittest.TestCase):
-
     def setUp(self) -> None:
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get("BROWSER", "CHROME")
         self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+            command_executor="http://127.0.0.1:4444/wd/hub",
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
         )
 
-        LOGIN = os.environ['LOGIN']
-        PASSWORD = os.environ['PASSWORD']
+        LOGIN = os.environ["LOGIN"]
+        PASSWORD = os.environ["PASSWORD"]
         self.password = PASSWORD
         self.login = LOGIN
 
@@ -39,7 +38,7 @@ class PasswordTest(unittest.TestCase):
         )
 
     def test_change_password(self):
-        NEW_PASSWORD = '12893490278kek'
+        NEW_PASSWORD = "12893490278kek"
 
         self.page.change_password(self.password, NEW_PASSWORD)
         changed = self.page.is_password_changed()
@@ -50,28 +49,34 @@ class PasswordTest(unittest.TestCase):
         self.assertTrue(changed and changed_again)
 
     def test_change_password_with_invalid_repeat_password(self):
-        NEW_PASSWORD = '12893490278kek'
+        NEW_PASSWORD = "12893490278kek"
 
         self.page.send_form_with_uncorrect_repeat(NEW_PASSWORD, self.password)
-        self.assertTrue(self.page.is_new_password_error() and self.page.is_repeat_password_error())
+        self.assertTrue(
+            self.page.is_new_password_error() and self.page.is_repeat_password_error()
+        )
 
     def test_generate_password(self):
         self.page.generate_password()
         self.assertTrue(self.page.get_new_password_security() == "Надёжный пароль")
 
-        self.assertEqual(self.page.get_repeat_password_value(), self.page.get_new_password_value())
+        self.assertEqual(
+            self.page.get_repeat_password_value(), self.page.get_new_password_value()
+        )
 
     def test_long_new_password(self):
-        text = self.page.set_new_password_and_get_password_security_value("12345678aB12345678aB12345678aB12345678aB1")
-        self.assertEqual(text, 'Пароль слишком длинный')
+        text = self.page.set_new_password_and_get_password_security_value(
+            "12345678aB12345678aB12345678aB12345678aB1"
+        )
+        self.assertEqual(text, "Пароль слишком длинный")
 
     def test_numeric_new_password(self):
         text = self.page.set_new_password_and_get_password_security_value("1234567890")
-        self.assertEqual(text, 'Ненадёжный пароль')
+        self.assertEqual(text, "Ненадёжный пароль")
 
     def test_small_new_password(self):
         text = self.page.set_new_password_and_get_password_security_value("aa12A")
-        self.assertEqual(text, 'Ненадёжный пароль')
+        self.assertEqual(text, "Ненадёжный пароль")
 
     def test_close_popup(self):
         self.page.close_popup()
@@ -87,9 +92,17 @@ class PasswordTest(unittest.TestCase):
         self.page.change_new_password_visibility()
         self.page.change_old_password_visibility()
 
-        isOkey = self.page.is_new_password_visible() and self.page.is_old_password_visibile()
+        isOkey = (
+            self.page.is_new_password_visible() and self.page.is_old_password_visibile()
+        )
 
         self.page.change_new_password_visibility()
         self.page.change_old_password_visibility()
 
-        self.assertTrue(not (self.page.is_new_password_visible() or self.page.is_old_password_visibile()) and isOkey)
+        self.assertTrue(
+            not (
+                self.page.is_new_password_visible()
+                or self.page.is_old_password_visibile()
+            )
+            and isOkey
+        )

@@ -3,7 +3,6 @@ from steps.BaseSteps import BaseSteps
 
 
 class FoldersSteps(BaseSteps):
-
     def __init__(self, driver):
         super(FoldersSteps, self).__init__(driver)
         self.folders_page = FoldersPage(driver)
@@ -34,11 +33,11 @@ class FoldersSteps(BaseSteps):
             self.folders_page.add_folder.select.select_drafts()
 
     def set_checkboxes(self, boxes):
-        if 'pop3' in boxes:
+        if "pop3" in boxes:
             self.folders_page.add_folder.set_pop3()
-        if 'archive' in boxes:
+        if "archive" in boxes:
             self.folders_page.add_folder.set_archive()
-        if 'has password' in boxes:
+        if "has password" in boxes:
             self.folders_page.add_folder.set_has_password()
 
     def set_password(self, password_context):
@@ -60,5 +59,7 @@ class FoldersSteps(BaseSteps):
         self.folders_page.add_folder.folder.apply()
 
     def get_form_errors(self):
-        return {'emptyFolderName': self.folders_page.add_folder.empty_folder_name_error,
-                'passwordForm': self.folders_page.add_folder.get_password_form_errors}
+        return {
+            "emptyFolderName": self.folders_page.add_folder.empty_folder_name_error,
+            "passwordForm": self.folders_page.add_folder.get_password_form_errors,
+        }

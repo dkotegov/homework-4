@@ -8,16 +8,15 @@ from pages.SecurityPage import SecurityPage
 
 
 class SecurityTest(unittest.TestCase):
-
     def setUp(self) -> None:
-        browser = os.environ.get('BROWSER', 'CHROME')
+        browser = os.environ.get("BROWSER", "CHROME")
         self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+            command_executor="http://127.0.0.1:4444/wd/hub",
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
         )
 
-        LOGIN = os.environ['LOGIN']
-        PASSWORD = os.environ['PASSWORD']
+        LOGIN = os.environ["LOGIN"]
+        PASSWORD = os.environ["PASSWORD"]
         self.password = PASSWORD
         self.login = LOGIN
 
