@@ -46,7 +46,8 @@ class PersonalDataTests(unittest.TestCase):
         self.assertEqual(errors.nickname_err, "")
 
     def test_city_wrong(self):
-        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "123", collect_err_about="city")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "123", collect_err_about="city",
+                                          is_city_correct=False)
         self.assertEqual(errors.city_err, "Проверьте название города")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
@@ -112,3 +113,19 @@ class PersonalDataTests(unittest.TestCase):
         self.data_page.open(self.data_page.BASE_URL)
         test_path = os.path.abspath("./avatar.jpg")
         self.assertTrue(self.data_page.change_avatar(test_path))
+
+    def test_all_ok_data(self):
+        errors = self.data_page.fill_form("Имя2", "Фамилия2", "Никнейм2", "Москва")
+        self.check_no_errors(errors)
+        self.data_page.reload()
+        newName, newSurname = self.data_page.get_name_surname_from_left_bar()
+        self.assertEqual(newName, "Имя2")
+        self.assertEqual(newSurname, "Фамилия2")
+
+    def test_different_case(self):
+        errors = self.data_page.fill_form("Имя3", "Фамилия3", "Никнейм3", "МоСкВа")
+        self.check_no_errors(errors)
+        self.data_page.reload()
+        newName, newSurname = self.data_page.get_name_surname_from_left_bar()
+        self.assertEqual(newName, "Имя3")
+        self.assertEqual(newSurname, "Фамилия3")
