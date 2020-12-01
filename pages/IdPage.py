@@ -20,8 +20,7 @@ class Main_page(Page):
         """
         return self.personal_info_steps.click_all_settings()
 
-    def get_name_surname_from_left_bar(self) -> (str, str):
-        return self.personal_info_steps.get_name_surname_from_left_bar()
+
 
     def get_name_surname_from_card(self) -> (str, str):
         return self.personal_info_steps.get_name_surname_from_card()

@@ -65,8 +65,4 @@ class BaseSteps(object):
             EC.invisibility_of_element_located((By.XPATH, elem))
         )
 
-    def click_on_popup_el_if_popup_exist(self, el):
-        try:
-            self.wait_to_be_clickable_by_xpath(el).click()
-        except TimeoutException:
-            pass
+

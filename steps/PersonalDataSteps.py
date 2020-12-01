@@ -26,6 +26,7 @@ class PersonalDataSteps(BaseSteps):
     upload_process = '//div[@data-test-id="photo-upload-progress"]'
     photo_ready = '//div[@data-test-id="photo-overlay"]'
     accept_city_popup = '//div[@data-test-id="select-value:Москва, Россия"]'
+    name_surname_left_bar_path = '//h3[@data-test-id="full-name"]'
 
     def upload_avatar(self, path: str):
         el = self.wait_until_and_get_invisible_elem_by_xpath(self.avatar_input)
@@ -44,10 +45,10 @@ class PersonalDataSteps(BaseSteps):
     def fill_nickanme(self, nickname):
         self.fill_input(self.nickname_path, nickname)
 
-    def fill_city(self, city):
+    def fill_city(self, city, is_correct: bool):
         self.fill_city_input(self.city_path, city)
-        if city != "":
-            self.click_on_popup_el_if_popup_exist(self.accept_city_popup)
+        if city != "" and is_correct:
+            self.wait_until_and_get_elem_by_xpath(self.accept_city_popup).click()
 
     def collect_errors(self, collect_err_about: str) -> InputAnnotationsErrors:
         """
@@ -85,3 +86,13 @@ class PersonalDataSteps(BaseSteps):
         el.click()
         clear(el)
         el.send_keys(city)
+
+    def get_name_surname_from_left_bar(self) -> (str, str):
+        """
+        :return: Получает имя и фамилию из бокового бара
+        """
+        text = str(
+            self.wait_until_and_get_elem_by_xpath(self.name_surname_left_bar_path).text
+        )
+        splited = text.split(" ")
+        return splited[0], splited[1]
