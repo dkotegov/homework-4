@@ -29,4 +29,4 @@ $ python3 ./run_tests.py
 - [Антон Елагин](http://jira.bmstu.cloud/browse/QA-843)
 
 # Тесты
-![img](Снимок экрана 2020-12-01 в 23.45.34.png)
+![img](https://github.com/EvilBorsch/homework-4/blob/dev/Снимок%20экрана%202020-12-01%20в%2023.45.34.png)
