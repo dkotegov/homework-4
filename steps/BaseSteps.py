@@ -67,6 +67,6 @@ class BaseSteps(object):
 
     def click_on_popup_el_if_popup_exist(self, el):
         try:
-            self.wait_until_and_get_elem_by_xpath(el).click()
+            self.wait_to_be_clickable_by_xpath(el).click()
         except TimeoutException:
             pass

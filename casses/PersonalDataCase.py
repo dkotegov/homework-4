@@ -32,28 +32,28 @@ class PersonalDataTests(unittest.TestCase):
         self.driver.quit()
 
     def test_empty_city(self):
-        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "", collect_err_about="city")
         self.assertEqual(errors.city_err, "Укажите город")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
         self.assertEqual(errors.nickname_err, "")
 
     def test_fill_form_with_empty_name(self):
-        errors = self.data_page.fill_form("", "Фамилия", "Никнейм", "Москва")
+        errors = self.data_page.fill_form("", "Фамилия", "Никнейм", "Москва", collect_err_about="name")
         self.assertEqual(errors.city_err, "")
         self.assertEqual(errors.name_err, "Укажите имя")
         self.assertEqual(errors.last_name_err, "")
         self.assertEqual(errors.nickname_err, "")
 
     def test_city_wrong(self):
-        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "123")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "123", collect_err_about="city")
         self.assertEqual(errors.city_err, "Проверьте название города")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
         self.assertEqual(errors.nickname_err, "")
 
     def test_fill_with_empty_nickanme(self):
-        errors = self.data_page.fill_form("Имя", "Фамилия", "", "Москва")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "", "Москва", collect_err_about="nickname")
         self.assertEqual(errors.city_err, "")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
