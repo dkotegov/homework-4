@@ -7,6 +7,7 @@ from enum import Enum
 
 from selenium.webdriver import DesiredCapabilities, Remote
 
+from casses.base.BaseTest import BaseTest
 from pages.AuthPage import AuthPage
 from pages.FoldersPage import FoldersPage
 from pages.UpdateFolderPage import UpdateFolderPage
@@ -14,7 +15,7 @@ from pages.UpdatePasswordPage import UpdatePasswordPage
 from steps.FoldersSteps import FoldersSteps
 
 
-class FoldersTestSecond(unittest.TestCase):
+class FoldersTestSecond(BaseTest, unittest.TestCase):
     def setUp(self) -> None:
         browser = os.environ.get("BROWSER", "CHROME")
         self.driver = Remote(
@@ -33,24 +34,21 @@ class FoldersTestSecond(unittest.TestCase):
         self.update_password = UpdatePasswordPage(self.driver)
         self.folderSteps = FoldersSteps(self.driver)
 
-        self.folderSteps.add_folder("folder", "Входящие")
-        self.folderSteps.wait_folder("folder")
-        password_temp = self.random_string(10)
-        question_temp = self.random_string(10)
-        answer_temp = self.random_string(10)
+        self.folderSteps.add_folder('folder', 'Входящие')
+        self.folderSteps.wait_folder('folder')
 
         self.__password_context = {
-
-            "password": password_temp,
-            "re_password": password_temp,
-            "question": question_temp,
-            "question_answer": answer_temp,
-            "current_password": os.environ["PASSWORD"],
+            'password': 'qwertyuiop',
+            're_password': 'qwertyuiop',
+            'question': 'why?',
+            'question_answer': 'because',
+            'current_password': os.environ['PASSWORD']
         }
         self.go_to_main_folders()
 
     def tearDown(self) -> None:
         self.folderSteps.delete_folder("folder")
+        self.go_to_main_folders()
         self.driver.quit()
 
     def go_to_main_folders(self):
@@ -58,27 +56,19 @@ class FoldersTestSecond(unittest.TestCase):
             self.main_page_folders.BASE_URL + self.main_page_folders.PATH
         )
 
-    def random_string(self, len: int = 8):
-        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=len))
 
     def test_update_folder_name(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
-        temp_folder_name = self.random_string(10)
-        is_filled = self.update_folder.fill_name(temp_folder_name)
+        is_filled = self.update_folder.fill_name("newFolder")
         self.assertTrue(is_filled)
-        self.update_folder.save_changes()
-        self.folderSteps.delete_folder(temp_folder_name)
 
     def test_select_top_folder(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
         self.assertTrue(self.update_folder.fill_nested_folder("high_level"))
         status = self.update_folder.save_changes()
         self.assertTrue(status)
 
     def test_update_nested_folder(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
 
         class EnumForDropList(Enum):
@@ -93,20 +83,18 @@ class FoldersTestSecond(unittest.TestCase):
         self.assertTrue(status)
 
     def test_short_password(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
         context = self.__password_context.copy()
-        context["password"] = "ps"
-        context["re_password"] = "ps"
+        context["folder_password"] = "ps"
+        context["folder_re_password"] = "ps"
         self.update_password.set_password(context)
         self.assertTrue(
             self.update_password.get_password_form_errors["invalidPassword"]
         )
 
     def test_invalid_re_password(self):
-        self.go_to_main_folders()
         ok = self.main_page_folders.click_pencil_icon()
         self.assertTrue(ok)
         self.update_folder.fill_checkbox({"password": True})
@@ -119,7 +107,6 @@ class FoldersTestSecond(unittest.TestCase):
         )
 
     def test_missing_secret_question(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
@@ -131,7 +118,6 @@ class FoldersTestSecond(unittest.TestCase):
         )
 
     def test_missing_secret_question_answer(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
@@ -143,7 +129,6 @@ class FoldersTestSecond(unittest.TestCase):
         )
 
     def test_invalid_current_password(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
@@ -155,7 +140,6 @@ class FoldersTestSecond(unittest.TestCase):
         )
 
     def test_close_update_folder_form(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
@@ -165,7 +149,6 @@ class FoldersTestSecond(unittest.TestCase):
         self.assertTrue(self.update_password.close())
 
     def test_cancel_update_folder_form(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
@@ -175,7 +158,6 @@ class FoldersTestSecond(unittest.TestCase):
         self.assertTrue(self.update_password.back())
 
     def test_valid_update_folder_form(self):
-        self.go_to_main_folders()
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
