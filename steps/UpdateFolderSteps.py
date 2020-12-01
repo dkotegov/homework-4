@@ -71,7 +71,6 @@ class UpdateFolderSteps(BaseSteps):
         selected_item = self.wait_until_and_get_elem_by_xpath(self.input_name_path)
         self.fill_input(self.input_name_path, value)
 
-        # self.driver.execute_script(f"arguments[0].setAttribute('value','{value}')", selected_item)
         return selected_item.get_attribute("value")
 
     def click_save_button(self) -> bool:
