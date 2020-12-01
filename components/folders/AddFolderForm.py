@@ -1,7 +1,7 @@
 from steps.BaseSteps import BaseSteps
-from components.folders.folder import Folder
-from components.folders.attachment_select import AttachmentSelect
-from components.folders.password_from import PasswordForm
+from components.folders.Folder import Folder
+from components.folders.AttachmentSelect import AttachmentSelect
+from components.folders.PasswordFrom import PasswordForm
 
 
 class AddFolderForm(BaseSteps):

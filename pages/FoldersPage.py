@@ -1,4 +1,4 @@
-from components.folders.add_folder_form import AddFolderForm
+from components.folders.AddFolderForm import AddFolderForm
 from steps.MainPageFoldersSteps import MainPageFoldersSteps
 from .BasePage import *
 

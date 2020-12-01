@@ -1,4 +1,4 @@
-from components.letters.header import LettersHeader
+from components.letters.Header import LettersHeader
 from .BasePage import *
 
 
