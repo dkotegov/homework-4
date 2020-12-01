@@ -1,5 +1,3 @@
-import time
-
 from .BaseSteps import BaseSteps, clear
 from selenium.common.exceptions import TimeoutException
 
