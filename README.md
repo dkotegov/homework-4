@@ -3,10 +3,10 @@
 # Запуск
 
 ```
-$ ./grid.sh
+$ sh grid.sh
 ```
 ```
-$ ./node.sh
+$ sh node.sh
 ```
 ```
 $ export BROWSER=<имя браузера> ("CHROME", "FIREFOX")
@@ -29,4 +29,4 @@ $ python3 ./run_tests.py
 - [Антон Елагин](http://jira.bmstu.cloud/browse/QA-843)
 
 # Тесты
-![img](0b2a8996-c38f-42d1-8c6d-c27fcfda6364.jpg)
+![img](Снимок экрана 2020-12-01 в 23.45.34.png)
