@@ -35,15 +35,18 @@ class Steps(CommonSteps):
 
     @staticmethod
     def find_no_error():
-        Pages.find_no_error()
+        label = Pages.find_no_error()
+        return label
 
     @staticmethod
     def find_pin_error():
-        Pages.find_pin_error()
+        label = Pages.find_pin_error()
+        return label
 
     @staticmethod
     def find_desk_error():
-        Pages.find_desk_error()
+        label = Pages.find_desk_error()
+        return label
 
     @staticmethod
     def create_pin():
@@ -51,7 +54,8 @@ class Steps(CommonSteps):
 
     @staticmethod
     def find_ok_messsage():
-        Pages.find_ok_messsage()
+        label = Pages.find_ok_messsage()
+        return label
 
     @staticmethod
     def create_desk():

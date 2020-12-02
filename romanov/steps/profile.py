@@ -18,61 +18,75 @@ class Steps(CommonSteps):
 
     @staticmethod
     def open_chat():
-        Pages.click_chat()
+        link = Pages.click_chat()
+        return link
 
     @staticmethod
     def following():
-        Pages.click_following_user()
+        label = Pages.click_following_user()
+        return label
 
     @staticmethod
     def unfollowing():
-        Pages.click_unfollowing_user()
+        label = Pages.click_unfollowing_user()
+        return label
 
     @staticmethod
     def open_desk():
-        Pages.open_first_desk()
+        link = Pages.open_first_desk()
+        return link
 
     @staticmethod
     def open_settings():
-        Pages.click_settings()
+        link = Pages.click_settings()
+        return link
 
     @staticmethod
     def new_pin():
-        Pages.click_new_pin()
+        text = Pages.click_new_pin()
+        return text
 
     @staticmethod
     def open_subs():
-        Pages.click_subs()
+        link = Pages.click_subs()
+        return link
 
     @staticmethod
     def open_empty_pins():
         Pages.click_user_pins()
-        Pages.find_empty_feed()
+        label = Pages.find_empty_feed()
+        return label
 
     @staticmethod
     def open_user_pins():
-        Pages.click_user_pins()
+        link = Pages.click_user_pins()
+        return link
 
     @staticmethod
     def logout():
-        Pages.click_exit()
+        label = Pages.click_exit()
+        return label
 
     @staticmethod
     def click_empty_followers():
         Pages.click_user_followers()
-        Pages.find_empty_modal()
+        label = Pages.find_empty_modal()
+        return label
 
     @staticmethod
     def click_empty_followings():
         Pages.click_user_followings()
-        Pages.find_empty_modal()
+        label = Pages.find_empty_modal()
+        return label
 
     @staticmethod
     def click_followers():
         Pages.click_user_followers()
-        Pages.find_users_modal()
+        label = Pages.find_users_modal()
+        return label
 
     @staticmethod
     def click_followings():
         Pages.click_user_followings()
-        Pages.find_users_modal()
+        label = Pages.find_users_modal()
+        return label

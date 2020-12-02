@@ -22,12 +22,14 @@ class Pages:
     @staticmethod
     def find_success_modal():
         connect.load_wait(css=modal_settings)
+        label = connect.find_el_css(modal_settings).el.text
+        return label
 
     @staticmethod
     def find_info_error():
         connect.load_wait(css=error_message)
         label = connect.find_el_css(error_message).el.text
-        assert label != ''
+        return label
 
     @staticmethod
     def enter_pass(password=connect.password):

@@ -65,8 +65,10 @@ class Steps(CommonSteps):
 
     @staticmethod
     def find_success_modal():
-        Pages.find_success_modal()
+        label = Pages.find_success_modal()
+        return label
 
     @staticmethod
     def find_info_error():
-        Pages.find_info_error()
+        label = Pages.find_info_error()
+        return label

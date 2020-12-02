@@ -53,19 +53,19 @@ class Pages:
     def find_no_error():
         connect.load_wait(css=page_no_error_info)
         label = connect.find_el_css(page_no_error_info).el.text
-        assert label == ''
+        return label
 
     @staticmethod
     def find_pin_error():
         connect.load_wait(css=page_error_info)
         label = connect.find_el_css(page_error_info).el.text
-        assert label != ''
+        return label
 
     @staticmethod
     def find_desk_error():
         connect.load_wait(css=modal_error_info)
         label = connect.find_el_css(modal_error_info).el.text
-        assert label != ''
+        return label
 
     @staticmethod
     def clear_name():
@@ -109,3 +109,5 @@ class Pages:
     @staticmethod
     def find_ok_messsage():
         connect.load_wait(css=modal_message)
+        label = connect.find_el_css(modal_message).el.text
+        return label

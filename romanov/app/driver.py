@@ -12,8 +12,8 @@ from selenium.webdriver.chrome.webdriver import Options as ChromeOptions
 class Connect:
     def __init__(self):
         self.timeout = 15
-        self.username = os.environ.get('LOGIN', 'test1234678')
-        self.password = os.environ.get('PASSWORD', '123456')
+        self.username = os.environ.get('LOGIN')
+        self.password = os.environ.get('PASSWORD')
         self.browser = os.environ.get('BROWSER', 'CHROME')
 
         self.options = None

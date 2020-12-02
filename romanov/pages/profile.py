@@ -30,7 +30,7 @@ class Pages:
         desk = connect.find_el_css(first_desk_user_page)
         link = desk.el.get_attribute('href')
         desk.click_after_wait()
-        assert connect.driver.current_url == link
+        return link
 
     @staticmethod
     def click_settings():
@@ -38,7 +38,7 @@ class Pages:
         settings = connect.find_el_css(settings_btn)
         link = settings.el.get_attribute('href')
         settings.click_after_wait()
-        assert connect.driver.current_url == link
+        return link
 
     @staticmethod
     def click_chat():
@@ -46,7 +46,7 @@ class Pages:
         chat = connect.find_el_css(chat_btn)
         link = chat.el.get_attribute('href')
         chat.click_after_wait()
-        assert connect.driver.current_url == link
+        return link
 
     @staticmethod
     def click_following_user():
@@ -54,6 +54,7 @@ class Pages:
         following = connect.find_el_css(follow_btn)
         following.click_after_wait()
         following.change_wait('value', 'Отписаться')
+        return following.el.get_attribute('value')
 
     @staticmethod
     def click_unfollowing_user():
@@ -61,6 +62,7 @@ class Pages:
         following = connect.find_el_css(follow_btn)
         following.click_after_wait()
         following.change_wait('value', 'Подписаться')
+        return following.el.get_attribute('value')
 
     @staticmethod
     def click_new_pin():
@@ -68,6 +70,8 @@ class Pages:
         new_pin = connect.find_el_css(new_el_btn)
         new_pin.click_after_wait()
         connect.load_wait(css=modal_new_el)
+        label = connect.find_el_css(modal_new_el).el.text
+        return label
 
     @staticmethod
     def click_subs():
@@ -75,7 +79,7 @@ class Pages:
         subs = connect.find_el_css(subs_btn)
         link = subs.el.get_attribute('href')
         subs.click_after_wait()
-        assert connect.driver.current_url == link
+        return link
 
     @staticmethod
     def click_user_pins():
@@ -83,13 +87,14 @@ class Pages:
         pins = connect.find_el_css(user_pins_btn)
         link = pins.el.get_attribute('href')
         pins.click_after_wait()
-        assert connect.driver.current_url == link
+        return link
 
     @staticmethod
     def find_empty_feed():
         connect.load_wait(css=info_feed)
         label = connect.find_el_css(info_feed)
         label.change_wait_text('Нет пинов у данного пользователя')
+        return label.el.text
 
     @staticmethod
     def click_exit():
@@ -97,6 +102,8 @@ class Pages:
         exit = connect.find_el_css(exit_btn)
         exit.click_after_wait()
         connect.load_wait(css=menu_alien)
+        label = connect.find_el_css(menu_alien)
+        return label
 
     @staticmethod
     def click_user_followers():
@@ -112,9 +119,12 @@ class Pages:
 
     @staticmethod
     def find_empty_modal():
+        connect.load_wait(css=modal)
         label = connect.find_el_css(css=modal).el.text
-        assert label == ''
+        return label
 
     @staticmethod
     def find_users_modal():
         connect.load_wait(css=follow_block)
+        label = connect.find_el_css(css=follow_block).el.text
+        return label

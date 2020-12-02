@@ -6,91 +6,111 @@ from romanov.steps.profile import Steps
 
 from romanov.app.driver import connect
 
+EMPTY = ""
+EMPTY_FEED = "Нет пинов у данного пользователя"
+FOLLOW = "Подписаться"
+UNFOLLOW = "Отписаться"
 
 class ProfileTest(unittest.TestCase):
     def test_desk_open(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile()
-        profile.open_desk()
+        link = profile.open_desk()
+        self.assertEqual(link, connect.driver.current_url)
 
     def test_settings_open(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile()
-        profile.open_settings()
+        link = profile.open_settings()
+        self.assertEqual(link, connect.driver.current_url)
 
     def test_new_pin_open(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile()
-        profile.new_pin()
+        label = profile.new_pin()
+        self.assertNotEqual(label, EMPTY)
 
     def test_subs_open(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile()
-        profile.open_subs()
+        link = profile.open_subs()
+        self.assertEqual(link, connect.driver.current_url)
 
     def test_user_pins_open(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile()
-        profile.open_user_pins()
+        link = profile.open_user_pins()
+        self.assertEqual(link, connect.driver.current_url)
 
     def test_logout_user(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile()
-        profile.logout()
+        label = profile.logout()
+        self.assertNotEqual(label, EMPTY)
 
     def test_following_zero_user(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile(50)
-        profile.click_empty_followings()
+        label = profile.click_empty_followings()
+        self.assertEqual(label, EMPTY)
 
     def test_followers_zero_user(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile(50)
-        profile.click_empty_followers()
+        label = profile.click_empty_followers()
+        self.assertEqual(label, EMPTY)
 
     def test_followers_user(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile(2)
-        profile.click_followers()
+        label = profile.click_followers()
+        self.assertNotEqual(label, EMPTY)
 
     def test_following_user(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile(2)
-        profile.click_followings()
+        label = profile.click_followings()
+        self.assertNotEqual(label, EMPTY)
 
     def test_empty_pins_open(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile(50)
-        profile.open_empty_pins()
+        label = profile.open_empty_pins()
+        self.assertEqual(label, EMPTY_FEED)
 
     def test_chat_open(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile(50)
-        profile.open_chat()
+        link = profile.open_chat()
+        self.assertEqual(link, connect.driver.current_url)
 
     def test_following_user(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile(50)
-        profile.following()
-        profile.unfollowing()
+        label = profile.following()
+        self.assertEqual(label, UNFOLLOW)
+        label = profile.unfollowing()
+        self.assertEqual(label, FOLLOW)
 
     def test_following_user_refresh(self):
         profile = Steps()
-        AuthSteps.login_app()
+        AuthSteps.login_app(self)
         profile.open_user_profile(50)
-        profile.following()
+        label = profile.following()
+        self.assertEqual(label, UNFOLLOW)
         profile.open_user_profile(50)
-        profile.unfollowing()
+        label = profile.unfollowing()
+        self.assertEqual(label, FOLLOW)

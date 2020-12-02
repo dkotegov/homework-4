@@ -2,6 +2,7 @@ from romanov.steps.common import CommonSteps
 from romanov.pages.auth import Pages
 from romanov.app.driver import connect
 
+GOOD_AUTH = "С возвращением!"
 
 class Steps(CommonSteps):
     def __init__(self):
@@ -32,12 +33,14 @@ class Steps(CommonSteps):
     @staticmethod
     def login():
         Pages.click_login()
-        Pages.wait_modal_welcome()
+        text = Pages.wait_modal_welcome()
+        return text
 
     @staticmethod
     def reg():
         Pages.click_reg()
-        Pages.wait_modal_welcome()
+        text = Pages.wait_modal_welcome()
+        return text
 
     @staticmethod
     def enter_login(login):
@@ -52,11 +55,12 @@ class Steps(CommonSteps):
         Pages.click_login()
 
     @staticmethod
-    def login_app():
+    def login_app(unit):
         Steps.open_app()
         Steps.open_login()
         Steps.enter_login_data()
-        Steps.login()
+        res = Steps.login()
+        unit.assertEqual(res, GOOD_AUTH)
         Steps.close_welcome()
 
     @staticmethod
@@ -73,7 +77,8 @@ class Steps(CommonSteps):
 
     @staticmethod
     def find_info_error():
-        Pages.find_info_error()
+        text = Pages.find_info_error()
+        return text
 
     @staticmethod
     def find_auth_menu():

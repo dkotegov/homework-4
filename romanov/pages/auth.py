@@ -62,16 +62,20 @@ class Pages:
     @staticmethod
     def wait_modal_welcome():
         connect.load_wait(css=modal_start)
+        label = connect.find_el_css(modal_start).el.text
+        return label
 
     @staticmethod
     def find_info_error():
         connect.load_wait(css=modal_info)
         label = connect.find_el_css(modal_info).el.text
-        assert label != ''
+        return label
 
     @staticmethod
     def find_auth_menu():
         connect.load_wait(css=menu_user)
+        label = connect.find_el_css(menu_user).el.text
+        return label
 
     @staticmethod
     def clear_auth():
