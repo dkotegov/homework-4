@@ -2,6 +2,9 @@ import os
 import unittest
 from urllib.parse import urljoin
 
+import time
+
+from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import DesiredCapabilities, Remote, ActionChains
@@ -196,6 +199,8 @@ class Pin(Component):
     AUTHORAVATAR = "//div[@class='author']/img"
     SAVEFORM = "saveBtnModal"
     SAVEPIN = "saveChoosePin"
+    SELECTNAME = '//*[@id="deskSelect"]'
+    SELECTTAG = 'option'
     MESSAGE = "//*[@id='closeInfo']"
 
     def get_name_pin(self):
@@ -224,6 +229,8 @@ class Pin(Component):
         ).click()
 
     def save_pin(self):
+        e = self.driver.find_element_by_xpath(self.SELECTNAME)
+        WebDriverWait(e, 30, 0.1).until(lambda e : e.find_element_by_tag_name(self.SELECTTAG))
         elem = WebDriverWait(self.driver, 30, 0.1).until(EC.element_to_be_clickable((By.ID,self.SAVEPIN)))
         elem.click()
 
