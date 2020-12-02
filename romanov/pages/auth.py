@@ -62,7 +62,17 @@ class Pages:
     @staticmethod
     def wait_modal_welcome():
         connect.load_wait(css=modal_start)
-        label = connect.find_el_css(modal_start).el.text
+        modal = connect.find_el_css(modal_start)
+        modal.change_wait_text('С возвращением!')
+        label = modal.el.text
+        return label
+
+    @staticmethod
+    def wait_modal_welcome_reg():
+        connect.load_wait(css=modal_start)
+        modal = connect.find_el_css(modal_start)
+        modal.change_wait_text('Регистрация завершена!\nДобро пожаловать!')
+        label = modal.el.text
         return label
 
     @staticmethod

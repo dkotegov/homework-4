@@ -39,7 +39,7 @@ class Steps(CommonSteps):
     @staticmethod
     def reg():
         Pages.click_reg()
-        text = Pages.wait_modal_welcome()
+        text = Pages.wait_modal_welcome_reg()
         return text
 
     @staticmethod
