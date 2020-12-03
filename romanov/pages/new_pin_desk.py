@@ -97,14 +97,14 @@ class Pages:
         input.input(desc)
 
     @staticmethod
-    def check_created_desk_pin_page(name):
+    def get_created_desk_pin_page():
         select = connect.find_el_css(last_desk_pin_page)
-        assert select.el.text == name
+        return select.el.text
 
     @staticmethod
-    def check_created_desk_user_page(name):
+    def get_created_desk_user_page():
         select = connect.find_el_css(last_desk_user_page)
-        assert select.el.text == name
+        return select.el.text
 
     @staticmethod
     def find_ok_messsage():
