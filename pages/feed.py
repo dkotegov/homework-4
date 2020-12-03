@@ -58,6 +58,28 @@ class FeedArea(Component):
 
         return authors
 
+    def get_pins_id(self):
+        WebDriverWait(self.driver, 20, 0.8).until(
+            lambda d: d.find_element_by_xpath(self.FEED_COLUMNS)
+        )
+        pins_count = self.get_pins_count()
+
+        ids = []
+        pin_page = PinPage(self.driver)
+        pin_modal = pin_page.pin_modal
+        for i in range(pins_count):
+            selector = self.FEED_COLUMNS + '/div[' + str(i + 1) + ']'
+            WebDriverWait(self.driver, 20, 0.1).until(
+                lambda d: d.find_element_by_xpath(selector)
+            )
+            self.driver.find_element_by_xpath(selector).click()
+            pin_modal.get_author()
+            id = self.driver.current_url.split('/')[-1]
+            ids.append(id)
+            self.driver.execute_script("window.history.go(-1)")
+
+        return ids
+
     def get_load_msg(self):
         WebDriverWait(self.driver, 20, 0.1).until(
             lambda d: d.find_element_by_xpath(self.MAIN_PAGE_INFO)
