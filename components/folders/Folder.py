@@ -20,7 +20,7 @@ class Folder(BaseSteps):
 
     def wait_folder(self, folder_name):
         folder_xpath = '//div[@data-test-id="folder:{}"]'.format(folder_name)
-        self.wait_until_and_get_elem_by_xpath(folder_xpath + self.DELETE_FOLDER)
+        return self.wait_until_and_get_elem_by_xpath(folder_xpath)
 
     def wait_form(self):
         self.wait_until_and_get_elem_by_xpath(self.FORM_CONTAINER)

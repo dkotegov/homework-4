@@ -29,7 +29,7 @@ class PasswordTest(unittest.TestCase):
     def tearDown(self) -> None:
         self.driver.quit()
 
-    def test_send_empty_form(self):
+    def test_send_empty_form(self) -> None:
         self.page.send_empty_form()
         self.assertTrue(
             self.page.is_new_password_error()
@@ -37,8 +37,9 @@ class PasswordTest(unittest.TestCase):
             and self.page.is_repeat_password_error()
         )
 
-    def test_change_password(self):
-        NEW_PASSWORD = "12893490278kek"
+    def test_change_password(self) -> None:
+        NEW_PASSWORD = '12893490278kek'
+
 
         self.page.change_password(self.password, NEW_PASSWORD)
         changed = self.page.is_password_changed()
@@ -48,61 +49,53 @@ class PasswordTest(unittest.TestCase):
         changed_again = self.page.is_password_changed()
         self.assertTrue(changed and changed_again)
 
-    def test_change_password_with_invalid_repeat_password(self):
-        NEW_PASSWORD = "12893490278kek"
+    def test_change_password_with_invalid_repeat_password(self) -> None:
+        NEW_PASSWORD = '12893490278kek'
 
         self.page.send_form_with_uncorrect_repeat(NEW_PASSWORD, self.password)
-        self.assertTrue(
-            self.page.is_new_password_error() and self.page.is_repeat_password_error()
-        )
+        self.assertTrue(self.page.is_repeat_password_equal())
 
-    def test_generate_password(self):
+
+    def test_generate_password(self) -> None:
         self.page.generate_password()
-        self.assertTrue(self.page.get_new_password_security() == "Надёжный пароль")
+        # self.assertTrue(self.page.get_new_password_security() == "success")
 
         self.assertEqual(
             self.page.get_repeat_password_value(), self.page.get_new_password_value()
         )
 
-    def test_long_new_password(self):
-        text = self.page.set_new_password_and_get_password_security_value(
-            "12345678aB12345678aB12345678aB12345678aB1"
-        )
-        self.assertEqual(text, "Пароль слишком длинный")
+    def test_long_new_password(self) -> None:
+        self.page.set_new_password("12345678aB12345678aB12345678aB12345678aB1")
+        self.assertTrue(self.page.check_password_security_value_equal('block'))
 
-    def test_numeric_new_password(self):
-        text = self.page.set_new_password_and_get_password_security_value("1234567890")
-        self.assertEqual(text, "Ненадёжный пароль")
+    def test_numeric_new_password(self) -> None:
+        self.page.set_new_password("1234567890")
+        self.assertTrue(self.page.check_password_security_value_equal('error'))
 
-    def test_small_new_password(self):
-        text = self.page.set_new_password_and_get_password_security_value("aa12A")
-        self.assertEqual(text, "Ненадёжный пароль")
+    def test_small_new_password(self) -> None:
+        self.page.set_new_password("aa12A")
+        self.assertTrue(self.page.check_password_security_value_equal('error'))
 
-    def test_close_popup(self):
+
+    def test_close_popup(self) -> None:
         self.page.close_popup()
         self.assertFalse(self.page.is_popup_open())
 
-    def test_cancel_popup(self):
+    def test_cancel_popup(self) -> None:
         self.page.cancel()
         self.assertFalse(self.page.is_popup_open())
 
-    def test_password_visibity(self):
+    def test_password_visibility(self) -> None:
         self.page.change_fields(self.password, "PASSW0RdD")
 
         self.page.change_new_password_visibility()
         self.page.change_old_password_visibility()
 
-        isOkey = (
-            self.page.is_new_password_visible() and self.page.is_old_password_visibile()
-        )
+        is_success = self.page.is_new_password_visible() and self.page.is_old_password_visibile()
+
 
         self.page.change_new_password_visibility()
         self.page.change_old_password_visibility()
 
-        self.assertTrue(
-            not (
-                self.page.is_new_password_visible()
-                or self.page.is_old_password_visibile()
-            )
-            and isOkey
-        )
+        self.assertTrue(not (self.page.is_new_password_visible() or self.page.is_old_password_visibile()) and is_success)
+

@@ -11,8 +11,8 @@ class UpdatePasswordPage(Page):
         return UpdatePasswordSteps(self.driver)
 
     def set_password(self, password_context):
-        self.update_password_steps.set_password(password_context["password"])
-        self.update_password_steps.set_re_password(password_context["re_password"])
+        self.update_password_steps.set_password(password_context["folder_password"])
+        self.update_password_steps.set_re_password(password_context["folder_re_password"])
         self.update_password_steps.set_question(password_context["question"])
         self.update_password_steps.set_question_answer(
             password_context["question_answer"]

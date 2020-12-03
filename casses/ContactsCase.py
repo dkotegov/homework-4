@@ -29,15 +29,15 @@ class ContactsTest(unittest.TestCase):
     def tearDown(self) -> None:
         self.driver.quit()
 
-    def test_add_email_button(self):
+    def test_add_email_button(self) -> None:
         self.page.open_add_email_popup()
         self.assertTrue(self.page.is_add_email_popup_open())
 
-    def test_add_phone_button(self):
+    def test_add_phone_button(self) -> None:
         self.page.open_add_phone_popup()
         self.assertTrue(self.page.is_add_phone_popup_open())
 
-    def test_delete_email(self):
+    def test_delete_email(self) -> None:
         self.page.open_add_email_popup()
         self.page.add_backup_email("test_login_a.elagin1@mail.ru")
 
@@ -46,21 +46,19 @@ class ContactsTest(unittest.TestCase):
 
         self.assertTrue(self.page.has_not_backup_email())
 
-    def test_invalid_phone(self):
+    def test_invalid_phone(self) -> None:
         self.page.open_add_phone_popup()
+        self.page.send_phone('1231')
 
-        self.page.send_phone("1231")
+        self.assertTrue(self.page.is_phone_error())
 
-        self.assertEqual(
-            self.page.get_phone_error(), "Неправильный номер. Укажите другой."
-        )
 
-    def test_close_phone_popup(self):
+    def test_close_phone_popup(self) -> None:
         self.page.open_add_phone_popup()
         self.page.close_phone_popup()
         self.assertTrue(self.page.is_add_phone_popup_close())
 
-    def test_cancel_phone_popup(self):
+    def test_cancel_phone_popup(self) -> None:
         self.page.open_add_phone_popup()
-        self.page.cancle_phone_popup()
+        self.page.cancel_phone_popup()
         self.assertTrue(self.page.is_add_phone_popup_close())

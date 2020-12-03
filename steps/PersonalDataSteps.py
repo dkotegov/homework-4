@@ -1,5 +1,3 @@
-import time
-
 from .BaseSteps import BaseSteps, clear
 from selenium.common.exceptions import TimeoutException
 
@@ -28,6 +26,7 @@ class PersonalDataSteps(BaseSteps):
     upload_process = '//div[@data-test-id="photo-upload-progress"]'
     photo_ready = '//div[@data-test-id="photo-overlay"]'
     accept_city_popup = '//div[@data-test-id="select-value:Москва, Россия"]'
+    name_surname_left_bar_path = '//h3[@data-test-id="full-name"]'
 
     def upload_avatar(self, path: str):
         el = self.wait_until_and_get_invisible_elem_by_xpath(self.avatar_input)
@@ -46,25 +45,28 @@ class PersonalDataSteps(BaseSteps):
     def fill_nickanme(self, nickname):
         self.fill_input(self.nickname_path, nickname)
 
-    def fill_city(self, city):
+    def fill_city(self, city, is_correct: bool):
         self.fill_city_input(self.city_path, city)
-        if city != "":
-            self.click_on_popup_el_if_popup_exist(self.accept_city_popup)
+        if city != "" and is_correct:
+            self.wait_until_and_get_elem_by_xpath(self.accept_city_popup).click()
 
-    def collect_errors(self) -> InputAnnotationsErrors:
+    def collect_errors(self, collect_err_about: str) -> InputAnnotationsErrors:
         """
-        :return: Возвращает структуру с ошибками в процессе заполнения формы
+        :return: Возвращает структуру с ошибками поля в процессе заполнения формы
         """
-        name_err = self.get_element_text(self.name_err_path)
-        last_name_err = self.get_element_text(self.last_name_err_path)
-        nickname_err = self.get_element_text(self.nickname_err_path)
-        city_err = self.get_element_text(self.city_err_path)
-        return InputAnnotationsErrors(name_err, last_name_err, nickname_err, city_err)
+        errors = InputAnnotationsErrors("", "", "", "")
+        if collect_err_about == "name" or collect_err_about == "":
+            errors.name_err = self.get_element_text(self.name_err_path)
+        if collect_err_about == "lastname" or collect_err_about == "":
+            errors.last_name_err = self.get_element_text(self.last_name_err_path)
+        if collect_err_about == "nickname" or collect_err_about == "":
+            errors.nickname_err = self.get_element_text(self.nickname_err_path)
+        if collect_err_about == "city" or collect_err_about == "":
+            errors.city_err = self.get_element_text(self.city_err_path)
+        return errors
 
-    def click_submit(self) -> InputAnnotationsErrors:
-        btn = self.wait_until_and_get_elem_by_xpath(self.submit_btn_path)
-        btn.click()
-        return self.collect_errors()
+    def click_submit(self):
+        self.wait_until_and_get_elem_by_xpath(self.submit_btn_path).click()
 
     def check_if_uploaded(self):
         try:
@@ -76,8 +78,6 @@ class PersonalDataSteps(BaseSteps):
 
     def fill_city_input(self, city_path, city):
         """
-        Так как pop up с выбором города очень тупой и использует React,
-         мы будем ждать пока он раздуплиться, иначе просто не работает(я пытался)
         :param city_path:
         :param city:
         :return:
@@ -85,8 +85,14 @@ class PersonalDataSteps(BaseSteps):
         el = self.wait_until_and_get_elem_by_xpath(city_path)
         el.click()
         clear(el)
-        time.sleep(2)
         el.send_keys(city)
-        time.sleep(2)
-        el.submit()
-        time.sleep(2)
+
+    def get_name_surname_from_left_bar(self) -> (str, str):
+        """
+        :return: Получает имя и фамилию из бокового бара
+        """
+        text = str(
+            self.wait_until_and_get_elem_by_xpath(self.name_surname_left_bar_path).text
+        )
+        splited = text.split(" ")
+        return splited[0], splited[1]

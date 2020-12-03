@@ -32,28 +32,29 @@ class PersonalDataTests(unittest.TestCase):
         self.driver.quit()
 
     def test_empty_city(self):
-        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "", collect_err_about="city")
         self.assertEqual(errors.city_err, "Укажите город")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
         self.assertEqual(errors.nickname_err, "")
 
     def test_fill_form_with_empty_name(self):
-        errors = self.data_page.fill_form("", "Фамилия", "Никнейм", "Москва")
+        errors = self.data_page.fill_form("", "Фамилия", "Никнейм", "Москва", collect_err_about="name")
         self.assertEqual(errors.city_err, "")
         self.assertEqual(errors.name_err, "Укажите имя")
         self.assertEqual(errors.last_name_err, "")
         self.assertEqual(errors.nickname_err, "")
 
     def test_city_wrong(self):
-        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "123")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "123", collect_err_about="city",
+                                          is_city_correct=False)
         self.assertEqual(errors.city_err, "Проверьте название города")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
         self.assertEqual(errors.nickname_err, "")
 
     def test_fill_with_empty_nickanme(self):
-        errors = self.data_page.fill_form("Имя", "Фамилия", "", "Москва")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "", "Москва", collect_err_about="nickname")
         self.assertEqual(errors.city_err, "")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")
@@ -112,3 +113,19 @@ class PersonalDataTests(unittest.TestCase):
         self.data_page.open(self.data_page.BASE_URL)
         test_path = os.path.abspath("./avatar.jpg")
         self.assertTrue(self.data_page.change_avatar(test_path))
+
+    def test_all_ok_data(self):
+        errors = self.data_page.fill_form("Имя2", "Фамилия2", "Никнейм2", "Москва")
+        self.check_no_errors(errors)
+        self.data_page.reload()
+        newName, newSurname = self.data_page.get_name_surname_from_left_bar()
+        self.assertEqual(newName, "Имя2")
+        self.assertEqual(newSurname, "Фамилия2")
+
+    def test_different_case(self):
+        errors = self.data_page.fill_form("Имя3", "Фамилия3", "Никнейм3", "МоСкВа")
+        self.check_no_errors(errors)
+        self.data_page.reload()
+        newName, newSurname = self.data_page.get_name_surname_from_left_bar()
+        self.assertEqual(newName, "Имя3")
+        self.assertEqual(newSurname, "Фамилия3")

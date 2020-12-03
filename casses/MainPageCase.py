@@ -38,24 +38,24 @@ class MainPageTests(unittest.TestCase):
     def clear_email_after_tests(self):
         try:
             self.main_page.clear_reserve_email()
-        except TimeoutException: # Значит Email уже очищен
+        except TimeoutException:  # Значит Email уже очищен
             pass
 
     def test_go_to_all_settings(self):
         self.go_to_main()
-        ok = self.main_page.click_get_all_settings() # Произошел ли успешный переход
-        self.assertTrue(ok)
+        text = self.main_page.click_get_all_settings()
+        self.assertEqual(text, "Контакты и адреса")
 
     def test_change_personal_info(self):
         self.go_to_main()
-        ok = self.main_page.click_change_personal_info() # Произошел ли успешный переход
-        self.assertTrue(ok)
+        text = self.main_page.click_change_personal_info()
+        self.assertEqual(text, "Личные данные")
 
     def test_click_add_reserve_email(self):
         self.clear_email_after_tests()
         self.go_to_main()
-        ok = self.main_page.click_add_reserve_email() # Произошел ли успешный переход
-        self.assertTrue(ok)
+        text = self.main_page.click_add_reserve_email()
+        self.assertEqual(text, "Добавление резервной почты")
 
     def test_check_empty_email(self):
         self.clear_email_after_tests()

@@ -11,10 +11,10 @@ class ContactsSteps(BaseSteps):
 
     phone_input = '//input[@data-test-id="phone-input"]'
     email_input = '//input[@data-test-id="recovery-addEmail-emailField-input"]'
-    phone_input_error = '//*[@data-test-id="recovery-error-invalidPhone"]/span'
+    phone_input_error = '//*[@data-test-id="error-footer-text"]'
 
     close_popup_button = '//*[@data-test-id="cross"]'
-    cancle_popup_button = '//button[@data-test-id="recovery-addPhone-cancel"]'
+    cancel_popup_button = '//button[@data-test-id="recovery-addPhone-cancel"]'
     phone_submit_button = '//button[@data-test-id="recovery-addPhone-submit"]'
     email_submit_button = '//button[@data-test-id="recovery-addEmail-submit"]'
 
@@ -38,8 +38,8 @@ class ContactsSteps(BaseSteps):
     def click_close_popup_button(self):
         self.wait_until_and_get_elem_by_xpath(self.close_popup_button).click()
 
-    def click_cancle_popup_button(self):
-        self.wait_until_and_get_elem_by_xpath(self.cancle_popup_button).click()
+    def click_cancel_popup_button(self):
+        self.wait_until_and_get_elem_by_xpath(self.cancel_popup_button).click()
 
     def submit_phone_form_button(self):
         self.wait_until_and_get_elem_by_xpath(self.phone_submit_button).click()
@@ -54,7 +54,7 @@ class ContactsSteps(BaseSteps):
         self.wait_until_and_get_elem_by_xpath(self.email_input).send_keys(email)
 
     def get_phone_input_error(self):
-        return self.wait_until_and_get_elem_by_xpath(self.phone_input_error).text
+        return self.wait_until_and_get_elem_by_xpath(self.phone_input_error)
 
     def has_backup_email(self):
         return self.wait_until_and_get_elem_by_xpath(self.backup_email_element)

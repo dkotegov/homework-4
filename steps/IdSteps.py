@@ -45,16 +45,6 @@ class PersonaInfoSteps(BaseSteps):
         splited = text.split(" ")
         return splited[0], splited[1]
 
-    def get_name_surname_from_left_bar(self) -> (str, str):
-        """
-        :return: Получает имя и фамилию из бокового бара
-        """
-        text = str(
-            self.wait_until_and_get_elem_by_xpath(self.name_surname_left_bar_path).text
-        )
-        splited = text.split(" ")
-        return splited[0], splited[1]
-
     def click_add_reserve_email(self):
         """
         :return: Текст хедера в pop up добавления почты

@@ -55,31 +55,16 @@ class PasswordForm(BaseSteps):
 
     @property
     def invalid_re_password_error(self):
-        return (
-            len(self.driver.find_elements_by_xpath(self.INVALID_RE_PASSWORD_ERROR)) != 0
-        )
+        return len(self.driver.find_elements_by_xpath(self.INVALID_RE_PASSWORD_ERROR)) != 0
 
     @property
     def invalid_secret_question_error(self):
-        return (
-            len(self.driver.find_elements_by_xpath(self.INVALID_SECRET_QUESTION_ERROR))
-            != 0
-        )
+        return len(self.driver.find_elements_by_xpath(self.INVALID_SECRET_QUESTION_ERROR)) != 0
 
     @property
     def invalid_secret_question_answer_error(self):
-        return (
-            len(
-                self.driver.find_elements_by_xpath(
-                    self.INVALID_SECRET_QUESTION_ANSWER_ERROR
-                )
-            )
-            != 0
-        )
+        return len(self.driver.find_elements_by_xpath(self.INVALID_SECRET_QUESTION_ANSWER_ERROR)) != 0
 
     @property
     def invalid_user_password_error(self):
-        return (
-            len(self.driver.find_elements_by_xpath(self.INVALID_USER_PASSWORD_ERROR))
-            != 0
-        )
+        return len(self.driver.find_elements_by_xpath(self.INVALID_USER_PASSWORD_ERROR)) != 0

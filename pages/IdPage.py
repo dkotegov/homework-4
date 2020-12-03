@@ -11,38 +11,25 @@ class Main_page(Page):
     def personal_info_steps(self):
         return PersonaInfoSteps(self.driver)
 
-    def click_change_personal_info(self) -> bool:
-        """
-        :return: Произошел ли удачный переход на страницу смены информации
-        """
-        text = self.personal_info_steps.click_personal_info_settings()
-        if text == "Личные данные":
-            return True
-        return False
+    def click_change_personal_info(self) -> str:
+        return self.personal_info_steps.click_personal_info_settings()
 
-    def click_get_all_settings(self) -> bool:
+    def click_get_all_settings(self) -> str:
         """
-        :return: Произошел ли удачный переход
+        :return: Текст заголовка
         """
-        text = self.personal_info_steps.click_all_settings()
-        if text == "Контакты и адреса":
-            return True
-        return False
+        return self.personal_info_steps.click_all_settings()
 
-    def get_name_surname_from_left_bar(self) -> (str, str):
-        return self.personal_info_steps.get_name_surname_from_left_bar()
+
 
     def get_name_surname_from_card(self) -> (str, str):
         return self.personal_info_steps.get_name_surname_from_card()
 
     def click_add_reserve_email(self) -> bool:
         """
-        :return: Произошел ли удачный переход
+        :return: Текст в хедере
         """
-        text = self.personal_info_steps.click_add_reserve_email()
-        if text == "Добавление резервной почты":
-            return True
-        return False
+        return self.personal_info_steps.click_add_reserve_email()
 
     def add_email(self, email) -> str:
         """
