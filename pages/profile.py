@@ -18,6 +18,9 @@ class ProfilePage(Page):
 class ProfileArea(Component):
     DESK_PREVIEW = '//*[@class="deskPreview"]'
 
+
+    USERS_PINS = '//*[@id="allUserPinsLink"]'
+
     ALL_USERS_LINK = '//*[@id="allUserPinsLink"]'
 
     SHOW_FOLLOW = '//*[@id="followBlock"]/a[2]/div'

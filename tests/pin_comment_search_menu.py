@@ -233,6 +233,7 @@ class Pin(Component):
         WebDriverWait(e, 30, 0.1).until(lambda e : e.find_element_by_tag_name(self.SELECTTAG))
         elem = WebDriverWait(self.driver, 30, 0.1).until(EC.element_to_be_clickable((By.ID,self.SAVEPIN)))
         elem.click()
+        return self.driver.current_url.split('/')[-1]
 
     def get_save_info(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
