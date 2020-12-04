@@ -57,11 +57,8 @@ class Steps(CommonSteps):
         Pages.close_done()
 
     @staticmethod
-    def equal_data(email, desc, login=None):
-        if login is None:
-            Pages.equal_data(email, desc)
-        else:
-            Pages.equal_data(email, desc, login)
+    def get_data():
+        return Pages.get_data()
 
     @staticmethod
     def find_success_modal():

@@ -10,6 +10,11 @@ from romanov.app.driver import connect
 EMPTY = ""
 PIN_ADDED = "Ваш пин добавлен"
 DESK_ADDED = "Новая доска создана"
+IMG_ERR = "Ошибка отправки запроса"
+IMG_EMPTY = "Загрузите изображение"
+NAME_EMPTY = "Название пина не может быть пустым"
+DESK_EMPTY = "Название доски не может быть пустым"
+DESK_ERR = "Ошибка обработки, попробуйте еще раз"
 
 class NewPinDeskTest(unittest.TestCase):
     def test_new_pin_image_upload(self):
@@ -26,7 +31,7 @@ class NewPinDeskTest(unittest.TestCase):
         new_pin_desk.open_new_pin()
         new_pin_desk.add_image('/testData/largeImage.jpg')
         label = new_pin_desk.find_pin_error()
-        self.assertNotEqual(label, EMPTY)
+        self.assertEqual(label, IMG_ERR)
 
     def test_new_pin_empty_create(self):
         new_pin_desk = Steps()
@@ -34,7 +39,7 @@ class NewPinDeskTest(unittest.TestCase):
         new_pin_desk.open_new_pin()
         new_pin_desk.create_pin()
         label = new_pin_desk.find_pin_error()
-        self.assertNotEqual(label, EMPTY)
+        self.assertEqual(label, IMG_EMPTY)
 
     def test_new_pin_empty_input_create(self):
         new_pin_desk = Steps()
@@ -44,7 +49,7 @@ class NewPinDeskTest(unittest.TestCase):
         new_pin_desk.clear_name()
         new_pin_desk.create_pin()
         label = new_pin_desk.find_pin_error()
-        self.assertNotEqual(label, EMPTY)
+        self.assertEqual(label, NAME_EMPTY)
 
     def test_new_pin_create(self):
         new_pin_desk = Steps()
@@ -61,7 +66,7 @@ class NewPinDeskTest(unittest.TestCase):
         new_pin_desk.open_new_desk()
         new_pin_desk.create_desk()
         label = new_pin_desk.find_desk_error()
-        self.assertNotEqual(label, EMPTY)
+        self.assertEqual(label, DESK_EMPTY)
 
     def test_new_desk_create(self):
         new_pin_desk = Steps()
@@ -82,7 +87,7 @@ class NewPinDeskTest(unittest.TestCase):
             '478437843783478347834348767098765432456') # более 60-ти символов
         new_pin_desk.create_desk()
         label = new_pin_desk.find_desk_error()
-        self.assertNotEqual(label, EMPTY)
+        self.assertEqual(label, DESK_ERR)
 
     def test_new_desk_on_pin_page_create(self):
         new_pin_desk = Steps()
@@ -90,7 +95,7 @@ class NewPinDeskTest(unittest.TestCase):
         new_pin_desk.open_new_pin()
         desk_name = '1234'
         new_pin_desk.create_end_desk(desk_name, '123')
-        new_pin_desk.check_created_desk_pin_page(desk_name)
+        self.assertEqual(desk_name, new_pin_desk.get_created_desk_pin_page())
 
     def test_new_desk_on_user_page_create(self):
         new_pin_desk = Steps()
@@ -98,4 +103,4 @@ class NewPinDeskTest(unittest.TestCase):
         ProfileSteps.open_user_profile()
         desk_name = '123456'
         new_pin_desk.create_end_desk(desk_name, '123')
-        new_pin_desk.check_created_desk_user_page(desk_name)
+        self.assertEqual(desk_name, new_pin_desk.get_created_desk_user_page())

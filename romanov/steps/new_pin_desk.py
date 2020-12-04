@@ -70,12 +70,12 @@ class Steps(CommonSteps):
         Steps.find_ok_messsage()
 
     @staticmethod
-    def check_created_desk_pin_page(name):
-        Pages.check_created_desk_pin_page(name)
+    def get_created_desk_pin_page():
+        return Pages.get_created_desk_pin_page()
 
     @staticmethod
-    def check_created_desk_user_page(name):
-        Pages.check_created_desk_user_page(name)
+    def get_created_desk_user_page():
+        return Pages.get_created_desk_user_page()
 
     @staticmethod
     def enter_name(name):

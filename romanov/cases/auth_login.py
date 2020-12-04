@@ -6,6 +6,8 @@ from romanov.steps.auth import Steps
 from romanov.app.driver import connect
 
 GOOD_AUTH = "С возвращением!"
+EXIST_AUTH = "Неверный логин или пароль"
+NONCORRECT_AUTH = "Некорректный логин или пароль"
 EMPTY = ""
 
 class AuthLoginTest(unittest.TestCase):
@@ -25,7 +27,7 @@ class AuthLoginTest(unittest.TestCase):
         auth.enter_pass("test32373827")
         auth.click_login()
         res = auth.find_info_error()
-        self.assertNotEqual(res, EMPTY)
+        self.assertEqual(res, EXIST_AUTH)
 
     def test_auth_login_empty_data(self):
         auth = Steps()
@@ -35,7 +37,7 @@ class AuthLoginTest(unittest.TestCase):
         auth.enter_pass("")
         auth.click_login()
         res = auth.find_info_error()
-        self.assertNotEqual(res, EMPTY)
+        self.assertEqual(res, NONCORRECT_AUTH)
 
     def test_auth_login_refresh_page(self):
         auth = Steps()

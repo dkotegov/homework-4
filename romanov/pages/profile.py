@@ -15,6 +15,7 @@ menu_alien = '#loginPart div.buttons'
 followers_label = '#followersModal .follow'
 following_label = '#followingModal .follow'
 modal = '#modal'
+settings_page = '#userPass'
 follow_block = '#followBlockModal'
 
 class Pages:
@@ -38,6 +39,7 @@ class Pages:
         settings = connect.find_el_css(settings_btn)
         link = settings.el.get_attribute('href')
         settings.click_after_wait()
+        connect.load_wait(css=settings_page)
         return link
 
     @staticmethod

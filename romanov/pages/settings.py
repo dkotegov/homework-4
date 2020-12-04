@@ -75,15 +75,14 @@ class Pages:
         close_btn.click_after_wait()
 
     @staticmethod
-    def equal_data(email, desc, username=connect.username):
+    def get_data():
         connect.load_wait(id=email_input)
-        label = connect.find_el_id(email_input).el.get_attribute('value')
-        assert label == email
+        email = connect.find_el_id(email_input).el.get_attribute('value')
 
         connect.load_wait(id=user_desc)
-        label = connect.find_el_id(user_desc).el.get_attribute('value')
-        assert label == desc
+        desc = connect.find_el_id(user_desc).el.get_attribute('value')
 
         connect.load_wait(id=user_input)
-        label = connect.find_el_id(user_input).el.get_attribute('value')
-        assert label == username
+        username = connect.find_el_id(user_input).el.get_attribute('value')
+
+        return email, desc, username
