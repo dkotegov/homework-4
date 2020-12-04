@@ -1,10 +1,6 @@
 import os
 import unittest
 from urllib.parse import urljoin
-
-import time
-
-from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import DesiredCapabilities, Remote, ActionChains
@@ -230,8 +226,8 @@ class Pin(Component):
 
     def save_pin(self):
         e = self.driver.find_element_by_xpath(self.SELECTNAME)
-        WebDriverWait(e, 30, 0.1).until(lambda e : e.find_element_by_tag_name(self.SELECTTAG))
-        elem = WebDriverWait(self.driver, 30, 0.1).until(EC.element_to_be_clickable((By.ID,self.SAVEPIN)))
+        WebDriverWait(e, 30, 0.1).until(lambda el: el.find_element_by_tag_name(self.SELECTTAG))
+        elem = WebDriverWait(self.driver, 30, 0.1).until(EC.element_to_be_clickable((By.ID, self.SAVEPIN)))
         elem.click()
         return self.driver.current_url.split('/')[-1]
 
@@ -308,8 +304,8 @@ class Share(Component):
 
     def share_in_service(self, name):
         WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath('//a[contains(@href,"%s")]' % name)
-        ).click()
+            EC.element_to_be_clickable((By.XPATH, '//a[contains(@href,"%s")]' % name)
+                                       )).click()
 
     def new_window_is_exist(self):
         if len(self.driver.window_handles) > 1:
@@ -329,7 +325,6 @@ class PinTest(unittest.TestCase):
     MESSAGE = "//*[@id='closeInfo']"
 
     def setUp(self):
-
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
