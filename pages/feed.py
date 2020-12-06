@@ -68,6 +68,7 @@ class FeedArea(Component):
         pin_page = PinPage(self.driver)
         pin_modal = pin_page.pin_modal
         for i in range(pins_count):
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             selector = self.FEED_COLUMNS + '/div[' + str(i + 1) + ']'
             WebDriverWait(self.driver, 20, 0.1).until(
                 lambda d: d.find_element_by_xpath(selector)
