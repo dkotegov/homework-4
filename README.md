@@ -3,16 +3,19 @@
 # Запуск
 
 ```
-$ sh grid.sh
+$ sh grid.sh&
 ```
 ```
-$ sh node.sh
+$ sh node.sh&
 ```
 ```
 $ export BROWSER=<имя браузера> ("CHROME", "FIREFOX")
 $ export LOGIN=<логин>
 $ export PASSWORD=<пароль>
-$ python3 ./run_tests.py
+```
+```
+$ pipenv update
+$ pipenv run python run_tests.py
 ```
 
 # Команда (Github)
