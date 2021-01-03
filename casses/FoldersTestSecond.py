@@ -37,9 +37,9 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.folderSteps.add_folder('folder', 'Входящие')
         self.folderSteps.wait_folder('folder')
 
-        self.__password_context = {
-            'password': 'qwertyuiop',
-            're_password': 'qwertyuiop',
+        self.__folderPasswordContext = {
+            'folder_password': 'qwertyuiop',
+            'folder_re_password': 'qwertyuiop',
             'question': 'why?',
             'question_answer': 'because',
             'current_password': os.environ['PASSWORD']
@@ -55,7 +55,6 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.main_page_folders.open(
             self.main_page_folders.BASE_URL + self.main_page_folders.PATH
         )
-
 
     def test_update_folder_name(self):
         self.main_page_folders.click_pencil_icon()
@@ -86,7 +85,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
-        context = self.__password_context.copy()
+        context = self.__folderPasswordContext.copy()
         context["folder_password"] = "ps"
         context["folder_re_password"] = "ps"
         self.update_password.set_password(context)
@@ -99,8 +98,8 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.assertTrue(ok)
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
-        context = self.__password_context.copy()
-        context["re_password"] = context["password"] + "text"
+        context = self.__folderPasswordContext.copy()
+        context["folder_re_password"] = context["folder_password"] + "text"
         self.update_password.set_password(context)
         self.assertTrue(
             self.update_password.get_password_form_errors["invalidRePassword"]
@@ -110,7 +109,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
-        context = self.__password_context.copy()
+        context = self.__folderPasswordContext.copy()
         context["question"] = ""
         self.update_password.set_password(context)
         self.assertTrue(
@@ -121,7 +120,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
-        context = self.__password_context.copy()
+        context = self.__folderPasswordContext.copy()
         context["question_answer"] = ""
         self.update_password.set_password(context)
         self.assertTrue(
@@ -132,7 +131,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
-        context = self.__password_context.copy()
+        context = self.__folderPasswordContext.copy()
         context["current_password"] = ""
         self.update_password.set_password(context)
         self.assertTrue(
@@ -143,7 +142,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
-        context = self.__password_context.copy()
+        context = self.__folderPasswordContext.copy()
         context["current_password"] = ""
         self.update_password.set_password(context)
         self.assertTrue(self.update_password.close())
@@ -152,7 +151,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
-        context = self.__password_context.copy()
+        context = self.__folderPasswordContext.copy()
         context["current_password"] = ""
         self.update_password.set_password(context)
         self.assertTrue(self.update_password.back())
@@ -161,7 +160,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.main_page_folders.click_pencil_icon()
         self.update_folder.fill_checkbox({"password": True})
         self.update_folder.save_changes()
-        context = self.__password_context.copy()
+        context = self.__folderPasswordContext.copy()
         self.update_password.set_password(context)
         ok = self.main_page_folders.click_pencil_icon()
         self.assertTrue(ok)

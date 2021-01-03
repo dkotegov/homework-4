@@ -55,7 +55,6 @@ class PasswordTest(unittest.TestCase):
         self.page.send_form_with_uncorrect_repeat(NEW_PASSWORD, self.password)
         self.assertTrue(self.page.is_repeat_password_equal())
 
-
     def test_generate_password(self) -> None:
         self.page.generate_password()
         # self.assertTrue(self.page.get_new_password_security() == "success")
@@ -75,7 +74,6 @@ class PasswordTest(unittest.TestCase):
     def test_small_new_password(self) -> None:
         self.page.set_new_password("aa12A")
         self.assertTrue(self.page.check_password_security_value_equal('error'))
-
 
     def test_close_popup(self) -> None:
         self.page.close_popup()
