@@ -28,6 +28,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
 
         auth_page = AuthPage(self.driver)
         auth_page.auth(LOGIN, PASSWORD)
+        self.__folder_name = "folder"
 
         self.main_page_folders = FoldersPage(self.driver)
         self.update_folder = UpdateFolderPage(self.driver)
@@ -47,7 +48,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
         self.go_to_main_folders()
 
     def tearDown(self) -> None:
-        self.folderSteps.delete_folder("folder")
+        self.folderSteps.delete_folder(self.__folder_name)
         self.go_to_main_folders()
         self.driver.quit()
 
@@ -59,6 +60,7 @@ class FoldersTestSecond(BaseTest, unittest.TestCase):
     def test_update_folder_name(self):
         self.main_page_folders.click_pencil_icon()
         is_filled = self.update_folder.fill_name("newFolder")
+        self.__folder_name = "newFolder"
         self.assertTrue(is_filled)
 
     def test_select_top_folder(self):
