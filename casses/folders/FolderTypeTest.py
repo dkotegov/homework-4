@@ -12,6 +12,7 @@ class FolderTypeTest(BaseTest, unittest.TestCase):
 
     def tearDown(self):
         self.__folder_steps.delete_folder(self.__folder_name)
+        self.__folder_steps.wait_delete_folder(self.__folder_name)
         super(FolderTypeTest, self).tearDown()
 
     def test_select_top_folder(self):
