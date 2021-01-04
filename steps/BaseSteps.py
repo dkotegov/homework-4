@@ -61,7 +61,7 @@ class BaseSteps(object):
 
     def wait_until_and_get_elements_by_xpath(self, xpath) -> list:
         WebDriverWait(self.driver, 15, 0.1).until(
-            EC.visibility_of_element_located((By.XPATH, xpath))
+            EC.presence_of_element_located((By.XPATH, xpath))
         )
         return self.driver.find_elements_by_xpath(xpath)
 
