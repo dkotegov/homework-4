@@ -20,9 +20,6 @@ class FoldersSteps(BaseSteps):
     def wait_folder(self, name):
         return self.folders_page.add_folder.folder.wait_folder(name)
 
-    def wait_delete_folder(self, name):
-        return self.folders_page.add_folder.folder.wait_delete_folder(name)
-
     def select_folder_option(self, option):
         if option:
             self.folders_page.add_folder.select.open()
@@ -60,6 +57,7 @@ class FoldersSteps(BaseSteps):
             self.folders_page.add_folder.folder.wait_form()
 
         self.folders_page.add_folder.folder.apply()
+        self.folders_page.add_folder.folder.wait_delete_folder(name)
 
     def get_form_errors(self):
         return {
