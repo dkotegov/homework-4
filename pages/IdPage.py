@@ -1,6 +1,5 @@
 from steps.IdSteps import PersonaInfoSteps
 from .BasePage import Page
-from selenium.common.exceptions import TimeoutException
 
 
 class Main_page(Page):
@@ -20,8 +19,6 @@ class Main_page(Page):
         """
         return self.personal_info_steps.click_all_settings()
 
-
-
     def get_name_surname_from_card(self) -> (str, str):
         return self.personal_info_steps.get_name_surname_from_card()
 
@@ -31,17 +28,17 @@ class Main_page(Page):
         """
         return self.personal_info_steps.click_add_reserve_email()
 
-    def add_email(self, email) -> str:
+    def add_email(self, email, has_error=True) -> str:
         """
         :return: Значение хедера
         """
         self.personal_info_steps.clear_email()
         self.personal_info_steps.insert_reserve_email(email)
         self.personal_info_steps.click_confirm_email()
-        try:
-            return self.personal_info_steps.check_input_email_result()  # Проверяем есть ли сообщение об ошибке
-        except TimeoutException:
-            return self.personal_info_steps.get_correct_email_header()  # Если его нет, значит запрос корректный
+        if has_error:
+            return self.personal_info_steps.check_input_email_result()
+        else:
+            return self.personal_info_steps.get_correct_email_header()
 
     def check_correct_email_header(self):
         return self.personal_info_steps.get_correct_email_header()
