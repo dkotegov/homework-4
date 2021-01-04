@@ -1,5 +1,6 @@
+from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
+
 from .BaseSteps import BaseSteps, clear
-from selenium.common.exceptions import TimeoutException
 
 
 class InputAnnotationsErrors:
@@ -66,7 +67,11 @@ class PersonalDataSteps(BaseSteps):
         return errors
 
     def click_submit(self):
-        self.wait_until_and_get_elem_by_xpath(self.submit_btn_path).click()
+        btn = self.wait_until_and_get_elem_by_xpath(self.submit_btn_path)
+        try:
+            btn.click()
+        except ElementClickInterceptedException:
+            self.driver.execute_script('arguments[0].click();', btn)
 
     def check_if_uploaded(self):
         try:
