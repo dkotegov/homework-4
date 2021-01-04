@@ -2,8 +2,8 @@
 import os
 import unittest
 
-from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.AuthPage import AuthPage
 from pages.IdPage import Main_page
@@ -52,32 +52,27 @@ class MainPageTests(unittest.TestCase):
         self.assertEqual(text, "Личные данные")
 
     def test_click_add_reserve_email(self):
-        self.clear_email_after_tests()
         self.go_to_main()
         text = self.main_page.click_add_reserve_email()
         self.assertEqual(text, "Добавление резервной почты")
 
     def test_check_empty_email(self):
-        self.clear_email_after_tests()
         self.go_to_popup()
         res = self.main_page.add_email("")
         self.assertEqual(res, "Укажите почту")
 
     def test_check_incorrect_email(self):
-        self.clear_email_after_tests()
         self.go_to_popup()
         res = self.main_page.add_email("asd")
         self.assertEqual(res, "Неправильная почта. Укажите другую.")
 
     def test_check_correct_email(self):
-        self.clear_email_after_tests()
         self.go_to_popup()
-        header = self.main_page.add_email("correct@yandex.ru")
+        header = self.main_page.add_email("correct@yandex.ru", has_error=False)
         self.assertEqual(header, "Резервная почта добавлена")
         self.clear_email_after_tests()
 
     def test_close_pop_up(self):
-        self.clear_email_after_tests()
         self.go_to_popup()
         page_header_text = self.main_page.close_pop_up()
         self.assertEqual(page_header_text, "Контакты и адреса")

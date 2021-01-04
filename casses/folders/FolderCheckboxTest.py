@@ -47,4 +47,3 @@ class FolderCheckboxTest(BaseTest, unittest.TestCase):
 
         self.folderSteps.add_folder(self.__folderName, '', ['archive'])
         self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
-
