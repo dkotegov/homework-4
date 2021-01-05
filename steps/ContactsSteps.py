@@ -57,8 +57,8 @@ class ContactsSteps(BaseSteps):
         return self.wait_until_and_get_elem_by_xpath(self.phone_input_error)
 
     def has_backup_email(self):
-        return self.wait_until_and_get_elem_by_xpath(self.backup_email_element)
-
+        return not self.wait_until_and_get_elem_by_xpath(self.backup_email_element) is None
+    
     def has_not_backup_email(self):
         return self.wait_until_and_check_invisibility_of_element(
             self.backup_email_element
