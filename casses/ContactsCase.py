@@ -40,18 +40,14 @@ class ContactsTest(unittest.TestCase):
     def test_delete_email(self) -> None:
         self.page.open_add_email_popup()
         self.page.add_backup_email("test_login_a.elagin1@mail.ru")
-
         self.page.open()
         self.page.delete_email()
-
         self.assertTrue(self.page.has_not_backup_email())
 
     def test_invalid_phone(self) -> None:
         self.page.open_add_phone_popup()
         self.page.send_phone('1231')
-
         self.assertTrue(self.page.is_phone_error())
-
 
     def test_close_phone_popup(self) -> None:
         self.page.open_add_phone_popup()
