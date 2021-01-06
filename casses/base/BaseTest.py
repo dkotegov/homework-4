@@ -15,6 +15,9 @@ class BaseTest(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
 
+        self.LOGIN = os.environ['LOGIN']
+        self.PASSWORD = os.environ['PASSWORD']
+
         auth_page = AuthPage(self.driver)
         auth_page.auth(os.environ['LOGIN'], os.environ['PASSWORD'])
 

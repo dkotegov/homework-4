@@ -3,25 +3,13 @@ import os
 import unittest
 
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver import DesiredCapabilities, Remote
-
-from pages.AuthPage import AuthPage
+from casses.base.BaseTest import BaseTest
 from pages.IdPage import Main_page
 
 
-class MainPageTests(unittest.TestCase):
+class MainPageTests(BaseTest, unittest.TestCase):
     def setUp(self) -> None:
-        browser = os.environ.get("BROWSER", "CHROME")
-        self.driver = Remote(
-            command_executor="http://127.0.0.1:4444/wd/hub",
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
-        )
-
-        LOGIN = os.environ["LOGIN"]
-        PASSWORD = os.environ["PASSWORD"]
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        super(MainPageTests, self).setUp()
         id_page = Main_page(self.driver)
         id_page.open(id_page.BASE_URL)
         self.main_page = Main_page(self.driver)

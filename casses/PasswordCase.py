@@ -1,33 +1,18 @@
-import os
 import unittest
 
-from selenium.webdriver import DesiredCapabilities, Remote
-
-from pages.AuthPage import AuthPage
+from casses.base.BaseTest import BaseTest
 from pages.PasswordPopup import PasswordPopup
 
 
-class PasswordTest(unittest.TestCase):
+class PasswordTest(BaseTest, unittest.TestCase):
     def setUp(self) -> None:
-        browser = os.environ.get("BROWSER", "CHROME")
-        self.driver = Remote(
-            command_executor="http://127.0.0.1:4444/wd/hub",
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
-        )
-
-        LOGIN = os.environ["LOGIN"]
-        PASSWORD = os.environ["PASSWORD"]
-        self.password = PASSWORD
-        self.login = LOGIN
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        super(PasswordTest, self).setUp()
         password_page = PasswordPopup(self.driver)
         password_page.open()
         self.page = PasswordPopup(self.driver)
 
     def tearDown(self) -> None:
-        self.driver.quit()
+        super(PasswordTest, self).tearDown()
 
     def test_send_empty_form(self) -> None:
         self.page.send_empty_form()
@@ -39,26 +24,22 @@ class PasswordTest(unittest.TestCase):
 
     def test_change_password(self) -> None:
         NEW_PASSWORD = '12893490278kek'
-
-
-        self.page.change_password(self.password, NEW_PASSWORD)
+        self.page.change_password(self.PASSWORD, NEW_PASSWORD)
         changed = self.page.is_password_changed()
         self.page.open()
 
-        self.page.change_password(NEW_PASSWORD, self.password)
+        self.page.change_password(NEW_PASSWORD, self.PASSWORD)
         changed_again = self.page.is_password_changed()
         self.assertTrue(changed and changed_again)
 
     def test_change_password_with_invalid_repeat_password(self) -> None:
         NEW_PASSWORD = '12893490278kek'
 
-        self.page.send_form_with_uncorrect_repeat(NEW_PASSWORD, self.password)
+        self.page.send_form_with_uncorrect_repeat(NEW_PASSWORD, self.PASSWORD)
         self.assertTrue(self.page.is_repeat_password_equal())
 
     def test_generate_password(self) -> None:
         self.page.generate_password()
-        # self.assertTrue(self.page.get_new_password_security() == "success")
-
         self.assertEqual(
             self.page.get_repeat_password_value(), self.page.get_new_password_value()
         )
@@ -84,16 +65,11 @@ class PasswordTest(unittest.TestCase):
         self.assertFalse(self.page.is_popup_open())
 
     def test_password_visibility(self) -> None:
-        self.page.change_fields(self.password, "PASSW0RdD")
-
+        self.page.change_fields(self.PASSWORD, "PASSW0RdD")
         self.page.change_new_password_visibility()
         self.page.change_old_password_visibility()
-
         is_success = self.page.is_new_password_visible() and self.page.is_old_password_visibile()
-
-
         self.page.change_new_password_visibility()
         self.page.change_old_password_visibility()
-
         self.assertTrue(not (self.page.is_new_password_visible() or self.page.is_old_password_visibile()) and is_success)
 

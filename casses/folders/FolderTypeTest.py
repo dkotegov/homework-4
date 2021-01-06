@@ -15,33 +15,25 @@ class FolderTypeTest(BaseTest, unittest.TestCase):
         super(FolderTypeTest, self).tearDown()
 
     def test_select_top_folder(self):
-        """
-        Проверка создания папки на верхнем уровне
-        """
+        """ Проверка создания папки на верхнем уровне """
 
         self.__folder_steps.add_folder(self.__folder_name, 'Папка на верхнем уровне')
         self.assertTrue(self.__folder_steps.wait_folder(self.__folder_name))
 
     def test_select_check_incoming_folder(self):
-        """
-        Проверка создания папки входящие
-        """
+        """ Проверка создания папки входящие """
 
         self.__folder_steps.add_folder(self.__folder_name, 'Входящие')
         self.assertTrue(self.__folder_steps.wait_folder(self.__folder_name))
 
     def test_select_check_sent_folder(self):
-        """
-        Проверка создания папки отправленные
-        """
+        """ Проверка создания папки отправленные """
 
         self.__folder_steps.add_folder(self.__folder_name, 'Отправленные')
         self.assertTrue(self.__folder_steps.wait_folder(self.__folder_name))
 
     def test_select_drafts(self):
-        """
-        Проверка создания папки черновики
-        """
+        """ Проверка создания папки черновики """
 
         self.__folder_steps.add_folder(self.__folder_name, 'Черновики')
         self.assertTrue(self.__folder_steps.wait_folder(self.__folder_name))

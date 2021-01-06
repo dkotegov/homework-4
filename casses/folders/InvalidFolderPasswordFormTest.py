@@ -21,9 +21,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         }
 
     def test_short_password(self):
-        """
-        Проверка создания папки с паролем < 3 символов
-        """
+        """ Проверка создания папки с паролем < 3 символов """
 
         context = self.__folderPasswordContext.copy()
         context['folder_password'] = 'ps'
@@ -32,9 +30,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         self.assertTrue(self.folderSteps.get_form_errors()['passwordForm']['invalidPassword'])
 
     def test_long_password(self):
-        """
-        Проверка создания папки с паролем > 32 символов
-        """
+        """ Проверка создания папки с паролем > 32 символов """
 
         context = self.__folderPasswordContext.copy()
         context['folder_password'] = 'ps' * 32
@@ -43,9 +39,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         self.assertTrue(self.folderSteps.get_form_errors()['passwordForm']['invalidPassword'])
 
     def test_password_started_with_space(self):
-        """
-        Проверка создания папки с паролем, начинающимся с пробела
-        """
+        """ Проверка создания папки с паролем, начинающимся с пробела """
 
         context = self.__folderPasswordContext.copy()
         context['folder_password'] = ' ' + context['folder_password']
@@ -54,9 +48,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         self.assertTrue(self.folderSteps.get_form_errors()['passwordForm']['invalidPassword'])
 
     def test_password_ended_with_space(self):
-        """
-        Проверка создания папки с паролем, заканчивающимся на пробел
-        """
+        """ Проверка создания папки с паролем, заканчивающимся на пробел """
 
         context = self.__folderPasswordContext.copy()
         context['folder_password'] = context['folder_password'] + ' '
@@ -65,9 +57,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         self.assertTrue(self.folderSteps.get_form_errors()['passwordForm']['invalidPassword'])
 
     def test_invalid_password(self):
-        """
-        Проверка создания папки с паролем, состоящим из запрещённых символов
-        """
+        """ Проверка создания папки с паролем, состоящим из запрещённых символов """
 
         context = self.__folderPasswordContext.copy()
         context['folder_password'] = '@#$%^&*()askdl'
@@ -76,9 +66,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         self.assertTrue(self.folderSteps.get_form_errors()['passwordForm']['invalidPassword'])
 
     def test_invalid_re_password(self):
-        """
-        Проверка создания папки с неправильным повторным паролем
-        """
+        """ Проверка создания папки с неправильным повторным паролем """
 
         context = self.__folderPasswordContext.copy()
         context['folder_re_password'] = context['folder_password'] + 'text'
@@ -86,9 +74,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         self.assertTrue(self.folderSteps.get_form_errors()['passwordForm']['invalidRePassword'])
 
     def test_missing_secret_question(self):
-        """
-        Проверка создания папки с паролем, без указания секретного вопроса
-        """
+        """ Проверка создания папки с паролем, без указания секретного вопроса """
 
         context = self.__folderPasswordContext.copy()
         context['question'] = ''
@@ -96,9 +82,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         self.assertTrue(self.folderSteps.get_form_errors()['passwordForm']['invalidSecretQuestion'])
 
     def test_missing_secret_question_answer(self):
-        """
-        Проверка создания папки с паролем, без указания ответа на секретный вопрос
-        """
+        """ Проверка создания папки с паролем, без указания ответа на секретный вопрос """
 
         context = self.__folderPasswordContext.copy()
         context['question_answer'] = ''
@@ -106,9 +90,7 @@ class InvalidFolderPasswordFormTest(BaseTest, unittest.TestCase):
         self.assertTrue(self.folderSteps.get_form_errors()['passwordForm']['invalidSecretQuestionAnswer'])
 
     def test_invalid_current_password(self):
-        """
-        Проверка создания папки с паролем, с указанием некоректного текущего пароля
-        """
+        """ Проверка создания папки с паролем, с указанием некоректного текущего пароля """
 
         context = self.__folderPasswordContext.copy()
         context['current_password'] = ''

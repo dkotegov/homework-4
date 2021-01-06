@@ -2,34 +2,22 @@
 import os
 import unittest
 
-from selenium.webdriver import DesiredCapabilities, Remote
-
-from pages.AuthPage import AuthPage
+from casses.base.BaseTest import BaseTest
 from pages.IdPage import Main_page
 from pages.PersonalDataPage import Data_page
 from steps.PersonalDataSteps import InputAnnotationsErrors
 
 
-class PersonalDataTests(unittest.TestCase):
+class PersonalDataTests(BaseTest, unittest.TestCase):
     def setUp(self) -> None:
-        browser = os.environ.get("BROWSER", "CHROME")
-        self.driver = Remote(
-            command_executor="http://127.0.0.1:4444/wd/hub",
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
-        )
-
-        LOGIN = os.environ["LOGIN"]
-        PASSWORD = os.environ["PASSWORD"]
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        super(PersonalDataTests, self).setUp()
         id_page = Main_page(self.driver)
         id_page.open(id_page.BASE_URL)
         self.data_page = Data_page(self.driver)
         self.data_page.open(self.data_page.BASE_URL)
 
     def tearDown(self) -> None:
-        self.driver.quit()
+        super(PersonalDataTests, self).tearDown()
 
     def test_empty_city(self):
         errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "", collect_err_about="city")

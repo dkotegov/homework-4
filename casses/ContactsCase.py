@@ -1,33 +1,18 @@
-import os
 import unittest
 
-from selenium.webdriver import DesiredCapabilities
-
-from pages.AuthPage import AuthPage, Remote
+from casses.base.BaseTest import BaseTest
 from pages.ContactsPage import ContactsPage
 
 
-class ContactsTest(unittest.TestCase):
+class ContactsTest(BaseTest, unittest.TestCase):
     def setUp(self) -> None:
-        browser = os.environ.get("BROWSER", "CHROME")
-        self.driver = Remote(
-            command_executor="http://127.0.0.1:4444/wd/hub",
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
-        )
-
-        LOGIN = os.environ["LOGIN"]
-        PASSWORD = os.environ["PASSWORD"]
-        self.password = PASSWORD
-        self.login = LOGIN
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
+        super(ContactsTest, self).setUp()
         contacts_page = ContactsPage(self.driver)
         contacts_page.open()
         self.page = ContactsPage(self.driver)
 
     def tearDown(self) -> None:
-        self.driver.quit()
+        super(ContactsTest, self).tearDown()
 
     def test_add_email_button(self) -> None:
         self.page.open_add_email_popup()

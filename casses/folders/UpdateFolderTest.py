@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import unittest
-from selenium.webdriver import DesiredCapabilities, Remote
 from casses.base.BaseTest import BaseTest
-from pages.AuthPage import AuthPage
 from pages.FoldersPage import FoldersPage
 from pages.UpdateFolderPage import UpdateFolderPage
 from pages.UpdatePasswordPage import UpdatePasswordPage
@@ -12,18 +10,7 @@ from steps.FoldersSteps import FoldersSteps
 
 class UpdateFolderTest(BaseTest, unittest.TestCase):
     def setUp(self) -> None:
-        browser = os.environ.get("BROWSER", "CHROME")
-        self.driver = Remote(
-            command_executor="http://127.0.0.1:4444/wd/hub",
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy(),
-        )
-
-        LOGIN = os.environ["LOGIN"]
-        PASSWORD = os.environ["PASSWORD"]
-
-        auth_page = AuthPage(self.driver)
-        auth_page.auth(LOGIN, PASSWORD)
-
+        super(UpdateFolderTest, self).setUp()
         self.main_page_folders = FoldersPage(self.driver)
         self.update_folder = UpdateFolderPage(self.driver)
         self.update_password = UpdatePasswordPage(self.driver)
@@ -46,7 +33,7 @@ class UpdateFolderTest(BaseTest, unittest.TestCase):
     def tearDown(self) -> None:
         self.folderSteps.delete_folder(self.__folder_name)
         self.go_to_main_folders()
-        self.driver.quit()
+        super(UpdateFolderTest, self).tearDown()
 
     def go_to_main_folders(self):
         self.main_page_folders.open(

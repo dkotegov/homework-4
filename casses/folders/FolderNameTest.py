@@ -11,17 +11,13 @@ class FolderNameTest(BaseTest, unittest.TestCase):
         self.__folder_steps = FoldersSteps(self.driver)
 
     def test_empty_folder_name(self):
-        """
-        Проверка создания папки с пустым названием
-        """
+        """ Проверка создания папки с пустым названием """
 
         self.__folder_steps.add_folder('')
         self.assertTrue(self.__folder_steps.get_form_errors()['emptyFolderName'])
 
     def test_spaces_folder_name(self):
-        """
-        Проверка создания папки с названием из пробелов
-        """
+        """ Проверка создания папки с названием из пробелов """
 
         self.__folder_steps.add_folder('        ')
         self.assertTrue(self.__folder_steps.get_form_errors()['emptyFolderName'])

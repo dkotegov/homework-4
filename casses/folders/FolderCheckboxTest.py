@@ -24,25 +24,19 @@ class FolderCheckboxTest(BaseTest, unittest.TestCase):
         super(FolderCheckboxTest, self).tearDown()
 
     def test_pop3_check_box(self):
-        """
-        Проверка создания папки pop3
-        """
+        """ Проверка создания папки pop3 """
 
         self.folderSteps.add_folder(self.__folderName, '', ['pop3'])
         self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
 
     def test_folder_with_password(self):
-        """
-        Проверка создания папки с паролем
-        """
+        """ Проверка создания папки с паролем """
 
         self.folderSteps.add_folder(self.__folderName, '', ['has password'], self.__folderPasswordContext)
         self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
 
     def test_archive_check_box(self):
-        """
-        Проверка создания архивированной папки
-        """
+        """ Проверка создания архивированной папки """
 
         self.folderSteps.add_folder(self.__folderName, '', ['archive'])
         self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
