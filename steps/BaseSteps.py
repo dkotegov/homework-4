@@ -9,7 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 def clear(el):
     count = len(el.get_attribute("value"))
-    for i in range(count):
+    for _ in range(count):
         el.send_keys(Keys.BACKSPACE)
 
 

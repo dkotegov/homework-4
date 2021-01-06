@@ -1,4 +1,5 @@
 from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
+from selenium.webdriver.common.keys import Keys
 
 from .BaseSteps import BaseSteps, clear
 
@@ -91,6 +92,7 @@ class PersonalDataSteps(BaseSteps):
         el.click()
         clear(el)
         el.send_keys(city)
+        el.send_keys(Keys.SHIFT)
 
     def get_name_surname_from_left_bar(self) -> (str, str):
         """
