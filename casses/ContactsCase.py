@@ -11,9 +11,6 @@ class ContactsTest(BaseTest, unittest.TestCase):
         contacts_page.open()
         self.page = ContactsPage(self.driver)
 
-    def tearDown(self) -> None:
-        super(ContactsTest, self).tearDown()
-
     def test_add_email_button(self) -> None:
         self.page.open_add_email_popup()
         self.assertTrue(self.page.is_add_email_popup_open())

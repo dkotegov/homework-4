@@ -11,9 +11,6 @@ class PasswordTest(BaseTest, unittest.TestCase):
         password_page.open()
         self.page = PasswordPopup(self.driver)
 
-    def tearDown(self) -> None:
-        super(PasswordTest, self).tearDown()
-
     def test_send_empty_form(self) -> None:
         self.page.send_empty_form()
         self.assertTrue(
@@ -71,5 +68,5 @@ class PasswordTest(BaseTest, unittest.TestCase):
         is_success = self.page.is_new_password_visible() and self.page.is_old_password_visibile()
         self.page.change_new_password_visibility()
         self.page.change_old_password_visibility()
-        self.assertTrue(not (self.page.is_new_password_visible() or self.page.is_old_password_visibile()) and is_success)
-
+        self.assertTrue(
+            not (self.page.is_new_password_visible() or self.page.is_old_password_visibile()) and is_success)

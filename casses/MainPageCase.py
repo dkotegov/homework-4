@@ -14,9 +14,6 @@ class MainPageTests(BaseTest, unittest.TestCase):
         id_page.open(id_page.BASE_URL)
         self.main_page = Main_page(self.driver)
 
-    def tearDown(self) -> None:
-        self.driver.quit()
-
     def go_to_main(self):
         self.main_page.open(self.main_page.BASE_URL)
 

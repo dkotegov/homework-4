@@ -11,9 +11,6 @@ class SecurityTest(BaseTest, unittest.TestCase):
         security_page.open()
         self.page = SecurityPage(self.driver)
 
-    def tearDown(self) -> None:
-        super(SecurityTest, self).tearDown()
-
     def test_click_devices_link(self):
         self.page.click_devices_link()
         self.assertTrue(self.page.is_device_page_open())

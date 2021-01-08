@@ -15,23 +15,35 @@ from casses.folders.InvalidFolderPasswordFormTest import InvalidFolderPasswordFo
 from casses.folders.UpdateFolderFormTest import UpdateFolderFormTest
 from casses.folders.UpdateFolderTest import UpdateFolderTest
 
-if __name__ == "__main__":
-    suites = unittest.TestSuite(
-        (
-            unittest.makeSuite(MainPageTests),
-            unittest.makeSuite(PersonalDataTests),
-            unittest.makeSuite(PasswordTest),
-            unittest.makeSuite(ContactsTest),
-            unittest.makeSuite(SecurityTest),
 
-            unittest.makeSuite(FolderCheckboxTest),
-            unittest.makeSuite(FolderNameTest),
-            unittest.makeSuite(FolderTypeTest),
-            unittest.makeSuite(InvalidFolderPasswordFormTest),
-            unittest.makeSuite(CloseFolderFormTest),
-            unittest.makeSuite(UpdateFolderFormTest),
-            unittest.makeSuite(UpdateFolderTest),
-        )
-    )
-    result = unittest.TextTestRunner().run(suites)
+def create_suite(test_cases) -> unittest.TestSuite:
+    loader = unittest.TestLoader()
+    new_suite = unittest.TestSuite()
+
+    for test_case in test_cases:
+        new_suite.addTests(loader.loadTestsFromTestCase(test_case))
+
+    return new_suite
+
+
+if __name__ == "__main__":
+    tests = [
+        MainPageTests,
+        PersonalDataTests,
+
+        PasswordTest,
+        ContactsTest,
+        SecurityTest,
+        FolderCheckboxTest,
+        FolderNameTest,
+        FolderTypeTest,
+
+        InvalidFolderPasswordFormTest,
+        CloseFolderFormTest,
+        UpdateFolderFormTest,
+        UpdateFolderTest,
+    ]
+
+    suite = create_suite(tests)
+    result = unittest.TextTestRunner(verbosity=4).run(suite)
     sys.exit(not result.wasSuccessful())

@@ -16,9 +16,6 @@ class PersonalDataTests(BaseTest, unittest.TestCase):
         self.data_page = Data_page(self.driver)
         self.data_page.open(self.data_page.BASE_URL)
 
-    def tearDown(self) -> None:
-        super(PersonalDataTests, self).tearDown()
-
     def test_empty_city(self):
         errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "", collect_err_about="city")
         self.assertEqual(errors.city_err, "Укажите город")
@@ -60,37 +57,20 @@ class PersonalDataTests(BaseTest, unittest.TestCase):
 
     def test_long_input(self):
         errors = self.data_page.fill_form(
+            "Имя",
             "ashgdjhasgdhasjkdhaskjhdkjashdkjashkjdhaskjhdkjashkdjhaskjdhkjashdkj",
-            "ashgdjhasgdhasjkdhaskjhdkjashdkjashkjdhaskjhdkjashkdjhaskjdhkjashdkj",
-            "ashgdjhasgdhasjkdhaskjhdkjashdkjashkjdhaskjhdkjashkdjhaskjdhkjashdkj",
+            "Никнейм",
             "Москва",
-        )
-        self.assertEqual(errors.city_err, "")
-        self.assertEqual(
-            errors.name_err,
-            "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов",
+            collect_err_about='lastname'
         )
         self.assertEqual(
             errors.last_name_err,
-            "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов",
-        )
-        self.assertEqual(
-            errors.nickname_err,
             "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов",
         )
 
     def test_inputs_special_char(self):
         errors = self.data_page.fill_form(
-            "%$^&!@$^!@*!@*", "%$^&!@$^!@*!@*", "%$^&!@$^!@*!@*", "Москва"
-        )
-        self.assertEqual(errors.city_err, "")
-        self.assertEqual(
-            errors.name_err,
-            "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов",
-        )
-        self.assertEqual(
-            errors.last_name_err,
-            "Поле не может содержать специальных символов и должно иметь длину от 1 до 40 символов",
+            "Имя", "Фамилия", "%$^&!@$^!@*!@*", "Москва", collect_err_about='nickname'
         )
         self.assertEqual(
             errors.nickname_err,
