@@ -48,7 +48,7 @@ class PersonalDataSteps(BaseSteps):
         self.fill_input(self.nickname_path, nickname)
 
     def fill_city(self, city, is_correct: bool):
-        self.fill_city_input(self.city_path, city)
+        self.fill_city_input(self.city_path, city, is_correct)
         if city != "" and is_correct:
             self.wait_until_and_get_elem_by_xpath(self.accept_city_popup).click()
 
@@ -82,7 +82,10 @@ class PersonalDataSteps(BaseSteps):
         except TimeoutException:
             return False
 
-    def fill_city_input(self, city_path, city):
+    def unfocus_input(self):
+        self.wait_until_and_get_elem_by_xpath(self.name_path).click()
+
+    def fill_city_input(self, city_path, city, needSubmit=False):
         """
         :param city_path:
         :param city:
@@ -92,7 +95,8 @@ class PersonalDataSteps(BaseSteps):
         el.click()
         clear(el)
         el.send_keys(city)
-        el.send_keys(Keys.SHIFT)
+        if needSubmit:
+            el.submit()
 
     def get_name_surname_from_left_bar(self) -> (str, str):
         """
