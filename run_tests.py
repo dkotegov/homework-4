@@ -28,20 +28,20 @@ def create_suite(test_cases) -> unittest.TestSuite:
 
 if __name__ == "__main__":
     tests = [
-        #MainPageTests,
-        #PersonalDataTests,
+        MainPageTests,
+        PersonalDataTests,
 
-        #PasswordTest,
-        #ContactsTest,
-        #SecurityTest,
+        PasswordTest,
+        ContactsTest,
+        SecurityTest,
         FolderCheckboxTest,
-        #FolderNameTest,
-        #FolderTypeTest,
+        FolderNameTest,
+        FolderTypeTest,
 
-        #InvalidFolderPasswordFormTest,
-        #CloseFolderFormTest,
-        #UpdateFolderFormTest,
-        #UpdateFolderTest,
+        InvalidFolderPasswordFormTest,
+        CloseFolderFormTest,
+        UpdateFolderFormTest,
+        UpdateFolderTest,
     ]
 
     suite = create_suite(tests)
