@@ -53,6 +53,12 @@ class BaseSteps(object):
         el.send_keys(info)
         el.submit()
 
+    def fill_input_without_submitting(self, path, info):
+        el = self.wait_to_be_clickable_by_xpath(path)
+        el.click()
+        clear(el)
+        el.send_keys(info)
+
     def get_element_text(self, path) -> str:
         try:
             return self.wait_small_time_and_get_elem_by_xpath(path).text

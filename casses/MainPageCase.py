@@ -38,7 +38,12 @@ class MainPageTests(BaseTest, unittest.TestCase):
 
     def test_click_add_reserve_email(self):
         self.go_to_main()
-        text = self.main_page.click_add_reserve_email()
+        try:
+            text = self.main_page.click_add_reserve_email()
+        except TimeoutException:  # if email wasnt deleted
+            self.clear_email_after_tests()
+            self.go_to_main()
+            text = self.main_page.click_add_reserve_email()
         self.assertEqual(text, "Добавление резервной почты")
 
     def test_check_empty_email(self):

@@ -15,6 +15,7 @@ class AuthPage(Page):
         auth_page.open()
 
         auth_page.login_form.set_login(login)
+        auth_page.login_form.click_next()
         auth_page.login_form.set_password(password)
         auth_page.login_form.submit()
         auth_page.login_form.wait_for_cookie()

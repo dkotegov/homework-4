@@ -22,7 +22,7 @@ class BaseTest(unittest.TestCase):
         auth_page = AuthPage(self.driver)
         try:
             auth_page.auth(os.environ['LOGIN'], os.environ['PASSWORD'])
-        except TimeoutException:  # retry when have trouble with internet connection
+        except TimeoutException:  # retry if have trouble with internet connection
             auth_page.auth(os.environ['LOGIN'], os.environ['PASSWORD'])
 
     def tearDown(self):
