@@ -17,7 +17,8 @@ class PersonalDataTests(BaseTest, unittest.TestCase):
         self.data_page.open(self.data_page.BASE_URL)
 
     def test_empty_city(self):
-        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "", collect_err_about="city")
+        errors = self.data_page.fill_form("Имя", "Фамилия", "Никнейм", "", collect_err_about="city",
+                                          is_city_correct=False)
         self.assertEqual(errors.city_err, "Укажите город")
         self.assertEqual(errors.name_err, "")
         self.assertEqual(errors.last_name_err, "")

@@ -82,7 +82,7 @@ class PersonalDataSteps(BaseSteps):
         except TimeoutException:
             return False
 
-    def fill_city_input(self, city_path, city, needPopUp=False):
+    def fill_city_input(self, city_path, city, need_pop_up=False):
         """
         :param city_path:
         :param city:
@@ -92,8 +92,8 @@ class PersonalDataSteps(BaseSteps):
         el.click()
         clear(el)
         el.send_keys(city)
-        if not needPopUp:
-            el.submit()
+        if not need_pop_up:
+            self.wait_until_and_get_elem_by_xpath(self.nickname_path).send_keys(Keys.NULL)  # unfocus city input
 
     def get_name_surname_from_left_bar(self) -> (str, str):
         """
