@@ -22,8 +22,9 @@ class BaseTest(unittest.TestCase):
 
             auth_page = AuthPage(self.driver)
             auth_page.auth(os.environ['LOGIN'], os.environ['PASSWORD'])
-        except TimeoutException:
+        except TimeoutException as e:
             self.driver.quit()
+            raise e
 
     def tearDown(self):
         self.driver.quit()

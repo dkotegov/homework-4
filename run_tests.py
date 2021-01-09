@@ -31,17 +31,17 @@ if __name__ == "__main__":
         MainPageTests,
         PersonalDataTests,
 
-        PasswordTest,
-        ContactsTest,
-        SecurityTest,
-        FolderCheckboxTest,
-        FolderNameTest,
-        FolderTypeTest,
-
-        InvalidFolderPasswordFormTest,
-        CloseFolderFormTest,
-        UpdateFolderFormTest,
-        UpdateFolderTest,
+        # PasswordTest,
+        # ContactsTest,
+        # SecurityTest,
+        # FolderCheckboxTest,
+        # FolderNameTest,
+        # FolderTypeTest,
+        #
+        # InvalidFolderPasswordFormTest,
+        # CloseFolderFormTest,
+        # UpdateFolderFormTest,
+        # UpdateFolderTest,
     ]
 
     suite = create_suite(tests)
