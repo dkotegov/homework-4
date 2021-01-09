@@ -31,14 +31,14 @@ class FolderCheckboxTest(BaseTest, unittest.TestCase):
         self.folderSteps.add_folder(self.__folderName, '', ['pop3'])
         self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
 
-    def test_folder_with_password(self):
-        """ Проверка создания папки с паролем """
-
-        self.folderSteps.add_folder(self.__folderName, '', ['has password'], self.__folderPasswordContext)
-        self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
-
-    def test_archive_check_box(self):
-        """ Проверка создания архивированной папки """
-
-        self.folderSteps.add_folder(self.__folderName, '', ['archive'])
-        self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
+    # def test_folder_with_password(self):
+    #     """ Проверка создания папки с паролем """
+    #
+    #     self.folderSteps.add_folder(self.__folderName, '', ['has password'], self.__folderPasswordContext)
+    #     self.assertTrue(self.folderSteps.wait_folder(self.__folderName))
+    #
+    # def test_archive_check_box(self):
+    #     """ Проверка создания архивированной папки """
+    #
+    #     self.folderSteps.add_folder(self.__folderName, '', ['archive'])
+    #     self.assertTrue(self.folderSteps.wait_folder(self.__folderName))

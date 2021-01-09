@@ -14,7 +14,6 @@ class SecuritySteps(BaseSteps):
     setpassword_button = '//*[@data-test-id="password-action"]'
     setpassword_page = '//*[@data-test-id="popup-wrapper"]'
 
-
     keys_page_title = '//*[@data-test-id="caption"]'
     keys_link = '//*[@data-test-id="electronic-keys-item"]'
 
@@ -49,7 +48,6 @@ class SecuritySteps(BaseSteps):
 
     def click_2fact_more_link(self):
         self.wait_until_and_get_elem_by_xpath(self.twofact_more_link).click()
-
 
     def click_keys_more_link(self):
         self.wait_until_and_get_elem_by_xpath(self.keys_more_link).click()
