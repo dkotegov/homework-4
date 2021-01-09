@@ -25,11 +25,6 @@ class UpdateFolderTest(BaseTest, unittest.TestCase):
             'current_password': os.environ['PASSWORD']
         }
 
-        self.folderSteps.add_folder(self.__folder_name, 'Входящие')
-        self.folderSteps.wait_folder(self.__folder_name)
-        self.go_to_main_folders()
-        self.main_page_folders.click_pencil_icon()
-
     def tearDown(self) -> None:
         try:
             self.folderSteps.delete_folder(self.__folder_name)
@@ -37,27 +32,37 @@ class UpdateFolderTest(BaseTest, unittest.TestCase):
         finally:
             super(UpdateFolderTest, self).tearDown()
 
+    def create_and_edit_folder(self):
+        self.folderSteps.add_folder(self.__folder_name, 'Входящие')
+        self.go_to_main_folders()
+        self.main_page_folders.click_pencil_icon()
+
     def go_to_main_folders(self):
         self.main_page_folders.open(
             self.main_page_folders.BASE_URL + self.main_page_folders.PATH
         )
 
     def test_update_folder_name(self):
+        self.create_and_edit_folder()
         self.assertTrue(self.update_folder.fill_name("newFolder"))
         self.__folder_name = "newFolder"
 
     def test_select_top_folder(self):
+        self.create_and_edit_folder()
         self.assertTrue(self.update_folder.fill_nested_folder("high_level"))
         self.assertTrue(self.update_folder.save_changes())
 
     def test_update_nested_folder_incoming(self):
+        self.create_and_edit_folder()
         self.update_folder.fill_nested_folder("incoming")
         self.assertTrue(self.update_folder.save_changes())
 
     def test_update_nested_folder_high_level(self):
+        self.create_and_edit_folder()
         self.update_folder.fill_nested_folder("high_level")
         self.assertTrue(self.update_folder.save_changes())
 
     def test_update_nested_folder_drafts(self):
+        self.create_and_edit_folder()
         self.update_folder.fill_nested_folder("drafts")
         self.assertTrue(self.update_folder.save_changes())
