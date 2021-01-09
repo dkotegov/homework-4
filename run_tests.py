@@ -14,6 +14,7 @@ from casses.folders.FolderTypeTest import FolderTypeTest
 from casses.folders.InvalidFolderPasswordFormTest import InvalidFolderPasswordFormTest
 from casses.folders.UpdateFolderFormTest import UpdateFolderFormTest
 from casses.folders.UpdateFolderTest import UpdateFolderTest
+from concurrencytest import ConcurrentTestSuite, fork_for_tests
 
 
 def create_suite(test_cases) -> unittest.TestSuite:
@@ -28,18 +29,18 @@ def create_suite(test_cases) -> unittest.TestSuite:
 
 if __name__ == "__main__":
     tests = [
-        #MainPageTests,
-        #PersonalDataTests,
+        MainPageTests,
+        PersonalDataTests,
 
-        #PasswordTest,
-        #ContactsTest,
-        #SecurityTest,
-        #FolderCheckboxTest,
-        #FolderNameTest,
-        #FolderTypeTest,
+        PasswordTest,
+        ContactsTest,
+        SecurityTest,
+        FolderCheckboxTest,
+        FolderNameTest,
+        FolderTypeTest,
 
-        #InvalidFolderPasswordFormTest,
-        #CloseFolderFormTest,
+        InvalidFolderPasswordFormTest,
+        CloseFolderFormTest,
         UpdateFolderFormTest,
         UpdateFolderTest,
     ]

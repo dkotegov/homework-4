@@ -31,6 +31,9 @@ class AddFolderForm(BaseSteps):
     def open(self):
         self.wait_until_and_get_elem_by_xpath(self.ADD_FOLDER_BUTTON).click()
 
+    def wait_form(self):
+        self.wait_until_and_get_elem_by_xpath(self.FORM_DIV)
+
     def set_folder_name(self, name):
         self.wait_until_and_get_elem_by_xpath(self.FOLDER_NAME_INPUT).send_keys(name)
 
