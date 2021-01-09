@@ -15,6 +15,7 @@ class AddFolderForm(BaseSteps):
     CLOSE_CREATE_FOLDER_BUTTON = '//div[@data-test-id="cross"]'
     EMPTY_FOLDER_NAME_ERROR = '//small[@data-test-id="emptyFolderName"]'
     FORM_DIV = '//div[@data-test-id="popup-wrapper"]'
+    CHECK_FOLDERS_LOADED = '//label[@data-test-id="folder-pop3"]'
 
     @property
     def select(self):
@@ -29,6 +30,7 @@ class AddFolderForm(BaseSteps):
         return Folder(self.driver)
 
     def open(self):
+        self.wait_until_and_get_elem_by_xpath(self.CHECK_FOLDERS_LOADED)
         self.wait_to_be_clickable_by_xpath(self.ADD_FOLDER_BUTTON).click()
 
     def set_folder_name(self, name):
@@ -44,7 +46,7 @@ class AddFolderForm(BaseSteps):
         self.wait_until_and_get_elem_by_xpath(self.HAS_PASSWORD_CHECKBOX).click()
 
     def cancel(self):
-        self.wait_to_be_clickable_by_xpath(self.CANCEL_CREATE_FOLDER_BUTTON).click()
+        self.wait_until_and_get_elem_by_xpath(self.CANCEL_CREATE_FOLDER_BUTTON).click()
 
     def close(self):
         self.wait_to_be_clickable_by_xpath(self.CLOSE_CREATE_FOLDER_BUTTON).click()

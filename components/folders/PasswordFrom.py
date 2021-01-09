@@ -41,13 +41,13 @@ class PasswordForm(BaseSteps):
         )
 
     def save(self):
-        self.wait_until_and_get_elem_by_xpath(self.SAVE_BUTTON).click()
+        self.wait_to_be_clickable_by_xpath(self.SAVE_BUTTON).click()
 
     def back(self):
-        self.wait_until_and_get_elem_by_xpath(self.BACK_BUTTON).click()
+        self.wait_to_be_clickable_by_xpath(self.BACK_BUTTON).click()
 
     def close(self):
-        self.wait_until_and_get_elem_by_xpath(self.CLOSE_CREATE_FOLDER_BUTTON).click()
+        self.wait_to_be_clickable_by_xpath(self.CLOSE_CREATE_FOLDER_BUTTON).click()
 
     @property
     def invalid_password_error(self):
