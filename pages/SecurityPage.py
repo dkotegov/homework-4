@@ -49,7 +49,6 @@ class SecurityPage(Page):
         security_steps = SecuritySteps(self.driver)
         return security_steps.is_url_equal('account.mail.ru/security/authentication/keys')
 
-
     def is_2fact_page_load(self) -> bool:
         security_steps = SecuritySteps(self.driver)
         return security_steps.is_url_equal('account.mail.ru/user/2-step-auth')

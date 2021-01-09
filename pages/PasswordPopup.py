@@ -12,7 +12,6 @@ class PasswordPopup(Page):
 
         return not password_steps.get_popup_password_changed() is None
 
-
     def open(self, url=None):
         super().open(url)
         security_page = SecurityPage(self.driver)

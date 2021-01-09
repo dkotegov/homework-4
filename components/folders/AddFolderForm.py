@@ -29,7 +29,7 @@ class AddFolderForm(BaseSteps):
         return Folder(self.driver)
 
     def open(self):
-        self.wait_until_and_get_invisible_elem_by_xpath(self.ADD_FOLDER_BUTTON).click()
+        self.wait_to_be_clickable_by_xpath(self.ADD_FOLDER_BUTTON).click()
 
     def set_folder_name(self, name):
         self.wait_until_and_get_elem_by_xpath(self.FOLDER_NAME_INPUT).send_keys(name)
@@ -44,13 +44,13 @@ class AddFolderForm(BaseSteps):
         self.wait_until_and_get_elem_by_xpath(self.HAS_PASSWORD_CHECKBOX).click()
 
     def add(self):
-        self.wait_until_and_get_elem_by_xpath(self.CREATE_FOLDER_BUTTON).click()
+        self.wait_to_be_clickable_by_xpath(self.CREATE_FOLDER_BUTTON).click()
 
     def cancel(self):
-        self.wait_until_and_get_elem_by_xpath(self.CANCEL_CREATE_FOLDER_BUTTON).click()
+        self.wait_to_be_clickable_by_xpath(self.CANCEL_CREATE_FOLDER_BUTTON).click()
 
     def close(self):
-        self.wait_until_and_get_elem_by_xpath(self.CLOSE_CREATE_FOLDER_BUTTON).click()
+        self.wait_to_be_clickable_by_xpath(self.CLOSE_CREATE_FOLDER_BUTTON).click()
 
     @property
     def form_opened(self):
