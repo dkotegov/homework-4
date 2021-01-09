@@ -23,7 +23,7 @@ class BaseSteps(object):
         )
 
     def wait_small_time_and_get_elem_by_xpath(self, elem) -> WebElement:
-        return WebDriverWait(self.driver, 0.3, 0.1).until(
+        return WebDriverWait(self.driver, 0.6, 0.1).until(
             EC.visibility_of_element_located((By.XPATH, elem))
         )
 
