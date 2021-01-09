@@ -10,7 +10,6 @@ class FoldersSteps(BaseSteps):
     def add_folder(self, name, option="", boxes=(), password_context={}):
         self.folders_page.open()
         self.folders_page.add_folder.open()
-        self.folders_page.add_folder.wait_form()
         self.folders_page.add_folder.set_folder_name(name)
         self.select_folder_option(option)
         self.set_checkboxes(boxes)

@@ -34,7 +34,7 @@ class BaseSteps(object):
 
     def wait_until_and_get_invisible_elem_by_xpath(self, elem) -> WebElement:
         try:
-            WebDriverWait(self.driver, 4, 0.1).until(
+            return WebDriverWait(self.driver, 4, 0.1).until(
                 EC.element_to_be_clickable((By.XPATH, elem))
             )
         except TimeoutException:

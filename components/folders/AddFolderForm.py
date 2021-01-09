@@ -29,10 +29,7 @@ class AddFolderForm(BaseSteps):
         return Folder(self.driver)
 
     def open(self):
-        self.wait_until_and_get_elem_by_xpath(self.ADD_FOLDER_BUTTON).click()
-
-    def wait_form(self):
-        self.wait_until_and_get_elem_by_xpath(self.FORM_DIV)
+        self.wait_until_and_get_invisible_elem_by_xpath(self.ADD_FOLDER_BUTTON).click()
 
     def set_folder_name(self, name):
         self.wait_until_and_get_elem_by_xpath(self.FOLDER_NAME_INPUT).send_keys(name)
