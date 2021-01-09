@@ -32,4 +32,7 @@ $ pipenv run python run_tests.py
 - [Антон Елагин](http://jira.bmstu.cloud/browse/QA-843)
 
 # Тесты
-![img](https://github.com/EvilBorsch/homework-4/blob/master/Снимок%20экрана%202021-01-06%20в%2017.28.22.png)
+![img](https://github.com/EvilBorsch/homework-4/blob/master/Снимок%20экрана%202021-01-09%20в%2014.43.52.png)
+![img](https://github.com/EvilBorsch/homework-4/blob/master/Снимок%20экрана%202021-01-09%20в%2014.43.58.png)
+![img](https://github.com/EvilBorsch/homework-4/blob/master/Снимок%20экрана%202021-01-09%20в%2014.44.04.png)
+
