@@ -1,6 +1,7 @@
 import os
 import unittest
 
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import DesiredCapabilities, Remote
 from pages.AuthPage import AuthPage
 
@@ -19,7 +20,10 @@ class BaseTest(unittest.TestCase):
         self.PASSWORD = os.environ['PASSWORD']
 
         auth_page = AuthPage(self.driver)
-        auth_page.auth(os.environ['LOGIN'], os.environ['PASSWORD'])
+        try:
+            auth_page.auth(os.environ['LOGIN'], os.environ['PASSWORD'])
+        except TimeoutException:  # retry when have trouble with internet connection
+            auth_page.auth(os.environ['LOGIN'], os.environ['PASSWORD'])
 
     def tearDown(self):
         self.driver.quit()
