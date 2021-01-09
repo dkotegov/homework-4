@@ -20,8 +20,10 @@ class FolderCheckboxTest(BaseTest, unittest.TestCase):
         }
 
     def tearDown(self):
-        self.folderSteps.delete_folder(self.__folderName, self.__folderPasswordContext['folder_password'])
-        super(FolderCheckboxTest, self).tearDown()
+        try:
+            self.folderSteps.delete_folder(self.__folderName, self.__folderPasswordContext['folder_password'])
+        finally:
+            super(FolderCheckboxTest, self).tearDown()
 
     def test_pop3_check_box(self):
         """ Проверка создания папки pop3 """

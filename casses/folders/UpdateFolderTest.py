@@ -31,9 +31,11 @@ class UpdateFolderTest(BaseTest, unittest.TestCase):
         self.main_page_folders.click_pencil_icon()
 
     def tearDown(self) -> None:
-        self.folderSteps.delete_folder(self.__folder_name)
-        self.go_to_main_folders()
-        super(UpdateFolderTest, self).tearDown()
+        try:
+            self.folderSteps.delete_folder(self.__folder_name)
+            self.go_to_main_folders()
+        finally:
+            super(UpdateFolderTest, self).tearDown()
 
     def go_to_main_folders(self):
         self.main_page_folders.open(

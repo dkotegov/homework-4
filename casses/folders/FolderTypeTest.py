@@ -11,8 +11,10 @@ class FolderTypeTest(BaseTest, unittest.TestCase):
         self.__folder_name = "folder"
 
     def tearDown(self):
-        self.__folder_steps.delete_folder(self.__folder_name)
-        super(FolderTypeTest, self).tearDown()
+        try:
+            self.__folder_steps.delete_folder(self.__folder_name)
+        finally:
+            super(FolderTypeTest, self).tearDown()
 
     def test_select_top_folder(self):
         """ Проверка создания папки на верхнем уровне """
