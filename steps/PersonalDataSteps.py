@@ -93,6 +93,7 @@ class PersonalDataSteps(BaseSteps):
         clear(el)
         el.send_keys(city)
         if not need_pop_up:
+            el.submit()
             self.wait_until_and_get_elem_by_xpath(self.nickname_path).send_keys(Keys.NULL)  # unfocus city input
 
     def get_name_surname_from_left_bar(self) -> (str, str):
