@@ -8,6 +8,7 @@ class LoginForm(Component):
     REGISTER = '//a[contains(text(),"Зарегистрироваться")]'
     AUTH_MODAL = '//div[@id="authModal"]'
     MODAL_CLOSE = '//span[@class="modal__close"]'
+    FORM_ERROR = '//p[@class="error-message"]'
 
     def wait_until_visible(self):
         self._wait_until_visible(self.AUTH_MODAL)
@@ -29,3 +30,6 @@ class LoginForm(Component):
 
     def click_close(self):
         self._find_element(self.MODAL_CLOSE).click()
+
+    def get_error_text(self):
+        return self._wait_until_visible(self.FORM_ERROR).text

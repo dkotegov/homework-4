@@ -15,6 +15,9 @@ class AuthSteps(Steps):
         self.page.login_form.set_login_text(login)
         self.page.login_form.set_password_text(password)
 
+    def get_form_error(self):
+        self.page.login_form.get_error_text()
+
     def close_login_form_by_submit(self):
         self.page.login_form.submit()
         self.page.login_form.wait_until_invisible()
