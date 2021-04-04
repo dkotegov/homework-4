@@ -2,12 +2,12 @@
 
 import sys
 import unittest
-from cases.base_case import BaseTest
+from cases.auth_case import AuthTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite(
         (
-            unittest.makeSuite(BaseTest),
+            unittest.makeSuite(AuthTest),
         )
     )
 

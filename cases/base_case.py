@@ -3,7 +3,8 @@ import platform
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.chrome.options import Options
-from steps.base_steps import Steps
+
+from steps.auth_steps import AuthSteps
 
 
 class BaseTest(unittest.TestCase):
@@ -23,13 +24,12 @@ class BaseTest(unittest.TestCase):
         self.login = os.environ['LOGIN']
         self.password = os.environ['PASSWORD']
 
-    def test(self):
-        main_page = Steps(self.driver)
-        main_page.open_page()
-        expected_title = 'OnMeet'
-        actual_title = main_page.get_page_title()
-        self.assertEqual(actual_title, expected_title,
-                         f'Page title {actual_title} does not match {expected_title}')
+    def auth(self):
+        auth_page = AuthSteps(self.driver)
+        auth_page.open_page()
+        auth_page.open_login_form()
+        auth_page.fill_login_form(self.login, self.password)
+        auth_page.close_login_form_by_submit()
 
     def tearDown(self):
         self.driver.quit()
