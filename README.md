@@ -6,7 +6,7 @@
 `./scripts/grid.sh`
 
 #### Запуск Selenium Node
-mac: `./scripts/node-mac.sh` 
+mac: `./scripts/node-mac.sh`  
 linux: `./scripts/node-linux.sh`
 
 
