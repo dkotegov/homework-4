@@ -1,4 +1,4 @@
-from pages.BasePage import Page
+from pages.base_page import Page
 
 
 class Steps(object):

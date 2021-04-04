@@ -2,7 +2,7 @@
 
 import sys
 import unittest
-from cases.BaseCase import BaseTest
+from cases.base_case import BaseTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite(

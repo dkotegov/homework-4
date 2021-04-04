@@ -1,4 +1,4 @@
-from pages.BaseComponent import Component
+from pages.base_component import Component
 
 
 class NavBar(Component):

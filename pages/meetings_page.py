@@ -1,5 +1,5 @@
-from pages.BasePage import Page
-from pages.NavBar import NavBar
+from pages.base_page import Page
+from pages.navbar import NavBar
 
 
 class MeetingsPage(Page):

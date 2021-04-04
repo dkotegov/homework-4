@@ -3,7 +3,7 @@ import platform
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.chrome.options import Options
-from steps.BaseSteps import Steps
+from steps.base_steps import Steps
 
 
 class BaseTest(unittest.TestCase):
