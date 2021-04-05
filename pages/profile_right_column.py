@@ -13,30 +13,38 @@ class ProfileRightColumn(Component):
         '//span[contains(text(), "Навыки")]/following-sibling::img[@src="assets/check-mark.svg"]',
         '//span[contains(text(), "Навыки")]/following-sibling::img[@src="assets/x-mark.svg"]'
     )
-
-    INTERESTS = '//span[contains(@class, "profile__interests")]'
-    EDIT_INTERESTS = '//img[contains(@class, "profile__interests-editicon")]'
-    INTERESTS_FIELD = '//div[contains(.,"Интересы")]/following-sibling::textarea[@class="block"][1]'
-    INTERESTS_CHECK_MARK = '//span[contains(text(), "Интересы")]/following-sibling::img[@src="assets/check-mark.svg"]'
-    INTERESTS_CROSS_MARK = '//span[contains(text(), "Интересы")]/following-sibling::img[@src="assets/x-mark.svg"]'
-
-    EDUCATION = '//span[contains(@class, "profile__education")]'
-    EDIT_EDUCATION = '//img[contains(@class, "profile__education-editicon")]'
-    EDUCATION_FIELD = '//div[contains(.,"Образование")]/following-sibling::textarea[@class="block"][1]'
-    EDUCATION_CHECK_MARK = '//span[contains(text(), "Образование")]/following-sibling::img[@src="assets/check-mark.svg"]'
-    EDUCATION_CROSS_MARK = '//span[contains(text(), "Образование")]/following-sibling::img[@src="assets/x-mark.svg"]'
-
-    JOB = '//span[contains(@class, "profile__job")]'
-    EDIT_JOB = '//img[contains(@class, "profile__job-editicon")]'
-    JOB_FIELD = '//div[contains(.,"Работа")]/following-sibling::textarea[@class="block"][1]'
-    JOB_CHECK_MARK = '//span[contains(text(), "Работа")]/following-sibling::img[@src="assets/check-mark.svg"]'
-    JOB_CROSS_MARK = '//span[contains(text(), "Работа")]/following-sibling::img[@src="assets/x-mark.svg"]'
-
-    AIMS = '//span[contains(@class, "profile__aims")]'
-    EDIT_AIMS = '//img[contains(@class, "profile__aims-editicon")]'
-    AIMS_FIELD = '//div[contains(.,"Цели")]/following-sibling::textarea[@class="block"][1]'
-    AIMS_CHECK_MARK = '//span[contains(text(), "Цели")]/following-sibling::img[@src="assets/check-mark.svg"]'
-    AIMS_CROSS_MARK = '//span[contains(text(), "Цели")]/following-sibling::img[@src="assets/x-mark.svg"]'
+    __Interests = namedtuple('Interests', ['value', 'edit_btn', 'text_field', 'check_mark', 'cross_mark'])
+    INTERESTS = __Interests(
+        '//span[contains(@class, "profile__interests")]',
+        '//img[contains(@class, "profile__interests-editicon")]',
+        '//div[contains(.,"Интересы")]/following-sibling::textarea[@class="block"][1]',
+        '//span[contains(text(), "Интересы")]/following-sibling::img[@src="assets/check-mark.svg"]',
+        '//span[contains(text(), "Интересы")]/following-sibling::img[@src="assets/x-mark.svg"]'
+    )
+    __Education = namedtuple('Education', ['value', 'edit_btn', 'text_field', 'check_mark', 'cross_mark'])
+    EDUCATION = __Education(
+        '//span[contains(@class, "profile__education")]',
+        '//img[contains(@class, "profile__education-editicon")]',
+        '//div[contains(.,"Образование")]/following-sibling::textarea[@class="block"][1]',
+        '//span[contains(text(), "Образование")]/following-sibling::img[@src="assets/check-mark.svg"]',
+        '//span[contains(text(), "Образование")]/following-sibling::img[@src="assets/x-mark.svg"]'
+    )
+    __Job = namedtuple('Job', ['value', 'edit_btn', 'text_field', 'check_mark', 'cross_mark'])
+    JOB = __Job(
+        '//span[contains(@class, "profile__job")]',
+        '//img[contains(@class, "profile__job-editicon")]',
+        '//div[contains(.,"Работа")]/following-sibling::textarea[@class="block"][1]',
+        '//span[contains(text(), "Работа")]/following-sibling::img[@src="assets/check-mark.svg"]',
+        '//span[contains(text(), "Работа")]/following-sibling::img[@src="assets/x-mark.svg"]'
+    )
+    __Aims = namedtuple('Aims', ['value', 'edit_btn', 'text_field', 'check_mark', 'cross_mark'])
+    AIMS = __Aims(
+        '//span[contains(@class, "profile__aims")]',
+        '//img[contains(@class, "profile__aims-editicon")]',
+        '//div[contains(.,"Цели")]/following-sibling::textarea[@class="block"][1]',
+        '//span[contains(text(), "Цели")]/following-sibling::img[@src="assets/check-mark.svg"]',
+        '//span[contains(text(), "Цели")]/following-sibling::img[@src="assets/x-mark.svg"]'
+    )
 
     UPDATE_CONFIRMATION = '//div[@class="mtoasts__toast"]/p[contains(text(), "Вы отредактировали профиль")]'
     CLOSE_CONFIRMATION = '//div[@class="closeWrapper"]/span[@class="close"]'
