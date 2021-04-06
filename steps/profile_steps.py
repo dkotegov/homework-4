@@ -1,3 +1,4 @@
+import urllib.parse
 from enum import Enum
 
 from pages.meetings_page import MeetingsPage
@@ -39,11 +40,18 @@ class ProfileSteps(Steps):
 
     def open_meetings_page(self):
         self.page.navbar.click_meetings()
-        self.page.wait_for_url(MeetingsPage.get_default_url())
 
     def open_people_page(self):
         self.page.navbar.click_people()
-        self.page.wait_for_url(PeoplePage.get_default_url())
 
     def open_stranger_profile(self):
         self.open_page('/profile?userId=1')
+
+    def open_vk_link(self):
+        self.page.left_column.click_vk()
+
+    def open_tg_link(self):
+        self.page.left_column.click_telegram()
+
+    def open_test_meeting(self):
+        self.page.left_column.click_test_meeting()
