@@ -8,6 +8,9 @@ class ProfileLeftColumn(Component):
     VK = '//a[contains(@class, "profile__vk")]'
     TELEGRAM = '//a[contains(@class, "profile__telegram")]'
     TEST_MEETING = '//div[@class="profile__meetings"]/div/a[contains(text(),"Test")]'
+    SUB_CONFIRMATION = '//div[@class="mtoasts__toast"]/p[contains(text(), "Вы подписались на пользователя")]'
+    UNSUB_CONFIRMATION = '//div[@class="mtoasts__toast"]/p[contains(text(), "Вы отменили подписку на пользователя")]'
+    CLOSE_CONFIRMATION = '//div[@class="closeWrapper"]/span[@class="close"]'
 
     def click_vk(self):
         self._wait_until_clickable(self.VK).click()
@@ -17,3 +20,21 @@ class ProfileLeftColumn(Component):
 
     def click_test_meeting(self):
         self._wait_until_clickable(self.TEST_MEETING).click()
+
+    def is_subscribe_btn_visible(self):
+        return self._is_element_visible(self.SUBSCRIBE_BTN)
+
+    def click_subscribe_btn(self):
+        self._wait_until_clickable(self.SUBSCRIBE_BTN).click()
+
+    def wait_for_sub_confirmation(self):
+        self._wait_until_visible(self.SUB_CONFIRMATION)
+
+    def wait_for_unsub_confirmation(self):
+        self._wait_until_visible(self.UNSUB_CONFIRMATION)
+
+    def click_close_confirmation(self):
+        self._wait_until_clickable(self.CLOSE_CONFIRMATION).click()
+
+    def get_sub_btn_text(self):
+        return self._find_element(self.SUBSCRIBE_BTN).text

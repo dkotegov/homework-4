@@ -1,3 +1,4 @@
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -25,3 +26,9 @@ class Component(object):
     def _wait_until_clickable(self, elem_xpath):
         return WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, elem_xpath)))
+
+    def _is_element_visible(self, elem_xpath):
+        try:
+            return self._find_element(elem_xpath).is_displayed()
+        except NoSuchElementException:
+            return False

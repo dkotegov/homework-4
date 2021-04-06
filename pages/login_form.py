@@ -33,3 +33,6 @@ class LoginForm(Component):
 
     def get_error_text(self):
         return self._wait_until_visible(self.FORM_ERROR).text
+
+    def is_visible(self):
+        return self._is_element_visible(self.AUTH_MODAL)

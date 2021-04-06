@@ -2,7 +2,10 @@ import random
 import string
 import urllib.parse
 
+from selenium.common.exceptions import TimeoutException
+
 from cases.base_case import BaseTest
+from pages.login_form import LoginForm
 from pages.meetings_page import MeetingsPage
 from pages.people_page import PeoplePage
 from steps.profile_steps import ProfileSteps
@@ -61,3 +64,41 @@ class ProfileTest(BaseTest):
         actual_url = self.profile_page.get_page_url()
         expected_url = urllib.parse.urljoin(MeetingsPage.BASE_URL, '/meeting?meetId=29')
         self.assertEqual(expected_url, actual_url, f'Meeting url {actual_url} doesn\'t match {expected_url}')
+
+    def test_subscribe_btn_stranger_visibility(self):
+        self.profile_page.open_stranger_profile()
+        self.assertTrue(self.profile_page.check_subscribe_btn_visibility())
+
+    def test_subscribe_btn_my_profile_visibility(self):
+        self.profile_page.open_page()
+        self.assertFalse(self.profile_page.check_subscribe_btn_visibility())
+
+    def test_subscribe_btn_signed_out(self):
+        self.profile_page.sign_out()
+        self.profile_page.open_stranger_profile()
+        self.profile_page.subscribe()
+        try:
+            LoginForm(self.driver).wait_until_visible()
+            self.assertTrue(LoginForm(self.driver).is_visible())
+        except TimeoutException:
+            self.fail('Auth modal does not show up')
+
+    def test_subscribe_btn_signed_in(self):
+        self.profile_page.open_stranger_profile(1)
+        self.profile_page.subscribe()
+        self.profile_page.handle_sub_confirmation()
+        new_text = 'Отменить подписку'
+        actual = self.profile_page.get_subscribe_btn_text()
+        self.profile_page.unsubscribe()
+        self.profile_page.handle_unsub_confirmation()
+        self.assertEqual(new_text, actual, f'Subscribe button text {actual} doesn\'t match {new_text}')
+
+    def test_unsubscribe_btn(self):
+        self.profile_page.open_stranger_profile(2)
+        self.profile_page.unsubscribe()
+        self.profile_page.handle_unsub_confirmation()
+        new_text = 'Подписаться'
+        actual = self.profile_page.get_subscribe_btn_text()
+        self.profile_page.subscribe()
+        self.profile_page.handle_sub_confirmation()
+        self.assertEqual(new_text, actual, f'Subscribe button text {actual} doesn\'t match {new_text}')

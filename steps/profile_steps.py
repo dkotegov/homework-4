@@ -1,8 +1,5 @@
-import urllib.parse
 from enum import Enum
 
-from pages.meetings_page import MeetingsPage
-from pages.people_page import PeoplePage
 from pages.profile_page import ProfilePage
 from steps.base_steps import Steps
 
@@ -44,8 +41,14 @@ class ProfileSteps(Steps):
     def open_people_page(self):
         self.page.navbar.click_people()
 
-    def open_stranger_profile(self):
-        self.open_page('/profile?userId=1')
+    def open_stranger_profile(self, user_id=1):
+        self.open_page(f'/profile?userId={user_id}')
+
+    def check_subscribe_btn_visibility(self):
+        return self.page.left_column.is_subscribe_btn_visible()
+
+    def get_subscribe_btn_text(self):
+        return self.page.left_column.get_sub_btn_text()
 
     def open_vk_link(self):
         self.page.left_column.click_vk()
@@ -55,3 +58,21 @@ class ProfileSteps(Steps):
 
     def open_test_meeting(self):
         self.page.left_column.click_test_meeting()
+
+    def sign_out(self):
+        self.page.navbar.click_menu()
+        self.page.navbar.click_sign_out()
+
+    def subscribe(self):
+        self.page.left_column.click_subscribe_btn()
+
+    def handle_sub_confirmation(self):
+        self.page.left_column.wait_for_sub_confirmation()
+        self.page.left_column.click_close_confirmation()
+
+    def unsubscribe(self):
+        self.page.left_column.click_subscribe_btn()
+
+    def handle_unsub_confirmation(self):
+        self.page.left_column.wait_for_unsub_confirmation()
+        self.page.left_column.click_close_confirmation()
