@@ -2,6 +2,8 @@ import random
 import string
 
 from cases.base_case import BaseTest
+from pages.meetings_page import MeetingsPage
+from pages.people_page import PeoplePage
 from steps.profile_steps import ProfileSteps
 from utils.for_examples import for_examples
 
@@ -28,3 +30,15 @@ class ProfileTest(BaseTest):
         self.profile_page.cancel_editing(field)
         actual = self.profile_page.get_field_value(field)
         self.assertEqual(old_text, actual, f'{field.name} value {actual} doesn\'t match {old_text}')
+
+    def test_meetings_redirect(self):
+        self.profile_page.open_meetings_page()
+        actual_url = self.profile_page.get_page_url()
+        expected_url = MeetingsPage.get_default_url()
+        self.assertEqual(expected_url, actual_url, f'Meetings page url {actual_url} doesn\'t match {expected_url}')
+
+    def test_people_redirect(self):
+        self.profile_page.open_people_page()
+        actual_url = self.profile_page.get_page_url()
+        expected_url = PeoplePage.get_default_url()
+        self.assertEqual(expected_url, actual_url, f'People page url {actual_url} doesn\'t match {expected_url}')

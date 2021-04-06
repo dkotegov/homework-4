@@ -8,7 +8,7 @@ from cases.profile_case import ProfileTest
 if __name__ == '__main__':
     suite = unittest.TestSuite(
         (
-            # unittest.makeSuite(AuthTest),
+            unittest.makeSuite(AuthTest),
             unittest.makeSuite(ProfileTest),
         )
     )
