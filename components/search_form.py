@@ -18,13 +18,13 @@ class SearchForm(BaseComponent):
         self.wait = WebDriverWait(self.driver, 20)
         self.locators = SearchFormLocators()
 
-    def input_profession(self, text: str):
+    def input_profession(self, text: str) -> None:
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.professionSelector)))
         element.clear()
         element.send_keys(text)
 
-    def click_on_search(self):
+    def click_on_search(self) -> None:
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.searchButton)))
         element.click()
