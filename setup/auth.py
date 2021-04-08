@@ -1,0 +1,12 @@
+from pages.auth_page import AuthPage
+
+
+def setup_auth(test):
+    auth_page = AuthPage(test.driver)
+    auth_page.open()
+
+    auth_form = auth_page.form
+    auth_form.set_email(test.EMAIL)
+    auth_form.set_password(test.PASSWORD)
+    auth_form.submit()
+    auth_form.wait_for_mainpage()
