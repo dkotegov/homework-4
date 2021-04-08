@@ -9,7 +9,7 @@ def default_setup(t):
     :param t: unittest.TestCase
     :return: None
     """
-    t.EMAIL = os.environ['LOGIN']
+    t.EMAIL = os.environ['EMAIL']
     t.PASSWORD = os.environ['PASSWORD']
 
     browser = os.environ.get('BROWSER', 'CHROME')

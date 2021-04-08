@@ -1,7 +1,7 @@
 from pages.auth_page import AuthPage
 
 
-def setup_auth(test):
+def setup_auth(test) -> None:
     auth_page = AuthPage(test.driver)
     auth_page.open()
 
