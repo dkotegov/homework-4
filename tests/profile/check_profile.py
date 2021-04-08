@@ -9,7 +9,7 @@ class CheckProfile(unittest.TestCase):
         default_setup(self)
 
     def test_check_profile_email(self):
-        print('kek')
+        # print('kek')
 
     # def tearDown(self):
     #     self.driver.quit()

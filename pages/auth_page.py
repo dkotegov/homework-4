@@ -5,7 +5,7 @@ from components.auth_form import AuthForm
 
 class AuthPage(BasePage):
     BASE_URL = 'https://studhunt.ru/'
-    PATH = 'auth/'
+    PATH = 'auth'
 
     @property
     def form(self) -> components.auth_form:
