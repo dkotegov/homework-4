@@ -1,7 +1,7 @@
 import unittest
 
 from setup.default_setup import default_setup
-
+from setup.auth import setup_auth
 
 class CheckProfile(unittest.TestCase):
 
@@ -9,7 +9,7 @@ class CheckProfile(unittest.TestCase):
         default_setup(self)
 
     def test_check_profile_email(self):
-         print('kek')
+        setup_auth(self)
 
-    # def tearDown(self):
-    #     self.driver.quit()
+    def tearDown(self):
+        self.driver.quit()
