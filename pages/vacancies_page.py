@@ -7,8 +7,8 @@ class VacanciesPage(BasePage):
     Страница Вакансий
     """
 
-    def __init__(self, driver):
-        super(VacanciesPage, self).__init__(driver)
+    def __init__(self, driver, container='//div[@id="app"]'):
+        super(VacanciesPage, self).__init__(driver, container)
 
         self.vacancy_list = VacancyList(self.driver)
 
@@ -18,5 +18,3 @@ class VacanciesPage(BasePage):
     def check_vacancy_exist_by_place(self,  place: str):
         return self.vacancy_list.vacancies_exists_by_place(place)
 
-    def check_vacancy_exist(self):
-        return self.vacancy_list.vacancies_exists()

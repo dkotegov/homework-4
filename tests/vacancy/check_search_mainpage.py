@@ -25,7 +25,7 @@ class CheckSearch(unittest.TestCase):
 
     def test_vacancies_page_move(self):
         self.mainPage.search_by_place(place=self.PLACE)
-        self.assertTrue(self.vacanciesPage.check_vacancy_exist())
+        self.assertTrue(self.vacanciesPage.is_open())
 
     def tearDown(self):
         self.driver.quit()

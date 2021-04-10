@@ -10,8 +10,8 @@ class ProfilePage(BasePage):
     BASE_URL = 'https://studhunt.ru/'
     PATH = 'profile'
 
-    def __init__(self, driver):
-        super(ProfilePage, self).__init__(driver)
+    def __init__(self, driver, container='//div[@id="app"]'):
+        super(ProfilePage, self).__init__(driver, container)
 
         self.contact_form = ProfileForm(self.driver)
 

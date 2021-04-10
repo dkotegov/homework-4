@@ -7,8 +7,8 @@ class MainPage(BasePage):
     Главная Страница
     """
 
-    def __init__(self, driver):
-        super(MainPage, self).__init__(driver)
+    def __init__(self, driver, container='//div[@id="app"]'):
+        super(MainPage, self).__init__(driver, container)
 
         self.search_form = SearchForm(self.driver)
 
