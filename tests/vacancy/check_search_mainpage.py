@@ -2,7 +2,7 @@ import unittest
 
 from pages.main_page import MainPage
 from pages.vacancies_page import VacanciesPage
-from setup.default_setup import default_setup
+from default_setup import default_setup
 
 
 class CheckSearch(unittest.TestCase):
