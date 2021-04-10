@@ -18,6 +18,8 @@ class ProfileFormLocators:
         self.personal_surname = '//div[@id="surname"]'
         self.personal_email = '//div[@id="email"]'
 
+        self.delete_btn = '//div[@id="deleteAccount"]'
+
 
 class ProfileForm(BaseComponent):
     def __init__(self, driver):
@@ -35,6 +37,21 @@ class ProfileForm(BaseComponent):
         except:
             return False
 
+    def click_to_delete_btn(self):
+        delete = WebDriverWait(self.driver, 30, 0.1).until(
+            EC.presence_of_element_located((By.XPATH, self.locators.delete_btn))
+        )
+        delete.click()
+
+    def check_profile_name(self):
+        element = self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.personal_name)))
+        return element.text
+
+    def check_profile_surname(self):
+        element = self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.personal_surname)))
+        return element.text
 
     def check_profile_email(self) -> bool:
         element = self.wait.until(

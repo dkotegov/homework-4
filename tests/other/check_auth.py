@@ -2,8 +2,8 @@ import unittest
 
 from pages.auth_page import AuthPage
 from pages.registration_page import RegistrationPage
-from setup.auth import setup_auth
-from setup.default_setup import default_setup
+from scenario.auth import setup_auth
+from tests.default_setup import default_setup
 
 
 class CheckAuth(unittest.TestCase):

@@ -1,8 +1,8 @@
 import unittest
 
 from pages.profile_page import ProfilePage
-from default_setup import default_setup
 from scenario.auth import setup_auth
+from tests.default_setup import default_setup
 
 
 class CheckProfile(unittest.TestCase):
@@ -20,9 +20,6 @@ class CheckProfile(unittest.TestCase):
             "email": "margot@margot.ru"
         }
 
-    def test_check_profile_email(self):
-        is_equal = self.page.check_profile_email(self.margot_contacts['email'])
-        self.assertTrue(is_equal)
 
     def tearDown(self):
         self.driver.quit()
