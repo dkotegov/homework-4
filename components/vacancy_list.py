@@ -22,8 +22,11 @@ class VacancyList(BaseComponent):
         self.locators = VacancyListLocators()
 
     def vacancies_exists_by_profession(self, profession: str) -> bool:
-        elements = self.wait.until(
-            EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_names)))
+        try:
+            elements = WebDriverWait(self.driver, 1).until(
+                EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_names)))
+        except TimeoutException:
+            return True
 
         for el in elements:
             elem = el.find_element_by_tag_name("a")
@@ -33,11 +36,35 @@ class VacancyList(BaseComponent):
         return True
 
     def vacancies_exists_by_place(self, place: str) -> bool:
-        elements = self.wait.until(
-            EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_location)))
+        try:
+            elements = WebDriverWait(self.driver, 1).until(
+                EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_location)))
+        except TimeoutException:
+            return True
 
         for el in elements:
             if not str.lower(el.get_attribute('innerText')).__contains__(str.lower(place)):
                 return False
 
         return True
+
+    def click_on_first_vacancy(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.vacancy_list)))
+
+        element.click()
+
+    def vacancies_exists_by_name(self, name: str) -> bool:
+        try:
+            elements = WebDriverWait(self.driver, 1).until(
+                EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_names)))
+        except TimeoutException:
+            return True
+
+        for el in elements:
+            elem = el.find_element_by_tag_name("a")
+            if not str.lower(elem.get_attribute('text')).__contains__(str.lower(name)):
+                return True
+
+        return False
+

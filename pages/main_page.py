@@ -23,6 +23,14 @@ class MainPage(BasePage):
         self.search_form.input_place(place)
         self.search_form.click_on_search()
 
+    def search_by_place_and_profession(self, place: str,profession: str):
+        self.search_form.input_profession(profession)
+        self.search_form.input_place(place)
+        self.search_form.click_on_search()
+
+    def click_recommendations(self):
+        self.navbar_form.click_on_recommendation()
+
     def click_vac_list(self):
         self.navbar_form.click_on_vacancies()
 
