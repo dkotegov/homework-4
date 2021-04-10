@@ -3,6 +3,7 @@ import unittest
 
 import sys
 
+from tests.other.check_auth import CheckAuth
 from tests.other.navbar import Navbar
 from tests.profile.check_profile import CheckProfile
 from tests.vacancy.check_search_mainpage import CheckSearch
@@ -10,6 +11,7 @@ from tests.resume.create import CreateResume
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
+        unittest.makeSuite(CheckAuth),
         unittest.makeSuite(CheckProfile),
         unittest.makeSuite(CheckSearch),
         unittest.makeSuite(CreateResume),

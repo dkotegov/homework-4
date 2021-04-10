@@ -12,6 +12,9 @@ class AuthLocators:
         self.submit_btn = '//button[@id="entBtnAuth"]'
         self.profile_btn = '//a[@href="/profile"]'
         self.login_btn = '//a[@href="/auth"]'
+        self.error_field = '//div[@class="error error_limit-width error_center"]'
+        self.registration_link = '//div[@class="input-data-card__link"]'
+        self.incorrect_error_field = '//span[@class="error"]'
 
 
 class AuthForm(BaseComponent):
@@ -57,6 +60,20 @@ class AuthForm(BaseComponent):
         WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.locators.profile_btn)
         )
+
+    def top_error(self):
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.error_field)))
+
+    def check_any_error(self):
+        return self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.incorrect_error_field)))
+
+    def click_href_reg(self):
+        element = WebDriverWait(self.driver, 30, 0.1).until(
+            EC.presence_of_element_located((By.XPATH, self.locators.registration_link))
+        )
+        element.click()
 
     def is_open(self):
         try:
