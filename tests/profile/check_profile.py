@@ -22,6 +22,6 @@ class CheckProfile(unittest.TestCase):
     def test_check_profile_email(self):
         is_equal = self.page.check_profile_email(self.margot_contacts['email'])
         self.assertTrue(is_equal)
-
+        
     def tearDown(self):
         self.driver.quit()
