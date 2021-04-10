@@ -4,6 +4,7 @@ from components.base_component import BaseComponent
 
 
 class ResumeForm(BaseComponent):
+    ROOT = "//div[@class='main-content']"
     PLACE = "//div[@class='about-candidate']/div[2]"
     DESCRIPTION = "//div[@class='job-description']/div[2]"
     SKILLS = "//div[@class='job-description']/div[5]"

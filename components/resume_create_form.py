@@ -6,6 +6,7 @@ from components.base_component import BaseComponent
 
 
 class ResumeCreateForm(BaseComponent):
+    ROOT = "//div[@class='sum-form-wrap']"
     TITLE = "//*[@id='title']"
     DESCRIPTION = '//textarea[@id="description"]'
     PLACE = '//input[@id="place"]'

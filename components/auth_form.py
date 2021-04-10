@@ -6,6 +6,7 @@ from components.base_component import BaseComponent
 
 class AuthLocators:
     def __init__(self):
+        self.root = '//div[@class="auth"]'
         self.email_field = '//input[@id="emailAuth"]'
         self.password_field = '//input[@id="passAuth"]'
         self.submit_btn = '//button[@id="entBtnAuth"]'
@@ -19,8 +20,6 @@ class AuthForm(BaseComponent):
 
         self.wait = WebDriverWait(self.driver, 20)
         self.locators = AuthLocators()
-
-    PROFILE_BUTTON = '//a[@href="/profile"]'
 
     def set_email(self, email: str):
         """

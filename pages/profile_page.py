@@ -6,13 +6,12 @@ class ProfilePage(BasePage):
     """
     Страница профиля
     """
-    BASE_URL = 'https://studhunt.ru/'
+
     PATH = 'profile'
 
     def __init__(self, driver):
-        super(ProfilePage, self).__init__(driver)
-
-        self.profile_form = ProfileForm(self.driver)
+        self.profile_form = ProfileForm(driver)
+        super(ProfilePage, self).__init__(driver, self.profile_form.locators.root)
 
     def check_open_page(self):
         return self.profile_form.is_open()
