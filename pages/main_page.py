@@ -12,6 +12,9 @@ class MainPage(BasePage):
         self.search_form = SearchForm(self.driver)
 
     def search_by_profession(self, **kwargs):
-
         self.search_form.input_profession(**kwargs)
+        self.search_form.click_on_search()
+
+    def search_by_place(self, **kwargs):
+        self.search_form.input_place(**kwargs)
         self.search_form.click_on_search()
