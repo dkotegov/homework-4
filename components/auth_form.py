@@ -9,6 +9,7 @@ class AuthForm(BaseComponent):
     EMAIL = '//input[@id="emailAuth"]'
     PASSWORD = '//input[@id="passAuth"]'
     SUBMIT = '//button[@id="entBtnAuth"]'
+    PROFILE_BUTTON = '//a[@href="/profile"]'
 
     def set_email(self, email: str):
         """
@@ -44,5 +45,5 @@ class AuthForm(BaseComponent):
         Ождиает пока не откроется главная страница
         """
         WebDriverWait(self.driver, 30, 0.1).until(
-            EC.url_matches("https://studhunt.ru/")
+            lambda d: d.find_element_by_xpath(self.PROFILE_BUTTON)
         )
