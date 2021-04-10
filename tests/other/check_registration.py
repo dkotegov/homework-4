@@ -23,17 +23,17 @@ class CheckRegistration(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    # def test_checkout_to_auth(self):
-    #     self.reg_page.open()
-    #     self.reg_page.go_to_auth()
-    #     self.auth_page.is_open()
+    def test_checkout_to_auth(self):
+        self.reg_page.open()
+        self.reg_page.go_to_auth()
+        self.auth_page.is_open()
 
-    # def test_correct_registration_applicant_and_delete(self):
-    #     data = registration_applicant(self)
-    #     self.main_page.click_profile_page()
-    #     self.profile_page.is_open()
-    #     self.assertTrue(self.profile_page.check_profile_data(data))
-    #     self.profile_page.delete_account()
+    def test_correct_registration_applicant_and_delete(self):
+        data = registration_applicant(self)
+        self.main_page.click_profile_page()
+        self.profile_page.is_open()
+        self.assertTrue(self.profile_page.check_profile_data(data))
+        self.profile_page.delete_account()
 
     def test_correct_registration_employer_and_delete(self):
         data = registration_employer(self, self.select_company)
