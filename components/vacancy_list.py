@@ -20,13 +20,20 @@ class VacancyList(BaseComponent):
         self.wait = WebDriverWait(self.driver, 20)
         self.locators = VacancyListLocators()
 
+    def vacancies_exists(self):
+        try:
+            WebDriverWait(self.driver, 1).until(
+                EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list)))
+        except TimeoutException:
+            return False
+        return True
+
     def vacancies_exists_by_profession(self, profession: str):
         elements = self.wait.until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_names)))
 
         for el in elements:
             elem = el.find_element_by_tag_name("a")
-            print(str.lower(elem.get_attribute('text')), str.lower(profession))
             if not str.lower(elem.get_attribute('text')).__contains__(str.lower(profession)):
                 return False
 
@@ -37,8 +44,7 @@ class VacancyList(BaseComponent):
             EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_location)))
 
         for el in elements:
-            print(str.lower(el.get_attribute('text')), str.lower(place))
-            if not str.lower(el.get_attribute('text')).__contains__(str.lower(place)):
+            if not str.lower(el.get_attribute('innerText')).__contains__(str.lower(place)):
                 return False
 
         return True

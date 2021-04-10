@@ -17,3 +17,6 @@ class VacanciesPage(BasePage):
 
     def check_vacancy_exist_by_place(self, **kwargs):
         return self.vacancy_list.vacancies_exists_by_place(**kwargs)
+
+    def check_vacancy_exist(self):
+        return self.vacancy_list.vacancies_exists()
