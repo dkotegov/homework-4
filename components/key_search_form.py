@@ -1,3 +1,4 @@
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -25,7 +26,11 @@ class KeySearchForm(BaseComponent):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.keyword_selector)))
         element.clear()
+
         element.send_keys(key)
+
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).perform()
 
     def click_on_search(self) -> None:
         element = self.wait.until(

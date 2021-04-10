@@ -14,5 +14,5 @@ class VacancyPage(BasePage):
     def get_vacancy_name(self) -> str:
         return self.vacancy.get_vacancy_name()
 
-    def check_education_exist(self,education:str,column:str) -> bool:
-        return self.vacancy.education_exist(education,column)
+    def check_info_exist(self, info: str, column: str) -> bool:
+        return self.vacancy.info_exist(info, column)

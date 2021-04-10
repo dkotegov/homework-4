@@ -13,8 +13,8 @@ from tests.vacancy.check_search_vacancypage import CheckSearchVacancyPage
 if __name__ == '__main__':
     suite = unittest.TestSuite((
     #    unittest.makeSuite(CheckProfile),
-        unittest.makeSuite(CheckSearchVacancyPage),
-       # unittest.makeSuite(CheckSearch),
+        #unittest.makeSuite(CheckSearchVacancyPage),
+        unittest.makeSuite(CheckSearch),
        #  unittest.makeSuite(CheckRecommendations),
     #    unittest.makeSuite(CreateResume),
     #   unittest.makeSuite(Navbar)

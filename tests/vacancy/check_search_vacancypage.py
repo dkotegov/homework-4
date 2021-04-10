@@ -27,14 +27,21 @@ class CheckSearchVacancyPage(unittest.TestCase):
         name = self.vacanciesPage.search_vacancy_by_checkbox()
         self.vacanciesPage.click_on_first_vacancy()
 
-        self.assertTrue(self.vacancyPage.check_education_exist(name, self.COLUMN))
+        self.assertTrue(self.vacancyPage.check_info_exist(name, self.COLUMN))
 
     def test_search_by_checkbox_and_keyword(self):
         self.vacanciesPage.open()
         name = self.vacanciesPage.search_vacancy_by_keyword_and_checkbox(self.KEYWORD)
         self.assertTrue(self.vacanciesPage.check_vacancy_exist_by_profession(self.KEYWORD))
         self.vacanciesPage.click_on_first_vacancy()
-        self.assertTrue(self.vacancyPage.check_education_exist(name, self.COLUMN))
+        self.assertTrue(self.vacancyPage.check_info_exist(name, self.COLUMN))
+
+    def test_scroll_up_after_search(self):
+        self.vacanciesPage.open()
+        self.vacanciesPage.search_vacancy_by_keyword(self.KEYWORD)
+        self.vacanciesPage.check_vacancy_exist_by_profession(self.KEYWORD)
+        height = self.driver.execute_script("return window.pageYOffset")
+        self.assertEqual(height, 0)
 
     def tearDown(self):
         self.driver.quit()

@@ -1,3 +1,5 @@
+from selenium.webdriver.common.keys import Keys
+
 from components.key_search_form import KeySearchForm
 from components.vacancy_list import VacancyList
 from pages.base_page import BasePage
@@ -44,3 +46,4 @@ class VacanciesPage(BasePage):
 
     def check_vacancies_exists_by_name(self, name: str) -> bool:
         return self.vacancy_list.vacancies_exists_by_name(name)
+

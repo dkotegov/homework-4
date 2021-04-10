@@ -27,7 +27,7 @@ class Vacancy(BaseComponent):
         )
         return element.get_attribute('innerText')
 
-    def education_exist(self, education: str, column: str) -> bool:
+    def info_exist(self, search: str, column: str) -> bool:
         elements = self.wait.until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.job_overview))
         )
@@ -35,7 +35,8 @@ class Vacancy(BaseComponent):
         for el in elements:
             body = el.find_element_by_class_name(self.locators.job_overview_body)
             title = el.find_element_by_class_name(self.locators.job_overview_title)
-            if body.get_attribute('innerText') == education and title.get_attribute('innerText') == column:
+            if body.get_attribute('innerText') == search and title.get_attribute('innerText') == column:
                 return True
 
         return False
+
