@@ -2,7 +2,7 @@ import os
 from selenium.webdriver import DesiredCapabilities, Remote
 
 def default_setup(t):
-    """ Осуществляет авторизацию в account.mail.ru и настраивает браузер.
+    """ Осуществляет авторизацию в studhunt.ru и настраивает браузер.
     :param t: unittest.TestCase
     :return: None
     """
