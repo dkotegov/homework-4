@@ -9,6 +9,7 @@ class AuthForm(BaseComponent):
     EMAIL = '//input[@id="emailAuth"]'
     PASSWORD = '//input[@id="passAuth"]'
     SUBMIT = '//button[@id="entBtnAuth"]'
+    PROFILE_BUTTON = '//a[@href="/profile"]'
 
     PROFILE_BUTTON = '//a[@href="/profile"]'
 
