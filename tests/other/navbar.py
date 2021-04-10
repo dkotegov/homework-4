@@ -4,8 +4,8 @@ import unittest
 from pages.auth_page import AuthPage
 from pages.main_page import MainPage
 from pages.profile_page import ProfilePage
-from setup.auth import setup_auth
-from setup.default_setup import default_setup
+from scenario.auth import setup_auth
+from tests.default_setup import default_setup
 
 
 class Navbar(unittest.TestCase):
@@ -16,6 +16,9 @@ class Navbar(unittest.TestCase):
         self.main_page = MainPage(self.driver)
         self.auth_page = AuthPage(self.driver)
         self.profile_page = ProfilePage(self.driver)
+
+    def tearDown(self):
+        self.driver.quit()
 
     def test_logout_link(self):
         setup_auth(self)
@@ -59,6 +62,3 @@ class Navbar(unittest.TestCase):
         self.main_page.open()
         self.main_page.click_auth_page()
         self.assertTrue(self.auth_page.check_open_page())
-
-
-
