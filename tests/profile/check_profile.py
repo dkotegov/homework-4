@@ -1,8 +1,8 @@
 import unittest
 
 from pages.profile_page import ProfilePage
-from setup.default_setup import default_setup
-from setup.auth import setup_auth
+from default_setup import default_setup
+from scenario.auth import setup_auth
 
 
 class CheckProfile(unittest.TestCase):

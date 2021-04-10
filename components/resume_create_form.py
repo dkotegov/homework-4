@@ -5,31 +5,38 @@ from selenium.webdriver.common.by import By
 from components.base_component import BaseComponent
 
 
+class ResumeCreateFormLocators:
+    def __init__(self):
+        self.root = "//div[@class='sum-form-wrap']"
+        self.title = "//*[@id='title']"
+        self.description = '//textarea[@id="description"]'
+        self.place = '//input[@id="place"]'
+        self.skills = '//textarea[@id="skills"]'
+        self.submit = '//button[@id="send-form-cand"]'
+
+
 class ResumeCreateForm(BaseComponent):
-    ROOT = "//div[@class='sum-form-wrap']"
-    TITLE = "//*[@id='title']"
-    DESCRIPTION = '//textarea[@id="description"]'
-    PLACE = '//input[@id="place"]'
-    SKILLS = '//textarea[@id="skills"]'
-    SUBMIT = '//button[@id="send-form-cand"]'
+    def __init__(self, driver):
+        super(ResumeCreateForm, self).__init__(driver)
+        self.wait = WebDriverWait(self.driver, 30, 0.1)
+        self.locators = ResumeCreateFormLocators()
 
     def set_title(self, title: str):
         """
         Ввод названия в окне создания резюме
         :param title: название резюме
         """
-        a = WebDriverWait(self.driver, 30, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, self.TITLE))
-        )
-        a.send_keys(title)
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.title))
+        ).send_keys(title)
 
     def set_description(self, description: str):
         """
         Ввод описания в окне создания резюме
         :param description: описание резюме
         """
-        WebDriverWait(self.driver, 30, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, self.DESCRIPTION))
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.description))
         ).send_keys(description)
 
     def set_place(self, place: str):
@@ -37,8 +44,8 @@ class ResumeCreateForm(BaseComponent):
         Ввод должности в окне создания резюме
         :param place: желаемая должность
         """
-        WebDriverWait(self.driver, 30, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, self.PLACE))
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.place))
         ).send_keys(place)
 
     def set_skills(self, skills: str):
@@ -46,22 +53,22 @@ class ResumeCreateForm(BaseComponent):
         Ввод новыков в окне создания резюме
         :param skills: навыки
         """
-        WebDriverWait(self.driver, 30, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, self.SKILLS))
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.skills))
         ).send_keys(skills)
 
     def submit(self):
         """
         Завершает создание резюме
         """
-        WebDriverWait(self.driver, 30, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, self.SUBMIT))
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.submit))
         ).click()
 
     def wait_for_resume_page(self):
         """
         Ождидает пока не откроется страница резюме
         """
-        WebDriverWait(self.driver, 30, 0.1).until(
+        self.wait.until(
             EC.url_matches("https://studhunt.ru/resume")
         )
