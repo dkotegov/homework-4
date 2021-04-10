@@ -29,7 +29,9 @@ class CheckRecommendations(unittest.TestCase):
         self.mainPage.search_by_profession(self.PROFESSION)
         self.vacanciesPage.click_on_first_vacancy()
         name = self.vacancyPage.get_vacancy_name()
-        self.assertTrue(self.vacanciesPage.check_vacancy_exist_by_profession(name))
+        self.mainPage.open()
+        self.mainPage.click_recommendations()
+        self.assertTrue(self.vacanciesPage.check_vacancies_exists_by_name(name))
 
     def tearDown(self):
         self.driver.quit()

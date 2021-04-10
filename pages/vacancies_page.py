@@ -7,6 +7,7 @@ class VacanciesPage(BasePage):
     """
     Страница Вакансий
     """
+    PATH = 'employersList'
 
     def __init__(self, driver):
         self.vacancy_list = VacancyList(driver)
@@ -16,20 +17,20 @@ class VacanciesPage(BasePage):
     def check_vacancy_exist_by_profession(self, profession: str) -> bool:
         return self.vacancy_list.vacancies_exists_by_profession(profession)
 
-    def check_vacancy_exist_by_place(self, place: str) ->bool:
+    def check_vacancy_exist_by_place(self, place: str) -> bool:
         return self.vacancy_list.vacancies_exists_by_place(place)
 
-    def check_vacancy_by_place_and_profession(self, place: str, profession: str) ->bool:
+    def check_vacancy_by_place_and_profession(self, place: str, profession: str) -> bool:
         res1 = self.vacancy_list.vacancies_exists_by_profession(profession)
         res2 = self.vacancy_list.vacancies_exists_by_place(place)
         return res1 & res2
 
-    def search_vacancy_by_keyword(self, keyword: str):
-        return self.vacancy_list
-
     def click_on_first_vacancy(self):
         self.vacancy_list.click_on_first_vacancy()
 
-    def check_vacancies_exists_by_name(self, name:str) ->bool:
-        return self.vacancy_list.vacancies_exists_by_name(name)
+    def search_vacancy_by_keyword(self, keyword: str):
+        self.vacancy_search.input_keyword(keyword)
+        self.vacancy_search.click_on_search()
 
+    def check_vacancies_exists_by_name(self, name: str) -> bool:
+        return self.vacancy_list.vacancies_exists_by_name(name)

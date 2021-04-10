@@ -28,8 +28,5 @@ class CheckSearch(unittest.TestCase):
         self.mainPage.search_by_place_and_profession(self.PLACE,self.PROFESSION)
         self.assertTrue(self.vacanciesPage.check_vacancy_by_place_and_profession(self.PLACE,self.PROFESSION))
 
-    # def test_search_by_keyword(self):
-    #     self.vacanciesPage.search_vacancy_by_keyword(self.KEYWORD)
-
     def tearDown(self):
         self.driver.quit()

@@ -23,7 +23,7 @@ class VacancyList(BaseComponent):
 
     def vacancies_exists_by_profession(self, profession: str) -> bool:
         try:
-            elements = WebDriverWait(self.driver, 1).until(
+            elements = WebDriverWait(self.driver, 3).until(
                 EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_names)))
         except TimeoutException:
             return True
@@ -37,7 +37,7 @@ class VacancyList(BaseComponent):
 
     def vacancies_exists_by_place(self, place: str) -> bool:
         try:
-            elements = WebDriverWait(self.driver, 1).until(
+            elements = WebDriverWait(self.driver, 3).until(
                 EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_location)))
         except TimeoutException:
             return True
@@ -56,15 +56,14 @@ class VacancyList(BaseComponent):
 
     def vacancies_exists_by_name(self, name: str) -> bool:
         try:
-            elements = WebDriverWait(self.driver, 1).until(
+            elements = WebDriverWait(self.driver, 3).until(
                 EC.presence_of_all_elements_located((By.XPATH, self.locators.vacancy_list_names)))
         except TimeoutException:
             return True
 
         for el in elements:
             elem = el.find_element_by_tag_name("a")
-            if not str.lower(elem.get_attribute('text')).__contains__(str.lower(name)):
+            if str.lower(elem.get_attribute('text')).__contains__(str.lower(name)):
                 return True
 
         return False
-
