@@ -32,5 +32,15 @@ class VacanciesPage(BasePage):
         self.vacancy_search.input_keyword(keyword)
         self.vacancy_search.click_on_search()
 
+    def search_vacancy_by_checkbox(self) -> str:
+        str = self.vacancy_search.click_on_search_checkbox()
+        return str
+
+    def search_vacancy_by_keyword_and_checkbox(self, keyword: str):
+        str = self.vacancy_search.click_on_search_checkbox()
+        self.vacancy_search.input_keyword(keyword)
+        self.vacancy_search.click_on_search()
+        return str
+
     def check_vacancies_exists_by_name(self, name: str) -> bool:
         return self.vacancy_list.vacancies_exists_by_name(name)

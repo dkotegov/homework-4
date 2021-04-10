@@ -15,7 +15,7 @@ if __name__ == '__main__':
     #    unittest.makeSuite(CheckProfile),
         unittest.makeSuite(CheckSearchVacancyPage),
        # unittest.makeSuite(CheckSearch),
-       # unittest.makeSuite(CheckRecommendations),
+       #  unittest.makeSuite(CheckRecommendations),
     #    unittest.makeSuite(CreateResume),
     #   unittest.makeSuite(Navbar)
     ))

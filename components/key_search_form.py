@@ -7,8 +7,11 @@ from components.base_component import BaseComponent
 class KeySearchFormLocators:
     def __init__(self):
         self.root = '//div[@class="main-search-form"]'
-        self.keyword_selector = '//input[@id="keywords-search__input"]'
-        self.search_button = '//div[@class="main-search-form__btn"]'
+        self.keyword_selector = '//input[@class="keywords-search__input"]'
+        self.search_button = '//button[@class="main-search-form__btn"]'
+        self.search_check_box = '//div[@class="option-type"]'
+        self.search_check_box_input = 'option-type__checkbox'
+        self.search_check_box_name = 'option-type__name'
 
 
 class KeySearchForm(BaseComponent):
@@ -29,4 +32,11 @@ class KeySearchForm(BaseComponent):
             EC.element_to_be_clickable((By.XPATH, self.locators.search_button)))
         element.click()
 
+    def click_on_search_checkbox(self) -> str:
+        element = self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.search_check_box)))
 
+        checkBoxInput = element.find_element_by_class_name(self.locators.search_check_box_input)
+        checkBoxInput.click()
+        checkBoxName = element.find_element_by_class_name(self.locators.search_check_box_name)
+        return checkBoxName.get_attribute('innerText')
