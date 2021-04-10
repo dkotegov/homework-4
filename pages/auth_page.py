@@ -7,9 +7,9 @@ class AuthPage(BasePage):
     PATH = 'auth'
 
     def __init__(self, driver):
-        self.resume_create_form = AuthForm(driver)
-        super(AuthPage, self).__init__(driver, self.resume_create_form.ROOT)
+        self.auth_form = AuthForm(self.driver)
+        super(AuthPage, self).__init__(driver, self.auth_form.locators.root)
 
-    @property
-    def form(self) -> components.auth_form:
-        return AuthForm(self.driver)
+    def check_open_page(self):
+        return self.auth_form.is_open()
+
