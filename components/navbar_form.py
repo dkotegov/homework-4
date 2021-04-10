@@ -10,7 +10,12 @@ class NavbarLocators:
         self.resumes_btn = '//a[@href="/candidatesList"]'
         self.companies_btn = '//a[@href="/companiesList"]'
         self.mainpage_btn = '//a[@href="/"]'
-
+        self.registration_btn = '//a[@href="/reg"]'
+        self.auth_btn = '//a[@href="/auth"]'
+        self.profile_btn = '//a[@href="/profile"]'
+        self.chats_btn = '//a[@href="/chats"]'
+        self.logout_btn = '//a[@href="/logout"]'
+        self.notification_btn = '//a[@id="note-button"]'
 
 class NavbarForm(BaseComponent):
     def __init__(self, driver):
@@ -39,3 +44,33 @@ class NavbarForm(BaseComponent):
             EC.presence_of_element_located((By.XPATH, self.locators.mainpage_btn))
         )
         mainpage.click()
+
+    def click_on_registration(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.registration_btn)))
+        element.click()
+
+    def click_on_profile(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.profile_btn)))
+        element.click()
+
+    def click_on_auth(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.auth_btn)))
+        element.click()
+
+    def click_on_notification(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.notification_btn)))
+        element.click()
+
+    def click_on_chats(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.chats_btn)))
+        element.click()
+
+    def click_on_logout(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.logout_btn)))
+        element.click()
