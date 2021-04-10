@@ -4,6 +4,7 @@ from pages.profile_page import ProfilePage
 from setup.default_setup import default_setup
 from setup.auth import setup_auth
 
+
 class CheckProfile(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -22,6 +23,6 @@ class CheckProfile(unittest.TestCase):
     def test_check_profile_email(self):
         is_equal = self.page.check_profile_email(self.margot_contacts['email'])
         self.assertTrue(is_equal)
-        
+
     def tearDown(self):
         self.driver.quit()

@@ -10,7 +10,7 @@ class BasePage(object):
     BASE_URL = 'https://studhunt.ru/'
     PATH = ''
 
-    def __init__(self, driver, container='//div[@id="app"]'):
+    def __init__(self, driver, container):
         self.driver = driver
         self.container = container
 

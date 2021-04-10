@@ -8,6 +8,7 @@ from components.base_component import BaseComponent
 
 class VacancyListLocators:
     def __init__(self):
+        self.root = '//div[@class="main-list"]'
         self.vacancy_list = '//div[@class="list-row"]'
         self.vacancy_list_names = '//div[@class="list-row-description__name"]'
         self.vacancy_list_location = '//div[@class="list-row-description__location"]'

@@ -8,9 +8,8 @@ class MainPage(BasePage):
     """
 
     def __init__(self, driver):
-        super(MainPage, self).__init__(driver)
-
-        self.search_form = SearchForm(self.driver)
+        self.search_form = SearchForm(driver)
+        super(MainPage, self).__init__(driver, self.search_form.locators.root)
 
     def search_by_profession(self, profession: str):
         self.search_form.input_profession(profession)

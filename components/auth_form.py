@@ -6,6 +6,7 @@ from components.base_component import BaseComponent
 
 
 class AuthForm(BaseComponent):
+    ROOT = '//div[@class="auth"]'
     EMAIL = '//input[@id="emailAuth"]'
     PASSWORD = '//input[@id="passAuth"]'
     SUBMIT = '//button[@id="entBtnAuth"]'

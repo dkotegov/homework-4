@@ -7,6 +7,7 @@ from .base_component import BaseComponent
 
 class ProfileFormLocators:
     def __init__(self):
+        self.root = '//div[@class="main-page"]'
         self.personal_info_btn = '//div[@class="btn-href"][0]'
         self.my_res_or_vac_btn = '//div[@class="btn-href"][1]'
         self.chosen_btn = '//div[@class="btn-href"][2]'

@@ -7,6 +7,7 @@ from components.base_component import BaseComponent
 
 class SearchFormLocators:
     def __init__(self):
+        self.root = '//div[@class="search-form-header"]'
         self.profession_selector = '//input[@id="searchJob"]'
         self.search_button = '//div[@id="searchBtn"]'
         self.place_selector = '//input[@id="searchPlace"]'
