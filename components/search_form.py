@@ -7,8 +7,9 @@ from components.base_component import BaseComponent
 
 class SearchFormLocators:
     def __init__(self):
-        self.professionSelector = '//div[@data-test-id="searchJob"]'
-        self.searchButton = '//div[@data-test-id="searchBtn"]'
+        self.professionSelector = '//input[@id="searchJob"]'
+        self.searchButton = '//div[@id="searchBtn"]'
+        self.placeSelector = '//input[@id="searchPlace"]'
 
 
 class SearchForm(BaseComponent):
@@ -18,13 +19,19 @@ class SearchForm(BaseComponent):
         self.wait = WebDriverWait(self.driver, 20)
         self.locators = SearchFormLocators()
 
-    def input_profession(self, text: str) -> None:
+    def input_profession(self, proffesion: str) -> None:
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.professionSelector)))
         element.clear()
-        element.send_keys(text)
+        element.send_keys(proffesion)
 
     def click_on_search(self) -> None:
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.searchButton)))
         element.click()
+
+    def input_place(self, place: str) -> None:
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.placeSelector)))
+        element.clear()
+        element.send_keys(place)

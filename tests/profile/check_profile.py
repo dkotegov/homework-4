@@ -11,5 +11,5 @@ class CheckProfile(unittest.TestCase):
     def test_check_profile_email(self):
          print('kek')
 
-    # def tearDown(self):
-    #     self.driver.quit()
+    def tearDown(self):
+         self.driver.quit()
