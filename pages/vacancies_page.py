@@ -7,8 +7,8 @@ class VacanciesPage(BasePage):
     Страница Вакансий
     """
 
-    def __init__(self, driver, container='//div[@id="app"]'):
-        super(VacanciesPage, self).__init__(driver, container)
+    def __init__(self, driver):
+        super(VacanciesPage, self).__init__(driver)
 
         self.vacancy_list = VacancyList(self.driver)
 
