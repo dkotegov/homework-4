@@ -53,3 +53,12 @@ class MainPage(BasePage):
     def click_logout(self):
         self.navbar_form.click_on_logout()
 
+    def click_create_vacancy(self):
+        self.navbar_form.click_create_vacancy()
+
+    def click_create_company(self):
+        self.navbar_form.click_create_company()
+
+    def click_create_resume(self):
+        self.navbar_form.click_create_resume()
+
