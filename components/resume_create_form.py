@@ -20,8 +20,13 @@ class ResumeCreateFormLocators:
         self.name = '//input[@id="name"]'
         self.email = '//input[@id="email"]'
 
+        self.job_date = '(//div[@class="job-container"])/div[1]'
+        self.job_name = '(//div[@class="job-container"])/div[3]'
+        self.job_position = '(//div[@class="job-container"])/div[2]'
+
         self.submit = '//button[@id="send-form-cand"]'
         self.browse_image_btn = '//input[@id="sum-img-load"]'
+        self.add_experience_btn = '//div[@class="btn-add-exp"]'
 
         self.error_title = '(//span[@class="error"])[1]'
         self.error_surname = '(//span[@class="error"])[2]'
@@ -37,10 +42,9 @@ class ResumeCreateFormLocators:
 class ResumeCreateForm(BaseComponent):
     def __init__(self, driver):
         super(ResumeCreateForm, self).__init__(driver)
-        self.wait = WebDriverWait(self.driver, 10, 0.1)
         self.locators = ResumeCreateFormLocators()
 
-        self.error_message = 'Поле обязательно для заполнения.'
+        self.error_message_input = 'Поле обязательно для заполнения.'
         self.error_message_email = 'Укажите email.'
         self.error_message_common = 'Что-то пошло не так. Попробуйте позже.'
 
@@ -76,13 +80,34 @@ class ResumeCreateForm(BaseComponent):
                 EC.text_to_be_present_in_element((By.XPATH, locator), error_message)
             )
             return True
-        except (TimeoutException, AssertionError):
+        except TimeoutException:
             return False
 
     def load_image(self):
         self.wait.until(
             EC.presence_of_element_located((By.XPATH, self.locators.browse_image_btn))
         ).send_keys('test_data/big_img.png')
+
+    def open_popup_add_experience(self):
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.add_experience_btn))
+        ).click()
+
+    def get_job_date(self):
+        date = self.wait.until(
+            lambda d: d.find_element_by_xpath(self.locators.job_date)
+        ).text
+        return date.split('_')
+
+    def get_job_name(self) -> str:
+        return self.wait.until(
+            lambda d: d.find_element_by_xpath(self.locators.job_name)
+        ).text
+
+    def get_job_position(self) -> str:
+        return self.wait.until(
+            lambda d: d.find_element_by_xpath(self.locators.job_position)
+        ).text
 
     def set_title(self, title: str):
         self.set_input(self.locators.title, title)
@@ -109,25 +134,25 @@ class ResumeCreateForm(BaseComponent):
         self.set_input(self.locators.email, email)
 
     def is_title_error(self):
-        return self.is_error_input(self.locators.error_title, self.error_message)
+        return self.is_error_input(self.locators.error_title, self.error_message_input)
 
     def is_description_error(self):
-        return self.is_error_input(self.locators.error_description, self.error_message)
+        return self.is_error_input(self.locators.error_description, self.error_message_input)
 
     def is_place_error(self):
-        return self.is_error_input(self.locators.error_place, self.error_message)
+        return self.is_error_input(self.locators.error_place, self.error_message_input)
 
     def is_skills_error(self):
-        return self.is_error_input(self.locators.error_skills, self.error_message)
+        return self.is_error_input(self.locators.error_skills, self.error_message_input)
 
     def is_salary_error(self, error_message):
         return self.is_error_input(self.locators.error_salary, error_message)
 
     def is_surname_error(self):
-        return self.is_error_input(self.locators.error_surname, self.error_message)
+        return self.is_error_input(self.locators.error_surname, self.error_message_input)
 
     def is_name_error(self):
-        return self.is_error_input(self.locators.error_name, self.error_message)
+        return self.is_error_input(self.locators.error_name, self.error_message_input)
 
     def is_email_error(self):
         return self.is_error_input(self.locators.error_email, self.error_message_email)

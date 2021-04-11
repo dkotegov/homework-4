@@ -12,7 +12,7 @@ def create_resume(test, data=None) -> None:
     create_resume_page = CreateResumePage(test.driver)
     create_resume_page.open()
 
-    create_resume_form = create_resume_without_submit(create_resume_page.form, data)
+    create_resume_form = create_resume_without_submit(create_resume_page.create_form, data)
     create_resume_form.submit()
     create_resume_form.wait_for_resume_page()
 

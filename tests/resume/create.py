@@ -1,11 +1,10 @@
 import unittest
 
 from pages.create_resume_page import CreateResumePage
+from pages.resume_page import ResumePage
 from tests.default_setup import default_setup
 from scenario.auth import setup_auth
 from scenario.create_resume import create_resume, create_resume_without_submit
-
-from pages.resume_page import ResumePage
 
 
 class CreateResume(unittest.TestCase):
@@ -21,12 +20,15 @@ class CreateResume(unittest.TestCase):
         setup_auth(self)
 
         self.create_resume_page = CreateResumePage(self.driver)
-        self.create_resume_form = self.create_resume_page.form
+        self.create_resume_form = self.create_resume_page.create_form
 
         self.resume_page = ResumePage(self.driver)
         self.resume = self.resume_page.form
 
         self.create_resume_page.open()
+
+    def tearDown(self):
+        self.driver.quit()
 
     def test_create_resume(self):
         create_resume(self)
@@ -43,7 +45,7 @@ class CreateResume(unittest.TestCase):
         self.create_resume_form.submit()
         self.assertTrue(self.create_resume_form.is_title_error())
         self.assertTrue(self.create_resume_form.is_description_error())
-        self.assertTrue(self.create_resume_form.is_place_error())
+        self.assertTrue(self.create_resume_form.is_position_error())
         self.assertTrue(self.create_resume_form.is_skills_error())
 
     def test_enter_salary_in_letters(self):
@@ -123,6 +125,3 @@ class CreateResume(unittest.TestCase):
         self.create_resume_form.submit()
         self.assertTrue(self.create_resume_form.is_common_error(
             'Превышен максимальный размер изображения. Максимальный размер: 2 mB.'))
-
-    def tearDown(self):
-        self.driver.quit()

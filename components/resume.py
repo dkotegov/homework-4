@@ -11,6 +11,7 @@ class ResumeFormLocators:
         self.skills = "//div[@class='job-description']/div[5]"
         self.salary = "(//div[@class='inline-icon-desc__body'])[1]"
 
+
 class ResumeForm(BaseComponent):
     def __init__(self, driver):
         super(ResumeForm, self).__init__(driver)
