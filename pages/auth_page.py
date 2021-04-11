@@ -30,3 +30,6 @@ class AuthPage(BasePage):
 
     def go_to_reg(self):
         self.auth_form.click_href_reg()
+
+    def is_open(self) -> bool:
+        self.auth_form.wait_for_mainpage()

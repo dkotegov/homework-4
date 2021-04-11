@@ -13,29 +13,25 @@ def registration_employer(test, select_company, data=None):
         email = (''.join(random.choice(string.ascii_letters) for i in range(10))) + '@mail.ru'
         password = ''.join(random.choice(string.ascii_letters) for i in range(10))
         data = {
-            'name': name,
-            'surname': surname,
-            'email': email,
-            'password': password,
-            'confirm_password': password,
+            'NAME': name,
+            'SURNAME': surname,
+            'EMAIL': email,
+            'PASSWORD': password,
+            'CONFIRM_PASSWORD': password,
         }
 
     registration_page = RegistrationPage(test.driver)
     registration_page.open()
 
-    registration_form = registration_page.registration_form
-
-    registration_form.click_checkout_btn()
+    registration_page.click_checkout_btn()
 
     if not select_company:
-        registration_form.select_checkbox()
+        registration_page.click_to_checkbox()
     else:
         if registration_page.select_company():
-            registration_form.select_checkbox()
+            registration_page.click_to_checkbox()
 
     registration_page.set_data(data)
-    registration_form.submit()
-    registration_form.wait_for_mainpage()
-
+    registration_page.wait_for_reg_is_done()
     return data
 
