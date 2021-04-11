@@ -36,12 +36,12 @@ class Component(object):
 
 class AuthForm(Component):
     LOGIN = '//input[@name="username"]'
-    NEXT = '//*[@id="root"]/div/div/div/div/div/form/div[2]/div[2]/div[3]/div/div[1]/button/span'
+    NEXT = '//span[text()="Ввести пароль"]'
     PASSWORD = '//input[@name="password"]'
-    SUBMIT = '//*[@id="root"]/div/div/div/div/div/form/div[2]/div/div[3]/div/div[1]/div/button/span'
+    SUBMIT = '//span[text()="Войти"]'
 
     def set_login(self, login):
-        iframe = self.driver.find_element_by_xpath('/html/body/div/div[2]/div/div[1]/div/div/div/iframe')
+        iframe = self.driver.find_element_by_class_name('ag-popup__frame__layout__iframe')
         self.driver.switch_to.frame(iframe)
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
@@ -79,4 +79,5 @@ class FolderTest(unittest.TestCase):
         auth_form.next()
         auth_form.set_password(self.PASSWORD)
         auth_form.submit()
+        time.sleep(3)
         self.assertEqual(1 + 2, 3)
