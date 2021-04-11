@@ -9,17 +9,24 @@ class RegistrationFormLocators:
         self.root = '//div[@class="main-page"]'
         self.auth_link = '//a[@href="/auth"]'
         self.page_title = '//div[@class="page-name page-name_small page-name_reg"]'
+
+        self.checkout_btn = '//div[@data-value="Работодатель"]'
+        self.checkbox_btn = '//input[@id="regCheckbox"]'
+        self.select_company_btn = '//div[@class="dropbtn"]'
+        self.company_list = '//div[@class="dropdown-content__div"]'
+
         self.name_field = '//input[@id="firstNameReg"]'
         self.surname_field = '//input[@id="lastNameReg"]'
         self.email_field = '//input[@id="emailReg"]'
         self.password_field = '//input[@id="passwReg"]'
         self.password2_field = '//input[@id="passwReg2"]'
         self.submit_btn = '//button[@class="input-data-card__enter-btn"]'
+
         self.profile_btn = '//a[@href="/profile"]'
-        self.checkout_btn = '//div[@data-value="Работодатель"]'
-        self.checkbox_btn = '//input[@id="regCheckbox"]'
-        self.select_company_btn = '//div[@class="dropbtn"]'
-        self.company_list = '//div[@class="dropdown-content__div"]'
+
+        self.errors_list = '//span[@class="error"]'
+        self.top_error = '//div[@class="error error_limit-width error_center"]'
+
 
 
 
@@ -114,3 +121,10 @@ class RegistrationForm(BaseComponent):
             lambda d: d.find_element_by_xpath(self.locators.profile_btn)
         )
 
+    def all_errors(self):
+        return self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.errors_list)))
+
+    def top_error(self):
+        return self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.top_error)))[0]

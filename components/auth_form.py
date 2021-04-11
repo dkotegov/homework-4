@@ -57,9 +57,13 @@ class AuthForm(BaseComponent):
         """
         Ождиает пока не откроется главная страница
         """
-        WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.locators.profile_btn)
-        )
+        try:
+            WebDriverWait(self.driver, 30, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.locators.profile_btn)
+            )
+            return True
+        except:
+            return False
 
     def top_error(self):
         self.wait.until(

@@ -17,7 +17,7 @@ class ProfilePage(BasePage):
         return self.profile_form.is_open()
 
     def check_profile_data(self, data):
-        return self.profile_form.check_profile_name() == data['name'] and self.profile_form.check_profile_surname() == data['surname'] and self.profile_form.check_profile_email() == data['email']
+        return self.profile_form.check_profile_name() == data['NAME'] and self.profile_form.check_profile_surname() == data['SURNAME'] and self.profile_form.check_profile_email() == data['EMAIL']
 
     def delete_account(self):
         self.profile_form.click_to_delete_btn()
