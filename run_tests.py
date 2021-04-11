@@ -12,9 +12,9 @@ from tests.resume.create import CreateResume
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(CheckRegistration),
+        # unittest.makeSuite(CheckRegistration),
         # unittest.makeSuite(CheckAuth),
-        # unittest.makeSuite(CheckProfile),
+        unittest.makeSuite(CheckProfile),
         # unittest.makeSuite(CheckSearch),
         # unittest.makeSuite(CreateResume),
         # unittest.makeSuite(Navbar)
