@@ -83,7 +83,7 @@ class CheckRegistration(unittest.TestCase):
     def test_checkout_to_auth(self):
         self.reg_page.open()
         self.reg_page.go_to_auth()
-        self.auth_page.is_open()
+        self.auth_page.check_open_page()
 
     def test_correct_registration_applicant_and_delete(self):
         data = registration_applicant(self)

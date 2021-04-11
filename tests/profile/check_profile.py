@@ -63,7 +63,7 @@ class CheckProfile(unittest.TestCase):
         self.profile_page.open()
         self.assertTrue(self.profile_page.click_link_to_myResponses())
         self.profile_page.open_resume_responses()
-    
+
     def test_upload_avatar(self):
         auth_as_applicant(self)
         self.profile_page.open()
@@ -117,11 +117,11 @@ class CheckProfile(unittest.TestCase):
         self.profile_page.open()
         self.profile_page.edit('margot1', 3)
         self.assertTrue(
-            self.profile_page.check_error('Email должен содержать "@" и латинские буквы, цифры, символы.'))
+            self.profile_page.check_span_error('Email должен содержать "@" и латинские буквы, цифры, символы.'))
 
     def test_incorrect_phone(self):
         auth_as_applicant(self)
         self.profile_page.open()
         self.profile_page.edit('margot1', 4)
         self.assertTrue(
-            self.profile_page.check_phone_error('Неверный номер телефона.'))
+            self.profile_page.check_span_error('Неверный номер телефона.'))

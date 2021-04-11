@@ -63,7 +63,7 @@ class ProfilePage(BasePage):
         error = self.profile_form.check_error()
         return error.text == text
 
-    def check_phone_error(self, text):
+    def check_span_error(self, text):
         error = self.profile_form.check_error_phone()
         return error.text == text
 
