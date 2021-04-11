@@ -28,6 +28,10 @@ class AuthPage(Page):
     def form(self):
         return AuthForm(self.driver)
 
+    @property
+    def top_menu(self):
+        return TopMenu(self.driver)
+
 
 class Component(object):
     def __init__(self, driver):
@@ -54,6 +58,21 @@ class AuthForm(Component):
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
+    def authorize(self, login, password):
+        self.set_login(login)
+        self.next()
+        self.set_password(password)
+        self.submit()
+
+
+class TopMenu(Component):
+    USERNAME = 'PH_user-email'
+
+    def get_username(self):
+        return WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_id(self.USERNAME).text
+        )
+
 
 class FolderTest(unittest.TestCase):
     LOGIN = os.environ['LOGIN']
@@ -75,9 +94,7 @@ class FolderTest(unittest.TestCase):
         auth_page.open()
 
         auth_form = auth_page.form
-        auth_form.set_login(self.LOGIN)
-        auth_form.next()
-        auth_form.set_password(self.PASSWORD)
-        auth_form.submit()
-        time.sleep(3)
-        self.assertEqual(1 + 2, 3)
+        auth_form.authorize(self.LOGIN, self.PASSWORD)
+        time.sleep(5)
+        user_name = auth_page.top_menu.get_username()
+        self.assertEqual(self.LOGIN + '@mail.ru', user_name)
