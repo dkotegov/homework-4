@@ -8,7 +8,7 @@ class CreateResumePage(BasePage):
 
     def __init__(self, driver):
         self.resume_create_form = ResumeCreateForm(driver)
-        super(CreateResumePage, self).__init__(driver, self.resume_create_form.ROOT)
+        super(CreateResumePage, self).__init__(driver, self.resume_create_form.locators.root)
 
     @property
     def form(self) -> components.resume_create_form:
