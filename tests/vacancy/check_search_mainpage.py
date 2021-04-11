@@ -16,7 +16,7 @@ class CheckSearch(unittest.TestCase):
         self.COLUMN = "Направление"
         self.mainPage = MainPage(self.driver)
         self.vacanciesPage = VacanciesPage(self.driver)
-        self.vacanсyPage =  VacancyPage(self.driver)
+        self.vacancyPage = VacancyPage(self.driver)
         self.mainPage.open()
 
     def test_search_by_profession(self):
@@ -28,13 +28,13 @@ class CheckSearch(unittest.TestCase):
         self.assertTrue(self.vacanciesPage.check_vacancy_exist_by_place(self.PLACE))
 
     def test_search_by_place_and_profession(self):
-        self.mainPage.search_by_place_and_profession(self.PLACE,self.PROFESSION)
-        self.assertTrue(self.vacanciesPage.check_vacancy_by_place_and_profession(self.PLACE,self.PROFESSION))
+        self.mainPage.search_by_place_and_profession(self.PLACE, self.PROFESSION)
+        self.assertTrue(self.vacanciesPage.check_vacancy_by_place_and_profession(self.PLACE, self.PROFESSION))
 
     def test_search_by_category(self):
         name = self.mainPage.click_on_category()
         self.vacanciesPage.click_on_first_vacancy()
-        self.assertTrue(self.vacanсyPage.check_info_exist(name,self.COLUMN))
+        self.assertTrue(self.vacancyPage.check_info_exist(name, self.COLUMN))
 
     def tearDown(self):
         self.driver.quit()

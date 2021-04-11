@@ -12,6 +12,8 @@ class VacancyLocators:
         self.job_overview_title = 'inline-icon-desc__title'
         self.job_overview_body = 'inline-icon-desc__body'
         self.job_overview = '//div[@class="job-overview-li"]'
+        self.comp_name = '//div[@class="describe-employer__comp-name"]'
+        self.resp_btn = '//div[@id="responseVacancyBtn"]'
 
 
 class Vacancy(BaseComponent):
@@ -40,3 +42,14 @@ class Vacancy(BaseComponent):
 
         return False
 
+    def click_on_response(self) -> str:
+        comp_name = self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.comp_name))
+        )
+        name = comp_name.get_attribute('innerText')
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.resp_btn))
+        )
+        element.click()
+
+        return name
