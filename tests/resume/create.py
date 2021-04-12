@@ -45,7 +45,7 @@ class CreateResume(unittest.TestCase):
         self.create_resume_form.submit_resume()
         self.assertTrue(self.create_resume_form.is_title_error())
         self.assertTrue(self.create_resume_form.is_description_error())
-        self.assertTrue(self.create_resume_form.is_position_error())
+        self.assertTrue(self.create_resume_form.is_place_error())
         self.assertTrue(self.create_resume_form.is_skills_error())
 
     def test_enter_salary_in_letters(self):

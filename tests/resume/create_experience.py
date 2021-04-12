@@ -35,23 +35,23 @@ class CreateExperience(unittest.TestCase):
         create_resume_without_submit(self.create_resume_form, self.data)
         self.create_resume_form.open_popup_add_experience()
 
-    # def test_create_empty_experience(self):
-    #     self.create_experience_form.submit_exp()
-    #     self.assertTrue(self.create_experience_form.is_date_error('Укажите дату'))
-    #     self.assertTrue(self.create_experience_form.is_position_error())
-    #     self.assertTrue(self.create_experience_form.is_name_job_error())
+    def test_create_empty_experience(self):
+        self.create_experience_form.submit_exp()
+        self.assertTrue(self.create_experience_form.is_date_error('Укажите дату'))
+        self.assertTrue(self.create_experience_form.is_position_error())
+        self.assertTrue(self.create_experience_form.is_name_job_error())
 
-    # def test_enter_date_start_greater_end(self):
-    #     self.create_experience_form.set_position(self.data['position'])
-    #     self.create_experience_form.set_name_job(self.data['name job'])
-    #     self.create_experience_form.set_date_start('01.01.2010')
-    #     self.create_experience_form.set_date_end('01.01.2000')
-    #     self.create_experience_form.submit_exp()
-    #     self.assertTrue(self.create_experience_form.is_date_error('Некорректная дата.'))
+    def test_enter_date_start_greater_end(self):
+        self.create_experience_form.set_position(self.data['position'])
+        self.create_experience_form.set_name_job(self.data['name_job'])
+        self.create_experience_form.set_date_start('01.01.2010')
+        self.create_experience_form.set_date_end('01.01.2000')
+        self.create_experience_form.submit_exp()
+        self.assertTrue(self.create_experience_form.is_date_error('Некорректная дата.'))
 
-    # def test_close_popup(self):
-    #     self.create_experience_form.close_popup()
-    #     self.assertFalse(self.create_experience_form.form_is_open())
+    def test_close_popup(self):
+        self.create_experience_form.close_popup()
+        self.assertFalse(self.create_experience_form.form_is_open())
 
     def test_create_experience(self):
         self.create_experience_form.set_position(self.data['position'])
@@ -69,8 +69,6 @@ class CreateExperience(unittest.TestCase):
         self.assertEqual(page_date[1], self.data['end_date'])
         self.assertEqual(self.create_resume_form.get_job_name(), self.data['name_job'])
         self.assertEqual(self.create_resume_form.get_job_position(), self.data['position'])
-
-
 
     def tearDown(self):
         self.driver.quit()
