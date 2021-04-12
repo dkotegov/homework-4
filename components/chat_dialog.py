@@ -12,7 +12,7 @@ class ChatDialogLocators:
         self.name = '//div[@class="dialogue-name dialogue-name_chat"]'
         self.sendButton = '//div[@id="sendMessageBtn"]'
         self.textArea = '//textarea[@id="sendMessage"]'
-        self.msgs = '//div[@class="technical-mess"]'
+        self.msgs = '//div[@class="single-message__body"]'
 
 
 class ChatDialog(BaseComponent):
@@ -27,18 +27,23 @@ class ChatDialog(BaseComponent):
             EC.visibility_of_element_located((By.XPATH, self.locators.name)))
         return element.get_attribute('innerText')
 
-    def click_send(self) -> str:
-        elementStr = self.wait.until(
-            EC.visibility_of_element_located((By.XPATH, self.locators.name)))
+    def click_send(self, text:str):
+        elementText = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.textArea)))
+        elementText.send_keys(text)
 
         elementBtn = self.wait.until(
-            EC.element_to_be_clickable((By.XPATH, self.locators.textArea)))
+            EC.element_to_be_clickable((By.XPATH, self.locators.sendButton)))
         elementBtn.click()
 
-        return elementStr.get_attribute('innerText')
+    def click_send_by_enter(self, text: str):
+        elementText = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.textArea)))
+        elementText.send_keys(text)
+        elementText.send_keys(u'\ue007')
 
     def get_last_msg(self) -> str:
         elementStr = self.wait.until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.msgs)))
 
-        return elementStr[len(elementStr) -1].get_attribute('innerText')
+        return elementStr[len(elementStr) - 1].get_attribute('innerText')

@@ -1,6 +1,7 @@
 import os
 from selenium.webdriver import DesiredCapabilities, Remote
 
+
 def default_setup(t):
     """ Осуществляет авторизацию в studhunt.ru и настраивает браузер.
     :param t: unittest.TestCase
@@ -8,6 +9,8 @@ def default_setup(t):
     """
     t.EMAIL = os.environ['EMAIL']
     t.PASSWORD = os.environ['PASSWORD']
+    t.EMAIL1 = os.environ['EMAIL1']
+    t.PASSWORD1 = os.environ['PASSWORD1']
 
     browser = os.environ.get('BROWSER', 'CHROME')
 

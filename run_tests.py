@@ -16,9 +16,8 @@ if __name__ == '__main__':
     suite = unittest.TestSuite((
     #    unittest.makeSuite(CheckProfile),
         #unittest.makeSuite(CheckSearchVacancyPage),
-        unittest.makeSuite(ChatRightSide),
-        # unittest.makeSuite(ChatLeftSide),
-
+         unittest.makeSuite(ChatRightSide),
+        #  unittest.makeSuite(ChatLeftSide),
         # unittest.makeSuite(CheckSearch),
        #  unittest.makeSuite(CheckRecommendations),
     #    unittest.makeSuite(CreateResume),
