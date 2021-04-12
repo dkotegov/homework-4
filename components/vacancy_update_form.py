@@ -6,12 +6,11 @@ from selenium.webdriver.common.by import By
 from components.base_component import BaseComponent
 
 
-class VacancyCreateFormLocators:
+class VacancyUpdateFormLocators:
     def __init__(self):
         self.root = "//div[@class='sum-form-wrap']"
 
         self.title = "//input[@id='summary-name']"
-        self.title_text = "//div[@class='describe-employer__vac-name']"
         self.description = '//textarea[@id="description"]'
         self.skills = '//textarea[@id="skills"]'
         self.requirements = '//textarea[@id="requirements"]'
@@ -24,6 +23,7 @@ class VacancyCreateFormLocators:
         self.email = '//input[@id="email"]'
 
         self.submit = '//button[@id="send-form-empl"]'
+        self.submit_delete = '//div[@id="deleteVacancy"]'
         self.browse_image_btn = '//input[@id="sum-img-load"]'
 
         self.error_title = '(//span[@class="error"])[1]'
@@ -31,7 +31,6 @@ class VacancyCreateFormLocators:
         self.error_skills = '(//span[@class="error"])[3]'
         self.error_requirements = '(//span[@class="error"])[4]'
         self.error_responsibilities = '(//span[@class="error"])[5]'
-        self.error_email = '(//span[@class="error"])[8]'
 
         self.error_salary = '(//span[@class="error"])[6]'
 
@@ -39,13 +38,11 @@ class VacancyCreateFormLocators:
         self.error_place = '(//span[@class="error"])[9]'
 
 
-
-
-class VacancyCreateForm(BaseComponent):
+class VacancyUpdateForm(BaseComponent):
     def __init__(self, driver):
-        super(VacancyCreateForm, self).__init__(driver)
+        super(VacancyUpdateForm, self).__init__(driver)
         self.wait = WebDriverWait(self.driver, 10, 0.1)
-        self.locators = VacancyCreateFormLocators()
+        self.locators = VacancyUpdateFormLocators()
 
         self.error_message = 'Поле обязательно для заполнения.'
         self.error_message_email = 'Укажите email.'
@@ -68,20 +65,19 @@ class VacancyCreateForm(BaseComponent):
             EC.url_matches("https://studhunt.ru/vacancy")
         )
 
-    def is_text_in_input(self, locator: str, expected_text):
+    def is_error_input(self, locator: str, error_message):
         try:
             _ = self.wait.until(
-                EC.text_to_be_present_in_element((By.XPATH, locator), expected_text)
+                EC.text_to_be_present_in_element((By.XPATH, locator), error_message)
             )
             return True
         except (TimeoutException, AssertionError):
             return False
 
-    def get_element_text(self, locator):
+    def load_image(self):
         self.wait.until(
-            EC.presence_of_element_located((By.XPATH, locator))
-        )
-        return self.driver.find_element_by_xpath(locator).text
+            EC.presence_of_element_located((By.XPATH, self.locators.browse_image_btn))
+        ).send_keys('test_data/big_img.png')
 
     def set_title(self, title: str):
         self.set_input(self.locators.title, title)
@@ -116,47 +112,38 @@ class VacancyCreateForm(BaseComponent):
         ).clear()
         self.set_input(self.locators.email, email)
 
-    def title_equal_to(self, expected_title):
-        return self.is_text_in_input(self.locators.title_text, expected_title)
-
-    def get_title(self):
-        return self.get_element_text(self.locators.title_text)
+    def submit_delete(self):
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.submit_delete))
+        ).click()
 
     @property
     def is_title_error(self):
-        return self.is_text_in_input(self.locators.error_title, self.error_message)
+        return self.is_error_input(self.locators.error_title, self.error_message)
 
     @property
     def is_description_error(self):
-        return self.is_text_in_input(self.locators.error_description, self.error_message)
+        return self.is_error_input(self.locators.error_description, self.error_message)
 
     @property
     def is_place_error(self):
-        return self.is_text_in_input(self.locators.error_place, self.error_message)
+        return self.is_error_input(self.locators.error_place, self.error_message)
 
     @property
     def is_skills_error(self):
-        return self.is_text_in_input(self.locators.error_skills, self.error_message)
+        return self.is_error_input(self.locators.error_skills, self.error_message)
 
     @property
     def is_requirements_error(self):
-        return self.is_text_in_input(self.locators.error_requirements, self.error_message)
+        return self.is_error_input(self.locators.error_requirements, self.error_message)
 
     @property
     def is_resp_error(self):
-        return self.is_text_in_input(self.locators.error_responsibilities, self.error_message)
+        return self.is_error_input(self.locators.error_responsibilities, self.error_message)
 
     @property
     def is_phone_error(self):
-        return self.is_text_in_input(self.locators.error_phone, self.error_message_phone)
-
-    @property
-    def is_email_error(self):
-        return self.is_text_in_input(self.locators.error_email, self.error_message_email)
-
-    @property
-    def is_image_error(self):
-        return self.is_text_in_input(self.locators.error_email, self.error_message_email)
+        return self.is_error_input(self.locators.error_phone, self.error_message_phone)
 
     def is_salary_error(self, error_message):
-        return self.is_text_in_input(self.locators.error_salary, error_message)
+        return self.is_error_input(self.locators.error_salary, error_message)

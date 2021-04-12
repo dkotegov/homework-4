@@ -35,7 +35,6 @@ class Company(unittest.TestCase):
     def test_create_with_big_logo_company(self):
         create_company_without_submit(self.create_company_form, None)
         self.create_company_form.load_image()
-
         self.create_company_form.submit()
         self.assertTrue(self.create_company_form.is_title_error())
         self.assertTrue(self.create_company_form.is_description_error)

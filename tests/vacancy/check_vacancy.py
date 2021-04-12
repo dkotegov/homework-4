@@ -3,6 +3,7 @@ import unittest
 from pages.create_vacancy_page import CreateVacancyPage
 from scenario.auth import auth_as_employer_has_comp
 from tests.default_setup import default_setup
+from scenario.vacancy import VacancyScenario
 
 
 # чек-лист: https://docs.google.com/document/d/1FHAfuOnQ-5DvYrhPhN8_B0CIfUrhWuT0EIDKHi73FYo/edit#heading=h.90kw3d5ydl9y
@@ -22,6 +23,9 @@ class Vacancy(unittest.TestCase):
         self.driver.quit()
 
     def test_create_empty_vacancy(self):
+        # scen = VacancyScenario(test=self)
+        # scen.create_vacancy()
+        # scen.delete_vacancy()
         self.create_vacancy_form.submit()
         self.assertTrue(self.create_vacancy_form.is_title_error)
         self.assertTrue(self.create_vacancy_form.is_description_error)
@@ -66,6 +70,20 @@ class Vacancy(unittest.TestCase):
         self.create_vacancy_form.set_salary_max('0')
         self.create_vacancy_form.submit()
         self.assertTrue(self.create_vacancy_form.is_salary_error(''))
+
+    def test_create_vacancy_without_contacts(self):
+        vacancy = VacancyScenario(form=self.create_vacancy_form)
+        vacancy.create_vacancy_without_submit()
+        self.create_vacancy_form.set_email('')
+        self.create_vacancy_form.submit()
+        self.assertTrue(self.create_vacancy_form.is_email_error)
+
+    def test_create_vacancy_success(self):
+        vacancy = VacancyScenario(test=self)
+        vacancy.create_vacancy()
+        existed_title = self.create_vacancy_form.get_title()
+        vacancy.delete_vacancy()
+        self.assertTrue(vacancy.vacancy_uniq_title, existed_title)
 
     # def test_create_vacancy_with_unlimited_salary(self):
     #     nmb = str(2 << 64)

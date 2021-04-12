@@ -14,7 +14,9 @@ class BasePage(object):
         self.driver = driver
         self.container = container
 
-    def open(self) -> None:
+    def open(self, query='') -> None:
+        if query != '':
+            self.PATH += query
         url = urllib.parse.urljoin(self.BASE_URL, self.PATH)
         self.driver.get(url)
         self.driver.maximize_window()
