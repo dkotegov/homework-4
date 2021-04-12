@@ -50,15 +50,15 @@ class VacancyScenario:
         self.form.set_address(data['address'])
         return self.form
 
-    def delete_vacancy(self):
-        self.open_update_page()
+    def delete_vacancy(self, uri=''):
+        self.open_update_page(uri)
         self.update_vacancy_page.form.submit_delete()
 
     def update_vacancy(self):
         self.open_update_page()
         self.update_vacancy_page.form.submit()
 
-    def open_update_page(self):
-        vac_id = self.get_vacancy_uri
+    def open_update_page(self, uri=''):
+        vac_id = uri if uri != '' else self.get_vacancy_uri
         self.update_vacancy_page.open(vac_id)
 

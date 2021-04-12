@@ -6,6 +6,7 @@ class VacanciesPage(BasePage):
     """
     Страница Вакансий
     """
+    PATH = "employersList"
 
     def __init__(self, driver):
         self.vacancy_list = VacancyList(driver)

@@ -11,6 +11,7 @@ class VacancyCreateFormLocators:
         self.root = "//div[@class='sum-form-wrap']"
 
         self.list_mine = "//div[@class='list-row-description__name']//a"
+        self.list_vac = "//div[@class='list-row-description__name']//a"
         self.title = "//input[@id='summary-name']"
         self.title_text = "//div[@class='describe-employer__vac-name']"
         self.description = '//textarea[@id="description"]'
@@ -78,6 +79,12 @@ class VacancyCreateForm(BaseComponent):
         )
         return self.driver.find_element_by_xpath(locator).text
 
+    def get_elements_text(self, locator):
+        elements_list = self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, locator))
+        )
+        return [e.text for e in elements_list]
+
     def set_title(self, title: str):
         self.set_input(self.locators.title, title)
 
@@ -112,12 +119,24 @@ class VacancyCreateForm(BaseComponent):
         self.set_input(self.locators.email, email)
 
     def check_vacancy_exist(self, vacancy_title) -> bool:
-        vac_list = self.wait.until(
-            EC.presence_of_all_elements_located((By.XPATH, self.locators.list_mine))
-        )
-        vac_titles = [v.text for v in vac_list]
-
+        vac_titles = self.get_elements_text(self.locators.list_mine)
         return vacancy_title in vac_titles
+
+    def check_vacancy_in_list_exist(self, vacancy_title) -> bool:
+        vac_titles = self.get_vacancies_in_list_titles()
+        return vacancy_title in vac_titles
+
+    def get_vacancies_in_list_titles(self):
+        return self.get_elements_text(self.locators.list_vac)
+
+    def open_by_title(self, vac_title):
+        links = self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.list_vac))
+        )
+        for link in links:
+            if link.text == vac_title:
+                link.click()
+                break
 
     @property
     def get_title(self) -> str:
