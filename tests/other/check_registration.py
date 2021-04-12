@@ -159,7 +159,6 @@ class CheckRegistration(unittest.TestCase):
         self.reg_page.set_data(self.existing_data)
         self.assertTrue(self.reg_page.top_error('Пользователь уже существует.'))
         setup_auth(self, self.existing_data)
-        self.main_page.is_open()
         self.profile_page.open()
         self.profile_page.delete_account()
 

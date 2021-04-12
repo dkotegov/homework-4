@@ -68,11 +68,11 @@ class CheckAuth(unittest.TestCase):
 
     def test_invalid_password(self):
         setup_auth(self, self.invalid_password_data)
-        self.auth_page.top_error()
+        self.assertTrue(self.auth_page.top_error())
 
     def test_invalid_email(self):
         setup_auth(self, self.invalid_email_data)
-        self.auth_page.top_error()
+        self.assertTrue(self.auth_page.top_error())
 
     def test_incorrect_password(self):
         setup_auth(self, self.short_password_data)

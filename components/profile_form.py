@@ -1,3 +1,4 @@
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import WebDriverWait
@@ -43,8 +44,12 @@ class ProfileFormLocators:
         self.edit_btn = '//a[@href="/profile"]'
         self.edited_input = '//input[@class="pers-list-row__input"]'
 
+
         self.my_first_resume = '(//div[@class="main-list-row"])[1]'
         self.my_first_resume_edit = '(//div[text()="Изменить резюме"])[1]'
+
+        self.text_fields = '//div[@class="pers-list-row__input-field"]'
+
 
 
 class ProfileForm(BaseComponent):
@@ -95,7 +100,7 @@ class ProfileForm(BaseComponent):
             self.wait.until(
                 EC.visibility_of_element_located((By.XPATH, self.locators.cards_list)))
             return True
-        except:
+        except TimeoutException:
             return False
 
     def check_page_with_responses_is_open(self):
@@ -103,7 +108,7 @@ class ProfileForm(BaseComponent):
             self.wait.until(
                 EC.visibility_of_element_located((By.XPATH, self.locators.responses_list)))
             return True
-        except:
+        except TimeoutException:
             return False
 
     def check_page_with_fav_is_open(self):
@@ -167,9 +172,14 @@ class ProfileForm(BaseComponent):
         )
 
     def check_error(self):
-        return WebDriverWait(self.driver, 30, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, self.locators.error_field))
-        )
+        try:
+            error = WebDriverWait(self.driver, 30, 0.1).until(
+                EC.presence_of_element_located((By.XPATH, self.locators.error_field))
+            )
+            return error.text
+        except TimeoutException:
+            return ''
+
 
     def check_error_phone(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
@@ -186,6 +196,13 @@ class ProfileForm(BaseComponent):
         return WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_element_located((By.XPATH, self.locators.edited_input))
         )
+
+    def get_text_fields(self, field_number):
+        fields = WebDriverWait(self.driver, 30, 0.1).until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.text_fields))
+        )
+        return fields[field_number]
+
 
     def clear(self, element):
         value = element.get_attribute('value')
