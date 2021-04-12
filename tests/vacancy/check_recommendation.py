@@ -3,8 +3,8 @@ import unittest
 from pages.main_page import MainPage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
-from setup.auth import setup_auth
-from setup.default_setup import default_setup
+from scenario.auth import setup_auth
+from scenario.default_setup import default_setup
 
 
 class CheckRecommendations(unittest.TestCase):

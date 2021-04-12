@@ -19,3 +19,9 @@ class ChatPage(BasePage):
 
     def get_current_chat_name(self) -> str:
         return self.chat_dialog.get_chat_name()
+
+    def click_on_send_msg(self) -> str:
+        return self.chat_dialog.click_send()
+
+    def get_last_msg(self) -> str:
+        return self.chat_dialog.get_last_msg()

@@ -3,7 +3,7 @@ import unittest
 from pages.main_page import MainPage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
-from setup.default_setup import default_setup
+from scenario.default_setup import default_setup
 
 
 class CheckSearchVacancyPage(unittest.TestCase):

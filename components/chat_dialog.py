@@ -10,6 +10,9 @@ class ChatDialogLocators:
     def __init__(self):
         self.root = '//div[@id="singleChat"]'
         self.name = '//div[@class="dialogue-name dialogue-name_chat"]'
+        self.sendButton = '//div[@id="sendMessageBtn"]'
+        self.textArea = '//textarea[@id="sendMessage"]'
+        self.msgs = '//div[@class="technical-mess"]'
 
 
 class ChatDialog(BaseComponent):
@@ -23,3 +26,19 @@ class ChatDialog(BaseComponent):
         element = self.wait.until(
             EC.visibility_of_element_located((By.XPATH, self.locators.name)))
         return element.get_attribute('innerText')
+
+    def click_send(self) -> str:
+        elementStr = self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.name)))
+
+        elementBtn = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.textArea)))
+        elementBtn.click()
+
+        return elementStr.get_attribute('innerText')
+
+    def get_last_msg(self) -> str:
+        elementStr = self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.msgs)))
+
+        return elementStr[len(elementStr) -1].get_attribute('innerText')

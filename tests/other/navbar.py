@@ -4,8 +4,8 @@ import unittest
 from pages.auth_page import AuthPage
 from pages.main_page import MainPage
 from pages.profile_page import ProfilePage
-from setup.auth import setup_auth
-from setup.default_setup import default_setup
+from scenario.auth import setup_auth
+from scenario.default_setup import default_setup
 
 
 class Navbar(unittest.TestCase):

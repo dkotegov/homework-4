@@ -1,8 +1,8 @@
 import unittest
 
-from setup.default_setup import default_setup
-from setup.auth import setup_auth
-from setup.create_resume import create_resume
+from scenario.default_setup import default_setup
+from scenario.auth import setup_auth
+from scenario.create_resume import create_resume
 
 from pages.resume_page import ResumePage
 

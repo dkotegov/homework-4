@@ -4,6 +4,7 @@ import unittest
 import sys
 
 from tests.other.chat_leftside import ChatLeftSide
+from tests.other.chat_rightside import ChatRightSide
 from tests.other.navbar import Navbar
 from tests.profile.check_profile import CheckProfile
 from tests.vacancy.check_recommendation import CheckRecommendations
@@ -15,7 +16,9 @@ if __name__ == '__main__':
     suite = unittest.TestSuite((
     #    unittest.makeSuite(CheckProfile),
         #unittest.makeSuite(CheckSearchVacancyPage),
-        unittest.makeSuite(ChatLeftSide),
+        unittest.makeSuite(ChatRightSide),
+        # unittest.makeSuite(ChatLeftSide),
+
         # unittest.makeSuite(CheckSearch),
        #  unittest.makeSuite(CheckRecommendations),
     #    unittest.makeSuite(CreateResume),
