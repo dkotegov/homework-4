@@ -61,7 +61,7 @@ class ProfilePage(BasePage):
 
     def check_error(self, text):
         error = self.profile_form.check_error()
-        return error.text == text
+        return error == text
 
     def check_span_error(self, text):
         error = self.profile_form.check_error_phone()
@@ -78,3 +78,7 @@ class ProfilePage(BasePage):
 
     def click_my_first_resume_edit(self):
         self.profile_form.click_first_my_resume_edit()
+
+    def get_text(self, text, field_number):
+        return text == self.profile_form.get_text_fields(field_number)
+
