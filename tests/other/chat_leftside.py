@@ -17,7 +17,7 @@ class ChatLeftSide(unittest.TestCase):
 
     def setUp(self) -> None:
         default_setup(self)
-        self.VACANCY_NAME = "Оператор 1С"
+        self.VACANCY_NAME = "Программист 1С"
         self.TEST_MSG = "привет"
         self.STATUS_TEST = "Новый статус заявки"
 
@@ -40,9 +40,16 @@ class ChatLeftSide(unittest.TestCase):
         setup_auth(self)
         self.chatPage.open()
         self.chatPage.click_on_another_chat(0)
-        chat_name1 = self.chatPage.click_on_another_chat(1)
-        chat_name2 = self.chatPage.get_current_chat_name()
-        self.assertEqual(chat_name1, chat_name2)
+        name1= self.chatPage.get_current_chat_name()
+        time1 = self.chatPage.get_chat_info_time(0)
+        self.chatPage.click_on_another_chat(1)
+        name2= self.chatPage.get_current_chat_name()
+        time2 = self.chatPage.get_chat_info_time(1)
+        if name1 != name2:
+            self.assertTrue(self.chatPage.is_open())
+        else:
+            self.assertNotEqual(time1,time2)
+
 
     def test_check_new_chat_after_request(self):
         data = registration_applicant(self)
@@ -88,7 +95,7 @@ class ChatLeftSide(unittest.TestCase):
         text = self.chatPage.get_last_msg()
         self.assertEqual(text, self.TEST_MSG)
 
-    def test_check_new_message_after_request(self):
+    def test_check_new_status_after_msg(self):
         data = registration_applicant(self)
         create_resume(self)
         self.vacanciesPage.open()

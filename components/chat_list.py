@@ -14,6 +14,7 @@ class ChatListLocators:
         self.chat_name = 'single-info__name'
         self.chat_status = '//div[@class="message-body message-body_technical"]'
         self.chat_info_last_msg = '//div[@class="message-body"]'
+        self.chat_info_time = '//div[@class="single-info__time"]'
 
 
 class ChatList(BaseComponent):
@@ -41,6 +42,12 @@ class ChatList(BaseComponent):
     def get_chat_status(self, chat: int) -> str:
         element = self.wait.until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.chat_status)))
+        el = element[chat]
+        return el.get_attribute('innerText')
+
+    def get_chat_last_time(self, chat: int) -> str:
+        element = self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.chat_info_time)))
         el = element[chat]
         return el.get_attribute('innerText')
 

@@ -17,6 +17,9 @@ class ChatPage(BasePage):
     def click_on_another_chat(self, chat: int) -> str:
         return self.chat_list.click_on_another_chat(chat)
 
+    def get_chat_info_time(self, chat: int) -> str:
+        return self.chat_list.get_chat_last_time(chat)
+
     def get_current_chat_name(self) -> str:
         return self.chat_dialog.get_chat_name()
 
@@ -37,5 +40,7 @@ class ChatPage(BasePage):
 
     def get_chat_info_last_msg(self) -> str:
         return self.chat_list.get_chat_info_last_msg(0)
+
+
 
 

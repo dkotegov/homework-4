@@ -3,8 +3,10 @@ import unittest
 from pages.main_page import MainPage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
-from scenario.auth import setup_auth
+from scenario.auth import setup_auth, auth_as_employer_has_comp
 from scenario.default_setup import default_setup
+from scenario.registration_applicant import registration_applicant
+from scenario.vacancy import VacancyScenario
 
 
 class CheckRecommendations(unittest.TestCase):
@@ -25,7 +27,7 @@ class CheckRecommendations(unittest.TestCase):
         self.assertTrue(self.vacancyPage.is_open())
 
     def test_vacancy_equiv_on_click(self):
-        setup_auth(self)
+        registration_applicant(self)
         self.mainPage.search_by_profession(self.PROFESSION)
         self.vacanciesPage.click_on_first_vacancy()
         name = self.vacancyPage.get_vacancy_name()
