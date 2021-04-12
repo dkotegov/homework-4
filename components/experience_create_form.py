@@ -28,7 +28,6 @@ class ExperienceCreateForm(BaseComponent):
         super(ExperienceCreateForm, self).__init__(driver)
         self.locators = ExperienceCreateFormLocators()
 
-        # self.error_message_date = 'Укажите дату.'
         self.error_message_input = 'Поле обязательно для заполнения.'
 
     def form_is_open(self):

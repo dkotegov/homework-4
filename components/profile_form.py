@@ -43,6 +43,9 @@ class ProfileFormLocators:
         self.edit_btn = '//a[@href="/profile"]'
         self.edited_input = '//input[@class="pers-list-row__input"]'
 
+        self.my_first_resume = '(//div[@class="main-list-row"])[1]'
+        self.my_first_resume_edit = '(//div[text()="Изменить резюме"])[1]'
+
 
 class ProfileForm(BaseComponent):
     def __init__(self, driver):
@@ -184,9 +187,14 @@ class ProfileForm(BaseComponent):
             EC.presence_of_element_located((By.XPATH, self.locators.edited_input))
         )
 
-
     def clear(self, element):
         value = element.get_attribute('value')
         if len(value) > 0:
             for char in value:
                 element.send_keys(Keys.BACK_SPACE)
+
+    def click_first_my_resume_edit(self):
+        self.click_to_my_cards()
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.my_first_resume_edit))
+        ).click()

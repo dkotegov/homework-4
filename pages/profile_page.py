@@ -75,3 +75,6 @@ class ProfilePage(BasePage):
 
         field.send_keys(text)
         self.profile_form.click_to_edit_or_save_name(field_number)
+
+    def click_my_first_resume_edit(self):
+        self.profile_form.click_first_my_resume_edit()

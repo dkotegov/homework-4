@@ -1,4 +1,4 @@
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -24,9 +24,10 @@ class ResumeCreateFormLocators:
         self.job_name = '(//div[@class="job-container"])/div[3]'
         self.job_position = '(//div[@class="job-container"])/div[2]'
 
-        self.submit = '//button[@id="send-form-cand"]'
+        self.submit = '//button[text()="Сохранить"]'
         self.browse_image_btn = '//input[@id="sum-img-load"]'
         self.add_experience_btn = '//div[@class="btn-add-exp"]'
+        self.experience_container = '//div[@class="job"]'
 
         self.error_title = '(//span[@class="error"])[1]'
         self.error_surname = '(//span[@class="error"])[2]'
@@ -53,10 +54,8 @@ class ResumeCreateForm(BaseComponent):
             EC.presence_of_element_located((By.XPATH, locator))
         ).send_keys(data)
 
-    def submit(self):
-        self.wait.until(
-            EC.presence_of_element_located((By.XPATH, self.locators.submit))
-        ).click()
+    def submit_resume(self):
+        self.submit(self.locators.submit)
 
     def clear_contact_data(self):
         self.wait.until(
@@ -92,6 +91,13 @@ class ResumeCreateForm(BaseComponent):
         self.wait.until(
             EC.presence_of_element_located((By.XPATH, self.locators.add_experience_btn))
         ).click()
+
+    def check_experience_exist(self):
+        try:
+            self.driver.find_element_by_xpath(self.locators.experience_container)
+            return True
+        except NoSuchElementException:
+            return False
 
     def get_job_date(self):
         date = self.wait.until(

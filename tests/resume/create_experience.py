@@ -64,7 +64,6 @@ class CreateExperience(unittest.TestCase):
         for i in range(len(page_date)):
             page_date[i] = page_date[i].replace('\n', '')
             parsed = page_date[i].split('-')
-            # parsed[2] = parsed[2].split("\n")[0]
             page_date[i] = f'{parsed[1]}.{parsed[2]}.{parsed[0]}'
         self.assertEqual(page_date[0], self.data['start_date'])
         self.assertEqual(page_date[1], self.data['end_date'])
