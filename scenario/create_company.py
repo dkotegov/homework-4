@@ -7,7 +7,7 @@ def create_company(test, data=None) -> None:
 
     if data is None:
         data = {
-            'title': 'TEST-company-№' + str(uuid.uuid4()),
+            'title': 'comp№' + str(uuid.uuid4()),
             'description': 'Some descriptions',
         }
     create_company_page = CreateCompanyPage(test.driver)
