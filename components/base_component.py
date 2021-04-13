@@ -14,7 +14,12 @@ class BaseComponent(object):
             EC.presence_of_element_located((By.XPATH, locator))
         ).send_keys(data)
 
-    def submit(self, locator):
+    def get_field(self, locator: str) -> str:
+        return self.wait.until(
+            lambda d: d.find_element_by_xpath(locator)
+        ).text
+
+    def click_locator(self, locator):
         self.wait.until(
             EC.presence_of_element_located((By.XPATH, locator))
         ).click()

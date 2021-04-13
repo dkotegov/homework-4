@@ -12,6 +12,7 @@ class VacancyListLocators:
         self.vacancy_list = '//div[@class="list-row"]'
         self.vacancy_list_names = '//div[@class="list-row-description__name"]'
         self.vacancy_list_location = '//div[@class="list-row-description__location"]'
+        self.sphere = '(//div[text()="Направление"])/following-sibling::div'
 
 
 class VacancyList(BaseComponent):
@@ -41,3 +42,13 @@ class VacancyList(BaseComponent):
                 return False
 
         return True
+
+    def get_sphere(self) -> str:
+        return self.get_field(self.locators.sphere)
+
+    def click_on_first_vacancy(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.vacancy_list)))
+
+        element.click()
+

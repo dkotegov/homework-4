@@ -8,7 +8,7 @@ from components.base_component import BaseComponent
 
 class ResumeCreateFormLocators:
     def __init__(self):
-        self.root = "//div[@class='sum-form-wrap']"
+        self.root = "(//div[@class ='page-name'])"
 
         self.title = "//*[@id='title']"
         self.description = '//textarea[@id="description"]'
@@ -55,7 +55,7 @@ class ResumeCreateForm(BaseComponent):
         ).send_keys(data)
 
     def submit_resume(self):
-        self.submit(self.locators.submit)
+        self.click_locator(self.locators.submit)
 
     def clear_contact_data(self):
         self.wait.until(

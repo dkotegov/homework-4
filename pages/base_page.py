@@ -26,3 +26,7 @@ class BasePage(object):
         except TimeoutException:
             return False
         return True
+
+    def wait_for_page_open(self):
+        WebDriverWait(self.driver, 1).until(
+            EC.visibility_of_element_located((By.XPATH, self.container)))

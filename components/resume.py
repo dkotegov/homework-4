@@ -18,6 +18,9 @@ class ResumeFormLocators:
         self.position = '//span[@class="work-position"]'
         self.name_job = '//span[@class="name-company"]'
 
+        self.response_btn = '(//div[@class="cand-options-contact"])/div[2]'
+        self.favorite_btn = '(//div[@class="cand-options-contact"])/div[1]'
+
 
 class ResumeForm(BaseComponent):
     def __init__(self, driver):
@@ -29,6 +32,18 @@ class ResumeForm(BaseComponent):
         self.wait.until(
             EC.url_matches("https://studhunt.ru/resume")
         )
+
+    def add_to_response(self):
+        self.click_locator(self.locators.response_btn)
+
+    def add_to_favorite(self):
+        self.click_locator(self.locators.favorite_btn)
+
+    def get_text_favorite_btn(self):
+        self.wait.until(EC.element_to_be_clickable((
+            By.XPATH, self.locators.favorite_btn))
+        )
+        return self.get_field(self.locators.favorite_btn)
 
     def get_description(self) -> str:
         return self.wait.until(

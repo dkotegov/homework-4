@@ -52,6 +52,7 @@ def auth_as_employer_no_comp(test):
     auth_form.submit()
     auth_form.wait_for_mainpage()
 
+
 def auth_as_employer_has_comp(test):
     data = {
         'EMAIL': 'employer@employer.ru',
@@ -65,4 +66,3 @@ def auth_as_employer_has_comp(test):
     auth_form.set_password(data['PASSWORD'])
     auth_form.submit()
     auth_form.wait_for_mainpage()
-
