@@ -10,6 +10,8 @@ class VacancyCreateFormLocators:
     def __init__(self):
         self.root = "//div[@class='sum-form-wrap']"
 
+        self.list_mine = "//div[@class='list-row-description__name']//a"
+        self.list_vac = "//div[@class='list-row-description__name']//a"
         self.title = "//input[@id='summary-name']"
         self.title_text = "//div[@class='describe-employer__vac-name']"
         self.description = '//textarea[@id="description"]'
@@ -22,22 +24,20 @@ class VacancyCreateFormLocators:
         self.salary_min = '//input[@id="salary_min"]'
         self.salary_max = '//input[@id="salary_max"]'
         self.email = '//input[@id="email"]'
-
         self.submit = '//button[@id="send-form-empl"]'
         self.browse_image_btn = '//input[@id="sum-img-load"]'
+
 
         self.error_title = '(//span[@class="error"])[1]'
         self.error_description = '(//span[@class="error"])[2]'
         self.error_skills = '(//span[@class="error"])[3]'
         self.error_requirements = '(//span[@class="error"])[4]'
         self.error_responsibilities = '(//span[@class="error"])[5]'
-        self.error_email = '(//span[@class="error"])[8]'
-
         self.error_salary = '(//span[@class="error"])[6]'
-
         self.error_phone = '(//span[@class="error"])[7]'
+        self.error_email = '(//span[@class="error"])[8]'
         self.error_place = '(//span[@class="error"])[9]'
-
+        self.error_server = '(//span[@class="error"])[10]'
 
 
 
@@ -51,7 +51,6 @@ class VacancyCreateForm(BaseComponent):
         self.error_message_email = 'Укажите email.'
         self.error_message_phone = 'Неверный номер телефона.'
         self.error_message_common = 'Что-то пошло не так. Попробуйте позже.'
-        self.error_message_salary = ''
 
     def set_input(self, locator: str, data: str):
         self.wait.until(
@@ -82,6 +81,12 @@ class VacancyCreateForm(BaseComponent):
             EC.presence_of_element_located((By.XPATH, locator))
         )
         return self.driver.find_element_by_xpath(locator).text
+
+    def get_elements_text(self, locator):
+        elements_list = self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, locator))
+        )
+        return [e.text for e in elements_list]
 
     def set_title(self, title: str):
         self.set_input(self.locators.title, title)
@@ -116,10 +121,28 @@ class VacancyCreateForm(BaseComponent):
         ).clear()
         self.set_input(self.locators.email, email)
 
-    def title_equal_to(self, expected_title):
-        return self.is_text_in_input(self.locators.title_text, expected_title)
+    def check_vacancy_exist(self, vacancy_title) -> bool:
+        vac_titles = self.get_elements_text(self.locators.list_mine)
+        return vacancy_title in vac_titles
 
-    def get_title(self):
+    def check_vacancy_in_list_exist(self, vacancy_title) -> bool:
+        vac_titles = self.get_vacancies_in_list_titles()
+        return vacancy_title in vac_titles
+
+    def get_vacancies_in_list_titles(self):
+        return self.get_elements_text(self.locators.list_vac)
+
+    def open_by_title(self, vac_title):
+        links = self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.list_vac))
+        )
+        for link in links:
+            if link.text == vac_title:
+                link.click()
+                break
+
+    @property
+    def get_title(self) -> str:
         return self.get_element_text(self.locators.title_text)
 
     @property
@@ -154,9 +177,8 @@ class VacancyCreateForm(BaseComponent):
     def is_email_error(self):
         return self.is_text_in_input(self.locators.error_email, self.error_message_email)
 
-    @property
-    def is_image_error(self):
-        return self.is_text_in_input(self.locators.error_email, self.error_message_email)
-
     def is_salary_error(self, error_message):
         return self.is_text_in_input(self.locators.error_salary, error_message)
+
+    def is_server_error(self, error_message):
+        return self.is_text_in_input(self.locators.error_server, error_message)

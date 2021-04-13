@@ -19,6 +19,13 @@ class VacancyScenario:
         }
         self.form = form
         self.test = test
+        if test is not None:
+            self.update_vacancy_page = UpdateVacancyPage(self.test.driver, self.vacancy_uniq_title)
+
+    @property
+    def get_vacancy_uri(self) -> str:
+        vac_id = '?' + self.update_vacancy_page.get_current_url.split('?')[1].split('&')[0]
+        return vac_id
 
     def create_vacancy(self, data=None) -> None:
         if data is None:
@@ -27,13 +34,14 @@ class VacancyScenario:
         self.form = create_vacancy_page.form
         create_vacancy_page.open()
 
-        create_vacancy_form = self.create_vacancy_without_submit(data)
+        create_vacancy_form = self.fill_vacancy(data)
         create_vacancy_form.submit()
         create_vacancy_form.wait_for_vacancy_page()
 
-    def create_vacancy_without_submit(self, data=None):
+    def fill_vacancy(self, data=None):
         if data is None:
             data = self.data
+            
         self.form.set_title(data['title'])
         self.form.set_description(data['description'])
         self.form.set_skills(data['skills'])
@@ -43,8 +51,15 @@ class VacancyScenario:
         self.form.set_address(data['address'])
         return self.form
 
-    def delete_vacancy(self):
-        delete_vacancy_page = UpdateVacancyPage(self.test.driver, self.vacancy_uniq_title)
-        vac_id = '?' + delete_vacancy_page.get_current_url.split('?')[1].split('&')[0]
-        delete_vacancy_page.open(vac_id)
-        delete_vacancy_page.form.submit_delete()
+
+    def delete_vacancy(self, uri=''):
+        self.open_update_page(uri)
+        self.update_vacancy_page.form.submit_delete()
+
+    def update_vacancy(self):
+        self.open_update_page()
+        self.update_vacancy_page.form.submit()
+
+    def open_update_page(self, uri=''):
+        vac_id = uri if uri != '' else self.get_vacancy_uri
+        self.update_vacancy_page.open(vac_id)

@@ -76,3 +76,4 @@ class CompanyCreateForm(BaseComponent):
     @property
     def is_link_error(self):
         return self.is_error_input(self.locators.error_message_server, self.error_message_link)
+

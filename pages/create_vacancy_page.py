@@ -1,4 +1,3 @@
-
 import components
 from pages.base_page import BasePage
 from components.vacancy_create_form import VacancyCreateForm

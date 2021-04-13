@@ -147,3 +147,4 @@ class VacancyUpdateForm(BaseComponent):
 
     def is_salary_error(self, error_message):
         return self.is_error_input(self.locators.error_salary, error_message)
+
