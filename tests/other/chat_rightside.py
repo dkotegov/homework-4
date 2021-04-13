@@ -11,8 +11,8 @@ class ChatRightSide(unittest.TestCase):
 
     def setUp(self) -> None:
         default_setup(self)
-        self.TEST_MSG = "привет"
-        self.TEST_MSG2 = "привет2"
+        self.TEST_MSG = "привет2"
+        self.TEST_MSG2 = "привет"
         self.vacanciesPage = VacanciesPage(self.driver)
         self.vacancyPage = VacancyPage(self.driver)
         self.chatPage = ChatPage(self.driver)

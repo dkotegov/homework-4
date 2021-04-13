@@ -12,12 +12,10 @@ class Vacancy(unittest.TestCase):
     def setUp(self) -> None:
         default_setup(self)
         auth_as_employer_has_comp(self)
-
         self.profile_page = ProfilePage(self.driver)
         self.vac_page = CreateVacancyPage(self.driver)
         self.vac_list = VacanciesPage(self.driver)
         self.vac_form = self.vac_page.form
-
         self.vac_page.open()
 
     def tearDown(self):
