@@ -5,20 +5,20 @@ from selenium.webdriver.common.by import By
 import os
 
 
-class AuthPage(Page):
-    USERNAME_INPUT = os.environ['LOGIN']
-    PASSWORD_INPUT = os.environ['PASSWORD']
-    PATH = '/login'
+class SignupPage(Page):
+    PATH = '/signup'
     LOGIN = '//input[@name="login"]'
     PASSWORD = '//input[@name="password"]'
-    SUBMIT = '//button[@class="name__button--2Ten8 name__buttons__marginForFilmCard--29k8-"]'
+    MAIL = '//input[@name="email"]'
+    SUBMIT = '//button[text()="Регистрация"]'
     ICON = '//img[@class="name__round--21Oxj"]'
-    LOGOUT = '//button[text()="Выйти"]'
-    ENTRY = '//button[text()="Войти"]'
     ERROR_MSG = '//div[@class="name__error--FQ9hR"]'
 
     def set_login(self, login):
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
+
+    def set_mail(self, mail):
+        self.driver.find_element_by_xpath(self.MAIL).send_keys(mail)
 
     def set_password(self, pwd):
         self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
@@ -26,20 +26,18 @@ class AuthPage(Page):
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
-    def logout(self):
-        self.driver.find_element_by_xpath(self.LOGOUT).click()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ENTRY)))
-
-    def auth(self):
-        self.open()
-        self.set_login(self.USERNAME_INPUT)
-        self.set_password(self.PASSWORD_INPUT)
-        self.submit()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
-
-    def auth_wrong(self, login, password):
+    def signup(self, login, password, email):
         self.open()
         self.set_login(login)
         self.set_password(password)
+        self.set_mail(email)
+        self.submit()
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
+
+    def signup_wrong(self, login, password, email):
+        self.open()
+        self.set_login(login)
+        self.set_password(password)
+        self.set_mail(email)
         self.submit()
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ERROR_MSG)))
