@@ -29,7 +29,6 @@ class AuthPage(Page):
         self.driver.find_element_by_xpath(self.LOGOUT).click()
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ENTRY)))
 
-
     def auth(self):
         self.open()
         self.set_login(self.USERNAME_INPUT)
