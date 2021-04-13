@@ -7,7 +7,6 @@ from scenario.default_setup import default_setup
 from scenario.auth import setup_auth
 from pages.resume_page import ResumePage
 from scenario.auth import auth_as_employer_no_comp, auth_as_applicant, auth_as_employer_has_comp
-from tests.default_setup import default_setup
 
 
 class CheckProfile(unittest.TestCase):

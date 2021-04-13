@@ -3,8 +3,8 @@ import unittest
 from pages.resumes_page import ResumesPage
 from pages.resume_page import ResumePage
 from pages.profile_page import ProfilePage
-from tests.default_setup import default_setup
-from scenario.registration_employer import registration_employer
+from scenario.default_setup import default_setup
+from scenario.registration_employer import RegistrationEmployerScenario
 
 
 class Favorite(unittest.TestCase):
@@ -17,7 +17,8 @@ class Favorite(unittest.TestCase):
 
     def setUp(self) -> None:
         default_setup(self)
-        registration_employer(self, False)
+        scen = RegistrationEmployerScenario(self)
+        scen.registration_employer(True)
 
         self.resume_page = ResumePage(self.driver)
         self.resume = self.resume_page.form

@@ -14,9 +14,7 @@ def setup_auth(test, data=None) -> bool:
     auth_form.set_email(data['EMAIL'])
     auth_form.set_password(data['PASSWORD'])
     auth_form.submit()
-    if data['EMAIL'] == test.EMAIL and data['PASSWORD'] == test.PASSWORD:
-        return auth_form.wait_for_mainpage()
-    return True
+    return auth_form.wait_for_mainpage()
 
 
 def auth_as_applicant(test):

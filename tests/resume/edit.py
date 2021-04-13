@@ -4,10 +4,10 @@ from pages.create_resume_page import CreateResumePage
 from pages.resume_page import ResumePage
 from pages.edit_resume import EditResumePage
 from pages.profile_page import ProfilePage
-from tests.default_setup import default_setup
 from scenario.auth import setup_auth
 from scenario.create_resume import create_resume, create_resume_without_submit, create_resume_with_experience
 from scenario.create_experience import create_experience
+from scenario.default_setup import default_setup
 
 
 class EditResume(unittest.TestCase):

@@ -5,7 +5,7 @@ from pages.auth_page import AuthPage
 from pages.main_page import MainPage
 from pages.profile_page import ProfilePage
 from scenario.auth import setup_auth, auth_as_employer_has_comp, auth_as_employer_no_comp, auth_as_applicant
-from tests.default_setup import default_setup
+from scenario.default_setup import default_setup
 
 
 class Navbar(unittest.TestCase):

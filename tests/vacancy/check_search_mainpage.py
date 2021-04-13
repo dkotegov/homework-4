@@ -4,7 +4,6 @@ from pages.main_page import MainPage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
 from scenario.default_setup import default_setup
-from tests.default_setup import default_setup
 
 
 class CheckSearch(unittest.TestCase):
