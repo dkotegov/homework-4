@@ -76,3 +76,15 @@ class ProfileSteps(Steps):
     def handle_unsub_confirmation(self):
         self.page.left_column.wait_for_unsub_confirmation()
         self.page.left_column.click_close_confirmation()
+
+    def hover_on_avatar(self):
+        self.page.left_column.hover_on_avatar()
+
+    def get_avatar_overlay_text(self):
+        return self.page.left_column.get_avatar_overlay_text()
+
+    def choose_new_avatar(self, filename):
+        self.page.left_column.choose_avatar_file(filename)
+
+    def get_avatar_button_text(self):
+        return self.page.left_column.get_avatar_button_text()

@@ -1,3 +1,4 @@
+import os
 import random
 import string
 import urllib.parse
@@ -102,3 +103,19 @@ class ProfileTest(BaseTest):
         self.profile_page.subscribe()
         self.profile_page.handle_sub_confirmation()
         self.assertEqual(new_text, actual, f'Subscribe button text {actual} doesn\'t match {new_text}')
+
+    def test_avatar_overlay_visibility(self):
+        self.profile_page.hover_on_avatar()
+        actual_text = self.profile_page.get_avatar_overlay_text()
+        expected_text = 'Выберите файл'
+        self.assertEqual(expected_text, actual_text,
+                         f'Avatar overlay text {actual_text} doesn\'t match {expected_text}')
+
+    def test_avatar_update(self):
+        test_avatar = os.path.join('', os.getcwd(),  'resources/test_image.jpeg')
+        self.profile_page.hover_on_avatar()
+        self.profile_page.choose_new_avatar(test_avatar)
+        actual_text = self.profile_page.get_avatar_button_text()
+        expected_text = 'Сохранить'
+        self.assertEqual(expected_text, actual_text,
+                         f'Avatar button text {actual_text} doesn\'t match {expected_text}')
