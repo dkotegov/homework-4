@@ -4,8 +4,8 @@ import unittest
 from pages.auth_page import AuthPage
 from pages.main_page import MainPage
 from pages.profile_page import ProfilePage
-from scenario.auth import setup_auth
-from scenario.default_setup import default_setup
+from scenario.auth import setup_auth, auth_as_employer_has_comp, auth_as_employer_no_comp, auth_as_applicant
+from tests.default_setup import default_setup
 
 
 class Navbar(unittest.TestCase):
@@ -16,6 +16,9 @@ class Navbar(unittest.TestCase):
         self.main_page = MainPage(self.driver)
         self.auth_page = AuthPage(self.driver)
         self.profile_page = ProfilePage(self.driver)
+
+    def tearDown(self):
+        self.driver.quit()
 
     def test_logout_link(self):
         setup_auth(self)
@@ -60,5 +63,14 @@ class Navbar(unittest.TestCase):
         self.main_page.click_auth_page()
         self.assertTrue(self.auth_page.is_open())
 
+    def test_create_vacancy(self):
+        auth_as_employer_has_comp(self)
+        self.main_page.click_create_vacancy()
 
+    def test_create_company(self):
+        auth_as_employer_no_comp(self)
+        self.main_page.click_create_company()
 
+    def test_create_resume(self):
+        auth_as_applicant(self)
+        self.main_page.click_create_resume()

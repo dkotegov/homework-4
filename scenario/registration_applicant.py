@@ -1,4 +1,3 @@
-
 import random
 import string
 
@@ -26,3 +25,4 @@ def registration_applicant(test, data=None):
     registration_page.wait_for_reg_is_done()
 
     return data
+

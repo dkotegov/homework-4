@@ -22,13 +22,19 @@ class VacanciesPage(BasePage):
     def check_vacancy_exist_by_place(self, place: str) -> bool:
         return self.vacancy_list.vacancies_exists_by_place(place)
 
+
     def check_vacancy_by_place_and_profession(self, place: str, profession: str) -> bool:
         res1 = self.vacancy_list.vacancies_exists_by_profession(profession)
         res2 = self.vacancy_list.vacancies_exists_by_place(place)
         return res1 & res2
+      
+    def get_sphere(self):
+        return self.vacancy_list.get_sphere()
+
 
     def click_on_first_vacancy(self):
         self.vacancy_list.click_on_first_vacancy()
+
 
     def search_vacancy_by_keyword(self, keyword: str):
         self.vacancy_search.input_keyword(keyword)

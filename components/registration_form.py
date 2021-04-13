@@ -7,7 +7,8 @@ from selenium.webdriver.common.by import By
 
 class RegistrationFormLocators:
     def __init__(self):
-        self.root = '//div[@class="main-page"]'
+      
+        self.root = '//div[@class="input-data-card input-data-card_reg"]'
         self.auth_link = '//a[@href="/auth"]'
         self.page_title = '//div[@class="page-name page-name_small page-name_reg"]'
 
@@ -129,3 +130,8 @@ class RegistrationForm(BaseComponent):
     def top_error(self):
         return self.wait.until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.top_error)))[0]
+
+    def wait_for_page_open(self):
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.root)))
+

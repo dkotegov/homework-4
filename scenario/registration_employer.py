@@ -36,3 +36,4 @@ class RegistrationEmployerScenario:
         registration_page.set_data(self.data)
         registration_page.wait_for_reg_is_done()
         return data
+
