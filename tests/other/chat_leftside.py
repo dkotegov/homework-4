@@ -37,16 +37,15 @@ class ChatLeftSide(unittest.TestCase):
         setup_auth(self)
         self.chatPage.open()
         self.chatPage.click_on_another_chat(0)
-        name1= self.chatPage.get_current_chat_name()
+        name1 = self.chatPage.get_current_chat_name()
         time1 = self.chatPage.get_chat_info_time(0)
         self.chatPage.click_on_another_chat(1)
-        name2= self.chatPage.get_current_chat_name()
+        name2 = self.chatPage.get_current_chat_name()
         time2 = self.chatPage.get_chat_info_time(1)
         if name1 != name2:
             self.assertTrue(self.chatPage.is_open())
         else:
-            self.assertNotEqual(time1,time2)
-
+            self.assertNotEqual(time1, time2)
 
     def test_check_new_chat_after_request(self):
         data = registration_applicant(self)
@@ -64,7 +63,7 @@ class ChatLeftSide(unittest.TestCase):
         self.chatPage.open()
         name = self.chatPage.get_first_chat_name()
         firstAndLastName = name.split(" ")
-        self.assertEqual(firstAndLastName[0],data["NAME"])
+        self.assertEqual(firstAndLastName[0], data["NAME"])
         self.assertEqual(firstAndLastName[1], data["SURNAME"])
 
     def test_check_new_message_after_request(self):
@@ -86,7 +85,8 @@ class ChatLeftSide(unittest.TestCase):
 
         self.main_page.open()
         self.main_page.click_logout()
-        setup_auth(self, data["EMAIL"], data["PASSWORD"])
+        logData = {'EMAIL': data["EMAIL"], 'PASSWORD': data["PASSWORD"]}
+        setup_auth(self, logData)
         self.chatPage.open()
         self.chatPage.click_on_another_chat(0)
         text = self.chatPage.get_last_msg()

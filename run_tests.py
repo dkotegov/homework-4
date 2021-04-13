@@ -3,6 +3,11 @@ import unittest
 
 import sys
 
+from tests.other.check_auth import CheckAuth
+from tests.other.check_registration import CheckRegistration
+from tests.other.navbar import Navbar
+from tests.profile.check_profile import CheckProfile
+from tests.resume.create import CreateResume
 from tests.resume.create_experience import CreateExperience
 from tests.resume.edit import EditResume
 from tests.resume.list_resume import ListResume
@@ -12,6 +17,7 @@ from tests.vacancy.check_recommendation import CheckRecommendations
 from tests.vacancy.check_search_mainpage import CheckSearch
 from tests.resume.resume import Favorite
 from tests.other.main_page import PopularCategory
+from tests.vacancy.check_search_vacancypage import CheckSearchVacancyPage
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
