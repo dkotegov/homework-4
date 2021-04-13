@@ -19,7 +19,6 @@ class SettingPage(Page):
     ERROR_USERNAME_LESS_5 = '//div[text()="Недопустимый логин(Должен быть от 5 до 15 символов)"][@class="name__error--FQ9hR"]'
     ERROR_USERNAME_EXIST = '//div[text()="\nПользователь с таким логином уже существует"][@class="name__error--FQ9hR"]'
 
-
     def set_old_pass(self, old):
         self.driver.find_element_by_xpath(self.OLD).send_keys(old)
 
