@@ -29,3 +29,25 @@ class SubscribeTests(unittest.TestCase):
         profile_page = ProfilePage(self.driver)
         profile_page.check_sub(path)
         people_page.unsubscribe()
+
+    def test_unsubscribe(self):
+        path = 'people/17'
+        auth_page = AuthPage(self.driver)
+        auth_page.auth()
+        people_page = PeoplePage(self.driver)
+        people_page.PATH = '/' + path
+        people_page.subscribe()
+        people_page.unsubscribe()
+        profile_page = ProfilePage(self.driver)
+        profile_page.check_unsub(path)
+
+    def test_unsubscribe_from_profile(self):
+        path = 'people/17'
+        id = 'profile/17'
+        auth_page = AuthPage(self.driver)
+        auth_page.auth()
+        people_page = PeoplePage(self.driver)
+        people_page.PATH = '/' + path
+        people_page.subscribe()
+        profile_page = ProfilePage(self.driver)
+        profile_page.unsub(id)

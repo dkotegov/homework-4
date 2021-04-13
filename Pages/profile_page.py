@@ -7,7 +7,7 @@ import os
 
 class ProfilePage(Page):
     PATH = '/profile'
-    SUBSCRIBERS = '//a[text()="Подписки"]'
+    SUBSCRIBERS = '//a[@id="subscribe"]'
     USERNAME = '//span[@class="name__profile__default_margin--_Vkp5 name__profile_login--2W71f"]'
 
     def open_subscribers(self):
@@ -24,6 +24,13 @@ class ProfilePage(Page):
         self.open_subscribers()
         friend = '//a[@href="' + path + '"]'
         WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, friend)))
+
+    def unsub(self, path):
+        self.open_subscribers()
+        delete = '//div[@id="' + path + '"]'
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, delete)))
+        self.driver.find_element_by_xpath(delete).click()
+        WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, delete)))
         
     def check_username(self, username):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
