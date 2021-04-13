@@ -1,3 +1,4 @@
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -10,7 +11,8 @@ class NotificationLocators:
 
         self.empty_list = '//div[@id="notes-list"]'
         self.recommendation = '//div[@class="menu-list-block__item menu-list-block__item_note"]'
-        # self.recommendation = '//a[@href="/recommendations"]'
+        self.response = '//div[@class="response-row response-row_notifications"]'
+        self.delete_response_btn = '//div[@class="response-row__close-btn"]'
 
 
 class Notification(BaseComponent):
@@ -36,3 +38,15 @@ class Notification(BaseComponent):
         self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.recommendation)))
         self.click_locator(self.locators.recommendation)
+
+    def check_response(self):
+        try:
+            self.wait.until(
+                EC.presence_of_element_located((By.XPATH, self.locators.response)))
+            return True
+        except TimeoutException:
+            return False
+
+    def delete_response(self):
+        self.click_locator(self.locators.delete_response_btn)
+

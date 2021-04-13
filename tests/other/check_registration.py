@@ -43,7 +43,6 @@ class CheckRegistration(unittest.TestCase):
         self.assertTrue(self.profile_page.check_profile_data(data))
         self.profile_page.delete_account()
 
-
     def test_correct_reg_empl_and_del(self):
         scen = RegistrationEmployerScenario(self)
         data = scen.registration_employer(True)
@@ -171,4 +170,3 @@ class CheckRegistration(unittest.TestCase):
         setup_auth(self, data)
         self.profile_page.open()
         self.profile_page.delete_account()
-

@@ -91,6 +91,12 @@ class MainPage(BasePage):
     def wait_notif_open(self):
         return self.notification.wait_for_open()
 
+    def check_response(self):
+        return self.notification.check_response()
+
+    def delete_response(self):
+        self.notification.delete_response()
+
     def check_notif_recommendations(self):
         text = self.notification.get_text_recommendations()
         return 'Подобрано' in text and 'рекомендуемая вакансия' in text
