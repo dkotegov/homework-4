@@ -16,6 +16,7 @@ from tests.vacancy.check_search_mainpage import CheckSearch
 from tests.resume.resume import Favorite
 from tests.other.main_page import PopularCategory
 from tests.vacancy.check_search_vacancypage import CheckSearchVacancyPage
+from tests.other.notification import Notification
 from tests.vacancy.check_vacancy import Vacancy
 from tests.company.check_company import Company
 import unittest
@@ -34,6 +35,7 @@ if __name__ == '__main__':
         unittest.makeSuite(ListResume),
         unittest.makeSuite(Favorite),
         unittest.makeSuite(PopularCategory),
+        unittest.makeSuite(Notification),
         unittest.makeSuite(CheckSearchVacancyPage),
         unittest.makeSuite(ChatRightSide),
         unittest.makeSuite(ChatLeftSide),

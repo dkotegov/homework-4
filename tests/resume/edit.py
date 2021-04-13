@@ -5,7 +5,8 @@ from pages.resume_page import ResumePage
 from pages.edit_resume import EditResumePage
 from pages.profile_page import ProfilePage
 from scenario.auth import setup_auth
-from scenario.create_resume import create_resume, create_resume_without_submit, create_resume_with_experience
+from scenario.delete_resume import delete_resume
+from scenario.create_resume import create_resume_without_submit, create_resume_with_experience
 from scenario.create_experience import create_experience
 from scenario.default_setup import default_setup
 
@@ -83,9 +84,9 @@ class EditResume(unittest.TestCase):
         self.assertEqual(self.data['name_job'], name_job[1].text)
 
     def test_delete_experience(self):
-        # TODO: to experience
         self.edit_resume_form.delete_experience()
         self.assertFalse(self.edit_resume_form.check_experience_exist())
 
     def tearDown(self):
+        delete_resume(self)
         self.driver.quit()
