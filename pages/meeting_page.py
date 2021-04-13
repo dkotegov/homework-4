@@ -2,6 +2,7 @@ from pages.base_page import Page
 from pages.navbar import NavBar
 from pages.base_component import Component
 
+
 class MeetingPage(Page, Component):
     PATH = '/meeting?meetId=1'
 

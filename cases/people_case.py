@@ -4,6 +4,7 @@ from steps.people_steps import PeopleSteps
 
 from pages.login_form import LoginForm
 
+
 class PeopleTest(BaseTest):
     def setUp(self):
         super().setUp()

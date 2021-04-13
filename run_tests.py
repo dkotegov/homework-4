@@ -13,7 +13,7 @@ if __name__ == '__main__':
         (
             unittest.makeSuite(AuthTest),
             unittest.makeSuite(PeopleTest),
-            # unittest.makeSuite(ProfileTest),
+            unittest.makeSuite(ProfileTest),
             unittest.makeSuite(MeetingsTest),
             unittest.makeSuite(MeetingTest),
         )
