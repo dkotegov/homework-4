@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-
 import os
 
 import unittest
 from selenium import webdriver
 import urllib.parse as urlparse
+import time
 
-from selenium.webdriver import DesiredCapabilities, Remote
-from selenium.webdriver.support.ui import WebDriverWait
+from tests.example_test import ExampleTest
 
 
 class Page(object):
@@ -27,12 +25,12 @@ class Page(object):
         self.driver.maximize_window()
 
 
-class AuthPage(Page):
-    PATH = '/login'
+class SettingPage(Page):
+    PATH = '/profileChange'
 
     @property
-    def form(self):
-        return AuthForm(self.driver)
+    def form_change_password(self):
+        return PasswordChange(self.driver)
 
 
 class Component(object):
@@ -40,25 +38,24 @@ class Component(object):
         self.driver = driver
 
 
-class AuthForm(Component):
-    LOGIN = '//input[@name="login"]'
-    PASSWORD = '//input[@name="password"]'
-    SUBMIT = '//button[text()="Войти"]'
+class PasswordChange(Component):
+    OLD = '//input[@placeholder="Старый пароль"]'
+    NEW = '//input[@placeholder="Новый пароль"]'
+    REPEAT = '//input[@placeholder="Повторите новый пароль"]'
+    SUBMIT = '//button[text()="Сохранить"]'
 
-    def set_login(self, login):
-        self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
+    def set_old(self, old):
+        self.driver.find_element_by_xpath(self.OLD).send_keys(old)
 
-    def set_password(self, pwd):
-        self.driver.find_element_by_xpath(self.PASSWORD).send_keys(pwd)
+    def set_new(self, new):
+        self.driver.find_element_by_xpath(self.NEW).send_keys(new)
+        self.driver.find_element_by_xpath(self.REPEAT).send_keys(new)
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
 
-class ExampleTest(unittest.TestCase):
-    USERNAME = u'erik_doter123'
-    PASSWORD = os.environ['PASSWORD']
-
+class PasswordChangeTest(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 
@@ -68,11 +65,8 @@ class ExampleTest(unittest.TestCase):
         self.driver.quit()
 
     def test(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-
-        auth_form = auth_page.form
-        auth_form.set_login(self.USERNAME)
-        auth_form.set_password(self.PASSWORD)
-        auth_form.submit()
-
+        auth = ExampleTest()
+        ExampleTest.test(auth)
+        setting_page = SettingPage(self.driver)
+        setting_page.open()
+        time.sleep(10)
