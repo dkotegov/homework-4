@@ -4,6 +4,23 @@ import string
 from pages.registration_page import RegistrationPage
 
 
+def registration_employer(self, select_company=None, data=None):
+    registration_page = RegistrationPage(self.test)
+    registration_page.open()
+
+    registration_page.click_checkout_btn()
+
+    if not select_company:
+        registration_page.click_to_checkbox()
+    else:
+        if registration_page.select_company():
+            registration_page.click_to_checkbox()
+
+    registration_page.set_data(self.data)
+    registration_page.wait_for_reg_is_done()
+    return data
+
+
 class RegistrationEmployerScenario:
     name = ''.join(random.choice(string.ascii_letters) for i in range(10))
     surname = ''.join(random.choice(string.ascii_letters) for i in range(10))
@@ -36,4 +53,3 @@ class RegistrationEmployerScenario:
         registration_page.set_data(self.data)
         registration_page.wait_for_reg_is_done()
         return data
-
