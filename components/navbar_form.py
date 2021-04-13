@@ -16,11 +16,10 @@ class NavbarLocators:
         self.chats_btn = '//a[@href="/chats"]'
         self.logout_btn = '//a[@href="/logout"]'
         self.notification_btn = '//a[@id="note-button"]'
+        self.recommendation_btn = '//a[@href="/recommendations"]'
         self.create_vacancy_btn = '//a[@href="/createVacancy"]'
         self.create_company_btn = '//a[@href="/createCompany"]'
         self.create_resume_btn = '//a[@href="/createResume"]'
-
-
 
 class NavbarForm(BaseComponent):
     def __init__(self, driver):
@@ -78,6 +77,12 @@ class NavbarForm(BaseComponent):
     def click_on_logout(self):
         element = self.wait.until(
             EC.element_to_be_clickable((By.XPATH, self.locators.logout_btn)))
+        element.click()
+
+
+    def click_on_recommendation(self):
+        element = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.locators.recommendation_btn)))
         element.click()
 
     def click_create_vacancy(self):

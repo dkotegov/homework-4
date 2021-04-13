@@ -62,3 +62,4 @@ class RegistrationPage(BasePage):
 
     def wait_for_page_open(self):
         self.registration_form.wait_for_page_open()
+

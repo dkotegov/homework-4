@@ -21,7 +21,7 @@ class BasePage(object):
 
     def is_open(self) -> bool:
         try:
-            WebDriverWait(self.driver, 1).until(
+            WebDriverWait(self.driver, 5).until(
                 EC.presence_of_all_elements_located((By.XPATH, self.container)))
         except TimeoutException:
             return False

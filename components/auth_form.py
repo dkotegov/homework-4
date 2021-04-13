@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 
 from components.base_component import BaseComponent
 
+
 class AuthLocators:
     def __init__(self):
         self.root = '//div[@class="auth"]'

@@ -15,6 +15,10 @@ class ProfilePage(BasePage):
         self.profile_form = ProfileForm(driver)
         super(ProfilePage, self).__init__(driver, self.profile_form.locators.root)
 
+
+    def check_profile_email(self, email) -> bool:
+        return self.profile_form.check_profile_email() == email
+
     def check_open_page(self):
         return self.profile_form.is_open()
 
@@ -88,4 +92,5 @@ class ProfilePage(BasePage):
 
     def get_text(self, text, field_number):
         return text == self.profile_form.get_text_fields(field_number)
+
 
