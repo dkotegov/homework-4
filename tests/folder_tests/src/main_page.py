@@ -21,6 +21,7 @@ class MainPage(Page):
 class MainForm(Component):
     CREATE_BUTTON = '//span[text()="Добавить папку"]'
     REMOVE_BUTTON = '//*[@data-test-id="folder-delete"]'
+
     INBOX = '//a[@class="c01150 c01154"]'
 
     def add_folder_popup(self):

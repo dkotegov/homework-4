@@ -1,6 +1,6 @@
 import sys
 import unittest
-from tests.folder_tests.folder_test import FolderTest
+from tests.folder_tests.test.folder_test import FolderTest
 
 
 if __name__ == '__main__':

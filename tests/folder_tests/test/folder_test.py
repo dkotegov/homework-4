@@ -3,8 +3,8 @@ import time
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
-from tests.folder_tests.auth_page import AuthPage
-from tests.folder_tests.main_page import MainPage
+from tests.folder_tests.src.auth_page import AuthPage
+from tests.folder_tests.src.main_page import MainPage
 
 
 class FolderTest(unittest.TestCase):
@@ -39,7 +39,10 @@ class FolderTest(unittest.TestCase):
         main_form.add_folder_popup()
         folder_form = main_page.add_folder_form
         folder_form.create_folder(folder_name)
+        time.sleep(2)
 
         main_form.remove_folder_popup()
         folder_form_remove = main_page.remove_folder_form
+        time.sleep(2)
         folder_form_remove.remove_folder(folder_name)
+        time.sleep(2)
