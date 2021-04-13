@@ -2,6 +2,7 @@ from Pages.page import Page
 
 
 class SettingPage(Page):
+    PATH = '/profileChange'
     OLD = '//input[@placeholder="Старый пароль"]'
     NEW = '//input[@placeholder="Новый пароль"]'
     REPEAT = '//input[@placeholder="Повторите новый пароль"]'
@@ -16,3 +17,4 @@ class SettingPage(Page):
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
+
