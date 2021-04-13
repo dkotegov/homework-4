@@ -19,7 +19,7 @@ class SignupTests(unittest.TestCase):
 
     def test_signup_succes(self):
         signup_page = SignupPage(self.driver)
-        login = os.environ['SIGNUP_LOGIN']
+        login = signup_page.SIGNUP_LOGIN
         signup_page.signup(login, "12345678", "qwer@mail.ru")
 
     def test_signup_exist_login(self):
