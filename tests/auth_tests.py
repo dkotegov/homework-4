@@ -20,11 +20,22 @@ class AuthTests(unittest.TestCase):
     def test_auth_succes(self):
         auth_page = AuthPage(self.driver)
         auth_page.auth()
-        auth_page.logout()
 
     def test_auth_wrong_login(self):
         auth_page = AuthPage(self.driver)
-        l = os.environ['LOGIN']
         password = os.environ['PASSWORD']
-        login = l + password
+        auth_page.auth_wrong("xmksamxsmlksa", password)
 
+    def test_auth_wrong_password(self):
+        auth_page = AuthPage(self.driver)
+        login = os.environ['LOGIN']
+        auth_page.auth_wrong(login, "ofcspslaxx")
+
+    def test_auth_clear(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.auth_wrong("", "")
+
+    def test_logout(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.auth()
+        auth_page.logout()
