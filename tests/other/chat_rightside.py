@@ -3,10 +3,8 @@ import unittest
 from pages.chat_page import ChatPage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
-from scenario.auth import setup_auth, auth_as_employer_has_comp
-from scenario.create_resume import create_resume
+from scenario.auth import auth_as_employer_has_comp
 from scenario.default_setup import default_setup
-from scenario.registration_applicant import registration_applicant
 
 
 class ChatRightSide(unittest.TestCase):

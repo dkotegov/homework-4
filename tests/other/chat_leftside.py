@@ -5,12 +5,9 @@ from pages.main_page import MainPage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
 from scenario.auth import setup_auth, auth_as_employer_has_comp
-from scenario.create_company import create_company, create_company_without_submit
 from scenario.create_resume import create_resume
 from scenario.default_setup import default_setup
 from scenario.registration_applicant import registration_applicant
-from scenario.registration_employer import RegistrationEmployerScenario
-from scenario.vacancy import VacancyScenario
 
 
 class ChatLeftSide(unittest.TestCase):
