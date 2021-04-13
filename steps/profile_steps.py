@@ -43,6 +43,7 @@ class ProfileSteps(Steps):
 
     def open_stranger_profile(self, user_id=1):
         self.open_page(f'/profile?userId={user_id}')
+        self.page.left_column.wait_for_col_visibility()
 
     def check_subscribe_btn_visibility(self):
         return self.page.left_column.is_subscribe_btn_visible()
@@ -97,8 +98,13 @@ class ProfileSteps(Steps):
         self.page.tags.click_cpp_tag()
         return self.page.tags.get_cpp_tag_bg_color()
 
+    def select_golang_tag(self):
+        self.page.tags.click_golang_tag()
+        return self.page.tags.get_golang_tag_bg_color()
+
     def update_tags(self):
         self.page.tags.click_commit_tags_update()
+        self.page.tags.wait_for_update_confirmation()
         self.page.tags.close_update_confirmation()
 
     def get_tags(self):

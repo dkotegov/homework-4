@@ -5,6 +5,7 @@ class ProfileTags(Component):
     TAGS_BTN = '//button[@id="editTagsBtn"]'
     TAGS_MODAL = '//div[@id="modalTags"]'
     MODAL_CPP_TAG = '//div[@class="tabTags"]/label/span[contains(text(), "C++")]'
+    MODAL_GOLANG_TAG = '//div[@class="tabTags"]/label/span[contains(text(), "Golang")]'
     HELP_TEXT = '//span[@class="helpText"]'
     PROFILE_TAG = '//div[@class="selectedTagsWrapper"]/label/span'
     CLOSE_TAGS_MODAL = '//button[@id="closeTagsModal"]'
@@ -24,8 +25,14 @@ class ProfileTags(Component):
     def click_cpp_tag(self):
         self._wait_until_clickable(self.MODAL_CPP_TAG).click()
 
+    def click_golang_tag(self):
+        self._wait_until_clickable(self.MODAL_GOLANG_TAG).click()
+
     def get_cpp_tag_bg_color(self):
         return self._find_element(self.MODAL_CPP_TAG).value_of_css_property('background-color')
+
+    def get_golang_tag_bg_color(self):
+        return self._find_element(self.MODAL_GOLANG_TAG).value_of_css_property('background-color')
 
     def get_help_text(self):
         return self._find_element(self.HELP_TEXT).text

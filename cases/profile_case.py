@@ -17,9 +17,17 @@ from utils.for_examples import for_examples
 class ProfileTest(BaseTest):
     def setUp(self):
         super().setUp()
-        self.auth()
         self.profile_page = ProfileSteps(self.driver)
-        self.profile_page.open_page()
+
+        auth_token = os.environ.get('AUTH_TOKEN', None)
+        if auth_token is not None:
+            self.profile_page.open_page()
+            self.driver.add_cookie({'name': 'authToken', 'value': auth_token})
+            self.profile_page.open_page()
+        else:
+            self.auth()
+            self.profile_page.open_page()
+            self.profile_page.open_page('/profile')
 
     @for_examples(*list(ProfileSteps.Fields))
     def test_skills_editing(self, field):
@@ -113,7 +121,7 @@ class ProfileTest(BaseTest):
                          f'Avatar overlay text {actual_text} doesn\'t match {expected_text}')
 
     def test_avatar_update(self):
-        test_avatar = os.path.join('', os.getcwd(),  'resources/test_image.jpeg')
+        test_avatar = os.path.join('', os.getcwd(), 'resources/test_image.jpeg')
         self.profile_page.hover_on_avatar()
         self.profile_page.choose_new_avatar(test_avatar)
         actual_text = self.profile_page.get_avatar_button_text()
@@ -123,7 +131,7 @@ class ProfileTest(BaseTest):
 
     def test_tags_selection(self):
         self.profile_page.open_tags_modal()
-        bg_color = self.profile_page.select_cpp_tag()
+        bg_color = self.profile_page.select_golang_tag()
         actual = Color.from_string(bg_color).hex
         expected = '#9cbdb6'
         self.assertEqual(expected, actual,
@@ -134,11 +142,11 @@ class ProfileTest(BaseTest):
         self.profile_page.select_cpp_tag()
         self.profile_page.update_tags()
         profile_tags = self.profile_page.get_tags()
-        cpp_tag = "C++"
-        self.assertIn(cpp_tag, profile_tags, f'Tag {cpp_tag} is not in profile tags: {profile_tags}')
         self.profile_page.open_tags_modal()
         self.profile_page.select_cpp_tag()
         self.profile_page.update_tags()
+        cpp_tag = "C++"
+        self.assertIn(cpp_tag, profile_tags, f'Tag {cpp_tag} is not in profile tags: {profile_tags}')
 
     def test_tags_modal_closing(self):
         self.profile_page.open_tags_modal()

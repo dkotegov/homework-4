@@ -7,6 +7,7 @@ class ProfileLeftColumn(Component):
     AVATAR = '//img[@class="profile__avatar"]'
     SUBSCRIBE_BTN = '//button[@class="profile__subscribe-button"]'
     AVATAR_OVERLAY_LABEL = '//label[@class="profile__file-label"]'
+    COLUMN = '//div[@class="profile__leftcolumn"]'
     VK = '//a[contains(@class, "profile__vk")]'
     TELEGRAM = '//a[contains(@class, "profile__telegram")]'
     TEST_MEETING = '//div[@class="profile__meetings"]/div/a[contains(text(),"Test")]'
@@ -39,6 +40,9 @@ class ProfileLeftColumn(Component):
 
     def click_close_confirmation(self):
         self._wait_until_clickable(self.CLOSE_CONFIRMATION).click()
+
+    def wait_for_col_visibility(self):
+        self._wait_until_visible(self.COLUMN)
 
     def get_sub_btn_text(self):
         return self._find_element(self.SUBSCRIBE_BTN).text

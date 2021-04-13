@@ -19,7 +19,7 @@ class Page(object):
         if path is None:
             path = self.PATH
         self.driver.get(urllib.parse.urljoin(self.BASE_URL, path))
-        self.driver.maximize_window()
+        # self.driver.maximize_window()
 
     def get_title(self):
         return self.driver.title
