@@ -17,7 +17,14 @@ class AuthTests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test(self):
+    def test_auth_succes(self):
         auth_page = AuthPage(self.driver)
         auth_page.auth()
+        auth_page.logout()
+
+    def test_auth_wrong_login(self):
+        auth_page = AuthPage(self.driver)
+        l = os.environ['LOGIN']
+        password = os.environ['PASSWORD']
+        login = l + password
 
