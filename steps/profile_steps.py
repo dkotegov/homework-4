@@ -76,3 +76,37 @@ class ProfileSteps(Steps):
     def handle_unsub_confirmation(self):
         self.page.left_column.wait_for_unsub_confirmation()
         self.page.left_column.click_close_confirmation()
+
+    def hover_on_avatar(self):
+        self.page.left_column.hover_on_avatar()
+
+    def get_avatar_overlay_text(self):
+        return self.page.left_column.get_avatar_overlay_text()
+
+    def choose_new_avatar(self, filename):
+        self.page.left_column.choose_avatar_file(filename)
+
+    def get_avatar_button_text(self):
+        return self.page.left_column.get_avatar_button_text()
+
+    def open_tags_modal(self):
+        self.page.tags.open_tags_modal()
+        self.page.tags.wait_for_tags_modal()
+
+    def select_cpp_tag(self):
+        self.page.tags.click_cpp_tag()
+        return self.page.tags.get_cpp_tag_bg_color()
+
+    def update_tags(self):
+        self.page.tags.click_commit_tags_update()
+        self.page.tags.close_update_confirmation()
+
+    def get_tags(self):
+        return self.page.tags.get_tags()
+
+    def close_tags_modal(self):
+        self.page.tags.click_close_modal()
+        self.page.tags.wait_for_modal_closing()
+
+    def is_tags_modal_visible(self):
+        return self.page.tags.get_modal_visibility()

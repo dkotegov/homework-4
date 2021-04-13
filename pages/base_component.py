@@ -9,7 +9,10 @@ class Component(object):
         self.driver = driver
 
     def _find_element(self, elem_xpath):
-        return self.driver.find_element_by_xpath(elem_xpath)
+        return self.driver.find_element(By.XPATH, elem_xpath)
+
+    def _find_elements(self, elem_xpath):
+        return self.driver.find_elements(By.XPATH, elem_xpath)
 
     def _wait_until_preset(self, elem_xpath):
         return WebDriverWait(self.driver, 10).until(

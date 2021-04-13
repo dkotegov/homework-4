@@ -2,6 +2,7 @@ from pages.base_page import Page
 from pages.navbar import NavBar
 from pages.profile_left_column import ProfileLeftColumn
 from pages.profile_right_column import ProfileRightColumn
+from pages.profile_tags import ProfileTags
 
 
 class ProfilePage(Page):
@@ -18,3 +19,7 @@ class ProfilePage(Page):
     @property
     def left_column(self):
         return ProfileLeftColumn(self.driver)
+
+    @property
+    def tags(self):
+        return ProfileTags(self.driver)

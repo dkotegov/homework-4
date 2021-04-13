@@ -1,8 +1,10 @@
+import os
 import random
 import string
 import urllib.parse
 
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.color import Color
 
 from cases.base_case import BaseTest
 from pages.login_form import LoginForm
@@ -102,3 +104,43 @@ class ProfileTest(BaseTest):
         self.profile_page.subscribe()
         self.profile_page.handle_sub_confirmation()
         self.assertEqual(new_text, actual, f'Subscribe button text {actual} doesn\'t match {new_text}')
+
+    def test_avatar_overlay_visibility(self):
+        self.profile_page.hover_on_avatar()
+        actual_text = self.profile_page.get_avatar_overlay_text()
+        expected_text = 'Выберите файл'
+        self.assertEqual(expected_text, actual_text,
+                         f'Avatar overlay text {actual_text} doesn\'t match {expected_text}')
+
+    def test_avatar_update(self):
+        test_avatar = os.path.join('', os.getcwd(),  'resources/test_image.jpeg')
+        self.profile_page.hover_on_avatar()
+        self.profile_page.choose_new_avatar(test_avatar)
+        actual_text = self.profile_page.get_avatar_button_text()
+        expected_text = 'Сохранить'
+        self.assertEqual(expected_text, actual_text,
+                         f'Avatar button text {actual_text} doesn\'t match {expected_text}')
+
+    def test_tags_selection(self):
+        self.profile_page.open_tags_modal()
+        bg_color = self.profile_page.select_cpp_tag()
+        actual = Color.from_string(bg_color).hex
+        expected = '#9cbdb6'
+        self.assertEqual(expected, actual,
+                         f'Selected tag background color {actual} doesn\'t match {expected}')
+
+    def test_tags_addition(self):
+        self.profile_page.open_tags_modal()
+        self.profile_page.select_cpp_tag()
+        self.profile_page.update_tags()
+        profile_tags = self.profile_page.get_tags()
+        cpp_tag = "C++"
+        self.assertIn(cpp_tag, profile_tags, f'Tag {cpp_tag} is not in profile tags: {profile_tags}')
+        self.profile_page.open_tags_modal()
+        self.profile_page.select_cpp_tag()
+        self.profile_page.update_tags()
+
+    def test_tags_modal_closing(self):
+        self.profile_page.open_tags_modal()
+        self.profile_page.close_tags_modal()
+        self.assertFalse(self.profile_page.is_tags_modal_visible())
