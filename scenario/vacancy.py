@@ -41,6 +41,7 @@ class VacancyScenario:
     def fill_vacancy(self, data=None):
         if data is None:
             data = self.data
+            
         self.form.set_title(data['title'])
         self.form.set_description(data['description'])
         self.form.set_skills(data['skills'])
@@ -49,6 +50,7 @@ class VacancyScenario:
         self.form.set_phone(data['phone'])
         self.form.set_address(data['address'])
         return self.form
+
 
     def delete_vacancy(self, uri=''):
         self.open_update_page(uri)
@@ -61,4 +63,3 @@ class VacancyScenario:
     def open_update_page(self, uri=''):
         vac_id = uri if uri != '' else self.get_vacancy_uri
         self.update_vacancy_page.open(vac_id)
-

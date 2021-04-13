@@ -23,12 +23,12 @@ class Navbar(unittest.TestCase):
     def test_logout_link(self):
         setup_auth(self)
         self.main_page.click_logout()
-        self.assertTrue(self.auth_page.check_open_page())
+        self.assertTrue(self.auth_page.is_open())
 
     def test_profile_link(self):
         setup_auth(self)
         self.main_page.click_profile_page()
-        self.assertTrue(self.profile_page.check_open_page())
+        self.assertTrue(self.profile_page.is_open())
 
     def test_notification_link(self):
         setup_auth(self)
@@ -61,7 +61,7 @@ class Navbar(unittest.TestCase):
     def test_auth_link(self):
         self.main_page.open()
         self.main_page.click_auth_page()
-        self.assertTrue(self.auth_page.check_open_page())
+        self.assertTrue(self.auth_page.is_open())
 
     def test_create_vacancy(self):
         auth_as_employer_has_comp(self)

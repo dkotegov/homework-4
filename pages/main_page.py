@@ -1,6 +1,8 @@
+from components.category_search_form import CategorySearchForm
 from components.navbar_form import NavbarForm
 from components.profile_form import ProfileForm
 from components.search_form import SearchForm
+from components.popular import PopularCategories
 from pages.base_page import BasePage
 
 
@@ -14,6 +16,8 @@ class MainPage(BasePage):
         super(MainPage, self).__init__(driver, self.search_form.locators.root)
         self.navbar_form = NavbarForm(self.driver)
         self.profile_form = ProfileForm(self.driver)
+        self.category_form = CategorySearchForm(self.driver)
+        self.popular_category = PopularCategories(self.driver)
 
     def search_by_profession(self, profession: str):
         self.search_form.input_profession(profession)
@@ -22,6 +26,14 @@ class MainPage(BasePage):
     def search_by_place(self, place: str):
         self.search_form.input_place(place)
         self.search_form.click_on_search()
+
+    def search_by_place_and_profession(self, place: str,profession: str):
+        self.search_form.input_profession(profession)
+        self.search_form.input_place(place)
+        self.search_form.click_on_search()
+
+    def click_recommendations(self):
+        self.navbar_form.click_on_recommendation()
 
     def click_vac_list(self):
         self.navbar_form.click_on_vacancies()
@@ -53,6 +65,9 @@ class MainPage(BasePage):
     def click_logout(self):
         self.navbar_form.click_on_logout()
 
+    def click_on_category(self) -> str:
+        return self.category_form.click_on_category()
+
     def click_create_vacancy(self):
         self.navbar_form.click_create_vacancy()
 
@@ -61,4 +76,10 @@ class MainPage(BasePage):
 
     def click_create_resume(self):
         self.navbar_form.click_create_resume()
+
+    def click_on_sphere(self, sphere):
+        self.popular_category.click_category(sphere)
+
+    def click_footer_btn(self):
+        return self.popular_category.click_footer_btn()
 

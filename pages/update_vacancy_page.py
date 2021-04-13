@@ -19,4 +19,3 @@ class UpdateVacancyPage(BasePage):
     @property
     def form(self) -> components.vacancy_update_form:
         return VacancyUpdateForm(self.driver)
-
