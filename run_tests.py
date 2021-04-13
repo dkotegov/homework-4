@@ -13,6 +13,7 @@ from tests.resume.create_experience import CreateExperience
 from tests.resume.edit import EditResume
 from tests.resume.list_resume import ListResume
 from tests.resume.resume import Favorite
+from tests.other.main_page import PopularCategory
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -26,6 +27,7 @@ if __name__ == '__main__':
         unittest.makeSuite(CreateExperience),
         unittest.makeSuite(ListResume),
         unittest.makeSuite(Favorite),
+        unittest.makeSuite(PopularCategory),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

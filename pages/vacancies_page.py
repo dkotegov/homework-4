@@ -16,3 +16,10 @@ class VacanciesPage(BasePage):
 
     def check_vacancy_exist_by_place(self, place: str):
         return self.vacancy_list.vacancies_exists_by_place(place)
+
+    def get_sphere(self):
+        return self.vacancy_list.get_sphere()
+
+    def click_on_first_vacancy(self):
+        self.vacancy_list.click_on_first_vacancy()
+

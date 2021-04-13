@@ -1,4 +1,3 @@
-import time
 import unittest
 
 from pages.resumes_page import ResumesPage
