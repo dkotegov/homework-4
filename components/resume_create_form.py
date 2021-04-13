@@ -55,7 +55,7 @@ class ResumeCreateForm(BaseComponent):
         ).send_keys(data)
 
     def submit_resume(self):
-        self.submit(self.locators.submit)
+        self.click_locator(self.locators.submit)
 
     def clear_contact_data(self):
         self.wait.until(

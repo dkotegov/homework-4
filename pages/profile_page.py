@@ -15,7 +15,6 @@ class ProfilePage(BasePage):
         self.profile_form = ProfileForm(driver)
         super(ProfilePage, self).__init__(driver, self.profile_form.locators.root)
 
-
     def check_open_page(self):
         return self.profile_form.is_open()
 
@@ -78,6 +77,14 @@ class ProfilePage(BasePage):
 
     def click_my_first_resume_edit(self):
         self.profile_form.click_first_my_resume_edit()
+
+    def click_my_profile_info(self):
+        self.profile_form.click_to_my_profile_info()
+
+    def get_my_favorite(self) -> {}:
+        self.profile_form.click_to_my_fav()
+        return self.profile_form.get_favorite_data()
+
 
     def get_text(self, text, field_number):
         return text == self.profile_form.get_text_fields(field_number)

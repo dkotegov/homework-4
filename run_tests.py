@@ -11,6 +11,8 @@ from tests.vacancy.check_search_mainpage import CheckSearch
 from tests.resume.create import CreateResume
 from tests.resume.create_experience import CreateExperience
 from tests.resume.edit import EditResume
+from tests.resume.list_resume import ListResume
+from tests.resume.resume import Favorite
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -21,7 +23,9 @@ if __name__ == '__main__':
         unittest.makeSuite(CreateResume),
         unittest.makeSuite(EditResume),
         unittest.makeSuite(Navbar),
-        unittest.makeSuite(CreateExperience)
+        unittest.makeSuite(CreateExperience),
+        unittest.makeSuite(ListResume),
+        unittest.makeSuite(Favorite),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

@@ -38,10 +38,10 @@ class ExperienceCreateForm(BaseComponent):
             return False
 
     def submit_exp(self):
-        self.submit(self.locators.submit)
+        self.click_locator(self.locators.submit)
 
     def close_popup(self):
-        self.submit(self.locators.close_btn)
+        self.click_locator(self.locators.close_btn)
 
     def is_date_error(self, error_message):
         return self.is_error_input(self.locators.error_date, error_message)

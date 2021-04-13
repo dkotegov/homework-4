@@ -44,9 +44,11 @@ class ProfileFormLocators:
         self.edit_btn = '//a[@href="/profile"]'
         self.edited_input = '//input[@class="pers-list-row__input"]'
 
-
         self.my_first_resume = '(//div[@class="main-list-row"])[1]'
         self.my_first_resume_edit = '(//div[text()="Изменить резюме"])[1]'
+
+        self.favorite_title = '(//div[@class="list-row-description__name"])/a'
+        self.favorite_description = '//div[@class="list-row-description__specialism"]'
 
         self.text_fields = '//div[@class="pers-list-row__input-field"]'
 
@@ -94,6 +96,11 @@ class ProfileForm(BaseComponent):
             EC.presence_of_all_elements_located((By.XPATH, self.locators.profile_navbar_btns))
         )
         my_resumes[1].click()
+
+    def click_to_my_profile_info(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.profile_navbar_btns))
+        )[0].click()
 
     def check_page_with_cards_is_open(self):
         try:
@@ -215,3 +222,9 @@ class ProfileForm(BaseComponent):
         self.wait.until(
             EC.presence_of_element_located((By.XPATH, self.locators.my_first_resume_edit))
         ).click()
+
+    def get_favorite_data(self):
+        return {
+            'title': self.get_field(self.locators.favorite_title),
+            'description': self.get_field(self.locators.favorite_description)
+        }
