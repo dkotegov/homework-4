@@ -11,6 +11,8 @@ def default_setup(t):
     t.PASSWORD = os.environ['PASSWORD']
     t.EMAIL1 = os.environ['EMAIL1']
     t.PASSWORD1 = os.environ['PASSWORD1']
+    t.EMAIL2 = os.environ['EMAIL2']
+    t.PASSWORD2 = os.environ['PASSWORD2']
 
     browser = os.environ.get('BROWSER', 'CHROME')
 

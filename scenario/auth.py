@@ -50,6 +50,15 @@ def auth_as_employer_no_comp(test):
     auth_form.submit()
     auth_form.wait_for_mainpage()
 
+def auth_as_employer_has_no_comp(test):
+    auth_page = AuthPage(test.driver)
+    auth_page.open()
+
+    auth_form = auth_page.auth_form
+    auth_form.set_email(test.EMAIL2)
+    auth_form.set_password(test.PASSWORD2)
+    auth_form.submit()
+    auth_form.wait_for_mainpage()
 
 def auth_as_employer_has_comp(test):
     auth_page = AuthPage(test.driver)

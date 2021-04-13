@@ -18,6 +18,8 @@ from tests.vacancy.check_search_mainpage import CheckSearch
 from tests.resume.resume import Favorite
 from tests.other.main_page import PopularCategory
 from tests.vacancy.check_search_vacancypage import CheckSearchVacancyPage
+from tests.vacancy.check_vacancy import Vacancy
+from tests.company.check_company import Company
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -37,6 +39,8 @@ if __name__ == '__main__':
         unittest.makeSuite(ChatLeftSide),
         unittest.makeSuite(CheckSearch),
         unittest.makeSuite(CheckRecommendations),
+        unittest.makeSuite(Vacancy),
+        unittest.makeSuite(Company)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
