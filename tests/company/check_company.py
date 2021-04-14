@@ -3,7 +3,7 @@ import unittest
 from pages.create_company_page import CreateCompanyPage
 from scenario.auth import auth_as_employer_no_comp
 from scenario.create_company import create_company_without_submit
-from tests.default_setup import default_setup
+from scenario.default_setup import default_setup
 
 
 class Company(unittest.TestCase):
@@ -36,5 +36,4 @@ class Company(unittest.TestCase):
         create_company_without_submit(self.create_company_form, None)
         self.create_company_form.load_image()
         self.create_company_form.submit()
-        self.assertTrue(self.create_company_form.is_title_error())
-        self.assertTrue(self.create_company_form.is_description_error)
+        self.assertTrue(self.create_company_form.is_img_size_error)

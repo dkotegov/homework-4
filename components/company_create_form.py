@@ -28,6 +28,7 @@ class CompanyCreateForm(BaseComponent):
 
         self.error_message = 'Поле обязательно для заполнения.'
         self.error_message_link = 'Неправильные значения полей: неверный формат ссылки'
+        self.error_message_img_size = 'Превышен максимальный размер изображения. Максимальный размер: 2 mB.'
 
     def set_input(self, locator: str, data: str):
         self.wait.until(
@@ -70,10 +71,13 @@ class CompanyCreateForm(BaseComponent):
         return self.is_error_input(locator, msg)
 
     @property
+    def is_img_size_error(self):
+        return self.is_error_input(self.locators.error_message_server, self.error_message_img_size)
+
+    @property
     def is_description_error(self):
         return self.is_error_input(self.locators.error_message_description, self.error_message)
 
     @property
     def is_link_error(self):
         return self.is_error_input(self.locators.error_message_server, self.error_message_link)
-

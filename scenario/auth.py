@@ -19,8 +19,8 @@ def setup_auth(test, data=None) -> bool:
 
 def auth_as_applicant(test):
     data = {
-        'EMAIL': 'margot@margot.ru',
-        'PASSWORD': 'margot',
+        'EMAIL': test.EMAIL_APPL,
+        'PASSWORD': test.EMAIL_APP,
         'NAME': 'margot',
         'SURNAME': 'margot',
         'PHONE': '12345678910'
@@ -50,13 +50,22 @@ def auth_as_employer_no_comp(test):
     auth_form.submit()
     auth_form.wait_for_mainpage()
 
+def auth_as_employer_has_no_comp(test):
+    auth_page = AuthPage(test.driver)
+    auth_page.open()
+
+    auth_form = auth_page.auth_form
+    auth_form.set_email(test.EMAIL_EMPL)
+    auth_form.set_password(test.PASSWORD_EMPL)
+    auth_form.submit()
+    auth_form.wait_for_mainpage()
 
 def auth_as_employer_has_comp(test):
     auth_page = AuthPage(test.driver)
     auth_page.open()
 
     auth_form = auth_page.auth_form
-    auth_form.set_email(test.EMAIL1)
-    auth_form.set_password(test.PASSWORD1)
+    auth_form.set_email(test.EMAIL_EMPL_COMP)
+    auth_form.set_password(test.PASSWORD_EMPL_COMP)
     auth_form.submit()
     auth_form.wait_for_mainpage()
