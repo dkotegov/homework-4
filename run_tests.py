@@ -9,6 +9,7 @@ from tests.subscribe_tests import SubscribeTests
 from tests.playlist_tests import PlaylistTests
 from tests.rating_tests import RatingTests
 from tests.search_tests import SearchTests
+from tests.comment_test import CommentTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
@@ -19,6 +20,7 @@ if __name__ == '__main__':
     suite.addTest(unittest.makeSuite(PlaylistTests))
     suite.addTest(unittest.makeSuite(RatingTests))
     suite.addTest(unittest.makeSuite(SearchTests))
+    suite.addTest(unittest.makeSuite(CommentTests))
     result = unittest.TextTestRunner().run(suite)
     successfulRes = result.wasSuccessful()
     if not successfulRes:
