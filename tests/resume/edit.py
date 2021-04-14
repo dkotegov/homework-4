@@ -5,9 +5,8 @@ from pages.resume_page import ResumePage
 from pages.edit_resume import EditResumePage
 from pages.profile_page import ProfilePage
 from scenario.auth import setup_auth
-from scenario.create_resume import create_resume, create_resume_without_submit, create_resume_with_experience
-from scenario.create_experience import create_experience
-from scenario.default_setup import default_setup
+from scenario.resume import ResumeScenario
+from tests.default_setup import default_setup
 
 
 class EditResume(unittest.TestCase):
@@ -43,9 +42,9 @@ class EditResume(unittest.TestCase):
         self.edit_resume_form = self.edit_resume_page.edit_form
 
         self.profile_page = ProfilePage(self.driver)
-
+        self.scenario = ResumeScenario(self, self.create_resume_form)
         setup_auth(self)
-        create_resume_with_experience(self, self.data)
+        self.scenario.fill_resume(self.data)
 
         self.profile_page.open()
         self.profile_page.click_my_first_resume_edit()
@@ -62,7 +61,7 @@ class EditResume(unittest.TestCase):
 
     def test_save_with_changes(self):
         self.edit_resume_form.clear_inputs()
-        create_resume_without_submit(self.edit_resume_form, self.other_data)
+        self.scenario.fill_resume(self.data)
 
         self.edit_resume_form.submit_resume()
         self.resume.wait_for_resume_page()
@@ -74,7 +73,7 @@ class EditResume(unittest.TestCase):
 
     def test_add_experience(self):
         self.edit_resume_form.open_popup_add_experience()
-        create_experience(self, self.data)
+        self.scenario.create_experience(self.data)
         self.edit_resume_form.submit_resume()
         self.edit_resume_form.wait_for_resume_page()
         position = self.resume.get_position()
@@ -83,9 +82,9 @@ class EditResume(unittest.TestCase):
         self.assertEqual(self.data['name_job'], name_job[1].text)
 
     def test_delete_experience(self):
-        # TODO: to experience
         self.edit_resume_form.delete_experience()
         self.assertFalse(self.edit_resume_form.check_experience_exist())
 
     def tearDown(self):
+        self.scenario.delete_resume()
         self.driver.quit()

@@ -5,7 +5,7 @@ from pages.main_page import MainPage
 from pages.registration_page import RegistrationPage
 from pages.create_resume_page import CreateResumePage
 from scenario.auth import setup_auth
-from scenario.default_setup import default_setup
+from tests.default_setup import default_setup
 
 
 class PopularCategory(unittest.TestCase):
