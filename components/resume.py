@@ -1,8 +1,6 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-
 
 from components.base_component import BaseComponent
 
@@ -18,8 +16,13 @@ class ResumeFormLocators:
         self.position = '//span[@class="work-position"]'
         self.name_job = '//span[@class="name-company"]'
 
-        self.response_btn = '(//div[@class="cand-options-contact"])/div[2]'
+        self.response_btn = '(//div[@id="responseResumeBtn"])'
+        self.vacancy_select_popup = '//div[@class="popUp-main"]'
+        self.first_vacation = '(//div[@class="list-row"])[1]'
+        self.response_done = '//div[@class="response__done"]'
+
         self.favorite_btn = '(//div[@class="cand-options-contact"])/div[1]'
+        self.create_pdf_btn = '//div[text()="Создать резюме в PDF"]'
 
 
 class ResumeForm(BaseComponent):
@@ -76,3 +79,23 @@ class ResumeForm(BaseComponent):
             EC.presence_of_all_elements_located((By.XPATH, self.locators.name_job))
         )
 
+    def response(self):
+        self.click_locator(self.locators.response_btn)
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.vacancy_select_popup))
+        )
+        data = self.get_field(self.locators.first_vacation)
+        self.click_locator(self.locators.first_vacation)
+        return data
+
+    def get_response_done(self):
+        text = self.get_field(self.locators.response_done)
+        self.click_locator(self.locators.response_done)
+        return text
+
+    def click_to_create_pdf(self):
+        self.click_locator(self.locators.create_pdf_btn)
+        initial_windows = self.driver.window_handles
+        self.wait.until(
+            EC.new_window_is_opened(initial_windows)
+        )

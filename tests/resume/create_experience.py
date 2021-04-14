@@ -3,8 +3,8 @@ import unittest
 from pages.create_resume_page import CreateResumePage
 from pages.resume_page import ResumePage
 from scenario.auth import setup_auth
-from scenario.create_resume import create_resume_without_submit
-from scenario.default_setup import default_setup
+from scenario.resume import ResumeScenario
+from tests.default_setup import default_setup
 
 
 class CreateExperience(unittest.TestCase):
@@ -31,8 +31,9 @@ class CreateExperience(unittest.TestCase):
         self.resume_page = ResumePage(self.driver)
         self.resume = self.resume_page.form
 
+        self.scenario = ResumeScenario(self, self.create_resume_form)
         self.create_resume_page.open()
-        create_resume_without_submit(self.create_resume_form, self.data)
+        self.scenario.fill_resume(self.data)
         self.create_resume_form.open_popup_add_experience()
 
     def test_create_empty_experience(self):
@@ -54,12 +55,7 @@ class CreateExperience(unittest.TestCase):
         self.assertFalse(self.create_experience_form.form_is_open())
 
     def test_create_experience(self):
-        self.create_experience_form.set_position(self.data['position'])
-        self.create_experience_form.set_name_job(self.data['name_job'])
-        self.create_experience_form.set_date_start(self.data['start_date'])
-        self.create_experience_form.set_date_end(self.data['end_date'])
-        self.create_experience_form.submit_exp()
-
+        self.scenario.create_experience(self.data)
         page_date = self.create_resume_form.get_job_date()
         for i in range(len(page_date)):
             page_date[i] = page_date[i].replace('\n', '')

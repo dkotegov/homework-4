@@ -52,6 +52,9 @@ class ProfileFormLocators:
 
         self.text_fields = '//div[@class="pers-list-row__input-field"]'
 
+        self.response_item = '//div[@class="response-row-info"]'
+        self.response_item_title = '//a[@class="response-row-info__vacancy-link"]'
+
 
 
 class ProfileForm(BaseComponent):
@@ -236,3 +239,10 @@ class ProfileForm(BaseComponent):
             'title': self.get_field(self.locators.favorite_title),
             'description': self.get_field(self.locators.favorite_description)
         }
+
+    def get_responses(self):
+        resp = self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.response_item_title))
+        )
+
+        return resp

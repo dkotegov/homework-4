@@ -4,7 +4,7 @@ from pages.chat_page import ChatPage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
 from scenario.auth import auth_as_employer_has_comp
-from scenario.default_setup import default_setup
+from tests.default_setup import default_setup
 
 
 class ChatRightSide(unittest.TestCase):

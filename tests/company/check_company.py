@@ -3,7 +3,7 @@ import unittest
 from pages.create_company_page import CreateCompanyPage
 from scenario.auth import auth_as_employer_no_comp
 from scenario.create_company import create_company_without_submit
-from scenario.default_setup import default_setup
+from tests.default_setup import default_setup
 
 
 class Company(unittest.TestCase):

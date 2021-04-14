@@ -9,6 +9,7 @@ class VacanciesPage(BasePage):
     """
     Страница Вакансий
     """
+    PATH = 'employersList'
 
     PATH = 'employersList'
 

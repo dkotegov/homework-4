@@ -14,6 +14,7 @@ class ResumeEditFormLocators(ResumeCreateFormLocators):
 
         self.submit = '//button[text()="Сохранить"]'
         self.delete_exp_btn = '//div[@class="job__delete"]'
+        self.delete_resume_btn = '//div[@id="deleteResume"]'
 
 
 class ResumeEditForm(ResumeCreateForm):
@@ -40,4 +41,10 @@ class ResumeEditForm(ResumeCreateForm):
         self.wait.until(
             EC.presence_of_element_located((By.XPATH, self.locators.delete_exp_btn))
         ).click()
+
+    def delete_resume(self):
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.delete_resume_btn))
+        ).click()
+
 

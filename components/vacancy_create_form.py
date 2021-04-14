@@ -27,7 +27,6 @@ class VacancyCreateFormLocators:
         self.submit = '//button[@id="send-form-empl"]'
         self.browse_image_btn = '//input[@id="sum-img-load"]'
 
-
         self.error_title = '(//span[@class="error"])[1]'
         self.error_description = '(//span[@class="error"])[2]'
         self.error_skills = '(//span[@class="error"])[3]'
@@ -38,7 +37,6 @@ class VacancyCreateFormLocators:
         self.error_email = '(//span[@class="error"])[8]'
         self.error_place = '(//span[@class="error"])[9]'
         self.error_server = '(//span[@class="error"])[10]'
-
 
 
 class VacancyCreateForm(BaseComponent):

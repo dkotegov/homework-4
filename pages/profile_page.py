@@ -92,4 +92,11 @@ class ProfilePage(BasePage):
     def get_text(self, text, field_number):
         return text == self.profile_form.get_text_fields(field_number)
 
+    def find_vacancy_in_responses(self, vacancy_data):
+        responses = self.profile_form.get_responses()
+        for r in responses:
+            if vacancy_data in r.text:
+                return True
+        return False
+
 
