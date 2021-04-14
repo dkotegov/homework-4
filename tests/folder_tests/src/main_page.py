@@ -52,7 +52,6 @@ class MainForm(Component):
         checkboxes = self.driver.find_elements_by_xpath(self.CHECKBOX)
         for checkbox in checkboxes:
             checkbox.click()
-            time.sleep(1)
             checkbox.click()
 
     def open_folder_editor(self):
@@ -70,7 +69,7 @@ class MainForm(Component):
 
 class AddFolderForm(Component):
     CLOSE_BUTTON = '//span[text()="Отменить"]'
-    CROSS_BUTTON = 'c01420'
+    CROSS_BUTTON = '//*[@data-test-id="cross"]'
     FOLDER_FRAME = '//input[@name="name"]'
     ADD_FOLDER_BUTTON = '//*[@data-test-id="submit"]'
 
@@ -78,7 +77,7 @@ class AddFolderForm(Component):
         self.driver.find_element_by_xpath(self.CLOSE_BUTTON).click()
 
     def close_folder_popup_by_cross(self):
-        self.driver.find_element_by_class_name(self.CROSS_BUTTON).click()
+        self.driver.find_element_by_xpath(self.CROSS_BUTTON).click()
 
     def create_folder(self, folder_name):
         self.driver.find_element_by_xpath(self.FOLDER_FRAME).send_keys(folder_name)
@@ -87,14 +86,14 @@ class AddFolderForm(Component):
 
 class RemoveFolderForm(Component):
     CLOSE_BUTTON = '//span[text()="Отменить"]'
-    CROSS_BUTTON = 'c01420'
+    CROSS_BUTTON = '//*[@data-test-id="cross"]'
     DELETE_FOLDER_BUTTON = '//*[@data-test-id="submit"]'
 
     def close_folder_popup(self):
         self.driver.find_element_by_xpath(self.CLOSE_BUTTON).click()
 
     def close_folder_popup_by_cross(self):
-        self.driver.find_element_by_class_name(self.CROSS_BUTTON).click()
+        self.driver.find_element_by_xpath(self.CROSS_BUTTON).click()
 
     def remove_folder(self, folder_name):
         self.driver.find_element_by_xpath(self.DELETE_FOLDER_BUTTON).click()
@@ -102,7 +101,7 @@ class RemoveFolderForm(Component):
 
 class EditFolderForm(Component):
     CLOSE_BUTTON = '//span[text()="Отменить"]'
-    CROSS_BUTTON = 'c01420'
+    CROSS_BUTTON = '//*[@data-test-id="cross"]'
     UNAVAILABLE_POP3 = '//*[@data-test-id="pop3"]'
     PROTECTED_PASSWORD = '//*[@data-test-id="hasPassword"]'
     SET_PASSWORD = '//*[@data-test-id="submit"]'
@@ -120,7 +119,7 @@ class EditFolderForm(Component):
         self.driver.find_element_by_xpath(self.CLOSE_BUTTON).click()
 
     def close_folder_popup_by_cross(self):
-        self.driver.find_element_by_class_name(self.CROSS_BUTTON).click()
+        self.driver.find_element_by_xpath(self.CROSS_BUTTON).click()
 
     def unavailable_pop3(self):
         self.driver.find_element_by_xpath(self.UNAVAILABLE_POP3).click()
@@ -163,14 +162,14 @@ class EditFolderForm(Component):
 
 class ClearFolderForm(Component):
     CLOSE_BUTTON = '//span[text()="Отменить"]'
-    CROSS_BUTTON = 'c01420'
+    CROSS_BUTTON = '//*[@data-test-id="cross"]'
     CLEAR_FOLDER_BUTTON = '//*[@data-test-id="submit"]'
 
     def close_folder_popup(self):
         self.driver.find_element_by_xpath(self.CLOSE_BUTTON).click()
 
     def close_folder_popup_by_cross(self):
-        self.driver.find_element_by_class_name(self.CROSS_BUTTON).click()
+        self.driver.find_element_by_xpath(self.CROSS_BUTTON).click()
 
     def clear_folder(self):
         self.driver.find_element_by_xpath(self.CLEAR_FOLDER_BUTTON).click()

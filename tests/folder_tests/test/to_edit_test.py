@@ -23,7 +23,22 @@ class ToEditTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test(self):
+    def test_close(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.authorize(self.LOGIN, self.PASSWORD)
+
+        main_page = MainPage(self.driver)
+        main_form = main_page.main_form
+        main_form.open_folder_editor()
+
+        edit_form = main_page.edit_folder_form
+        edit_form.close_folder_popup()
+        time.sleep(2)
+
+    def test_return(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -38,5 +53,24 @@ class ToEditTest(unittest.TestCase):
         edit_form.unavailable_pop3()
         edit_form.protected_by_password()
         edit_form.set_password_popup()
-        # edit_form.set_password('1234', '1234', 'qqq', 'aaa', self.PASSWORD)
+        edit_form.return_back()
+        edit_form.close_folder_popup_by_cross()
         time.sleep(2)
+
+    # def test(self):
+    #     auth_page = AuthPage(self.driver)
+    #     auth_page.open()
+    #
+    #     auth_form = auth_page.form
+    #     auth_form.authorize(self.LOGIN, self.PASSWORD)
+    #
+    #     main_page = MainPage(self.driver)
+    #     main_form = main_page.main_form
+    #     main_form.open_folder_editor()
+    #
+    #     edit_form = main_page.edit_folder_form
+    #     edit_form.unavailable_pop3()
+    #     edit_form.protected_by_password()
+    #     edit_form.set_password_popup()
+    #     edit_form.set_password('1234', '1234', 'qqq', 'aaa', self.PASSWORD)
+    #     time.sleep(2)
