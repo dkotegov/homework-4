@@ -7,6 +7,6 @@
 ## Запуск самих тестов
 
 ```
- EMAIL2=<email2> PASSWORD2=<password2> EMAIL1=<email1> PASSWORD1=<password1>  EMAIL=<email>  PASSWORD=<password> python3 ./run_tests.py
+ EMAIL_APPL=<email2> PASSWORD_APPL=<password2> EMAIL_EMPL=<email1> PASSWORD_EMPL=<password1>  EMAIL_EMPL_COMP=<email>  PASSWORD_EMPL_COMP=<password> python3 ./run_tests.py
 
 ``` 

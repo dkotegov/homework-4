@@ -7,12 +7,12 @@ def default_setup(t):
     :param t: unittest.TestCase
     :return: None
     """
-    t.EMAIL = os.environ['EMAIL']
-    t.PASSWORD = os.environ['PASSWORD']
-    t.EMAIL1 = os.environ['EMAIL1']
-    t.PASSWORD1 = os.environ['PASSWORD1']
-    t.EMAIL2 = os.environ['EMAIL2']
-    t.PASSWORD2 = os.environ['PASSWORD2']
+    t.EMAIL_APPL = os.environ['EMAIL_APPL']
+    t.PASSWORD_APPL = os.environ['PASSWORD_APPL']
+    t.EMAIL_EMPL = os.environ['EMAIL_EMPL']
+    t.PASSWORD_EMPL = os.environ['PASSWORD_EMPL']
+    t.EMAIL_EMPL_COMP = os.environ['EMAIL_EMPL_COMP']
+    t.PASSWORD_EMPL_COMP = os.environ['PASSWORD_EMPL_COMP']
 
     browser = os.environ.get('BROWSER', 'CHROME')
 

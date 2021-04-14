@@ -24,23 +24,24 @@ from tests.company.check_company import Company
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         unittest.makeSuite(CheckRegistration),
-        unittest.makeSuite(CheckAuth),
-        unittest.makeSuite(CheckProfile),
-        unittest.makeSuite(CheckSearch),
-        unittest.makeSuite(CreateResume),
-        unittest.makeSuite(EditResume),
-        unittest.makeSuite(Navbar),
-        unittest.makeSuite(CreateExperience),
-        unittest.makeSuite(ListResume),
-        unittest.makeSuite(Favorite),
-        unittest.makeSuite(PopularCategory),
-        unittest.makeSuite(CheckSearchVacancyPage),
-        unittest.makeSuite(ChatRightSide),
-        unittest.makeSuite(ChatLeftSide),
-        unittest.makeSuite(CheckSearch),
-        unittest.makeSuite(CheckRecommendations),
-        unittest.makeSuite(Vacancy),
-        unittest.makeSuite(Company)
+        # unittest.makeSuite(CheckAuth),
+        # unittest.makeSuite(CheckProfile),
+        # unittest.makeSuite(Navbar),
+
+        # unittest.makeSuite(CheckSearch),
+        # unittest.makeSuite(CreateResume),
+        # unittest.makeSuite(EditResume),
+        # unittest.makeSuite(CreateExperience),
+        # unittest.makeSuite(ListResume),
+        # unittest.makeSuite(Favorite),
+        # unittest.makeSuite(PopularCategory),
+        # unittest.makeSuite(CheckSearchVacancyPage),
+        # unittest.makeSuite(ChatRightSide),
+        # unittest.makeSuite(ChatLeftSide),
+        # unittest.makeSuite(CheckSearch),
+        # unittest.makeSuite(CheckRecommendations),
+        # unittest.makeSuite(Vacancy),
+        # unittest.makeSuite(Company)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
