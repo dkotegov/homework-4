@@ -38,15 +38,6 @@ if __name__ == '__main__':
         unittest.makeSuite(Notification),
         unittest.makeSuite(Response),
         unittest.makeSuite(Pdf),
-
-        unittest.makeSuite(CheckSearch),
-
-        unittest.makeSuite(CheckSearchVacancyPage),
-        unittest.makeSuite(ChatRightSide),
-        unittest.makeSuite(ChatLeftSide),
-        unittest.makeSuite(CheckSearch),
-        unittest.makeSuite(CheckRecommendations),
-
         unittest.makeSuite(Vacancy),
         unittest.makeSuite(Company),
         unittest.makeSuite(CheckSearchVacancyPage),

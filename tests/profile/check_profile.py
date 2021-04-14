@@ -66,15 +66,14 @@ class CheckProfile(unittest.TestCase):
     def test_upload_big_avatar(self):
         auth_as_applicant(self)
         self.profile_page.open()
-        self.profile_page.upload_avatar("/test_data/big_img.jpg")
-        self.assertTrue(self.profile_page.check_error('Размеры изображения превышают допутимую высоту 2500px и ширину 2500px.'))
+        self.profile_page.upload_avatar("/test_data/big_img.png")
+        self.assertTrue(self.profile_page.check_error('Превышен максимальный размер изображения. Максимальный размер: 2 mB.'))
 
     def test_upload_avatar(self):
         auth_as_applicant(self)
         self.profile_page.open()
         self.profile_page.upload_avatar("/test_data/robot.png")
         self.assertFalse(self.profile_page.check_error('Размеры изображения превышают допутимую высоту 2500px и ширину 2500px.'))
-
 
     def test_check_open_resume_response(self):
         auth_as_applicant(self)
@@ -151,6 +150,7 @@ class CheckProfile(unittest.TestCase):
         check_data = auth_as_applicant(self)
         self.profile_page.open()
         self.profile_page.edit('margot1', 4)
+        self.driver.refresh()
         self.assertTrue(
             self.profile_page.check_span_error('Неверный номер телефона.'))
-        self.assertTrue(self.profile_page.get_text(check_data['PHONE'], 3))
+
