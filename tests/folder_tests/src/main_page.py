@@ -33,6 +33,7 @@ class MainForm(Component):
     REMOVE_BUTTON = '//*[@data-test-id="folder-delete"]'
     CLEAR_BUTTON = '//*[@data-test-id="folder-clear"]'
     OPEN_EDITOR = '//*[@data-test-id="folder-edit"]'
+    CROSS_BUTTON = '//*[@data-test-id="cross"]'
 
     CHECKBOX = '//*[@data-test-id="folder-pop3"]'
 
@@ -54,11 +55,25 @@ class MainForm(Component):
             checkbox.click()
             checkbox.click()
 
+    def close_folder_popup_by_cross(self):
+        self.driver.find_element_by_xpath(self.CROSS_BUTTON).click()
+
+    def open_folder_editors(self):
+        editors = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_elements_by_xpath(self.OPEN_EDITOR)
+        )
+        for editor in editors[0:6]:
+            editor.click()
+            time.sleep(1)
+            self.close_folder_popup_by_cross()
+        editors[1].click()
+
     def open_folder_editor(self):
         editor = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.OPEN_EDITOR)
         )
         editor.click()
+
 
     def clear_folder_popup(self):
         button = WebDriverWait(self.driver, 30, 0.1).until(

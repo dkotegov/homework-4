@@ -7,7 +7,7 @@ from tests.folder_tests.src.auth_page import AuthPage
 from tests.folder_tests.src.main_page import MainPage
 
 
-class ToEditTest(unittest.TestCase):
+class PasswordTest(unittest.TestCase):
     LOGIN = os.environ['LOGIN']
     PASSWORD = os.environ['PASSWORD']
 
@@ -23,7 +23,7 @@ class ToEditTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_1_close(self):
+    def test_1_success_short(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -32,13 +32,48 @@ class ToEditTest(unittest.TestCase):
 
         main_page = MainPage(self.driver)
         main_form = main_page.main_form
-        main_form.open_folder_editors()
+        main_form.open_folder_editor()
 
         edit_form = main_page.edit_folder_form
-        edit_form.close_folder_popup()
-        time.sleep(2)
+        edit_form.protected_by_password()
+        edit_form.set_password_popup()
+        edit_form.set_password('123', '123', 'qqq', 'aaa', self.PASSWORD)
 
-    def test_2_return(self):
+    def test_2_success_long(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.authorize(self.LOGIN, self.PASSWORD)
+
+        main_page = MainPage(self.driver)
+        main_form = main_page.main_form
+        main_form.open_folder_editor()
+
+        edit_form = main_page.edit_folder_form
+
+        edit_form.protected_by_password()
+        edit_form.set_password_popup()
+        edit_form.set_password('123' * 11, '123' * 11, 'qqq', 'aaa', self.PASSWORD)
+
+    def test_3_wrong_pwd(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.authorize(self.LOGIN, self.PASSWORD)
+
+        main_page = MainPage(self.driver)
+        main_form = main_page.main_form
+        main_form.open_folder_editor()
+
+        edit_form = main_page.edit_folder_form
+
+        edit_form.protected_by_password()
+        edit_form.set_password_popup()
+        edit_form.set_password('12345', '1234', 'qqq', 'aaa', self.PASSWORD)
+
+    def test_4_success(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -53,21 +88,4 @@ class ToEditTest(unittest.TestCase):
         edit_form.unavailable_pop3()
         edit_form.protected_by_password()
         edit_form.set_password_popup()
-        edit_form.return_back()
-        edit_form.close_folder_popup_by_cross()
-        time.sleep(2)
-
-    def test_3_success(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.open()
-
-        auth_form = auth_page.form
-        auth_form.authorize(self.LOGIN, self.PASSWORD)
-
-        main_page = MainPage(self.driver)
-        main_form = main_page.main_form
-        main_form.open_folder_editor()
-
-        edit_form = main_page.edit_folder_form
-        edit_form.unavailable_pop3()
-        edit_form.save_folder_pwd()
+        edit_form.set_password('1234', '1234', 'qqq', 'aaa', self.PASSWORD)
