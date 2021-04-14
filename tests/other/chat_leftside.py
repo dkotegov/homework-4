@@ -15,7 +15,7 @@ class ChatLeftSide(unittest.TestCase):
 
     def setUp(self) -> None:
         default_setup(self)
-        self.VACANCY_NAME = "Программист 1С"
+        self.VACANCY_NAME = "Программист JAVA"
         self.TEST_MSG = "привет"
         self.STATUS_TEST = "Новый статус заявки"
 
@@ -43,11 +43,12 @@ class ChatLeftSide(unittest.TestCase):
         self.assertTrue(self.chatPage.is_open())
         self.scenario.delete_resume()
 
+
 class ChatLeftSideWithCreate(unittest.TestCase):
 
     def setUp(self) -> None:
         default_setup(self)
-        self.VACANCY_NAME = "Программист 1С"
+        self.VACANCY_NAME = "Программист JAVA"
         self.TEST_MSG = "привет"
         self.STATUS_TEST = "Новый статус заявки"
 
@@ -81,7 +82,6 @@ class ChatLeftSideWithCreate(unittest.TestCase):
         self.assertEqual(firstAndLastName[0], self.data["NAME"])
         self.assertEqual(firstAndLastName[1], self.data["SURNAME"])
 
-
     def test_check_new_message_after_request(self):
         self.scenario.create_resume()
         self.vacanciesPage.open()
@@ -106,7 +106,6 @@ class ChatLeftSideWithCreate(unittest.TestCase):
         self.chatPage.click_on_another_chat(0)
         text = self.chatPage.get_last_msg()
         self.assertEqual(text, self.TEST_MSG)
-
 
     def tearDown(self):
         self.main_page.open()
