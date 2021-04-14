@@ -26,7 +26,6 @@ if __name__ == '__main__':
         unittest.makeSuite(CheckAuth),
         unittest.makeSuite(CheckProfile),
         unittest.makeSuite(Navbar),
-
         unittest.makeSuite(CheckSearch),
         unittest.makeSuite(CreateResume),
         unittest.makeSuite(EditResume),
@@ -41,13 +40,6 @@ if __name__ == '__main__':
         unittest.makeSuite(CheckRecommendations),
         unittest.makeSuite(Vacancy),
         unittest.makeSuite(Company),
-        unittest.makeSuite(CheckSearchVacancyPage),
-        unittest.makeSuite(ChatRightSide),
-        unittest.makeSuite(ChatLeftSide),
-        unittest.makeSuite(ChatLeftSideWithCreate),
-        unittest.makeSuite(CheckSearch),
-        unittest.makeSuite(CheckRecommendationsCreate),
-        unittest.makeSuite(CheckRecommendations),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
