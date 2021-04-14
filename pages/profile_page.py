@@ -89,7 +89,6 @@ class ProfilePage(BasePage):
         self.profile_form.click_to_my_fav()
         return self.profile_form.get_favorite_data()
 
-
     def get_text(self, text, field_number):
         return text == self.profile_form.get_text_fields(field_number)
 

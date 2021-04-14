@@ -40,7 +40,7 @@ class ProfileFormLocators:
 
         self.error_field = '//div[@class="error"]'
         self.error_phone = '//span[@class="error"]'
-
+        self.list = '//div[@class="pers-list"]'
         self.edit_btn = '//a[@href="/profile"]'
         self.edited_input = '//input[@class="pers-list-row__input"]'
 
@@ -193,23 +193,30 @@ class ProfileForm(BaseComponent):
             EC.presence_of_element_located((By.XPATH, self.locators.error_phone))
         )
 
+    def wait_for_list(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.list))
+        )
+
     def click_to_edit_or_save_name(self, field_number):
+        self.wait_for_list()
         btn = WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.edit_btn))
         )
-        print(len(btn))
         btn[field_number].click()
 
     def get_edited_field(self):
+        self.wait_for_list()
         return WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_element_located((By.XPATH, self.locators.edited_input))
         )
 
     def get_text_fields(self, field_number):
+        self.wait_for_list()
         fields = WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.text_fields))
         )
-        return fields[field_number]
+        return fields[field_number].get_attribute("innerText")
 
 
     def clear(self, element):
