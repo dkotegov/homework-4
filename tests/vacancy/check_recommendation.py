@@ -3,8 +3,10 @@ import unittest
 from pages.main_page import MainPage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
+from scenario.auth import setup_auth, auth_as_employer_has_comp
+from tests.default_setup import default_setup
 from scenario.auth import setup_auth, auth_as_employer_has_comp, auth_as_applicant
-from scenario.default_setup import default_setup
+from scenario.registration_applicant import registration_applicant
 from scenario.registration_applicant import RegistrationApplicantScenario
 from scenario.vacancy import VacancyScenario
 

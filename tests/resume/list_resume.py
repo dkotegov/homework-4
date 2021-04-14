@@ -3,8 +3,8 @@ import unittest
 from pages.resumes_page import ResumesPage
 from pages.resume_page import ResumePage
 from scenario.auth import setup_auth
-from scenario.create_resume import create_resume, create_resume_without_submit
-from scenario.default_setup import default_setup
+from scenario.resume import ResumeScenario
+from tests.default_setup import default_setup
 
 
 class ListResume(unittest.TestCase):
@@ -18,17 +18,19 @@ class ListResume(unittest.TestCase):
     def setUp(self) -> None:
         default_setup(self)
         setup_auth(self)
-        create_resume(self, self.data)
 
         self.resume_page = ResumePage(self.driver)
         self.resume = self.resume_page.form
 
+        self.scenario = ResumeScenario(self, self.resume)
+        self.scenario.create_resume(self.data)
         self.resume_list = ResumesPage(self.driver)
         self.resume_list_form = self.resume_list.list
 
         self.resume_list.open()
 
     def tearDown(self):
+        self.scenario.delete_resume()
         self.driver.quit()
 
     def test_created_resume_in_list(self):

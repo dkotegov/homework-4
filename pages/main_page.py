@@ -3,6 +3,7 @@ from components.navbar_form import NavbarForm
 from components.profile_form import ProfileForm
 from components.search_form import SearchForm
 from components.popular import PopularCategories
+from components.notification import Notification
 from pages.base_page import BasePage
 
 
@@ -18,6 +19,7 @@ class MainPage(BasePage):
         self.profile_form = ProfileForm(self.driver)
         self.category_form = CategorySearchForm(self.driver)
         self.popular_category = PopularCategories(self.driver)
+        self.notification = Notification(self.driver)
 
     def search_by_profession(self, profession: str):
         self.search_form.input_profession(profession)
@@ -83,3 +85,24 @@ class MainPage(BasePage):
     def click_footer_btn(self):
         return self.popular_category.click_footer_btn()
 
+    def get_text_empty_notif(self):
+        return self.notification.get_text_empty_notif()
+
+    def wait_notif_open(self):
+        return self.notification.wait_for_open()
+
+    def check_response(self):
+        return self.notification.check_response()
+
+    def delete_response(self):
+        self.notification.delete_response()
+
+    def check_notif_recommendations(self):
+        text = self.notification.get_text_recommendations()
+        return 'Подобрано' in text and 'рекомендуемая вакансия' in text
+
+    def get_text_recommendation(self):
+        return self.notification.get_text_recommendations()
+
+    def click_notif_recommendation(self):
+        self.notification.click_notif_recommendation()

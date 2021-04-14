@@ -4,7 +4,7 @@ from pages.create_vacancy_page import CreateVacancyPage
 from pages.profile_page import ProfilePage
 from pages.vacancies_page import VacanciesPage
 from scenario.auth import auth_as_employer_has_comp
-from scenario.default_setup import default_setup
+from tests.default_setup import default_setup
 from scenario.vacancy import VacancyScenario
 
 
