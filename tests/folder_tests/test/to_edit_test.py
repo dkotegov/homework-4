@@ -37,5 +37,6 @@ class ToEditTest(unittest.TestCase):
         edit_form = main_page.edit_folder_form
         edit_form.unavailable_pop3()
         edit_form.protected_by_password()
+        edit_form.set_password_popup()
+        # edit_form.set_password('1234', '1234', 'qqq', 'aaa', self.PASSWORD)
         time.sleep(2)
-        edit_form.close_folder_popup()

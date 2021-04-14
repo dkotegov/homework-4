@@ -16,9 +16,9 @@ class AuthPage(Page):
 
 class AuthForm(Component):
     LOGIN = '//input[@name="username"]'
-    NEXT = '//span[text()="Ввести пароль"]'
+    NEXT = '//*[@data-test-id="next-button"]'
     PASSWORD = '//input[@name="password"]'
-    SUBMIT = '//span[text()="Войти"]'
+    SUBMIT = '//*[@data-test-id="submit-button"]'
 
     def set_login(self, login):
         iframe = self.driver.find_element_by_class_name('ag-popup__frame__layout__iframe')
@@ -27,7 +27,6 @@ class AuthForm(Component):
             lambda d: d.find_element_by_xpath(self.LOGIN)
         )
         button.send_keys(login)
-        # self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
     def next(self):
         self.driver.find_element_by_xpath(self.NEXT).click()
