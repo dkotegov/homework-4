@@ -6,12 +6,12 @@ from pages.resumes_page import ResumesPage
 from pages.vacancies_page import VacanciesPage
 from pages.recommendation_page import RecommendationPage
 from pages.profile_page import ProfilePage
+from scenario.resume import ResumeScenario
 from scenario.vacancy import VacancyScenario
 from tests.default_setup import default_setup
-from scenario.registration_applicant import registration_applicant
-from scenario.registration_employer import registration_employer
+from scenario.registration_applicant import RegistrationApplicantScenario
+from scenario.registration_employer import RegistrationEmployerScenario
 from scenario.auth import auth_as_employer_has_comp, setup_auth
-from scenario.create_resume import create_resume
 
 
 class Notification(unittest.TestCase):
@@ -26,6 +26,7 @@ class Notification(unittest.TestCase):
         self.resume = self.resume_page.form
         self.resume_list = ResumesPage(self.driver)
         self.resume_list_form = self.resume_list.list
+        self.scenario = ResumeScenario(self, self.resume)
 
     def tearDown(self):
         self.profile.open()
@@ -33,13 +34,15 @@ class Notification(unittest.TestCase):
         self.driver.quit()
 
     def test_empty_notification(self):
-        registration_employer(self, False)
+        reg = RegistrationEmployerScenario(self)
+        reg.registration_employer(False)
         self.main_page.click_notif_popup()
         self.main_page.wait_notif_open()
         self.assertEqual(self.main_page.get_text_empty_notif(), 'У вас нет новых уведомлений')
 
     def test_recommended_vacancies(self):
-        registration_applicant(self)
+        reg = RegistrationApplicantScenario(self)
+        reg.registration_applicant(self)
         self.vacancies.open()
         self.vacancies.click_on_first_vacancy()
         self.main_page.click_notif_popup()
@@ -47,7 +50,8 @@ class Notification(unittest.TestCase):
         self.assertTrue(self.main_page.check_notif_recommendations())
 
     def test_recommended_vacancies_page(self):
-        registration_applicant(self)
+        reg = RegistrationApplicantScenario(self)
+        reg.registration_applicant(self)
         self.vacancies.open()
         self.vacancies.click_on_first_vacancy()
         self.main_page.click_notif_popup()
@@ -59,8 +63,9 @@ class Notification(unittest.TestCase):
         self.assertEqual(self.main_page.get_text_recommendation(), '')
 
     def test_response(self):
-        account_data = registration_applicant(self)
-        create_resume(self)
+        reg = RegistrationApplicantScenario(self)
+        account_data = reg.registration_applicant(self)
+        self.scenario.create_resume()
         self.main_page.click_logout()
 
         auth_as_employer_has_comp(self)

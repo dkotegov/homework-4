@@ -3,15 +3,9 @@ import unittest
 from pages.resumes_page import ResumesPage
 from pages.resume_page import ResumePage
 from pages.profile_page import ProfilePage
-from pages.vacancies_page import VacanciesPage
-from pages.vacancy_page import VacancyPage
 from scenario.vacancy import VacancyScenario
-from tests.default_setup import default_setup
-from scenario.registration_employer import registration_employer
 from scenario.auth import auth_as_employer_has_comp
-from scenario.create_resume import create_resume
-from scenario.delete_resume import delete_resume
-from scenario.default_setup import default_setup
+from tests.default_setup import default_setup
 from scenario.registration_employer import RegistrationEmployerScenario
 
 

@@ -5,7 +5,7 @@ from tests.other.check_auth import CheckAuth
 from tests.other.check_registration import CheckRegistration
 from tests.other.navbar import Navbar
 from tests.profile.check_profile import CheckProfile
-from tests.resume.create import CreateResume
+from tests.resume.create import CreateResume, CreateResumeWrong
 from tests.resume.create_experience import CreateExperience
 from tests.resume.edit import EditResume
 from tests.resume.list_resume import ListResume
@@ -28,20 +28,22 @@ if __name__ == '__main__':
         unittest.makeSuite(CheckProfile),
         unittest.makeSuite(Navbar),
 
-        unittest.makeSuite(CheckSearch),
         unittest.makeSuite(CreateResume),
+        unittest.makeSuite(CreateResumeWrong),
         unittest.makeSuite(EditResume),
         unittest.makeSuite(CreateExperience),
         unittest.makeSuite(ListResume),
         unittest.makeSuite(Favorite),
         unittest.makeSuite(PopularCategory),
         unittest.makeSuite(Notification),
+        unittest.makeSuite(Response),
+
+        unittest.makeSuite(CheckSearch),
         unittest.makeSuite(CheckSearchVacancyPage),
         unittest.makeSuite(ChatRightSide),
         unittest.makeSuite(ChatLeftSide),
         unittest.makeSuite(CheckSearch),
         unittest.makeSuite(CheckRecommendations),
-        unittest.makeSuite(Response),
         unittest.makeSuite(Vacancy),
         unittest.makeSuite(Company),
         unittest.makeSuite(CheckSearchVacancyPage),

@@ -5,7 +5,7 @@ from pages.main_page import MainPage
 from pages.profile_page import ProfilePage
 from pages.registration_page import RegistrationPage
 from scenario.auth import setup_auth
-from scenario.default_setup import default_setup
+from tests.default_setup import default_setup
 from scenario.registration_applicant import registration_applicant
 from scenario.registration_employer import RegistrationEmployerScenario
 
@@ -161,7 +161,6 @@ class CheckRegistration(unittest.TestCase):
         self.assertTrue(self.reg_page.errors_in_passwords())
 
     def test_existing_account(self):
-
         data = registration_applicant(self)
         self.main_page.click_logout()
         self.reg_page.open()
