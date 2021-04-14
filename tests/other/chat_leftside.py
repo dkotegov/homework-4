@@ -2,6 +2,7 @@ import unittest
 
 from pages.chat_page import ChatPage
 from pages.main_page import MainPage
+from pages.resume_page import ResumePage
 from pages.vacancies_page import VacanciesPage
 from pages.vacancy_page import VacancyPage
 from scenario.auth import setup_auth, auth_as_employer_has_comp, auth_as_applicant
@@ -23,7 +24,10 @@ class ChatLeftSide(unittest.TestCase):
         self.chatPage = ChatPage(self.driver)
         self.main_page = MainPage(self.driver)
 
-        self.scenario = ResumeScenario(self, self.create_resume_form)
+        self.resume_page = ResumePage(self.driver)
+        self.resume = self.resume_page.form
+
+        self.scenario = ResumeScenario(self, self.resume)
 
     def tearDown(self):
         self.driver.quit()
@@ -53,7 +57,11 @@ class ChatLeftSideWithCreate(unittest.TestCase):
         self.main_page = MainPage(self.driver)
         self.Applicant = RegistrationApplicantScenario(self)
         self.data = self.Applicant.registration_applicant()
-        self.scenario = ResumeScenario(self, self.create_resume_form)
+
+        self.resume_page = ResumePage(self.driver)
+        self.resume = self.resume_page.form
+
+        self.scenario = ResumeScenario(self, self.resume)
 
     def test_check_new_chat_after_request(self):
         self.scenario.create_resume()
@@ -72,7 +80,7 @@ class ChatLeftSideWithCreate(unittest.TestCase):
         firstAndLastName = name.split(" ")
         self.assertEqual(firstAndLastName[0], self.data["NAME"])
         self.assertEqual(firstAndLastName[1], self.data["SURNAME"])
-        self.scenario.delete_resume()
+
 
     def test_check_new_message_after_request(self):
         self.scenario.create_resume()
@@ -98,12 +106,13 @@ class ChatLeftSideWithCreate(unittest.TestCase):
         self.chatPage.click_on_another_chat(0)
         text = self.chatPage.get_last_msg()
         self.assertEqual(text, self.TEST_MSG)
-        self.scenario.delete_resume()
+
 
     def tearDown(self):
         self.main_page.open()
         self.main_page.click_logout()
         logData = {'EMAIL': self.data["EMAIL"], 'PASSWORD': self.data["PASSWORD"]}
         setup_auth(self, logData)
+        self.scenario.delete_resume()
         self.Applicant.delete_applicant()
         self.driver.quit()
