@@ -37,6 +37,13 @@ class AuthPage(Page):
         self.submit()
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
 
+    def auth_custom(self, login, pwd):
+        self.open()
+        self.set_login(login)
+        self.set_password(pwd)
+        self.submit()
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
+
     def auth_wrong(self, login, password):
         self.open()
         self.set_login(login)
