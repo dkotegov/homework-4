@@ -44,7 +44,7 @@ class EditResume(unittest.TestCase):
         self.profile_page = ProfilePage(self.driver)
         self.scenario = ResumeScenario(self, self.create_resume_form)
         setup_auth(self)
-        self.scenario.fill_resume(self.data)
+        self.scenario.create_resume_with_experience(self.data)
 
         self.profile_page.open()
         self.profile_page.click_my_first_resume_edit()
@@ -61,7 +61,7 @@ class EditResume(unittest.TestCase):
 
     def test_save_with_changes(self):
         self.edit_resume_form.clear_inputs()
-        self.scenario.fill_resume(self.data)
+        self.scenario.fill_resume(self.other_data)
 
         self.edit_resume_form.submit_resume()
         self.resume.wait_for_resume_page()
