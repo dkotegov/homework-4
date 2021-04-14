@@ -55,5 +55,6 @@ class ChatList(BaseComponent):
         element = self.wait.until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.chat_info_last_msg)))
         el = element[chat]
-        return el.get_attribute('innerText')
+        info = el.get_attribute('innerText')
+        return info
 

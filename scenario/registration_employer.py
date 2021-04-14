@@ -1,6 +1,7 @@
 import random
 import string
 
+from pages.profile_page import ProfilePage
 from pages.registration_page import RegistrationPage
 
 
@@ -36,3 +37,8 @@ class RegistrationEmployerScenario:
         registration_page.set_data(self.data)
         registration_page.wait_for_reg_is_done()
         return self.data
+
+    def delete_employer(self):
+        profile_page = ProfilePage(self.test.driver)
+        profile_page.open()
+        profile_page.delete_account()
