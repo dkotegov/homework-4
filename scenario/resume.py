@@ -48,7 +48,7 @@ class ResumeScenario:
         create_resume_page.open()
         self.form = create_resume_page.create_form
 
-        create_resume_form = self.fill_resume(create_resume_page.create_form, data)
+        create_resume_form = self.fill_resume(data)
         create_resume_form.open_popup_add_experience()
         self.create_experience(data)
         create_resume_form.submit_resume()

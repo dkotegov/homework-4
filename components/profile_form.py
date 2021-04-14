@@ -235,6 +235,9 @@ class ProfileForm(BaseComponent):
         ).click()
 
     def get_favorite_data(self):
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.favorite_title))
+        )
         return {
             'title': self.get_field(self.locators.favorite_title),
             'description': self.get_field(self.locators.favorite_description)
