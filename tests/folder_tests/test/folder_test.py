@@ -52,5 +52,7 @@ class FolderTest(unittest.TestCase):
         main_page = MainPage(self.driver)
         main_form = main_page.main_form
 
-        main_form.clear_folder()
+        main_form.clear_folder_popup()
+        clear_form = main_page.clear_folder_form
+        clear_form.clear_folder()
         time.sleep(2)

@@ -61,7 +61,7 @@ class MainForm(Component):
         )
         editor.click()
 
-    def clear_folder(self):
+    def clear_folder_popup(self):
         button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.CLEAR_BUTTON)
         )
@@ -161,10 +161,10 @@ class EditFolderForm(Component):
         self.save_folder_pwd()
 
 
-class CLEARFolderForm(Component):
+class ClearFolderForm(Component):
     CLOSE_BUTTON = '//span[text()="Отменить"]'
     CROSS_BUTTON = 'c01420'
-    DELETE_FOLDER_BUTTON = '//*[@data-test-id="submit"]'
+    CLEAR_FOLDER_BUTTON = '//*[@data-test-id="submit"]'
 
     def close_folder_popup(self):
         self.driver.find_element_by_xpath(self.CLOSE_BUTTON).click()
@@ -172,5 +172,5 @@ class CLEARFolderForm(Component):
     def close_folder_popup_by_cross(self):
         self.driver.find_element_by_class_name(self.CROSS_BUTTON).click()
 
-    def remove_folder(self, folder_name):
-        self.driver.find_element_by_xpath(self.DELETE_FOLDER_BUTTON).click()
+    def clear_folder(self):
+        self.driver.find_element_by_xpath(self.CLEAR_FOLDER_BUTTON).click()
