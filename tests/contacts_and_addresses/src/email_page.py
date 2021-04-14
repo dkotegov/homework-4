@@ -15,9 +15,11 @@ class EmailForm(Component):
     ADD_EMAIL = '//*[@data-test-id="recovery-addEmail-button"]'
     EMAIL_INPUT = '//*[@data-test-id="recovery-addEmail-emailField-input"]'
     CANCEL = '//*[@data-test-id="recovery-addEmail-cancel"]'
+    CANCEL_DELETE = '//*[@data-test-id="recovery-deleteEmail-cancel"]'
     EMAIL_SUBMIT = '//*[@data-test-id="recovery-addEmail-submit"]'
     CHECK_EMAIL = '//*[@data-test-id="recovery-email-wrapper"]'
     DELETE_EMAIL = '//*[@data-test-id="recovery-delete-email-button"]'
+    DELETE_SUBMIT = '//*[@data-test-id="recovery-deleteEmail-submit"]'
     CLOSE = '//*[@data-test-id="recovery-success-close"]'
     ERROR = '//*[@data-test-id="error-footer-text"]'
     Invalid_email = '//*[@data-test-id="recovery-error-invalidEmail"]'
@@ -63,3 +65,11 @@ class EmailForm(Component):
             lambda d: d.find_element_by_xpath(self.CANCEL)
         )
         cancel_button.click()
+
+    def cancel_delete(self):
+        self.next_button_click(self.DELETE_EMAIL)
+        self.next_button_click(self.CANCEL_DELETE)
+
+    def delete_email(self):
+        self.next_button_click(self.DELETE_EMAIL)
+        self.next_button_click(self.DELETE_SUBMIT)
