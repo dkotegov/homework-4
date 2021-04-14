@@ -13,7 +13,7 @@ from tests.other.chat_leftside import ChatLeftSide, ChatLeftSideWithCreate
 from tests.other.chat_rightside import ChatRightSide
 from tests.vacancy.check_recommendation import CheckRecommendations, CheckRecommendationsCreate
 from tests.vacancy.check_search_mainpage import CheckSearch
-from tests.resume.resume import Favorite, Response
+from tests.resume.resume import Favorite, Response, Pdf
 from tests.other.main_page import PopularCategory
 from tests.vacancy.check_search_vacancypage import CheckSearchVacancyPage
 from tests.other.notification import Notification
@@ -37,6 +37,7 @@ if __name__ == '__main__':
         unittest.makeSuite(PopularCategory),
         unittest.makeSuite(Notification),
         unittest.makeSuite(Response),
+        unittest.makeSuite(Pdf),
 
         unittest.makeSuite(CheckSearch),
         unittest.makeSuite(CheckSearchVacancyPage),
