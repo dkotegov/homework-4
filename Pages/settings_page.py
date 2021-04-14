@@ -6,6 +6,8 @@ import os
 
 
 class SettingPage(Page):
+    AVATAR_PATH = os.getcwd() + '/media/vorobey.jpg'
+    AVATAR_INPUT = '//input[@name="file"]'
     USERNAME_INPUT = os.environ['LOGIN']
     PASSWORD_INPUT = os.environ['PASSWORD']
     PATH = '/profileChange'
@@ -50,4 +52,9 @@ class SettingPage(Page):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
         self.set_username("1234")
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ERROR_USERNAME_LESS_5)))
+
+    def setup_avatar(self):
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.AVATAR_INPUT)))
+        self.driver.find_element_by_xpath(self.AVATAR_INPUT).send_keys(self.AVATAR_PATH)
+        return self.driver.find_element_by_xpath(self.AVATAR_INPUT).get_attribute("value")
 

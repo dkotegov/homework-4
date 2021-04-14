@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from Pages.auth_page import AuthPage
 from Pages.people_page import PeoplePage
 from Pages.profile_page import ProfilePage
+from Pages.settings_page import SettingPage
 
 
 class SubscribeTests(unittest.TestCase):
@@ -50,3 +51,12 @@ class SubscribeTests(unittest.TestCase):
         people_page.subscribe()
         profile_page = ProfilePage(self.driver)
         profile_page.unsub(id)
+
+    def test_avatar(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.auth_custom(auth_page.SIGNUP_LOGIN, "12345678")
+        settings_page = SettingPage(self.driver)
+        settings_page.open()
+        avatar = settings_page.setup_avatar()
+        settings_page.submit()
+        self.assertEqual(avatar, "C:\\fakepath\\vorobey.jpg")

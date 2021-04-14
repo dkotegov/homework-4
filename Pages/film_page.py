@@ -3,8 +3,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from utils.custom_expected_conditions import presence_number_of_elements as customEC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+
 import os
+import random
 
 
 class FilmPage(Page):
@@ -12,6 +14,8 @@ class FilmPage(Page):
     ADD_BUTTON = '//button[@id="adding"]'
     NOTIFICATION_SUCCESS = '//div[@class="name__notificationSuccess--2LyUD"]'
     NOTIFICATION_EXIST = '//div[@class="name__notificationFail--15d1Q"]'
+    STAR = '//label[@for="star-'
+    RATE = '//button[text()="Оценить"]'
     COMMENT_AREA = '//textarea[@id="msg"]'
     SUBMIT_COMMENT = '//button[@id="msg_button"]'
     COMMENTS_NAME = '//a[@class="name__comment__login--3E4k1"]'
@@ -41,6 +45,27 @@ class FilmPage(Page):
             return False
         else:
             return True
+
+
+    def select_star(self, i):
+        selector_star = self.STAR + i + "\"]"
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, selector_star)))
+        self.driver.find_element_by_xpath(selector_star).click()
+
+    def submit_star(self):
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.RATE)))
+        self.driver.find_element_by_xpath(self.RATE).click()
+
+    def check_succes(self):
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.NOTIFICATION_SUCCESS)))
+
+    def check_not_succes(self):
+        try:
+            WebDriverWait(self.driver, 2).until(EC.presence_of_element_located((By.XPATH, self.NOTIFICATION_SUCCESS)))
+        except TimeoutException:
+            return True
+        else:
+            return False
 
     def set_comment(self, comment):
         self.driver.find_element_by_xpath(self.COMMENT_AREA).send_keys(comment)
@@ -88,4 +113,3 @@ class FilmPage(Page):
 
     def check_empty_comment(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ERROR_EMPTY)))
-
