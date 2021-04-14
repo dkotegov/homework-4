@@ -10,6 +10,7 @@ class AuthLocators:
     def __init__(self):
         self.root = '//div[@class="auth"]'
         self.email_field = '//input[@id="emailAuth"]'
+        self.chat_btn = '//a[@href="/chats"]'
         self.password_field = '//input[@id="passAuth"]'
         self.submit_btn = '//button[@id="entBtnAuth"]'
         self.profile_btn = '//a[@href="/profile"]'
@@ -62,6 +63,9 @@ class AuthForm(BaseComponent):
         try:
             WebDriverWait(self.driver, 30, 0.1).until(
                 lambda d: d.find_element_by_xpath(self.locators.profile_btn)
+            )
+            WebDriverWait(self.driver, 30, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.locators.chat_btn)
             )
             return True
         except NoSuchElementException:

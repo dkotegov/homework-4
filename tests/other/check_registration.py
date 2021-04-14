@@ -6,6 +6,7 @@ from pages.profile_page import ProfilePage
 from pages.registration_page import RegistrationPage
 from scenario.auth import setup_auth
 from scenario.default_setup import default_setup
+from scenario.registration_applicant import registration_applicant
 from scenario.registration_employer import RegistrationEmployerScenario
 
 
@@ -161,19 +162,13 @@ class CheckRegistration(unittest.TestCase):
         self.assertTrue(self.reg_page.errors_in_passwords())
 
     def test_existing_account(self):
-        existing_data = {
-            'NAME': 'testReg',
-            'SURNAME': 'testReg',
-            'EMAIL': self.EMAIL_EMPL_COMP,
-            'PASSWORD': self.PASSWORD_EMPL_COMP,
-            'CONFIRM_PASSWORD': self.PASSWORD_EMPL_COMP
-        }
-        registration_applicant(self, existing_data)
+
+        data = registration_applicant(self)
         self.main_page.click_logout()
         self.reg_page.open()
-        self.reg_page.set_data(existing_data)
+        self.reg_page.set_data(data)
         self.assertTrue(self.reg_page.top_error('Пользователь уже существует.'))
-        setup_auth(self, existing_data)
+        setup_auth(self, data)
         self.profile_page.open()
         self.profile_page.delete_account()
 

@@ -2,7 +2,7 @@ import unittest
 
 from pages.auth_page import AuthPage
 from pages.registration_page import RegistrationPage
-from scenario.auth import setup_auth
+from scenario.auth import setup_auth, setup_auth_failed
 from scenario.default_setup import default_setup
 
 
@@ -38,7 +38,7 @@ class CheckAuth(unittest.TestCase):
             'EMAIL': self.correct_email,
             'PASSWORD': self.invalid_password
         }
-        setup_auth(self, invalid_password_data)
+        setup_auth_failed(self, invalid_password_data)
         self.assertTrue(self.auth_page.top_error())
 
     def test_invalid_email(self):
@@ -46,7 +46,7 @@ class CheckAuth(unittest.TestCase):
             'EMAIL': self.invalid_email,
             'PASSWORD': self.correct_password
         }
-        setup_auth(self, invalid_email_data)
+        setup_auth_failed(self, invalid_email_data)
         self.assertTrue(self.auth_page.top_error())
 
     def test_incorrect_password(self):
@@ -54,7 +54,7 @@ class CheckAuth(unittest.TestCase):
             'EMAIL': self.correct_email,
             'PASSWORD': self.incorrect_password
         }
-        setup_auth(self, short_password_data)
+        setup_auth_failed(self, short_password_data)
         self.assertTrue(self.auth_page.password_error('Пароль должен содержать по крайней мере от 5 до 25 символов.'))
 
     def test_incorrect_email(self):
@@ -62,7 +62,7 @@ class CheckAuth(unittest.TestCase):
             'EMAIL': self.incorrect_email,
             'PASSWORD': self.correct_password
         }
-        setup_auth(self, incorrect_email_data)
+        setup_auth_failed(self, incorrect_email_data)
         self.assertTrue(self.auth_page.email_error('Email должен содержать "@" и латинские буквы, цифры, символы.'))
 
     def test_empty_fields(self):
@@ -70,7 +70,7 @@ class CheckAuth(unittest.TestCase):
             'EMAIL': '',
             'PASSWORD': ''
         }
-        setup_auth(self, empty_fields_data)
+        setup_auth_failed(self, empty_fields_data)
         self.assertTrue(self.auth_page.empty_fields())
 
     def test_empty_email(self):
@@ -78,7 +78,7 @@ class CheckAuth(unittest.TestCase):
             'EMAIL': '',
             'PASSWORD': self.correct_password
         }
-        setup_auth(self, empty_email_data)
+        setup_auth_failed(self, empty_email_data)
         self.assertTrue(self.auth_page.email_error('Укажите email.'))
 
     def test_empty_password(self):
@@ -86,6 +86,6 @@ class CheckAuth(unittest.TestCase):
             'EMAIL': self.correct_email,
             'PASSWORD': ''
         }
-        setup_auth(self, empty_password_data)
+        setup_auth_failed(self, empty_password_data)
         self.assertTrue(self.auth_page.password_error('Укажите пароль.'))
 

@@ -12,7 +12,7 @@ class ChatPage(BasePage):
     def __init__(self, driver):
         self.chat_list = ChatList(driver)
         self.chat_dialog = ChatDialog(driver)
-        super(ChatPage, self).__init__(driver, self.chat_list.locators.root)
+        super(ChatPage, self).__init__(driver, self.chat_list.locators.mainRoot)
 
     def click_on_another_chat(self, chat: int) -> str:
         return self.chat_list.click_on_another_chat(chat)

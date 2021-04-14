@@ -13,8 +13,8 @@ class MainPage(BasePage):
 
     def __init__(self, driver):
         self.search_form = SearchForm(driver)
-        super(MainPage, self).__init__(driver, self.search_form.locators.root)
-        self.navbar_form = NavbarForm(self.driver)
+        self.navbar_form = NavbarForm(driver)
+        super(MainPage, self).__init__(driver, self.navbar_form.locators.root)
         self.profile_form = ProfileForm(self.driver)
         self.category_form = CategorySearchForm(self.driver)
         self.popular_category = PopularCategories(self.driver)

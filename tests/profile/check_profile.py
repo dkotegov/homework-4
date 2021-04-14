@@ -155,5 +155,4 @@ class CheckProfile(unittest.TestCase):
         self.profile_page.edit('margot1', 4)
         self.assertTrue(
             self.profile_page.check_span_error('Неверный номер телефона.'))
-        self.driver.refresh()
         self.assertTrue(self.profile_page.get_text(check_data['PHONE'], 3))
