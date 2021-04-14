@@ -99,7 +99,9 @@ class MainPage(BasePage):
 
     def check_notif_recommendations(self):
         text = self.notification.get_text_recommendations()
-        return 'Подобрано' in text and 'рекомендуемая вакансия' in text
+        return 'Подобрано' in text and \
+               ('рекомендуемая вакансия' in text or 'рекомендуемые вакансии' in text)
+
 
     def get_text_recommendation(self):
         return self.notification.get_text_recommendations()

@@ -27,22 +27,23 @@ class Notification(unittest.TestCase):
         self.resume_list = ResumesPage(self.driver)
         self.resume_list_form = self.resume_list.list
         self.scenario = ResumeScenario(self, self.resume)
+        self.Applicant = RegistrationApplicantScenario(self)
+        self.reg_data = self.Applicant.registration_applicant()
 
     def tearDown(self):
-        self.profile.open()
-        self.profile.delete_account()
+        self.main_page.open()
+        self.main_page.click_logout()
+        logData = {'EMAIL': self.reg_data["EMAIL"], 'PASSWORD': self.reg_data["PASSWORD"]}
+        setup_auth(self, logData)
+        self.Applicant.delete_applicant()
         self.driver.quit()
 
     def test_empty_notification(self):
-        reg = RegistrationEmployerScenario(self)
-        reg.registration_employer(False)
         self.main_page.click_notif_popup()
         self.main_page.wait_notif_open()
         self.assertEqual(self.main_page.get_text_empty_notif(), 'У вас нет новых уведомлений')
 
     def test_recommended_vacancies(self):
-        reg = RegistrationApplicantScenario(self)
-        reg.registration_applicant(self)
         self.vacancies.open()
         self.vacancies.click_on_first_vacancy()
         self.main_page.click_notif_popup()
@@ -50,8 +51,6 @@ class Notification(unittest.TestCase):
         self.assertTrue(self.main_page.check_notif_recommendations())
 
     def test_recommended_vacancies_page(self):
-        reg = RegistrationApplicantScenario(self)
-        reg.registration_applicant(self)
         self.vacancies.open()
         self.vacancies.click_on_first_vacancy()
         self.main_page.click_notif_popup()
@@ -61,10 +60,8 @@ class Notification(unittest.TestCase):
         self.main_page.click_notif_popup()
         self.main_page.wait_notif_open()
         self.assertEqual(self.main_page.get_text_recommendation(), '')
-
+    #
     def test_response(self):
-        reg = RegistrationApplicantScenario(self)
-        account_data = reg.registration_applicant(self)
         self.scenario.create_resume()
         self.main_page.click_logout()
 
@@ -77,10 +74,11 @@ class Notification(unittest.TestCase):
         self.resume.get_response_done()
         self.main_page.click_logout()
 
-        setup_auth(self, account_data)
+        setup_auth(self, self.reg_data)
         self.main_page.click_notif_popup()
         self.main_page.wait_notif_open()
         self.assertTrue(self.main_page.check_response())
         self.main_page.delete_response()
+        self.scenario.delete_resume()
 
 
