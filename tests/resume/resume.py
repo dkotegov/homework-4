@@ -42,12 +42,14 @@ class Favorite(unittest.TestCase):
     def test_add_to_favorite(self):
         self.assertEqual(self.resume.get_text_favorite_btn(), 'Добавить в избранное')
         self.resume.add_to_favorite()
+        self.resume.wait_to_add_favorite()
         self.assertEqual(self.resume.get_text_favorite_btn(), 'Убрать из избранного')
         self.profile_page.open()
 
     def test_check_added_favorite_in_profile(self):
         self.assertEqual(self.resume.get_text_favorite_btn(), 'Добавить в избранное')
         self.resume.add_to_favorite()
+        self.resume.wait_to_add_favorite()
         self.profile_page.open()
         page_data = self.profile_page.get_my_favorite()
         self.assertDictEqual(page_data, {
