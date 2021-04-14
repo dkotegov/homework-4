@@ -1,10 +1,11 @@
 import unittest
 
+from pages.main_page import MainPage
 from pages.resumes_page import ResumesPage
 from pages.resume_page import ResumePage
 from pages.profile_page import ProfilePage
 from scenario.vacancy import VacancyScenario
-from scenario.auth import auth_as_employer_has_comp
+from scenario.auth import auth_as_employer_has_comp, setup_auth
 from tests.default_setup import default_setup
 from scenario.registration_employer import RegistrationEmployerScenario
 
@@ -98,3 +99,28 @@ class Response(unittest.TestCase):
         self.profile_page.open()
         self.profile_page.click_link_to_myResponses()
         self.assertTrue(self.profile_page.find_vacancy_in_responses(title))
+
+
+class Pdf(unittest.TestCase):
+    def setUp(self) -> None:
+        default_setup(self)
+        setup_auth(self)
+
+        self.resume_page = ResumePage(self.driver)
+        self.resume = self.resume_page.form
+
+        self.resume_list = ResumesPage(self.driver)
+        self.resume_list_form = self.resume_list.list
+
+        self.main_page = MainPage(self.driver)
+
+        self.resume_list.open()
+        self.resume_list_form.go_first_resume_page()
+
+    def tearDown(self):
+        self.main_page.click_logout()
+        self.driver.quit()
+
+    def test_create_pdf(self):
+        self.resume.click_to_create_pdf()
+        self.assertEqual(len(self.driver.window_handles), 2)
