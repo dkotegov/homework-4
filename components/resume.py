@@ -1,8 +1,6 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-
 
 from components.base_component import BaseComponent
 
@@ -24,6 +22,7 @@ class ResumeFormLocators:
         self.response_done = '//div[@class="response__done"]'
 
         self.favorite_btn = '(//div[@class="cand-options-contact"])/div[1]'
+        self.create_pdf_btn = '//div[text()="Создать резюме в PDF"]'
 
 
 class ResumeForm(BaseComponent):
@@ -94,3 +93,9 @@ class ResumeForm(BaseComponent):
         self.click_locator(self.locators.response_done)
         return text
 
+    def click_to_create_pdf(self):
+        self.click_locator(self.locators.create_pdf_btn)
+        initial_windows = self.driver.window_handles
+        self.wait.until(
+            EC.new_window_is_opened(initial_windows)
+        )
