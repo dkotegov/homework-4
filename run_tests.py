@@ -11,11 +11,11 @@ from tests.playlist_tests import PlaylistTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(AuthTests))
-    suite.addTest(unittest.makeSuite(SettingsTests))
-    suite.addTest(unittest.makeSuite(SignupTests))
+    #suite.addTest(unittest.makeSuite(AuthTests))
+    #suite.addTest(unittest.makeSuite(SettingsTests))
+    #suite.addTest(unittest.makeSuite(SignupTests))
     suite.addTest(unittest.makeSuite(SubscribeTests))
-    suite.addTest(unittest.makeSuite(PlaylistTests))
+    #suite.addTest(unittest.makeSuite(PlaylistTests))
     result = unittest.TextTestRunner().run(suite)
     successfulRes = result.wasSuccessful()
     if not successfulRes:
