@@ -36,8 +36,7 @@ class SubscribeTests(unittest.TestCase):
         auth_page.auth()
         people_page = PeoplePage(self.driver)
         people_page.PATH = '/' + path
-        people_page.subscribe()
-        people_page.unsubscribe()
+        people_page.sub_and_unsub()
         profile_page = ProfilePage(self.driver)
         profile_page.check_unsub(path)
 
