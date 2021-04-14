@@ -89,19 +89,19 @@ class ProfilePage(Page):
         self.submit_playlist()
 
     def check_sub(self, path):
-        time.sleep(0.3)
+        time.sleep(0.7)
         self.open_subscribers()
         friend = '//a[@href="' + path + '"]'
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, friend)))
 
     def check_unsub(self, path):
-        time.sleep(0.3)
+        time.sleep(0.7)
         self.open_subscribers()
         friend = '//a[@href="' + path + '"]'
         WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, friend)))
 
     def unsub(self, path):
-        time.sleep(0.3)
+        time.sleep(0.7)
         self.open_subscribers()
         delete = '//div[@id="' + path + '"]'
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, delete)))

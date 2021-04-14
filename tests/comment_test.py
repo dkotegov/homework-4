@@ -18,7 +18,7 @@ class CommentTests(unittest.TestCase):
         auth_page = AuthPage(self.driver)
         auth_page.auth()
         film_page = FilmPage(self.driver)
-        film_page.PATH = '/film/19'
+        film_page.PATH = '/film/20'
         film_page.open()
         count = film_page.get_count_comments()
         body = 'надеюсь это последний комментарий5.9'
@@ -30,7 +30,7 @@ class CommentTests(unittest.TestCase):
         auth_page = AuthPage(self.driver)
         auth_page.auth()
         film_page = FilmPage(self.driver)
-        film_page.PATH = '/film/19'
+        film_page.PATH = '/film/20'
         film_page.open()
         film_page.create_comment("")
         film_page.check_empty_comment()

@@ -14,7 +14,7 @@ class PeoplePage(Page):
         self.open()
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.SUBSCRIBE_BUTTON)))
         self.driver.find_element_by_xpath(self.SUBSCRIBE_BUTTON).click()
-        WebDriverWait(self.driver, 10, 2).until(EC.presence_of_element_located((By.XPATH, self.UNSUBSCRIBE_BUTTON)))
+        WebDriverWait(self.driver, 10, 5).until(EC.presence_of_element_located((By.XPATH, self.UNSUBSCRIBE_BUTTON)))
 
     def unsubscribe(self):
         self.open()

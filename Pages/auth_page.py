@@ -18,6 +18,7 @@ class AuthPage(Page):
     ERROR_MSG = '//div[@class="name__error--FQ9hR"]'
 
     def set_login(self, login):
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.LOGIN)))
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):
