@@ -197,6 +197,7 @@ class ProfileForm(BaseComponent):
         btn = WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.edit_btn))
         )
+        print(len(btn))
         btn[field_number].click()
 
     def get_edited_field(self):

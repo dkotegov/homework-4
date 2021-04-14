@@ -10,6 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class ChatListLocators:
     def __init__(self):
         self.root = '//div[@id="chatsList"]'
+        self.mainRoot = '//div[@id="chatsPage"]'
         self.chats = '//div[@class="chat-lists-single"]'
         self.chat_name = 'single-info__name'
         self.chat_status = '//div[@class="message-body message-body_technical"]'
@@ -57,4 +58,3 @@ class ChatList(BaseComponent):
         el = element[chat]
         info = el.get_attribute('innerText')
         return info
-

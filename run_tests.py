@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import unittest
-
 import sys
 
 from tests.other.check_auth import CheckAuth
@@ -20,6 +18,7 @@ from tests.other.main_page import PopularCategory
 from tests.vacancy.check_search_vacancypage import CheckSearchVacancyPage
 from tests.vacancy.check_vacancy import Vacancy
 from tests.company.check_company import Company
+import unittest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -41,7 +40,7 @@ if __name__ == '__main__':
         unittest.makeSuite(CheckSearch),
         unittest.makeSuite(CheckRecommendations),
         unittest.makeSuite(Vacancy),
-        unittest.makeSuite(Company)
+        unittest.makeSuite(Company),
         unittest.makeSuite(CheckSearchVacancyPage),
         unittest.makeSuite(ChatRightSide),
         unittest.makeSuite(ChatLeftSide),

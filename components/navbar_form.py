@@ -6,6 +6,7 @@ from components.base_component import BaseComponent
 
 class NavbarLocators:
     def __init__(self):
+        self.root = '//div[@class="main-page"]'
         self.vacancies_btn = '//a[@href="/employersList"]'
         self.resumes_btn = '//a[@href="/candidatesList"]'
         self.companies_btn = '//a[@href="/companiesList"]'
