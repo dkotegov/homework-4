@@ -183,7 +183,7 @@ class ProfileForm(BaseComponent):
 
     def check_error(self):
         try:
-            error = WebDriverWait(self.driver, 30, 0.1).until(
+            error = WebDriverWait(self.driver, 3, 0.1).until(
                 EC.presence_of_element_located((By.XPATH, self.locators.error_field))
             )
             return error.text
@@ -219,6 +219,7 @@ class ProfileForm(BaseComponent):
         fields = WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.text_fields))
         )
+
         return fields[field_number].get_attribute("innerText")
 
 

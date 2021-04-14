@@ -5,6 +5,7 @@ from selenium.webdriver import Remote
 from pages.profile_page import ProfilePage
 from pages.resume_page import ResumePage
 from scenario.auth import auth_as_employer_no_comp, auth_as_applicant, auth_as_employer_has_comp
+from tests.default_setup import default_setup
 
 
 class CheckProfile(unittest.TestCase):
@@ -93,24 +94,13 @@ class CheckProfile(unittest.TestCase):
         self.assertTrue(self.profile_page.get_text(check_value, 0))
         self.profile_page.edit('margot', 1)
 
-
-    def test_edit_surname(self):
-        check_value = 'margotmargot'
-        auth_as_employer_no_comp(self)
-        self.profile_page.open()
-        self.profile_page.edit(check_value, 2)
-        self.driver.refresh()
-        self.assertTrue(self.profile_page.get_text(check_value, 1))
-        self.profile_page.edit('testEmployer', 2)
-
-
     def test_edit_email(self):
         check_value = 'margotmargot@mail.ru'
         auth_as_employer_has_comp(self)
         self.profile_page.open()
         self.profile_page.edit(check_value, 3)
-        self.driver.refresh()
         self.assertTrue(self.profile_page.get_text(check_value, 2))
+        self.driver.refresh()
         self.profile_page.edit('employer@employer.ru', 3)
 
     def test_edit_phone(self):
@@ -150,7 +140,6 @@ class CheckProfile(unittest.TestCase):
         check_data = auth_as_applicant(self)
         self.profile_page.open()
         self.profile_page.edit('margot1', 4)
-        self.driver.refresh()
         self.assertTrue(
             self.profile_page.check_span_error('Неверный номер телефона.'))
 
