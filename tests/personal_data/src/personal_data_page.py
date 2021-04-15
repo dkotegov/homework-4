@@ -1,21 +1,21 @@
 from selenium.webdriver.support.ui import WebDriverWait
-from tests.contacts_and_addresses.page_component import Page, Component
+from tests.personal_data.page_component import Page, Component
 
 
 class PersonalDataForm(Component):
-    FIRSTNAME_FIELD = '//*[data-test-id="firstname-field-input"]'
-    LASTNAME_FIELD = '//*[data-test-id="lastname-field-input"]'
-    NICKNAME_FIELD = '//*[data-test-id="nickname-field-input"]'
-    MONTH_MENU = '//*[data-test-id="birthday__month"]'
-    DAY_MENU = '//*[data-test-id="birthday__day"]'
-    YEAR_MENU = '//*[data-test-id="birthday__year"]'
-    SUBMIT_BUTTON = '//*[data-test-id="save-button"]'
-    ERROR_TEXT = '//*[data-test-id="error-footer-text"]'
-    AVATAR_ICON = '//*[data-test-id="photo-overlay"]'
-    AVATAR_BUTTON = '//*[data-test-id="upload-photo-button"]'
-    ERROR_AVATAR = '//*[data-test-id="error-caption"]'
-    SAVE_AVATAR = '//*[data-test-id="save-button"]'
-    CITY_FIELD = '//*[data-test-id="city-field-input"]'
+    FIRSTNAME_FIELD = '//*[@data-test-id="firstname-field-input"]'
+    LASTNAME_FIELD = '//*[@data-test-id="lastname-field-input"]'
+    NICKNAME_FIELD = '//*[@data-test-id="nickname-field-input"]'
+    MONTH_MENU = '//*[@data-test-id="birthday__month"]'
+    DAY_MENU = '//*[@data-test-id="birthday__day"]'
+    YEAR_MENU = '//*[@data-test-id="birthday__year"]'
+    SUBMIT_BUTTON = '//*[@data-test-id="save-button"]'
+    ERROR_TEXT = '//*[@data-test-id="error-footer-text"]'
+    AVATAR_ICON = '//*[@data-test-id="photo-overlay"]'
+    AVATAR_BUTTON = '//*[@data-test-id="upload-photo-button"]'
+    ERROR_AVATAR = '//*[@data-test-id="error-caption"]'
+    SAVE_AVATAR = '//*[@data-test-id="save-button"]'
+    CITY_FIELD = '//*[@data-test-id="city-field-input"]'
 
     def submit(self):
         submit_button = WebDriverWait(self.driver, 30, 0.1).until(
@@ -57,10 +57,11 @@ class PersonalDataForm(Component):
         )
         day_input.click()
 
-        day_selector = '//*[data-test-id="select-value:' + str(day) + '"]'
+        day_selector = '//*[@data-test-id="select-value:' + str(day) + '"]'
         selected_day = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.DAY_MENU + day_selector)
         )
+
         selected_day.click()
 
     def edit_month(self, month):
@@ -69,7 +70,7 @@ class PersonalDataForm(Component):
         )
         month_input.click()
 
-        month_selector = '//*[data-test-id="select-value:' + str(month) + '"]'
+        month_selector = '//*[@data-test-id="select-value:' + str(month) + '"]'
         selected_month = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.MONTH_MENU + month_selector)
         )
@@ -81,7 +82,7 @@ class PersonalDataForm(Component):
         )
         year_input.click()
 
-        year_selector = '//*[data-test-id="select-value:' + str(year) + '"]'
+        year_selector = '//*[@data-test-id="select-value:' + str(year) + '"]'
         selected_year = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.YEAR_MENU + year_selector)
         )
@@ -118,7 +119,7 @@ class PersonalDataForm(Component):
 
 
 class PersonalDataPage(Page):
-    PATH = ''
+    PATH = '/profile'
 
     @property
     def form(self):

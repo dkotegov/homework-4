@@ -1,5 +1,5 @@
 from selenium.webdriver.support.ui import WebDriverWait
-from tests.contacts_and_addresses.page_component import Page, Component
+from tests.personal_data.page_component import Page, Component
 
 
 class AuthPage(Page):
