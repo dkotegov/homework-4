@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from tests.personal_data.page_component import Page, Component
+from selenium.common.exceptions import StaleElementReferenceException
 
 
 class PersonalDataForm(Component):
@@ -11,8 +12,7 @@ class PersonalDataForm(Component):
     YEAR_MENU = '//*[@data-test-id="birthday__year"]'
     SUBMIT_BUTTON = '//*[@data-test-id="save-button"]'
     ERROR_TEXT = '//*[@data-test-id="error-footer-text"]'
-    AVATAR_ICON = '//*[@data-test-id="photo-overlay"]'
-    AVATAR_BUTTON = '//*[@data-test-id="upload-photo-button"]'
+    AVATAR = '//*[@data-test-id="photo-file-input"]'
     ERROR_AVATAR = '//*[@data-test-id="error-caption"]'
     SAVE_AVATAR = '//*[@data-test-id="save-button"]'
     CITY_FIELD = '//*[@data-test-id="city-field-input"]'
@@ -21,6 +21,7 @@ class PersonalDataForm(Component):
         submit_button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SUBMIT_BUTTON)
         )
+
         submit_button.click()
 
     def check_error(self):
@@ -88,15 +89,9 @@ class PersonalDataForm(Component):
         )
         selected_year.click()
 
-    def load_avatar(self, path, icon=True):
-        if icon:
-            self._load_avatar(path, self.AVATAR_ICON)
-        else:
-            self._load_avatar(path, self.AVATAR_BUTTON)
-
-    def _load_avatar(self, path, selector):
+    def load_avatar(self, path):
         avatar_input = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(selector)
+            lambda d: d.find_element_by_xpath(self.AVATAR)
         )
         avatar_input.send_keys(path)
 
@@ -109,13 +104,23 @@ class PersonalDataForm(Component):
         save_button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.SAVE_AVATAR)
         )
-        save_button.click()
+        save_button.submit()
 
     def edit_city(self, city):
         input_city = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.CITY_FIELD)
         )
-        input_city.send_keys(city)
+        input_city.clear()
+        input_city.send_keys(city[:1])
+
+        try:
+            selected_value = WebDriverWait(self.driver, 30, 0.1, ignored_exceptions=StaleElementReferenceException).until(
+                lambda d: d.find_element_by_xpath('//*[@data-test-id="select-value:' + str(city) + '"]')
+            )
+            selected_value.click()
+        except:
+            input_city.send_keys(city)
+
 
 
 class PersonalDataPage(Page):
