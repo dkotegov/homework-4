@@ -6,6 +6,7 @@ from tests.personal_data.test.main_test import MainTest
 
 from tests.contacts_and_addresses.test.phone_test import PhoneTest
 from tests.contacts_and_addresses.test.email_test import EmailTest
+from tests.contacts_and_addresses.test.delete_email_test import DeleteEmailTest
 
 from tests.folder_tests.test.pop3_test import POP3Test
 from tests.folder_tests.test.clear_folder_test import ClearFolderTest
@@ -21,6 +22,7 @@ if __name__ == '__main__':
       
         unittest.makeSuite(PhoneTest),
         unittest.makeSuite(EmailTest),
+        unittest.makeSuite(DeleteEmailTest),
       
         unittest.makeSuite(POP3Test),
         unittest.makeSuite(ClearFolderTest),
