@@ -89,19 +89,16 @@ class ProfilePage(Page):
         self.submit_playlist()
 
     def check_sub(self, path):
-        time.sleep(1)
         self.open_subscribers()
         friend = '//a[@href="' + path + '"]'
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, friend)))
 
     def check_unsub(self, path):
-        time.sleep(1)
         self.open_subscribers()
         friend = '//a[@href="' + path + '"]'
         WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, friend)))
 
     def unsub(self, path):
-        time.sleep(1)
         self.open_subscribers()
         delete = '//div[@id="' + path + '"]'
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, delete)))
@@ -109,7 +106,8 @@ class ProfilePage(Page):
         WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, delete)))
         
     def check_username(self, username):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
+        self.open()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
         username_in_profile = self.driver.find_element_by_xpath(self.USERNAME).text
         if username_in_profile == username:
             return True

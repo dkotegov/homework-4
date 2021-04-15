@@ -32,6 +32,8 @@ class SubscribeTests(unittest.TestCase):
         people_page = PeoplePage(self.driver)
         people_page.PATH = '/' + path
         people_page.subscribe()
+        auth_page.logout()
+        auth_page.auth()
         profile_page = ProfilePage(self.driver)
         profile_page.check_sub(path)
         people_page.unsubscribe()
@@ -43,6 +45,8 @@ class SubscribeTests(unittest.TestCase):
         people_page = PeoplePage(self.driver)
         people_page.PATH = '/' + path
         people_page.sub_and_unsub()
+        auth_page.logout()
+        auth_page.auth()
         profile_page = ProfilePage(self.driver)
         profile_page.check_unsub(path)
 
@@ -54,6 +58,8 @@ class SubscribeTests(unittest.TestCase):
         people_page = PeoplePage(self.driver)
         people_page.PATH = '/' + path
         people_page.subscribe()
+        auth_page.logout()
+        auth_page.auth()
         profile_page = ProfilePage(self.driver)
         profile_page.unsub(id)
 
