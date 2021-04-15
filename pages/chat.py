@@ -1,4 +1,3 @@
-import time
 from pages.base_component import Component
 
 

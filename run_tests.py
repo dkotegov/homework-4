@@ -8,6 +8,7 @@ from cases.profile_case import ProfileTest
 from cases.meetings_case import MeetingsTest
 from cases.people_case import PeopleTest
 from cases.meeting_case import MeetingTest
+from cases.search_case import SearchTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite(
@@ -17,7 +18,8 @@ if __name__ == '__main__':
             unittest.makeSuite(ProfileTest),
             unittest.makeSuite(MeetingsTest),
             unittest.makeSuite(MeetingTest),
-            unittest.makeSuite(MeetingChatTest)
+            unittest.makeSuite(MeetingChatTest),
+            unittest.makeSuite(SearchTest)
         )
     )
 

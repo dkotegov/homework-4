@@ -3,7 +3,7 @@ from pages.base_component import Component
 
 class NavBar(Component):
     MENU_BTN = '//div[@class="header-mobile__logo-wrapper"]'
-    SEARCH_BTN = '//div[@class="header-mobile__search"]'
+    SEARCH_BTN = '//img[@class="header-mobile__search"]'
     MEETINGS_BTN = '//a[contains(@class, "navigation__choose-link") and @data-section="meetings"]'
     PEOPLE_BTN = '//a[contains(@class, "navigation__choose-link") and @data-section="people"]'
     SIGN_OUT = '//div[@id="signoutLink"]'
