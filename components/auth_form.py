@@ -1,13 +1,16 @@
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from components.base_component import BaseComponent
 
+
 class AuthLocators:
     def __init__(self):
         self.root = '//div[@class="auth"]'
         self.email_field = '//input[@id="emailAuth"]'
+        self.chat_btn = '//a[@href="/chats"]'
         self.password_field = '//input[@id="passAuth"]'
         self.submit_btn = '//button[@id="entBtnAuth"]'
         self.profile_btn = '//a[@href="/profile"]'
@@ -61,13 +64,20 @@ class AuthForm(BaseComponent):
             WebDriverWait(self.driver, 30, 0.1).until(
                 lambda d: d.find_element_by_xpath(self.locators.profile_btn)
             )
+            WebDriverWait(self.driver, 30, 0.1).until(
+                lambda d: d.find_element_by_xpath(self.locators.chat_btn)
+            )
             return True
-        except:
+        except NoSuchElementException:
             return False
 
     def top_error(self):
-        self.wait.until(
-            EC.presence_of_element_located((By.XPATH, self.locators.error_field)))
+        try:
+            self.wait.until(
+                EC.presence_of_element_located((By.XPATH, self.locators.error_field)))
+            return True
+        except TimeoutException:
+            return False
 
     def check_any_error(self):
         return self.wait.until(

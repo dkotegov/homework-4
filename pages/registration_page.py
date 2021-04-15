@@ -59,3 +59,7 @@ class RegistrationPage(BasePage):
     def errors_in_passwords(self):
         errors = self.registration_form.all_errors()
         return errors[3].text == errors[3].text == 'Пароли не совпадают'
+
+    def wait_for_page_open(self):
+        self.registration_form.wait_for_page_open()
+

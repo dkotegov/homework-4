@@ -16,6 +16,9 @@ class ProfilePage(BasePage):
         super(ProfilePage, self).__init__(driver, self.profile_form.locators.root)
 
 
+    def check_profile_email(self, email) -> bool:
+        return self.profile_form.check_profile_email() == email
+
     def check_open_page(self):
         return self.profile_form.is_open()
 
@@ -61,7 +64,7 @@ class ProfilePage(BasePage):
 
     def check_error(self, text):
         error = self.profile_form.check_error()
-        return error.text == text
+        return error == text
 
     def check_span_error(self, text):
         error = self.profile_form.check_error_phone()
@@ -75,3 +78,25 @@ class ProfilePage(BasePage):
 
         field.send_keys(text)
         self.profile_form.click_to_edit_or_save_name(field_number)
+
+    def click_my_first_resume_edit(self):
+        self.profile_form.click_first_my_resume_edit()
+
+    def click_my_profile_info(self):
+        self.profile_form.click_to_my_profile_info()
+
+    def get_my_favorite(self) -> {}:
+        self.profile_form.click_to_my_fav()
+        return self.profile_form.get_favorite_data()
+
+    def get_text(self, text, field_number):
+        return text == self.profile_form.get_text_fields(field_number)
+
+    def find_vacancy_in_responses(self, vacancy_data):
+        responses = self.profile_form.get_responses()
+        for r in responses:
+            if vacancy_data in r.text:
+                return True
+        return False
+
+

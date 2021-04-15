@@ -14,15 +14,21 @@ class BasePage(object):
         self.driver = driver
         self.container = container
 
-    def open(self) -> None:
+    def open(self, query='') -> None:
+        if query != '':
+            self.PATH += query
         url = urllib.parse.urljoin(self.BASE_URL, self.PATH)
         self.driver.get(url)
         self.driver.maximize_window()
 
     def is_open(self) -> bool:
         try:
-            WebDriverWait(self.driver, 1).until(
+            WebDriverWait(self.driver, 5).until(
                 EC.presence_of_all_elements_located((By.XPATH, self.container)))
         except TimeoutException:
             return False
         return True
+
+    def wait_for_page_open(self):
+        WebDriverWait(self.driver, 1).until(
+            EC.visibility_of_element_located((By.XPATH, self.container)))

@@ -1,3 +1,4 @@
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import WebDriverWait
@@ -39,9 +40,21 @@ class ProfileFormLocators:
 
         self.error_field = '//div[@class="error"]'
         self.error_phone = '//span[@class="error"]'
-
+        self.list = '//div[@class="pers-list"]'
         self.edit_btn = '//a[@href="/profile"]'
         self.edited_input = '//input[@class="pers-list-row__input"]'
+
+        self.my_first_resume = '(//div[@class="main-list-row"])[1]'
+        self.my_first_resume_edit = '(//div[text()="Изменить резюме"])[1]'
+
+        self.favorite_title = '(//div[@class="list-row-description__name"])/a'
+        self.favorite_description = '//div[@class="list-row-description__specialism"]'
+
+        self.text_fields = '//div[@class="pers-list-row__input-field"]'
+
+        self.response_item = '//div[@class="response-row-info"]'
+        self.response_item_title = '//a[@class="response-row-info__vacancy-link"]'
+
 
 
 class ProfileForm(BaseComponent):
@@ -87,12 +100,17 @@ class ProfileForm(BaseComponent):
         )
         my_resumes[1].click()
 
+    def click_to_my_profile_info(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.profile_navbar_btns))
+        )[0].click()
+
     def check_page_with_cards_is_open(self):
         try:
             self.wait.until(
                 EC.visibility_of_element_located((By.XPATH, self.locators.cards_list)))
             return True
-        except:
+        except TimeoutException:
             return False
 
     def check_page_with_responses_is_open(self):
@@ -100,7 +118,7 @@ class ProfileForm(BaseComponent):
             self.wait.until(
                 EC.visibility_of_element_located((By.XPATH, self.locators.responses_list)))
             return True
-        except:
+        except TimeoutException:
             return False
 
     def check_page_with_fav_is_open(self):
@@ -164,25 +182,45 @@ class ProfileForm(BaseComponent):
         )
 
     def check_error(self):
-        return WebDriverWait(self.driver, 30, 0.1).until(
-            EC.presence_of_element_located((By.XPATH, self.locators.error_field))
-        )
+        try:
+            error = WebDriverWait(self.driver, 3, 0.1).until(
+                EC.presence_of_element_located((By.XPATH, self.locators.error_field))
+            )
+            return error.text
+        except TimeoutException:
+            return ''
+
 
     def check_error_phone(self):
         return WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_element_located((By.XPATH, self.locators.error_phone))
         )
 
+    def wait_for_list(self):
+        WebDriverWait(self.driver, 30, 0.1).until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.list))
+        )
+
     def click_to_edit_or_save_name(self, field_number):
+        self.wait_for_list()
         btn = WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_all_elements_located((By.XPATH, self.locators.edit_btn))
         )
         btn[field_number].click()
 
     def get_edited_field(self):
+        self.wait_for_list()
         return WebDriverWait(self.driver, 30, 0.1).until(
             EC.presence_of_element_located((By.XPATH, self.locators.edited_input))
         )
+
+    def get_text_fields(self, field_number):
+        self.wait_for_list()
+        fields = WebDriverWait(self.driver, 30, 0.1).until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.text_fields))
+        )
+
+        return fields[field_number].get_attribute("innerText")
 
 
     def clear(self, element):
@@ -190,3 +228,25 @@ class ProfileForm(BaseComponent):
         if len(value) > 0:
             for char in value:
                 element.send_keys(Keys.BACK_SPACE)
+
+    def click_first_my_resume_edit(self):
+        self.click_to_my_cards()
+        self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.locators.my_first_resume_edit))
+        ).click()
+
+    def get_favorite_data(self):
+        self.wait.until(
+            EC.visibility_of_element_located((By.XPATH, self.locators.favorite_title))
+        )
+        return {
+            'title': self.get_field(self.locators.favorite_title),
+            'description': self.get_field(self.locators.favorite_description)
+        }
+
+    def get_responses(self):
+        resp = self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, self.locators.response_item_title))
+        )
+
+        return resp
