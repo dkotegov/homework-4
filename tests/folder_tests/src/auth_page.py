@@ -27,18 +27,34 @@ class AuthForm(Component):
             lambda d: d.find_element_by_xpath(self.LOGIN)
         )
         button.send_keys(login)
+        self.driver.switch_to.default_content()
 
     def next(self):
-        self.driver.find_element_by_xpath(self.NEXT).click()
+        iframe = self.driver.find_element_by_class_name('ag-popup__frame__layout__iframe')
+        self.driver.switch_to.frame(iframe)
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.NEXT)
+        )
+        button.click()
+        self.driver.switch_to.default_content()
 
     def set_password(self, pwd):
+        iframe = self.driver.find_element_by_class_name('ag-popup__frame__layout__iframe')
+        self.driver.switch_to.frame(iframe)
         button = WebDriverWait(self.driver, 30, 0.1).until(
             lambda d: d.find_element_by_xpath(self.PASSWORD)
         )
         button.send_keys(pwd)
+        self.driver.switch_to.default_content()
 
     def submit(self):
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
+        iframe = self.driver.find_element_by_class_name('ag-popup__frame__layout__iframe')
+        self.driver.switch_to.frame(iframe)
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.SUBMIT)
+        )
+        button.click()
+        self.driver.switch_to.default_content()
 
     def authorize(self, login, password):
         self.set_login(login)

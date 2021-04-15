@@ -1,5 +1,4 @@
 import os
-import time
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
@@ -12,8 +11,7 @@ class FolderTest(unittest.TestCase):
     PASSWORD = os.environ['PASSWORD']
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        # browser = os.environ.get('BROWSER', 'FIREFOX')
+        browser = os.environ['BROWSER']
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -23,7 +21,7 @@ class FolderTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test(self):
+    def test1_create(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -38,11 +36,7 @@ class FolderTest(unittest.TestCase):
         folder_form = main_page.add_folder_form
         folder_form.create_folder(folder_name)
 
-        main_form.remove_folder_popup()
-        folder_form_remove = main_page.remove_folder_form
-        folder_form_remove.remove_folder(folder_name)
-
-    def test_clear(self):
+    def test2_remove(self):
         auth_page = AuthPage(self.driver)
         auth_page.open()
 
@@ -52,7 +46,8 @@ class FolderTest(unittest.TestCase):
         main_page = MainPage(self.driver)
         main_form = main_page.main_form
 
-        main_form.clear_folder_popup()
-        clear_form = main_page.clear_folder_form
-        clear_form.clear_folder()
-        time.sleep(2)
+        folder_name = 'Добавленная папка'
+
+        main_form.remove_folder_popup()
+        folder_form_remove = main_page.remove_folder_form
+        folder_form_remove.remove_folder(folder_name)
