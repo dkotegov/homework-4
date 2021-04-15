@@ -16,8 +16,8 @@ class CreateExperience(unittest.TestCase):
 
         'position': 'Developer',
         'name_job': 'Mail.ru Group',
-        'start_date': '01.02.2010',
-        'end_date': '01.02.2020',
+        'start_date': '2010-01-02',
+        'end_date': '2020-01-02',
     }
 
     def setUp(self) -> None:
@@ -45,8 +45,8 @@ class CreateExperience(unittest.TestCase):
     def test_enter_date_start_greater_end(self):
         self.create_experience_form.set_position(self.data['position'])
         self.create_experience_form.set_name_job(self.data['name_job'])
-        self.create_experience_form.set_date_start('01.01.2010')
-        self.create_experience_form.set_date_end('01.01.2000')
+        self.create_experience_form.set_date_start('2010-01-01')
+        self.create_experience_form.set_date_end('2000-01-01')
         self.create_experience_form.submit_exp()
         self.assertTrue(self.create_experience_form.is_date_error('Некорректная дата.'))
 
@@ -59,8 +59,6 @@ class CreateExperience(unittest.TestCase):
         page_date = self.create_resume_form.get_job_date()
         for i in range(len(page_date)):
             page_date[i] = page_date[i].replace('\n', '')
-            parsed = page_date[i].split('-')
-            page_date[i] = f'{parsed[1]}.{parsed[2]}.{parsed[0]}'
         self.assertEqual(page_date[0], self.data['start_date'])
         self.assertEqual(page_date[1], self.data['end_date'])
         self.assertEqual(self.create_resume_form.get_job_name(), self.data['name_job'])

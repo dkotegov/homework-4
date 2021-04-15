@@ -60,18 +60,22 @@ class Notification(unittest.TestCase):
         self.main_page.click_notif_popup()
         self.main_page.wait_notif_open()
         self.assertEqual(self.main_page.get_text_recommendation(), '')
-    #
+
     def test_response(self):
         self.scenario.create_resume()
         self.main_page.click_logout()
 
         auth_as_employer_has_comp(self)
-        self.vacancy = VacancyScenario(test=self)
-        self.vacancy.create_vacancy()
+        vacancy = VacancyScenario(test=self)
+        vacancy.create_vacancy()
         self.resume_list.open()
         self.resume_list_form.go_first_resume_page()
         self.resume.response()
         self.resume.get_response_done()
+
+        self.vacancies.open()
+        self.vacancies.click_on_first_vacancy()
+        vacancy.delete_vacancy()
         self.main_page.click_logout()
 
         setup_auth(self, self.reg_data)

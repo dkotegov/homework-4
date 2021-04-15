@@ -22,6 +22,7 @@ class ResumeFormLocators:
         self.response_done = '//div[@class="response__done"]'
 
         self.favorite_btn = '(//div[@class="cand-options-contact"])/div[1]'
+        self.delete_favorite_btn = '//div[@id="delete_from_prefer"]'
         self.create_pdf_btn = '//div[text()="Создать резюме в PDF"]'
 
 
@@ -41,6 +42,13 @@ class ResumeForm(BaseComponent):
 
     def add_to_favorite(self):
         self.click_locator(self.locators.favorite_btn)
+
+    def wait_to_add_favorite(self):
+        self.wait.until(
+            EC.visibility_of_element_located((
+                By.XPATH, self.locators.delete_favorite_btn
+            ))
+        )
 
     def get_text_favorite_btn(self):
         self.wait.until(EC.element_to_be_clickable((

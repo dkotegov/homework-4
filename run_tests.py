@@ -27,7 +27,6 @@ if __name__ == '__main__':
         unittest.makeSuite(CheckAuth),
         unittest.makeSuite(CheckProfile),
         unittest.makeSuite(Navbar),
-
         unittest.makeSuite(CreateResume),
         unittest.makeSuite(CreateResumeWrong),
         unittest.makeSuite(EditResume),

@@ -1,4 +1,6 @@
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -59,8 +61,10 @@ class ExperienceCreateForm(BaseComponent):
         self.set_input(self.locators.name_job, name_job)
 
     def set_date_start(self, date_start: str):
-        self.set_input(self.locators.date_start, date_start)
+        date_element = self.driver.find_element_by_xpath(self.locators.date_start)
+        self.driver.execute_script(f"arguments[0].value = \"{date_start}\";", date_element)
 
     def set_date_end(self, date_end: str):
-        self.set_input(self.locators.date_end, date_end)
+        date_element = self.driver.find_element_by_xpath(self.locators.date_end)
+        self.driver.execute_script(f"arguments[0].value = \"{date_end}\";", date_element)
 
