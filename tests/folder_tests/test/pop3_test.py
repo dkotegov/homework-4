@@ -1,5 +1,4 @@
 import os
-import time
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
@@ -12,8 +11,7 @@ class POP3Test(unittest.TestCase):
     PASSWORD = os.environ['PASSWORD']
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        # browser = os.environ.get('BROWSER', 'FIREFOX')
+        browser = os.environ['BROWSER']
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
