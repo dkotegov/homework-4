@@ -1,5 +1,4 @@
 import os
-import time
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
@@ -12,8 +11,7 @@ class PasswordTest(unittest.TestCase):
     PASSWORD = os.environ['PASSWORD']
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        # browser = os.environ.get('BROWSER', 'FIREFOX')
+        browser = os.environ['BROWSER']
 
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -89,3 +87,21 @@ class PasswordTest(unittest.TestCase):
         edit_form.protected_by_password()
         edit_form.set_password_popup()
         edit_form.set_password('1234', '1234', 'qqq', 'aaa', self.PASSWORD)
+
+    def test_5_remove_pwd(self):
+        auth_page = AuthPage(self.driver)
+        auth_page.open()
+
+        auth_form = auth_page.form
+        auth_form.authorize(self.LOGIN, self.PASSWORD)
+
+        main_page = MainPage(self.driver)
+        main_form = main_page.main_form
+        main_form.open_folder_editor()
+
+        edit_form = main_page.edit_password_form
+        edit_form.set_folder_password('1234')
+        edit_form.next_popup()
+        edit_form.remove_password_click()
+        edit_form.set_user_password(self.PASSWORD)
+        edit_form.remove_password_submit()

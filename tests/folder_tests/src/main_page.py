@@ -20,6 +20,10 @@ class MainPage(Page):
         return EditFolderForm(self.driver)
 
     @property
+    def edit_password_form(self):
+        return EditPasswordForm(self.driver)
+
+    @property
     def clear_folder_form(self):
         return ClearFolderForm(self.driver)
 
@@ -50,7 +54,9 @@ class MainForm(Component):
         button.click()
 
     def click_pop3_inbox(self):
-        checkboxes = self.driver.find_elements_by_xpath(self.CHECKBOX)
+        checkboxes = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_elements_by_xpath(self.CHECKBOX)
+        )
         for checkbox in checkboxes:
             checkbox.click()
             checkbox.click()
@@ -74,12 +80,13 @@ class MainForm(Component):
         )
         editor.click()
 
-
     def clear_folder_popup(self):
-        button = WebDriverWait(self.driver, 30, 0.1).until(
-            lambda d: d.find_element_by_xpath(self.CLEAR_BUTTON)
-        )
-        button.click()
+        try:
+            self.driver.find_element_by_xpath(self.CLEAR_BUTTON).click()
+        except Exception:
+            return -1
+        return 0
+
 
 
 class AddFolderForm(Component):
@@ -188,3 +195,40 @@ class ClearFolderForm(Component):
 
     def clear_folder(self):
         self.driver.find_element_by_xpath(self.CLEAR_FOLDER_BUTTON).click()
+
+
+class EditPasswordForm(Component):
+    CLOSE_BUTTON = '//span[text()="Отменить"]'
+    CROSS_BUTTON = '//*[@data-test-id="cross"]'
+    FOLDER_PASSWORD = '//*[@data-test-id="folderPassword"]'
+    NEXT_BUTTON = '//*[@data-test-id="submit"]'
+    REMOVE_PASSWORD = '//*[@data-test-id="hasPassword"]'
+    USER_PASSWORD = '//*[@data-test-id="userPassword"]'
+    SUBMIT_BUTTON = '//*[@data-test-id="submit"]'
+
+    def close_folder_popup(self):
+        self.driver.find_element_by_xpath(self.CLOSE_BUTTON).click()
+
+    def close_folder_popup_by_cross(self):
+        self.driver.find_element_by_xpath(self.CROSS_BUTTON).click()
+
+    def set_folder_password(self, pwd):
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.FOLDER_PASSWORD)
+        )
+        button.send_keys(pwd)
+
+    def next_popup(self):
+        self.driver.find_element_by_xpath(self.NEXT_BUTTON).click()
+
+    def remove_password_click(self):
+        button = WebDriverWait(self.driver, 30, 0.1).until(
+            lambda d: d.find_element_by_xpath(self.REMOVE_PASSWORD)
+        )
+        button.click()
+
+    def set_user_password(self, pwd):
+        self.driver.find_element_by_xpath(self.USER_PASSWORD).send_keys(pwd)
+
+    def remove_password_submit(self):
+        self.driver.find_element_by_xpath(self.SUBMIT_BUTTON).click()

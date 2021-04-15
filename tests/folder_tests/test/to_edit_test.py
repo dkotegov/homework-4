@@ -1,5 +1,4 @@
 import os
-import time
 import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
@@ -12,9 +11,6 @@ class ToEditTest(unittest.TestCase):
     PASSWORD = os.environ['PASSWORD']
 
     def setUp(self):
-        # browser = os.environ.get('BROWSER', 'CHROME')
-        # browser = os.environ.get('BROWSER', 'FIREFOX')
-
         browser = os.environ['BROWSER']
 
         self.driver = Remote(
@@ -38,7 +34,6 @@ class ToEditTest(unittest.TestCase):
 
         edit_form = main_page.edit_folder_form
         edit_form.close_folder_popup()
-        time.sleep(2)
 
     def test_2_return(self):
         auth_page = AuthPage(self.driver)
@@ -57,7 +52,6 @@ class ToEditTest(unittest.TestCase):
         edit_form.set_password_popup()
         edit_form.return_back()
         edit_form.close_folder_popup_by_cross()
-        time.sleep(2)
 
     def test_3_success(self):
         auth_page = AuthPage(self.driver)
