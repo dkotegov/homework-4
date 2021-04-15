@@ -12,6 +12,8 @@ SIGNUP_LOGIN;  - Логин нового пользователя, которы�
 #### Запуск:
 
 ```shell script
+./grid.sh
+./node.sh
  LOGIN=<...> PASSWORD=<...> SIGNUP_LOGIN=<....> python3 run_tests.py
 ```
 

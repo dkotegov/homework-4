@@ -1,12 +1,18 @@
 import unittest
-
+import os
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities, Remote
 from Pages.search_page import SearchPage
 
 
 class SearchTests(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        browser = os.environ.get('BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
 
     def tearDown(self):
         self.driver.quit()

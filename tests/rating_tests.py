@@ -1,5 +1,7 @@
 import unittest
+import os
 
+from selenium.webdriver import DesiredCapabilities, Remote
 import random
 from selenium import webdriver
 from Pages.auth_page import AuthPage
@@ -8,7 +10,12 @@ from Pages.film_page import FilmPage
 
 class RatingTests(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        browser = os.environ.get('BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
 
     def tearDown(self):
         self.driver.quit()

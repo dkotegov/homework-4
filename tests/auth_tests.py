@@ -12,7 +12,12 @@ from Pages.auth_page import AuthPage
 class AuthTests(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        browser = os.environ.get('BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
 
     def tearDown(self):
         self.driver.quit()

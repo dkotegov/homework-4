@@ -15,7 +15,12 @@ from Pages.settings_page import SettingPage
 class SubscribeTests(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        browser = os.environ.get('BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
 
     def tearDown(self):
         self.driver.quit()
@@ -52,11 +57,3 @@ class SubscribeTests(unittest.TestCase):
         profile_page = ProfilePage(self.driver)
         profile_page.unsub(id)
 
-    def test_avatar(self):
-        auth_page = AuthPage(self.driver)
-        auth_page.auth_custom(auth_page.SIGNUP_LOGIN, "12345678")
-        settings_page = SettingPage(self.driver)
-        settings_page.open()
-        avatar = settings_page.setup_avatar()
-        settings_page.submit()
-        self.assertEqual(avatar, "C:\\fakepath\\vorobey.jpg")

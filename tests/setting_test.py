@@ -4,18 +4,23 @@ import unittest
 from selenium import webdriver
 import urllib.parse as urlparse
 import time
-
 from Pages.auth_page import AuthPage
 from Pages.settings_page import SettingPage
 from Pages.profile_page import ProfilePage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver import DesiredCapabilities, Remote
 
 
 class SettingsTests(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        browser = os.environ.get('BROWSER', 'CHROME')
+
+        self.driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
+        )
 
     def tearDown(self):
         self.driver.quit()
