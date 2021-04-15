@@ -5,6 +5,7 @@ from pages.base_component import Component
 
 class ProfileLeftColumn(Component):
     AVATAR = '//img[@class="profile__avatar"]'
+    NAME = '//h2[contains(@class, "profile__name")]'
     SUBSCRIBE_BTN = '//button[@class="profile__subscribe-button"]'
     AVATAR_OVERLAY_LABEL = '//label[@class="profile__file-label"]'
     COLUMN = '//div[@class="profile__leftcolumn"]'
@@ -63,3 +64,7 @@ class ProfileLeftColumn(Component):
 
     def get_avatar_button_text(self):
         return self._wait_until_visible(self.AVATAR_SAVE_BTN).text
+
+    def get_profile_name_text(self):
+        return self._wait_until_visible(self.NAME).text
+

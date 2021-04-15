@@ -1,4 +1,5 @@
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -37,3 +38,7 @@ class Component(object):
             return self._find_element(elem_xpath).is_displayed()
         except NoSuchElementException:
             return False
+
+    def _move_to_element(self, elem_xpath):
+        elem = self.driver.find_element(By.XPATH, elem_xpath)
+        ActionChains(self.driver).move_to_element(elem).perform()

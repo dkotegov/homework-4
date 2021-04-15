@@ -1,4 +1,5 @@
 from pages.base_page import Page
+from pages.chat import Chat
 from pages.navbar import NavBar
 from pages.base_component import Component
 
@@ -17,6 +18,10 @@ class MeetingPage(Page, Component):
     @property
     def navbar(self):
         return NavBar(self.driver)
+
+    @property
+    def chat(self):
+        return Chat(self.driver)
 
     def click_go_button(self):
         self._wait_until_clickable(self.GO_BUTTON).click()

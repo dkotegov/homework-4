@@ -3,6 +3,7 @@
 import sys
 import unittest
 from cases.auth_case import AuthTest
+from cases.meeting_chat_case import MeetingChatTest
 from cases.profile_case import ProfileTest
 from cases.meetings_case import MeetingsTest
 from cases.people_case import PeopleTest
@@ -16,6 +17,7 @@ if __name__ == '__main__':
             unittest.makeSuite(ProfileTest),
             unittest.makeSuite(MeetingsTest),
             unittest.makeSuite(MeetingTest),
+            unittest.makeSuite(MeetingChatTest)
         )
     )
 
