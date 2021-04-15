@@ -13,8 +13,8 @@ class ResumeScenario:
 
             'position': 'Developer',
             'name_job': 'Mail.ru Group',
-            'start_date': '01.02.2010',
-            'end_date': '01.02.2020',
+            'start_date': '2010-01-02',
+            'end_date': '2020-01-02',
         }
         self.form = form
         self.experience_form = experience_form
@@ -59,8 +59,8 @@ class ResumeScenario:
             data = {
                 'position': 'Developer',
                 'name_job': 'Mail.ru Group',
-                'start_date': '01.02.2010',
-                'end_date': '01.02.2020',
+                'start_date': '2010-01-02',
+                'end_date': '2020-01-02',
             }
         create_resume_page = CreateResumePage(self.test.driver)
         self.experience_form = create_resume_page.create_experience_form

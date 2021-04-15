@@ -24,6 +24,14 @@ class Notification(BaseComponent):
         self.wait.until(
             EC.visibility_of_element_located((By.XPATH, self.locators.root)))
 
+    def is_open(self):
+        try:
+            self.wait.until(
+                EC.presence_of_all_elements_located((By.XPATH, self.locators.root)))
+        except TimeoutException:
+            return False
+        return True
+
     def get_text_empty_notif(self):
         self.wait.until(
             EC.visibility_of_element_located((By.XPATH, self.locators.empty_list)))

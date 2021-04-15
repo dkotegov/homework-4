@@ -18,8 +18,8 @@ class EditResume(unittest.TestCase):
 
         'position': 'Developer',
         'name_job': 'Mail.ru Group',
-        'start_date': '01.02.2010',
-        'end_date': '01.02.2020',
+        'start_date': '2010-01-02',
+        'end_date': '2020-01-02',
     }
 
     other_data = {
