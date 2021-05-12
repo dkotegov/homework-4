@@ -29,6 +29,25 @@ class Config:
         'logout': 'a[name="navbar-exit"]',
         'open_profile': 'a[name="navbar-profile"]',
         'check_email': 'div.form-field > p',
+        'header': 'a[name="navbar-letters"]',
+        'titlePage': 'h1.s-content__title',
+        'cross': '#remove-form-add-folder-up',
+        'spamUn': '#spamUn',
+        'button_remove': '#button-remove-letter',
+        'not_found': '#search-result-list',
+        'cross_modal': '#remove-folder-recived',
+        'edit_button': 'button[name="editButton"]',
+        'name_input': 'input[name="profile_firstName"]',
+        'submit_edit': 'button[name="editButton"]',
+        'surname_input': 'input[name="profile_lastName"]',
+        'surname_check': 'body > section > div:nth-child(2) > div:nth-child(2) > div:nth-child(4) > p',
+        'signup': 'button[name="signup"]',
+        'password1': 'input[name="password1"]',
+        'password2': 'input[name="password2"]',
+        'name': 'input[name="name"]',
+        'surname': 'input[name="surname"]',
+        'singup_button': 'button[name="submit"]',
+        'error_singup': '#passwordField1Error'
     }
 
     def __init__(self, browser):
