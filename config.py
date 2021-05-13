@@ -4,6 +4,7 @@ from selenium import webdriver
 class Config:
     consts = {
         'firefoxPath': 'drivers/geckodriver',
+        'chromePath': 'drivers/chromedriver',
         'loginPath': 'https://mailer.ru.com/signin',
     }
 
@@ -50,9 +51,13 @@ class Config:
         'error_singup': '#passwordField1Error'
     }
 
-    def __init__(self, browser):
+    def __init__(self, browser, login, password):
         self.browser = browser
+        self.login = login
+        self.password = password
 
     def useBrowser(self):
         if self.browser == 'Firefox':
             return webdriver.Firefox(executable_path=self.consts['firefoxPath'])
+        if self.browser == 'Chrome':
+            return webdriver.Chrome(executable_path=self.consts['chromePath'])
