@@ -3,7 +3,6 @@ import os
 
 
 class Page(object):
-    SIGNUP_LOGIN = os.environ['SIGNUP_LOGIN']
     BASE_URL = 'https://kino-park.online'
     PATH = ''
 

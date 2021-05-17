@@ -26,18 +26,17 @@ class SignupPage(Page):
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
-    def signup(self, login, password, email):
-        self.open()
-        self.set_login(login)
-        self.set_password(password)
-        self.set_mail(email)
-        self.submit()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
+    def wait_for_account(self):
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
 
-    def signup_wrong(self, login, password, email):
-        self.open()
-        self.set_login(login)
-        self.set_password(password)
-        self.set_mail(email)
-        self.submit()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ERROR_MSG)))
+    def get_error_bad_fields(self):
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_any_elements_located((By.XPATH, self.ERROR_MSG)))
+        return self.driver.find_elements_by_xpath(self.ERROR_MSG)[2].text
+
+    def get_error_bad_login(self):
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_any_elements_located((By.XPATH, self.ERROR_MSG)))
+        return self.driver.find_elements_by_xpath(self.ERROR_MSG)[0].text
+
+    def get_error_bad_password(self):
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_any_elements_located((By.XPATH, self.ERROR_MSG)))
+        return self.driver.find_elements_by_xpath(self.ERROR_MSG)[1].text
