@@ -1,6 +1,7 @@
 import os
 
 import unittest
+from default_setup import default_setup
 from selenium import webdriver
 import urllib.parse as urlparse
 
@@ -10,14 +11,13 @@ from Pages.signup_page import SignupPage
 
 
 class SignupTests(unittest.TestCase):
+    signup_login_success = "abrikos-molokosos"
+    signup_password = "12345678"
+    signup_mail = "qwer@mail.ru"
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
+        default_setup(self)
+        self.signup_page = SignupPage(self.driver)
 
     def tearDown(self):
         self.driver.quit()

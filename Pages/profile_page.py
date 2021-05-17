@@ -18,6 +18,7 @@ class ProfilePage(Page):
     FILMS_IN_PLAYLIST = '//div[@class="name__lenta__object--3-XkZ"]'
     SUBSCRIBERS = '//a[@id="subscribe"]'
     USERNAME = '//span[@class="name__profile__default_margin--_Vkp5 name__profile_login--2W71f"]'
+    DELETE_USER = '//button[@id="deleteProfile"]'
 
     def open_subscribers(self):
         self.open()
@@ -113,3 +114,11 @@ class ProfilePage(Page):
             return True
         else:
             return False
+
+    def get_username(self):
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
+        return self.driver.find_element_by_xpath(self.USERNAME).text
+
+    def delete_user(self):
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.DELETE_USER)))
+        self.driver.find_element_by_xpath(self.DELETE_USER).click()
