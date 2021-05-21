@@ -2,15 +2,8 @@
 
 import sys
 import unittest
-from tests.auth_tests import AuthTests
-from tests.setting_test import SettingsTests
 from tests.signup.signup_success import SignupSuccessTests
 from tests.signup.signup_wrong import SignupWrongTests
-from tests.subscribe_tests import SubscribeTests
-from tests.playlist_tests import PlaylistTests
-from tests.rating_tests import RatingTests
-from tests.search_tests import SearchTests
-from tests.comment_test import CommentTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
