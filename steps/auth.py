@@ -1,5 +1,4 @@
 from Pages.auth_page import AuthPage
-from get_profile_login import get_profile_login
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
