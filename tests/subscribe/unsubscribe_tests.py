@@ -5,9 +5,7 @@ from tests.default_setup import default_setup
 from steps.auth import setup_auth
 from utils.not_in import not_in
 
-
-
-class SubscribeTests(unittest.TestCase):
+class UnsubscribeTests(unittest.TestCase):
 
     expected_friend = 'vileven'
 
@@ -16,16 +14,24 @@ class SubscribeTests(unittest.TestCase):
         setup_auth(self)
         self.people_page = PeoplePage(self.driver)
         self.profile_page = ProfilePage(self.driver)
+        self.people_page.open()
+        self.people_page.subscribe()
 
 
     def tearDown(self):
-        self.people_page.open()
-        self.people_page.unsubscribe()
         self.driver.quit()
 
-    def test_subscribe(self):
-        self.people_page.open()
-        self.people_page.subscribe()
+    def test_unsubscribe_from_profile(self):
+        self.profile_page.unsubscribe_from_profile()
         friend_list = self.profile_page.get_subscribe_list()
         is_unsub = not_in(self.expected_friend, friend_list)
-        self.assertFalse(is_unsub)
+        self.assertTrue(is_unsub)
+
+    def test_unsubscribe(self):
+        self.people_page.open()
+        self.people_page.unsubscribe()
+        friend_list = self.profile_page.get_subscribe_list()
+        is_unsub = not_in(self.expected_friend, friend_list)
+        self.assertTrue(is_unsub)
+
+
