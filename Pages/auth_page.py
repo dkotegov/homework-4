@@ -29,6 +29,7 @@ class AuthPage(Page):
 
     def wait_auth(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
-
+        
     def logout(self):
         self.driver.find_element_by_xpath(self.LOGOUT).click()
+

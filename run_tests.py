@@ -6,6 +6,7 @@ from tests.signup.signup_success import SignupSuccessTests
 from tests.signup.signup_wrong import SignupWrongTests
 from tests.auth.auth_success import AuthTests
 
+
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AuthTests))

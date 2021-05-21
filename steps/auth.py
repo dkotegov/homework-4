@@ -10,5 +10,4 @@ def setup_auth(t):
     auth_page.set_login(t.LOGIN)
     auth_page.set_password(t.PASSWORD)
     auth_page.submit()
-    WebDriverWait(auth_page.driver, 5).until(EC.presence_of_element_located((By.XPATH, auth_page.ICON)))
-    return get_profile_login(t)
+    auth_page.wait_for_account()
