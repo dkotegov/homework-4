@@ -20,6 +20,7 @@ class ProfilePage(Page):
     ENTRY = '//button[text()="Войти"]'
     USERNAME = '//span[@class="name__profile__default_margin--_Vkp5 name__profile_login--2W71f"]'
     DELETE_USER = '//button[@id="deleteProfile"]'
+    FRIEND = '//a[@href="people/17"]'
 
     def open_subscribers(self):
         self.open()
@@ -90,10 +91,10 @@ class ProfilePage(Page):
         self.set_playlist(name)
         self.submit_playlist()
 
-    def check_sub(self, path):
+    def get_friend_login(self):
         self.open_subscribers()
-        friend = '//a[@href="' + path + '"]'
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, friend)))
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.FRIEND)))
+        return self.driver.find_element_by_xpath(self.FRIEND).text
 
     def check_unsub(self, path):
         self.open_subscribers()
