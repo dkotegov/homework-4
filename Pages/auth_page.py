@@ -27,30 +27,9 @@ class AuthPage(Page):
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
+    def wait_auth(self):
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
+        
     def logout(self):
         self.driver.find_element_by_xpath(self.LOGOUT).click()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ENTRY)))
 
-    def auth(self):
-        self.open()
-        self.set_login(self.USERNAME_INPUT)
-        self.set_password(self.PASSWORD_INPUT)
-        self.submit()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
-
-    def wait_for_account(self):
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
-
-    def auth_custom(self, login, pwd):
-        self.open()
-        self.set_login(login)
-        self.set_password(pwd)
-        self.submit()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
-
-    def auth_wrong(self, login, password):
-        self.open()
-        self.set_login(login)
-        self.set_password(password)
-        self.submit()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ERROR_MSG)))

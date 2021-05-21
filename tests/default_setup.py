@@ -12,3 +12,5 @@ def default_setup(t):
         command_executor='http://127.0.0.1:4444/wd/hub',
         desired_capabilities=getattr(DesiredCapabilities, browser).copy()
     )
+
+    t.driver.implicitly_wait(5)
