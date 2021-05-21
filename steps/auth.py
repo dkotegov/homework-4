@@ -9,4 +9,4 @@ def setup_auth(t):
     auth_page.set_login(t.LOGIN)
     auth_page.set_password(t.PASSWORD)
     auth_page.submit()
-    auth_page.wait_for_account()
+    auth_page.wait_auth()
