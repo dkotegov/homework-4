@@ -20,7 +20,7 @@ class SignupSuccessTests(unittest.TestCase):
         delete_user(self)
         self.driver.quit()
 
-    def test_signup_succes(self):
+    def test_signup_success(self):
         signup(self, self.signup_login_success, self.signup_password, self.signup_mail)
         self.signup_page.wait_for_account()
         login_in_profile = get_profile_login(self)
