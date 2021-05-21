@@ -1,6 +1,9 @@
+import selenium
+
 from Pages.page import Page
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 import os
 
@@ -18,7 +21,6 @@ class AuthPage(Page):
     ERROR_MSG = '//div[@class="name__error--FQ9hR"]'
 
     def set_login(self, login):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.LOGIN)))
         self.driver.find_element_by_xpath(self.LOGIN).send_keys(login)
 
     def set_password(self, pwd):
@@ -29,7 +31,26 @@ class AuthPage(Page):
 
     def wait_auth(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ICON)))
-        
+
     def logout(self):
         self.driver.find_element_by_xpath(self.LOGOUT).click()
+
+    def get_current_error(self):
+        return self.driver.find_element_by_xpath(self.ERROR_MSG).text
+
+    def is_authorized(self):
+        try:
+            self.driver.find_element_by_xpath(self.ENTRY)
+        except NoSuchElementException:
+            return False
+        else:
+            return True
+
+    def not_authorized(self):
+        try:
+            self.driver.find_element_by_xpath(self.ICON)
+        except NoSuchElementException:
+            return False
+        else:
+            return True
 
