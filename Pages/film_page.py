@@ -10,11 +10,12 @@ import random
 
 
 class FilmPage(Page):
-    PATH = '/film/1'
+    PATH = '/film/2'
     ADD_BUTTON = '//button[@id="adding"]'
     NOTIFICATION_SUCCESS = '//div[@class="name__notificationSuccess--2LyUD"]'
     NOTIFICATION_EXIST = '//div[@class="name__notificationFail--15d1Q"]'
-    STAR = '//label[@for="star-'
+    NOTIFICATION = '//span[@id="notification"]'
+    STAR = '//label[@for="star-5"]'
     RATE = '//button[text()="Оценить"]'
     COMMENT_AREA = '//textarea[@id="msg"]'
     SUBMIT_COMMENT = '//button[@id="msg_button"]'
@@ -47,25 +48,14 @@ class FilmPage(Page):
             return True
 
 
-    def select_star(self, i):
-        selector_star = self.STAR + i + "\"]"
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, selector_star)))
-        self.driver.find_element_by_xpath(selector_star).click()
+    def select_star(self):
+        self.driver.find_element_by_xpath(self.STAR).click()
 
     def submit_star(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.RATE)))
         self.driver.find_element_by_xpath(self.RATE).click()
 
-    def check_succes(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.NOTIFICATION_SUCCESS)))
-
-    def check_not_succes(self):
-        try:
-            WebDriverWait(self.driver, 2).until(EC.presence_of_element_located((By.XPATH, self.NOTIFICATION_SUCCESS)))
-        except TimeoutException:
-            return True
-        else:
-            return False
+    def get_notification_text(self):
+        return self.driver.find_element_by_xpath(self.NOTIFICATION).text
 
     def set_comment(self, comment):
         self.driver.find_element_by_xpath(self.COMMENT_AREA).send_keys(comment)
