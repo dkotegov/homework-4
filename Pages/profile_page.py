@@ -98,7 +98,6 @@ class ProfilePage(Page):
         return self.driver.find_elements_by_xpath(self.FRIENDLIST)
 
     def unsubscribe_from_profile(self):
-        self.open_subscribers()
         self.driver.find_element_by_xpath(self.DELETE_SUBSCRIBE).click()
         WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.XPATH, self.FRIEND)))
         

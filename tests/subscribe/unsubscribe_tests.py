@@ -22,6 +22,7 @@ class UnsubscribeTests(unittest.TestCase):
         self.driver.quit()
 
     def test_unsubscribe_from_profile(self):
+        self.profile_page.open_subscribers()
         self.profile_page.unsubscribe_from_profile()
         friend_list = self.profile_page.get_subscribe_list()
         is_unsub = not_in(self.expected_friend, friend_list)

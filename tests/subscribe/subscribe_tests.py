@@ -4,6 +4,7 @@ from Pages.profile_page import ProfilePage
 from tests.default_setup import default_setup
 from steps.auth import setup_auth
 from utils.not_in import not_in
+from utils.in_list import in_list
 
 
 
@@ -27,5 +28,5 @@ class SubscribeTests(unittest.TestCase):
         self.people_page.open()
         self.people_page.subscribe()
         friend_list = self.profile_page.get_subscribe_list()
-        is_unsub = not_in(self.expected_friend, friend_list)
-        self.assertFalse(is_unsub)
+        is_unsub = in_list(self.expected_friend, friend_list)
+        self.assertTrue(is_unsub)
