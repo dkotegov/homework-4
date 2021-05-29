@@ -2,9 +2,6 @@ import os
 
 import unittest
 from tests.default_setup import default_setup
-from steps.signup import signup
-from steps.delete_user import delete_user
-from steps.get_profile_login import get_profile_login
 from Pages.signup_page import SignupPage
 
 class SignupWrongTests(unittest.TestCase):
@@ -27,37 +24,65 @@ class SignupWrongTests(unittest.TestCase):
         self.driver.quit()
 
     def test_signup_exist_login(self):
-        signup(self, self.LOGIN, self.signup_password, self.signup_mail)
+        self.signup_page.open()
+        self.signup_page.set_login(self.LOGIN)
+        self.signup_page.set_password(self.signup_password)
+        self.signup_page.set_mail(self.signup_mail)
+        self.signup_page.submit()
         error_msg = self.signup_page.get_error_bad_fields()
         self.assertEqual(error_msg, self.expected_error_exist_login)
 
     def test_signup_login_less_5_symbols(self):
-        signup(self, self.signup_login_less_5, self.signup_password, self.signup_mail)
+        self.signup_page.open()
+        self.signup_page.set_login(self.signup_login_less_5)
+        self.signup_page.set_password(self.signup_password)
+        self.signup_page.set_mail(self.signup_mail)
+        self.signup_page.submit()
         error_msg = self.signup_page.get_error_bad_login()
         self.assertEqual(error_msg, self.expected_error_login_less_5)
 
     def test_signup_pass_less_8_symbols(self):
-        signup(self, self.signup_login, self.signup_password_less_8, self.signup_mail)
+        self.signup_page.open()
+        self.signup_page.set_login(self.signup_login)
+        self.signup_page.set_password(self.signup_password_less_8)
+        self.signup_page.set_mail(self.signup_mail)
+        self.signup_page.submit()
         error_msg = self.signup_page.get_error_bad_password()
         self.assertEqual(error_msg, self.expected_error_password_less_8)
 
     def test_signup_clear_all(self):
-        signup(self, self.empty, self.empty, self.empty)
+        self.signup_page.open()
+        self.signup_page.set_login(self.empty)
+        self.signup_page.set_password(self.empty)
+        self.signup_page.set_mail(self.empty)
+        self.signup_page.submit()
         error_msg = self.signup_page.get_error_bad_login()
         self.assertEqual(error_msg, self.expected_error_login_less_5)
 
     def test_signup_clear_login(self):
-        signup(self, self.empty, self.signup_password, self.signup_mail)
+        self.signup_page.open()
+        self.signup_page.set_login(self.empty)
+        self.signup_page.set_password(self.signup_password)
+        self.signup_page.set_mail(self.signup_mail)
+        self.signup_page.submit()
         error_msg = self.signup_page.get_error_bad_login()
         self.assertEqual(error_msg, self.expected_error_login_less_5)
 
     def test_signup_clear_password(self):
-        signup(self, self.signup_login, self.empty, self.signup_mail)
+        self.signup_page.open()
+        self.signup_page.set_login(self.signup_login)
+        self.signup_page.set_password(self.empty)
+        self.signup_page.set_mail(self.signup_mail)
+        self.signup_page.submit()
         error_msg = self.signup_page.get_error_bad_password()
         self.assertEqual(error_msg, self.expected_error_password_less_8)
 
     def test_signup_clear_email(self):
-        signup(self, self.signup_login, self.signup_password, self.empty)
+        self.signup_page.open()
+        self.signup_page.set_login(self.signup_login)
+        self.signup_page.set_password(self.signup_password)
+        self.signup_page.set_mail(self.empty)
+        self.signup_page.submit()
         error_msg = self.signup_page.get_error_bad_fields()
         self.assertEqual(error_msg, self.expected_error_clear_email)
 

@@ -1,8 +1,5 @@
 from Pages.page import Page
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-import os
+from selenium.common.exceptions import NoSuchElementException
 
 
 class PeoplePage(Page):
@@ -11,10 +8,10 @@ class PeoplePage(Page):
     UNSUBSCRIBE_BUTTON = '//button[text()="Отписаться"]'
 
     def subscribe(self):
-        self.open()
         self.driver.find_element_by_xpath(self.SUBSCRIBE_BUTTON).click()
+        self.driver.find_element_by_xpath(self.UNSUBSCRIBE_BUTTON)
 
     def unsubscribe(self):
-        self.open()
         self.driver.find_element_by_xpath(self.UNSUBSCRIBE_BUTTON).click()
+        self.driver.find_element_by_xpath(self.SUBSCRIBE_BUTTON)
 
