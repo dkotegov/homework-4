@@ -71,6 +71,10 @@ class FilmPage(Page):
     def wait_comment(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.COMMENTS_NAME)))
 
+    def get_last_comment(self):
+        comments = self.driver.find_elements_by_xpath(self.COMMENTS_BODY)
+        return comments[len(comments) - 1].text
+
     def get_count_comments(self):
         self.wait_comment()
         try:

@@ -3,9 +3,7 @@ import unittest
 import os
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from selenium import webdriver
 from Pages.auth_page import AuthPage
-from Pages.profile_page import ProfilePage
 from Pages.film_page import FilmPage
 
 
