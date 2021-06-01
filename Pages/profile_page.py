@@ -94,8 +94,11 @@ class ProfilePage(Page):
         self.submit_playlist()
 
     def get_subscribe_list(self):
-        self.open_subscribers()
-        return self.driver.find_elements_by_xpath(self.FRIENDLIST)
+        elements = self.driver.find_elements_by_xpath(self.FRIENDLIST)
+        friends = []
+        for element in elements:
+            friends.append(element.text)
+        return friends
 
     def unsubscribe_from_profile(self):
         self.driver.find_element_by_xpath(self.DELETE_SUBSCRIBE).click()
@@ -111,10 +114,8 @@ class ProfilePage(Page):
             return False
 
     def get_username(self):
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
         return self.driver.find_element_by_xpath(self.USERNAME).text
 
     def delete_user(self):
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.DELETE_USER)))
         self.driver.find_element_by_xpath(self.DELETE_USER).click()
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ENTRY)))
