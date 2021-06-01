@@ -1,5 +1,3 @@
-from selenium.webdriver import DesiredCapabilities, Remote
-from Pages.auth_page import AuthPage
 from Pages.film_page import FilmPage
 from steps.auth import setup_auth
 from tests.default_setup import default_setup
@@ -42,6 +40,14 @@ class CommentsTests(unittest.TestCase):
         self.film_page.get_notification_text()
         last_comment = self.film_page.get_last_comment()
         self.assertEqual(last_comment, self.comment)
+
+    def test_write_comment_check_author(self):
+        self.film_page.set_comment(self.comment)
+        self.film_page.submit_comment()
+        self.film_page.get_notification_text()
+        author = self.film_page.get_last_comment_author()
+        self.assertEqual(author, self.LOGIN)
+
 
     def test_write_comment_empty(self):
         self.film_page.submit_comment()

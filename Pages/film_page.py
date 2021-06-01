@@ -75,6 +75,10 @@ class FilmPage(Page):
         comments = self.driver.find_elements_by_xpath(self.COMMENTS_BODY)
         return comments[len(comments) - 1].text
 
+    def get_last_comment_author(self):
+        authors = self.driver.find_elements_by_xpath(self.COMMENTS_NAME)
+        return authors[len(authors) - 1].text
+
     def get_count_comments(self):
         self.wait_comment()
         try:
@@ -84,28 +88,3 @@ class FilmPage(Page):
             return 0
         else:
             return n
-
-    def check_new_comment(self, count, user, body):
-        count = self.get_count_comments()
-        locator = (By.XPATH, self.COMMENTS_NAME)
-        try:
-            WebDriverWait(self.driver, 5).until(customEC(locator, count))
-        except TimeoutException:
-            return True
-        try:
-            elements = self.driver.find_elements_by_xpath(self.COMMENTS_NAME)
-            n = len(elements)
-            username = elements[n-1].text
-            elements = self.driver.find_elements_by_xpath(self.COMMENTS_BODY)
-            n = len(elements)
-            comment_body = elements[n-1].text
-        except NoSuchElementException:
-            return False
-        else:
-            if username == user and comment_body.strip() == body:
-                return True
-            else:
-                return False
-
-    def check_empty_comment(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ERROR_EMPTY)))
