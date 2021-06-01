@@ -34,13 +34,25 @@ class SearchPage(Page):
         self.driver.find_element_by_xpath(self.ACTORS).click()
 
     def get_films_list(self):
-        return self.driver.find_elements_by_xpath(self.FILMS_LIST)
+        elements = self.driver.find_elements_by_xpath(self.FILMS_LIST)
+        list_films = []
+        for element in elements:
+            list_films.append(element.text)
+        return list_films
 
     def get_actors_list(self):
-        return self.driver.find_elements_by_xpath(self.ACTORS_LIST)
+        elements = self.driver.find_elements_by_xpath(self.ACTORS_LIST)
+        list_actors = []
+        for element in elements:
+            list_actors.append(element.text)
+        return list_actors
 
     def get_people_list(self):
-        return self.driver.find_elements_by_xpath(self.PEOPLE_LIST)
+        elements = self.driver.find_elements_by_xpath(self.PEOPLE_LIST)
+        list_people = []
+        for element in elements:
+            list_people.append(element.text)
+        return list_people
 
     def click_people(self):
         self.driver.find_element_by_xpath(self.PEOPLE_LIST).click()

@@ -1,6 +1,4 @@
 import unittest
-from utils.in_list import in_list
-from utils.not_in import not_in
 from Pages.search_page import SearchPage
 from tests.default_setup import default_setup
 
@@ -20,8 +18,7 @@ class PeopleSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         people_list = self.search_page.get_people_list()
-        is_in = in_list(string, people_list)
-        self.assertTrue(is_in)
+        self.assertIn(string, people_list)
 
     def test_search_people_empty(self):
         string = "bhcdnjkas"
@@ -36,8 +33,7 @@ class PeopleSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         people_list = self.search_page.get_people_list()
-        is_in = in_list(check, people_list)
-        self.assertTrue(is_in)
+        self.assertIn(check, people_list)
 
     def test_search_people_high_register(self):
         string = "Erik"
@@ -45,8 +41,7 @@ class PeopleSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         people_list = self.search_page.get_people_list()
-        is_in = in_list(check, people_list)
-        self.assertTrue(is_in)
+        self.assertIn(check, people_list)
 
     def test_search_people_wrong(self):
         string = "Ers"
@@ -54,5 +49,4 @@ class PeopleSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         people_list = self.search_page.get_people_list()
-        is_not_in = not_in(check, people_list)
-        self.assertTrue(is_not_in)
+        self.assertNotIn(check, people_list)

@@ -1,6 +1,4 @@
 import unittest
-from utils.in_list import in_list
-from utils.not_in import not_in
 from Pages.search_page import SearchPage
 from tests.default_setup import default_setup
 
@@ -19,8 +17,7 @@ class FilmSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         film_list = self.search_page.get_films_list()
-        is_in = in_list(string, film_list)
-        self.assertTrue(is_in)
+        self.assertIn(string, film_list)
 
 
     def test_search_film_empty(self):
@@ -36,8 +33,7 @@ class FilmSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         film_list = self.search_page.get_films_list()
-        is_in = in_list(check, film_list)
-        self.assertTrue(is_in)
+        self.assertIn(check, film_list)
 
     def test_search_film_right_2(self):
         string = "кок"
@@ -45,8 +41,7 @@ class FilmSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         film_list = self.search_page.get_films_list()
-        is_in = in_list(check, film_list)
-        self.assertTrue(is_in)
+        self.assertIn(check, film_list)
 
     def test_search_film_wrong(self):
         string = "кор"
@@ -54,8 +49,7 @@ class FilmSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         film_list = self.search_page.get_films_list()
-        is_not_in = not_in(check, film_list)
-        self.assertTrue(is_not_in)
+        self.assertNotIn(check, film_list)
 
     def test_search_film_wrong_2(self):
         string = "корп"
@@ -63,6 +57,5 @@ class FilmSearchTests(unittest.TestCase):
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
         film_list = self.search_page.get_films_list()
-        is_not_in = not_in(check, film_list)
-        self.assertTrue(is_not_in)
+        self.assertNotIn(check, film_list)
 
