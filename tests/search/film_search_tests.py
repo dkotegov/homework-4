@@ -12,7 +12,7 @@ class FilmSearchTests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_search_film_success(self):
+    def stest_search_film_success(self):
         string = "Корпорация монстров"
         self.search_page.fill_search(string)
         self.search_page.wait_for_end_of_search()
