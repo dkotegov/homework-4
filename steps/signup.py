@@ -7,3 +7,4 @@ def signup(t, login, password, email):
     signup_page.set_password(password)
     signup_page.set_mail(email)
     signup_page.submit()
+    signup_page.wait_for_account()

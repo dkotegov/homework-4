@@ -13,4 +13,4 @@ def default_setup(t):
         desired_capabilities=getattr(DesiredCapabilities, browser).copy()
     )
 
-    t.driver.implicitly_wait(5)
+    t.driver.implicitly_wait(7)

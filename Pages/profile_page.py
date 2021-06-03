@@ -21,10 +21,12 @@ class ProfilePage(Page):
     USERNAME = '//span[@class="name__profile__default_margin--_Vkp5 name__profile_login--2W71f"]'
     DELETE_USER = '//button[@id="deleteProfile"]'
     FRIEND = '//a[@href="people/17"]'
+    FRIENDLIST = '//a[@class="name__friendList_login--gKHhK"]'
+    DELETE_SUBSCRIBE = '//div[@id="profile/17"]'
+
 
     def open_subscribers(self):
         self.open()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.SUBSCRIBERS)))
         self.driver.find_element_by_xpath(self.SUBSCRIBERS).click()
 
     def open_playlist(self):
@@ -91,22 +93,16 @@ class ProfilePage(Page):
         self.set_playlist(name)
         self.submit_playlist()
 
-    def get_friend_login(self):
-        self.open_subscribers()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.FRIEND)))
-        return self.driver.find_element_by_xpath(self.FRIEND).text
+    def get_subscribe_list(self):
+        elements = self.driver.find_elements_by_xpath(self.FRIENDLIST)
+        friends = []
+        for element in elements:
+            friends.append(element.text)
+        return friends
 
-    def check_unsub(self, path):
-        self.open_subscribers()
-        friend = '//a[@href="' + path + '"]'
-        WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, friend)))
-
-    def unsub(self, path):
-        self.open_subscribers()
-        delete = '//div[@id="' + path + '"]'
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, delete)))
-        self.driver.find_element_by_xpath(delete).click()
-        WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, delete)))
+    def unsubscribe_from_profile(self):
+        self.driver.find_element_by_xpath(self.DELETE_SUBSCRIBE).click()
+        WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.XPATH, self.FRIEND)))
         
     def check_username(self, username):
         self.open()
@@ -118,10 +114,8 @@ class ProfilePage(Page):
             return False
 
     def get_username(self):
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
         return self.driver.find_element_by_xpath(self.USERNAME).text
 
     def delete_user(self):
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.DELETE_USER)))
         self.driver.find_element_by_xpath(self.DELETE_USER).click()
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ENTRY)))
