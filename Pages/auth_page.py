@@ -38,14 +38,6 @@ class AuthPage(Page):
     def get_current_error(self):
         return self.driver.find_element_by_xpath(self.ERROR_MSG).text
 
-    def is_authorized(self):
-        try:
-            self.driver.find_element_by_xpath(self.ENTRY)
-        except NoSuchElementException:
-            return False
-        else:
-            return True
-
     def not_authorized(self):
         try:
             self.driver.find_element_by_xpath(self.ICON)
