@@ -22,6 +22,9 @@ from tests.setting.change_username_wrong import UsernameChangeWrongTests
 from tests.playlist.playlist_create_success_tests import PlaylistCreateSuccessTests
 from tests.playlist.playlist_create_wrong_tests import PlaylistCreateWrongTests
 from tests.playlist.playlist_delete_tests import PlaylistDeleteTests
+from tests.playlist.playlist_add_film_success_tests import AddFilmInPlaylistSuccessTests
+from tests.playlist.playlist_add_film_wrong_tests import AddFilmInPlaylistWrongTests
+from tests.playlist.playlist_delete_film_tests import DeleteFilmFromPlaylistTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
@@ -45,6 +48,9 @@ if __name__ == '__main__':
     suite.addTest(unittest.makeSuite(AllSearchTests))
     suite.addTest(unittest.makeSuite(SaveInstanceSearchTests))
     suite.addTest(unittest.makeSuite(CommentsTests))
+    suite.addTest(unittest.makeSuite(AddFilmInPlaylistSuccessTests))
+    suite.addTest(unittest.makeSuite(AddFilmInPlaylistWrongTests))
+    suite.addTest(unittest.makeSuite(DeleteFilmFromPlaylistTests))
     result = unittest.TextTestRunner().run(suite)
     successfulRes = result.wasSuccessful()
     if not successfulRes:
