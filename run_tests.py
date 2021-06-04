@@ -15,11 +15,14 @@ from tests.search.people_search_tests import PeopleSearchTests
 from tests.search.all_search_tests import AllSearchTests
 from tests.search.save_instanse_search_test import SaveInstanceSearchTests
 from tests.comment.comments_tests import CommentsTests
+from tests.setting.change_password_wrong import PasswordWrongTests
+from tests.setting.change_password_success import PasswordSuccessTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    # suite.addTest(unittest.makeSuite(SettingsTests))
-    suite.addTest(unittest.makeSuite(AuthTests))
+    suite.addTest(unittest.makeSuite(PasswordWrongTests))
+    suite.addTest(unittest.makeSuite(PasswordSuccessTests))
+    '''suite.addTest(unittest.makeSuite(AuthTests))
     suite.addTest(unittest.makeSuite(SignupSuccessTests))
     suite.addTest(unittest.makeSuite(SignupWrongTests))
     suite.addTest(unittest.makeSuite(SubscribeTests))
@@ -32,7 +35,7 @@ if __name__ == '__main__':
     suite.addTest(unittest.makeSuite(PeopleSearchTests))
     suite.addTest(unittest.makeSuite(AllSearchTests))
     suite.addTest(unittest.makeSuite(SaveInstanceSearchTests))
-    suite.addTest(unittest.makeSuite(CommentsTests))
+    suite.addTest(unittest.makeSuite(CommentsTests))'''
     result = unittest.TextTestRunner().run(suite)
     successfulRes = result.wasSuccessful()
     if not successfulRes:
