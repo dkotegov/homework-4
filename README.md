@@ -8,14 +8,13 @@
 BROWSER; <br>
 LOGIN;  - Логин существующего пользователя <br>
 PASSWORD; - Пароль существующего пользователя <br>
-SIGNUP_LOGIN;  - Логин нового пользователя, который будет создаваться во время тестов <br>
 
 #### Запуск:
 
 ```shell script
 ./grid.sh
 ./node.sh
- LOGIN=<...> PASSWORD=<...> SIGNUP_LOGIN=<....> python3 run_tests.py
+ LOGIN=<...> PASSWORD=<...> python3 run_tests.py
 ```
 
 #### Чеклист:

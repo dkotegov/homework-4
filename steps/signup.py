@@ -1,5 +1,6 @@
 from Pages.signup_page import SignupPage
 
+
 def signup(t, login, password, email):
     signup_page = SignupPage(t.driver)
     signup_page.open()

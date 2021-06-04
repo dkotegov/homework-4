@@ -2,6 +2,7 @@ import unittest
 from Pages.search_page import SearchPage
 from tests.default_setup import default_setup
 
+
 class SaveInstanceSearchTests(unittest.TestCase):
     def setUp(self):
         default_setup(self)

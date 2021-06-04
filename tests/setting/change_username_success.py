@@ -1,12 +1,9 @@
-import os
-
 import unittest
 from tests.default_setup import default_setup
 from Pages.settings_page import SettingPage
 from Pages.profile_page import ProfilePage
 from steps.auth import setup_auth
-from steps.get_profile_login import get_profile_login
-from steps.logout import logout
+
 
 class UsernameChangeSuccessTests(unittest.TestCase):
     new_login = "abrikos-soska"

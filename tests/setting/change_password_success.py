@@ -1,10 +1,8 @@
-import os
-
 import unittest
 from tests.default_setup import default_setup
 from Pages.settings_page import SettingPage
 from steps.auth import setup_auth
-from steps.logout import logout
+
 
 class PasswordChangeSuccessTests(unittest.TestCase):
     new_password = "Arkady123"
