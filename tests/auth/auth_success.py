@@ -1,5 +1,3 @@
-import os
-
 import unittest
 from tests.default_setup import default_setup
 from Pages.auth_page import AuthPage
@@ -24,7 +22,6 @@ class AuthTests(unittest.TestCase):
         self.auth_page.wait_auth()
         current_login = get_profile_login(self)
         self.assertEqual(self.LOGIN, current_login)
-
 
     '''def test_auth_wrong_login(self):
         auth_page = AuthPage(self.driver)

@@ -1,10 +1,9 @@
-import os
-
 import unittest
 
 from Pages.auth_page import AuthPage
 from tests.default_setup import default_setup
 from steps.auth import setup_auth
+
 
 class LogOutTests(unittest.TestCase):
 
@@ -19,5 +18,3 @@ class LogOutTests(unittest.TestCase):
     def test_logout(self):
         self.auth_page.logout()
         self.assertTrue(self.auth_page.not_authorized())
-
-

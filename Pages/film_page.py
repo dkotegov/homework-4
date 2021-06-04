@@ -2,12 +2,8 @@ from Pages.page import Page
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
-from utils.custom_expected_conditions import presence_number_of_elements as customEC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-
-import os
-import random
 
 
 class FilmPage(Page):
@@ -59,7 +55,6 @@ class FilmPage(Page):
         else:
             return True
 
-
     def select_star(self):
         self.driver.find_element_by_xpath(self.STAR).click()
 
@@ -75,21 +70,14 @@ class FilmPage(Page):
     def submit_comment(self):
         self.driver.find_element_by_xpath(self.SUBMIT_COMMENT).click()
 
-    def create_comment(self, comment):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.COMMENT_AREA)))
-        self.set_comment(comment)
-        self.submit_comment()
-
     def wait_comment(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.COMMENTS_NAME)))
 
     def get_last_comment(self):
-        comments = self.driver.find_elements_by_xpath(self.COMMENTS_BODY)
-        return comments[len(comments) - 1].text
+        return self.driver.find_elements_by_xpath(self.COMMENTS_BODY)[-1].text
 
     def get_last_comment_author(self):
-        authors = self.driver.find_elements_by_xpath(self.COMMENTS_NAME)
-        return authors[len(authors) - 1].text
+        return self.driver.find_elements_by_xpath(self.COMMENTS_NAME)[-1].text
 
     def get_count_comments(self):
         self.wait_comment()

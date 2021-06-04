@@ -3,7 +3,6 @@ import os
 import unittest
 from tests.default_setup import default_setup
 from Pages.auth_page import AuthPage
-from steps.get_profile_login import get_profile_login
 
 
 class AuthWrongTests(unittest.TestCase):

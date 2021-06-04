@@ -1,10 +1,9 @@
-import os
-
 import unittest
 from tests.default_setup import default_setup
 from steps.delete_user import delete_user
 from steps.get_profile_login import get_profile_login
 from Pages.signup_page import SignupPage
+
 
 class SignupSuccessTests(unittest.TestCase):
     signup_login_success = "abrikos-soska"

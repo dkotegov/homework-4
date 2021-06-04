@@ -1,9 +1,7 @@
 import unittest
-from Pages.people_page import PeoplePage
 from Pages.profile_page import ProfilePage
 from tests.default_setup import default_setup
 from steps.auth import setup_auth
-
 
 
 class PlaylistCreateSuccessTests(unittest.TestCase):
@@ -15,7 +13,6 @@ class PlaylistCreateSuccessTests(unittest.TestCase):
         setup_auth(self)
         self.profile_page = ProfilePage(self.driver)
         self.profile_page.open_playlist()
-
 
     def tearDown(self):
         self.profile_page.delete_last_playlist()

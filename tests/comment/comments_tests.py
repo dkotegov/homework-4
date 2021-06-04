@@ -19,7 +19,6 @@ class CommentsTests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-
     def test_write_comment_succes_notification(self):
         self.film_page.set_comment(self.comment)
         self.film_page.submit_comment()
@@ -47,7 +46,6 @@ class CommentsTests(unittest.TestCase):
         self.film_page.get_notification_text()
         author = self.film_page.get_last_comment_author()
         self.assertEqual(author, self.LOGIN)
-
 
     def test_write_comment_empty(self):
         self.film_page.submit_comment()

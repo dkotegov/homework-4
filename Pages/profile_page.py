@@ -3,8 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import os
-import time
+
 
 class ProfilePage(Page):
     PATH = '/profile'
@@ -25,19 +24,18 @@ class ProfilePage(Page):
     DELETE_SUBSCRIBE = '//div[@id="profile/17"]'
     NOTIFICATION = '//span[@id="notification"]'
 
-
     def open_subscribers(self):
         self.open()
         self.driver.find_element_by_xpath(self.SUBSCRIBERS).click()
 
-    def open_playlist(self):#+
+    def open_playlist(self):  # +
         self.open()
         self.driver.find_element_by_xpath(self.PLAYLIST).click()
 
-    def set_playlist(self, new):#+
+    def set_playlist(self, new):  # +
         self.driver.find_element_by_xpath(self.PLAYLIST_INPUT).send_keys(new)
 
-    def submit_playlist(self):#+
+    def submit_playlist(self):  # +
         self.driver.find_element_by_xpath(self.PLAYLIST_BUTTON).click()
 
     def wait_playlist_delete(self):
@@ -49,7 +47,7 @@ class ProfilePage(Page):
     def wait_film_delete(self):
         WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, self.FILM_IN_PLAYLIST)))
 
-    def get_last_playlist_name(self):#+
+    def get_last_playlist_name(self):  # +
         return self.driver.find_elements_by_xpath(self.PLAYLIST_NAME)[-1].text
 
     def check_film_in_playlist(self):
@@ -60,7 +58,7 @@ class ProfilePage(Page):
         else:
             return True
 
-    def get_count_playlist(self):#+-
+    def get_count_playlist(self):  # +-
         try:
             count = len(self.driver.find_elements_by_xpath(self.PLAYLIST_NAME))
         except NoSuchElementException:
@@ -77,7 +75,7 @@ class ProfilePage(Page):
         else:
             return count - 1
 
-    def delete_last_playlist(self):#+
+    def delete_last_playlist(self):  # +
         self.driver.find_elements_by_xpath(self.PLAYLIST_DELETE)[-1].click()
 
     def delete_film_from_playlist(self):#+
@@ -100,15 +98,6 @@ class ProfilePage(Page):
     def unsubscribe_from_profile(self):
         self.driver.find_element_by_xpath(self.DELETE_SUBSCRIBE).click()
         WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.XPATH, self.FRIEND)))
-        
-    def check_username(self, username):
-        self.open()
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
-        username_in_profile = self.driver.find_element_by_xpath(self.USERNAME).text
-        if username_in_profile == username:
-            return True
-        else:
-            return False
 
     def get_username(self):
         return self.driver.find_element_by_xpath(self.USERNAME).text
@@ -119,4 +108,3 @@ class ProfilePage(Page):
 
     def get_notification_text(self):
         return self.driver.find_element_by_xpath(self.NOTIFICATION).text
-

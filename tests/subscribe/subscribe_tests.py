@@ -5,9 +5,7 @@ from tests.default_setup import default_setup
 from steps.auth import setup_auth
 
 
-
 class SubscribeTests(unittest.TestCase):
-
     expected_friend = 'vileven'
 
     def setUp(self):
@@ -15,7 +13,6 @@ class SubscribeTests(unittest.TestCase):
         setup_auth(self)
         self.people_page = PeoplePage(self.driver)
         self.profile_page = ProfilePage(self.driver)
-
 
     def tearDown(self):
         self.people_page.open()
