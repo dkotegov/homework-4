@@ -6,7 +6,7 @@ from Pages.settings_page import SettingPage
 from steps.auth import setup_auth
 from steps.logout import logout
 
-class PasswordWrongTests(unittest.TestCase):
+class PasswordChangeWrongTests(unittest.TestCase):
     old_password = os.environ['PASSWORD']
     new_password = "Arkady123"
     password_less8 = "Ark"

@@ -15,13 +15,15 @@ from tests.search.people_search_tests import PeopleSearchTests
 from tests.search.all_search_tests import AllSearchTests
 from tests.search.save_instanse_search_test import SaveInstanceSearchTests
 from tests.comment.comments_tests import CommentsTests
-from tests.setting.change_password_wrong import PasswordWrongTests
-from tests.setting.change_password_success import PasswordSuccessTests
+from tests.setting.change_password_wrong import PasswordChangeWrongTests
+from tests.setting.change_password_success import PasswordChangeSuccessTests
+from tests.setting.change_username_success import UsernameChangeSuccessTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(PasswordWrongTests))
-    suite.addTest(unittest.makeSuite(PasswordSuccessTests))
+    suite.addTest(unittest.makeSuite(PasswordChangeWrongTests))
+    suite.addTest(unittest.makeSuite(PasswordChangeSuccessTests))
+    suite.addTest(unittest.makeSuite(UsernameChangeSuccessTests))
     '''suite.addTest(unittest.makeSuite(AuthTests))
     suite.addTest(unittest.makeSuite(SignupSuccessTests))
     suite.addTest(unittest.makeSuite(SignupWrongTests))

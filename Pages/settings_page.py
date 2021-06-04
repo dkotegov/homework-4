@@ -31,6 +31,9 @@ class SettingPage(Page):
     def set_new_pass_confirm(self, new):
         self.driver.find_element_by_xpath(self.REPEAT).send_keys(new)
 
+    def set_username(self, username):
+        self.driver.find_element_by_xpath(self.USERNAME).send_keys(username)
+
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
@@ -46,24 +49,17 @@ class SettingPage(Page):
     def get_notification_text(self):
         return self.driver.find_element_by_xpath(self.NOTIFICATION).text
 
-    ''''''
-
     def change_password(self, old, new, new_conf):
         self.set_old_pass(old)
         self.set_new_pass(new)
         self.set_new_pass_confirm(new_conf)
         self.submit()
 
-    def set_username(self, username):
-        self.driver.find_element_by_xpath(self.USERNAME).send_keys(username)
-
-    def submit(self):
-        self.driver.find_element_by_xpath(self.SUBMIT).click()
-
     def change_username(self, username):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
         self.set_username(username)
         self.submit()
+
+    """"""
 
     def change_username_less_5_symbol(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
