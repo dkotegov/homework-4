@@ -17,6 +17,7 @@ class SettingPage(Page):
     REPEAT = '//input[@placeholder="Повторите новый пароль"]'
     SUBMIT = '//button[text()="Сохранить"]'
     ERROR_MSG_MAIN = '//div[@id="badMain"]'
+    ERROR_MSG_LOGIN = '//div[@id="badLogin"]'
     ERROR_MSG_PASSWORD = '//div[@id="badNewPassword"]'
     ERROR_MSG_DIFFERENT_NEW = '//div[@id="differentPassword"]'
     NOTIFICATION = '//span[@id="notification"]'
@@ -32,13 +33,16 @@ class SettingPage(Page):
         self.driver.find_element_by_xpath(self.REPEAT).send_keys(new)
 
     def set_username(self, username):
-        self.driver.find_element_by_xpath(self.USERNAME).send_keys(username)
+        self.driver.find_element_by_xpath(self.USERNAME).send_keys(username+'\t')
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
 
     def get_main_error(self):
         return self.driver.find_element_by_xpath(self.ERROR_MSG_MAIN).text
+
+    def get_login_error(self):
+        return self.driver.find_element_by_xpath(self.ERROR_MSG_LOGIN).text
 
     def get_password_error(self):
         return self.driver.find_element_by_xpath(self.ERROR_MSG_PASSWORD).text
@@ -58,13 +62,6 @@ class SettingPage(Page):
     def change_username(self, username):
         self.set_username(username)
         self.submit()
-
-    """"""
-
-    def change_username_less_5_symbol(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
-        self.set_username("1234")
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ERROR_USERNAME_LESS_5)))
 
     def setup_avatar(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.AVATAR_INPUT)))

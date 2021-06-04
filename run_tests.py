@@ -18,12 +18,14 @@ from tests.comment.comments_tests import CommentsTests
 from tests.setting.change_password_wrong import PasswordChangeWrongTests
 from tests.setting.change_password_success import PasswordChangeSuccessTests
 from tests.setting.change_username_success import UsernameChangeSuccessTests
+from tests.setting.change_username_wrong import UsernameChangeWrongTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(PasswordChangeWrongTests))
+    '''suite.addTest(unittest.makeSuite(PasswordChangeWrongTests))
     suite.addTest(unittest.makeSuite(PasswordChangeSuccessTests))
-    suite.addTest(unittest.makeSuite(UsernameChangeSuccessTests))
+    suite.addTest(unittest.makeSuite(UsernameChangeSuccessTests))'''
+    suite.addTest(unittest.makeSuite(UsernameChangeWrongTests))
     '''suite.addTest(unittest.makeSuite(AuthTests))
     suite.addTest(unittest.makeSuite(SignupSuccessTests))
     suite.addTest(unittest.makeSuite(SignupWrongTests))
