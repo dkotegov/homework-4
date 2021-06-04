@@ -54,7 +54,8 @@ class SettingPage(Page):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ERROR_USERNAME_LESS_5)))
 
     def setup_avatar(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.AVATAR_INPUT)))
         self.driver.find_element_by_xpath(self.AVATAR_INPUT).send_keys(self.AVATAR_PATH)
+
+    def get_avatar_text(self):
         return self.driver.find_element_by_xpath(self.AVATAR_INPUT).get_attribute("value")
 
