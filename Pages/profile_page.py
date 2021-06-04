@@ -23,21 +23,21 @@ class ProfilePage(Page):
     FRIEND = '//a[@href="people/17"]'
     FRIENDLIST = '//a[@class="name__friendList_login--gKHhK"]'
     DELETE_SUBSCRIBE = '//div[@id="profile/17"]'
+    NOTIFICATION = '//span[@id="notification"]'
 
 
     def open_subscribers(self):
         self.open()
         self.driver.find_element_by_xpath(self.SUBSCRIBERS).click()
 
-    def open_playlist(self):
+    def open_playlist(self):#+
         self.open()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.PLAYLIST)))
         self.driver.find_element_by_xpath(self.PLAYLIST).click()
 
-    def set_playlist(self, new):
+    def set_playlist(self, new):#+
         self.driver.find_element_by_xpath(self.PLAYLIST_INPUT).send_keys(new)
 
-    def submit_playlist(self):
+    def submit_playlist(self):#+
         self.driver.find_element_by_xpath(self.PLAYLIST_BUTTON).click()
 
     def wait_playlist_create(self):
@@ -119,3 +119,5 @@ class ProfilePage(Page):
     def delete_user(self):
         self.driver.find_element_by_xpath(self.DELETE_USER).click()
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ENTRY)))
+
+    def
