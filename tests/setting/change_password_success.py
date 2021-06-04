@@ -7,12 +7,12 @@ from steps.auth import setup_auth
 from steps.logout import logout
 
 class PasswordChangeSuccessTests(unittest.TestCase):
-    old_password = os.environ['PASSWORD']
     new_password = "Arkady123"
-    notification_success = "Данные сохранены"
+    expected_notification_success = "Данные сохранены"
 
     def setUp(self):
         default_setup(self)
+        self.old_password = self.PASSWORD
         setup_auth(self)
         self.setting_page = SettingPage(self.driver)
         self.setting_page.open()
@@ -28,4 +28,4 @@ class PasswordChangeSuccessTests(unittest.TestCase):
         self.setting_page.set_new_pass_confirm(self.new_password)
         self.setting_page.submit()
         notification_text = self.setting_page.get_notification_text()
-        self.assertEqual(notification_text, self.notification_success)
+        self.assertEqual(notification_text, self.expected_notification_success)

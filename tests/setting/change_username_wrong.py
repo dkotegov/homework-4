@@ -7,7 +7,6 @@ from steps.auth import setup_auth
 from steps.logout import logout
 
 class UsernameChangeWrongTests(unittest.TestCase):
-    old_login = os.environ["LOGIN"]
     exist_login = "TestUser"
     login_less5 = "123"
     login_more15 = "12345678901234561"

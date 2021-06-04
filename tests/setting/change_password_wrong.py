@@ -7,7 +7,6 @@ from steps.auth import setup_auth
 from steps.logout import logout
 
 class PasswordChangeWrongTests(unittest.TestCase):
-    old_password = os.environ['PASSWORD']
     new_password = "Arkady123"
     password_less8 = "Ark"
     password_more16 = "arkadiyarkadiyarkadiy"
@@ -19,6 +18,7 @@ class PasswordChangeWrongTests(unittest.TestCase):
 
     def setUp(self):
         default_setup(self)
+        self.old_password = self.PASSWORD
         setup_auth(self)
         self.setting_page = SettingPage(self.driver)
         self.setting_page.open()
