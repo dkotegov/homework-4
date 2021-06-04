@@ -22,16 +22,22 @@ from tests.setting.change_username_wrong import UsernameChangeWrongTests
 from tests.playlist.playlist_create_success_tests import PlaylistCreateSuccessTests
 from tests.playlist.playlist_create_wrong_tests import PlaylistCreateWrongTests
 from tests.playlist.playlist_delete_tests import PlaylistDeleteTests
+from tests.playlist.playlist_add_film_success_tests import AddFilmInPlaylistSuccessTests
+from tests.playlist.playlist_add_film_wrong_tests import AddFilmInPlaylistWrongTests
+from tests.playlist.playlist_delete_film_tests import DeleteFilmFromPlaylistTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(PasswordChangeWrongTests))
+    #suite.addTest(unittest.makeSuite(AddFilmInPlaylistSuccessTests))
+    #suite.addTest(unittest.makeSuite(AddFilmInPlaylistWrongTests))
+    suite.addTest(unittest.makeSuite(DeleteFilmFromPlaylistTests))
+    '''suite.addTest(unittest.makeSuite(PasswordChangeWrongTests))
     suite.addTest(unittest.makeSuite(PasswordChangeSuccessTests))
     suite.addTest(unittest.makeSuite(UsernameChangeSuccessTests))
     suite.addTest(unittest.makeSuite(UsernameChangeWrongTests))
     suite.addTest(unittest.makeSuite(PlaylistCreateSuccessTests))
     suite.addTest(unittest.makeSuite(PlaylistCreateWrongTests))
-    suite.addTest(unittest.makeSuite(PlaylistDeleteTests))
+    suite.addTest(unittest.makeSuite(PlaylistDeleteTests))'''
     '''suite.addTest(unittest.makeSuite(AuthTests))
     suite.addTest(unittest.makeSuite(SignupSuccessTests))
     suite.addTest(unittest.makeSuite(SignupWrongTests))

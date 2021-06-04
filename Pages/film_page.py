@@ -1,6 +1,7 @@
 from Pages.page import Page
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 from utils.custom_expected_conditions import presence_number_of_elements as customEC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -16,6 +17,7 @@ class FilmPage(Page):
     NOTIFICATION_EXIST = '//div[@class="name__notificationFail--15d1Q"]'
     NOTIFICATION = '//span[@id="notification"]'
     STAR = '//label[@for="star-5"]'
+    SELECT = '//select'
     RATE = '//button[text()="Оценить"]'
     COMMENT_AREA = '//textarea[@id="msg"]'
     SUBMIT_COMMENT = '//button[@id="msg_button"]'
@@ -24,10 +26,20 @@ class FilmPage(Page):
     COMMENT = '//div[@class ="name__comments__underground--Zy1hx"]'
     ERROR_EMPTY = '//div[@class="name__error--FQ9hR"]'
 
-    def add_film_in_playlist(self):
-        self.open()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ADD_BUTTON)))
+
+    def select_playlist(self, playlist):
+        select = Select(self.driver.find_element_by_xpath(self.SELECT))
+        select.select_by_visible_text(playlist)
+
+    def submit_to_add_in_playlist(self):
         self.driver.find_element_by_xpath(self.ADD_BUTTON).click()
+
+    def add_film_in_playlist(self, playlist):
+        self.open()
+        self.select_playlist(playlist)
+        self.submit_to_add_in_playlist()
+        self.driver.find_element_by_xpath(self.NOTIFICATION)
+        WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, self.NOTIFICATION)))
 
     def check_adding_in_playlist_succes(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.NOTIFICATION_SUCCESS)))
