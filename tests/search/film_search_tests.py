@@ -2,6 +2,7 @@ import unittest
 from Pages.search_page import SearchPage
 from tests.default_setup import default_setup
 
+
 class FilmSearchTests(unittest.TestCase):
     def setUp(self):
         default_setup(self)
@@ -18,7 +19,6 @@ class FilmSearchTests(unittest.TestCase):
         self.search_page.wait_for_end_of_search()
         film_list = self.search_page.get_films_list()
         self.assertIn(string, film_list)
-
 
     def test_search_film_empty(self):
         string = "карпарация монстрав"
@@ -58,4 +58,3 @@ class FilmSearchTests(unittest.TestCase):
         self.search_page.wait_for_end_of_search()
         film_list = self.search_page.get_films_list()
         self.assertNotIn(check, film_list)
-

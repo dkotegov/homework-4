@@ -1,12 +1,8 @@
 from Pages.page import Page
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from utils.custom_expected_conditions import presence_number_of_elements as customEC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-
-import os
-import random
 
 
 class FilmPage(Page):
@@ -46,7 +42,6 @@ class FilmPage(Page):
             return False
         else:
             return True
-
 
     def select_star(self):
         self.driver.find_element_by_xpath(self.STAR).click()

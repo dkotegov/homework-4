@@ -1,5 +1,4 @@
 import unittest
-import os
 
 from Pages.film_page import FilmPage
 from tests.default_setup import default_setup

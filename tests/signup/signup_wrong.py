@@ -1,8 +1,7 @@
-import os
-
 import unittest
 from tests.default_setup import default_setup
 from Pages.signup_page import SignupPage
+
 
 class SignupWrongTests(unittest.TestCase):
     signup_login = "qqqqqq"
@@ -97,4 +96,3 @@ class SignupWrongTests(unittest.TestCase):
         self.signup_page.submit()
         error_msg = self.signup_page.get_error_bad_fields()
         self.assertEqual(error_msg, self.expected_error_clear_email)
-

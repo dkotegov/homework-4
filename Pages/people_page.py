@@ -1,5 +1,4 @@
 from Pages.page import Page
-from selenium.common.exceptions import NoSuchElementException
 
 
 class PeoplePage(Page):

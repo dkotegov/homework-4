@@ -1,5 +1,4 @@
 import unittest
-import os
 
 from Pages.film_page import FilmPage
 from tests.default_setup import default_setup
@@ -7,7 +6,6 @@ from steps.auth import setup_auth
 
 
 class ReratingTests(unittest.TestCase):
-
     expected_notification_success = "Вы успешно проголосвали!"
 
     def setUp(self):

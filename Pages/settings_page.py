@@ -1,7 +1,4 @@
 from Pages.page import Page
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 import os
 
 
@@ -22,7 +19,6 @@ class SettingPage(Page):
     ERROR_MSG_DIFFERENT_NEW = '//div[@id="differentPassword"]'
     NOTIFICATION = '//span[@id="notification"]'
 
-
     def set_old_pass(self, old):
         self.driver.find_element_by_xpath(self.OLD).send_keys(old)
 
@@ -33,7 +29,7 @@ class SettingPage(Page):
         self.driver.find_element_by_xpath(self.REPEAT).send_keys(new)
 
     def set_username(self, username):
-        self.driver.find_element_by_xpath(self.USERNAME).send_keys(username+'\t')
+        self.driver.find_element_by_xpath(self.USERNAME).send_keys(username + '\t')
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()
@@ -68,4 +64,3 @@ class SettingPage(Page):
 
     def get_avatar_text(self):
         return self.driver.find_element_by_xpath(self.AVATAR_INPUT).get_attribute("value")
-
