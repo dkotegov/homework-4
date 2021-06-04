@@ -11,9 +11,9 @@ class ProfilePage(Page):
     PLAYLIST_INPUT = '//input[@class="name__input_main--1fQSy"]'
     PLAYLIST_BUTTON = '//button[text()="Создать"]'
     PLAYLIST_NAME = '//div[@class="name__filmlenta_genre--2DRas"]'
-    PLAYLIST_DELETE = '//div[@class="name__delete--2d58m"]'
+    PLAYLIST_DELETE = '//div[@class="name__delete--2d58m"][contains(@id, "playlist")]'
     FILM_DELETE = '//div[@class="name__delete--2d58m"][contains(@id, "poster")]'
-    FILM_IN_PLAYLIST = '//div[@class="name__lenta__object--3-XkZ"]/a[@id="1"]'
+    FILM_IN_PLAYLIST = '//a[@id="2"]'
     FILMS_IN_PLAYLIST = '//div[@class="name__lenta__object--3-XkZ"]'
     SUBSCRIBERS = '//a[@id="subscribe"]'
     ENTRY = '//button[text()="Войти"]'
@@ -51,8 +51,12 @@ class ProfilePage(Page):
         return self.driver.find_elements_by_xpath(self.PLAYLIST_NAME)[-1].text
 
     def check_film_in_playlist(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.FILM_IN_PLAYLIST)))
-        self.driver.find_element_by_xpath(self.FILM_IN_PLAYLIST)
+        try:
+            self.driver.find_element_by_xpath(self.FILM_IN_PLAYLIST)
+        except NoSuchElementException:
+            return False
+        else:
+            return True
 
     def get_count_playlist(self):  # +-
         try:
@@ -61,6 +65,7 @@ class ProfilePage(Page):
             return 0
         else:
             return count
+
 
     def get_count_film_in_playlist(self):
         try:
@@ -73,8 +78,7 @@ class ProfilePage(Page):
     def delete_last_playlist(self):  # +
         self.driver.find_elements_by_xpath(self.PLAYLIST_DELETE)[-1].click()
 
-    def delete_film_from_playlist(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.FILM_DELETE)))
+    def delete_film_from_playlist(self):#+
         self.driver.find_element_by_xpath(self.FILM_DELETE).click()
 
     def create_playlist(self, name):
