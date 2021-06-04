@@ -28,8 +28,8 @@ from tests.playlist.playlist_delete_film_tests import DeleteFilmFromPlaylistTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    #suite.addTest(unittest.makeSuite(AddFilmInPlaylistSuccessTests))
-    #suite.addTest(unittest.makeSuite(AddFilmInPlaylistWrongTests))
+    suite.addTest(unittest.makeSuite(AddFilmInPlaylistSuccessTests))
+    suite.addTest(unittest.makeSuite(AddFilmInPlaylistWrongTests))
     suite.addTest(unittest.makeSuite(DeleteFilmFromPlaylistTests))
     '''suite.addTest(unittest.makeSuite(PasswordChangeWrongTests))
     suite.addTest(unittest.makeSuite(PasswordChangeSuccessTests))
