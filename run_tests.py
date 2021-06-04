@@ -15,11 +15,24 @@ from tests.search.people_search_tests import PeopleSearchTests
 from tests.search.all_search_tests import AllSearchTests
 from tests.search.save_instanse_search_test import SaveInstanceSearchTests
 from tests.comment.comments_tests import CommentsTests
+from tests.setting.change_password_wrong import PasswordChangeWrongTests
+from tests.setting.change_password_success import PasswordChangeSuccessTests
+from tests.setting.change_username_success import UsernameChangeSuccessTests
+from tests.setting.change_username_wrong import UsernameChangeWrongTests
+from tests.playlist.playlist_create_success_tests import PlaylistCreateSuccessTests
+from tests.playlist.playlist_create_wrong_tests import PlaylistCreateWrongTests
+from tests.playlist.playlist_delete_tests import PlaylistDeleteTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    # suite.addTest(unittest.makeSuite(SettingsTests))
-    suite.addTest(unittest.makeSuite(AuthTests))
+    suite.addTest(unittest.makeSuite(PasswordChangeWrongTests))
+    suite.addTest(unittest.makeSuite(PasswordChangeSuccessTests))
+    suite.addTest(unittest.makeSuite(UsernameChangeSuccessTests))
+    suite.addTest(unittest.makeSuite(UsernameChangeWrongTests))
+    suite.addTest(unittest.makeSuite(PlaylistCreateSuccessTests))
+    suite.addTest(unittest.makeSuite(PlaylistCreateWrongTests))
+    suite.addTest(unittest.makeSuite(PlaylistDeleteTests))
+    '''suite.addTest(unittest.makeSuite(AuthTests))
     suite.addTest(unittest.makeSuite(SignupSuccessTests))
     suite.addTest(unittest.makeSuite(SignupWrongTests))
     suite.addTest(unittest.makeSuite(SubscribeTests))
@@ -32,7 +45,7 @@ if __name__ == '__main__':
     suite.addTest(unittest.makeSuite(PeopleSearchTests))
     suite.addTest(unittest.makeSuite(AllSearchTests))
     suite.addTest(unittest.makeSuite(SaveInstanceSearchTests))
-    suite.addTest(unittest.makeSuite(CommentsTests))
+    suite.addTest(unittest.makeSuite(CommentsTests))'''
     result = unittest.TextTestRunner().run(suite)
     successfulRes = result.wasSuccessful()
     if not successfulRes:

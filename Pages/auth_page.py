@@ -9,8 +9,6 @@ import os
 
 
 class AuthPage(Page):
-    USERNAME_INPUT = os.environ['LOGIN']
-    PASSWORD_INPUT = os.environ['PASSWORD']
     PATH = '/login'
     LOGIN = '//input[@name="login"]'
     PASSWORD = '//input[@name="password"]'

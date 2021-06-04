@@ -23,25 +23,22 @@ class ProfilePage(Page):
     FRIEND = '//a[@href="people/17"]'
     FRIENDLIST = '//a[@class="name__friendList_login--gKHhK"]'
     DELETE_SUBSCRIBE = '//div[@id="profile/17"]'
+    NOTIFICATION = '//span[@id="notification"]'
 
 
     def open_subscribers(self):
         self.open()
         self.driver.find_element_by_xpath(self.SUBSCRIBERS).click()
 
-    def open_playlist(self):
+    def open_playlist(self):#+
         self.open()
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.PLAYLIST)))
         self.driver.find_element_by_xpath(self.PLAYLIST).click()
 
-    def set_playlist(self, new):
+    def set_playlist(self, new):#+
         self.driver.find_element_by_xpath(self.PLAYLIST_INPUT).send_keys(new)
 
-    def submit_playlist(self):
+    def submit_playlist(self):#+
         self.driver.find_element_by_xpath(self.PLAYLIST_BUTTON).click()
-
-    def wait_playlist_create(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.PLAYLIST_NAME)))
 
     def wait_playlist_delete(self):
         WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, self.PLAYLIST_NAME)))
@@ -52,19 +49,14 @@ class ProfilePage(Page):
     def wait_film_delete(self):
         WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, self.FILM_IN_PLAYLIST)))
 
-    def check_playlist(self, playlist):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.PLAYLIST_NAME)))
-        name = self.driver.find_element_by_xpath(self.PLAYLIST_NAME).text
-        if name == playlist:
-            return True
-        else:
-            return False
+    def get_last_playlist_name(self):#+
+        return self.driver.find_elements_by_xpath(self.PLAYLIST_NAME)[-1].text
 
     def check_film_in_playlist(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.FILM_IN_PLAYLIST)))
         self.driver.find_element_by_xpath(self.FILM_IN_PLAYLIST)
 
-    def get_count_playlist(self):
+    def get_count_playlist(self):#+-
         try:
             count = len(self.driver.find_elements_by_xpath(self.PLAYLIST_NAME))
         except NoSuchElementException:
@@ -80,9 +72,8 @@ class ProfilePage(Page):
         else:
             return count - 1
 
-    def delete_playlist(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.PLAYLIST_DELETE)))
-        self.driver.find_element_by_xpath(self.PLAYLIST_DELETE).click()
+    def delete_last_playlist(self):#+
+        self.driver.find_elements_by_xpath(self.PLAYLIST_DELETE)[-1].click()
 
     def delete_film_from_playlist(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.FILM_DELETE)))
@@ -92,6 +83,8 @@ class ProfilePage(Page):
         self.open_playlist()
         self.set_playlist(name)
         self.submit_playlist()
+        self.driver.find_element_by_xpath(self.NOTIFICATION)
+        WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, self.NOTIFICATION)))
 
     def get_subscribe_list(self):
         elements = self.driver.find_elements_by_xpath(self.FRIENDLIST)
@@ -119,3 +112,7 @@ class ProfilePage(Page):
     def delete_user(self):
         self.driver.find_element_by_xpath(self.DELETE_USER).click()
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.ENTRY)))
+
+    def get_notification_text(self):
+        return self.driver.find_element_by_xpath(self.NOTIFICATION).text
+
