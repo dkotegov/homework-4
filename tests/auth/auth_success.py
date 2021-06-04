@@ -25,7 +25,6 @@ class AuthTests(unittest.TestCase):
         current_login = get_profile_login(self)
         self.assertEqual(self.LOGIN, current_login)
 
-
     '''def test_auth_wrong_login(self):
         auth_page = AuthPage(self.driver)
         password = os.environ['PASSWORD']

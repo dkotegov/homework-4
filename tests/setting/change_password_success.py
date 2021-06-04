@@ -6,6 +6,7 @@ from Pages.settings_page import SettingPage
 from steps.auth import setup_auth
 from steps.logout import logout
 
+
 class PasswordChangeSuccessTests(unittest.TestCase):
     new_password = "Arkady123"
     expected_notification_success = "Данные сохранены"

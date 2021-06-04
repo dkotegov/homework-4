@@ -25,6 +25,8 @@ from tests.playlist.playlist_delete_tests import PlaylistDeleteTests
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(SignupSuccessTests))
+    suite.addTest(unittest.makeSuite(SignupWrongTests))
     suite.addTest(unittest.makeSuite(PasswordChangeWrongTests))
     suite.addTest(unittest.makeSuite(PasswordChangeSuccessTests))
     suite.addTest(unittest.makeSuite(UsernameChangeSuccessTests))
@@ -32,20 +34,17 @@ if __name__ == '__main__':
     suite.addTest(unittest.makeSuite(PlaylistCreateSuccessTests))
     suite.addTest(unittest.makeSuite(PlaylistCreateWrongTests))
     suite.addTest(unittest.makeSuite(PlaylistDeleteTests))
-    '''suite.addTest(unittest.makeSuite(AuthTests))
-    suite.addTest(unittest.makeSuite(SignupSuccessTests))
-    suite.addTest(unittest.makeSuite(SignupWrongTests))
+    suite.addTest(unittest.makeSuite(AuthTests))
     suite.addTest(unittest.makeSuite(SubscribeTests))
     suite.addTest(unittest.makeSuite(UnsubscribeTests))
     suite.addTest(unittest.makeSuite(RatingTestsFirst))
     suite.addTest(unittest.makeSuite(ReratingTests))
-    #suite.addTest(unittest.makeSuite(PlaylistTests))
     suite.addTest(unittest.makeSuite(FilmSearchTests))
     suite.addTest(unittest.makeSuite(ActorsSearchTests))
     suite.addTest(unittest.makeSuite(PeopleSearchTests))
     suite.addTest(unittest.makeSuite(AllSearchTests))
     suite.addTest(unittest.makeSuite(SaveInstanceSearchTests))
-    suite.addTest(unittest.makeSuite(CommentsTests))'''
+    suite.addTest(unittest.makeSuite(CommentsTests))
     result = unittest.TextTestRunner().run(suite)
     successfulRes = result.wasSuccessful()
     if not successfulRes:
