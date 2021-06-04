@@ -58,11 +58,6 @@ class FilmPage(Page):
     def submit_comment(self):
         self.driver.find_element_by_xpath(self.SUBMIT_COMMENT).click()
 
-    def create_comment(self, comment):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.COMMENT_AREA)))
-        self.set_comment(comment)
-        self.submit_comment()
-
     def wait_comment(self):
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.COMMENTS_NAME)))
 

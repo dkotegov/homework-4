@@ -95,15 +95,6 @@ class ProfilePage(Page):
         self.driver.find_element_by_xpath(self.DELETE_SUBSCRIBE).click()
         WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.XPATH, self.FRIEND)))
 
-    def check_username(self, username):
-        self.open()
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, self.USERNAME)))
-        username_in_profile = self.driver.find_element_by_xpath(self.USERNAME).text
-        if username_in_profile == username:
-            return True
-        else:
-            return False
-
     def get_username(self):
         return self.driver.find_element_by_xpath(self.USERNAME).text
 
