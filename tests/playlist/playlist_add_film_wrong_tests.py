@@ -5,7 +5,6 @@ from tests.default_setup import default_setup
 from steps.auth import setup_auth
 
 
-
 class AddFilmInPlaylistWrongTests(unittest.TestCase):
     playlist_name = "playlist"
     expected_notification_exist = "Вы уже добавили этот фильм в плэйлист"
@@ -17,7 +16,6 @@ class AddFilmInPlaylistWrongTests(unittest.TestCase):
         self.profile_page.create_playlist(self.playlist_name)
         self.film_page = FilmPage(self.driver)
         self.film_page.add_film_in_playlist(self.playlist_name)
-
 
     def tearDown(self):
         self.profile_page.open_playlist()

@@ -29,7 +29,7 @@ class SettingPage(Page):
         self.driver.find_element_by_xpath(self.REPEAT).send_keys(new)
 
     def set_username(self, username):
-        self.driver.find_element_by_xpath(self.USERNAME).send_keys(username + '\t')
+        self.driver.find_element_by_xpath(self.USERNAME).send_keys(username)
 
     def submit(self):
         self.driver.find_element_by_xpath(self.SUBMIT).click()

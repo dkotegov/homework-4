@@ -5,7 +5,6 @@ from tests.default_setup import default_setup
 from steps.auth import setup_auth
 
 
-
 class DeleteFilmFromPlaylistTests(unittest.TestCase):
     playlist_name = "playlist"
     expected_notification_delete_playlist = "Фильм удален"
@@ -19,7 +18,6 @@ class DeleteFilmFromPlaylistTests(unittest.TestCase):
         self.film_page.add_film_in_playlist(self.playlist_name)
         self.profile_page.open()
 
-
     def tearDown(self):
         self.profile_page.delete_last_playlist()
         self.driver.quit()
@@ -28,4 +26,3 @@ class DeleteFilmFromPlaylistTests(unittest.TestCase):
         self.profile_page.delete_film_from_playlist()
         notification_text = self.profile_page.get_notification_text()
         self.assertEqual(notification_text, self.expected_notification_delete_playlist)
-

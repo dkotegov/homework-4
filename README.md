@@ -14,8 +14,11 @@ PASSWORD; - Пароль существующего пользователя <br
 ```shell script
 ./grid.sh
 ./node.sh
- LOGIN=<...> PASSWORD=<...> python3 run_tests.py
+ LOGIN=<...> PASSWORD=<...> BROWSER=<...> python3 run_tests.py
 ```
 
 #### Чеклист:
 [jira](http://jira.bmstu.cloud/browse/QA-1066) Нас в команде двое, делали все вместе
+
+
+![](media/test_success.png)

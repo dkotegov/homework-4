@@ -66,7 +66,6 @@ class ProfilePage(Page):
         else:
             return count
 
-
     def get_count_film_in_playlist(self):
         try:
             count = len(self.driver.find_elements_by_xpath(self.FILMS_IN_PLAYLIST))
@@ -78,7 +77,7 @@ class ProfilePage(Page):
     def delete_last_playlist(self):  # +
         self.driver.find_elements_by_xpath(self.PLAYLIST_DELETE)[-1].click()
 
-    def delete_film_from_playlist(self):#+
+    def delete_film_from_playlist(self):  # +
         self.driver.find_element_by_xpath(self.FILM_DELETE).click()
 
     def create_playlist(self, name):

@@ -22,7 +22,6 @@ class FilmPage(Page):
     COMMENT = '//div[@class ="name__comments__underground--Zy1hx"]'
     ERROR_EMPTY = '//div[@class="name__error--FQ9hR"]'
 
-
     def select_playlist(self, playlist):
         select = Select(self.driver.find_element_by_xpath(self.SELECT))
         select.select_by_visible_text(playlist)
@@ -36,24 +35,6 @@ class FilmPage(Page):
         self.submit_to_add_in_playlist()
         self.driver.find_element_by_xpath(self.NOTIFICATION)
         WebDriverWait(self.driver, 5).until(EC.invisibility_of_element_located((By.XPATH, self.NOTIFICATION)))
-
-    def check_adding_in_playlist_succes(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.NOTIFICATION_SUCCESS)))
-        try:
-            self.driver.find_elements_by_xpath(self.NOTIFICATION_SUCCESS)
-        except NoSuchElementException:
-            return False
-        else:
-            return True
-
-    def check_adding_in_playlist_exist(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, self.NOTIFICATION_EXIST)))
-        try:
-            self.driver.find_elements_by_xpath(self.NOTIFICATION_EXIST)
-        except NoSuchElementException:
-            return False
-        else:
-            return True
 
     def select_star(self):
         self.driver.find_element_by_xpath(self.STAR).click()

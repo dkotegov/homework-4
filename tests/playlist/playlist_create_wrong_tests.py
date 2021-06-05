@@ -25,8 +25,8 @@ class PlaylistCreateWrongTests(unittest.TestCase):
 
     def test_create_playlist_count(self):
         count_playlists_before_adding = self.profile_page.get_count_playlist()
-        self.profile_page.set_playlist(self.expected_notification_empty_name)
+        self.profile_page.set_playlist(self.empty_playlist_name)
         self.profile_page.submit_playlist()
         self.profile_page.get_notification_text()
         count_playlists_after_adding = self.profile_page.get_count_playlist()
-        self.assertLess(count_playlists_before_adding, count_playlists_after_adding)
+        self.assertEqual(count_playlists_before_adding, count_playlists_after_adding)
