@@ -64,3 +64,4 @@ class SettingPage(Page):
 
     def get_avatar_text(self):
         return self.driver.find_element_by_xpath(self.AVATAR_INPUT).get_attribute("value")
+
