@@ -170,22 +170,6 @@ class MenuTests(unittest.TestCase):
         self.home_page.check_favorite(elements_list[2].text, True)
         delete_elements(self)
 
-    # IW
-    # def test_add_to_favorite_icon(self):
-    #     create_elements(self, [self.NAME_CREATE])
-    #     elements_list = self.home_page.take_all_elements()
-    #     self.home_page.click_close_dialog()
-    #     self.home_page.click_element(elements_list[1].text)
-    #     self.home_page.click_add_favorite_icon(elements_list[1].text, True)
-    #     delete_elements(self)
-    #
-    # def test_remove_to_favorite_icon(self):
-    #     create_elements(self, [self.NAME_CREATE])
-    #     elements_list = self.home_page.take_all_elements()
-    #     self.home_page.click_element(elements_list[2].text)
-    #     self.home_page.click_add_favorite_icon(elements_list[2].text, False)
-    #     delete_elements(self)
-
     def test_remove_to_favorite_from_menu(self):
         create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE, self.NEW_NAME_FOLDER])
         elements_list = self.home_page.take_all_elements()
@@ -228,6 +212,7 @@ class MenuTests(unittest.TestCase):
         list_file = os.listdir('data')
         for name_file in list_file:
             self.home_page.click_upload()
+            delete_elements(self)
             self.home_page.input_file(name_file)
             result = self.home_page.wait_load()
             self.assertEqual('Загрузка успешно завершена', result)
@@ -352,21 +337,6 @@ class MenuTests(unittest.TestCase):
         self.assertEqual(
             'https://cloud.mail.ru/office/edit/home/%D0%9D%D0%BE%D0%B2%D0%B0'
             '%D1%8F%20%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0.xlsx',
-            url)
-        self.home_page.swap_first()
-        delete_elements(self)
-
-    def test_create_presentation_toolbar(self):
-        self.home_page.click_close_dialog()
-        self.home_page.create_from_toolbar()
-        self.home_page.create_presentationx()
-        self.home_page.swap_first()
-        self.home_page.wait_create_element('Новая презентация.pptx')
-        url = self.home_page.check_url()
-        self.assertEqual(
-            'https://cloud.mail.ru/office/edit/home/%D0%9D%D0%BE%D0%B2%D0%B0'
-            '%D1%8F%20%D0%BF%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86'
-            '%D0%B8%D1%8F.pptx',
             url)
         self.home_page.swap_first()
         delete_elements(self)

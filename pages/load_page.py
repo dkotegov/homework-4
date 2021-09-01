@@ -102,7 +102,8 @@ class HomePage(Page):
     UPLOAD_BLUE_BUTTON_CIRCLE = '//div[@class="Upload__circle--3zdwT"]'
     CLOSE_DIALOG = '//div[@class="Bubble__close--1cFFu"]'
     INFO_MESSANGE = '//div[@class="Snackbars__snackbar--a-agp ' \
-                    'Snackbars__closable--2wGjU"]'
+                    'Snackbars__closable--2wGjU"]//div' \
+                    '[contains(text(),"Загрузка успешно завершена")]'
     INFO_MESSANGE_RE = '//div[@class="Snackbars__snackbar--a-agp ' \
                        'Snackbars__closable--2wGjU"]//div[contains(text(),' \
                        '"Все файлы восстановлены")] '
@@ -161,11 +162,6 @@ class HomePage(Page):
 
     def save_elements_by_icon(self):
         self.driver.find_element_by_xpath(self.SAVE_ICON).click()
-
-    # def save_element_from_the_menu(self):
-    #     self.driver.find_element_by_xpath(self.LOAD_FROM_MENU).click()
-    #     path = "/Users/"
-    #     list = os.listdir(path)
 
     def copy_element(self):
         self.driver.find_element_by_xpath(self.COPY_FROM_MENU).click()
