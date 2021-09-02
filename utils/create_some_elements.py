@@ -31,6 +31,7 @@ def upload_elements(t):
         home_page.input_file(name_file)
         home_page.wait_load()
 
+
 def favorite_add(t, elements_list):
     home_page = HomePage(t.driver)
     elem = home_page.open_drop_menu(elements_list[1])
