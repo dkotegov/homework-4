@@ -3,8 +3,10 @@ import unittest
 
 from pages.load_page import HomePage
 from utils.auth import setup_auth
-from utils.create_some_elements import create_elements, delete_elements, \
-                                       upload_elements, favorite_add
+from utils.create_some_elements import (
+    create_elements, delete_elements, upload_elements,
+    favorite_add, base_view
+)
 from test.default_setup import default_setup
 
 
@@ -28,6 +30,9 @@ class MenuTests(unittest.TestCase):
         default_setup(self)
         setup_auth(self)
         self.home_page = HomePage(self.driver)
+
+    def tearDown(self):
+        self.driver.quit()
 
     def test_load_file_menu(self):
         create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE])
@@ -217,13 +222,6 @@ class MenuTests(unittest.TestCase):
             result = self.home_page.wait_load()
             self.assertEqual('Загрузка успешно завершена', result)
         delete_elements(self)
-
-    def test_upload_files(self):
-        list_file = os.listdir('data')
-        for name_file in list_file:
-            self.home_page.click_upload_blue_button(name_file)
-            result = self.home_page.wait_load()
-            self.assertEqual('Загрузка успешно завершена', result)
 
     def test_create_folder(self):
         elements = self.home_page.take_all_elements()
@@ -415,31 +413,41 @@ class MenuTests(unittest.TestCase):
             self.home_page.check_select_filter_mail()
 
     def test_change_view_list(self):
-        upload_elements(self)
+        create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE,
+                               self.NEW_NAME_FOLDER])
         self.home_page.click_view()
         self.home_page.select_view_list()
+        base_view(self)
         delete_elements(self)
 
     def test_change_view_table(self):
-        upload_elements(self)
+        create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE,
+                               self.NEW_NAME_FOLDER])
         self.home_page.click_view()
         self.home_page.select_view_table()
+        base_view(self)
         delete_elements(self)
 
     def test_change_sort_date(self):
-        upload_elements(self)
+        create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE,
+                               self.NEW_NAME_FOLDER])
         self.home_page.click_sort()
         self.home_page.select_sort_date()
+        base_view(self)
         delete_elements(self)
 
     def test_change_sort_size(self):
-        upload_elements(self)
+        create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE,
+                               self.NEW_NAME_FOLDER])
         self.home_page.click_sort()
         self.home_page.select_sort_size()
+        base_view(self)
         delete_elements(self)
 
     def test_change_sort_alfa(self):
-        upload_elements(self)
+        create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE,
+                               self.NEW_NAME_FOLDER])
         self.home_page.click_sort()
         self.home_page.select_sort_alfa()
+        base_view(self)
         delete_elements(self)

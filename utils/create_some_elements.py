@@ -31,9 +31,16 @@ def upload_elements(t):
         home_page.input_file(name_file)
         home_page.wait_load()
 
-
 def favorite_add(t, elements_list):
     home_page = HomePage(t.driver)
     elem = home_page.open_drop_menu(elements_list[1])
     home_page.add_to_favorite()
     home_page.check_favorite(elem, True)
+
+
+def base_view(t):
+    home_page = HomePage(t.driver)
+    home_page.click_view()
+    home_page.select_view_table()
+    home_page.click_sort()
+    home_page.select_sort_alfa()

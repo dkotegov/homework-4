@@ -19,3 +19,6 @@ class AuthTests(unittest.TestCase):
         self.auth_page.open_cloud()
         current_login = self.auth_page.check_log()
         self.assertEqual(self.LOGIN, current_login)
+
+    def tearDown(self):
+        self.driver.quit()
