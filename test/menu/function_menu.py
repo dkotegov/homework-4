@@ -60,7 +60,8 @@ class MenuTests(unittest.TestCase):
         upload_elements(self)
         self.home_page.take_all_highlight()
         self.home_page.save_elements()
-        delete_elements(self)
+        self.home_page.del_elements()
+        self.home_page.click_button_delete()
 
     def test_off_all_highlight(self):
         create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE])
@@ -214,13 +215,14 @@ class MenuTests(unittest.TestCase):
 
     def test_upload_file(self):
         self.home_page.click_close_dialog()
+        delete_elements(self)
         list_file = os.listdir('data')
         for name_file in list_file:
             self.home_page.click_upload()
-            delete_elements(self)
             self.home_page.input_file(name_file)
             result = self.home_page.wait_load()
             self.assertEqual('Загрузка успешно завершена', result)
+        self.home_page.close_window_upload()
         delete_elements(self)
 
     def test_create_folder(self):
@@ -352,7 +354,7 @@ class MenuTests(unittest.TestCase):
         self.home_page.check_url()
         for name_offer in self.OFFER:
             self.home_page.click_swap(name_offer)
-            select_offer = self.home_page.check_select_offer(name_offer)
+            select_offer = self.home_page.check_select_offer()
             self.assertEqual(name_offer, select_offer)
 
     def test_open_subscription(self):
@@ -421,8 +423,8 @@ class MenuTests(unittest.TestCase):
         delete_elements(self)
 
     def test_change_view_table(self):
-        create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE,
-                               self.NEW_NAME_FOLDER])
+        base_view(self)
+        create_elements(self, [self.NAME_CREATE, self.NAME_CREATE_SHARE, self.NEW_NAME_FOLDER])
         self.home_page.click_view()
         self.home_page.select_view_table()
         base_view(self)

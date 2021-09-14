@@ -126,15 +126,13 @@ class HomePage(Page):
     CHECK_SUB = '//div[@class="SidebarSubscriptionItem__description--W94gM"]'
     FAVORITE_ICON_ADDED = "//div[@class='DataListItemThumb__favorites--Tf2hs " \
                           "DataListItemThumb__favorites_active--18o9C']"
-    SELECT_MAIL = """//a[@class="TabMenuItem__item--FfF2c TabMenuItem__""" \
-                  'item_active--2RJGw TabMenuItem__item_bottomLine--1nDx2"]' \
-                  """//div['@class="TabMenuItem__name--50rg8"]"""
-    DEFAULT_OFFER = """//a[@class="TabMenuItem__item--FfF2c TabMenuItem__""" \
-                    """item_active--2RJGw"]//div['@class="TabMenuItem__""" \
-                    """name--50rg8"]"""
-    SPECIAL_OFFER = """//a[@class="TabMenuItem__item--FfF2c TabMenuItem__""" \
-                    """item_active--2RJGw TabMenuItem__item_white--1J1oF"]""" \
-                    """//div['@class="TabMenuItem__name--50rg8"]"""
+    SELECT_MAIL = '//a[@class="TabMenuItem__item--FfF2c TabMenuItem__item_active--2RJGw' \
+                  ' TabMenuItem__item_bottomLine--1nDx2"]//div[@class="TabMenuItem__name--50rg8"]'
+    DEFAULT_OFFER = '//a[@class="TabMenuItem__item--FfF2c TabMenuItem__item_active--2RJGw"]' \
+                    '//div[@class="TabMenuItem__name--50rg8"]'
+    CLOSE_UPLOAD_WINDOWS = '//div[@class="Controls__close--2Y4Yr"]'
+    CLOSE_WINDOW_UPLOAD = '//div[@class="Progress__icon--Y98lE"]//*[' \
+                          'local-name()="svg"] '
 
     def open_drop_menu(self, name):
         ActionChains(self.driver).context_click(name).perform()
@@ -379,6 +377,9 @@ class HomePage(Page):
             EC.presence_of_element_located(
                 (By.XPATH, f'//a[@data-qa-name="{name}"]')))
 
+    def wait(self):
+        self.driver.implicitly_wait(4)
+
     def wait_load(self):
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(
@@ -429,11 +430,8 @@ class HomePage(Page):
     def check_history_buy(self):
         return self.driver.find_element_by_xpath(self.PAYMENT_HISTORY).text
 
-    def check_select_offer(self, name):
-        if name == "Спецпредложение":
-            return self.driver.find_element_by_xpath(self.SPECIAL_OFFER).text
-        else:
-            return self.driver.find_element_by_xpath(self.DEFAULT_OFFER).text
+    def check_select_offer(self):
+        return self.driver.find_element_by_xpath(self.DEFAULT_OFFER).text
 
     def check_select_filter_mail(self):
         return self.driver.find_element_by_xpath(self.SELECT_MAIL).text
@@ -441,6 +439,11 @@ class HomePage(Page):
     def check_url(self):
         self.driver.switch_to_window(self.driver.window_handles[1])
         return self.driver.current_url
+
+    def close_window_upload(self):
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located(
+            (By.XPATH, self.CLOSE_WINDOW_UPLOAD)))
+        self.driver.find_element_by_xpath(self.CLOSE_UPLOAD_WINDOWS).click()
 
     def save_element_from_the_menu(self):
         browser_downloads = "chrome://downloads/"

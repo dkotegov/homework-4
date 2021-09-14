@@ -20,6 +20,7 @@ def delete_elements(t):
     home_page.take_all_highlight()
     home_page.del_elements()
     home_page.click_button_delete()
+    home_page.wait()
 
 
 def upload_elements(t):
