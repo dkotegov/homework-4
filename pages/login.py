@@ -2,9 +2,9 @@ from selenium.webdriver.common.by import By
 from pages.default_page import DefaultPage
 
 
-class AllSellerProductsPage(DefaultPage):
-    PATH = "user/1/ad"
-    TITLE = ".product-table__title"
+class LoginPage(DefaultPage):
+    PATH = ""
+    TITLE = ".auth-content-inner__title"
 
     def get_title(self):
         return self.driver.find_element(By.CSS_SELECTOR, self.TITLE).text

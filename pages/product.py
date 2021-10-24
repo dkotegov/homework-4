@@ -11,6 +11,8 @@ class ProductPage(DefaultPage):
     SELLER_NAME = '.info-card__name'
     SELLER_IMAGE = '.info-card__image'
     SELLER_RATING = '.info-card-rating'
+    PHONE = '.info-card-btn__number'
+    MASSAGE = '.info-card-btn__massage'
 
     def selected_img_src_from_slider(self):
         return self.driver.find_element(By.CSS_SELECTOR, self.SLIDER_SELECTED_IMG).get_attribute("src")
@@ -23,14 +25,20 @@ class ProductPage(DefaultPage):
         img[randrange(len(img))].click()
 
     def click_on_seller_name(self):
-        self.__click_link(self.SELLER_NAME)
+        self.__click_button(self.SELLER_NAME)
 
     def click_on_seller_img(self):
-        self.__click_link(self.SELLER_IMAGE)
+        self.__click_button(self.SELLER_IMAGE)
 
     def click_on_seller_rate(self):
-        self.__click_link(self.SELLER_RATING)
+        self.__click_button(self.SELLER_RATING)
 
-    def __click_link(self, selector):
-        link = self.driver.find_element(By.CSS_SELECTOR, self.SELLER_RATING)
+    def click_phone(self):
+        self.__click_button(self.PHONE)
+
+    def click_massage(self):
+        self.__click_button(self.MASSAGE)
+
+    def __click_button(self, selector):
+        link = self.driver.find_element(By.CSS_SELECTOR, selector)
         link.click()
