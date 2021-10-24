@@ -12,8 +12,8 @@ class DefaultPage:
 
     def open(self):
         url = self.BASE_URL + self.PATH
-        self.driver.get(url)
         self.driver.maximize_window()
+        self.driver.get(url)
 
     def __click_button__(self, selector):
         self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))

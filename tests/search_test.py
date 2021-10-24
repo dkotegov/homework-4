@@ -20,9 +20,11 @@ class SearchTest(unittest.TestCase):
         resGood = self.search.enterAmount("1000")
         self.assertTupleEqual(("1 000", "1 000"), resGood, "Некорректный результат")
         self.search.clearAmount()
+
         resBad = self.search.enterAmount("incorrect")
         self.assertTupleEqual(("", ""), resBad, "Некорректный результат")
         self.search.clearAmount()
+
         resBad = self.search.enterAmount("10000000000000")
         self.assertTupleEqual(("1 000 000 000", "1 000 000 000"), resBad, "Некорректный результат")
 
@@ -37,7 +39,6 @@ class SearchTest(unittest.TestCase):
         """Проверить, что при нажатии на "По имени" из списка “Сортировка по”, объявления выдаются в алфавитном
         порядке """
         self.search.changeSortName()
-        time.sleep(1)
         products = self.search.getAllNameProducts()
         listNotSorted = []
         listSorted = []
@@ -51,7 +52,6 @@ class SearchTest(unittest.TestCase):
         """Проверить, что при нажатии на "По убыванию цены" из списка “Сортировка по”, объявления выдаются от
         наибольшей цены к наименьшей """
         self.search.changeSortAmountDown()
-        time.sleep(2)
         products = self.search.getAllAmountProducts()
         listNotSorted = []
         listSorted = []
@@ -65,7 +65,6 @@ class SearchTest(unittest.TestCase):
         """Проверить, что при нажатии на "По возрастанию цены" из списка “Сортировка по”, объявления выдаются от
         наименьшей цены к наибольшей """
         self.search.changeSortAmountUp()
-        time.sleep(2)
         products = self.search.getAllAmountProducts()
         listNotSorted = []
         listSorted = []
