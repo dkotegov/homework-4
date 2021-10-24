@@ -1,8 +1,7 @@
-import time
 from random import randrange
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.select import Select
 from pages.default_page import DefaultPage
 
 
@@ -11,6 +10,11 @@ class SearchPage(DefaultPage):
     FROM_A = ".search-filter-amount__from"
     TO_A = ".search-filter-amount__to"
     PRODUCTS = ".product-card"
+    PRODUCTS_NAME = ".product-card-info__name"
+    PRODUCTS_AMOUNT = ".product-card-info__amount"
+    SORT = ".search-items__sort"
+
+    elements = []
 
     def clearAmount(self):
         self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.FROM_A)))
@@ -33,3 +37,28 @@ class SearchPage(DefaultPage):
         self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.PRODUCTS)))
         products = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS)
         products[randrange(len(products))].click()
+
+    def getAllNameProducts(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PRODUCTS)))
+        products = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_NAME)
+        return products
+
+    def getAllAmountProducts(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PRODUCTS)))
+        products = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_AMOUNT)
+        return products
+
+    def changeSortName(self):
+        self.__changeSort('По имени')
+
+    def changeSortAmountDown(self):
+        self.__changeSort('По убыванию цены')
+
+    def changeSortAmountUp(self):
+        self.__changeSort('По возрастанию цены')
+
+    def __changeSort(self, param):
+        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.SORT)))
+        sort = Select(self.driver.find_element(By.CSS_SELECTOR, self.SORT))
+        sort.select_by_visible_text(param)
+        self.elements = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_NAME)

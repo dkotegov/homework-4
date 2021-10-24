@@ -1,10 +1,9 @@
+import time
 import unittest
 from selenium import webdriver
-
-from pages.all_seller_products import AllSellerProductsPage
-from pages.login import LoginPage
 from pages.product import ProductPage
 from pages.search import SearchPage
+from utils.natural_sort import natural_sort
 
 
 class SearchTest(unittest.TestCase):
@@ -33,6 +32,48 @@ class SearchTest(unittest.TestCase):
         self.search.clickProduct()
         self.assertTrue(self.product.page_exist(),
                         "Не удалось открыть товар")
+
+    def testSearchSortName(self):
+        """Проверить, что при нажатии на "По имени" из списка “Сортировка по”, объявления выдаются в алфавитном
+        порядке """
+        self.search.changeSortName()
+        time.sleep(1)
+        products = self.search.getAllNameProducts()
+        listNotSorted = []
+        listSorted = []
+        for item in products:
+            listNotSorted.append(item.text)
+            listSorted.append(item.text)
+        listSorted = natural_sort(listSorted)
+        self.assertListEqual(listNotSorted, listSorted, "Список упорядочен не по алфавиту")
+
+    def testSearchSortAmountDown(self):
+        """Проверить, что при нажатии на "По убыванию цены" из списка “Сортировка по”, объявления выдаются от
+        наибольшей цены к наименьшей """
+        self.search.changeSortAmountDown()
+        time.sleep(2)
+        products = self.search.getAllAmountProducts()
+        listNotSorted = []
+        listSorted = []
+        for item in products:
+            listNotSorted.append(int(item.text[0:-1].replace(" ", "")))
+            listSorted.append(int(item.text[0:-1].replace(" ", "")))
+        listSorted = sorted(listSorted, reverse=True)
+        self.assertListEqual(listNotSorted, listSorted, "Список упорядочен не по убыванию цены")
+
+    def testSearchSortAmountUp(self):
+        """Проверить, что при нажатии на "По возрастанию цены" из списка “Сортировка по”, объявления выдаются от
+        наименьшей цены к наибольшей """
+        self.search.changeSortAmountUp()
+        time.sleep(2)
+        products = self.search.getAllAmountProducts()
+        listNotSorted = []
+        listSorted = []
+        for item in products:
+            listNotSorted.append(int(item.text[0:-1].replace(" ", "")))
+            listSorted.append(int(item.text[0:-1].replace(" ", "")))
+        listSorted = sorted(listSorted)
+        self.assertListEqual(listNotSorted, listSorted, "Список упорядочен не по возрастанию цены")
 
     def tearDown(self):
         self.driver.close()

@@ -1,6 +1,5 @@
 import unittest
 from selenium import webdriver
-
 from pages.all_seller_products import AllSellerProductsPage
 from pages.login import LoginPage
 from pages.product import ProductPage

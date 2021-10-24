@@ -1,5 +1,4 @@
 from random import randrange
-
 from selenium.webdriver.common.by import By
 from pages.default_page import DefaultPage
 from selenium.webdriver.support import expected_conditions as EC
