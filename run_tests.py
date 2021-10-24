@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from tests import ProductTest
+from tests import ProductTest, AllSellerProductsTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(ProductTest)
+        unittest.makeSuite(ProductTest),
+        unittest.makeSuite(AllSellerProductsTest)
     ))
-    unittest.TextTestRunner().run(suite)
 
-#driver = webdriver.Chrome('/Users/ivangorshkov/chromedriver')
-#driver.get("http://www.python.org")
-#assert "Python" in driver.title
-#time.sleep(5)
-#driver.close()
+    unittest.TextTestRunner().run(suite)

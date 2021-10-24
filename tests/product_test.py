@@ -10,7 +10,6 @@ class ProductTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome('./chromedriver')
         self.product = ProductPage(driver=self.driver)
-        self.driver.implicitly_wait(10)
         self.product.open()
 
     def testFirstImgSrcEqualPreview(self):
@@ -62,7 +61,7 @@ class ProductTest(unittest.TestCase):
         self.assertEqual(
             self.login.get_title(),
             "Вход",
-            "Нет появляется панель логина")
+            "Не появляется панель логина")
 
     def testFailToRedirectMesNotAuth(self):
         """Для неавторизованного пользователя: Ошибка доступа к телефону при нажатии на кнопку "Показать номер\""""
@@ -71,7 +70,7 @@ class ProductTest(unittest.TestCase):
         self.assertEqual(
             self.login.get_title(),
             "Вход",
-            "Нет появляется панель логина")
+            "Не появляется панель логина")
 
     def tearDown(self):
         self.driver.close()

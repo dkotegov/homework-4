@@ -1,4 +1,5 @@
 from random import randrange
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from pages.default_page import DefaultPage
 
@@ -13,32 +14,36 @@ class ProductPage(DefaultPage):
     SELLER_RATING = '.info-card-rating'
     PHONE = '.info-card-btn__number'
     MASSAGE = '.info-card-btn__massage'
+    TITLE = ".board-title__product-name"
 
     def selected_img_src_from_slider(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.SLIDER_SELECTED_IMG)))
         return self.driver.find_element(By.CSS_SELECTOR, self.SLIDER_SELECTED_IMG).get_attribute("src")
 
     def preview_img_src(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PREVIEW)))
         return self.driver.find_element(By.CSS_SELECTOR, self.PREVIEW).get_attribute("src")
 
     def click_different_preview(self):
+        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.SLIDER_IMG)))
         img = self.driver.find_elements(By.CSS_SELECTOR, self.SLIDER_IMG)
         img[randrange(len(img))].click()
 
     def click_on_seller_name(self):
-        self.__click_button(self.SELLER_NAME)
+        self.__click_button__(self.SELLER_NAME)
 
     def click_on_seller_img(self):
-        self.__click_button(self.SELLER_IMAGE)
+        self.__click_button__(self.SELLER_IMAGE)
 
     def click_on_seller_rate(self):
-        self.__click_button(self.SELLER_RATING)
+        self.__click_button__(self.SELLER_RATING)
 
     def click_phone(self):
-        self.__click_button(self.PHONE)
+        self.__click_button__(self.PHONE)
 
     def click_massage(self):
-        self.__click_button(self.MASSAGE)
+        self.__click_button__(self.MASSAGE)
 
-    def __click_button(self, selector):
-        link = self.driver.find_element(By.CSS_SELECTOR, selector)
-        link.click()
+    def page_exist(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
+        return self.driver.find_element(By.CSS_SELECTOR, self.TITLE) is not None
