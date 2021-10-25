@@ -1,3 +1,4 @@
+import time
 import unittest
 from selenium import webdriver
 from pages.all_seller_products import AllSellerProductsPage
@@ -26,6 +27,22 @@ class AllSellerProductsTest(unittest.TestCase):
             self.login.get_title(),
             "Вход",
             "Не появляется панель логина")
+
+    def testLikAuth(self):
+        """ Лайк товара при нажатии кнопку \"лайк\"
+            Снятие лайка с товара при нажатии кнопки \"дизлайк\"
+        """
+        self.login = LoginPage(driver=self.driver)
+        self.login.auth()
+        self.all_seller_products.open()
+        index = self.all_seller_products.likeProduct()
+        res = self.all_seller_products.checkLikeProduct(index)
+        self.assertTrue(res,
+                        "Не удалось поставить лайка")
+        self.all_seller_products.removeLikeProduct(index)
+        res = self.all_seller_products.checkRemovedLikeProduct(index)
+        self.assertFalse(res,
+                         "Не удалось убрать лайк")
 
     def tearDown(self):
         self.driver.close()
