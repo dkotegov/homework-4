@@ -25,7 +25,7 @@ class AllSellerProductsPage(DefaultPage):
     def likeProduct(self):
         self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.LIKE)))
         likes = self.driver.find_elements(By.CSS_SELECTOR, self.LIKE)
-        index = randrange(len(likes))
+        index = randrange(5)
         likes[index].click()
         return index
 

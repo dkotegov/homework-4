@@ -1,16 +1,15 @@
-import time
 import unittest
 from selenium import webdriver
 
 from pages.login import LoginPage
+from pages.massage import MassagePage
 from pages.user_products import UserProductsPage
 from pages.registration import RegistrationPage
-from pages.product import ProductPage
 
 
 class UserProductsTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('../chromedriver')
+        self.driver = webdriver.Chrome('./chromedriver')
         self.user_products_page = UserProductsPage(driver=self.driver)
 
     def testRedirectToRegPage(self):
@@ -33,6 +32,28 @@ class UserProductsTest(unittest.TestCase):
         self.assertEqual(self.reg.get_title(),
                          "Регистрация",
                          "Не открылась страница регистрации")
+
+    def testRedirectFromFooterToUserProducts(self):
+        """Успешный редирект на страницу "Мои объявления" при нажатии кнопки в нижнем меню сайта “Мои объявления”"""
+        self.login = LoginPage(driver=self.driver)
+        self.login.open()
+        self.login.auth()
+        self.login.click_footer_my_products()
+        self.assertEqual(self.user_products_page.get_title(),
+                         "Мои объявления",
+                         "Не открылась страница Мои объявления")
+
+    def testRedirectFromSettingsToUserProducts(self):
+        """Успешный редирект на страницу "Мои объявления" при нажатии кнопки в боковом меню “Мои объявления”"""
+        self.login = LoginPage(driver=self.driver)
+        self.login.open()
+        self.login.auth()
+        self.message = MassagePage(driver=self.driver)
+        self.message.open()
+        self.message.click_my_products()
+        self.assertEqual(self.user_products_page.get_title(),
+                         "Мои объявления",
+                         "Не открылась страница Мои объявления")
 
     def tearDown(self):
         self.driver.close()
