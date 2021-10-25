@@ -4,9 +4,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.default_page import DefaultPage
 
 
-class MassagePage(DefaultPage):
-    PATH = "user/chats"
-    TITLE = ".chat-message-head-info-user__name"
+class RegistrationPage(DefaultPage):
+    PATH = "signup"
+    TITLE = ".reg-panel-title__product-name"
 
     def get_title(self):
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))

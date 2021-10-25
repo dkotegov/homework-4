@@ -12,6 +12,7 @@ class LoginPage(DefaultPage):
     SUBMIT = ".auth-content-form__button"
     LOGIN_BUTTON = ".header-right__account"
     LOGINED = ".header-right-avatar__img"
+    LOGOUT = "[data-action = \"logoutClick\"]"
 
     def auth(self):
         self.__click_button__(self.LOGIN_BUTTON)
@@ -23,6 +24,11 @@ class LoginPage(DefaultPage):
         password.send_keys("Qwerty123")
         self.__click_button__(self.SUBMIT)
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
+
+    def logout(self):
+        self.__click_button__(self.LOGINED)
+        self.__click_button__(self.LOGOUT)
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGIN_BUTTON)))
 
     def get_title(self):
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
