@@ -42,14 +42,14 @@ class SearchPage(DefaultPage):
     def getAllNameProducts(self):
         products = []
         while self.elements == self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_NAME):
-            time.sleep(0.05)
+            time.sleep(0.06)
             products = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_NAME)
         return products
 
     def getAllAmountProducts(self):
         products = []
         while self.elements == self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_AMOUNT):
-            time.sleep(0.05)
+            time.sleep(0.06)
             products = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_AMOUNT)
         return products
 

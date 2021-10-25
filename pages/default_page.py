@@ -10,6 +10,9 @@ class DefaultPage:
     def __init__(self, driver):
         self.driver = driver
 
+    def changePath(self, path):
+        self.PATH = path
+
     def open(self):
         url = self.BASE_URL + self.PATH
         self.driver.maximize_window()

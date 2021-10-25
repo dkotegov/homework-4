@@ -41,6 +41,13 @@ class ProductPage(DefaultPage):
     def click_phone(self):
         self.__click_button__(self.PHONE)
 
+    def get_phone(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PHONE)))
+        phone = self.driver.find_element(By.CSS_SELECTOR, self.PHONE)
+        while phone.get_attribute("value") == "Показать номер":
+            continue
+        return phone.get_attribute("value")
+
     def click_massage(self):
         self.__click_button__(self.MASSAGE)
 
