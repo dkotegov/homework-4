@@ -1,5 +1,6 @@
 import urllib.parse as urlparse
 
+
 class Page(object):
     BASE_URL = 'https://cloud.mail.ru/'
     PATH = ''
@@ -10,6 +11,10 @@ class Page(object):
     AUTH_NEXT_BUTTON = '[data-test-id="next-button"]'
     AUTH_SUBMIT_BUTTON = '[data-test-id="submit-button"]'
     USER_EMAIL_HEADER = '[data-testid="whiteline-account"]'
+
+    def __init__(self, driver):
+        self.driver = driver
+        self.driver.implicitly_wait(10)
 
     def set_login(self, login):
         self.driver.find_element_by_css_selector(self.AUTH_LOGIN).send_keys(login)
@@ -23,21 +28,15 @@ class Page(object):
     def submit(self):
         self.driver.find_element_by_css_selector(self.AUTH_SUBMIT_BUTTON).click()
 
-    def waitForAuthorize(self):
+    def wait_for_authorize(self):
         self.driver.find_element_by_css_selector(self.USER_EMAIL_HEADER).click()
-
-
-
-    def __init__(self, driver):
-        self.driver = driver
-        self.driver.implicitly_wait(10)
 
     def open(self):
         url = urlparse.urljoin(self.BASE_URL, self.PATH)
         self.driver.get(url)
         self.driver.maximize_window()
 
-    def openAuthorize(self):
+    def open_authorize(self):
         url = urlparse.urljoin(self.AUTH_URL, self.PATH)
         self.driver.get(url)
         self.driver.maximize_window()

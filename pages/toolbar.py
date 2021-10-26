@@ -1,7 +1,7 @@
 import urllib.parse as urlparse
 from pages.default import Page
 
-class HomePage(Page):
+class Toolbar(Page):
     BASE_URL = 'https://cloud.mail.ru/'
     PATH = 'home'
 
@@ -12,14 +12,14 @@ class HomePage(Page):
     # ALL_FILES = 'div[data-name = "/"]'
     # CREATE_FOLDER = 'div[data-name = "/${process.env.CREATE_FOLDER}"]'
     
-    def clickOnCreateSomething (self):
+    def click_on_create_something(self):
         self.driver.find_element_by_css_selector(self.CREATE).click()
 
-    def clickOnCreateFolder(self):
+    def click_on_create_folder(self):
         self.driver.find_element_by_css_selector(self.CREATE_FOLDER).click()
 
-    def fillCreateNewFolderForm(self, folderName):
+    def fill_create_new_folder_form(self, folderName):
         self.driver.find_element_by_css_selector(self.MODAL_INPUT).send_keys(folderName)
 
-    def createNewFolderSubmit(self):
+    def create_new_folder_submit(self):
         self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()

@@ -1,10 +1,11 @@
 import unittest
 import os
-import urllib.parse as urlparse
+from urllib.parse import urlparse
 from selenium.webdriver import DesiredCapabilities, Remote
 from selenium.webdriver.support.ui import WebDriverWait
 
 from steps.home import HomeSteps
+
 
 class CreateFolder(unittest.TestCase):
     def setUp(self):
@@ -21,4 +22,4 @@ class CreateFolder(unittest.TestCase):
     def test(self):
         home = HomeSteps(self.driver)
         home.authorize()
-        home.createFolder()
+        home.create_folder()
