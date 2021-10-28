@@ -28,14 +28,10 @@ class AuthPage(BasePage):
         return main_page.get_authenticated_user_email()
 
     def set_username(self, username=s.USERNAME):
-        el = self.locate_el(self.USERNAME_INPUT)
-        el.clear()
-        el.send_keys(username)
+        self.set_field(self.USERNAME_INPUT, username)
 
     def set_password(self, password=s.PASSWORD):
-        el = self.locate_el(self.PASSWORD_INPUT)
-        el.clear()
-        el.send_keys(password)
+        self.set_field(self.PASSWORD_INPUT, password)
 
     def get_username_error(self):
         return self.locate_el(self.USERNAME_ERROR).text

@@ -16,14 +16,10 @@ class ProfilePage(BasePage):
         super().__init__(driver, 'div.profile')
 
     def set_email(self, email):
-        el = self.locate_el(self.EMAIL_INPUT)
-        el.clear()
-        el.send_keys(email)
+        self.set_field(self.EMAIL_INPUT, email)
 
     def set_name(self, name):
-        el = self.locate_el(self.NAME_INPUT)
-        el.clear()
-        el.send_keys(name)
+        self.set_field(self.NAME_INPUT, name)
 
     def click_save_btn(self):
         self.locate_el(self.SAVE_BTN).click()
