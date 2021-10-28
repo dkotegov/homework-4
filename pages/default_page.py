@@ -29,7 +29,15 @@ class DefaultPage:
         link = self.driver.find_element(By.CSS_SELECTOR, selector)
         link.click()
 
+    def __click_button_xpath__(self, xpath):
+        self.wait(until=EC.element_to_be_clickable((By.XPATH, xpath)))
+        link = self.driver.find_element(By.XPATH, xpath)
+        link.click()
+
     def wait(self, until, who=None, timeout=30, step=0.1):
         if who is None:
             who = self.driver
         return WebDriverWait(who, timeout, step).until(until)
+
+    def is_compare_url(self, url, **kwargs):
+        return self.BASE_URL + self.PATH == url
