@@ -1,3 +1,5 @@
+import pyautogui
+
 from selenium.webdriver import Remote
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -36,3 +38,21 @@ class BasePage:
     def locate_el(self, css_sel, wait: float = 3.0) -> WebElement:
         waiter = WebDriverWait(self.driver, wait)
         return waiter.until(EC.visibility_of_element_located((By.CSS_SELECTOR, css_sel)))
+
+    def locate_hidden_el(self, css_sel, wait: float = 3.0) -> WebElement:
+        waiter = WebDriverWait(self.driver, wait)
+        return waiter.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_sel)))
+
+    def enter_file_path(self, clickf, path):
+        old_width = pyautogui.getActiveWindow().width
+
+        clickf()
+
+        new_width = old_width
+        while old_width == new_width:
+            new_width = pyautogui.getActiveWindow().width
+            pyautogui.sleep(0.1)
+
+        pyautogui.write(path)
+        pyautogui.press('enter')
+

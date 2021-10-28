@@ -1,5 +1,7 @@
 from pages.base_page import BasePage
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 
 class ProfilePage(BasePage):
     PATH = '/user'
@@ -7,9 +9,13 @@ class ProfilePage(BasePage):
     EMAIL_INPUT = 'input[name="reserveEmail"]'
     NAME_INPUT = 'input[name="fullname"]'
     SAVE_BTN = 'input[type="submit"]'
+
     LOGOUT_BTN = '#logoutButton'
     CHANGE_PASSWORD_BTN = '#changePasswordButton'
     BACK_BTN = '.back-btn'
+
+    AVATAR_COVER = '#avatarChange'
+
     EMAIL_ERROR = '#reserveEmailErrorText'
 
     def __init__(self, driver):
@@ -20,6 +26,11 @@ class ProfilePage(BasePage):
 
     def set_name(self, name):
         self.set_field(self.NAME_INPUT, name)
+
+    def click_avatar(self):
+        el = self.locate_hidden_el(self.AVATAR_COVER)
+        ActionChains(self.driver).move_to_element(el).perform()
+        el.click()
 
     def click_save_btn(self):
         self.locate_el(self.SAVE_BTN).click()

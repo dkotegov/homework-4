@@ -1,3 +1,4 @@
+import os
 from random import randrange
 
 from pages.profile_page import ProfilePage
@@ -26,6 +27,12 @@ class ProfileTest(BaseTest):
     def tearDown(self):
         self.driver.delete_all_cookies()
 
+    def test_good_avatar(self):
+        clickf = self.page.click_avatar
+        self.page.enter_file_path(clickf, os.path.join(os.getcwd(), '..', 'images', 'good_avatar.png'))
+
+        self.assertTrue('success' in self.page.get_popup().get_attribute('class'))
+
     def test_incorrect_email_error(self):
         self.page.set_email('wolf@wolf')
         self.page.click_save_btn()
@@ -40,7 +47,7 @@ class ProfileTest(BaseTest):
         self.page.set_email(new_email)
         self.page.set_name(new_name)
         self.page.click_save_btn()
-        self.assertNotEqual(self.page.get_popup().get_attribute('class').find('success'), -1)
+        self.assertTrue('success' in self.page.get_popup().get_attribute('class'))
 
         self.driver.refresh()
 
