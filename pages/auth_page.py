@@ -6,6 +6,7 @@ import settings as s
 
 class AuthPage(BasePage):
     PATH = '/auth'
+
     USERNAME_INPUT = 'input[name="username"]'
     PASSWORD_INPUT = 'input[name="password"]'
     LOGIN_BTN = 'input[type="submit"]'

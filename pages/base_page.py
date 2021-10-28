@@ -25,6 +25,11 @@ class BasePage:
         except TimeoutException:
             return False
 
+    def set_field(self, locator, value):
+        el = self.locate_el(locator)
+        el.clear()
+        el.send_keys(value)
+
     def get_popup(self):
         return self.locate_el('.popup-message')
 
