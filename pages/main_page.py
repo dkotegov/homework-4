@@ -7,8 +7,8 @@ class MainPage(BasePage):
     SELF_USERNAME = '#profile-link-username'
 
     FOLDER_BY_NAME = '.folder[data=%s]'
-    FOLDER_BTN_DELETE_BY_NAME = '.folder[data="%s"] #delete-folder'
-    FOLDER_BTN_RENAME_BY_NAME = '.folder[data="%s"] #rename-folder'
+    FOLDER_BTN_DELETE_BY_NAME = FOLDER_BY_NAME + ' #delete-folder'
+    FOLDER_BTN_RENAME_BY_NAME = FOLDER_BY_NAME + ' #rename-folder'
     FOLDER_INPUT_TITLE_BY_NAME = '.folder input'
     FOLDER_BTN_CREATE = '.new-folder-button'
     FOLDER_BTN_EXPAND = '.folders-button'
@@ -21,7 +21,7 @@ class MainPage(BasePage):
 
     MESSAGE_LAST_YOUR = '#messages-listing > div.right-block:last-child'
     MESSAGE_LAST_NOT_YOUR = '#messages-listing > div.left-block:last-child'
-    MESSAGE_BTN_DELETE_LAST = '%s .delete-message'
+    MESSAGE_BTN_DELETE_LAST = '%s .delete-message'  # in %s must be MESSAGE_LAST_YOUR or MESSAGE_LAST_NOT_YOUR
     MESSAGE_INPUT_TITLE = '#theme-input'
     MESSAGE_INPUT_BODY = '#message-input'
     MESSAGE_BTN_SEND = '#message-send-button'
