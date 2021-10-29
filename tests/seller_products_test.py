@@ -22,7 +22,7 @@ class SellerProductsTest(unittest.TestCase):
 
         url = self.driver.current_url
         product.change_path(product_id)
-        self.assertTrue(product.is_compare_url(url), "Некорректный урл")
+        self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
 
     def testLikeProduct(self):
         """
