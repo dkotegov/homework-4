@@ -1,9 +1,9 @@
 import unittest
 from selenium import webdriver
 
-from pages.login import LoginPage
-from pages.massage import MassagePage
 from pages.user_products import UserProductsPage
+from pages.login import LoginPage
+from pages.user_chats import UserChats
 from pages.registration import RegistrationPage
 
 
@@ -48,7 +48,7 @@ class UserProductsTest(unittest.TestCase):
         self.login = LoginPage(driver=self.driver)
         self.login.open()
         self.login.auth()
-        self.message = MassagePage(driver=self.driver)
+        self.message = UserChats(driver=self.driver)
         self.message.open()
         self.message.click_my_products()
         self.assertEqual(self.user_products_page.get_title(),

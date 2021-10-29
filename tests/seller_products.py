@@ -1,15 +1,15 @@
-import time
 import unittest
 from selenium import webdriver
-from pages.all_seller_products import AllSellerProductsPage
+
+from pages.seller_products import SellerProductsPage
 from pages.login import LoginPage
 from pages.product import ProductPage
 
 
-class AllSellerProductsTest(unittest.TestCase):
+class SellerProductsTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome('./chromedriver')
-        self.all_seller_products = AllSellerProductsPage(driver=self.driver)
+        self.all_seller_products = SellerProductsPage(driver=self.driver)
         self.all_seller_products.open()
 
     def testOpenProductPage(self):
