@@ -1,9 +1,10 @@
 import unittest
 from selenium import webdriver
-from pages.all_seller_products import AllSellerProductsPage
-from pages.login import LoginPage
-from pages.massage import MassagePage
+
 from pages.product import ProductPage
+from pages.seller_products import SellerProductsPage
+from pages.login import LoginPage
+from pages.user_chats import UserChats
 
 
 class ProductTest(unittest.TestCase):
@@ -29,7 +30,7 @@ class ProductTest(unittest.TestCase):
 
     def testOpenAllItemsBySellerName(self):
         """Успешный редирект на страницу всех объявлений при нажатии на имя"""
-        self.all_items = AllSellerProductsPage(driver=self.driver)
+        self.all_items = SellerProductsPage(driver=self.driver)
         self.product.click_on_seller_name()
         self.assertEqual(
             self.all_items.get_title(),
@@ -38,7 +39,7 @@ class ProductTest(unittest.TestCase):
 
     def testOpenAllItemsBySellerImg(self):
         """Успешный редирект на страницу всех объявлений при нажатии на фото"""
-        self.all_items = AllSellerProductsPage(driver=self.driver)
+        self.all_items = SellerProductsPage(driver=self.driver)
         self.product.click_on_seller_img()
         self.assertEqual(
             self.all_items.get_title(),
@@ -47,7 +48,7 @@ class ProductTest(unittest.TestCase):
 
     def testOpenAllItemsBySellerRate(self):
         """Успешный редирект на страницу всех объявлений при нажатии на оценку"""
-        self.all_items = AllSellerProductsPage(driver=self.driver)
+        self.all_items = SellerProductsPage(driver=self.driver)
         self.product.click_on_seller_rate()
         self.assertEqual(
             self.all_items.get_title(),
@@ -103,7 +104,7 @@ class ProductTest(unittest.TestCase):
         self.login = LoginPage(driver=self.driver)
         self.login.auth()
         self.product.click_massage()
-        self.massage = MassagePage(driver=self.driver)
+        self.massage = UserChats(driver=self.driver)
         self.assertNotEqual(
             self.massage.get_title(),
             "",

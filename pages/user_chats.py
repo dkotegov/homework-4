@@ -4,8 +4,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.default_page import DefaultPage
 
 
-class MassagePage(DefaultPage):
+class UserChats(DefaultPage):
     PATH = "user/chats"
+
     TITLE = ".chat-message-head-info-user__name"
     MY_PRODUCTS = "#profile-menu-posts"
 

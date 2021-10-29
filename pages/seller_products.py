@@ -1,12 +1,12 @@
-import time
 from random import randrange
 from selenium.webdriver.common.by import By
 from pages.default_page import DefaultPage
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class AllSellerProductsPage(DefaultPage):
+class SellerProductsPage(DefaultPage):
     PATH = "user/1/ad"
+
     TITLE = ".product-table__title"
     PRODUCTS = ".product-card"
     LIKE = ".product-card__like"
