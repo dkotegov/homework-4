@@ -75,9 +75,9 @@ class SearchTest(unittest.TestCase):
         product_card = ProductCard(driver=self.driver)
 
         product_id = product_card.click_product()
-        product.change_path(product_id)
 
         url = self.driver.current_url
+        product.change_path(product_id)
         self.assertTrue(product.is_compare_url(url), "Некорректный урл")
 
     def testLikeProduct(self):
@@ -95,7 +95,7 @@ class SearchTest(unittest.TestCase):
         login.auth()
 
         index = product_card.like_product()
-        self.assertTrue(product_card.check_like_product(index), "Не удалось поставить лайка")
+        self.assertTrue(product_card.check_like_product(index), "Не удалось поставить лайк")
 
         product_card.remove_like_product(index)
         self.assertFalse(product_card.check_remove_like_product(index), "Не удалось убрать лайк")
