@@ -77,7 +77,10 @@ class MainTest(unittest.TestCase):
         self.assertTrue(product.is_compare_url(url), "Некорректный урл")
 
     def testLikeProduct(self):
-        """ Лайк товара при нажатии кнопку "лайк", Снятие лайка с товара при нажатии кнопку "дизлайк" """
+        """
+            Лайк товара при нажатии кнопки "лайк",
+            Снятие лайка с товара при нажатии кнопки "дизлайк"
+        """
         login = LoginPage(driver=self.driver)
 
         self.product_card.like_product()
