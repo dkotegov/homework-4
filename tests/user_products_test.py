@@ -12,7 +12,7 @@ from pages.product_card import ProductCard
 
 class UserProductsTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('../chromedriver')
+        self.driver = webdriver.Chrome('./chromedriver')
         self.user_products_page = UserProductsPage(driver=self.driver)
         self.login = LoginPage(driver=self.driver)
 

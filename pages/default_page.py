@@ -15,12 +15,6 @@ class SELECTOR(Enum):
 class DefaultPage:
     BASE_URL = 'https://ykoya.ru/'
     PATH = ''
-    FOOTER_MY_PRODUCTS = "//div[@class=\"footer-urls-container\"]/a[@href=\"/user/ad\"]"
-
-    def click_footer_my_products(self):
-        self.wait(until=EC.element_to_be_clickable((By.XPATH, self.FOOTER_MY_PRODUCTS)))
-        link = self.driver.find_element(By.XPATH, self.FOOTER_MY_PRODUCTS)
-        link.click()
 
     def __init__(self, driver):
         self.driver = driver
