@@ -18,7 +18,7 @@ class ProductCard(DefaultPage):
 
     def like_product(self):
         products = self.__get_elements__(self.PRODUCT_LIKE)
-        index = randrange(len(products))
+        index = randrange(10)
         products[index].click()
         return index
 
