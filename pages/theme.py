@@ -1,20 +1,16 @@
-from selenium.webdriver.common.by import By
-
 from pages.default_page import DefaultPage
 
 
-class ThemePage(DefaultPage):
-    PATH = ""
+class Theme(DefaultPage):
     THEME = ".theme-box"
 
     def get_theme(self):
-        html = self.driver.find_element(By.CSS_SELECTOR, "html")
-        theme = html.get_attribute("class")
+        html = self.__get_element__("html")
 
-        if theme == "theme-light":
+        if self.__contains_class__(html, "theme-light"):
             return "light"
 
-        elif theme == "theme-light":
+        elif self.__contains_class__(html, "theme-dark"):
             return "dark"
 
     def change_theme(self):

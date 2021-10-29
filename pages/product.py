@@ -6,6 +6,7 @@ from pages.default_page import DefaultPage
 
 class ProductPage(DefaultPage):
     PATH = "product/48"
+
     PREVIEW = ".slider-preview__picture"
     SLIDER_IMG = '.slider-carousel img'
     SLIDER_SELECTED_IMG = '.slider-carousel img[style = \'padding-top: 1vh; padding-bottom: 1vh; opacity: 1;\']'
@@ -15,6 +16,9 @@ class ProductPage(DefaultPage):
     PHONE = '.info-card-btn__number'
     MASSAGE = '.info-card-btn__massage'
     TITLE = ".board-title__product-name"
+
+    def change_path(self, path):
+        self.PATH = "product/" + path
 
     def selected_img_src_from_slider(self):
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.SLIDER_SELECTED_IMG)))

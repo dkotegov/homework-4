@@ -1,9 +1,11 @@
-import time
 import unittest
 from selenium import webdriver
-from pages.product import ProductPage
-from pages.search import SearchPage
 from utils.natural_sort import natural_sort
+
+from pages.search import SearchPage
+from pages.product import ProductPage
+from pages.product_card import ProductCard
+from pages.login import LoginPage
 
 
 class SearchTest(unittest.TestCase):
@@ -27,13 +29,6 @@ class SearchTest(unittest.TestCase):
 
         resBad = self.search.enterAmount("10000000000000")
         self.assertTupleEqual(("1 000 000 000", "1 000 000 000"), resBad, "Некорректный результат")
-
-    def testOpenProductPage(self):
-        """Открытие страницы товара при нажатии на товар"""
-        self.product = ProductPage(driver=self.driver)
-        self.search.clickProduct()
-        self.assertTrue(self.product.page_exist(),
-                        "Не удалось открыть товар")
 
     def testSearchSortName(self):
         """Проверить, что при нажатии на "По имени" из списка “Сортировка по”, объявления выдаются в алфавитном
@@ -73,6 +68,34 @@ class SearchTest(unittest.TestCase):
             listSorted.append(int(item.text[0:-1].replace(" ", "")))
         listSorted = sorted(listSorted)
         self.assertListEqual(listNotSorted, listSorted, "Список упорядочен не по возрастанию цены")
+
+    def testClickProduct(self):
+        """Проверка, что при нажатии на товар открывается страница товара"""
+        product = ProductPage(driver=self.driver)
+        product_card = ProductCard(driver=self.driver)
+
+        product_id = product_card.click_product()
+        product.change_path(product_id)
+
+        url = self.driver.current_url
+        self.assertTrue(product.is_compare_url(url), "Некорректный урл")
+
+    def testLikeProduct(self):
+        """ Лайк товара при нажатии кнопку "лайк", Снятие лайка с товара при нажатии кнопку "дизлайк" """
+        login = LoginPage(driver=self.driver)
+        product_card = ProductCard(driver=self.driver)
+
+        product_card.like_product()
+        self.assertTrue(login.is_opened(), "Не открыта авторизация")
+        login.click_close()
+
+        login.auth()
+
+        index = product_card.like_product()
+        self.assertTrue(product_card.check_like_product(index), "Не удалось поставить лайка")
+
+        product_card.remove_like_product(index)
+        self.assertFalse(product_card.check_remove_like_product(index), "Не удалось убрать лайк")
 
     def tearDown(self):
         self.driver.close()

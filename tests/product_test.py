@@ -81,7 +81,7 @@ class ProductTest(unittest.TestCase):
         телефона """
         self.login = LoginPage(driver=self.driver)
         self.login.auth()
-        self.product.changePath("product/103")
+        self.product.change_path("103")
         self.product.open()
         self.product.click_phone()
         self.assertEqual(

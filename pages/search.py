@@ -17,6 +17,9 @@ class SearchPage(DefaultPage):
 
     elements = []
 
+    def change_path(self, path):
+        self.PATH = "search/" + path
+
     def clearAmount(self):
         self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.FROM_A)))
         self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.TO_A)))
@@ -33,11 +36,6 @@ class SearchPage(DefaultPage):
         to_a = self.driver.find_element(By.CSS_SELECTOR, self.TO_A)
         to_a.send_keys(text)
         return from_a.get_attribute('value'), to_a.get_attribute('value')
-
-    def clickProduct(self):
-        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.PRODUCTS)))
-        products = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS)
-        products[randrange(len(products))].click()
 
     def getAllNameProducts(self):
         products = []
@@ -69,9 +67,3 @@ class SearchPage(DefaultPage):
         self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.SORT)))
         sort = Select(self.driver.find_element(By.CSS_SELECTOR, self.SORT))
         sort.select_by_visible_text(param)
-
-    def is_compare_url(self, url, **kwargs):
-        if len(kwargs):
-            return self.BASE_URL + self.PATH + "/" + kwargs.get("text") == url
-        else:
-            return self.BASE_URL + self.PATH == url

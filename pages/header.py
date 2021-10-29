@@ -1,23 +1,21 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-
-from pages.default_page import DefaultPage
+from pages.default_page import DefaultPage, SELECTOR
 
 
-class HeaderPage(DefaultPage):
-    PATH = ""
+class Header(DefaultPage):
     LOGO = ".header-left__brand"
     SEARCH = ".header-right__search-button"
-    CREATE_BUTTON = ".header-right__create-button"
-    AUTH_BUTTON = ".header-right__account"
-    ACCOUNT_BUTTON = ".header-right-avatar"
+    CREATE = ".header-right__create-button"
+    AUTH = ".header-right__account"
+    ACCOUNT = ".header-right-avatar"
     DROPDOWN = ".header-dropdown-content"
-    SETTINGS = "//a[@class=\"header-dropdown-content-item\"]/span[contains(text(),'Настройки')]"
-    AD = "//a[@class=\"header-dropdown-content-item\"]/span[contains(text(),'Мои объявления')]"
-    CHATS = "//a[@class=\"header-dropdown-content-item\"]/span[contains(text(),'Мои сообщения')]"
-    FAVORITES = "//a[@class=\"header-dropdown-content-item\"]/span[contains(text(),'Избранное')]"
-    ACHIEVEMENTS = "//a[@class=\"header-dropdown-content-item\"]/span[contains(text(),'Достижения')]"
-    REVIEWS = "//a[@class=\"header-dropdown-content-item\"]/span[contains(text(),'Отзывы')]"
+
+    DROPDOWN_ITEM = "//a[@class=\"header-dropdown-content-item\"]/span[contains(text(),'{}')]"
+    SETTINGS = DROPDOWN_ITEM.format("Настройки")
+    AD = DROPDOWN_ITEM.format("Мои объявления")
+    CHATS = DROPDOWN_ITEM.format("Мои сообщения")
+    FAVORITES = DROPDOWN_ITEM.format("Избранное")
+    ACHIEVEMENTS = DROPDOWN_ITEM.format("Достижения")
+    REVIEWS = DROPDOWN_ITEM.format("Отзывы")
 
     def click_logo(self):
         self.__click_button__(self.LOGO)
@@ -26,32 +24,31 @@ class HeaderPage(DefaultPage):
         self.__click_button__(self.SEARCH)
 
     def click_create(self):
-        self.__click_button__(self.CREATE_BUTTON)
+        self.__click_button__(self.CREATE)
 
     def click_auth(self):
-        self.__click_button__(self.AUTH_BUTTON)
+        self.__click_button__(self.AUTH)
 
     def click_dropdown(self):
-        self.__click_button__(self.ACCOUNT_BUTTON)
+        self.__click_button__(self.ACCOUNT)
 
     def is_opened_dropdown(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.DROPDOWN)))
-        return True
+        return self.is_contains(self.DROPDOWN)
 
     def click_settings(self):
-        self.__click_button_xpath__(self.SETTINGS)
+        self.__click_button__(self.SETTINGS, SELECTOR.XPATH)
 
     def click_ad(self):
-        self.__click_button_xpath__(self.AD)
+        self.__click_button__(self.AD, SELECTOR.XPATH)
 
     def click_chats(self):
-        self.__click_button_xpath__(self.CHATS)
+        self.__click_button__(self.CHATS, SELECTOR.XPATH)
 
     def click_favorites(self):
-        self.__click_button_xpath__(self.FAVORITES)
+        self.__click_button__(self.FAVORITES, SELECTOR.XPATH)
 
     def click_achievements(self):
-        self.__click_button_xpath__(self.ACHIEVEMENTS)
+        self.__click_button__(self.ACHIEVEMENTS, SELECTOR.XPATH)
 
     def click_reviews(self):
-        self.__click_button_xpath__(self.REVIEWS)
+        self.__click_button__(self.REVIEWS, SELECTOR.XPATH)

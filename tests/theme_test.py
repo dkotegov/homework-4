@@ -1,16 +1,17 @@
 import unittest
 from selenium import webdriver
 
-from pages.theme import ThemePage
+from pages.theme import Theme
 
 
 class ThemeTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome('./chromedriver')
-        self.theme = ThemePage(driver=self.driver)
+        self.theme = Theme(driver=self.driver)
         self.theme.open()
 
     def testChangeTheme(self):
+        """Проверка смены темы"""
         theme_0 = self.theme.get_theme()
 
         self.theme.change_theme()
