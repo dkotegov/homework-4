@@ -11,6 +11,12 @@ class Page(object):
     AUTH_NEXT_BUTTON = '[data-test-id="next-button"]'
     AUTH_SUBMIT_BUTTON = '[data-test-id="submit-button"]'
     USER_EMAIL_HEADER = '[data-testid="whiteline-account"]'
+    SELECT_ALL = 'div[data-name="selectAll"]'
+    REMOVE = 'div[data-name="remove"]'
+    SUBMIT = 'div[id="react-modals"] button[data-name="confirm"]'
+    COUNTER = 'span[class*="Toolbar__count"]'
+    FILES = 'a[data-id^="/"]'
+    FAV_FILES = []
 
     def __init__(self, driver):
         self.driver = driver
@@ -36,7 +42,38 @@ class Page(object):
         self.driver.get(url)
         self.driver.maximize_window()
 
+    def open_alternative(self, alternative):
+        url = urlparse.urljoin(self.BASE_URL, alternative)
+        self.driver.get(url)
+        self.driver.maximize_window()
+
     def open_authorize(self):
         url = urlparse.urljoin(self.AUTH_URL, self.PATH)
         self.driver.get(url)
         self.driver.maximize_window()
+
+    def select_all(self):
+        self.driver.find_element_by_css_selector(self.SELECT_ALL).click()
+
+    def remove(self):
+        try:
+            self.driver.find_element_by_css_selector(self.REMOVE).click()
+        except Exception:
+            return False
+        return True
+
+    def remove_submit(self):
+        self.driver.find_element_by_css_selector(self.SUBMIT).click()
+
+    def get_amount_of_files(self):
+        return self.driver.find_element_by_css_selector(self.COUNTER).text
+
+    def switch_to_nth_tab(self, n):
+        self.driver.switch_to.window(self.driver.window_handles[n])
+
+    def get_favorites(self):
+        try:
+            for file_elem in self.driver.find_elements_by_css_selector(self.FILES):
+                self.FAV_FILES.append(file_elem.get_attribute('data-id'))
+        except Exception:
+            return
