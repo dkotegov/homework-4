@@ -16,6 +16,7 @@ class ProductPage(DefaultPage):
     PHONE = '.info-card-btn__number'
     MASSAGE = '.info-card-btn__massage'
     TITLE = ".board-title__product-name"
+    EDIT = ".info-card-btn__change"
 
     def change_path(self, path):
         self.PATH = "product/" + path
@@ -44,6 +45,9 @@ class ProductPage(DefaultPage):
 
     def click_phone(self):
         self.__click_button__(self.PHONE)
+
+    def click_edit(self):
+        self.__click_button__(self.EDIT)
 
     def get_phone(self):
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PHONE)))

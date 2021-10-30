@@ -1,61 +1,63 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from helpers import Component
+from pages.default_page import DefaultPage
 
 
-class Login(Component):
+class LoginPage(DefaultPage):
+    PATH = ""
+
     OUTSIDE = ".auth"
     POPUP = ".auth-content"
     TITLE = ".auth-content-inner__title"
     LOGIN = ".auth-content-form__tel"
     PASSWORD = ".auth-content-form__password"
     SUBMIT = ".auth-content-form__button"
+    LOGIN_BUTTON = ".header-right__account"
     REGISTRATION_BUTTON = ".auth-content-form-registration__link"
     CLOSE_BUTTON = ".auth-content-inner__close"
 
-    LOGIN_BUTTON = ".header-right__account"
     LOGINED = ".header-right-avatar__img"
     LOGOUT = "[data-action = \"logoutClick\"]"
     AUTH_ERROR = "#auth-error"
 
     def click_registration(self):
-        self.helpers.click_button(self.REGISTRATION_BUTTON)
+        self.__click_button__(self.REGISTRATION_BUTTON)
 
     def click_close(self):
-        self.helpers.click_button(self.CLOSE_BUTTON)
+        self.__click_button__(self.CLOSE_BUTTON)
 
     def click_outside(self):
-        self.helpers.click_button(self.OUTSIDE)
+        self.__click_button__(self.OUTSIDE)
 
     def is_logined(self):
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
-        return self.helpers.is_contains(self.LOGINED)
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
+        return self.is_contains(self.LOGINED)
 
     def is_error(self):
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.AUTH_ERROR)))
         return self.is_contains(self.AUTH_ERROR)
 
     def open_auth(self):
-        self.helpers.click_button(self.LOGIN_BUTTON)
+        self.__click_button__(self.LOGIN_BUTTON)
 
     def is_opened(self):
-        return self.helpers.is_contains(self.POPUP)
+        return self.is_contains(self.POPUP)
 
     def input_telephone_value(self, text):
-        self.helpers.input_value(self.LOGIN, text)
+        self.__input_value__(self.LOGIN, text)
 
     def clear_telephone_value(self):
-        self.helpers.clear_input(self.LOGIN)
+        self.__clear_input__(self.LOGIN)
 
     def input_password_value(self, text):
-        self.helpers.input_value(self.PASSWORD, text)
+        self.__input_value__(self.PASSWORD, text)
 
     def clear_password_value(self):
-        self.helpers.clear_input(self.PASSWORD)
+        self.__clear_input__(self.PASSWORD)
 
     def enter_submit(self):
-        self.helpers.click_button(self.SUBMIT)
+        self.__click_button__(self.SUBMIT)
 
     def auth(self):
         self.open_auth()
@@ -65,10 +67,14 @@ class Login(Component):
 
         self.enter_submit()
 
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
 
     def logout(self):
-        self.helpers.click_button(self.LOGINED)
-        self.helpers.click_button(self.LOGOUT)
+        self.__click_button__(self.LOGINED)
+        self.__click_button__(self.LOGOUT)
 
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGIN_BUTTON)))
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGIN_BUTTON)))
+
+    def get_title(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
+        return self.driver.find_element(By.CSS_SELECTOR, self.TITLE).text

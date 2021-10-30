@@ -1,10 +1,13 @@
 import unittest
 from selenium import webdriver
 
+from pages.edit_product import ProductEditPage
 from pages.product import ProductPage
+from pages.product_card import ProductCard
 from pages.seller_products import SellerProductsPage
 from components.login import LoginPage
 from pages.user_chats import UserChats
+from pages.user_products import UserProductsPage
 
 
 class ProductTest(unittest.TestCase):
@@ -34,22 +37,16 @@ class ProductTest(unittest.TestCase):
         seller_products = SellerProductsPage(driver=self.driver)
 
         self.product.click_on_seller_name()
-
-        self.assertEqual(
-            seller_products.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testOpenAllItemsBySellerImg(self):
         """Успешный редирект на страницу всех объявлений при нажатии на фото"""
         seller_products = SellerProductsPage(driver=self.driver)
 
         self.product.click_on_seller_img()
-
-        self.assertEqual(
-            seller_products.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testOpenAllItemsBySellerRate(self):
         """Успешный редирект на страницу всех объявлений при нажатии на оценку"""
@@ -57,10 +54,9 @@ class ProductTest(unittest.TestCase):
 
         self.product.click_on_seller_rate()
 
-        self.assertEqual(
-            seller_products.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testFailToShowPhoneNotAuth(self):
         """Для неавторизованного пользователя: Ошибка доступа к телефону при нажатии на кнопку "Показать номер\""""
@@ -123,6 +119,20 @@ class ProductTest(unittest.TestCase):
             message.get_title(),
             "",
             "Не появляется страница диалога")
+
+    def testToRedirectEdit(self):
+        """Успешный редирект на страницу редактирования при нажатии кнопки \"Редактировать\""""
+        login = LoginPage(driver=self.driver)
+        edit_page = ProductEditPage(driver=self.driver)
+        login.auth()
+        user_products_page = UserProductsPage(driver=self.driver)
+        user_products_page.open()
+        product_card = ProductCard(driver=self.driver)
+        product_card.click_product()
+        edit_page.change_path(self.driver.current_url.split('/')[-1])
+        self.product.click_edit()
+        url = self.driver.current_url
+        self.assertTrue(edit_page.is_compare_url(url), "Ошибка редиректа на страницу редактирования")
 
     def tearDown(self):
         self.driver.close()
