@@ -2,7 +2,7 @@ import urllib.parse
 
 
 class Page(object):
-    BASE_URL = 'https://park.vk.company/'
+    BASE_URL = 'https://redioteka.com/'
     PATH = ''
 
     def __init__(self, driver):
