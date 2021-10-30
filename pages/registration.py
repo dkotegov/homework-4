@@ -14,8 +14,6 @@ class RegistrationForm(Component):
     PASSWORD = "#password"
     CONFIRM_PASSWORD = "#passwordConfirm"
     EMAIL = "#mail"
-    DATE = "#date"
-    SEX = "#sex"
     SUBMIT = "#submitBtn"
 
     def input_name_value(self, text):
