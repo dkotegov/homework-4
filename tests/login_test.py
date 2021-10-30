@@ -12,9 +12,9 @@ class LoginTest(Test):
     def testCloseAuth(self):
         """Проверка, что при попап открывается и закрывается"""
         self.main.login.open_auth()
-        self.assertTrue(self.main.login.is_opened(), "Закрыта авторизация")
+        self.assertTrue(self.main.login.is_opened(), "Не открылась авторизация")
         self.main.login.click_close()
-        self.assertFalse(self.main.login.is_opened(), "Открыта авторизация")
+        self.assertFalse(self.main.login.is_opened(), "Не закрылась авторизация")
 
         # TODO: не работает click_outside (он не закрывает попап)
         # self.main.login.open_auth()
@@ -66,7 +66,7 @@ class LoginTest(Test):
         self.main.login.click_registration()
 
         url = self.driver.current_url
-        self.assertTrue(registration.is_compare_url(url), "Некорректный урл")
+        self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")
 
     def __test_login__(self, telephone, password):
         self.main.login.clear_telephone_value()
@@ -75,7 +75,7 @@ class LoginTest(Test):
         self.main.login.input_password_value(password)
 
         self.main.login.enter_submit()
-        self.assertTrue(self.main.login.is_error(), "Залогинен")
+        self.assertTrue(self.main.login.is_error(), "Пользователь авторизовался")
 
     def testErrorLogin(self):
         """Проверка ошибочной авторизации"""
@@ -105,4 +105,4 @@ class LoginTest(Test):
         self.main.login.input_password_value(password)
 
         self.main.login.enter_submit()
-        self.assertTrue(self.main.login.is_logined(), "Не залогинен")
+        self.assertTrue(self.main.login.is_logined(), "Пользователь не авторизовался")

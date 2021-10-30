@@ -1,14 +1,10 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from helpers import Page
+from helpers import Page, Component
 
 
-class RegistrationPage(Page):
-    PATH = "signup"
-
-    TITLE = ".reg-panel-title__product-name"
-
+class RegistrationForm(Component):
     ERROR = "input-error"
 
     REGISTRATION_ERROR = "//div[@id=\"reg-error\"][contains(string(), \"Пользователь уже существует\")]"
@@ -81,6 +77,16 @@ class RegistrationPage(Page):
 
     def enter_submit(self):
         self.helpers.click_button(self.SUBMIT)
+
+
+class RegistrationPage(Page):
+    PATH = "signup"
+
+    TITLE = ".reg-panel-title__product-name"
+
+    @property
+    def form(self):
+        return RegistrationForm(self.driver)
 
     def get_title(self):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
