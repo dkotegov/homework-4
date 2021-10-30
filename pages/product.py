@@ -54,3 +54,7 @@ class ProductPage(DefaultPage):
     def page_exist(self):
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
         return self.driver.find_element(By.CSS_SELECTOR, self.TITLE) is not None
+
+    def get_title(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
+        return self.driver.find_element(By.CSS_SELECTOR, self.TITLE).text
