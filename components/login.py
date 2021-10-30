@@ -33,7 +33,7 @@ class Login(Component):
         return self.helpers.is_contains(self.LOGINED)
 
     def is_error(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.AUTH_ERROR)))
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.AUTH_ERROR)))
         return self.is_contains(self.AUTH_ERROR)
 
     def open_auth(self):

@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from pages.default_page import DefaultPage
+from pages.default_page import DefaultPage, SELECTOR
 
 
 class RegistrationPage(DefaultPage):
@@ -11,7 +11,7 @@ class RegistrationPage(DefaultPage):
 
     ERROR = "input-error"
 
-    REGISTRATION_ERROR = "#reg-error"
+    REGISTRATION_ERROR = "//div[@id=\"reg-error\"][contains(string(), \"Пользователь уже существует\")]"
     NAME = "#name"
     SURNAME = "#surname"
     TELEPHONE = "#phone"
@@ -77,7 +77,7 @@ class RegistrationPage(DefaultPage):
         return self.__element_contains_class__(self.EMAIL, self.ERROR)
 
     def get_registration_error(self):
-        return self.__get_element__(self.REGISTRATION_ERROR).text
+        return self.__get_element__(self.REGISTRATION_ERROR, by=SELECTOR.XPATH).text
 
     def enter_submit(self):
         self.__click_button__(self.SUBMIT)

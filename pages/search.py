@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
+from components import Login, ProductCard
 from pages.default_page import DefaultPage
 
 
@@ -17,6 +18,14 @@ class SearchPage(DefaultPage):
     SORT = ".search-items__sort"
 
     elements = []
+
+    @property
+    def login(self):
+        return Login(self.driver)
+
+    @property
+    def product_card(self):
+        return ProductCard(self.driver)
 
     def change_path(self, path):
         self.PATH = "search/" + path

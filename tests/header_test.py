@@ -50,7 +50,7 @@ class HeaderTest(unittest.TestCase):
 
         self.main.login.auth()
 
-        self.main.login.click_dropdown()
+        self.main.header.click_dropdown()
         self.assertTrue(self.main.header.is_opened_dropdown(), "Не открыт дропдаун")
 
         self.main.header.click_settings()

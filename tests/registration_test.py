@@ -1,3 +1,4 @@
+import time
 import unittest
 from selenium import webdriver
 
@@ -140,8 +141,8 @@ class RegistrationTest(unittest.TestCase):
         self.registration.input_password_value(password)
         self.registration.input_confirm_password_value(confirm_password)
         self.registration.enter_submit()
-
-        self.assertEqual(self.registration.get_registration_error(), "Пользователь уже существует", "Нет ошибки")
+        text = self.registration.get_registration_error()
+        self.assertEqual(text, "Пользователь уже существует", "Нет ошибки")
 
     def tearDown(self):
         self.driver.close()
