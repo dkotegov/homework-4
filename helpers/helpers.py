@@ -24,12 +24,12 @@ class Helpers:
 
     def __find_element__(self, selector, by, wait):
         if wait:
-            self.wait(until=EC.element_to_be_clickable((by, selector)))
+            self.wait(until=EC.presence_of_element_located((by, selector)))
         return self.driver.find_element(by, selector)
 
     def __find_elements__(self, selector, by, wait):
         if wait:
-            self.wait(until=EC.element_to_be_clickable((by, selector)))
+            self.wait(until=EC.presence_of_element_located((by, selector)))
         return self.driver.find_elements(by, selector)
 
     def get_element(self, selector, by=SELECTOR.CSS, wait=True):

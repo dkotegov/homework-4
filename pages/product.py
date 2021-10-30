@@ -9,7 +9,7 @@ from components import Login
 
 class Photos(Component):
     PREVIEW = ".slider-preview__picture"
-    SLIDER_IMG = '.slider-carousel img'
+    SLIDER_IMG = ".slider-carousel img"
     SLIDER_SELECTED_IMG = '.slider-carousel img[style = \'padding-top: 1vh; padding-bottom: 1vh; opacity: 1;\']'
 
     def selected_img_src_from_slider(self):
@@ -27,11 +27,11 @@ class Photos(Component):
 
 
 class InfoCard(Component):
-    SELLER_NAME = '.info-card__name'
-    SELLER_IMAGE = '.info-card__image'
-    SELLER_RATING = '.info-card-rating'
-    PHONE = '.info-card-btn__number'
-    MESSAGE = '.info-card-btn__massage'
+    SELLER_NAME = ".info-card__name"
+    SELLER_IMAGE = ".info-card__image"
+    SELLER_RATING = ".info-card-rating"
+    PHONE = ".info-card-btn__number"
+    MESSAGE = ".info-card-btn__massage"
     EDIT = ".info-card-btn__change"
 
     def click_on_seller_name(self):
