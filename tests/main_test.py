@@ -1,12 +1,11 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
 from pages import MainPage, SearchPage, ProductPage
 
 
-class MainTest(unittest.TestCase):
+class MainTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.main = MainPage(driver=self.driver)
         self.main.open()
 
@@ -17,7 +16,7 @@ class MainTest(unittest.TestCase):
         self.main.search.click_search()
 
         url = self.driver.current_url
-        self.assertTrue(search.is_compare_url(url), "Некорректный урл")
+        self.assertTrue(search.is_compare_url(url), "Не открылась страница поиска")
 
     def testClickSearchWithParam(self):
         """Проверка, что при введенных данных в поиск и нажатии на кнопку "Найти" открывает страница поиска"""
@@ -29,7 +28,7 @@ class MainTest(unittest.TestCase):
 
         url = self.driver.current_url
         search.change_path(text)
-        self.assertTrue(search.is_compare_url(url), "Некорректный урл")
+        self.assertTrue(search.is_compare_url(url), "Не открылась страница поиска")
 
     def testEnterSearch(self):
         """Проверка, что в поиске при нажатии "Enter" открывает страница поиска"""
@@ -38,7 +37,7 @@ class MainTest(unittest.TestCase):
         self.main.search.enter_search()
 
         url = self.driver.current_url
-        self.assertTrue(search.is_compare_url(url), "Некорректный урл")
+        self.assertTrue(search.is_compare_url(url), "Не открылась страница поиска")
 
     def testEnterSearchWithParam(self):
         """Проверка, что при введенных данных в поиск и нажатии "Enter" открывает страница поиска"""
@@ -50,7 +49,7 @@ class MainTest(unittest.TestCase):
 
         url = self.driver.current_url
         search.change_path(text)
-        self.assertTrue(search.is_compare_url(url), "Некорректный урл")
+        self.assertTrue(search.is_compare_url(url), "Не открылась страница поиска")
 
     def testClickCategory(self):
         """Проверка, что при нажатии на категорию открывается страница поиска"""
@@ -59,7 +58,7 @@ class MainTest(unittest.TestCase):
         self.main.search.click_category()
 
         url = self.driver.current_url
-        self.assertTrue(search.is_compare_url(url), "Некорректный урл")
+        self.assertTrue(search.is_compare_url(url), "Не открылась страница поиска")
 
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
@@ -69,7 +68,7 @@ class MainTest(unittest.TestCase):
 
         url = self.driver.current_url
         product.change_path(product_id)
-        self.assertTrue(product.is_compare_url(url), "Некорректный урл")
+        self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
 
     def testLikeProduct(self):
         """
@@ -77,7 +76,7 @@ class MainTest(unittest.TestCase):
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
         self.main.product_card.like_product()
-        self.assertTrue(self.main.login.is_opened(), "Не открыта авторизация")
+        self.assertTrue(self.main.login.is_opened(), "Не открылась авторизация")
         self.main.login.click_close()
 
         self.main.login.auth()
@@ -88,5 +87,3 @@ class MainTest(unittest.TestCase):
         self.main.product_card.remove_like_product(index)
         self.assertFalse(self.main.product_card.check_remove_like_product(index), "Не удалось убрать лайк")
 
-    def tearDown(self):
-        self.driver.close()
