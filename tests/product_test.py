@@ -9,7 +9,7 @@ from pages.user_chats import UserChats
 
 class ProductTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        self.driver = webdriver.Chrome('../chromedriver')
         self.product = ProductPage(driver=self.driver)
         self.product.open()
 
@@ -34,22 +34,16 @@ class ProductTest(unittest.TestCase):
         seller_products = SellerProductsPage(driver=self.driver)
 
         self.product.click_on_seller_name()
-
-        self.assertEqual(
-            seller_products.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testOpenAllItemsBySellerImg(self):
         """Успешный редирект на страницу всех объявлений при нажатии на фото"""
         seller_products = SellerProductsPage(driver=self.driver)
 
         self.product.click_on_seller_img()
-
-        self.assertEqual(
-            seller_products.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testOpenAllItemsBySellerRate(self):
         """Успешный редирект на страницу всех объявлений при нажатии на оценку"""
@@ -57,10 +51,9 @@ class ProductTest(unittest.TestCase):
 
         self.product.click_on_seller_rate()
 
-        self.assertEqual(
-            seller_products.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testFailToShowPhoneNotAuth(self):
         """Для неавторизованного пользователя: Ошибка доступа к телефону при нажатии на кнопку "Показать номер\""""

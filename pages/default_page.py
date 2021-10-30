@@ -39,6 +39,8 @@ class DefaultPage:
             return False
 
     def is_compare_url(self, url, **kwargs):
+        print(url)
+        print(self.BASE_URL + self.PATH)
         return self.BASE_URL + self.PATH == url
 
     def __contains_class__(self, element, search_class):
