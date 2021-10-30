@@ -6,7 +6,7 @@ from pages.registration import RegistrationPage
 
 class RegistrationTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        self.driver = webdriver.Chrome('../chromedriver')
         self.registration = RegistrationPage(driver=self.driver)
         self.registration.open()
 

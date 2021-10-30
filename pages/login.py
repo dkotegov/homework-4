@@ -19,6 +19,7 @@ class LoginPage(DefaultPage):
 
     LOGINED = ".header-right-avatar__img"
     LOGOUT = "[data-action = \"logoutClick\"]"
+    AUTH_ERROR = "#auth-error"
 
     def click_registration(self):
         self.__click_button__(self.REGISTRATION_BUTTON)
@@ -32,6 +33,10 @@ class LoginPage(DefaultPage):
     def is_logined(self):
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
         return self.is_contains(self.LOGINED)
+
+    def is_error(self):
+        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.AUTH_ERROR)))
+        return self.is_contains(self.AUTH_ERROR)
 
     def open_auth(self):
         self.__click_button__(self.LOGIN_BUTTON)
