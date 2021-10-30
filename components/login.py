@@ -1,3 +1,5 @@
+import os
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -8,8 +10,8 @@ class Login(Component):
     OUTSIDE = ".auth"
     POPUP = ".auth-content"
     TITLE = ".auth-content-inner__title"
-    LOGIN = ".auth-content-form__tel"
-    PASSWORD = ".auth-content-form__password"
+    LOGIN_INPUT = ".auth-content-form__tel"
+    PASSWORD_INPUT = ".auth-content-form__password"
     SUBMIT = ".auth-content-form__button"
     REGISTRATION_BUTTON = ".auth-content-form-registration__link"
     CLOSE_BUTTON = ".auth-content-inner__close"
@@ -43,25 +45,28 @@ class Login(Component):
         return self.helpers.is_contains(self.POPUP)
 
     def input_telephone_value(self, text):
-        self.helpers.input_value(self.LOGIN, text)
+        self.helpers.input_value(self.LOGIN_INPUT, text)
 
     def clear_telephone_value(self):
-        self.helpers.clear_input(self.LOGIN)
+        self.helpers.clear_input(self.LOGIN_INPUT)
 
     def input_password_value(self, text):
-        self.helpers.input_value(self.PASSWORD, text)
+        self.helpers.input_value(self.PASSWORD_INPUT, text)
 
     def clear_password_value(self):
-        self.helpers.clear_input(self.PASSWORD)
+        self.helpers.clear_input(self.PASSWORD_INPUT)
 
     def enter_submit(self):
         self.helpers.click_button(self.SUBMIT)
 
     def auth(self):
+        login = os.environ.get("LOGIN")
+        password = os.environ.get("PASSWORD")
+
         self.open_auth()
 
-        self.input_telephone_value("4444444444")
-        self.input_password_value("Qwerty123")
+        self.input_telephone_value(login)
+        self.input_password_value(password)
 
         self.enter_submit()
 

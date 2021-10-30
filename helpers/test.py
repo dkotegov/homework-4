@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
@@ -7,6 +8,9 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 class Test(unittest.TestCase):
     def setUp(self):
+        # TODO: убрать загрузку
+        load_dotenv("../.env")
+
         browser = os.environ.get('BROWSER', 'CHROME')
 
         self.driver = Remote(

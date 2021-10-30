@@ -1,3 +1,5 @@
+import os
+
 from helpers import Test
 
 from pages.registration import RegistrationPage
@@ -128,8 +130,7 @@ class RegistrationTest(Test):
         """Проверка ошибочной регистрации"""
         name = "name"
         surname = "surname"
-        # TODO: поменять когда добавим login в ENV
-        telephone = "4444444444"
+        telephone = os.environ.get("LOGIN")
         password = "Qwerty12"
         confirm_password = "Qwerty12"
 
@@ -142,4 +143,3 @@ class RegistrationTest(Test):
 
         text = self.registration.get_registration_error()
         self.assertEqual(text, "Пользователь уже существует", "Нет ошибки")
-

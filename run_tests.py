@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from dotenv import load_dotenv
 import unittest
+
 from tests import ProductTest, SellerProductsTest, SearchTest, UserProductsTest, \
     HeaderTest, FooterTest, ThemeTest, RegistrationTest, LoginTest, MainTest
 
 if __name__ == '__main__':
+    load_dotenv(".env")
+
     suite = unittest.TestSuite((
         unittest.makeSuite(ProductTest),
         unittest.makeSuite(SellerProductsTest),
