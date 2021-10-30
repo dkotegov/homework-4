@@ -41,19 +41,17 @@ class UserProductsTest(Test):
         """Успешный редирект на страницу "Мои объявления" при нажатии кнопки в боковом меню “Мои объявления”"""
         self.user_products_page.login.auth()
 
-        chats = UserChats(driver=self.driver)
-        chats.open()
-        chats.click_my_products()
+        self.user_products_page.settings_card.click_ad()
 
         url = self.driver.current_url
         self.assertTrue(self.user_products_page.is_compare_url(url), "Не открылась страница Мои объявления")
 
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
+        product = ProductPage(driver=self.driver)
+
         self.user_products_page.login.auth()
         self.user_products_page.open()
-
-        product = ProductPage(driver=self.driver)
 
         product_id = self.user_products_page.product_card.click_product()
 

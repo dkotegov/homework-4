@@ -82,7 +82,7 @@ class SearchTest(Test):
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
         self.search.product_card.like_product()
-        self.assertTrue(self.search.login.is_opened(), "Не открыта авторизация")
+        self.assertTrue(self.search.login.is_opened(), "Не открылась авторизация")
         self.search.login.click_close()
 
         self.search.login.auth()

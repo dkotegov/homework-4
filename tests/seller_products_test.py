@@ -25,7 +25,7 @@ class SellerProductsTest(Test):
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
         self.seller_products.product_card.like_product()
-        self.assertTrue(self.seller_products.login.is_opened(), "Не открыта авторизация")
+        self.assertTrue(self.seller_products.login.is_opened(), "Не открылась авторизация")
         self.seller_products.login.click_close()
 
         self.seller_products.login.auth()

@@ -1,25 +1,19 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from helpers import Page
+from helpers import Page, Component
 
 
-class RegistrationPage(Page):
-    PATH = "signup"
-
-    TITLE = ".reg-panel-title__product-name"
-
+class RegistrationForm(Component):
     ERROR = "input-error"
 
-    REGISTRATION_ERROR = "//div[@id=\"reg-error\"][contains(string(), \"Пользователь уже существует\")]"
+    REGISTRATION_ERROR = "#reg-error"
     NAME = "#name"
     SURNAME = "#surname"
     TELEPHONE = "#phone"
     PASSWORD = "#password"
     CONFIRM_PASSWORD = "#passwordConfirm"
     EMAIL = "#mail"
-    DATE = "#date"
-    SEX = "#sex"
     SUBMIT = "#submitBtn"
 
     def input_name_value(self, text):
@@ -76,12 +70,17 @@ class RegistrationPage(Page):
     def is_error_email(self):
         return self.helpers.is_contains_class(self.EMAIL, self.ERROR)
 
-    def get_registration_error(self):
-        return self.helpers.get_element(self.REGISTRATION_ERROR, self.helpers.SELECTOR.XPATH).text
+    def is_error(self):
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.REGISTRATION_ERROR)))
+        return self.helpers.is_contains(self.REGISTRATION_ERROR)
 
     def enter_submit(self):
         self.helpers.click_button(self.SUBMIT)
 
-    def get_title(self):
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
-        return self.driver.find_element(By.CSS_SELECTOR, self.TITLE).text
+
+class RegistrationPage(Page):
+    PATH = "signup"
+
+    @property
+    def form(self):
+        return RegistrationForm(self.driver)

@@ -12,10 +12,10 @@ class RegistrationTest(Test):
         self.registration.open()
 
     def __test_name__(self, test):
-        self.registration.clear_name_value()
-        self.registration.input_name_value(test)
-        self.registration.enter_submit()
-        self.assertTrue(self.registration.is_error_name(), "Нет ошибки")
+        self.registration.form.clear_name_value()
+        self.registration.form.input_name_value(test)
+        self.registration.form.enter_submit()
+        self.assertTrue(self.registration.form.is_error_name(), "Нет ошибки")
 
     def testErrorNameInput(self):
         """Проверка регистрации с неправильными данными имени"""
@@ -28,10 +28,10 @@ class RegistrationTest(Test):
         self.__test_name__(test2)
 
     def __test_surname__(self, test):
-        self.registration.clear_surname_value()
-        self.registration.input_surname_value(test)
-        self.registration.enter_submit()
-        self.assertTrue(self.registration.is_error_surname(), "Нет ошибки")
+        self.registration.form.clear_surname_value()
+        self.registration.form.input_surname_value(test)
+        self.registration.form.enter_submit()
+        self.assertTrue(self.registration.form.is_error_surname(), "Нет ошибки")
 
     def testErrorSurnameInput(self):
         """Проверка регистрации с неправильными данными фамилии"""
@@ -44,10 +44,10 @@ class RegistrationTest(Test):
         self.__test_surname__(test2)
 
     def __test_telephone__(self, test):
-        self.registration.clear_telephone_value()
-        self.registration.input_telephone_value(test)
-        self.registration.enter_submit()
-        self.assertTrue(self.registration.is_error_telephone(), "Нет ошибки")
+        self.registration.form.clear_telephone_value()
+        self.registration.form.input_telephone_value(test)
+        self.registration.form.enter_submit()
+        self.assertTrue(self.registration.form.is_error_telephone(), "Нет ошибки")
 
     def testErrorTelephoneInput(self):
         """Проверка регистрации с неправильными данными телефона"""
@@ -60,10 +60,10 @@ class RegistrationTest(Test):
         self.__test_telephone__(test2)
 
     def __test_password__(self, test):
-        self.registration.clear_password_value()
-        self.registration.input_password_value(test)
-        self.registration.enter_submit()
-        self.assertTrue(self.registration.is_error_password(), "Нет ошибки")
+        self.registration.form.clear_password_value()
+        self.registration.form.input_password_value(test)
+        self.registration.form.enter_submit()
+        self.assertTrue(self.registration.form.is_error_password(), "Нет ошибки")
 
     def testErrorPasswordInput(self):
         """Проверка регистрации с неправильными данными пароля"""
@@ -88,13 +88,13 @@ class RegistrationTest(Test):
         self.__test_password__(test6)
 
     def __test__confirm_password__(self, test, confirm_test):
-        self.registration.clear_password_value()
-        self.registration.input_password_value(test)
-        self.registration.clear_confirm_password_value()
-        self.registration.input_confirm_password_value(confirm_test)
+        self.registration.form.clear_password_value()
+        self.registration.form.input_password_value(test)
+        self.registration.form.clear_confirm_password_value()
+        self.registration.form.input_confirm_password_value(confirm_test)
 
-        self.registration.enter_submit()
-        self.assertTrue(self.registration.is_error_confirm_password(), "Нет ошибки")
+        self.registration.form.enter_submit()
+        self.assertTrue(self.registration.form.is_error_confirm_password(), "Нет ошибки")
 
     def testErrorConfirmPasswordInput(self):
         """Проверка регистрации с неправильными данными пароля и подтверждения пароля"""
@@ -105,10 +105,10 @@ class RegistrationTest(Test):
         self.__test__confirm_password__(test_password, test_confirm_password)
 
     def __test_email__(self, test):
-        self.registration.clear_email_value()
-        self.registration.input_email_value(test)
-        self.registration.enter_submit()
-        self.assertTrue(self.registration.is_error_email(), "Нет ошибки")
+        self.registration.form.clear_email_value()
+        self.registration.form.input_email_value(test)
+        self.registration.form.enter_submit()
+        self.assertTrue(self.registration.form.is_error_email(), "Нет ошибки")
 
     def testErrorEmailInput(self):
         """Проверка регистрации с неправильными данными почты"""
@@ -134,12 +134,11 @@ class RegistrationTest(Test):
         password = "Qwerty12"
         confirm_password = "Qwerty12"
 
-        self.registration.input_name_value(name)
-        self.registration.input_surname_value(surname)
-        self.registration.input_telephone_value(telephone)
-        self.registration.input_password_value(password)
-        self.registration.input_confirm_password_value(confirm_password)
-        self.registration.enter_submit()
+        self.registration.form.input_name_value(name)
+        self.registration.form.input_surname_value(surname)
+        self.registration.form.input_telephone_value(telephone)
+        self.registration.form.input_password_value(password)
+        self.registration.form.input_confirm_password_value(confirm_password)
+        self.registration.form.enter_submit()
 
-        text = self.registration.get_registration_error()
-        self.assertEqual(text, "Пользователь уже существует", "Нет ошибки")
+        self.assertTrue(self.registration.form.is_error(), "Нет ошибки")
