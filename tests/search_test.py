@@ -16,22 +16,22 @@ class SearchTest(Test):
                         Запрет ввода в поля символов отличных от цифр в блоке с фильтрами
                         Запрет ввода в поля чисел больше, чем 10 знаков в блоке с фильтрами
         """
-        res_good = self.search.enterAmount("1000")
+        res_good = self.search.enter_amount("1000")
         self.assertTupleEqual(("1 000", "1 000"), res_good, "Некорректный результат")
-        self.search.clearAmount()
+        self.search.clear_amount()
 
-        res_bad = self.search.enterAmount("incorrect")
+        res_bad = self.search.enter_amount("incorrect")
         self.assertTupleEqual(("", ""), res_bad, "Некорректный результат")
-        self.search.clearAmount()
+        self.search.clear_amount()
 
-        res_bad = self.search.enterAmount("10000000000000")
+        res_bad = self.search.enter_amount("10000000000000")
         self.assertTupleEqual(("1 000 000 000", "1 000 000 000"), res_bad, "Некорректный результат")
 
     def testSearchSortName(self):
         """Проверить, что при нажатии на "По имени" из списка “Сортировка по”, объявления выдаются в алфавитном
         порядке """
-        self.search.changeSortName()
-        products = self.search.getAllNameProducts()
+        self.search.change_sort_name()
+        products = self.search.get_all_name_products()
         list_not_sorted = []
         list_sorted = []
         for item in products:
@@ -43,8 +43,8 @@ class SearchTest(Test):
     def testSearchSortAmountDown(self):
         """Проверить, что при нажатии на "По убыванию цены" из списка “Сортировка по”, объявления выдаются от
         наибольшей цены к наименьшей """
-        self.search.changeSortAmountDown()
-        products = self.search.getAllAmountProducts()
+        self.search.change_sort_amount_down()
+        products = self.search.get_all_amount_products()
         list_not_sorted = []
         list_sorted = []
         for item in products:
@@ -56,8 +56,8 @@ class SearchTest(Test):
     def testSearchSortAmountUp(self):
         """Проверить, что при нажатии на "По возрастанию цены" из списка “Сортировка по”, объявления выдаются от
         наименьшей цены к наибольшей """
-        self.search.changeSortAmountUp()
-        products = self.search.getAllAmountProducts()
+        self.search.change_sort_amount_up()
+        products = self.search.get_all_amount_products()
         list_not_sorted = []
         list_sorted = []
         for item in products:

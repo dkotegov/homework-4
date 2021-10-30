@@ -21,4 +21,3 @@ class SellerProductsPage(Page):
     def get_title(self):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
         return self.helpers.get_element(self.TITLE).text
-
