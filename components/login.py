@@ -26,7 +26,8 @@ class Login(Component):
         self.helpers.click_button(self.CLOSE_BUTTON)
 
     def click_outside(self):
-        self.helpers.click_button(self.OUTSIDE)
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.OUTSIDE)))
+        self.driver.execute_script("document.querySelector(\"{}\").click()".format(self.OUTSIDE))
 
     def is_logined(self):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
