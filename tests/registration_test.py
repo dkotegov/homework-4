@@ -1,9 +1,9 @@
-from tests.helpers.default_test import DefaultTest
+from helpers import Test
 
 from pages.registration import RegistrationPage
 
 
-class RegistrationTest(DefaultTest):
+class RegistrationTest(Test):
     def setUp(self):
         super().setUp()
         self.registration = RegistrationPage(driver=self.driver)
@@ -140,4 +140,6 @@ class RegistrationTest(DefaultTest):
         self.registration.input_confirm_password_value(confirm_password)
         self.registration.enter_submit()
 
-        self.assertEqual(self.registration.get_registration_error(), "Пользователь уже существует", "Нет ошибки")
+        text = self.registration.get_registration_error()
+        self.assertEqual(text, "Пользователь уже существует", "Нет ошибки")
+

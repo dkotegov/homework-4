@@ -1,7 +1,7 @@
-from pages.default_page import DefaultPage, SELECTOR
+from helpers.component import Component
 
 
-class Header(DefaultPage):
+class Header(Component):
     LOGO = ".header-left__brand"
     SEARCH = ".header-right__search-button"
     CREATE = ".header-right__create-button"
@@ -18,37 +18,37 @@ class Header(DefaultPage):
     REVIEWS = DROPDOWN_ITEM.format("Отзывы")
 
     def click_logo(self):
-        self.__click_button__(self.LOGO)
+        self.helpers.click_button(self.LOGO)
 
     def click_search(self):
-        self.__click_button__(self.SEARCH)
+        self.helpers.click_button(self.SEARCH)
 
     def click_create(self):
-        self.__click_button__(self.CREATE)
+        self.helpers.click_button(self.CREATE)
 
     def click_auth(self):
-        self.__click_button__(self.AUTH)
+        self.helpers.click_button(self.AUTH)
 
     def click_dropdown(self):
-        self.__click_button__(self.ACCOUNT)
+        self.helpers.click_button(self.ACCOUNT)
 
     def is_opened_dropdown(self):
-        return self.is_contains(self.DROPDOWN)
+        return self.helpers.is_contains(self.DROPDOWN)
 
     def click_settings(self):
-        self.__click_button__(self.SETTINGS, SELECTOR.XPATH)
+        self.helpers.click_button(self.SETTINGS, self.helpers.SELECTOR.XPATH)
 
     def click_ad(self):
-        self.__click_button__(self.AD, SELECTOR.XPATH)
+        self.helpers.click_button(self.AD, self.helpers.SELECTOR.XPATH)
 
     def click_chats(self):
-        self.__click_button__(self.CHATS, SELECTOR.XPATH)
+        self.helpers.click_button(self.CHATS, self.helpers.SELECTOR.XPATH)
 
     def click_favorites(self):
-        self.__click_button__(self.FAVORITES, SELECTOR.XPATH)
+        self.helpers.click_button(self.FAVORITES, self.helpers.SELECTOR.XPATH)
 
     def click_achievements(self):
-        self.__click_button__(self.ACHIEVEMENTS, SELECTOR.XPATH)
+        self.helpers.click_button(self.ACHIEVEMENTS, self.helpers.SELECTOR.XPATH)
 
     def click_reviews(self):
-        self.__click_button__(self.REVIEWS, SELECTOR.XPATH)
+        self.helpers.click_button(self.REVIEWS, self.helpers.SELECTOR.XPATH)

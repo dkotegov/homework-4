@@ -4,7 +4,7 @@ import unittest
 from selenium.webdriver import DesiredCapabilities, Remote
 
 
-class DefaultTest(unittest.TestCase):
+class Test(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
 

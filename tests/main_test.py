@@ -1,13 +1,9 @@
-from tests.helpers.default_test import DefaultTest
+from helpers import Test
 
-from pages.main import MainPage
-from pages.product_card import ProductCard
-from pages.search import SearchPage
-from pages.product import ProductPage
-from pages.login import LoginPage
+from pages import MainPage, SearchPage, ProductPage
 
 
-class MainTest(DefaultTest):
+class MainTest(Test):
     def setUp(self):
         super().setUp()
         self.main = MainPage(driver=self.driver)
@@ -17,7 +13,7 @@ class MainTest(DefaultTest):
         """Проверка, что при нажатии на кнопку "Найти" открывает страница поиска"""
         search = SearchPage(driver=self.driver)
 
-        self.main.click_search()
+        self.main.search.click_search()
 
         url = self.driver.current_url
         self.assertTrue(search.is_compare_url(url), "Некорректный урл")
@@ -27,8 +23,8 @@ class MainTest(DefaultTest):
         search = SearchPage(driver=self.driver)
         text = "test"
 
-        self.main.input_search_value(text)
-        self.main.click_search()
+        self.main.search.input_search_value(text)
+        self.main.search.click_search()
 
         url = self.driver.current_url
         search.change_path(text)
@@ -38,7 +34,7 @@ class MainTest(DefaultTest):
         """Проверка, что в поиске при нажатии "Enter" открывает страница поиска"""
         search = SearchPage(driver=self.driver)
 
-        self.main.enter_search()
+        self.main.search.enter_search()
 
         url = self.driver.current_url
         self.assertTrue(search.is_compare_url(url), "Некорректный урл")
@@ -48,8 +44,8 @@ class MainTest(DefaultTest):
         search = SearchPage(driver=self.driver)
         text = "test"
 
-        self.main.input_search_value(text)
-        self.main.enter_search()
+        self.main.search.input_search_value(text)
+        self.main.search.enter_search()
 
         url = self.driver.current_url
         search.change_path(text)
@@ -59,7 +55,7 @@ class MainTest(DefaultTest):
         """Проверка, что при нажатии на категорию открывается страница поиска"""
         search = SearchPage(driver=self.driver)
 
-        self.main.click_category()
+        self.main.search.click_category()
 
         url = self.driver.current_url
         self.assertTrue(search.is_compare_url(url), "Некорректный урл")
@@ -67,9 +63,8 @@ class MainTest(DefaultTest):
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
         product = ProductPage(driver=self.driver)
-        product_card = ProductCard(driver=self.driver)
 
-        product_id = product_card.click_product()
+        product_id = self.main.product_card.click_product()
 
         url = self.driver.current_url
         product.change_path(product_id)
@@ -80,17 +75,15 @@ class MainTest(DefaultTest):
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        login = LoginPage(driver=self.driver)
-        product_card = ProductCard(driver=self.driver)
+        self.main.product_card.like_product()
+        self.assertTrue(self.main.login.is_opened(), "Не открыта авторизация")
+        self.main.login.click_close()
 
-        product_card.like_product()
-        self.assertTrue(login.is_opened(), "Не открыта авторизация")
-        login.click_close()
+        self.main.login.auth()
 
-        login.auth()
+        index = self.main.product_card.like_product()
+        self.assertTrue(self.main.product_card.check_like_product(), "Не удалось поставить лайк")
 
-        index = product_card.like_product()
-        self.assertTrue(product_card.check_like_product(index), "Не удалось поставить лайк")
+        self.main.product_card.remove_like_product(index)
+        self.assertFalse(self.main.product_card.check_remove_like_product(index), "Не удалось убрать лайк")
 
-        product_card.remove_like_product(index)
-        self.assertFalse(product_card.check_remove_like_product(index), "Не удалось убрать лайк")
