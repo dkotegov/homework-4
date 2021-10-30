@@ -40,7 +40,7 @@ class ProfileTest(BaseTest):
         self.page.set_email(new_email)
         self.page.set_name(new_name)
         self.page.click_save_btn()
-        self.assertNotEqual(self.page.get_popup().get_attribute('class').find('success'), -1)
+        self.assertTrue(self.page.is_popup_success())
 
         self.driver.refresh()
 

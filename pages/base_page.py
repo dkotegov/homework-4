@@ -1,4 +1,6 @@
-from selenium.webdriver import Remote
+import pyautogui
+
+from selenium.webdriver import Remote, ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -25,9 +27,42 @@ class BasePage:
         except TimeoutException:
             return False
 
+    def set_field(self, locator, value):
+        el = self.locate_el(locator)
+        el.clear()
+        el.send_keys(value)
+
     def get_popup(self):
         return self.locate_el('.popup-message')
+
+    def is_popup_success(self):
+        return self.get_popup().get_attribute('class').find('success') != -1
 
     def locate_el(self, css_sel, wait: float = 3.0) -> WebElement:
         waiter = WebDriverWait(self.driver, wait)
         return waiter.until(EC.visibility_of_element_located((By.CSS_SELECTOR, css_sel)))
+
+    def click(self, css_sel):
+        self.locate_el(css_sel).click()
+
+    def locate_hidden_el(self, css_sel, wait: float = 3.0) -> WebElement:
+        waiter = WebDriverWait(self.driver, wait)
+        return waiter.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_sel)))
+
+    def click_hidden(self, css_sel):
+        el = self.locate_hidden_el(css_sel)
+        ActionChains(self.driver).move_to_element(el).perform()
+        el.click()
+
+    def enter_file_path(self, clickf, path):
+        old_width = pyautogui.getActiveWindow().width
+
+        clickf()
+
+        new_width = old_width
+        while old_width == new_width:
+            new_width = pyautogui.getActiveWindow().width
+            pyautogui.sleep(0.1)
+
+        pyautogui.write(path)
+        pyautogui.press('enter')
