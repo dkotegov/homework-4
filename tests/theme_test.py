@@ -1,12 +1,11 @@
-import unittest
-from selenium import webdriver
+from tests.helpers.default_test import DefaultTest
 
 from pages.theme import Theme
 
 
-class ThemeTest(unittest.TestCase):
+class ThemeTest(DefaultTest):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.theme = Theme(driver=self.driver)
         self.theme.open()
 
@@ -24,6 +23,3 @@ class ThemeTest(unittest.TestCase):
         theme_2 = self.theme.get_theme()
         self.assertEqual(theme_0, theme_2, "Разные темы")
         self.assertNotEqual(theme_1, theme_2, "Одинаковые темы")
-
-    def tearDown(self):
-        self.driver.close()

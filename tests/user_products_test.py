@@ -1,5 +1,4 @@
-import unittest
-from selenium import webdriver
+from tests.helpers.default_test import DefaultTest
 
 from pages.user_products import UserProductsPage
 from pages.login import LoginPage
@@ -10,9 +9,9 @@ from pages.product import ProductPage
 from pages.product_card import ProductCard
 
 
-class UserProductsTest(unittest.TestCase):
+class UserProductsTest(DefaultTest):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.user_products_page = UserProductsPage(driver=self.driver)
         self.login = LoginPage(driver=self.driver)
 
@@ -76,6 +75,3 @@ class UserProductsTest(unittest.TestCase):
         url = self.driver.current_url
         product.change_path(product_id)
         self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
-
-    def tearDown(self):
-        self.driver.close()

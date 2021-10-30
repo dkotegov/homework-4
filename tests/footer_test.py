@@ -1,5 +1,4 @@
-import unittest
-from selenium import webdriver
+from tests.helpers.default_test import DefaultTest
 
 from pages.footer import Footer
 from pages.login import LoginPage
@@ -13,9 +12,9 @@ from pages.user_favorites import UserFavoritesPage
 from pages.create_product import CreateProductPage
 
 
-class FooterTest(unittest.TestCase):
+class FooterTest(DefaultTest):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.login = LoginPage(driver=self.driver)
         self.footer = Footer(driver=self.driver)
         self.footer.open()
@@ -111,6 +110,3 @@ class FooterTest(unittest.TestCase):
 
         self.footer.click_auth()
         self.assertTrue(self.login.is_opened(), "Закрыта авторизация")
-
-    def tearDown(self):
-        self.driver.close()

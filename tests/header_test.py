@@ -1,5 +1,4 @@
-import unittest
-from selenium import webdriver
+from tests.helpers.default_test import DefaultTest
 
 from pages.header import Header
 from pages.login import LoginPage
@@ -14,9 +13,9 @@ from pages.reviews import ReviewsPage
 from pages.create_product import CreateProductPage
 
 
-class HeaderTest(unittest.TestCase):
+class HeaderTest(DefaultTest):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.login = LoginPage(driver=self.driver)
         self.header = Header(driver=self.driver)
         self.header.open()
@@ -141,6 +140,3 @@ class HeaderTest(unittest.TestCase):
         # TODO: брать из ENV
         reviews.change_path("78")
         self.assertTrue(reviews.is_compare_url(url), "Некорректный урл")
-
-    def tearDown(self):
-        self.driver.close()

@@ -1,5 +1,5 @@
-import unittest
-from selenium import webdriver
+from tests.helpers.default_test import DefaultTest
+
 from utils.natural_sort import natural_sort
 
 from pages.search import SearchPage
@@ -8,9 +8,9 @@ from pages.product_card import ProductCard
 from pages.login import LoginPage
 
 
-class SearchTest(unittest.TestCase):
+class SearchTest(DefaultTest):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.search = SearchPage(driver=self.driver)
         self.search.open()
 
@@ -99,6 +99,3 @@ class SearchTest(unittest.TestCase):
 
         product_card.remove_like_product(index)
         self.assertFalse(product_card.check_remove_like_product(index), "Не удалось убрать лайк")
-
-    def tearDown(self):
-        self.driver.close()

@@ -1,5 +1,4 @@
-import unittest
-from selenium import webdriver
+from tests.helpers.default_test import DefaultTest
 
 from pages.product import ProductPage
 from pages.seller_products import SellerProductsPage
@@ -7,9 +6,9 @@ from pages.login import LoginPage
 from pages.user_chats import UserChats
 
 
-class ProductTest(unittest.TestCase):
+class ProductTest(DefaultTest):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.product = ProductPage(driver=self.driver)
         self.product.open()
 
@@ -123,6 +122,3 @@ class ProductTest(unittest.TestCase):
             message.get_title(),
             "",
             "Не появляется страница диалога")
-
-    def tearDown(self):
-        self.driver.close()

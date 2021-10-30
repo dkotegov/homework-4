@@ -1,12 +1,11 @@
-import unittest
-from selenium import webdriver
+from tests.helpers.default_test import DefaultTest
 
 from pages.registration import RegistrationPage
 
 
-class RegistrationTest(unittest.TestCase):
+class RegistrationTest(DefaultTest):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.registration = RegistrationPage(driver=self.driver)
         self.registration.open()
 
@@ -142,6 +141,3 @@ class RegistrationTest(unittest.TestCase):
         self.registration.enter_submit()
 
         self.assertEqual(self.registration.get_registration_error(), "Пользователь уже существует", "Нет ошибки")
-
-    def tearDown(self):
-        self.driver.close()
