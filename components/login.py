@@ -17,6 +17,7 @@ class Login(Component):
     LOGIN_BUTTON = ".header-right__account"
     LOGINED = ".header-right-avatar__img"
     LOGOUT = "[data-action = \"logoutClick\"]"
+    AUTH_ERROR = "#auth-error"
 
     def click_registration(self):
         self.helpers.click_button(self.REGISTRATION_BUTTON)
@@ -30,6 +31,10 @@ class Login(Component):
     def is_logined(self):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
         return self.helpers.is_contains(self.LOGINED)
+
+    def is_error(self):
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.AUTH_ERROR)))
+        return self.helpers.is_contains(self.AUTH_ERROR)
 
     def open_auth(self):
         self.helpers.click_button(self.LOGIN_BUTTON)

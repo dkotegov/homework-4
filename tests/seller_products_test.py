@@ -3,7 +3,6 @@ from selenium import webdriver
 
 from pages.seller_products import SellerProductsPage
 from components.product_card import ProductCard
-from components.login import LoginPage
 from pages.product import ProductPage
 
 
@@ -29,20 +28,16 @@ class SellerProductsTest(unittest.TestCase):
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        login = LoginPage(driver=self.driver)
-        product_card = ProductCard(driver=self.driver)
 
-        product_card.like_product()
-        self.assertTrue(login.is_opened(), "Не открыта авторизация")
-        login.click_close()
+        self.seller_products.product_card.like_product()
+        self.assertTrue(self.seller_products.login.is_opened(), "Не открыта авторизация")
+        self.seller_products.login.click_close()
+        self.seller_products.login.auth()
+        index = self.seller_products.product_card.like_product()
+        self.assertTrue(self.seller_products.product_card.check_like_product(), "Не удалось поставить лайк")
 
-        login.auth()
-
-        index = product_card.like_product()
-        self.assertTrue(product_card.check_like_product(index), "Не удалось поставить лайк")
-
-        product_card.remove_like_product(index)
-        self.assertFalse(product_card.check_remove_like_product(index), "Не удалось убрать лайк")
+        self.seller_products.product_card.remove_like_product(index)
+        self.assertFalse(self.seller_products.product_card.check_remove_like_product(index), "Не удалось убрать лайк")
 
     def tearDown(self):
         self.driver.close()

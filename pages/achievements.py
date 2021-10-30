@@ -1,7 +1,7 @@
-from pages.default_page import DefaultPage
+from helpers import Page
 
 
-class AchievementsPage(DefaultPage):
+class AchievementsPage(Page):
     PATH = "user/1/achievements"
 
     def change_path(self, path):

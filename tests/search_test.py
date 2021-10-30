@@ -5,7 +5,6 @@ from utils.natural_sort import natural_sort
 from pages.search import SearchPage
 from pages.product import ProductPage
 from components.product_card import ProductCard
-from components.login import LoginPage
 
 
 class SearchTest(unittest.TestCase):
@@ -85,20 +84,18 @@ class SearchTest(unittest.TestCase):
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        login = LoginPage(driver=self.driver)
-        product_card = ProductCard(driver=self.driver)
 
-        product_card.like_product()
-        self.assertTrue(login.is_opened(), "Не открыта авторизация")
-        login.click_close()
+        self.search.product_card.like_product()
+        self.assertTrue(self.search.login.is_opened(), "Не открыта авторизация")
+        self.search.login.click_close()
 
-        login.auth()
+        self.search.login.auth()
 
-        index = product_card.like_product()
-        self.assertTrue(product_card.check_like_product(index), "Не удалось поставить лайк")
+        index = self.search.product_card.like_product()
+        self.assertTrue(self.search.product_card.check_like_product(), "Не удалось поставить лайк")
 
-        product_card.remove_like_product(index)
-        self.assertFalse(product_card.check_remove_like_product(index), "Не удалось убрать лайк")
+        self.search.product_card.remove_like_product(index)
+        self.assertFalse(self.search.product_card.check_remove_like_product(index), "Не удалось убрать лайк")
 
     def tearDown(self):
         self.driver.close()

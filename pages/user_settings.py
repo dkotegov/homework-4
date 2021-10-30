@@ -1,5 +1,5 @@
-from pages.default_page import DefaultPage
+from helpers import Page
 
 
-class UserSettingsPage(DefaultPage):
+class UserSettingsPage(Page):
     PATH = "user/profile"
