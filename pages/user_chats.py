@@ -10,6 +10,9 @@ class UserChats(DefaultPage):
     TITLE = ".chat-message-head-info-user__name"
     MY_PRODUCTS = "#profile-menu-posts"
 
+    def change_path(self, path):
+        self.PATH = "user/chat/" + path
+
     def get_title(self):
         self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
         return self.driver.find_element(By.CSS_SELECTOR, self.TITLE).text

@@ -9,7 +9,7 @@ from pages.user_chats import UserChats
 
 class ProductTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('../chromedriver')
+        self.driver = webdriver.Chrome('./chromedriver')
         self.product = ProductPage(driver=self.driver)
         self.product.open()
 
