@@ -63,8 +63,6 @@ class InfoCard(Component):
 class ProductPage(Page):
     PATH = "product/48"
 
-    TITLE = ".board-title__product-name"
-
     @property
     def login(self):
         return Login(self.driver)
@@ -79,7 +77,3 @@ class ProductPage(Page):
 
     def change_path(self, path):
         self.PATH = "product/" + path
-
-    def page_exist(self):
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
-        return self.helpers.get_element(self.TITLE) is not None
