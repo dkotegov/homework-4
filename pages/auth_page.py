@@ -16,10 +16,10 @@ class AuthPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver, 'div.auth')
 
-    def auth(self):
+    def auth(self, username=s.USERNAME, password=s.PASSWORD):
         self.open()
-        self.set_username()
-        self.set_password()
+        self.set_username(username)
+        self.set_password(password)
         self.click_login_btn()
 
         # we need to wait for login to succeed

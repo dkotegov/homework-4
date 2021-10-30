@@ -54,6 +54,11 @@ class BasePage:
         ActionChains(self.driver).move_to_element(el).perform()
         el.click()
 
+    def drag_and_drop(self, css_sel_source, css_sel_target):
+        source = self.locate_hidden_el(css_sel_source)
+        target = self.locate_hidden_el(css_sel_target)
+        ActionChains(self.driver).drag_and_drop(source, target).perform()
+
     def enter_file_path(self, clickf, path):
         old_width = pyautogui.getActiveWindow().width
 
