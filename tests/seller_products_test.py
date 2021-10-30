@@ -32,11 +32,9 @@ class SellerProductsTest(unittest.TestCase):
         self.seller_products.product_card.like_product()
         self.assertTrue(self.seller_products.login.is_opened(), "Не открыта авторизация")
         self.seller_products.login.click_close()
-
         self.seller_products.login.auth()
-
         index = self.seller_products.product_card.like_product()
-        self.assertTrue(self.seller_products.product_card.check_like_product(index), "Не удалось поставить лайк")
+        self.assertTrue(self.seller_products.product_card.check_like_product(), "Не удалось поставить лайк")
 
         self.seller_products.product_card.remove_like_product(index)
         self.assertFalse(self.seller_products.product_card.check_remove_like_product(index), "Не удалось убрать лайк")

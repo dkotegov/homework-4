@@ -27,9 +27,8 @@ class ProductCard(Component):
         products[index].click()
         return index
 
-    def check_like_product(self, index):
-        products = self.helpers.get_elements(self.LIKED)
-        liked = products[index]
+    def check_like_product(self):
+        liked = self.helpers.get_element(self.LIKED)
         return self.helpers.is_element_contains_class(liked, self.PRODUCT_LIKED)
 
     def check_remove_like_product(self, index):

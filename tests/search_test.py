@@ -92,7 +92,7 @@ class SearchTest(unittest.TestCase):
         self.search.login.auth()
 
         index = self.search.product_card.like_product()
-        self.assertTrue(self.search.product_card.check_like_product(index), "Не удалось поставить лайк")
+        self.assertTrue(self.search.product_card.check_like_product(), "Не удалось поставить лайк")
 
         self.search.product_card.remove_like_product(index)
         self.assertFalse(self.search.product_card.check_remove_like_product(index), "Не удалось убрать лайк")
