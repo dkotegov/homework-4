@@ -34,7 +34,7 @@ class Login(Component):
 
     def is_error(self):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.AUTH_ERROR)))
-        return self.is_contains(self.AUTH_ERROR)
+        return self.helpers.is_contains(self.AUTH_ERROR)
 
     def open_auth(self):
         self.helpers.click_button(self.LOGIN_BUTTON)
