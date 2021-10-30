@@ -10,8 +10,8 @@ class Login(Component):
     OUTSIDE = ".auth"
     POPUP = ".auth-content"
     TITLE = ".auth-content-inner__title"
-    LOGIN_INPUT = ".auth-content-form__tel"
-    PASSWORD_INPUT = ".auth-content-form__password"
+    LOGIN = ".auth-content-form__tel"
+    PASSWORD = ".auth-content-form__password"
     SUBMIT = ".auth-content-form__button"
     REGISTRATION_BUTTON = ".auth-content-form-registration__link"
     CLOSE_BUTTON = ".auth-content-inner__close"
@@ -46,16 +46,16 @@ class Login(Component):
         return self.helpers.is_contains(self.POPUP)
 
     def input_telephone_value(self, text):
-        self.helpers.input_value(self.LOGIN_INPUT, text)
+        self.helpers.input_value(self.LOGIN, text)
 
     def clear_telephone_value(self):
-        self.helpers.clear_input(self.LOGIN_INPUT)
+        self.helpers.clear_input(self.LOGIN)
 
     def input_password_value(self, text):
-        self.helpers.input_value(self.PASSWORD_INPUT, text)
+        self.helpers.input_value(self.PASSWORD, text)
 
     def clear_password_value(self):
-        self.helpers.clear_input(self.PASSWORD_INPUT)
+        self.helpers.clear_input(self.PASSWORD)
 
     def enter_submit(self):
         self.helpers.click_button(self.SUBMIT)
