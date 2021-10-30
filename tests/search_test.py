@@ -4,7 +4,7 @@ from utils.natural_sort import natural_sort
 
 from pages.search import SearchPage
 from pages.product import ProductPage
-from pages.product_card import ProductCard
+from pages.components.product_card import ProductCard
 from pages.login import LoginPage
 
 

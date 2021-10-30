@@ -1,7 +1,7 @@
 import unittest
 from selenium import webdriver
 
-from pages.footer import Footer
+from pages.components.footer import Footer
 from pages.login import LoginPage
 from pages.search import SearchPage
 from pages.main import MainPage

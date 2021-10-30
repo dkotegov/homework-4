@@ -1,7 +1,7 @@
 import unittest
 from selenium import webdriver
 
-from pages.header import Header
+from pages.components.header import Header
 from pages.login import LoginPage
 from pages.search import SearchPage
 from pages.main import MainPage

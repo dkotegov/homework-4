@@ -1,7 +1,7 @@
-from pages.default_page import DefaultPage, SELECTOR
+from pages.helpers.component import Component
 
 
-class Footer(DefaultPage):
+class Footer(Component):
     LOGO = ".footer-urls-logo__img"
 
     FOOTER_ITEM = "//div[@class=\"footer-urls-container\"]/a[contains(text(),'{}')]"
@@ -15,28 +15,28 @@ class Footer(DefaultPage):
     AUTH = FOOTER_ITEM.format("Авторизация")
 
     def click_logo(self):
-        self.__click_button__(self.LOGO)
+        self.helpers.click_button(self.LOGO)
 
     def click_create(self):
-        self.__click_button__(self.CREATE, SELECTOR.XPATH)
+        self.helpers.click_button(self.CREATE, self.helpers.SELECTOR.XPATH)
 
     def click_search(self):
-        self.__click_button__(self.SEARCH, SELECTOR.XPATH)
+        self.helpers.click_button(self.SEARCH, self.helpers.SELECTOR.XPATH)
 
     def click_settings(self):
-        self.__click_button__(self.SETTINGS, SELECTOR.XPATH)
+        self.helpers.click_button(self.SETTINGS, self.helpers.SELECTOR.XPATH)
 
     def click_ad(self):
-        self.__click_button__(self.AD, SELECTOR.XPATH)
+        self.helpers.click_button(self.AD, self.helpers.SELECTOR.XPATH)
 
     def click_chats(self):
-        self.__click_button__(self.CHATS, SELECTOR.XPATH)
+        self.helpers.click_button(self.CHATS, self.helpers.SELECTOR.XPATH)
 
     def click_favorites(self):
-        self.__click_button__(self.FAVORITES, SELECTOR.XPATH)
+        self.helpers.click_button(self.FAVORITES, self.helpers.SELECTOR.XPATH)
 
     def click_registration(self):
-        self.__click_button__(self.REGISTRATION, SELECTOR.XPATH)
+        self.helpers.click_button(self.REGISTRATION, self.helpers.SELECTOR.XPATH)
 
     def click_auth(self):
-        self.__click_button__(self.AUTH, SELECTOR.XPATH)
+        self.helpers.click_button(self.AUTH, self.helpers.SELECTOR.XPATH)

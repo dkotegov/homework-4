@@ -2,7 +2,7 @@ import unittest
 from selenium import webdriver
 
 from pages.main import MainPage
-from pages.product_card import ProductCard
+from pages.components.product_card import ProductCard
 from pages.search import SearchPage
 from pages.product import ProductPage
 from pages.login import LoginPage

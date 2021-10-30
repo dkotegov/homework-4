@@ -1,7 +1,7 @@
 import unittest
 from selenium import webdriver
 
-from pages.theme import Theme
+from pages.components.theme import Theme
 
 
 class ThemeTest(unittest.TestCase):
