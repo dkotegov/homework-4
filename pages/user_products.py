@@ -1,13 +1,14 @@
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from pages.default_page import DefaultPage
+from components import ProductCard, Login
+from helpers import Page
 
 
-class UserProductsPage(DefaultPage):
+class UserProductsPage(Page):
     PATH = "user/ad"
-    TITLE = ".product-table__title"
 
-    def get_title(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
-        return self.driver.find_element(By.CSS_SELECTOR, self.TITLE).text
+    @property
+    def product_card(self):
+        return ProductCard(self.driver)
+
+    @property
+    def login(self):
+        return Login(self.driver)

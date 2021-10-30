@@ -1,9 +1,11 @@
 import unittest
 from selenium import webdriver
-from pages.all_seller_products import AllSellerProductsPage
-from pages.login import LoginPage
-from pages.massage import MassagePage
+
+from pages.edit_product import ProductEditPage
 from pages.product import ProductPage
+from pages.seller_products import SellerProductsPage
+from pages.user_chats import UserChats
+from pages.user_products import UserProductsPage
 
 
 class ProductTest(unittest.TestCase):
@@ -29,45 +31,34 @@ class ProductTest(unittest.TestCase):
 
     def testOpenAllItemsBySellerName(self):
         """Успешный редирект на страницу всех объявлений при нажатии на имя"""
-        self.all_items = AllSellerProductsPage(driver=self.driver)
+        seller_products = SellerProductsPage(driver=self.driver)
         self.product.click_on_seller_name()
-        self.assertEqual(
-            self.all_items.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testOpenAllItemsBySellerImg(self):
         """Успешный редирект на страницу всех объявлений при нажатии на фото"""
-        self.all_items = AllSellerProductsPage(driver=self.driver)
+        seller_products = SellerProductsPage(driver=self.driver)
         self.product.click_on_seller_img()
-        self.assertEqual(
-            self.all_items.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testOpenAllItemsBySellerRate(self):
         """Успешный редирект на страницу всех объявлений при нажатии на оценку"""
-        self.all_items = AllSellerProductsPage(driver=self.driver)
+        seller_products = SellerProductsPage(driver=self.driver)
         self.product.click_on_seller_rate()
-        self.assertEqual(
-            self.all_items.get_title(),
-            "Все объявления",
-            "Ошибка редиректа на страницу всех объявлений")
+        url = self.driver.current_url
+        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testFailToShowPhoneNotAuth(self):
         """Для неавторизованного пользователя: Ошибка доступа к телефону при нажатии на кнопку "Показать номер\""""
-        self.login = LoginPage(driver=self.driver)
         self.product.click_phone()
-        self.assertEqual(
-            self.login.get_title(),
-            "Вход",
-            "Не появляется панель логина")
+        self.assertTrue(self.product.login.is_opened(), "Не появляется панель логина")
 
     def tesToShowPhoneAuth(self):
         """Проверить изменение текста на кнопке "Показать номер" на номер телефона при нажатии на кнопку "Показать
         номер" у автора с действительным номером телефона """
-        self.login = LoginPage(driver=self.driver)
-        self.login.auth()
+        self.product.login.auth()
         self.product.open()
         self.product.click_phone()
         self.assertRegex(
@@ -79,9 +70,8 @@ class ProductTest(unittest.TestCase):
     def testFailToShowPhoneAuthVK(self):
         """Ошибка данных, при нажатии на кнопку "Показать номер" автора  зарегистрированного с помощью ВК, без номера
         телефона """
-        self.login = LoginPage(driver=self.driver)
-        self.login.auth()
-        self.product.changePath("product/103")
+        self.product.login.auth()
+        self.product.change_path("103")
         self.product.open()
         self.product.click_phone()
         self.assertEqual(
@@ -90,24 +80,31 @@ class ProductTest(unittest.TestCase):
             "Появилась не надпись \"Нет телефона\"")
 
     def testFailToRedirectMasNotAuth(self):
-        """Для неавторизованного пользователя: Ошибка доступа к телефону при нажатии на кнопку "Показать номер\""""
-        self.login = LoginPage(driver=self.driver)
+        """Для неавторизованного пользователя: Ошибка доступа к переписки при нажатии на кнопку "Написать сообщение\""""
         self.product.click_massage()
-        self.assertEqual(
-            self.login.get_title(),
-            "Вход",
-            "Не появляется панель логина")
+        self.assertTrue(self.product.login.is_opened(), "Не появляется панель логина")
 
     def testToRedirectMasAuth(self):
         """Успешный редирект на страницу переписки при нажатии на кнопку \"Написать сообщение\""""
-        self.login = LoginPage(driver=self.driver)
-        self.login.auth()
+        self.product.login.auth()
+        message = UserChats(driver=self.driver)
         self.product.click_massage()
-        self.massage = MassagePage(driver=self.driver)
         self.assertNotEqual(
-            self.massage.get_title(),
+            message.get_title(),
             "",
             "Не появляется страница диалога")
+
+    def testToRedirectEdit(self):
+        """Успешный редирект на страницу редактирования при нажатии кнопки \"Редактировать\""""
+        self.product.login.auth()
+        edit_page = ProductEditPage(driver=self.driver)
+        user_products_page = UserProductsPage(driver=self.driver)
+        user_products_page.open()
+        user_products_page.product_card.click_product()
+        edit_page.change_path(self.driver.current_url.split('/')[-1])
+        self.product.click_edit()
+        url = self.driver.current_url
+        self.assertTrue(edit_page.is_compare_url(url), "Ошибка редиректа на страницу редактирования")
 
     def tearDown(self):
         self.driver.close()
