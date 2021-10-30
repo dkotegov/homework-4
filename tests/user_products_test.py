@@ -48,10 +48,10 @@ class UserProductsTest(Test):
 
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
+        product = ProductPage(driver=self.driver)
+
         self.user_products_page.login.auth()
         self.user_products_page.open()
-
-        product = ProductPage(driver=self.driver)
 
         product_id = self.user_products_page.product_card.click_product()
 
