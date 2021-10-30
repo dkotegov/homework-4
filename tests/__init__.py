@@ -9,3 +9,6 @@ from .theme_test import ThemeTest
 from .registration_test import RegistrationTest
 from .login_test import LoginTest
 from .main_test import MainTest
+from .favorites_test import FavoritesTest
+from .messages_test import MessagesTest
+from .await_reviews_test import AwaitReviewsTest

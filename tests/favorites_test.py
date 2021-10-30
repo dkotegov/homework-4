@@ -1,73 +1,63 @@
 import unittest
 from selenium import webdriver
 
-from pages.login import LoginPage
-# from pages.header import HeaderPage
-from pages.favorites import FavouritesPage
-from pages.registration import RegistrationPage
-from pages.side_bar import SideBarPage
-from pages.all_seller_products import AllSellerProductsPage
-from pages.product import ProductPage
+from components import Header, SideBar
+from pages import FavouritesPage, RegistrationPage, SellerProductsPage, ProductPage
 
 
-class UserProductsTest(unittest.TestCase):
+class FavoritesTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome('./chromedriver')
         self.favourites_page = FavouritesPage(driver=self.driver)
+        self.favourites_page.open()
 
     def testRedirectToRegPage(self):
         """Открытие страницы регистрации при переходе по ссылке неавторизированного пользователя"""
         self.favourites_page.open()
-        self.reg = RegistrationPage(driver=self.driver)
-        self.assertEqual(self.reg.get_title(),
-                         "Регистрация",
-                         "Не открылась страница регистрации")
+        registration = RegistrationPage(driver=self.driver)
 
-    # def testDropDownFavoritesButton(self):
-    #     """Кнопка “Избранное” в выпадающем меню. Переход на страницу Избранное при нажатие"""
-    #     self.login = LoginPage(driver=self.driver)
-    #     self.login.open()
-    #     self.login.auth()
-    #     self.header = HeaderPage(driver=self.driver)
-    #     self.header.click_favorites()
-    #     self.assertEqual(self.favourites_page.get_title(),
-    #                      "Избранное",
-    #                      "Не открылась страница избранного")
+        url = self.driver.current_url
+        self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")
 
-    # def testSideBarFavoritesButton(self):
-    #     """Кнопка “Избранное” в боковом меню на странице “Избранное”. Переход на страницу Избранное при нажатие."""
-    #     self.login = LoginPage(driver=self.driver)
-    #     self.login.open()
-    #     self.login.auth()
-    #     self.favourites_page.open()
-    #     SideBarPage(driver=self.driver).click_my_favorites()
-    #     self.assertEqual(self.favourites_page.get_title(),
-    #                      "Избранное",
-    #                      "Не открылась страница избранного")
+    def testDropDownFavoritesButton(self):
+        """Кнопка “Избранное” в выпадающем меню. Переход на страницу Избранное при нажатие"""
+        self.favourites_page.login.auth()
+        header = Header(driver=self.driver)
+        header.click_dropdown()
+        header.click_favorites()
+        self.assertTrue(self.favourites_page.is_compare_url(self.driver.current_url),
+                         "Не открылась страница избранного")
 
-    # def testFavoriteProductOpen(self):
-    #     """Карточка объявления. Открытие страницы объявления при нажатие в любое место карточки, кроме “сердечка”."""
-    #     self.login = LoginPage(driver=self.driver)
-    #     self.login.open()
-    #     self.login.auth()
-    #     AllSellerProductsPage(driver=self.driver).likeProduct()
-    #     self.favourites_page.open()
-    #     product_card_title = self.favourites_page.get_product_title(0)
-    #     self.favourites_page.click_product()
-    #     self.product = ProductPage(driver=self.driver)
-    #     self.assertEqual(product_card_title,
-    #                      self.product.get_title(),
-    #                      "Не открылась страница избранного")
+    def testSideBarFavoritesButton(self):
+        """Кнопка “Избранное” в боковом меню на странице “Избранное”. Переход на страницу Избранное при нажатие."""
+        self.favourites_page.login.auth()
+        SideBar(driver=self.driver).click_my_favorites()
+        self.assertTrue(self.favourites_page.is_compare_url(self.driver.current_url),
+                         "Не открылась страница избранного")
+
+    def testFavoriteProductOpen(self):
+        """Карточка объявления. Открытие страницы объявления при нажатие в любое место карточки, кроме “сердечка”."""
+        self.favourites_page.login.auth()
+        products = SellerProductsPage(driver=self.driver)
+        products.open()
+        products.product_card.like_product()
+        self.favourites_page.open()
+        product = ProductPage(driver=self.driver) 
+        product_id = self.favourites_page.product_card.click_product()
+        url = self.driver.current_url
+        product.change_path(product_id)
+        self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
 
     def testFavoriteProductDelete(self):
         """Иконка “Сердечко” на карточке товара. При нажатие товар пропадает со страницы “Избранное”."""
-        self.login = LoginPage(driver=self.driver)
-        self.login.open()
-        self.login.auth()
-        AllSellerProductsPage(driver=self.driver).likeProduct()
+        self.favourites_page.login.auth()
+        products = SellerProductsPage(driver=self.driver)
+        products.open()
+        products.product_card.like_product()
         self.favourites_page.open()
-        before_remove = self.favourites_page.get_product_title(0)
-        self.favourites_page.remove_like(0)
-        self.assertEqual(before_remove,
-                        self.favourites_page.get_product_title(0),
+        before_remove = self.favourites_page.count_products()
+        self.favourites_page.product_card.remove_like_product(0)
+        self.favourites_page.open()
+        self.assertEqual(before_remove - 1,
+                        self.favourites_page.count_products(),
                          "Товар остался в избранном.")
