@@ -2,12 +2,12 @@ import unittest
 from selenium import webdriver
 
 from pages.user_products import UserProductsPage
-from pages.login import LoginPage
+from components.login import LoginPage
 from pages.user_chats import UserChats
 from pages.registration import RegistrationPage
-from pages.components.footer import Footer
+from components.footer import Footer
 from pages.product import ProductPage
-from pages.components.product_card import ProductCard
+from components.product_card import ProductCard
 
 
 class UserProductsTest(unittest.TestCase):

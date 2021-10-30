@@ -1,6 +1,6 @@
 from random import randrange
 
-from pages.helpers.component import Component
+from helpers.component import Component
 
 
 class ProductCard(Component):

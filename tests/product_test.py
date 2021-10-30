@@ -3,7 +3,7 @@ from selenium import webdriver
 
 from pages.product import ProductPage
 from pages.seller_products import SellerProductsPage
-from pages.login import LoginPage
+from components.login import LoginPage
 from pages.user_chats import UserChats
 
 

@@ -1,4 +1,4 @@
-from helpers import Helpers
+from helpers.helpers import Helpers
 
 
 class Component(object):

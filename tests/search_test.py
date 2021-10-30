@@ -4,8 +4,8 @@ from utils.natural_sort import natural_sort
 
 from pages.search import SearchPage
 from pages.product import ProductPage
-from pages.components.product_card import ProductCard
-from pages.login import LoginPage
+from components.product_card import ProductCard
+from components.login import LoginPage
 
 
 class SearchTest(unittest.TestCase):
