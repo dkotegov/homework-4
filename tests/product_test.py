@@ -1,15 +1,18 @@
 import unittest
 from selenium import webdriver
 
+from pages.edit_product import ProductEditPage
 from pages.product import ProductPage
+from pages.product_card import ProductCard
 from pages.seller_products import SellerProductsPage
 from pages.login import LoginPage
 from pages.user_chats import UserChats
+from pages.user_products import UserProductsPage
 
 
 class ProductTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('../chromedriver')
+        self.driver = webdriver.Chrome('./chromedriver')
         self.product = ProductPage(driver=self.driver)
         self.product.open()
 
@@ -116,6 +119,20 @@ class ProductTest(unittest.TestCase):
             message.get_title(),
             "",
             "Не появляется страница диалога")
+
+    def testToRedirectEdit(self):
+        """Успешный редирект на страницу редактирования при нажатии кнопки \"Редактировать\""""
+        login = LoginPage(driver=self.driver)
+        edit_page = ProductEditPage(driver=self.driver)
+        login.auth()
+        user_products_page = UserProductsPage(driver=self.driver)
+        user_products_page.open()
+        product_card = ProductCard(driver=self.driver)
+        product_card.click_product()
+        edit_page.change_path(self.driver.current_url.split('/')[-1])
+        self.product.click_edit()
+        url = self.driver.current_url
+        self.assertTrue(edit_page.is_compare_url(url), "Ошибка редиректа на страницу редактирования")
 
     def tearDown(self):
         self.driver.close()
