@@ -1,16 +1,11 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
-from pages.edit_product import ProductEditPage
-from pages.product import ProductPage
-from pages.seller_products import SellerProductsPage
-from pages.user_chats import UserChats
-from pages.user_products import UserProductsPage
+from pages import ProductPage, ProductEditPage, SellerProductsPage, UserChats, UserProductsPage
 
 
-class ProductTest(unittest.TestCase):
+class ProductTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.product = ProductPage(driver=self.driver)
         self.product.open()
 
@@ -106,5 +101,3 @@ class ProductTest(unittest.TestCase):
         url = self.driver.current_url
         self.assertTrue(edit_page.is_compare_url(url), "Ошибка редиректа на страницу редактирования")
 
-    def tearDown(self):
-        self.driver.close()

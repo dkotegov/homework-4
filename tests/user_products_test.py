@@ -1,17 +1,11 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
-from pages.user_products import UserProductsPage
-from pages.user_chats import UserChats
-from pages.registration import RegistrationPage
-from components.footer import Footer
-from pages.product import ProductPage
-from components.product_card import ProductCard
+from pages import UserProductsPage, UserChats, RegistrationPage, ProductPage
 
 
-class UserProductsTest(unittest.TestCase):
+class UserProductsTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.user_products_page = UserProductsPage(driver=self.driver)
         self.user_products_page.open()
 
@@ -36,11 +30,9 @@ class UserProductsTest(unittest.TestCase):
 
     def testRedirectFromFooterToUserProducts(self):
         """Успешный редирект на страницу "Мои объявления" при нажатии кнопки в нижнем меню сайта “Мои объявления”"""
-        footer = Footer(driver=self.driver)
-
         self.user_products_page.login.auth()
 
-        footer.click_ad()
+        self.user_products_page.footer.click_ad()
 
         url = self.driver.current_url
         self.assertTrue(self.user_products_page.is_compare_url(url), "Не открылась страница Мои объявления")
@@ -68,6 +60,3 @@ class UserProductsTest(unittest.TestCase):
         url = self.driver.current_url
         product.change_path(product_id)
         self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
-
-    def tearDown(self):
-        self.driver.close()

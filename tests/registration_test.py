@@ -1,13 +1,11 @@
-import time
-import unittest
-from selenium import webdriver
+from helpers import Test
 
 from pages.registration import RegistrationPage
 
 
-class RegistrationTest(unittest.TestCase):
+class RegistrationTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.registration = RegistrationPage(driver=self.driver)
         self.registration.open()
 
@@ -141,8 +139,7 @@ class RegistrationTest(unittest.TestCase):
         self.registration.input_password_value(password)
         self.registration.input_confirm_password_value(confirm_password)
         self.registration.enter_submit()
+
         text = self.registration.get_registration_error()
         self.assertEqual(text, "Пользователь уже существует", "Нет ошибки")
 
-    def tearDown(self):
-        self.driver.close()

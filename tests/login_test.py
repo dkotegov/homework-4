@@ -1,12 +1,11 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
 from pages import MainPage, RegistrationPage
 
 
-class LoginTest(unittest.TestCase):
+class LoginTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.main = MainPage(driver=self.driver)
         self.main.open()
 
@@ -107,6 +106,3 @@ class LoginTest(unittest.TestCase):
 
         self.main.login.enter_submit()
         self.assertTrue(self.main.login.is_logined(), "Не залогинен")
-
-    def tearDown(self):
-        self.driver.close()

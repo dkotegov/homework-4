@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from helpers import Page, SELECTOR
+from helpers import Page
 
 
 class RegistrationPage(Page):
@@ -77,7 +77,7 @@ class RegistrationPage(Page):
         return self.helpers.is_contains_class(self.EMAIL, self.ERROR)
 
     def get_registration_error(self):
-        return self.helpers.get_element(self.REGISTRATION_ERROR, by=SELECTOR.XPATH).text
+        return self.helpers.get_element(self.REGISTRATION_ERROR, self.helpers.SELECTOR.XPATH).text
 
     def enter_submit(self):
         self.helpers.click_button(self.SUBMIT)

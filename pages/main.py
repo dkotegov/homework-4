@@ -34,6 +34,14 @@ class MainPage(Page):
         return Header(self.driver)
 
     @property
+    def footer(self):
+        return Footer(self.driver)
+
+    @property
+    def theme(self):
+        return Theme(self.driver)
+
+    @property
     def login(self):
         return Login(self.driver)
 
@@ -44,11 +52,3 @@ class MainPage(Page):
     @property
     def product_card(self):
         return ProductCard(self.driver)
-
-    @property
-    def footer(self):
-        return Footer(self.driver)
-
-    @property
-    def theme(self):
-        return Theme(self.driver)

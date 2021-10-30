@@ -1,13 +1,12 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
 from pages import MainPage, SearchPage, RegistrationPage, CreateProductPage, UserChats, UserSettingsPage, \
     UserProductsPage, UserFavoritesPage
 
 
-class FooterTest(unittest.TestCase):
+class FooterTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.main = MainPage(driver=self.driver)
         self.main.open()
 
@@ -99,9 +98,6 @@ class FooterTest(unittest.TestCase):
 
     def testClickAuth(self):
         """Проверка, что при нажатии на кнопку "Авторизация" открывается попап авторизации"""
-
         self.main.footer.click_auth()
         self.assertTrue(self.main.login.is_opened(), "Закрыта авторизация")
 
-    def tearDown(self):
-        self.driver.close()

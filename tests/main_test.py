@@ -1,12 +1,11 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
 from pages import MainPage, SearchPage, ProductPage
 
 
-class MainTest(unittest.TestCase):
+class MainTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.main = MainPage(driver=self.driver)
         self.main.open()
 
@@ -88,5 +87,3 @@ class MainTest(unittest.TestCase):
         self.main.product_card.remove_like_product(index)
         self.assertFalse(self.main.product_card.check_remove_like_product(index), "Не удалось убрать лайк")
 
-    def tearDown(self):
-        self.driver.close()
