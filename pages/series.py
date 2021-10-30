@@ -5,8 +5,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 
 
-class MoviesPage(Page):
-    PATH = 'movies/'
+class SeriesPage(Page):
+    PATH = 'series/'
     TOP_SLIDER = '.container'
     FIRST_MOVIE_CARD = '.item__film-card:first-child'
     TITLE_OF_FIRST_MOVIE = '.item__film-card:first-child .item__film-card__title'
