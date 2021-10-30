@@ -77,7 +77,7 @@ class LoginTest(unittest.TestCase):
         self.login.input_password_value(password)
 
         self.login.enter_submit()
-        self.assertFalse(self.login.is_logined(), "Залогинен")
+        self.assertTrue(self.login.is_error(), "Залогинен")
 
     def testErrorLogin(self):
         """Проверка ошибочной авторизации"""
