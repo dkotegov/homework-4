@@ -18,16 +18,16 @@ class LoginTest(Test):
 
         # TODO: не работает click_outside (он не закрывает попап)
         # self.main.login.open_auth()
-        # self.assertTrue(self.main.login.is_opened(), "Закрыта авторизация")
+        # self.assertTrue(self.main.login.is_opened(), "Не открылась авторизация")
         # self.main.login.click_outside()
-        # self.assertFalse(self.main.login.is_opened(), "Открыта авторизация")
+        # self.assertFalse(self.main.login.is_opened(), "Не закрылась авторизация")
 
     # def __test_telephone__(self, test):
     #     self.main.login.clear_telephone_value()
     #     self.main.login.input_telephone_value(test)
     #     self.main.login.enter_submit()
     #     # TODO: не понятно как проверять ошибку. У нас стандартная браузерная
-    #     self.assertFalse(self.main.login.is_logined(), "Залогинен")
+    #     self.assertTrue(self.main.login.is_browser_error(), "Нет ошибки")
     #
     # def testErrorTelephoneInput(self):
     #     # авторизация с пустым телефоном
@@ -39,13 +39,13 @@ class LoginTest(Test):
     #
     #     self.__test_telephone__(test1)
     #     self.__test_telephone__(test2)
-    #
+
     # def __test_password__(self, test):
     #     self.main.login.clear_password_value()
     #     self.main.login.input_password_value(test)
     #     self.main.login.enter_submit()
     #     # TODO: не понятно как проверять ошибку. У нас стандартная браузерная
-    #     self.assertFalse(self.main.login.is_logined(), "Залогинен")
+    #     self.assertTrue(self.main.login.is_browser_error(), "Нет ошибки")
     #
     # def testErrorPasswordInput(self):
     #     # авторизация с пустым паролем

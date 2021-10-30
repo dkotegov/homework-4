@@ -140,5 +140,4 @@ class RegistrationTest(Test):
         self.registration.form.input_confirm_password_value(confirm_password)
         self.registration.form.enter_submit()
 
-        text = self.registration.form.get_registration_error()
-        self.assertEqual(text, "Пользователь уже существует", "Нет ошибки")
+        self.assertTrue(self.registration.form.is_error(), "Нет ошибки")
