@@ -1,9 +1,7 @@
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from pages.default_page import DefaultPage
+from helpers import Page
 
 
-class ProductEditPage(DefaultPage):
+class ProductEditPage(Page):
     PATH = "product/198/edit"
 
     def change_path(self, path):

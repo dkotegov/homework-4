@@ -4,10 +4,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
-from pages.default_page import DefaultPage
+from components import Login, ProductCard
+from helpers import Page
 
 
-class SearchPage(DefaultPage):
+class SearchPage(Page):
     PATH = "search"
     FROM_A = ".search-filter-amount__from"
     TO_A = ".search-filter-amount__to"
@@ -18,53 +19,61 @@ class SearchPage(DefaultPage):
 
     elements = []
 
+    @property
+    def login(self):
+        return Login(self.driver)
+
+    @property
+    def product_card(self):
+        return ProductCard(self.driver)
+
     def change_path(self, path):
         self.PATH = "search/" + path
 
     def clearAmount(self):
-        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.FROM_A)))
-        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.TO_A)))
-        from_a = self.driver.find_element(By.CSS_SELECTOR, self.FROM_A)
-        to_a = self.driver.find_element(By.CSS_SELECTOR, self.TO_A)
+        self.helpers.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.FROM_A)))
+        self.helpers.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.TO_A)))
+        from_a = self.helpers.get_element(self.FROM_A)
+        to_a = self.helpers.get_element(self.TO_A)
         from_a.clear()
         to_a.clear()
 
     def enterAmount(self, text):
-        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.FROM_A)))
-        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.TO_A)))
-        from_a = self.driver.find_element(By.CSS_SELECTOR, self.FROM_A)
+        self.helpers.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.FROM_A)))
+        self.helpers.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.TO_A)))
+        from_a = self.helpers.get_element(self.FROM_A)
         from_a.send_keys(text)
-        to_a = self.driver.find_element(By.CSS_SELECTOR, self.TO_A)
+        to_a = self.helpers.get_element(self.TO_A)
         to_a.send_keys(text)
         return from_a.get_attribute('value'), to_a.get_attribute('value')
 
     def getAllNameProducts(self):
         products = []
-        while self.elements == self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_NAME):
+        while self.elements == self.helpers.get_elements(self.PRODUCTS_NAME):
             time.sleep(0.06)
-            products = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_NAME)
+            products = self.helpers.get_elements(self.PRODUCTS_NAME)
         return products
 
     def getAllAmountProducts(self):
         products = []
-        while self.elements == self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_AMOUNT):
+        while self.elements == self.helpers.get_elements(self.PRODUCTS_AMOUNT):
             time.sleep(0.06)
-            products = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_AMOUNT)
+            products = self.helpers.get_elements(self.PRODUCTS_AMOUNT)
         return products
 
     def changeSortName(self):
-        self.elements = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_NAME)
+        self.elements = self.helpers.get_elements(self.PRODUCTS_NAME)
         self.__changeSort('По имени')
 
     def changeSortAmountDown(self):
-        self.elements = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_AMOUNT)
+        self.elements = self.helpers.get_elements(self.PRODUCTS_AMOUNT)
         self.__changeSort('По убыванию цены')
 
     def changeSortAmountUp(self):
-        self.elements = self.driver.find_elements(By.CSS_SELECTOR, self.PRODUCTS_AMOUNT)
+        self.elements = self.helpers.get_elements(self.PRODUCTS_AMOUNT)
         self.__changeSort('По возрастанию цены')
 
     def __changeSort(self, param):
-        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.SORT)))
-        sort = Select(self.driver.find_element(By.CSS_SELECTOR, self.SORT))
+        self.helpers.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.SORT)))
+        sort = Select(self.helpers.get_element(self.SORT))
         sort.select_by_visible_text(param)

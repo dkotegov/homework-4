@@ -1,10 +1,11 @@
 from random import randrange
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from pages.default_page import DefaultPage
+from components import Login
+from helpers import Page
 
 
-class ProductPage(DefaultPage):
+class ProductPage(Page):
     PATH = "product/48"
 
     PREVIEW = ".slider-preview__picture"
@@ -22,43 +23,47 @@ class ProductPage(DefaultPage):
         self.PATH = "product/" + path
 
     def selected_img_src_from_slider(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.SLIDER_SELECTED_IMG)))
-        return self.driver.find_element(By.CSS_SELECTOR, self.SLIDER_SELECTED_IMG).get_attribute("src")
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.SLIDER_SELECTED_IMG)))
+        return self.helpers.get_element(self.SLIDER_SELECTED_IMG).get_attribute("src")
 
     def preview_img_src(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PREVIEW)))
-        return self.driver.find_element(By.CSS_SELECTOR, self.PREVIEW).get_attribute("src")
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PREVIEW)))
+        return self.helpers.get_element(self.PREVIEW).get_attribute("src")
 
     def click_different_preview(self):
-        self.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.SLIDER_IMG)))
-        img = self.driver.find_elements(By.CSS_SELECTOR, self.SLIDER_IMG)
-        img[randrange(len(img))].click()
+        self.helpers.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.SLIDER_IMG)))
+        images = self.helpers.get_elements(self.SLIDER_IMG)
+        images[randrange(len(images))].click()
 
     def click_on_seller_name(self):
-        self.__click_button__(self.SELLER_NAME)
+        self.helpers.click_button(self.SELLER_NAME)
 
     def click_on_seller_img(self):
-        self.__click_button__(self.SELLER_IMAGE)
+        self.helpers.click_button(self.SELLER_IMAGE)
 
     def click_on_seller_rate(self):
-        self.__click_button__(self.SELLER_RATING)
+        self.helpers.click_button(self.SELLER_RATING)
 
     def click_phone(self):
-        self.__click_button__(self.PHONE)
+        self.helpers.click_button(self.PHONE)
 
     def click_edit(self):
-        self.__click_button__(self.EDIT)
+        self.helpers.click_button(self.EDIT)
 
     def get_phone(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PHONE)))
-        phone = self.driver.find_element(By.CSS_SELECTOR, self.PHONE)
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PHONE)))
+        phone = self.helpers.get_element(self.PHONE)
         while phone.get_attribute("value") == "Показать номер":
             continue
         return phone.get_attribute("value")
 
     def click_massage(self):
-        self.__click_button__(self.MASSAGE)
+        self.helpers.click_button(self.MASSAGE)
 
     def page_exist(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
-        return self.driver.find_element(By.CSS_SELECTOR, self.TITLE) is not None
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
+        return self.helpers.get_element(self.TITLE) is not None
+
+    @property
+    def login(self):
+        return Login(self.driver)
