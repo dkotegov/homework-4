@@ -1,8 +1,8 @@
 from components import ProductCard, Login
-from pages.default_page import DefaultPage
+from helpers import Page
 
 
-class UserProductsPage(DefaultPage):
+class UserProductsPage(Page):
     PATH = "user/ad"
 
     @property

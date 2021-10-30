@@ -2,10 +2,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from components import ProductCard, Login
-from pages.default_page import DefaultPage
+from helpers import Page
 
 
-class SellerProductsPage(DefaultPage):
+class SellerProductsPage(Page):
     PATH = "user/1/ad"
 
     TITLE = ".product-table__title"
@@ -19,8 +19,6 @@ class SellerProductsPage(DefaultPage):
         return Login(self.driver)
 
     def get_title(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
-        return self.driver.find_element(By.CSS_SELECTOR, self.TITLE).text
-#.F.E..........E...EEE.E........E...................E.......E
-#.F.F.......E..E...............E...............F....E........
-#...........E.......................................E........
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
+        return self.helpers.get_element(self.TITLE).text
+

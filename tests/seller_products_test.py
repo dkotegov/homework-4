@@ -8,7 +8,7 @@ from pages.product import ProductPage
 
 class SellerProductsTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        self.driver = webdriver.Chrome('../chromedriver')
         self.seller_products = SellerProductsPage(driver=self.driver)
         self.seller_products.open()
 

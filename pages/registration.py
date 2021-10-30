@@ -1,10 +1,10 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from pages.default_page import DefaultPage, SELECTOR
+from helpers import Page, SELECTOR
 
 
-class RegistrationPage(DefaultPage):
+class RegistrationPage(Page):
     PATH = "signup"
 
     TITLE = ".reg-panel-title__product-name"
@@ -23,65 +23,65 @@ class RegistrationPage(DefaultPage):
     SUBMIT = "#submitBtn"
 
     def input_name_value(self, text):
-        self.__input_value__(self.NAME, text)
+        self.helpers.input_value(self.NAME, text)
 
     def clear_name_value(self):
-        self.__clear_input__(self.NAME)
+        self.helpers.clear_input(self.NAME)
 
     def is_error_name(self):
-        return self.__element_contains_class__(self.NAME, self.ERROR)
+        return self.helpers.is_contains_class(self.NAME, self.ERROR)
 
     def input_surname_value(self, text):
-        self.__input_value__(self.SURNAME, text)
+        self.helpers.input_value(self.SURNAME, text)
 
     def clear_surname_value(self):
-        self.__clear_input__(self.SURNAME)
+        self.helpers.clear_input(self.SURNAME)
 
     def is_error_surname(self):
-        return self.__element_contains_class__(self.SURNAME, self.ERROR)
+        return self.helpers.is_contains_class(self.SURNAME, self.ERROR)
 
     def input_telephone_value(self, text):
-        self.__input_value__(self.TELEPHONE, text)
+        self.helpers.input_value(self.TELEPHONE, text)
 
     def clear_telephone_value(self):
-        self.__clear_input__(self.TELEPHONE)
+        self.helpers.clear_input(self.TELEPHONE)
 
     def is_error_telephone(self):
-        return self.__element_contains_class__(self.TELEPHONE, self.ERROR)
+        return self.helpers.is_contains_class(self.TELEPHONE, self.ERROR)
 
     def input_password_value(self, text):
-        self.__input_value__(self.PASSWORD, text)
+        self.helpers.input_value(self.PASSWORD, text)
 
     def clear_password_value(self):
-        self.__clear_input__(self.PASSWORD)
+        self.helpers.clear_input(self.PASSWORD)
 
     def is_error_password(self):
-        return self.__element_contains_class__(self.PASSWORD, self.ERROR)
+        return self.helpers.is_contains_class(self.PASSWORD, self.ERROR)
 
     def input_confirm_password_value(self, text):
-        self.__input_value__(self.CONFIRM_PASSWORD, text)
+        self.helpers.input_value(self.CONFIRM_PASSWORD, text)
 
     def clear_confirm_password_value(self):
-        self.__clear_input__(self.CONFIRM_PASSWORD)
+        self.helpers.clear_input(self.CONFIRM_PASSWORD)
 
     def is_error_confirm_password(self):
-        return self.__element_contains_class__(self.CONFIRM_PASSWORD, self.ERROR)
+        return self.helpers.is_contains_class(self.CONFIRM_PASSWORD, self.ERROR)
 
     def input_email_value(self, text):
-        self.__input_value__(self.EMAIL, text)
+        self.helpers.input_value(self.EMAIL, text)
 
     def clear_email_value(self):
-        self.__clear_input__(self.EMAIL)
+        self.helpers.clear_input(self.EMAIL)
 
     def is_error_email(self):
-        return self.__element_contains_class__(self.EMAIL, self.ERROR)
+        return self.helpers.is_contains_class(self.EMAIL, self.ERROR)
 
     def get_registration_error(self):
-        return self.__get_element__(self.REGISTRATION_ERROR, by=SELECTOR.XPATH).text
+        return self.helpers.get_element(self.REGISTRATION_ERROR, by=SELECTOR.XPATH).text
 
     def enter_submit(self):
-        self.__click_button__(self.SUBMIT)
+        self.helpers.click_button(self.SUBMIT)
 
     def get_title(self):
-        self.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
         return self.driver.find_element(By.CSS_SELECTOR, self.TITLE).text
