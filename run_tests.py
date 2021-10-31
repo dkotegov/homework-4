@@ -2,7 +2,8 @@
 
 import unittest
 from tests import ProductTest, SellerProductsTest, SearchTest, UserProductsTest, \
-    HeaderTest, FooterTest, ThemeTest, RegistrationTest, LoginTest, MainTest
+    HeaderTest, FooterTest, ThemeTest, RegistrationTest, LoginTest, MainTest, \
+    UserMessagesTest, UserReviewsTest, UserAwaitReviewsTest, UserFavoritesTest, UserSideBarTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -15,7 +16,12 @@ if __name__ == '__main__':
         unittest.makeSuite(ThemeTest),
         unittest.makeSuite(RegistrationTest),
         unittest.makeSuite(LoginTest),
-        unittest.makeSuite(MainTest)
+        unittest.makeSuite(MainTest),
+        unittest.makeSuite(UserMessagesTest),
+        unittest.makeSuite(UserReviewsTest),
+        unittest.makeSuite(UserAwaitReviewsTest),
+        unittest.makeSuite(UserFavoritesTest),
+        unittest.makeSuite(UserSideBarTest)
     ))
 
     unittest.TextTestRunner().run(suite)
