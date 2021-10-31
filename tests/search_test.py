@@ -1,6 +1,6 @@
 from helpers import Test
 
-from utils import utils
+from utils import fill_name_list_and_sort_last_list, fill_amount_list_and_sort_last_list
 
 from pages import SearchPage, ProductPage
 
@@ -33,7 +33,7 @@ class SearchTest(Test):
         self.search.change_sort_name()
         products = self.search.search_products.get_all_name_products()
 
-        list_not_sorted, list_sorted = utils.fill_name_list_and_sort_last_list(products)
+        list_not_sorted, list_sorted = fill_name_list_and_sort_last_list(products)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по алфавиту")
 
     def testSearchSortAmountDown(self):
@@ -42,7 +42,7 @@ class SearchTest(Test):
         self.search.change_sort_amount_down()
         products = self.search.search_products.get_all_amount_products()
 
-        list_not_sorted, list_sorted = utils.fill_amount_list_and_sort_last_list(products, reverse=True)
+        list_not_sorted, list_sorted = fill_amount_list_and_sort_last_list(products, reverse=True)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по убыванию цены")
 
     def testSearchSortAmountUp(self):
@@ -51,7 +51,7 @@ class SearchTest(Test):
         self.search.change_sort_amount_up()
         products = self.search.search_products.get_all_amount_products()
 
-        list_not_sorted, list_sorted = utils.fill_amount_list_and_sort_last_list(products, reverse=False)
+        list_not_sorted, list_sorted = fill_amount_list_and_sort_last_list(products, reverse=False)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по возрастанию цены")
 
     def testClickProduct(self):

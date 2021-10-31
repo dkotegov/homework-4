@@ -63,6 +63,9 @@ class InfoCard(Component):
 class ProductPage(Page):
     PATH = "product/48"
 
+    def change_path(self, path):
+        self.PATH = "product/" + path
+
     @property
     def login(self):
         return Login(self.driver)
@@ -74,6 +77,3 @@ class ProductPage(Page):
     @property
     def info_card(self):
         return InfoCard(self.driver)
-
-    def change_path(self, path):
-        self.PATH = "product/" + path
