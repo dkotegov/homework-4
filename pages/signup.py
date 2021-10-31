@@ -12,28 +12,10 @@ class SignupPage(DefaultPage):
         super().__init__(driver, '/signup')
         self.signup_form = SignupForm(self.driver)
 
-    def sign_up_short_login(self, email=environ['EMAIL'], password=environ['PASSWORD']):
-        self.signup_form.fill_login_input('short')
+    def sign_up(self, login=environ['LOGIN'], email=environ['EMAIL'], password=environ['PASSWORD']):
+        self.signup_form.fill_login_input(login)
         self.signup_form.fill_email_input(email)
         self.signup_form.fill_password_input(password)
-        self.signup_form.submit()
-
-    def sign_up_invalid_email(self, login=environ['LOGIN'], password=environ['PASSWORD']):
-        self.signup_form.fill_login_input(login)
-        self.signup_form.fill_email_input('1')
-        self.signup_form.fill_password_input(password)
-        self.signup_form.submit()
-
-    def sign_up_password_only_digits(self, login=environ['LOGIN'], email=environ['EMAIL']):
-        self.signup_form.fill_login_input(login)
-        self.signup_form.fill_email_input(email)
-        self.signup_form.fill_password_input('1234567890')
-        self.signup_form.submit()
-
-    def sign_up_password_only_letters(self, login=environ['LOGIN'], email=environ['EMAIL']):
-        self.signup_form.fill_login_input(login)
-        self.signup_form.fill_email_input(email)
-        self.signup_form.fill_password_input('abcdefghij')
         self.signup_form.submit()
 
     @property
