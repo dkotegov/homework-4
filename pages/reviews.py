@@ -1,33 +1,19 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from helpers import Page
-from components import Login, SideBar
 import time
 
+from selenium.webdriver.common.by import By
 
-class ReviewsPage(Page):
-    PATH = "user/78/reviews"
-    TITLE = ".reviews-head__title"
+from helpers import Page, Component
+from components import Login
+
+
+class ReviewsBlock(Component):
     PRODUCT_TITLE = ".one-review-head-info__product"
     USER_TITLE = ".one-review-head-info__user"
     SORT_BY_DATE = "//label[@for=\"reviews-buyer-date\"]"
     SORT_BY_RATING = "//label[@for=\"reviews-buyer-rate\"]"
     DATE = ".one-review-head-stat__date"
     STARS = ".one-review-head-stat__rate"
-
-    def change_path(self, path):
-        self.PATH = "user/" + path + "/reviews"
-
-    @property
-    def login(self):
-        return Login(self.driver)
-
-    @property
-    def side_bar(self):
-        return SideBar(self.driver)
-
-    def get_title(self):
-        return self.helpers.get_element(self.TITLE).text
+    STAR_ACTIVE = ".star-active"
 
     def click_product_name(self):
         product_titles = self.helpers.get_elements(self.PRODUCT_TITLE)
@@ -42,10 +28,10 @@ class ReviewsPage(Page):
         return user_url
 
     def set_sort_by_date(self):
-        self.helpers.click_button(self.SORT_BY_DATE)
+        self.helpers.click_button(self.SORT_BY_DATE, self.helpers.SELECTOR.XPATH)
 
     def set_sort_by_ratting(self):
-        self.helpers.click_button(self.SORT_BY_RATING)
+        self.helpers.click_button(self.SORT_BY_RATING, self.helpers.SELECTOR.XPATH)
 
     def check_sort_by_date(self):
         dates = self.helpers.get_elements(self.DATE)
@@ -59,8 +45,23 @@ class ReviewsPage(Page):
     def check_sort_by_rating(self):
         stars = self.helpers.get_elements(self.STARS)
         for i in range(len(stars) - 1):
-            count1 = stars[i].find_elements(By.CSS_SELECTOR, ".star-active")
-            count2 = stars[i].find_elements(By.CSS_SELECTOR, ".star-active")
+            count1 = stars[i].find_elements(By.CSS_SELECTOR, self.STAR_ACTIVE)
+            count2 = stars[i].find_elements(By.CSS_SELECTOR, self.STAR_ACTIVE)
             if count1 < count2:
                 return False
         return True
+
+
+class ReviewsPage(Page):
+    PATH = "user/78/reviews"
+
+    def change_path(self, path):
+        self.PATH = "user/" + path + "/reviews"
+
+    @property
+    def login(self):
+        return Login(self.driver)
+
+    @property
+    def review_block(self):
+        return ReviewsBlock(self.driver)
