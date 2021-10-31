@@ -8,6 +8,6 @@ class LoginSuccessTest(BaseTest):
         page = LoginPage(self.driver)
 
         page.open()
-        page.sign_in(self.driver)
+        page.sign_in()
 
         self.assertEqual(environ.get("LOGIN", ""), page.username_in_profile)
