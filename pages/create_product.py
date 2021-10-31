@@ -1,9 +1,8 @@
-from helpers import Page
+from helpers import Page, Component
+from components import Login
 
 
-class CreateProductPage(Page):
-    PATH = "product/create"
-
+class CreateProductForm(Component):
     SUBMIT_ERROR = "#create-error"
 
     ERROR = "input-error"
@@ -14,45 +13,65 @@ class CreateProductPage(Page):
 
     SUBMIT = "#submitProduct"
 
+    PHOTO = "#file-upload0"
+
+    def enter_address(self):
+        self.helpers.click_button(".ymaps-2-1-79-suggest-item-0")
+
+    def upload_photo(self):
+        photo = self.helpers.get_element(self.PHOTO)
+        photo.send_keys("/Users/v.zabelina/Documents/homework-4/tests/image/test.jpeg")
+
     def input_name_value(self, text):
-        self.__input_value__(self.NAME, text)
+        self.helpers.input_value(self.NAME, text)
 
     def clear_name_value(self):
-        self.__clear_input__(self.NAME)
+        self.helpers.clear_input(self.NAME)
 
     def is_error_name(self):
-        return self.__element_contains_class__(self.NAME, self.ERROR)
+        return self.helpers.is_contains_class(self.NAME, self.ERROR)
 
     def input_price_value(self, text):
-        self.__input_value__(self.PRICE, text)
+        self.helpers.input_value(self.PRICE, text)
 
     def clear_price_value(self):
-        self.__clear_input__(self.PRICE)
+        self.helpers.clear_input(self.PRICE)
 
     def is_error_price(self):
-        return self.__element_contains_class__(self.PRICE, self.ERROR)
+        return self.helpers.is_contains_class(self.PRICE, self.ERROR)
 
     def input_description_value(self, text):
-        self.__input_value__(self.DESCRIPTION, text)
+        self.helpers.input_value(self.DESCRIPTION, text)
 
     def clear_description_value(self):
-        self.__clear_input__(self.DESCRIPTION)
+        self.helpers.clear_input(self.DESCRIPTION)
 
     def is_error_description(self):
-        return self.__element_contains_class__(self.DESCRIPTION, self.ERROR)
+        return self.helpers.is_contains_class(self.DESCRIPTION, self.ERROR)
 
     def input_address_value(self, text):
-        self.__input_value__(self.ADDRESS, text)
+        self.helpers.input_value(self.ADDRESS, text)
 
     def clear_address_value(self):
-        self.__clear_input__(self.ADDRESS)
+        self.helpers.clear_input(self.ADDRESS)
 
     def is_error_address(self):
-        return self.__element_contains_class__(self.ADDRESS, self.ERROR)
+        return self.helpers.is_contains_class(self.ADDRESS, self.ERROR)
 
     def get_submit_error(self):
-        return self.__get_element__(self.SUBMIT_ERROR).text
+        return self.helpers.get_element(self.SUBMIT_ERROR).text
 
     def enter_submit(self):
-        self.__click_button__(self.SUBMIT)
-        
+        self.helpers.click_button(self.SUBMIT)
+
+
+class CreateProductPage(Page):
+    PATH = "product/create"
+
+    @property
+    def form(self):
+        return CreateProductForm(self.driver)
+
+    @property
+    def login(self):
+        return Login(self.driver)

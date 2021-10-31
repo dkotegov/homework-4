@@ -174,3 +174,30 @@ class SettingsTest(Test):
         self.assertEqual(theme_0, theme_2, "Разные темы")
         self.assertNotEqual(theme_1, theme_2, "Одинаковые темы")
 
+    def __test__change_password__(self, old, new, confirm):
+        self.settings.form.clear_password_value()
+        self.settings.form.input_password_value(new)
+        self.settings.form.clear_confirm_password_value()
+        self.settings.form.input_confirm_password_value(confirm)
+        self.settings.form.clear_old_password_value()
+        self.settings.form.input_old_password_value(old)
+
+        self.assertEqual(self.settings.form.get_pwd_change_error(), '', "Нет ошибки")
+
+        self.settings.form.clear_password_value()
+        self.settings.form.input_password_value(old)
+        self.settings.form.clear_confirm_password_value()
+        self.settings.form.input_confirm_password_value(old)
+        self.settings.form.clear_old_password_value()
+        self.settings.form.input_old_password_value(new)
+
+        self.assertEqual(self.settings.form.get_pwd_change_error(), '', "Нет ошибки")
+
+    def testPasswordChange(self):
+        """Проверка успешной смены пароля"""
+        # TODO login env
+        old_pwd = "Qwerty123"
+        new_pwd = "Qwertyyy12344"
+        conf_pwd = "Qwertyyy12344"
+
+        self.__test__change_password__(old_pwd, new_pwd, conf_pwd)

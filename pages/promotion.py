@@ -1,9 +1,8 @@
-from pages.default_page import DefaultPage
+from helpers import Page, Component
+from components import Login
 
 
-class PromotionPage(DefaultPage):
-    PATH = "promotion"
-
+class PromotionForm(Component):
     ERROR = "#promotion-error"
 
     BASE_TARIFF = "#base-tariff"
@@ -18,43 +17,54 @@ class PromotionPage(DefaultPage):
     CHECKED_TARIFF = "tariffs-block_checked"
     UNCHECKED_TARIFF = "tariffs-block_unchecked"
 
-    PURCHASE = "promotion-button__purchase"
+    PURCHASE = "promotion-buttonpurchase"
 
     TYPE = "#promotion-type"
 
     def enter_purchase(self):
-        self.__click_button__(self.PURCHASE)
+        self.helpers.click_button(self.PURCHASE)
 
     def get_purchase_error(self):
-        return self.__get_element__(self.ERROR).text
+        return self.helpers.get_element(self.ERROR).text
 
     def enter_base_tariff(self):
-        self.__click_button__(self.BASE_TARIFF)
+        self.helpers.click_button(self.BASE_TARIFF)
 
     def enter_no_tariff(self):
-        self.__click_button__(self.NO_TARIFF)
+        self.helpers.click_button(self.NO_TARIFF)
 
     def enter_improved_tariff(self):
-        self.__click_button__(self.IMPROVED_TARIFF)
+        self.helpers.click_button(self.IMPROVED_TARIFF)
 
     def enter_advanced_tariff(self):
-        self.__click_button__(self.ADVANCED_TARIFF)
+        self.helpers.click_button(self.ADVANCED_TARIFF)
 
     def is_base_checked(self):
-        return self.__element_contains_class__(self.BLOCK_BASE, self.CHECKED_TARIFF)
+        return self.helpers.is_contains_class(self.BLOCK_BASE, self.CHECKED_TARIFF)
 
     def is_improved_checked(self):
-        return self.__element_contains_class__(self.BLOCK_IMPROVED, self.CHECKED_TARIFF)
+        return self.helpers.is_contains_class(self.BLOCK_IMPROVED, self.CHECKED_TARIFF)
 
     def is_advanced_checked(self):
-        return self.__element_contains_class__(self.BLOCK_ADVANCED, self.CHECKED_TARIFF)
+        return self.helpers.is_contains_class(self.BLOCK_ADVANCED, self.CHECKED_TARIFF)
 
     def is_base_unchecked(self):
-        return self.__element_contains_class__(self.BLOCK_BASE, self.UNCHECKED_TARIFF)
+        return self.helpers.is_contains_class(self.BLOCK_BASE, self.UNCHECKED_TARIFF)
 
     def is_improved_unchecked(self):
-        return self.__element_contains_class__(self.BLOCK_IMPROVED, self.UNCHECKED_TARIFF)
+        return self.helpers.is_contains_class(self.BLOCK_IMPROVED, self.UNCHECKED_TARIFF)
 
     def is_advanced_unchecked(self):
-        return self.__element_contains_class__(self.BLOCK_ADVANCED, self.UNCHECKED_TARIFF)
+        return self.helpers.is_contains_class(self.BLOCK_ADVANCED, self.UNCHECKED_TARIFF)
 
+
+class PromotionPage(Page):
+    PATH = "promotion"
+    
+    @property
+    def form(self):
+        return PromotionForm(self.driver)
+
+    @property
+    def login(self):
+        return Login(self.driver)

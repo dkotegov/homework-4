@@ -14,3 +14,4 @@ from .user_favorites import UserFavoritesPage
 from .user_await_reviews import UserAwaitReviewsPage
 from .user_messages import UserMessagesPage
 from .edit_product import ProductEditPage
+from .promotion import PromotionPage

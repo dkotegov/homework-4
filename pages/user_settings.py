@@ -1,5 +1,5 @@
 from helpers import Page, Component
-from components import Login, SideBar
+from components import Login
 
 
 class UserSettingsForm(Component):
