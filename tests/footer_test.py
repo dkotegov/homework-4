@@ -100,4 +100,3 @@ class FooterTest(Test):
         """Проверка, что при нажатии на кнопку "Авторизация" открывается попап авторизации"""
         self.main.footer.click_auth()
         self.assertTrue(self.main.login.is_opened(), "Не открылась авторизация")
-

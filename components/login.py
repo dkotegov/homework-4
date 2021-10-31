@@ -1,3 +1,5 @@
+import os
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -59,10 +61,13 @@ class Login(Component):
         self.helpers.click_button(self.SUBMIT)
 
     def auth(self):
+        login = os.environ.get("LOGIN")
+        password = os.environ.get("PASSWORD")
+
         self.open_auth()
 
-        self.input_telephone_value("4444444444")
-        self.input_password_value("Qwerty123")
+        self.input_telephone_value(login)
+        self.input_password_value(password)
 
         self.enter_submit()
 

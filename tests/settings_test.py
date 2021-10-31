@@ -1,3 +1,5 @@
+import os
+
 from helpers import Test
 
 from pages.user_settings import UserSettingsPage
@@ -69,8 +71,7 @@ class SettingsTest(Test):
         self.__test_email__(test4)
 
     def __test_password__(self, test):
-        # TODO: login из env
-        old_password = "Qwerty123"
+        old_password = os.environ.get("PASSWORD")
         self.settings.pwd_form.clear_password_value()
         self.settings.pwd_form.input_password_value(test)
 
@@ -99,8 +100,7 @@ class SettingsTest(Test):
         self.__test_password__(test6)
 
     def __test__confirm_password__(self, test, confirm_test):
-        # TODO: login из env
-        old_password = "Qwerty123"
+        old_password = os.environ.get("PASSWORD")
 
         self.settings.pwd_form.clear_password_value()
         self.settings.pwd_form.input_password_value(test)
@@ -161,8 +161,7 @@ class SettingsTest(Test):
 
     def testPasswordChange(self):
         """Проверка успешной смены пароля"""
-        # TODO login env
-        old_pwd = "Qwerty123"
+        old_pwd = os.environ.get("PASSWORD")
         new_pwd = "Qwertyyy12344"
         conf_pwd = "Qwertyyy12344"
 

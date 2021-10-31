@@ -1,3 +1,5 @@
+import os
+
 from helpers import Test
 
 from pages import MainPage, SearchPage, CreateProductPage, UserMessagesPage, UserSettingsPage, \
@@ -17,7 +19,7 @@ class HeaderTest(Test):
         self.main.header.click_logo()
 
         url = self.driver.current_url
-        self.assertTrue(main.is_compare_url(url),  "Не открылась главная страница")
+        self.assertTrue(main.is_compare_url(url), "Не открылась главная страница")
 
     def testClickSearch(self):
         """Проверка, что при нажатии на кнопку поиска открывается страница поиска"""
@@ -102,6 +104,7 @@ class HeaderTest(Test):
     def testClickAchievements(self):
         """Проверка, что при нажатии на кнопку "Достижения" открывается страница достижений"""
         achievements = AchievementsPage(driver=self.driver)
+        user_id = os.environ.get("USER_ID")
 
         self.main.login.auth()
 
@@ -111,13 +114,13 @@ class HeaderTest(Test):
         self.main.header.click_achievements()
 
         url = self.driver.current_url
-        # TODO: брать из ENV
-        achievements.change_path("78")
+        achievements.change_path(user_id)
         self.assertTrue(achievements.is_compare_url(url), "Не открылась страница достижений")
 
     def testClickReviews(self):
         """Проверка, что при нажатии на кнопку "Отзывы" открывается страница отзывов"""
         reviews = ReviewsPage(driver=self.driver)
+        user_id = os.environ.get("USER_ID")
 
         self.main.login.auth()
 
@@ -127,6 +130,5 @@ class HeaderTest(Test):
         self.main.header.click_reviews()
 
         url = self.driver.current_url
-        # TODO: брать из ENV
-        reviews.change_path("78")
+        reviews.change_path(user_id)
         self.assertTrue(reviews.is_compare_url(url), "Не открылась страница отзывов")

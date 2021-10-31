@@ -1,3 +1,5 @@
+import os
+
 from helpers import Test
 
 from pages import MainPage, RegistrationPage
@@ -80,15 +82,13 @@ class LoginTest(Test):
 
     def testErrorLogin(self):
         """Проверка ошибочной авторизации"""
-        # TODO: поменять когда добавим login в ENV
-
         # авторизация с неправильным телефоном
         telephone1 = "0000000000"
-        password1 = "Qwerty123"
+        password1 = os.environ.get("PASSWORD")
 
         # авторизация с неправильным паролем
-        telephone2 = "4444444444"
-        password2 = "Qwerty12"
+        telephone2 = os.environ.get("LOGIN")
+        password2 = os.environ.get("PASSWORD") + "1"
 
         self.main.login.open_auth()
 
@@ -97,9 +97,8 @@ class LoginTest(Test):
 
     def testSuccessLogin(self):
         """Проверка успешной авторизации"""
-        # TODO: поменять когда добавим login в ENV
-        telephone = "4444444444"
-        password = "Qwerty123"
+        telephone = os.environ.get("LOGIN")
+        password = os.environ.get("PASSWORD")
 
         self.main.login.open_auth()
         self.main.login.input_telephone_value(telephone)

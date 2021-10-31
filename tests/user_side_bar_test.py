@@ -1,3 +1,5 @@
+import os
+
 from helpers import Test
 
 from pages import ReviewsPage, UserAwaitReviewsPage, AchievementsPage, UserSettingsPage, \
@@ -50,9 +52,8 @@ class UserSideBarTest(Test):
 
     def testClickAchievements(self):
         """Кнопка “Достижения” в боковом меню. Переход на страницу Достижения при нажатии"""
-        # TODO: брать из ENV
         achievements = AchievementsPage(driver=self.driver)
-        user_id = "78"
+        user_id = os.environ.get("USER_ID")
 
         self.settings.side_bar.click_achievements()
 
@@ -62,9 +63,8 @@ class UserSideBarTest(Test):
 
     def testClickReviews(self):
         """Кнопка “Отзывы” в боковом меню. Переход на страницу Отзывы при нажатии"""
-        # TODO: брать из ENV
         reviews = ReviewsPage(driver=self.driver)
-        user_id = "78"
+        user_id = os.environ.get("USER_ID")
 
         self.settings.side_bar.click_reviews()
 

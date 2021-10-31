@@ -86,4 +86,3 @@ class MainTest(Test):
 
         self.main.product_card.remove_like_product(index)
         self.assertFalse(self.main.product_card.check_remove_like_product(index), "Не удалось убрать лайк")
-
