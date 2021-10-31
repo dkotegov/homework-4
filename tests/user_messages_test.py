@@ -1,13 +1,13 @@
 from helpers import Test
 
-from pages import MessagesPage, RegistrationPage
+from pages import UserMessagesPage, RegistrationPage
 
 
 class UserMessagesTest(Test):
     def setUp(self):
         super().setUp()
-        self.messages_page = MessagesPage(driver=self.driver)
-        self.messages_page.open()
+        self.messages = UserMessagesPage(driver=self.driver)
+        self.messages.open()
 
     def testRedirectToRegPage(self):
         """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
@@ -18,65 +18,71 @@ class UserMessagesTest(Test):
 
     def testRedirectToProductPageByName(self):
         """Меню истории сообщений - верхняя часть. Открытие страницы товара при нажатие на нижнюю надпись красного цвета"""
-        self.messages_page.login.auth()
-        self.messages_page.open()
+        self.messages.login.auth()
+        self.messages.open()
 
-        self.messages_page.click_message_card()
-        product_url = self.messages_page.click_product_name()
+        self.messages.chats_block.click_message_card()
+        product_url = self.messages.chats_block.click_product_name()
 
         url = self.driver.current_url
         self.assertEqual(url, product_url, "Не открылась страница товара")
 
     def testRedirectToProductPageByAvatar(self):
         """Меню истории сообщений - верхняя часть. Открытие объявления при нажатии на аватарку"""
-        self.messages_page.login.auth()
-        self.messages_page.open()
+        self.messages.login.auth()
+        self.messages.open()
 
-        self.messages_page.click_message_card()
-        product_url = self.messages_page.click_product_avatar()
+        self.messages.chats_block.click_message_card()
+        product_url = self.messages.chats_block.click_product_avatar()
 
         url = self.driver.current_url
         self.assertEqual(url, product_url, "Не открылась страница товара")
 
     def testRedirectToUserPage(self):
         """Меню истории сообщений - верхняя часть. Открытие профиля человека при нажатие на верхнюю надпись черного цвета"""
-        self.messages_page.login.auth()
-        self.messages_page.open()
+        self.messages.login.auth()
+        self.messages.open()
 
-        self.messages_page.click_message_card()
-        user_url = self.messages_page.click_user_name()
+        self.messages.chats_block.click_message_card()
+        user_url = self.messages.chats_block.click_user_name()
 
         url = self.driver.current_url
         self.assertEqual(url, user_url, "Не открылась страница пользователя")
 
     def testSendMessage(self):
         """Меню истории сообщений - нижнее меню. Отправка сообщения по кнопке “Отправить”"""
-        self.messages_page.login.auth()
-        self.messages_page.open()
+        message = "Тест"
 
-        self.messages_page.click_message_card()
-        before_send = self.messages_page.count_messages()
-        self.messages_page.send_message("Тест")
+        self.messages.login.auth()
+        self.messages.open()
+        self.messages.chats_block.click_message_card()
 
-        self.messages_page.open()
-        self.messages_page.click_message_card()
-        self.assertEqual(before_send + 1, self.messages_page.count_messages(), "Количество сообщений не изменилось")
+        before_send = self.messages.chats_block.count_messages()
+        self.messages.chats_block.send_message(message)
+
+        self.messages.open()
+        self.messages.chats_block.click_message_card()
+        after_send = self.messages.chats_block.count_messages()
+        self.assertEqual(before_send + 1, after_send, "Количество сообщений не изменилось")
 
     def testEmptyMessageError(self):
         """Меню истории сообщений - нижнее меню. При нажатие на кнопку “Отправить” с пустым инпутом ничего не происходит"""
-        self.messages_page.login.auth()
-        self.messages_page.open()
+        message = ""
 
-        self.messages_page.click_message_card()
+        self.messages.login.auth()
+        self.messages.open()
+        self.messages.chats_block.click_message_card()
 
-        before_send = self.messages_page.count_messages()
-        self.messages_page.send_message("")
-        self.assertEqual(before_send, self.messages_page.count_messages(), "Количество сообщений изменилось")
+        before_send = self.messages.chats_block.count_messages()
+        self.messages.chats_block.send_message(message)
+
+        after_send = self.messages.chats_block.count_messages()
+        self.assertEqual(before_send, after_send, "Количество сообщений изменилось")
 
     def testOpenMessageHistory(self):
         """Меню выбора сообщений. При нажатии на чат - открытие чата с историей сообщений"""
-        self.messages_page.login.auth()
-        self.messages_page.open()
+        self.messages.login.auth()
+        self.messages.open()
 
-        self.messages_page.click_message_card()
-        self.assertTrue(self.messages_page.is_chat_opened(), "Не открылся чат пользователя")
+        self.messages.chats_block.click_message_card()
+        self.assertTrue(self.messages.chats_block.is_chat_opened(), "Не открылся чат пользователя")

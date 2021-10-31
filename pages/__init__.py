@@ -12,5 +12,5 @@ from .user_products import UserProductsPage
 from .user_settings import UserSettingsPage
 from .user_favorites import UserFavoritesPage
 from .user_await_reviews import UserAwaitReviewsPage
-from .messages import MessagesPage
+from .user_messages import UserMessagesPage
 from .edit_product import ProductEditPage
