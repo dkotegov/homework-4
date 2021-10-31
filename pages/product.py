@@ -65,9 +65,6 @@ class ProductPage(Page):
 
     @property
     def login(self):
-<<<<<<< HEAD
-        return Login(self.driver)
-=======
         return Login(self.driver)
 
     @property
@@ -80,4 +77,3 @@ class ProductPage(Page):
 
     def change_path(self, path):
         self.PATH = "product/" + path
->>>>>>> ivan

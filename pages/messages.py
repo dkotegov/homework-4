@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import Page
-from components import Login
+from components import Login, SideBar
 
 
 class MessagesPage(Page):
@@ -18,6 +18,10 @@ class MessagesPage(Page):
     @property
     def login(self):
         return Login(self.driver)
+
+    @property
+    def side_bar(self):
+        return SideBar(self.driver)
 
     def click_message_card(self):
         self.helpers.get_elements(self.MESSAGE_CARD)[0].click()
@@ -41,11 +45,11 @@ class MessagesPage(Page):
         return product_url
 
     def is_chat_opened(self):
-        return self.helpers.get_element(self.CHAT) is not None
+        return self.helpers.is_contains(self.CHAT)
 
     def send_message(self, text):
         self.helpers.input_value(self.MESSAGE_BOX, text)
-        self.helpers.get_element(self.SEND_BUTTON).click()
+        self.helpers.click_button(self.SEND_BUTTON)
 
     def count_messages(self):
         return len(self.helpers.get_elements(self.MESSAGE))

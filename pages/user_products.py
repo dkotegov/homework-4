@@ -1,5 +1,5 @@
 from helpers import Page
-from components import ProductCard, Login, Footer, SettingsCard
+from components import ProductCard, Login, Footer, SideBar
 
 
 class UserProductsPage(Page):
@@ -19,4 +19,4 @@ class UserProductsPage(Page):
 
     @property
     def settings_card(self):
-        return SettingsCard(self.driver)
+        return SideBar(self.driver)

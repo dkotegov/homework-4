@@ -6,7 +6,7 @@ from pages import AwaitReviewsPage, RegistrationPage
 
 class AwaitReviewsTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.await_reviews_page = AwaitReviewsPage(driver=self.driver)
         self.await_reviews_page.open()
 
@@ -23,7 +23,6 @@ class AwaitReviewsTest(unittest.TestCase):
         self.await_reviews_page.open()
         self.await_reviews_page.click_card()
         self.assertTrue(self.await_reviews_page.is_popup_opened(), "Не открылся попап.")
-
 
     def testClosePopupCorrect(self):
         """Попап для отзыва. Возможность оставить отзыв не пропадет при закрытие попапа"""

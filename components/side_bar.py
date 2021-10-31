@@ -1,6 +1,3 @@
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from helpers.component import Component
 
 
@@ -10,8 +7,9 @@ class SideBar(Component):
     MY_MESSAGES = "#profile-menu-messages"
     MY_FAVORITES = "#profile-menu-favorites"
     MY_ACHIVEMENTS = "#profile-menu-achievements"
-    MY_COMMENTS = "#profile-menu-comments"
+    MY_REVIEWS = "#profile-menu-comments"
     MY_REVIEW_AWAITS = "#profile-menu-review-await"
+    ALL_PRODUCTS = "##profile-menu-landing"
 
     def click_my_settings(self):
         self.helpers.click_button(self.MY_SETTINGS)

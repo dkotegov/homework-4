@@ -12,3 +12,4 @@ from .main_test import MainTest
 from .favorites_test import FavoritesTest
 from .messages_test import MessagesTest
 from .await_reviews_test import AwaitReviewsTest
+from .reviews_test import ReviewsTest

@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from helpers import Page
-from components import Login
+from components import Login, SideBar
 
 
 class AwaitReviewsPage(Page):
@@ -16,6 +16,10 @@ class AwaitReviewsPage(Page):
     @property
     def login(self):
         return Login(self.driver)
+
+    @property
+    def side_bar(self):
+        return SideBar(self.driver)
 
     def is_popup_opened(self):
         return self.helpers.is_contains(self.POPUP)

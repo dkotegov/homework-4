@@ -7,7 +7,7 @@ from pages import MessagesPage, RegistrationPage, ProductPage
 
 class MessagesTest(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.messages_page = MessagesPage(driver=self.driver)
         self.messages_page.open()
 
@@ -17,22 +17,6 @@ class MessagesTest(unittest.TestCase):
 
         url = self.driver.current_url
         self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")
-
-    def testDropDownFavoritesButton(self):
-        """Кнопка “Мои сообщения” в выпадающем меню. Переход на страницу Мои сообщения при нажатие"""
-        self.messages_page.login.auth()
-        header = Header(driver=self.driver)
-        header.click_dropdown()
-        header.click_chats()
-        self.assertTrue(self.messages_page.is_compare_url(self.driver.current_url),
-                         "Не открылась страница избранного")
-
-    def testSideBarFavoritesButton(self):
-        """Кнопка “Мои сообщения” в боковом меню. Переход на страницу Мои сообщения при нажатие"""
-        self.messages_page.login.auth()
-        SideBar(driver=self.driver).click_my_messages()
-        self.assertTrue(self.messages_page.is_compare_url(self.driver.current_url),
-                         "Не открылась страница избранного")
 
     def testRedirectToProductPageByName(self):
         """Меню истории сообщений - верхняя часть. Открытие страницы товара при нажатие на нижнюю надпись красного цвета"""
