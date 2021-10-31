@@ -1,21 +1,18 @@
-import os
-
+from os import environ
 from pages.default import DefaultPage, Component
 from helpers.wait_for_visible import wait_for_visible
 
 
 class LoginPage(DefaultPage):
     USER_NAME_HEADER = '#user-full-name'
-    # BUTTON_BOX_LOGIN = '#login-button'
     BUTTON_BOX_SIGNUP = '#signup-button'
-    # LOGIN_LINK = '[href$="/login"]'
     SIGNUP_LINK = '[href$="/signup"]'
 
     def __init__(self, driver):
         super().__init__(driver, '/login')
         self.login_form = LoginForm(self.driver)
 
-    def sign_in(self, login=os.environ['LOGIN'], password=os.environ['PASSWORD']):
+    def sign_in(self, login=environ['LOGIN'], password=environ['PASSWORD']):
         self.login_form.fill_login_input(login)
         self.login_form.fill_password_input(password)
         self.login_form.submit()
