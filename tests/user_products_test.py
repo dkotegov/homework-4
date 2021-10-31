@@ -41,7 +41,7 @@ class UserProductsTest(Test):
         """Успешный редирект на страницу "Мои объявления" при нажатии кнопки в боковом меню “Мои объявления”"""
         self.user_products_page.login.auth()
 
-        self.user_products_page.settings_card.click_ad()
+        self.user_products_page.settings_card.click_my_products()
 
         url = self.driver.current_url
         self.assertTrue(self.user_products_page.is_compare_url(url), "Не открылась страница Мои объявления")

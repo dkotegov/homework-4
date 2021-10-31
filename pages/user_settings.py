@@ -1,5 +1,6 @@
 from helpers import Page, Component
-from components import Login
+from components import Login, SideBar
+
 
 class UserSettingsForm(Component):
     PATH = "user/profile"
@@ -143,4 +144,3 @@ class UserSettingsPage(Page):
     @property
     def form(self):
         return UserSettingsForm(self.driver)
-    
