@@ -14,7 +14,7 @@ class Test(unittest.TestCase):
             desired_capabilities=getattr(DesiredCapabilities, browser).copy()
         )
         # self.driver = webdriver.Firefox(executable_path="./geckodriver")
-        # self.driver = webdriver.Chrome(executable_path="./chromedriver")
+        # self.driver = webdriver.Chrome(executable_path="../chromedriver")
 
     def tearDown(self):
         self.driver.quit()

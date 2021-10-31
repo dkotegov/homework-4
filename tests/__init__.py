@@ -17,3 +17,7 @@ from .user_favorites_test import UserFavoritesTest
 
 from .user_side_bar_test import UserSideBarTest
 from .seller_side_bar_test import SellerSideBarTest
+
+from .settings_test import SettingsTest
+from .create_product_test import CreateProductTest
+from .promotion_test import PromotionTest
