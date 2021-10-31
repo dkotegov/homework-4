@@ -40,6 +40,7 @@ class MainPage(BasePage):
     MESSAGE_INPUT_BODY = '#message-input'
     MESSAGE_BTN_SEND = '#message-send-button'
     MESSAGE_NOT_OPENED_PLUG = '#messages-listing > div.fullheight.table-rows'
+    MESSAGE_NOT_DELIVERED = '%s .status-warning-svg'
 
     OVERLAY_INPUT = '.modal input'
     OVERLAY_SUBMIT = '.modal .submit'
@@ -126,17 +127,23 @@ class MainPage(BasePage):
 
     def clickDeleteLastMessage(self, your: bool = None):
         if your is None:
-            self.click(self.MESSAGE_BTN_DELETE % self.MESSAGE_LAST_ANY)
+            self.click_hidden(self.MESSAGE_BTN_DELETE % self.MESSAGE_LAST_ANY)
         elif your:
-            self.click(self.MESSAGE_BTN_DELETE % self.MESSAGE_LAST_YOUR)
+            self.click_hidden(self.MESSAGE_BTN_DELETE % self.MESSAGE_LAST_YOUR)
         else:
-            self.click(self.MESSAGE_BTN_DELETE % self.MESSAGE_LAST_NOT_YOUR)
+            self.click_hidden(self.MESSAGE_BTN_DELETE % self.MESSAGE_LAST_NOT_YOUR)
 
     def setMessageTitle(self, value):
         self.set_field(self.MESSAGE_INPUT_TITLE, value)
 
     def setMessageBody(self, value):
         self.set_field(self.MESSAGE_INPUT_BODY, value)
+
+    def getMessageTitle(self):
+        return self.locate_el(self.MESSAGE_INPUT_TITLE).get_attribute('value')
+
+    def getMessageBody(self):
+        return self.locate_el(self.MESSAGE_INPUT_BODY).get_attribute('value')
 
     def isLastMessageYours(self):
         # return self.locate_el(self.MESSAGE_LAST_ANY).get_attribute('class').find('right-block') != -1
@@ -151,8 +158,11 @@ class MainPage(BasePage):
     def isLastMessageNotYours(self):
         return self.click(self.MESSAGE_BTN_DELETE % self.MESSAGE_LAST_NOT_YOUR)
 
+    def isMessageNotDelivered(self):
+        return self.locate_el(self.MESSAGE_NOT_DELIVERED % self.MESSAGE_LAST_YOUR).is_displayed()
+
     def getMessagesCount(self):
-        return len(self.locate_el(self.MESSAGES_LISTING).find_elements(By.CSS_SELECTOR, "div.message-block"))
+        return len(self.locate_el(self.MESSAGES_LISTING).find_elements(By.CSS_SELECTOR, "div.message-block[title]"))
 
     # --------- Overlay ----------
     def submitOverlay(self):

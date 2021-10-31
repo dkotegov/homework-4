@@ -33,7 +33,7 @@ class BasePage:
         el.send_keys(value)
 
     def get_popup(self):
-        return self.locate_el('.popup-message')
+        return self.locate_el('.popup-message:last-child')
 
     def is_popup_success(self):
         return self.get_popup().get_attribute('class').find('success') != -1

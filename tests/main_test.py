@@ -15,6 +15,7 @@ YANDEX_AVATAR = "/images/yandex.png"
 GMAIL_AVATAR = "/images/gmail.png"
 
 DEFAULT_FOLDER = "Общая"
+DEFAULT_DIALOGUE = "support@liokor.ru"
 
 
 def _randomString(length):
@@ -210,8 +211,8 @@ class MainTest(BaseTest):
         self.assertTrue(self.page.isDialogueNotOpened(), "Dialogue opened")
 
     def test_open_dialogue(self):
-        self.page.clickDialogue("support@liokor.ru")
-        self.assertTrue(self.page.isDialogueOpened("support@liokor.ru"), "Dialogue not opened")
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.assertTrue(self.page.isDialogueOpened(DEFAULT_DIALOGUE), "Dialogue not opened")
 
     def test_create_dialogue_positive(self):
         self._create_dialogue_with_name(_randomMail(15))
@@ -306,12 +307,12 @@ class MainTest(BaseTest):
 
     def test_dialogue_image_with_gmail(self):
         self._test_dialogue_image("liokor@gmail.com", GMAIL_AVATAR)
-    '''
+    
 
     # def test_get_message_without_refresh(self):
     #     self.auth_page2.auth(s.USERNAME2, s.PASSWORD2)
     #     self.page2.
-
+    '''
     # -------- Messages --------
     def _send_message(self, title=None, body=None):
         if title is not None:
@@ -320,11 +321,11 @@ class MainTest(BaseTest):
             self.page.setMessageBody(body)
         # self.page.clickSendMessage()
         self.page.sendMessageByKeyboard()
-        self.assertTrue(self.page.isLastMessageYours(), "Last message not yours")
 
     def _send_message_positive(self, title, body, recipient=s.USERNAME2 + "@liokor.ru", delete=True):
         self._create_dialogue_with_name(recipient, delete=False)
         self._send_message(title, body)
+        self.assertTrue(self.page.isLastMessageYours(), "Last message not yours")
         if delete:
             self.page.clickDeleteDialogue(recipient)
             self.page.submitOverlay()
@@ -353,8 +354,50 @@ class MainTest(BaseTest):
 
     def test_send_message_negative_empty_body(self):
         recipient = s.USERNAME2 + "@liokor.ru"
+        self._create_dialogue_with_name(recipient, delete=False)
         messagesCount = self.page.getMessagesCount()
-        self._send_message_positive(_randomString(10), "", recipient, delete=False)
+        self._send_message(_randomString(10), "")
         self.assertEqual(self.page.getMessagesCount(), messagesCount, "Messages count is not equal")
         self.page.clickDeleteDialogue(recipient)
+        self.page.submitOverlay()
+
+    def test_send_message_negative_recipient_not_exists(self):
+        mail = _randomMail(15)
+        self._create_dialogue_with_name(mail, delete=False)
+        self._send_message(_randomString(10), _randomString(20))
+        self.assertTrue(self.page.isMessageNotDelivered(), "Message delivered but mustn't be")
+        self.assertFalse(self.page.is_popup_success(), "Message delivered but mustn't be")
+        self.page.clickDeleteDialogue(mail)
+        self.page.submitOverlay()
+
+    def test_delete_message(self):
+        recipient = s.USERNAME2 + "@liokor.ru"
+        self._send_message_positive(_randomString(15), _randomString(100), recipient, delete=False)
+        messagesCount = self.page.getMessagesCount()
+        self.page.clickDeleteLastMessage(your=True)
+        self.page.submitOverlay()
+        self.assertEqual(self.page.getMessagesCount(), messagesCount-1, "Message wasn't deleted")
+        self.page.clickDeleteDialogue(recipient)
+        self.page.submitOverlay()
+
+    def test_load_message_body_after_refresh(self):
+        mail = _randomMail(15)
+        self._create_dialogue_with_name(mail, delete=False)
+        body = "Message body\nWith one string break."
+        self.page.setMessageBody(body)
+        self.driver.refresh()
+        self.assertEqual(self.page.getMessageBody(), body, "Message body was not loaded")
+        self.page.clickDeleteDialogue(mail)
+        self.page.submitOverlay()
+
+    def test_load_message_body_after_dialogues_checkout(self):
+        mail = _randomMail(15)
+        self._create_dialogue_with_name(mail, delete=False)
+        body = "Message body\nWith one string break."
+        self.page.setMessageBody(body)
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.assertEqual(self.page.getMessageBody(), "", "Can't checkout to default dialogue")
+        self.page.clickDialogue(mail)
+        self.assertEqual(self.page.getMessageBody(), body, "Message body was not loaded")
+        self.page.clickDeleteDialogue(mail)
         self.page.submitOverlay()
