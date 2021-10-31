@@ -1,10 +1,9 @@
-ROOT_URL = 'https://cinemedia.ru'
-
-
 class DefaultPage:
+    ROOT_URL = 'https://cinemedia.ru'
+
     def __init__(self, driver, url=''):
         self.driver = driver
-        self.url = ROOT_URL + url
+        self.url = self.ROOT_URL + url
 
     def open(self):
         self.driver.get(self.url)
