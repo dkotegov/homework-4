@@ -3,7 +3,7 @@ from components.default import Component
 from utils import wait_for_element_by_selector
 
 
-class AuthForm(Component):
+class LoginForm(Component):
     LOGIN = '#email'
     PASSWORD = '#password'
     SUBMIT = '.form-content__button'

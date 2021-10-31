@@ -1,15 +1,15 @@
 from pages.default import Page
-from components.auth_form import AuthForm
+from components.login_form import LoginForm
 
 from utils import wait_for_url
 
 
-class AuthPage(Page):
+class LoginPage(Page):
     PATH = "login/"
 
     def auth(self):
         self.open()
-        form = AuthForm(self.driver)
+        form = LoginForm(self.driver)
         form.set_login('user@user.ru')
         form.set_password('password')
         form.submit()
