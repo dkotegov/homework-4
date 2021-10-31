@@ -10,7 +10,7 @@ from .user_chats import UserChats
 from .user_favorites import UserFavoritesPage
 from .user_products import UserProductsPage
 from .user_settings import UserSettingsPage
-from .favorites import FavoritesPage
+from .user_favorites import UserFavoritesPage
 from .user_await_reviews import UserAwaitReviewsPage
 from .messages import MessagesPage
 from .edit_product import ProductEditPage

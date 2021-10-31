@@ -1,5 +1,5 @@
 from helpers import Page, Component
-from components import Login, SideBar
+from components import Login
 
 
 class ReviewPopup(Component):
@@ -41,10 +41,6 @@ class UserAwaitReviewsPage(Page):
     @property
     def login(self):
         return Login(self.driver)
-
-    @property
-    def side_bar(self):
-        return SideBar(self.driver)
 
     @property
     def review_popup(self):

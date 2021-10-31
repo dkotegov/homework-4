@@ -1,14 +1,14 @@
 from helpers import Test
 
-from pages import FavoritesPage, RegistrationPage, SellerProductsPage, ProductPage
+from pages import UserFavoritesPage, RegistrationPage, SellerProductsPage, ProductPage
 
 
 class UserFavoritesTest(Test):
     def setUp(self):
         super().setUp()
-        self.favourites_page = FavoritesPage(driver=self.driver)
+        self.favorites = UserFavoritesPage(driver=self.driver)
         self.products = SellerProductsPage(driver=self.driver)
-        self.favourites_page.open()
+        self.favorites.open()
 
     def testRedirectToRegPage(self):
         """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
@@ -21,31 +21,33 @@ class UserFavoritesTest(Test):
         """Карточка объявления. Открытие страницы объявления при нажатии в любое место карточки, кроме “сердечка”"""
         product = ProductPage(driver=self.driver)
 
-        self.favourites_page.login.auth()
+        self.favorites.login.auth()
         self.products.open()
 
         self.products.product_card.like_product()
-        self.favourites_page.open()
+        self.favorites.open()
 
-        product_id = self.favourites_page.product_card.click_product()
+        product_id = self.favorites.favorite_products.click_product()
 
         url = self.driver.current_url
         product.change_path(product_id)
         self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
 
-        self.favourites_page.open()
-        self.favourites_page.product_card.remove_like_product(0)
+        self.favorites.open()
+        self.favorites.favorite_products.remove_like_product(0)
 
     def testFavoriteProductDelete(self):
         """Иконка “Сердечко” на карточке товара. При нажатии товар пропадает со страницы “Избранное”"""
-        self.favourites_page.login.auth()
+        self.favorites.login.auth()
         self.products.open()
 
         self.products.product_card.like_product()
-        self.favourites_page.open()
+        self.favorites.open()
 
-        before_remove = self.favourites_page.count_products()
+        before_remove = self.favorites.favorite_products.count_products()
 
-        self.favourites_page.product_card.remove_like_product(0)
-        self.favourites_page.open()
-        self.assertEqual(before_remove - 1, self.favourites_page.count_products(), "Товар остался в избранном")
+        self.favorites.favorite_products.remove_like_product(0)
+        self.favorites.open()
+
+        after_remove = self.favorites.favorite_products.count_products()
+        self.assertEqual(before_remove - 1, after_remove, "Товар остался в избранном")
