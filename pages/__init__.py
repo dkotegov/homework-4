@@ -11,6 +11,6 @@ from .user_favorites import UserFavoritesPage
 from .user_products import UserProductsPage
 from .user_settings import UserSettingsPage
 from .favorites import FavoritesPage
-from .await_reviews import AwaitReviewsPage
+from .user_await_reviews import UserAwaitReviewsPage
 from .messages import MessagesPage
 from .edit_product import ProductEditPage
