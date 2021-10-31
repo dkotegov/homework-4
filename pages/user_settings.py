@@ -1,5 +1,5 @@
 from helpers import Page, Component
-from components import Login
+from components import Login, SideBar
 
 
 class UserThemeForm(Component):
@@ -137,6 +137,10 @@ class UserSettingsPage(Page):
     @property
     def login(self):
         return Login(self.driver)
+
+    @property
+    def side_bar(self):
+        return SideBar(self.driver)
 
     @property
     def form(self):
