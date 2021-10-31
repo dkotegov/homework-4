@@ -9,3 +9,11 @@ from .theme_test import ThemeTest
 from .registration_test import RegistrationTest
 from .login_test import LoginTest
 from .main_test import MainTest
+
+from .user_messages_test import UserMessagesTest
+from .user_reviews_test import UserReviewsTest
+from .user_await_reviews_test import UserAwaitReviewsTest
+from .user_favorites_test import UserFavoritesTest
+
+from .user_side_bar_test import UserSideBarTest
+from .seller_side_bar_test import SellerSideBarTest

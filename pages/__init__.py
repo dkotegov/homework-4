@@ -6,8 +6,10 @@ from .registration import RegistrationPage
 from .reviews import ReviewsPage
 from .search import SearchPage
 from .seller_products import SellerProductsPage
-from .user_chats import UserChats
 from .user_favorites import UserFavoritesPage
 from .user_products import UserProductsPage
 from .user_settings import UserSettingsPage
+from .user_favorites import UserFavoritesPage
+from .user_await_reviews import UserAwaitReviewsPage
+from .user_messages import UserMessagesPage
 from .edit_product import ProductEditPage
