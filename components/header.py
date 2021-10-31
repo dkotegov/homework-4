@@ -1,8 +1,11 @@
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 from helpers.component import Component
 
 
 class Header(Component):
-    LOGO = ".header-left__brand"
+    LOGO = ".header-left__brand__img"
     SEARCH = ".header-right__search-button"
     CREATE = ".header-right__create-button"
     AUTH = ".header-right__account"
@@ -18,6 +21,7 @@ class Header(Component):
     REVIEWS = DROPDOWN_ITEM.format("Отзывы")
 
     def click_logo(self):
+        self.helpers.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.LOGO)))
         self.helpers.click_button(self.LOGO)
 
     def click_search(self):
