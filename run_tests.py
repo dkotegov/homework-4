@@ -10,16 +10,19 @@ from tests.series.click_on_series_test import ClickOnSeriesTest
 from tests.login.login_test import LoginTest
 from tests.navbar.logout_test import LogoutTest
 from tests.navbar.go_to_profile_test import GoToProfileTest
+from tests.navbar.go_to_favourites_test import GoToFavouritesTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         # unittest.makeSuite(ClickOnSeriesTest),
         # unittest.makeSuite(ClickOnGenreTest),
         # unittest.makeSuite(ClickOnMovieTest),
-        # unittest.makeSuite(ClickOnMovieGenreTest)
+        # unittest.makeSuite(ClickOnMovieGenreTest),
         # unittest.makeSuite(LoginTest),
         # unittest.makeSuite(LogoutTest),
-        unittest.makeSuite(GoToProfileTest)
+        # unittest.makeSuite(GoToProfileTest)
+        unittest.makeSuite(GoToFavouritesTest)
     ))
+
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
