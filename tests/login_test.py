@@ -27,7 +27,8 @@ class LoginTest(Test):
         self.main.login.clear_telephone_value()
         self.main.login.input_telephone_value(test)
         self.main.login.enter_submit()
-        # TODO: не понятно как проверять ошибку. У нас стандартная браузерная
+        # Не понятно как проверять ошибку. У нас по submit вылезает стандартная браузерная ошибка
+        # Делаю проверку на то, что окно не закрылось. После авторизации попап должен закрыться
         self.assertTrue(self.main.login.is_opened(), "Закрылась авторизация")
 
     def testErrorTelephoneInput(self):
@@ -45,7 +46,8 @@ class LoginTest(Test):
         self.main.login.clear_password_value()
         self.main.login.input_password_value(test)
         self.main.login.enter_submit()
-        # TODO: не понятно как проверять ошибку. У нас стандартная браузерная
+        # Не понятно как проверять ошибку. У нас по submit вылезает стандартная браузерная ошибка
+        # Делаю проверку на то, что окно не закрылось. После авторизации попап должен закрыться
         self.assertTrue(self.main.login.is_opened(), "Закрылась авторизация")
 
     def testErrorPasswordInput(self):
