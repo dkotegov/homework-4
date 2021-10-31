@@ -1,13 +1,12 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
 from pages.promotion import PromotionPage
 from pages.product import ProductPage
 
 
-class PromotionTest(unittest.TestCase):
+class PromotionTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.create = PromotionPage(driver=self.driver)
         self.create.open()
 
@@ -63,5 +62,3 @@ class PromotionTest(unittest.TestCase):
         product.change_path(product_id)
         self.assertTrue(product.is_compare_url(url), "Не открылась страница продукта")
 
-    def tearDown(self):
-        self.driver.close()

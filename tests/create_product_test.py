@@ -1,13 +1,12 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
 from pages.create_product import CreateProductPage
 from pages.promotion import PromotionPage
 
 
-class CreateProductTest(unittest.TestCase):
+class CreateProductTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.create = CreateProductPage(driver=self.driver)
         self.create.open()
 
@@ -70,7 +69,7 @@ class CreateProductTest(unittest.TestCase):
         # сохранение с пустым адресом
         test1 = ""
 
-        self.__test_password__(test1)
+        self.__test_address__(test1)
 
     def testClickProduct(self):
         """Проверка, что при нажатии на создание с правильно заполненными полями, открываеся страница продвижения"""
@@ -90,6 +89,3 @@ class CreateProductTest(unittest.TestCase):
 
         url = self.driver.current_url
         self.assertTrue(promote.is_compare_url(url), "Не открылась страница продвижения")
-
-    def tearDown(self):
-        self.driver.close()

@@ -1,8 +1,10 @@
-from helpers import Page
+from helpers import Page, Component
+from components import Login
 
-
-class UserSettingsPage(Page):
+class UserSettingsForm(Component):
     PATH = "user/profile"
+
+    ERROR = "input-error"
 
     INFO_CHANGE_ERROR = "#settings-error"
     PWD_CHANGE_ERROR = "#settings-password-error"
@@ -10,7 +12,7 @@ class UserSettingsPage(Page):
     NAME = "#settings-name"
     SURNAME = "#settings-surname"
     TELEPHONE = "#settings-phone"
-    EMAIL = "#settings-mail"
+    EMAIL = "#settings-email"
     DATE = "#settings-birthday"
     SEX = "#settings-gender"
 
@@ -28,97 +30,117 @@ class UserSettingsPage(Page):
     THEME_DARK = "#dark-theme"
 
     def input_name_value(self, text):
-        self.__input_value__(self.NAME, text)
+        self.helpers.input_value(self.NAME, text)
 
     def clear_name_value(self):
-        self.__clear_input__(self.NAME)
+        self.helpers.clear_input(self.NAME)
 
     def is_error_name(self):
-        return self.__element_contains_class__(self.NAME, self.ERROR)
+        name = self.helpers.get_element(self.NAME)
+        return self.helpers.is_element_contains_class(name, self.ERROR)
 
     def input_surname_value(self, text):
-        self.__input_value__(self.SURNAME, text)
+        self.helpers.input_value(self.SURNAME, text)
 
     def clear_surname_value(self):
-        self.__clear_input__(self.SURNAME)
+        self.helpers.clear_input(self.SURNAME)
 
     def is_error_surname(self):
-        return self.__element_contains_class__(self.SURNAME, self.ERROR)
+        surname = self.helpers.get_element(self.SURNAME)
+        return self.helpers.is_element_contains_class(surname, self.ERROR)
 
     def input_telephone_value(self, text):
-        self.__input_value__(self.TELEPHONE, text)
+        self.helpers.input_value(self.TELEPHONE, text)
 
     def clear_telephone_value(self):
-        self.__clear_input__(self.TELEPHONE)
+        self.helpers.clear_input(self.TELEPHONE)
 
     def is_error_telephone(self):
-        return self.__element_contains_class__(self.TELEPHONE, self.ERROR)
+        telephone = self.helpers.get_element(self.TELEPHONE)
+        return self.helpers.is_element_contains_class(telephone, self.ERROR)
 
     def input_email_value(self, text):
-        self.__input_value__(self.EMAIL, text)
+        self.helpers.input_value(self.EMAIL, text)
 
     def clear_email_value(self):
-        self.__clear_input__(self.EMAIL)
+        self.helpers.clear_input(self.EMAIL)
 
     def is_error_email(self):
-        return self.__element_contains_class__(self.EMAIL, self.ERROR)
+        email = self.helpers.get_element(self.EMAIL)
+        return self.helpers.is_element_contains_class(email, self.ERROR)
 
     def get_info_change_error(self):
-        return self.__get_element__(self.INFO_CHANGE_ERROR).text
+        return self.helpers.get_element(self.INFO_CHANGE_ERROR).text
 
     def enter_info_submit(self):
-        self.__click_button__(self.INFO_SUBMIT)
+        self.helpers.click_button(self.INFO_SUBMIT)
 
     def enter_info_edit(self):
-        self.__click_button__(self.INFO_EDIT)
+        self.helpers.click_button(self.INFO_EDIT)
 
     def input_password_value(self, text):
-        self.__input_value__(self.PASSWORD, text)
+        self.helpers.input_value(self.PASSWORD, text)
 
     def clear_password_value(self):
-        self.__clear_input__(self.PASSWORD)
+        self.helpers.clear_input(self.PASSWORD)
 
     def is_error_password(self):
-        return self.__element_contains_class__(self.PASSWORD, self.ERROR)
+        pwd = self.helpers.get_element(self.PASSWORD)
+        return self.helpers.is_element_contains_class(pwd, self.ERROR)
 
     def input_confirm_password_value(self, text):
-        self.__input_value__(self.CONFIRM_PASSWORD, text)
+        self.helpers.input_value(self.CONFIRM_PASSWORD, text)
 
     def clear_confirm_password_value(self):
-        self.__clear_input__(self.CONFIRM_PASSWORD)
+        self.helpers.clear_input(self.CONFIRM_PASSWORD)
 
     def is_error_confirm_password(self):
-        return self.__element_contains_class__(self.CONFIRM_PASSWORD, self.ERROR)
+        conf_pwd = self.helpers.get_element(self.CONFIRM_PASSWORD)
+        return self.helpers.is_element_contains_class(conf_pwd, self.ERROR)
 
     def input_old_password_value(self, text):
-        self.__input_value__(self.OLD_PASSWORD, text)
+        self.helpers.input_value(self.OLD_PASSWORD, text)
 
     def clear_old_password_value(self):
-        self.__clear_input__(self.OLD_PASSWORD)
+        self.helpers.clear_input(self.OLD_PASSWORD)
 
     def is_error_old_password(self):
-        return self.__element_contains_class__(self.OLD_PASSWORD, self.ERROR)
+        old_pwd = self.helpers.get_element(self.OLD_PASSWORD)
+        return self.helpers.is_element_contains_class(old_pwd, self.ERROR)
 
     def get_pwd_change_error(self):
-        return self.__get_element__(self.PWD_CHANGE_ERROR).text
+        return self.helpers.get_element(self.PWD_CHANGE_ERROR).text
 
     def enter_pwd_submit(self):
-        self.__click_button__(self.PASSWORD_SUBMIT)
+        self.helpers.click_button(self.PASSWORD_SUBMIT)
 
     def enter_pwd_reset(self):
-        self.__click_button__(self.PASSWORD_RESET)
+        self.helpers.click_button(self.PASSWORD_RESET)
 
     def get_theme(self):
-        html = self.__get_element__("html")
+        html = self.helpers.get_element("html")
 
-        if self.__contains_class__(html, "theme-light"):
+        if self.helpers.is_element_contains_class(html, "theme-light"):
             return "light"
 
-        elif self.__contains_class__(html, "theme-dark"):
+        elif self.helpers.is_element_contains_class(html, "theme-dark"):
             return "dark"
 
     def change_theme_light(self):
-        self.__click_button__(self.THEME_LIGHT)
+        self.helpers.click_button(self.THEME_LIGHT)
 
     def change_theme_dark(self):
-        self.__click_button__(self.THEME_DARK)
+        self.helpers.click_button(self.THEME_DARK)
+        
+        
+class UserSettingsPage(Page):
+    PATH = "user/profile"
+
+    @property
+    def login(self):
+        return Login(self.driver)
+
+    @property
+    def form(self):
+        return UserSettingsForm(self.driver)
+    
