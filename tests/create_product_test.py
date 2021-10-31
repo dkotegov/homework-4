@@ -2,8 +2,10 @@ from helpers import Test
 
 from pages.create_product import CreateProductPage
 from pages.promotion import PromotionPage
+from utils import get_file_text
 
 import time
+
 
 class CreateProductTest(Test):
     def setUp(self):
@@ -56,9 +58,7 @@ class CreateProductTest(Test):
         # создание с описанием, где меньше 10
         test2 = "aaaaaaa"
         # создание с описанием, где больше 4000 символов
-        file = open("./test_file/test_description.txt")
-        test3 = file.read()
-        file.close()
+        test3 = get_file_text("./assets/test_description.txt")
 
         self.__test_description__(test1)
         self.__test_description__(test2)
@@ -88,7 +88,7 @@ class CreateProductTest(Test):
     #     self.create.form.input_name_value(name)
     #     self.create.form.input_price_value(price)
     #     self.create.form.input_description_value(description)
-    #     self.create.form.upload_photo()
+    #     self.create.form.upload_photo("./assets/test.jpg")
     #     self.create.form.input_address_value(address)
     #     self.create.form.enter_address()
     #

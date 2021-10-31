@@ -45,24 +45,6 @@ class SettingsTest(Test):
         self.__test_surname__(test1)
         self.__test_surname__(test2)
 
-    # Регистрация прошла с помозью телефона, его изменить нельзя
-    # def __test_telephone__(self, test):
-    #     self.settings.form.clear_telephone_value()
-    #     self.settings.form.input_telephone_value(test)
-    #     self.settings.form.enter_info_submit()
-    #     self.assertTrue(self.settings.form.is_error_telephone(), "Нет ошибки")
-    #
-    # def testErrorTelephoneInput(self):
-    #     self.settings.form.enter_info_edit()
-    #     """Проверка сохранения с неправильными данными телефона"""
-    #     # сохранение с пустым телефоном
-    #     test1 = ""
-    #     # сохранение с телефоном, где меньше 10
-    #     test2 = "111111111"
-    #
-    #     self.__test_telephone__(test1)
-    #     self.__test_telephone__(test2)
-
     def __test_email__(self, test):
         self.settings.form.clear_email_value()
         self.settings.form.input_email_value(test)
@@ -86,32 +68,16 @@ class SettingsTest(Test):
         self.__test_email__(test3)
         self.__test_email__(test4)
 
-    # Регистрация прошла с помозью телефона, его изменить нельзя
-    # def testErrorSettingsExistTelephone(self):
-    #     """Проверка ошибочного сохранения номер телефона"""
-    #     name = "name"
-    #     surname = "surname"
-    #     # TODO: поменять когда добавим login в ENV
-    #     telephone = "4444444444"
-    #
-    #     self.settings.form.enter_info_edit()
-    #     self.settings.form.input_name_value(name)
-    #     self.settings.form.input_surname_value(surname)
-    #     self.settings.form.input_telephone_value(telephone)
-    #     self.settings.form.enter_info_submit()
-    #
-    #     self.assertEqual(self.settings.form.get_info_change_error(), "Пользователь уже существует", "Нет ошибки")
-
     def __test_password__(self, test):
         # TODO: login из env
         old_password = "Qwerty123"
-        self.settings.form.clear_password_value()
-        self.settings.form.input_password_value(test)
+        self.settings.pwd_form.clear_password_value()
+        self.settings.pwd_form.input_password_value(test)
 
-        self.settings.form.clear_old_password_value()
-        self.settings.form.input_old_password_value(old_password)
-        self.settings.form.enter_pwd_submit()
-        self.assertTrue(self.settings.form.is_error_password(), "Нет ошибки")
+        self.settings.pwd_form.clear_old_password_value()
+        self.settings.pwd_form.input_old_password_value(old_password)
+        self.settings.pwd_form.enter_pwd_submit()
+        self.assertTrue(self.settings.pwd_form.is_error_password(), "Нет ошибки")
 
     def testErrorPasswordInput(self):
         """Проверка сохранения с неправильными данными пароля"""
@@ -136,15 +102,15 @@ class SettingsTest(Test):
         # TODO: login из env
         old_password = "Qwerty123"
 
-        self.settings.form.clear_password_value()
-        self.settings.form.input_password_value(test)
-        self.settings.form.clear_confirm_password_value()
-        self.settings.form.input_confirm_password_value(confirm_test)
+        self.settings.pwd_form.clear_password_value()
+        self.settings.pwd_form.input_password_value(test)
+        self.settings.pwd_form.clear_confirm_password_value()
+        self.settings.pwd_form.input_confirm_password_value(confirm_test)
 
-        self.settings.form.clear_old_password_value()
-        self.settings.form.input_old_password_value(old_password)
-        self.settings.form.enter_pwd_submit()
-        self.assertTrue(self.settings.form.is_error_confirm_password(), "Нет ошибки")
+        self.settings.pwd_form.clear_old_password_value()
+        self.settings.pwd_form.input_old_password_value(old_password)
+        self.settings.pwd_form.enter_pwd_submit()
+        self.assertTrue(self.settings.pwd_form.is_error_confirm_password(), "Нет ошибки")
 
     def testErrorConfirmPasswordInput(self):
         """Проверка сохранения с неправильными данными пароля и подтверждения пароля"""
@@ -156,42 +122,42 @@ class SettingsTest(Test):
 
     def testChangeTheme(self):
         """Проверка смены темы"""
-        theme_0 = self.settings.form.get_theme()
+        theme_0 = self.settings.theme_form.get_theme()
         if theme_0 == "dark":
-            self.settings.form.change_theme_light()
+            self.settings.theme_form.change_theme_light()
         else:
-            self.settings.form.change_theme_dark()
+            self.settings.theme_form.change_theme_dark()
 
-        theme_1 = self.settings.form.get_theme()
+        theme_1 = self.settings.theme_form.get_theme()
         self.assertNotEqual(theme_0, theme_1, "Одинаковые темы")
 
         if theme_1 == "dark":
-            self.settings.form.change_theme_light()
+            self.settings.theme_form.change_theme_light()
         else:
-            self.settings.form.change_theme_dark()
+            self.settings.theme_form.change_theme_dark()
 
-        theme_2 = self.settings.form.get_theme()
+        theme_2 = self.settings.theme_form.get_theme()
         self.assertEqual(theme_0, theme_2, "Разные темы")
         self.assertNotEqual(theme_1, theme_2, "Одинаковые темы")
 
     def __test__change_password__(self, old, new, confirm):
-        self.settings.form.clear_password_value()
-        self.settings.form.input_password_value(new)
-        self.settings.form.clear_confirm_password_value()
-        self.settings.form.input_confirm_password_value(confirm)
-        self.settings.form.clear_old_password_value()
-        self.settings.form.input_old_password_value(old)
+        self.settings.pwd_form.clear_password_value()
+        self.settings.pwd_form.input_password_value(new)
+        self.settings.pwd_form.clear_confirm_password_value()
+        self.settings.pwd_form.input_confirm_password_value(confirm)
+        self.settings.pwd_form.clear_old_password_value()
+        self.settings.pwd_form.input_old_password_value(old)
 
-        self.assertEqual(self.settings.form.get_pwd_change_error(), '', "Нет ошибки")
+        self.assertEqual(self.settings.pwd_form.get_pwd_change_error(), '', "Нет ошибки")
 
-        self.settings.form.clear_password_value()
-        self.settings.form.input_password_value(old)
-        self.settings.form.clear_confirm_password_value()
-        self.settings.form.input_confirm_password_value(old)
-        self.settings.form.clear_old_password_value()
-        self.settings.form.input_old_password_value(new)
+        self.settings.pwd_form.clear_password_value()
+        self.settings.pwd_form.input_password_value(old)
+        self.settings.pwd_form.clear_confirm_password_value()
+        self.settings.pwd_form.input_confirm_password_value(old)
+        self.settings.pwd_form.clear_old_password_value()
+        self.settings.pwd_form.input_old_password_value(new)
 
-        self.assertEqual(self.settings.form.get_pwd_change_error(), '', "Нет ошибки")
+        self.assertEqual(self.settings.pwd_form.get_pwd_change_error(), '', "Нет ошибки")
 
     def testPasswordChange(self):
         """Проверка успешной смены пароля"""

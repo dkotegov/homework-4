@@ -16,22 +16,22 @@ class PromotionTest(Test):
     def createProduct(self):
         """Создание продукта для того, чтобы попасть на страницу продвижения"""
         #     Мы используем яндекс апи для карт и оно работает иногда не стабильно, из-за чего тест может падать
-        createProduct = CreateProductPage(driver=self.driver)
-        createProduct.open()
+        create_product = CreateProductPage(driver=self.driver)
+        create_product.open()
 
         name = "aaa"
         price = "111"
         description = "aaaaaaaaaaaaaaaaaaaaaaa"
         address = "Сант-Петербург, Россия"
 
-        createProduct.form.input_name_value(name)
-        createProduct.form.input_price_value(price)
-        createProduct.form.input_description_value(description)
-        createProduct.form.upload_photo()
-        createProduct.form.input_address_value(address)
-        createProduct.form.enter_address()
+        create_product.form.input_name_value(name)
+        create_product.form.input_price_value(price)
+        create_product.form.input_description_value(description)
+        create_product.form.upload_photo("./assets/test.jpg")
+        create_product.form.input_address_value(address)
+        create_product.form.enter_address()
 
-        createProduct.form.enter_submit()
+        create_product.form.enter_submit()
         time.sleep(1)
 
     def testErrorSubmit(self):
@@ -75,14 +75,13 @@ class PromotionTest(Test):
 
     def testNoTariffRedirect(self):
         """Проверка, что при выборе без продвижения редиректит на страницу товара"""
-        product_id = "1"
+        product = ProductPage(driver=self.driver)
 
         self.promote.form.enter_no_tariff()
-
-        product = ProductPage(driver=self.driver)
         self.promote.form.enter_purchase()
 
         url = self.driver.current_url
+        product_id = self.driver.current_url.split('/')[-1]
         product.change_path(product_id)
         self.assertTrue(product.is_compare_url(url), "Не открылась страница продукта")
 

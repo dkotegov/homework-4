@@ -17,7 +17,7 @@ class PromotionForm(Component):
     CHECKED_TARIFF = "tariffs-block_checked"
     UNCHECKED_TARIFF = "tariffs-block_unchecked"
 
-    PURCHASE = "promotion-buttonpurchase"
+    PURCHASE = ".promotion-button__purchase"
 
     TYPE = "#promotion-type"
 

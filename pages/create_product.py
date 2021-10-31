@@ -14,13 +14,14 @@ class CreateProductForm(Component):
     SUBMIT = "#submitProduct"
 
     PHOTO = "#file-upload0"
+    MAP_POINT = ".ymaps-2-1-79-suggest-item-0"
 
     def enter_address(self):
-        self.helpers.click_button(".ymaps-2-1-79-suggest-item-0")
+        self.helpers.click_button(self.MAP_POINT)
 
-    def upload_photo(self):
+    def upload_photo(self, path):
         photo = self.helpers.get_element(self.PHOTO)
-        photo.send_keys("/Users/v.zabelina/Documents/homework-4/tests/image/test.jpeg")
+        photo.send_keys(path)
 
     def input_name_value(self, text):
         self.helpers.input_value(self.NAME, text)

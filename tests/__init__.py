@@ -15,3 +15,7 @@ from .user_reviews_test import UserReviewsTest
 from .user_await_reviews_test import UserAwaitReviewsTest
 from .user_favorites_test import UserFavoritesTest
 from .user_side_bar_test import UserSideBarTest
+
+from .settings_test import SettingsTest
+from .create_product_test import CreateProductTest
+from .promotion_test import PromotionTest
