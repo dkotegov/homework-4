@@ -1,11 +1,11 @@
 import unittest
 import sys
-from tests.login.login_success_test import LoginSuccessTest
+from tests.login import LoginTestSuite
 
 
 def main():
     suite = unittest.TestSuite((
-        unittest.makeSuite(LoginSuccessTest)
+        unittest.makeSuite(LoginTestSuite)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

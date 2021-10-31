@@ -18,12 +18,17 @@ class LoginPage(DefaultPage):
     def username_in_profile(self):
         return self.login_form.get_username_from_profile()
 
+    @property
+    def validation_hint(self):
+        return self.login_form.get_validation_hint()
+
 
 class LoginForm(Component):
     LOGIN = 'input[name="username"]'
     PASSWORD = 'input[name="password"]'
     SUBMIT = '#login-submit'
     USER_NAME_HEADER = '#user-full-name'
+    VALIDATION_HINT = '#validation-hint-login'
 
     def fill_login_input(self, username):
         wait_for_visible(self.driver, self.LOGIN)
@@ -42,3 +47,7 @@ class LoginForm(Component):
     def get_username_from_profile(self):
         wait_for_visible(self.driver, self.USER_NAME_HEADER)
         return self.driver.find_element_by_css_selector(self.USER_NAME_HEADER).text
+
+    def get_validation_hint(self):
+        wait_for_visible(self.driver, self.VALIDATION_HINT)
+        return self.driver.find_element_by_css_selector(self.VALIDATION_HINT).text
