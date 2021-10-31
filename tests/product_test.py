@@ -1,6 +1,6 @@
 from helpers import Test
 
-from pages import ProductPage, ProductEditPage, SellerProductsPage, UserChats, UserProductsPage
+from pages import ProductPage, ProductEditPage, SellerProductsPage, UserProductsPage, UserMessagesPage
 
 
 class ProductTest(Test):
@@ -93,7 +93,7 @@ class ProductTest(Test):
 
     def testToRedirectMasAuth(self):
         """Успешный редирект на страницу переписки при нажатии на кнопку \"Написать сообщение\""""
-        message = UserChats(driver=self.driver)
+        message = UserMessagesPage(driver=self.driver)
 
         self.product.login.auth()
 

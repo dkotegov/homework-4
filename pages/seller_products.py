@@ -1,5 +1,5 @@
 from helpers import Page
-from components import ProductCard, Login
+from components import ProductCard, Login, SideBar
 
 
 class SellerProductsPage(Page):
@@ -12,3 +12,7 @@ class SellerProductsPage(Page):
     @property
     def login(self):
         return Login(self.driver)
+
+    @property
+    def side_bar(self):
+        return SideBar(self.driver)

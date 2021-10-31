@@ -1,6 +1,6 @@
 from helpers import Test
 
-from pages import MainPage, SearchPage, CreateProductPage, UserChats, UserSettingsPage, \
+from pages import MainPage, SearchPage, CreateProductPage, UserMessagesPage, UserSettingsPage, \
     UserProductsPage, UserFavoritesPage, ReviewsPage, AchievementsPage
 
 
@@ -73,7 +73,7 @@ class HeaderTest(Test):
 
     def testClickChats(self):
         """Проверка, что при нажатии на кнопку "Мои сообщения" открывается страница чатов"""
-        chats = UserChats(driver=self.driver)
+        chats = UserMessagesPage(driver=self.driver)
 
         self.main.login.auth()
 

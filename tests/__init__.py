@@ -14,4 +14,6 @@ from .user_messages_test import UserMessagesTest
 from .user_reviews_test import UserReviewsTest
 from .user_await_reviews_test import UserAwaitReviewsTest
 from .user_favorites_test import UserFavoritesTest
+
 from .user_side_bar_test import UserSideBarTest
+from .seller_side_bar_test import SellerSideBarTest
