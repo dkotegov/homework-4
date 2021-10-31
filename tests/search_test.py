@@ -16,15 +16,15 @@ class SearchTest(Test):
                         Запрет ввода в поля символов отличных от цифр в блоке с фильтрами
                         Запрет ввода в поля чисел больше, чем 10 знаков в блоке с фильтрами
         """
-        res_good = self.search.enter_amount("1000")
+        res_good = self.search.search_settings.enter_amount("1000")
         self.assertTupleEqual(("1 000", "1 000"), res_good, "Некорректный результат")
-        self.search.clear_amount()
+        self.search.search_settings.clear_amount()
 
-        res_bad = self.search.enter_amount("incorrect")
+        res_bad = self.search.search_settings.enter_amount("incorrect")
         self.assertTupleEqual(("", ""), res_bad, "Некорректный результат")
-        self.search.clear_amount()
+        self.search.search_settings.clear_amount()
 
-        res_bad = self.search.enter_amount("10000000000000")
+        res_bad = self.search.search_settings.enter_amount("10000000000000")
         self.assertTupleEqual(("1 000 000 000", "1 000 000 000"), res_bad, "Некорректный результат")
 
     def testSearchSortName(self):
@@ -32,6 +32,7 @@ class SearchTest(Test):
         порядке """
         self.search.change_sort_name()
         products = self.search.search_products.get_all_name_products()
+
         list_not_sorted, list_sorted = utils.fill_name_list_and_sort_last_list(products)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по алфавиту")
 
@@ -40,6 +41,7 @@ class SearchTest(Test):
         наибольшей цены к наименьшей """
         self.search.change_sort_amount_down()
         products = self.search.search_products.get_all_amount_products()
+
         list_not_sorted, list_sorted = utils.fill_amount_list_and_sort_last_list(products, reverse=True)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по убыванию цены")
 
@@ -48,6 +50,7 @@ class SearchTest(Test):
         наименьшей цены к наибольшей """
         self.search.change_sort_amount_up()
         products = self.search.search_products.get_all_amount_products()
+
         list_not_sorted, list_sorted = utils.fill_amount_list_and_sort_last_list(products, reverse=False)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по возрастанию цены")
 

@@ -2,11 +2,11 @@ import time
 
 from selenium.webdriver.support.select import Select
 
-from helpers import Page
+from helpers import Page, Component
 from components import Login, ProductCard
 
 
-class SearchProductsComponent(ProductCard):
+class SearchProducts(ProductCard):
     PRODUCTS = ".product-card"
     PRODUCTS_NAME = ".product-card-info__name"
     PRODUCTS_AMOUNT = ".product-card-info__amount"
@@ -33,22 +33,9 @@ class SearchProductsComponent(ProductCard):
         return products
 
 
-class SearchPage(Page):
-    PATH = "search"
+class SearchSettings(Component):
     FROM_A = ".search-filter-amount__from"
     TO_A = ".search-filter-amount__to"
-    SORT = ".search-items__sort"
-
-    @property
-    def search_products(self):
-        return SearchProductsComponent(self.driver)
-
-    @property
-    def login(self):
-        return Login(self.driver)
-
-    def change_path(self, path):
-        self.PATH = "search/" + path
 
     def clear_amount(self):
         self.helpers.clear_input(self.FROM_A)
@@ -60,6 +47,27 @@ class SearchPage(Page):
         from_a = self.helpers.get_element(self.FROM_A)
         to_a = self.helpers.get_element(self.TO_A)
         return from_a.get_attribute('value'), to_a.get_attribute('value')
+
+
+class SearchPage(Page):
+    PATH = "search"
+
+    SORT = ".search-items__sort"
+
+    @property
+    def search_products(self):
+        return SearchProducts(self.driver)
+
+    @property
+    def search_settings(self):
+        return SearchSettings(self.driver)
+
+    @property
+    def login(self):
+        return Login(self.driver)
+
+    def change_path(self, path):
+        self.PATH = "search/" + path
 
     def change_sort_name(self):
         self.search_products.save_products_amount()
