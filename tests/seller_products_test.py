@@ -1,24 +1,19 @@
-import unittest
-from selenium import webdriver
+from helpers import Test
 
-from pages.seller_products import SellerProductsPage
-from pages.product_card import ProductCard
-from pages.login import LoginPage
-from pages.product import ProductPage
+from pages import SellerProductsPage, ProductPage
 
 
-class SellerProductsTest(unittest.TestCase):
+class SellerProductsTest(Test):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver')
+        super().setUp()
         self.seller_products = SellerProductsPage(driver=self.driver)
         self.seller_products.open()
 
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
         product = ProductPage(driver=self.driver)
-        product_card = ProductCard(driver=self.driver)
 
-        product_id = product_card.click_product()
+        product_id = self.seller_products.product_card.click_product()
 
         url = self.driver.current_url
         product.change_path(product_id)
@@ -29,20 +24,14 @@ class SellerProductsTest(unittest.TestCase):
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        login = LoginPage(driver=self.driver)
-        product_card = ProductCard(driver=self.driver)
+        self.seller_products.product_card.like_product()
+        self.assertTrue(self.seller_products.login.is_opened(), "Не открылась авторизация")
+        self.seller_products.login.click_close()
 
-        product_card.like_product()
-        self.assertTrue(login.is_opened(), "Не открыта авторизация")
-        login.click_close()
+        self.seller_products.login.auth()
 
-        login.auth()
+        index = self.seller_products.product_card.like_product()
+        self.assertTrue(self.seller_products.product_card.check_like_product(), "Не удалось поставить лайк")
 
-        index = product_card.like_product()
-        self.assertTrue(product_card.check_like_product(index), "Не удалось поставить лайк")
-
-        product_card.remove_like_product(index)
-        self.assertFalse(product_card.check_remove_like_product(index), "Не удалось убрать лайк")
-
-    def tearDown(self):
-        self.driver.close()
+        self.seller_products.product_card.remove_like_product(index)
+        self.assertFalse(self.seller_products.product_card.check_remove_like_product(index), "Не удалось убрать лайк")

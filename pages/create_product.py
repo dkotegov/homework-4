@@ -1,7 +1,7 @@
-from pages.default_page import DefaultPage
+from helpers import Page
 
 
-class CreateProductPage(DefaultPage):
+class CreateProductPage(Page):
     PATH = "product/create"
 
     SUBMIT_ERROR = "#create-error"

@@ -1,5 +1,5 @@
-from pages.default_page import DefaultPage
+from helpers import Page
 
 
-class UserFavoritesPage(DefaultPage):
+class UserFavoritesPage(Page):
     PATH = "user/favorite"
