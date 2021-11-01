@@ -1,7 +1,3 @@
-import os
-import unittest
-
-from selenium.webdriver import DesiredCapabilities, Remote
 from pages.login import LoginPage
 
 from tests.default import Test

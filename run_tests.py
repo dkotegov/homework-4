@@ -11,6 +11,7 @@ from tests.login.login_test import LoginTest
 from tests.navbar.logout_test import LogoutTest
 from tests.navbar.go_to_profile_test import GoToProfileTest
 from tests.navbar.go_to_favourites_test import GoToFavouritesTest
+from tests.details.tests_without_auth.transit_to_auth_page_test import TransitToAuthTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -21,7 +22,8 @@ if __name__ == '__main__':
         # unittest.makeSuite(LoginTest),
         # unittest.makeSuite(LogoutTest),
         # unittest.makeSuite(GoToProfileTest)
-        unittest.makeSuite(GoToFavouritesTest)
+        # unittest.makeSuite(GoToFavouritesTest)
+        unittest.makeSuite(TransitToAuthTest)
     ))
 
     result = unittest.TextTestRunner().run(suite)
