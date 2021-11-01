@@ -16,16 +16,24 @@ class SearchTest(Test):
                         Запрет ввода в поля символов отличных от цифр в блоке с фильтрами
                         Запрет ввода в поля чисел больше, чем 10 знаков в блоке с фильтрами
         """
-        res_good = self.search.search_settings.enter_amount("1000")
-        self.assertTupleEqual(("1 000", "1 000"), res_good, "Некорректный результат")
+        expected_1 = ("1 000", "1 000")
+        expected_2 = ("", "")
+        expected_3 = ("1 000 000 000", "1 000 000 000")
+
+        test_value_1 = "1000"
+        test_value_2 = "incorrect"
+        test_value_3 = "10000000000000"
+
+        res_good = self.search.search_settings.enter_amount(test_value_1)
+        self.assertTupleEqual(expected_1, res_good, "Некорректный результат")
         self.search.search_settings.clear_amount()
 
-        res_bad = self.search.search_settings.enter_amount("incorrect")
-        self.assertTupleEqual(("", ""), res_bad, "Некорректный результат")
+        res_bad = self.search.search_settings.enter_amount(test_value_2)
+        self.assertTupleEqual(expected_2, res_bad, "Некорректный результат")
         self.search.search_settings.clear_amount()
 
-        res_bad = self.search.search_settings.enter_amount("10000000000000")
-        self.assertTupleEqual(("1 000 000 000", "1 000 000 000"), res_bad, "Некорректный результат")
+        res_bad = self.search.search_settings.enter_amount(test_value_3)
+        self.assertTupleEqual(expected_3, res_bad, "Некорректный результат")
 
     def testSearchSortName(self):
         """Проверить, что при нажатии на "По имени" из списка “Сортировка по”, объявления выдаются в алфавитном

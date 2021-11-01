@@ -59,6 +59,9 @@ class ProductTest(Test):
     def tesToShowPhoneAuth(self):
         """Проверить изменение текста на кнопке "Показать номер" на номер телефона при нажатии на кнопку "Показать
         номер" у автора с действительным номером телефона """
+        tel_regex = r"((?:\+\d{2}[-\.\s]??|\d{4}[-\.\s]??)?(?:\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[" \
+                    r"-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})) "
+
         self.product.login.auth()
 
         self.product.open()
@@ -66,19 +69,17 @@ class ProductTest(Test):
         self.product.info_card.click_phone()
         self.assertRegex(
             self.product.info_card.get_phone(),
-            r"((?:\+\d{2}[-\.\s]??|\d{4}[-\.\s]??)?(?:\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{"
-            r"4}|\d{3}[-\.\s]??\d{4}))",
+            tel_regex,
             "Появился не номер телефона")
 
     def testFailToShowPhoneAuthVK(self):
         """Ошибка данных, при нажатии на кнопку "Показать номер" автора зарегистрированного с помощью ВК, без номера
         телефона """
+        product_id = "103"
         self.product.login.auth()
 
-        self.product.change_path("103")
+        self.product.change_path(product_id)
         self.product.open()
-
-        self.product.change_path("103")
 
         self.product.info_card.click_phone()
         self.assertEqual(
@@ -108,8 +109,8 @@ class ProductTest(Test):
         self.product.login.auth()
         user_products_page.open()
 
-        user_products_page.product_card.click_product()
-        edit_page.change_path(self.driver.current_url.split('/')[-1])
+        id_product = user_products_page.product_card.click_product()
+        edit_page.change_path(id_product)
         self.product.info_card.click_edit()
 
         url = self.driver.current_url
