@@ -13,15 +13,12 @@ class Photos(Component):
     SLIDER_SELECTED_IMG = '.slider-carousel img[style = \'padding-top: 1vh; padding-bottom: 1vh; opacity: 1;\']'
 
     def selected_img_src_from_slider(self):
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.SLIDER_SELECTED_IMG)))
         return self.helpers.get_element(self.SLIDER_SELECTED_IMG).get_attribute("src")
 
     def preview_img_src(self):
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PREVIEW)))
         return self.helpers.get_element(self.PREVIEW).get_attribute("src")
 
     def click_different_preview(self):
-        self.helpers.wait(until=EC.element_to_be_clickable((By.CSS_SELECTOR, self.SLIDER_IMG)))
         images = self.helpers.get_elements(self.SLIDER_IMG)
         images[randrange(len(images))].click()
 
@@ -50,7 +47,6 @@ class InfoCard(Component):
         self.helpers.click_button(self.EDIT)
 
     def get_phone(self):
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.PHONE)))
         phone = self.helpers.get_element(self.PHONE)
         while phone.get_attribute("value") == "Показать номер":
             continue
