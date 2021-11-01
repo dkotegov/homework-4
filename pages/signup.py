@@ -1,5 +1,5 @@
 from os import environ
-from helpers.wait_for_visible import wait_for_visible
+from utils.helpers import wait_for_visible
 from pages.default import DefaultPage, Component
 
 

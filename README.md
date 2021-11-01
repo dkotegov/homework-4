@@ -12,5 +12,5 @@ bash ./node.sh
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-LOGIN='testuser1' EMAIL='testemail@mail.ru' PASSWORD='testuser1' BROWSER='CHROME' python3 run_tests.py
+LOGIN='testuser' EMAIL='testemail@mail.ru' PASSWORD='testuser1' BROWSER='CHROME' python3 run_tests.py
 ```

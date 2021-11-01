@@ -1,6 +1,6 @@
 from os import environ
 from pages.default import DefaultPage, Component
-from helpers.wait_for_visible import wait_for_visible
+from utils.helpers import wait_for_visible
 
 
 class LoginPage(DefaultPage):
