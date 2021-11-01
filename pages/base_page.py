@@ -69,5 +69,5 @@ class BasePage:
             new_width = pyautogui.getActiveWindow().width
             pyautogui.sleep(0.1)
 
-        pyautogui.write(path)
+        pyautogui.write(path, interval=0)
         pyautogui.press('enter')

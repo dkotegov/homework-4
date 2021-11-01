@@ -1,3 +1,4 @@
+import os
 from random import choice
 from string import ascii_letters
 
@@ -81,7 +82,6 @@ class MainTest(BaseTest):
             self.page.clickDeleteFolder(renameTo)
             self.page.submitOverlay()
 
-    '''
     def test_open_folders(self):
         self.page.expandFolders()
         self.assertTrue(self.page.isFoldersExpanded(), "Folders not expanded")
@@ -188,7 +188,6 @@ class MainTest(BaseTest):
         for name in dialoguesNames:
             self.page.clickDeleteDialogue(name)
             self.page.submitOverlay()
-    '''
 
     # -------- Dialogues --------
     def _create_dialogue_with_name(self, name, delete=True):
@@ -203,7 +202,6 @@ class MainTest(BaseTest):
             self.page.clickDeleteDialogue(name)
             self.page.submitOverlay()
 
-    '''
     def _create_dialogue_with_name_negative(self, name):
         self.page.clickCreateDialogue()
         self.page.setFindDialogue(name)
@@ -299,7 +297,7 @@ class MainTest(BaseTest):
     def test_dialogue_image_with_yandex(self):
         self._test_dialogue_image("liokor@yandex.ru", YANDEX_AVATAR)
     
-    def test_dialogue_image_with_yandex(self):
+    def test_dialogue_image_with_ya(self):
         self._test_dialogue_image("liokor@ya.ru", YANDEX_AVATAR)
         
     def test_dialogue_image_with_mail(self):
@@ -308,10 +306,11 @@ class MainTest(BaseTest):
     def test_dialogue_image_with_gmail(self):
         self._test_dialogue_image("liokor@gmail.com", GMAIL_AVATAR)
     
-
-    # def test_get_message_without_refresh(self):
-    #     self.auth_page2.auth(s.USERNAME2, s.PASSWORD2)
-    #     self.page2.
+    # TODO: Send from second page test
+    '''
+    def test_get_message_without_refresh(self):
+        self.auth_page2.auth(s.USERNAME2, s.PASSWORD2)
+        self.page2.
     '''
     # -------- Messages --------
     def _send_message(self, title=None, body=None):
@@ -401,3 +400,118 @@ class MainTest(BaseTest):
         self.assertEqual(self.page.getMessageBody(), body, "Message body was not loaded")
         self.page.clickDeleteDialogue(mail)
         self.page.submitOverlay()
+
+    # TODO: autocomplete message theme (надо отправить сообщение себе и посмотреть, какая тема будет при открытии
+    #  диалога. Там приколы с Re[number]: тема
+
+    # ----------- Redactor ---------
+    def test_redactor_bold(self):
+        source = "Message body\nWith one string break."
+        target = "Message **body**\nWith one string break."
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectTextInMessageInput(8, 4)
+        self.page.clickRedactorBold()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_italic(self):
+        source = "Message body\nWith one string break."
+        target = "Message  _body_ \nWith one string break."
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectTextInMessageInput(8, 4)
+        self.page.clickRedactorItalic()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_strikethrough(self):
+        source = "Message body\nWith one string break."
+        target = "Message  ~~body~~ \nWith one string break."
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectTextInMessageInput(8, 4)
+        self.page.clickRedactorStrikethrough()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_code(self):
+        source = "Message body\nWith one string break."
+        target = "Message `body`\nWith one string break."
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectTextInMessageInput(8, 4)
+        self.page.clickRedactorCode()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_H1(self):
+        source = "Message body\nWith three string breaks\nThat's end\nOh, no, that's end"
+        target = "Message body\n# With three string breaks\nThat's end\nOh, no, that's end"
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectLinesInMessageInput(1, 0)
+        self.page.clickRedactorH1()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_H2(self):
+        source = "Message body\nWith three string breaks\nThat's end\nOh, no, that's end"
+        target = "Message body\n## With three string breaks\nThat's end\nOh, no, that's end"
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectLinesInMessageInput(1, 0)
+        self.page.clickRedactorH2()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_H3(self):
+        source = "Message body\nWith three string breaks\nThat's end\nOh, no, that's end"
+        target = "Message body\n### With three string breaks\nThat's end\nOh, no, that's end"
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectLinesInMessageInput(1, 0)
+        self.page.clickRedactorH3()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_blockquote(self):
+        source = "Message body\nWith three string breaks\nThat's end\nOh, no, that's end"
+        target = "Message body\n> With three string breaks\n> That's end\nOh, no, that's end"
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectLinesInMessageInput(1, 1)
+        self.page.clickRedactorBlockquote()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_list(self):
+        source = "Message body\nWith three string breaks\nThat's end\nOh, no, that's end"
+        target = "Message body\n- With three string breaks\n- That's end\nOh, no, that's end"
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody(source)
+        self.page.selectLinesInMessageInput(1, 1)
+        self.page.clickRedactorList()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    def test_redactor_link(self):
+        link = "http://ya.ru"
+        text = "Yandex search"
+        target = "[" + text + "](" + link + ")"
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody("")
+        self.page.clickRedactorLink()
+        self.page.fillOverlay(link)
+        self.page.submitOverlay()
+        self.page.fillOverlay(text)
+        self.page.submitOverlay()
+        self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
+
+    # TODO: Image load tests
+    '''
+    def test_redactor_photo_positive(self):
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        clickf = self.page.clickRedactorPhoto
+        self.page.enter_file_path(clickf, os.path.join(os.getcwd(), 'images', 'good_image.jpg'))
+        self.assertTrue(self.page.is_popup_success(), "Image not loaded")
+        self.assertTrue(self.page.getMessageBody().startswith("![image](https://mail.liokor.ru/api/media/files/"),
+                        "Bad image markdown format")
+    
+    def test_redactor_photo_negative(self):
+        self.page.clickDialogue(DEFAULT_DIALOGUE)
+        clickf = self.page.clickRedactorPhoto
+        self.page.enter_file_path(clickf, os.path.join(os.getcwd(), 'images', 'bad_image.jpg'))
+        self.assertFalse(self.page.is_popup_success(), "Image loaded but mustn't")
+    '''

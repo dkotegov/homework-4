@@ -42,6 +42,18 @@ class MainPage(BasePage):
     MESSAGE_NOT_OPENED_PLUG = '#messages-listing > div.fullheight.table-rows'
     MESSAGE_NOT_DELIVERED = '%s .status-warning-svg'
 
+    REDACTOR_BOLD = '#bold-markdown'
+    REDACTOR_ITALIC = '#italic-markdown'
+    REDACTOR_STRIKETHROUGH = '#strikethrough-markdown'
+    REDACTOR_CODE = '#code-markdown'
+    REDACTOR_H1 = '#H1-markdown'
+    REDACTOR_H2 = '#H2-markdown'
+    REDACTOR_H3 = '#H3-markdown'
+    REDACTOR_BLOCKQUOTE = '#blockquote-markdown'
+    REDACTOR_LIST = '#list-markdown'
+    REDACTOR_LINK = '#link-markdown'
+    REDACTOR_PHOTO = '#photo-markdown'
+
     OVERLAY_INPUT = '.modal input'
     OVERLAY_SUBMIT = '.modal .submit'
 
@@ -125,6 +137,20 @@ class MainPage(BasePage):
         el = self.locate_el(self.MESSAGE_INPUT_BODY)
         el.send_keys(Keys.CONTROL + Keys.ENTER)
 
+    def selectTextInMessageInput(self, start, length):
+        el = self.locate_el(self.MESSAGE_INPUT_BODY)
+        el.click()
+        el.send_keys(Keys.CONTROL + Keys.HOME)
+        el.send_keys(Keys.ARROW_RIGHT * start)
+        el.send_keys(Keys.SHIFT + Keys.ARROW_RIGHT * length)
+
+    def selectLinesInMessageInput(self, start, length):
+        el = self.locate_el(self.MESSAGE_INPUT_BODY)
+        el.click()
+        el.send_keys(Keys.CONTROL + Keys.HOME)
+        el.send_keys(Keys.ARROW_DOWN * start)
+        el.send_keys(Keys.SHIFT + Keys.ARROW_DOWN * length)
+
     def clickDeleteLastMessage(self, your: bool = None):
         if your is None:
             self.click_hidden(self.MESSAGE_BTN_DELETE % self.MESSAGE_LAST_ANY)
@@ -163,6 +189,40 @@ class MainPage(BasePage):
 
     def getMessagesCount(self):
         return len(self.locate_el(self.MESSAGES_LISTING).find_elements(By.CSS_SELECTOR, "div.message-block[title]"))
+
+    # --------- Redactor ----------
+    def clickRedactorBold(self):
+        self.click(self.REDACTOR_BOLD)
+
+    def clickRedactorItalic(self):
+        self.click(self.REDACTOR_ITALIC)
+
+    def clickRedactorStrikethrough(self):
+        self.click(self.REDACTOR_STRIKETHROUGH)
+
+    def clickRedactorCode(self):
+        self.click(self.REDACTOR_CODE)
+
+    def clickRedactorH1(self):
+        self.click(self.REDACTOR_H1)
+
+    def clickRedactorH2(self):
+        self.click(self.REDACTOR_H2)
+
+    def clickRedactorH3(self):
+        self.click(self.REDACTOR_H3)
+
+    def clickRedactorBlockquote(self):
+        self.click(self.REDACTOR_BLOCKQUOTE)
+
+    def clickRedactorList(self):
+        self.click(self.REDACTOR_LIST)
+
+    def clickRedactorLink(self):
+        self.click(self.REDACTOR_LINK)
+
+    def clickRedactorPhoto(self):
+        self.click(self.REDACTOR_PHOTO)
 
     # --------- Overlay ----------
     def submitOverlay(self):
