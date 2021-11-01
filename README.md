@@ -20,12 +20,12 @@ pip3 install -r requirements.txt
 
 * в первом терминале запускаем selenium hub
 ```shell
-./grid
+./grid.sh
 ```
 
 * во втором терминале запускаем selenium node
 ```shell
-./node
+./node.sh
 ```
 
 * в третьем терминале запускаем тесты
