@@ -76,6 +76,7 @@ class ProductTest(Test):
         """Ошибка данных, при нажатии на кнопку "Показать номер" автора зарегистрированного с помощью ВК, без номера
         телефона """
         product_id = "103"
+
         self.product.login.auth()
 
         self.product.change_path(product_id)
@@ -109,8 +110,8 @@ class ProductTest(Test):
         self.product.login.auth()
         user_products_page.open()
 
-        id_product = user_products_page.product_card.click_product()
-        edit_page.change_path(id_product)
+        product_id = user_products_page.product_card.click_product()
+        edit_page.change_path(product_id)
         self.product.info_card.click_edit()
 
         url = self.driver.current_url

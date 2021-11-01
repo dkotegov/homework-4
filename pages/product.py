@@ -1,8 +1,5 @@
 from random import randrange
 
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-
 from helpers import Page, Component
 from components import Login
 

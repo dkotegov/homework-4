@@ -60,7 +60,6 @@ class UserMessagesPage(Page):
         self.PATH = "user/chat/" + path
 
     def page_exist(self):
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.TITLE)))
         return self.helpers.get_element(self.TITLE) is not None
 
     @property

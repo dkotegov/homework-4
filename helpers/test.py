@@ -8,7 +8,7 @@ from selenium import webdriver
 
 class Test(unittest.TestCase):
     def setUp(self):
-        load_dotenv(".env")
+        # load_dotenv("../.env")
 
         browser = os.environ.get("BROWSER", "CHROME")
 

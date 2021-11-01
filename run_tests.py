@@ -10,7 +10,7 @@ from tests import ProductTest, SellerProductsTest, SearchTest, UserProductsTest,
     UserSideBarTest, SellerSideBarTest
 
 if __name__ == '__main__':
-    #load_dotenv(".env")
+    load_dotenv(".env")
 
     suite = unittest.TestSuite((
         unittest.makeSuite(ProductTest),
