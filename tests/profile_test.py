@@ -29,7 +29,7 @@ class ProfileTest(BaseTest):
 
     def test_good_avatar(self):
         clickf = self.page.click_avatar
-        self.page.enter_file_path(clickf, os.path.join(os.getcwd(), '..', 'images', 'good_avatar.png'))
+        self.page.enter_file_path(clickf, os.path.join(os.getcwd(), 'images', 'good_avatar.png'))
 
         self.assertTrue('success' in self.page.get_popup().get_attribute('class'))
 
