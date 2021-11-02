@@ -5,7 +5,8 @@ from tests.profile_test import ProfileTest
 from tests.signup_test import SignupTest
 from tests.change_password_test import ChangePasswordTest
 
-from tests.main_test import MainTest
+from tests.main.main_test import MainTest
+from tests.main.editor_test import EditorTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -14,6 +15,7 @@ if __name__ == '__main__':
         unittest.makeSuite(SignupTest),
         unittest.makeSuite(ChangePasswordTest),
 
-        unittest.makeSuite(MainTest)
+        unittest.makeSuite(MainTest),
+        unittest.makeSuite(EditorTest)
     ))
     result = unittest.TextTestRunner().run(suite)
