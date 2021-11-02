@@ -4,6 +4,7 @@ import sys
 from tests.feed import FeedTestSuite
 from tests.login import LoginTestSuite
 from tests.profile import ProfileTestSuite
+from tests.settings import SettingsTestSuite
 from tests.signup import SignupTestSuite
 
 
@@ -13,6 +14,7 @@ def main():
         unittest.makeSuite(SignupTestSuite),
         unittest.makeSuite(ProfileTestSuite),
         unittest.makeSuite(FeedTestSuite),
+        unittest.makeSuite(SettingsTestSuite),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
