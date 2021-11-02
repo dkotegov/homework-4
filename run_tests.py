@@ -13,6 +13,7 @@ if __name__ == '__main__':
         unittest.makeSuite(ProfileTest),
         unittest.makeSuite(SignupTest),
         unittest.makeSuite(ChangePasswordTest),
+
         unittest.makeSuite(MainTest)
     ))
     result = unittest.TextTestRunner().run(suite)

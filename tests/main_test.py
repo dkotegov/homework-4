@@ -287,7 +287,7 @@ class MainTest(BaseTest):
 
     def _test_dialogue_image(self, mail, expectedUrl):
         self._create_dialogue_with_name(mail, delete=False)
-        self.assertEqual(self.page.getDialogueImage(mail), expectedUrl, "Dialogue image is different")
+        self.assertTrue(self.page.getDialogueImage(mail).endswith(expectedUrl), "Dialogue image is different")
         self.page.clickDeleteDialogue(mail)
         self.page.submitOverlay()
 
