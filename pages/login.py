@@ -14,7 +14,7 @@ class LoginPage(Page):
         self.open()
         form = LoginForm(self.driver)
         form.set_login(os.environ['LOGIN'])
-        form.set_password(os.environ['LOGIN'])
+        form.set_password(os.environ['PASSWORD'])
         form.submit()
         wait_for_url(self.driver, self.BASE_URL)
 
