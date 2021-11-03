@@ -1,3 +1,5 @@
+import os
+
 from pages.default import Page
 from components.login_form import LoginForm
 
@@ -11,8 +13,8 @@ class LoginPage(Page):
     def auth(self):
         self.open()
         form = LoginForm(self.driver)
-        form.set_login('user@user.ru')
-        form.set_password('password')
+        form.set_login(os.environ['LOGIN'])
+        form.set_password(os.environ['LOGIN'])
         form.submit()
         wait_for_url(self.driver, self.BASE_URL)
 
