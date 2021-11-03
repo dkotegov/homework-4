@@ -116,7 +116,7 @@ class LikeMovieTest(TestAuthorized):
         )
 
 
-class DisikeMovieTest(TestAuthorized):
+class DislikeMovieTest(TestAuthorized):
     is_liked = False
     is_disliked = False
 
