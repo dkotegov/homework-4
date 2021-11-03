@@ -14,6 +14,8 @@ from tests.navbar.go_to_favourites_test import GoToFavouritesTest
 from tests.details.tests_without_auth.transit_to_auth_page_test import TransitToAuthTest
 from tests.details.tests_without_auth.click_on_actor_name_test import ClickOnActorNameTest
 from tests.details.tests_with_auth.transit_to_profile_page_test import TransitToProfileTest
+from tests.details.tests_with_auth.details_buttons_tests import OpenPlayerTest, AddToFavouritesTest,\
+    RemoveFromFavouritesTest, LikeMovieTest, DisikeMovieTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -27,7 +29,12 @@ if __name__ == '__main__':
         # unittest.makeSuite(GoToFavouritesTest)
         # unittest.makeSuite(TransitToAuthTest)
         # unittest.makeSuite(ClickOnActorNameTest)
-        unittest.makeSuite(TransitToProfileTest)
+        # unittest.makeSuite(TransitToProfileTest)
+        # unittest.makeSuite(OpenPlayerTest),
+        # unittest.makeSuite(AddToFavouritesTest),
+        # unittest.makeSuite(RemoveFromFavouritesTest),
+        # unittest.makeSuite(LikeMovieTest),
+        unittest.makeSuite(DisikeMovieTest),
     ))
 
     result = unittest.TextTestRunner().run(suite)

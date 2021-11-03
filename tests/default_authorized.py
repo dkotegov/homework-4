@@ -16,10 +16,5 @@ class TestAuthorized(unittest.TestCase):
         auth_page.open()
         auth_page.auth()
 
-        self.assertEqual(
-            auth_page.BASE_URL,
-            self.driver.current_url
-        )
-
     def tearDown(self):
         self.driver.quit()
