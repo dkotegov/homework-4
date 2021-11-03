@@ -12,7 +12,7 @@ class BaseTest(unittest.TestCase):
     def setUpClass(cls):
         cls.driver = Remote(
             command_executor=s.HUB_URL,
-            desired_capabilities=getattr(DesiredCapabilities, 'CHROME').copy()
+            desired_capabilities=getattr(DesiredCapabilities, s.BROWSER).copy()
         )
 
     @classmethod
