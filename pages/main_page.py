@@ -1,3 +1,6 @@
+import time
+
+import selenium.common.exceptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
@@ -7,12 +10,16 @@ from pages.base_page import BasePage
 class MainPage(BasePage):
     PATH = '/'
 
+    BASE_FOLDER_NAME = 'Общая'
+    BASE_DIALOGUE_NAME = 'support@liokor.ru'
+
     SELF_USERNAME = '#profile-link-username'
 
     LISTING = '#dialogues-listing'
     MESSAGES_LISTING = '#messages-listing'
 
     FOLDER_ANY = '#dialogues-listing > li.folder'
+    FOLDER_ALL = '#dialogues-listing > div.folder'
     FOLDER_BY_NAME = '#dialogues-listing > .folder[data=\"%s\"]'
     FOLDER_BTN_DELETE_BY_NAME = FOLDER_BY_NAME + ' #delete-folder'
     FOLDER_BTN_RENAME_BY_NAME = FOLDER_BY_NAME + ' #rename-folder'
@@ -78,7 +85,7 @@ class MainPage(BasePage):
 
     def setFolderTitle(self, folderName, newTitle):
         el = self.locate_el(self.FOLDER_INPUT_TITLE_BY_NAME % folderName)
-        el.send_keys(Keys.SHIFT + Keys.END)
+        el.send_keys(Keys.CONTROL + 'a')
         el.send_keys(newTitle)
         el.send_keys(Keys.ENTER)
 
@@ -101,8 +108,9 @@ class MainPage(BasePage):
     def clickCreateDialogue(self):
         self.click(self.DIALOGUE_BTN_ADD)
 
-    def setFindDialogue(self, value):
-        self.set_field(self.DIALOGUE_INPUT_FIND, value)
+    def setFindDialogue(self, value, delay: float = 0.001):
+        # we need delay to prevent frontend bug with search bar
+        self.set_field(self.DIALOGUE_INPUT_FIND, value, delay)
 
     def clickDeleteDialogue(self, dialogueName):
         self.click_hidden(self.DIALOGUE_BTN_DELETE_BY_NAME % dialogueName)
@@ -127,6 +135,8 @@ class MainPage(BasePage):
         return self.locate_el(self.DIALOGUE_IMAGE_BY_NAME % dialogueName).get_attribute("src")
 
     def getDialoguesCount(self):
+        # waiting for dialogues to appear
+        self.locate_el(self.DIALOGUE_ANY)
         return len(self.locate_el(self.LISTING).find_elements(By.CSS_SELECTOR, "li:not(.folder)"))
 
     # -------- Messages --------
@@ -136,6 +146,11 @@ class MainPage(BasePage):
     def sendMessageByKeyboard(self):
         el = self.locate_el(self.MESSAGE_INPUT_BODY)
         el.send_keys(Keys.CONTROL + Keys.ENTER)
+
+    def editorSelectAll(self):
+        el = self.locate_el(self.MESSAGE_INPUT_BODY)
+        el.click()
+        el.send_keys(Keys.CONTROL + 'a')
 
     def selectTextInMessageInput(self, start, length):
         el = self.locate_el(self.MESSAGE_INPUT_BODY)
@@ -226,7 +241,15 @@ class MainPage(BasePage):
 
     # --------- Overlay ----------
     def submitOverlay(self):
-        self.click(self.OVERLAY_SUBMIT)
+        el = self.locate_el(self.OVERLAY_SUBMIT)
+        el.click()
+        # waiting for submit form to disappear
+        try:
+            while el.is_displayed():
+                time.sleep(0.05)
+        except selenium.common.exceptions.StaleElementReferenceException:
+            # already hidden
+            pass
 
     def fillOverlay(self, value):
         self.set_field(self.OVERLAY_INPUT, value)
@@ -234,3 +257,30 @@ class MainPage(BasePage):
     # --------- Others ---------
     def get_authenticated_user_email(self):
         return self.locate_el(self.SELF_USERNAME).text
+
+    def delete_all_folders(self):
+        self.expandFolders()
+        folders = self.driver.find_elements(By.CSS_SELECTOR, self.FOLDER_ALL)
+        for folder in folders:
+            name = folder.get_attribute('data')
+            if name != self.BASE_FOLDER_NAME:
+                self.clickDeleteFolder(name)
+                self.submitOverlay()
+
+        self.expandFolders()
+        while self.driver.find_elements(By.CSS_SELECTOR, self.FOLDER_ANY):
+            time.sleep(0.01)
+
+    def delete_all_dialogues(self):
+        # waiting for dialogues to load
+        self.locate_el(self.DIALOGUE_ANY)
+
+        dialogues = self.driver.find_elements(By.CSS_SELECTOR, self.DIALOGUE_ANY)
+        for dialogue in dialogues:
+            try:
+                name = dialogue.get_attribute('data')
+                if name != self.BASE_DIALOGUE_NAME:
+                    self.clickDeleteDialogue(name)
+                    self.submitOverlay()
+            except selenium.common.exceptions.StaleElementReferenceException:
+                pass

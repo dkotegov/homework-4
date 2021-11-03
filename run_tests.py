@@ -12,10 +12,10 @@ from tests.main.folders_test import FoldersTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        unittest.makeSuite(AuthTest),
-        unittest.makeSuite(ProfileTest),
-        unittest.makeSuite(SignupTest),
-        unittest.makeSuite(ChangePasswordTest),
+        # unittest.makeSuite(AuthTest),
+        # unittest.makeSuite(ProfileTest),
+        # unittest.makeSuite(SignupTest),
+        # unittest.makeSuite(ChangePasswordTest),
 
         unittest.makeSuite(MessagesTest),
         unittest.makeSuite(EditorTest),

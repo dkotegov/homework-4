@@ -1,3 +1,5 @@
+import time
+
 import pyautogui
 
 from selenium.webdriver import Remote, ActionChains
@@ -27,16 +29,26 @@ class BasePage:
         except TimeoutException:
             return False
 
-    def set_field(self, locator, value):
+    def set_field(self, locator, value, delay: float = None):
         el = self.locate_el(locator)
         el.clear()
-        el.send_keys(value)
+        if not delay:
+            el.send_keys(value)
+        else:
+            for key in list(value):
+                el.send_keys(key)
+                time.sleep(delay)
 
     def get_popup(self):
         return self.locate_el('.popup-message:last-child')
 
     def is_popup_success(self):
-        return self.get_popup().get_attribute('class').find('success') != -1
+        self.locate_el('.popup-message.success:last-child')
+        return 'success' in self.get_popup().get_attribute('class')
+
+    def is_popup_error(self):
+        self.locate_el('.popup-message.error:last-child')
+        return 'error' in self.get_popup().get_attribute('class')
 
     def locate_el(self, css_sel, wait: float = 3.0) -> WebElement:
         waiter = WebDriverWait(self.driver, wait)
@@ -46,19 +58,22 @@ class BasePage:
         waiter = WebDriverWait(self.driver, wait)
         return waiter.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_sel)))
 
-    def enter_file_path(self, clickf, path):
+    @staticmethod
+    def enter_file_path(clickf, path):
         old_width = pyautogui.getActiveWindow().width
 
         clickf()
 
         new_width = old_width
         while old_width == new_width:
+            # conditional waiting for appearance of a file selection window
             new_width = pyautogui.getActiveWindow().width
             pyautogui.sleep(0.1)
 
         pyautogui.write(path)
+        # Enter not pressed on Windows without this delay
+        pyautogui.sleep(0.5)
         pyautogui.press('enter')
-
 
     def click(self, css_sel):
         self.locate_el(css_sel).click()
@@ -76,16 +91,3 @@ class BasePage:
         source = self.locate_hidden_el(css_sel_source)
         target = self.locate_hidden_el(css_sel_target)
         ActionChains(self.driver).drag_and_drop(source, target).perform()
-
-    def enter_file_path(self, clickf, path):
-        old_width = pyautogui.getActiveWindow().width
-
-        clickf()
-
-        new_width = old_width
-        while old_width == new_width:
-            new_width = pyautogui.getActiveWindow().width
-            pyautogui.sleep(0.1)
-
-        pyautogui.write(path, interval=0)
-        pyautogui.press('enter')

@@ -8,6 +8,10 @@ DEFAULT_DIALOGUE = "support@liokor.ru"
 
 
 class MessagesTest(MainBaseTest):
+    def setUp(self):
+        super().setUp()
+        self.page.delete_all_dialogues()
+
     def test_send_message_positive(self):
         self._send_message_positive(_randomString(15), _randomString(100))
 
@@ -44,7 +48,7 @@ class MessagesTest(MainBaseTest):
         self._create_dialogue_with_name(mail, delete=False)
         self._send_message(_randomString(10), _randomString(20))
         self.assertTrue(self.page.isMessageNotDelivered(), "Message delivered but mustn't be")
-        self.assertFalse(self.page.is_popup_success(), "Message delivered but mustn't be")
+        self.assertTrue(self.page.is_popup_error(), "Message delivered but mustn't be")
         self.page.clickDeleteDialogue(mail)
         self.page.submitOverlay()
 

@@ -10,6 +10,10 @@ GMAIL_AVATAR = "/images/gmail.png"
 
 
 class DialoguesTest(MainBaseTest):
+    def setUp(self) -> None:
+        super().setUp()
+        self.page.delete_all_dialogues()
+
     def test_open_dialogue(self):
         self.page.clickDialogue(DEFAULT_DIALOGUE)
         self.assertTrue(self.page.isDialogueOpened(DEFAULT_DIALOGUE), "Dialogue not opened")
@@ -22,7 +26,7 @@ class DialoguesTest(MainBaseTest):
         self.assertTrue(self.page.isDialogueNotOpened(), "Deleted dialogue already opened")
 
     def test_create_dialogue_positive_long_name(self):
-        self._create_dialogue_with_name(_randomMail(500))
+        self._create_dialogue_with_name(_randomMail(250))
 
     def test_create_dialogue_positive_HTML_tags(self):
         self._create_dialogue_with_name("<p>No</p><strong>Very_strong</strong>@mail.ru")
@@ -55,21 +59,29 @@ class DialoguesTest(MainBaseTest):
         dialoguesNames = ["no_way@yandex.ru", "no_way@mail.ru", "way@yandex.ru"]
         for name in dialoguesNames:
             self._create_dialogue_with_name(name, delete=False)
+
         self.driver.refresh()
-        self.page.setFindDialogue("no")
+
+        self.page.setFindDialogue("no", 0.1)
         self.assertEqual(self.page.getDialoguesCount(), 2)
-        self.page.setFindDialogue("yandex")
+
+        self.page.setFindDialogue("yandex", 0.1)
         self.assertEqual(self.page.getDialoguesCount(), 2)
-        self.page.setFindDialogue("way")
+
+        self.page.setFindDialogue("way", 0.1)
         self.assertEqual(self.page.getDialoguesCount(), 3)
-        self.page.setFindDialogue("liokor")
+
+        self.page.setFindDialogue("liokor", 0.1)
         self.assertEqual(self.page.getDialoguesCount(), 1)
+
+        # to reset search bar
+        self.driver.refresh()
         for name in dialoguesNames:
             self.page.clickDeleteDialogue(name)
             self.page.submitOverlay()
 
     def test_open_many_dialogues(self):
-        dialoguesNames = [_randomMail(15) for _ in range(15)]
+        dialoguesNames = [_randomMail(15) for _ in range(7)]
         for name in dialoguesNames:
             self._create_dialogue_with_name(name, delete=False)
         self.driver.refresh()

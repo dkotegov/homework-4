@@ -5,6 +5,12 @@ DEFAULT_FOLDER = "Общая"
 
 
 class FoldersTest(MainBaseTest):
+    def setUp(self) -> None:
+        super().setUp()
+        # folders drops dialogues so need to delete them first
+        self.page.delete_all_folders()
+        self.page.delete_all_dialogues()
+
     def test_open_folders(self):
         self.page.expandFolders()
         self.assertTrue(self.page.isFoldersExpanded(), "Folders not expanded")
@@ -19,7 +25,7 @@ class FoldersTest(MainBaseTest):
 
     def test_create_folder_positive_long_name(self):
         self.page.expandFolders()
-        self._create_folder_with_name(_randomString(500))
+        self._create_folder_with_name(_randomString(250))
 
     def test_create_folder_positive_special_symbols(self):
         self.page.expandFolders()
@@ -46,7 +52,7 @@ class FoldersTest(MainBaseTest):
 
     def test_rename_folder_positive_long_name(self):
         self.page.expandFolders()
-        self._create_folder_with_name("old_name", _randomString(500))
+        self._create_folder_with_name("old_name", _randomString(250))
 
     def test_rename_folder_positive_special_symbols(self):
         self.page.expandFolders()
@@ -61,7 +67,7 @@ class FoldersTest(MainBaseTest):
         self._create_folder_with_name("old_name", "Здесь лежит *three hundred bucks*")
 
     def test_open_many_folders(self):
-        foldersNames = [_randomString(15) for _ in range(30)]
+        foldersNames = [_randomString(15) for _ in range(7)]
         self.page.expandFolders()
         for name in foldersNames:
             self._create_folder_with_name(name, delete=False)

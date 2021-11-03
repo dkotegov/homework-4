@@ -2,6 +2,8 @@
 
 URL: https://mail.liokor.ru
 
+### WARNING: Tests were checked only on Windows
+
 ## HowTo Run:
 1. Copy `settings.template.py` to `settings.py` and specify `USERNAME` AND `PASSWORD` from `mail.liokor.ru` in it
 2. Create `bin` folder and navigate to it
