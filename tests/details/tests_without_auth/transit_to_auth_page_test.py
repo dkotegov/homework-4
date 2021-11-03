@@ -11,7 +11,7 @@ class TransitToAuthTest(Test):
         details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)
         details_page.open()
 
-        details_page.transit_to_auth_page()
+        details_page.transit_by_stub()
 
         login_page = LoginPage(self.driver)
         title_of_page = login_page.get_title_of_page()
