@@ -17,6 +17,7 @@ class Page(object):
     COUNTER = 'span[class*="Toolbar__count"]'
     FILES = 'a[data-id^="/"]'
     FAV_FILES = []
+    ALL_FILES = []
 
     def __init__(self, driver):
         self.driver = driver
@@ -72,8 +73,17 @@ class Page(object):
         self.driver.switch_to.window(self.driver.window_handles[n])
 
     def get_favorites(self):
+        self.FAV_FILES = []
         try:
             for file_elem in self.driver.find_elements_by_css_selector(self.FILES):
                 self.FAV_FILES.append(file_elem.get_attribute('data-id'))
+        except Exception:
+            return
+
+    def get_all_files(self):
+        self.ALL_FILES = []
+        try:
+            for file_elem in self.driver.find_elements_by_css_selector(self.FILES):
+                self.ALL_FILES.append(file_elem.get_attribute('data-id'))
         except Exception:
             return
