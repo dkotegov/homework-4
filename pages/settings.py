@@ -1,5 +1,6 @@
 from pages.default import DefaultPage, Component
 from utils.helpers import wait_for_visible
+from os import getcwd
 
 
 class SettingsPage(DefaultPage):
@@ -8,9 +9,8 @@ class SettingsPage(DefaultPage):
         self.change_avatar_component = ChangeAvatar(self.driver)
         self.change_info_form = ChangeInfoForm(self.driver)
 
-    def change_avatar(self):
-        # TODO: implement
-        pass
+    def change_avatar(self, filename):
+        self.change_avatar_component.upload_file(filename)
 
     def change_info(self, email=None, password=None, confirm_password=None):
         if email is not None:
@@ -23,6 +23,17 @@ class SettingsPage(DefaultPage):
     def submit_change_info(self):
         self.change_info_form.submit()
 
+    def submit_change_avatar(self):
+        self.change_avatar_component.submit()
+
+    @property
+    def avatar_img_src(self):
+        return self.change_avatar_component.get_avatar_img().get_attribute('src')
+
+    @property
+    def avatar_error_hint(self):
+        return self.change_avatar_component.get_error_hint().text
+
     @property
     def email_error_hint(self):
         return self.change_info_form.get_email_error_hint().text
@@ -33,11 +44,26 @@ class SettingsPage(DefaultPage):
 
 
 class ChangeAvatar(Component):
-    CHOOSE_FILE_BUTTON = '#file-upload-button'
+    AVATAR_FILE_INPUT = '#avatar'
     UPLOAD_AVATAR_BUTTON = '#avatar-upload-button'
+    AVATAR_IMG = '#avatar-img'
+    ERROR_HINT = '#settings-avatar-errors'
 
-    def upload_file(self):
-        pass
+    def upload_file(self, filename):
+        wait_for_visible(self.driver, self.AVATAR_FILE_INPUT)
+        self.driver.find_element_by_css_selector(self.AVATAR_FILE_INPUT).send_keys(f'{getcwd()}/img/{filename}')
+
+    def submit(self):
+        wait_for_visible(self.driver, self.UPLOAD_AVATAR_BUTTON)
+        self.driver.find_element_by_css_selector(self.UPLOAD_AVATAR_BUTTON).click()
+
+    def get_avatar_img(self):
+        wait_for_visible(self.driver, self.AVATAR_IMG)
+        return self.driver.find_element_by_css_selector(self.AVATAR_IMG)
+
+    def get_error_hint(self):
+        wait_for_visible(self.driver, self.ERROR_HINT)
+        return self.driver.find_element_by_css_selector(self.ERROR_HINT)
 
 
 class ChangeInfoForm(Component):

@@ -7,6 +7,7 @@ from pages.default import DefaultPage, Component
 class ProfilePage(DefaultPage):
     FOLLOWERS = '#followers-number'
     FOLLOW_BUTTON = '#follow-button'
+    AVATAR_IMG = '.avatar-container__avatar'
 
     def __init__(self, driver, username=environ['LOGIN']):
         super().__init__(driver, f'/user/{username}')
@@ -26,6 +27,11 @@ class ProfilePage(DefaultPage):
     @property
     def playlists(self):
         return self.playlists_list_component.get_playlists()
+
+    @property
+    def avatar_img_src(self):
+        wait_for_visible(self.driver, self.AVATAR_IMG)
+        return self.driver.find_elements_by_css_selector(self.AVATAR_IMG)[0].get_attribute('src')
 
     def create_playlist(self, playlist_name):
         self.create_playlist_component.start_create_playlist()

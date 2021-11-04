@@ -1,4 +1,5 @@
 from pages.login import LoginPage
+from pages.profile import ProfilePage
 from pages.settings import SettingsPage
 from tests.base import BaseTest
 from os import environ
@@ -76,11 +77,52 @@ class SettingsTestSuite(BaseTest):
             settings.change_info(email=environ['EMAIL'])
             settings.submit_change_info()
 
-    def upload_valid_avatar(self):
-        pass
+    def test_upload_valid_avatar(self):
+        login = LoginPage(self.driver)
+        settings = SettingsPage(self.driver)
 
-    def upload_avatar_wrong_extension(self):
-        pass
+        login.open()
+        login.sign_in()
 
-    def upload_avatar_exceeds_size(self):
-        pass
+        settings.open()
+        old_src = settings.avatar_img_src
+        settings.change_avatar('new_avatar.png')
+        settings.submit_change_avatar()
+        new_src = settings.avatar_img_src
+
+        try:
+            self.assertNotEqual(old_src, new_src)
+            profile = ProfilePage(self.driver)
+            profile.open()
+            self.assertEqual(new_src, profile.avatar_img_src)
+        finally:
+            # reverting changes made
+            settings.open()
+            settings.change_avatar('default_avatar.jpeg')
+            settings.submit_change_avatar()
+
+    def test_upload_avatar_wrong_extension(self):
+        login = LoginPage(self.driver)
+        settings = SettingsPage(self.driver)
+
+        login.open()
+        login.sign_in()
+
+        settings.open()
+        settings.change_avatar('avatar_wrong.txt')
+        hint = settings.avatar_error_hint
+
+        self.assertEqual('Некорректный формат картинки! Используйте png или jpeg', hint)
+
+    def test_upload_avatar_exceeds_size(self):
+        login = LoginPage(self.driver)
+        settings = SettingsPage(self.driver)
+
+        login.open()
+        login.sign_in()
+
+        settings.open()
+        settings.change_avatar('heavy_image.jpg')
+        hint = settings.avatar_error_hint
+
+        self.assertEqual('Размер файла не должен превышать 5MB!', hint)

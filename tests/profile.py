@@ -5,21 +5,21 @@ from tests.base import BaseTest
 
 
 class ProfileTestSuite(BaseTest):
-    # def test_create_playlist(self):
-    #     login = LoginPage(self.driver)
-    #     profile = ProfilePage(self.driver)
-    #
-    #     login.open()
-    #     login.sign_in()
-    #
-    #     profile.open()
-    #     playlist_name = 'New Playlist'
-    #     old_playlists = profile.playlists
-    #     profile.create_playlist(playlist_name)
-    #     new_playlists = profile.playlists
-    #
-    #     self.assertEqual(len(new_playlists) - len(old_playlists), 1)
-    #     self.assertEqual(new_playlists[-1], playlist_name.upper())
+    def test_create_playlist(self):
+        login = LoginPage(self.driver)
+        profile = ProfilePage(self.driver)
+
+        login.open()
+        login.sign_in()
+
+        profile.open()
+        playlist_name = 'New Playlist'
+        old_playlists = profile.playlists
+        profile.create_playlist(playlist_name)
+        new_playlists = profile.playlists
+
+        self.assertEqual(len(new_playlists) - len(old_playlists), 1)
+        self.assertEqual(new_playlists[-1], playlist_name.upper())
 
     def test_no_follow_for_unauthorized(self):
         profile = ProfilePage(self.driver, 'IlyaAfimin')
