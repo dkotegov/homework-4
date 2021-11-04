@@ -1,14 +1,17 @@
 import os
 
+import utils
 from pages.default import Page
 from components.login_form import LoginForm
 
-from utils import wait_for_url, wait_for_element_by_selector
-
 
 class LoginPage(Page):
-    PATH = "login/"
-    TITLE_OF_PAGE = ".content__title"
+    PATH = 'login/'
+    TITLE_OF_PAGE = '.content__title'
+    SIGNUP_LINK = 'a.have-acc__href'
+
+    EMAIL_ERROR = 'div#emailError'
+    PASSWORD_ERROR = 'div#passwordError'
 
     def auth(self):
         self.open()
@@ -16,7 +19,28 @@ class LoginPage(Page):
         form.set_login(os.environ['LOGIN'])
         form.set_password(os.environ['PASSWORD'])
         form.submit()
-        wait_for_url(self.driver, self.BASE_URL)
+
+    def auth_with(self, login, password):
+        self.open()
+        form = LoginForm(self.driver)
+        form.set_login(login)
+        form.set_password(password)
+        form.submit()
 
     def get_title_of_page(self):
-        return wait_for_element_by_selector(self.driver, self.TITLE_OF_PAGE).text
+        return utils.wait_for_element_by_selector(self.driver, self.TITLE_OF_PAGE).text
+
+    def click_on_register(self):
+        utils.wait_click_for_element_by_selector(self.driver, self.SIGNUP_LINK)
+
+    def click_login(self):
+        form = LoginForm(self.driver)
+        form.submit()
+
+    def has_email_error(self):
+        utils.wait_for_element_by_selector(self.driver, self.EMAIL_ERROR)
+        return True
+
+    def has_password_error(self):
+        utils.wait_for_element_by_selector(self.driver, self.PASSWORD_ERROR)
+        return True

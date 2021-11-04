@@ -27,5 +27,5 @@ class MainPage(Page):
         elements = filter(lambda x: x.isDisplayed(), self.driver.find_elements_by_css_selector(self.MOVIE_CARD_TITLE))
         return [element.text for element in elements]
 
-    def click_scroll_button(self):
+    def click_right_scroll(self):
         utils.wait_click_for_element_by_selector(self.driver, self.TOP_CARD_RIGHT_SLIDER)
