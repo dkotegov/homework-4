@@ -1,4 +1,4 @@
-from tests.main.utils import _randomMail
+from utils.random_strings import _randomMail
 from tests.main.main_base_test import MainBaseTest
 
 DEFAULT_DIALOGUE = "support@liokor.ru"
@@ -119,10 +119,3 @@ class DialoguesTest(MainBaseTest):
 
     def test_dialogue_image_with_gmail(self):
         self._test_dialogue_image("liokor@gmail.com", GMAIL_AVATAR)
-
-    # TODO: Send from second page test
-    '''
-    def test_get_message_without_refresh(self):
-        self.auth_page2.auth(s.USERNAME2, s.PASSWORD2)
-        self.page2.
-    '''

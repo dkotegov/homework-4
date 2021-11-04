@@ -1,6 +1,6 @@
 from tests.main.main_base_test import MainBaseTest
 
-from tests.main.utils import _randomString, _randomMail
+from utils.random_strings import _randomString, _randomMail
 
 import settings as s
 
@@ -38,17 +38,22 @@ class MessagesTest(MainBaseTest):
         recipient = s.USERNAME2 + "@liokor.ru"
         self._create_dialogue_with_name(recipient, delete=False)
         messagesCount = self.page.getMessagesCount()
+
         self._send_message(_randomString(10), "")
         self.assertEqual(self.page.getMessagesCount(), messagesCount, "Messages count is not equal")
+
         self.page.clickDeleteDialogue(recipient)
         self.page.submitOverlay()
 
     def test_send_message_negative_recipient_not_exists(self):
-        mail = _randomMail(15)
+        mail = _randomMail(15) + '.nonexistingdomainwolf123'
         self._create_dialogue_with_name(mail, delete=False)
         self._send_message(_randomString(10), _randomString(20))
+
+        self.assertTrue(self.page.is_popup_error())
         self.assertTrue(self.page.isMessageNotDelivered(), "Message delivered but mustn't be")
         self.assertTrue(self.page.is_popup_error(), "Message delivered but mustn't be")
+
         self.page.clickDeleteDialogue(mail)
         self.page.submitOverlay()
 
@@ -58,7 +63,10 @@ class MessagesTest(MainBaseTest):
         messagesCount = self.page.getMessagesCount()
         self.page.clickDeleteLastMessage(your=True)
         self.page.submitOverlay()
-        self.assertEqual(self.page.getMessagesCount(), messagesCount-1, "Message wasn't deleted")
+
+        self.assertTrue(self.page.is_popup_success())
+        self.assertEqual(self.page.getMessagesCount(), messagesCount - 1, "Message wasn't deleted")
+
         self.page.clickDeleteDialogue(recipient)
         self.page.submitOverlay()
 
@@ -83,6 +91,3 @@ class MessagesTest(MainBaseTest):
         self.assertEqual(self.page.getMessageBody(), body, "Message body was not loaded")
         self.page.clickDeleteDialogue(mail)
         self.page.submitOverlay()
-
-    # TODO: autocomplete message theme (надо отправить сообщение себе и посмотреть, какая тема будет при открытии
-    #  диалога. Там приколы с Re[number]: тема

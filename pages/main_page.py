@@ -108,7 +108,7 @@ class MainPage(BasePage):
     def clickCreateDialogue(self):
         self.click(self.DIALOGUE_BTN_ADD)
 
-    def setFindDialogue(self, value, delay: float = 0.001):
+    def setFindDialogue(self, value, delay: float = 0.005):
         # we need delay to prevent frontend bug with search bar
         self.set_field(self.DIALOGUE_INPUT_FIND, value, delay)
 
@@ -268,6 +268,7 @@ class MainPage(BasePage):
                 self.submitOverlay()
 
         self.expandFolders()
+        # waiting for expanded folders to close
         while self.driver.find_elements(By.CSS_SELECTOR, self.FOLDER_ANY):
             time.sleep(0.01)
 

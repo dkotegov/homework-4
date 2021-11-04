@@ -22,6 +22,9 @@ class AuthPage(BasePage):
         self.set_username(username)
         self.set_password(password)
         self.click_login_btn()
+        if 'error' in self.get_popup().get_attribute('class'):
+            # sometimes backend returns 500 error
+            self.click_login_btn()
 
         # we need to wait for login to succeed
         main_page = MainPage(self.driver)

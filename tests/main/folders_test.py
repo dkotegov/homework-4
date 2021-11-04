@@ -1,5 +1,5 @@
 from tests.main.main_base_test import MainBaseTest
-from tests.main.utils import _randomString, _randomMail
+from utils.random_strings import _randomString, _randomMail
 
 DEFAULT_FOLDER = "Общая"
 
@@ -80,18 +80,21 @@ class FoldersTest(MainBaseTest):
     def test_add_dialogue_to_folder(self):
         mail = _randomMail(15)
         folder = _randomString(15)
+
         self._create_dialogue_with_name(mail, delete=False)
         self.page.expandFolders()
         self._create_folder_with_name(folder, delete=False)
+
         self.page.dragAndDropDialogueToFolder(mail, folder)
         self.assertTrue(self.page.is_popup_success())
-        self.driver.refresh()
-        self.page.expandFolders()
+
         self.assertEqual(self.page.getDialoguesCount(), 1, "Dialogue wasn't moved to folder")
         self.page.clickFolder(folder)
         self.assertTrue(self.page.isDialogueExists(mail), "Dialogue wasn't moved to folder")
+
         self.page.clickDeleteDialogue(mail)
         self.page.submitOverlay()
+
         self.page.clickDeleteFolder(folder)
         self.page.submitOverlay()
 

@@ -70,7 +70,7 @@ class BasePage:
             new_width = pyautogui.getActiveWindow().width
             pyautogui.sleep(0.1)
 
-        pyautogui.write(path)
+        pyautogui.write(path, 0.01)
         # Enter not pressed on Windows without this delay
         pyautogui.sleep(0.5)
         pyautogui.press('enter')

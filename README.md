@@ -3,6 +3,7 @@
 URL: https://mail.liokor.ru
 
 ### WARNING: Tests were checked only on Windows
+### WARNING: Don't interact with OS while tests are running, because avatar path will be typed to the native file selection window at some point
 
 ## HowTo Run:
 1. Copy `settings.template.py` to `settings.py` and specify `USERNAME` AND `PASSWORD` from `mail.liokor.ru` in it

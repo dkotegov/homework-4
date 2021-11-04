@@ -63,7 +63,7 @@ class MainBaseTest(BaseTest):
             self.page.setMessageTitle(title)
         if body is not None:
             self.page.setMessageBody(body)
-        # self.page.clickSendMessage()
+
         self.page.sendMessageByKeyboard()
 
     def _send_message_positive(self, title, body, recipient=s.USERNAME2 + "@liokor.ru", delete=True):

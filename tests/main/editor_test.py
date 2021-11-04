@@ -141,6 +141,8 @@ class EditorTest(BaseTest):
         target_start = "![image](https://mail.liokor.ru/api/media/files/"
 
         self.page.clickDialogue(DEFAULT_DIALOGUE)
+        self.page.setMessageBody("")
+
         clickf = self.page.clickRedactorPhoto
         self.page.enter_file_path(clickf, os.path.join(os.getcwd(), "images", "good_image.jpg"))
 
