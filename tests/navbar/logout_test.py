@@ -10,4 +10,4 @@ class LogoutTest(TestAuthorized):
         main_page.open()
         main_page.set_navbar()
         main_page.navbar.click_on_logout()
-        self.assertEqual(self.driver.current_url, constants.BASE_URL)
+        self.assertFalse(main_page.navbar.has_dropdown())
