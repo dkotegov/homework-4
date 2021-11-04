@@ -24,6 +24,11 @@ from tests.profile.error_update_profile_tests import ChangeToInvalidLoginTest, C
     ChangeToInvalidEmailTest, ChangeToEmptyEmailTest, ChangeToInvalidEmailAndLoginTest, \
     ChangeToInvalidLoginAndValidEmailTest
 from tests.signup.transit_to_login_page_test import TransitToLoginPageTest
+from tests.signup.signup_with_errors_test import SignUpWithEmptyFieldsTest, SignUpWithInvalidLoginTest, \
+    SignUpWithNumericLoginTest, SignUpWithInvalidEmailTest, SignUpWithSmallPasswordTest, SignUpWithLetterLoginTest, \
+    SignUpWithBigPasswordTest, SignUpWithDifferentPasswordsTest, SignUpWithAllInvalidFieldsTest, \
+    SignUpAlreadySignupedTest
+from tests.signup.signup_test import SignUpTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -55,7 +60,18 @@ if __name__ == '__main__':
         # unittest.makeSuite(ChangeToInvalidEmailTest),
         # unittest.makeSuite(ChangeToInvalidEmailAndLoginTest),
         # unittest.makeSuite(ChangeToInvalidLoginAndValidEmailTest),
-        unittest.makeSuite(TransitToLoginPageTest),
+        # unittest.makeSuite(TransitToLoginPageTest),
+        # unittest.makeSuite(SignUpWithEmptyFieldsTest),
+        # unittest.makeSuite(SignUpWithInvalidLoginTest),
+        # unittest.makeSuite(SignUpWithNumericLoginTest),
+        # unittest.makeSuite(SignUpWithInvalidEmailTest),
+        # unittest.makeSuite(SignUpWithLetterLoginTest),
+        # unittest.makeSuite(SignUpWithSmallPasswordTest),
+        # unittest.makeSuite(SignUpWithBigPasswordTest),
+        # unittest.makeSuite(SignUpWithDifferentPasswordsTest),
+        # unittest.makeSuite(SignUpWithAllInvalidFieldsTest),
+        # unittest.makeSuite(SignUpAlreadySignupedTest),
+        # unittest.makeSuite(SignUpTest),
     ))
 
     result = unittest.TextTestRunner().run(suite)

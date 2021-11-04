@@ -1,5 +1,3 @@
-import os
-
 import constants
 from pages.profile import ProfilePage
 from components.profile_form import ProfileForm

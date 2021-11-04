@@ -5,11 +5,16 @@ from pages.default import Page
 class MainPage(Page):
     PATH = ''
 
+    CONTAINER = '.content'
+
     MOVIE_CARD = 'div.item__film-card'
     MOVIE_CARD_TITLE = 'div.item__film-card__title'
     MOVIE_CARD_WATCH_BUTTON = 'div.item__button-title'
 
     TOP_CARD_RIGHT_SLIDER = 'img.js-slider-right-FilmCard'
+
+    def wait_for_container(self):
+        utils.wait_for_element_by_selector(self.driver, self.CONTAINER)
 
     def click_on_first_card(self):
         utils.wait_click_for_element_by_selector(self.driver, self.MOVIE_CARD)
