@@ -1,5 +1,5 @@
 from pages.default import Page
-from utils import wait_for_element_by_selector
+from utils import wait_for_element_by_selector, wait_for_url
 
 
 class SignupPage(Page):
@@ -12,3 +12,6 @@ class SignupPage(Page):
 
     def click_on_login_page_link(self):
         wait_for_element_by_selector(self.driver, self.LOGIN_PAGE_LINK).click()
+
+    def wait_for_url_signup(self):
+        wait_for_url(self.driver, self.BASE_URL + self.PATH)
