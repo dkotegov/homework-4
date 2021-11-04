@@ -2,6 +2,7 @@ import os
 
 import utils
 from pages.default import Page
+from pages.main import MainPage
 from components.login_form import LoginForm
 
 
@@ -19,6 +20,8 @@ class LoginPage(Page):
         form.set_login(os.environ['LOGIN'])
         form.set_password(os.environ['PASSWORD'])
         form.submit()
+        main_page = MainPage(self.driver)
+        main_page.wait_for_container()
 
     def auth_with(self, login, password):
         self.open()
@@ -26,6 +29,8 @@ class LoginPage(Page):
         form.set_login(login)
         form.set_password(password)
         form.submit()
+        main_page = MainPage(self.driver)
+        main_page.wait_for_container()
 
     def get_title_of_page(self):
         return utils.wait_for_element_by_selector(self.driver, self.TITLE_OF_PAGE).text

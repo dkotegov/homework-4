@@ -36,6 +36,13 @@ class DetailsPage(Page):
     def get_name_of_last_actor(self):
         return wait_for_element_by_selector(self.driver, self.LAST_ACTOR).text
 
+    def could_open_player(self):
+        try:
+            wait_for_element_by_selector(self.driver, self.OPEN_PLAYER_BTN)
+            return True
+        except:
+            return False
+
     def open_player(self):
         wait_for_element_by_selector(self.driver, self.OPEN_PLAYER_BTN).click()
 

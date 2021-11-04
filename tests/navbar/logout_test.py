@@ -1,5 +1,4 @@
 import constants
-import utils
 from pages.main import MainPage
 from tests.default_authorized import TestAuthorized
 
@@ -10,4 +9,5 @@ class LogoutTest(TestAuthorized):
         main_page.open()
         main_page.set_navbar()
         main_page.navbar.click_on_logout()
-        self.assertEqual(self.driver.current_url, constants.BASE_URL)
+        main_page.open()
+        self.assertTrue(main_page.navbar.is_visible_login())

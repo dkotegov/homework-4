@@ -8,9 +8,4 @@ class NotOpenedTest(Test):
         details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)
         details_page.open()
 
-        details_page.open_player()
-
-        self.assertEqual(
-            False,
-            details_page.is_player_opened()
-        )
+        self.assertFalse(details_page.could_open_player())

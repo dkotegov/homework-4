@@ -13,6 +13,7 @@ class NavBar(Component):
     MOVIES = 'header .header-form li a[href*=\"/movies\"]'
     MAIN = 'header .header-form li a[href*=\"/\"]'
     LOGO = 'header .header a.header_logo'
+    LOGIN = '.header-form__profile__link'
 
     def _show_dropdown(self):
         wait_for_element_by_selector(self.driver, self.DROPDOWN)
@@ -42,6 +43,13 @@ class NavBar(Component):
 
     def click_on_logo(self):
         wait_click_for_element_by_selector(self.driver, self.LOGO)
+
+    def is_visible_login(self):
+        try:
+            wait_for_element_by_selector(self.driver, self.LOGIN)
+            return True
+        except:
+            return False
 
     def check_dropdown(self):
         return len(self.driver.find_elements_by_css_selector(self.DROPDOWN)) == 0

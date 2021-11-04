@@ -33,6 +33,10 @@ from tests.search_popup.close_popup_test import ClosePopupTest
 from tests.search_popup.enter_letter_test import EnterLetterTest
 from tests.search_popup.find_movie_test import FindMovieTest
 from tests.search_popup.find_actor_test import FindActorTest
+from tests.player.closed_test import ClosedTest
+from tests.player.not_opened_test import NotOpenedTest
+from tests.player.esc_to_part_screen_test import EscToPartScreenTest
+from tests.player.close_fullscreen_test import CloseFullscreenTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -41,7 +45,7 @@ if __name__ == '__main__':
         # unittest.makeSuite(ClickOnMovieTest),
         # unittest.makeSuite(ClickOnMovieGenreTest),
         # unittest.makeSuite(LoginTest),
-        # unittest.makeSuite(LogoutTest),
+        unittest.makeSuite(LogoutTest),
         # unittest.makeSuite(GoToProfileTest),
         # unittest.makeSuite(GoToFavouritesTest),
         # unittest.makeSuite(TransitToAuthTest),
@@ -79,7 +83,11 @@ if __name__ == '__main__':
         # unittest.makeSuite(ClosePopupTest),
         # unittest.makeSuite(EnterLetterTest),
         # unittest.makeSuite(FindMovieTest),
-        unittest.makeSuite(FindActorTest)
+        # unittest.makeSuite(FindActorTest),
+        # unittest.makeSuite(ClosedTest),
+        # unittest.makeSuite(NotOpenedTest),
+        # unittest.makeSuite(EscToPartScreenTest),
+        # unittest.makeSuite(CloseFullscreenTest)
     ))
 
     result = unittest.TextTestRunner().run(suite)
