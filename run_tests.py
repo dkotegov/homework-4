@@ -23,6 +23,7 @@ from tests.profile.correct_update_profile_tests import ChangeToValidAvatarTest, 
 from tests.profile.error_update_profile_tests import ChangeToInvalidLoginTest, ChangeToEmptyLoginTest, \
     ChangeToInvalidEmailTest, ChangeToEmptyEmailTest, ChangeToInvalidEmailAndLoginTest, \
     ChangeToInvalidLoginAndValidEmailTest
+from tests.signup.transit_to_login_page_test import TransitToLoginPageTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -53,7 +54,8 @@ if __name__ == '__main__':
         # unittest.makeSuite(ChangeToEmptyEmailTest),
         # unittest.makeSuite(ChangeToInvalidEmailTest),
         # unittest.makeSuite(ChangeToInvalidEmailAndLoginTest),
-        unittest.makeSuite(ChangeToInvalidLoginAndValidEmailTest),
+        # unittest.makeSuite(ChangeToInvalidLoginAndValidEmailTest),
+        unittest.makeSuite(TransitToLoginPageTest),
     ))
 
     result = unittest.TextTestRunner().run(suite)
