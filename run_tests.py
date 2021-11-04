@@ -29,6 +29,10 @@ from tests.signup.signup_with_errors_test import SignUpWithEmptyFieldsTest, Sign
     SignUpWithBigPasswordTest, SignUpWithDifferentPasswordsTest, SignUpWithAllInvalidFieldsTest, \
     SignUpAlreadySignupedTest
 from tests.signup.signup_test import SignUpTest
+from tests.search_popup.close_popup_test import ClosePopupTest
+from tests.search_popup.enter_letter_test import EnterLetterTest
+from tests.search_popup.find_movie_test import FindMovieTest
+from tests.search_popup.find_actor_test import FindActorTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -72,6 +76,10 @@ if __name__ == '__main__':
         # unittest.makeSuite(SignUpWithAllInvalidFieldsTest),
         # unittest.makeSuite(SignUpAlreadySignupedTest),
         # unittest.makeSuite(SignUpTest),
+        # unittest.makeSuite(ClosePopupTest),
+        # unittest.makeSuite(EnterLetterTest),
+        # unittest.makeSuite(FindMovieTest),
+        unittest.makeSuite(FindActorTest)
     ))
 
     result = unittest.TextTestRunner().run(suite)

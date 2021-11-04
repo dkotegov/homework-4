@@ -1,6 +1,7 @@
 from components.default import Component
 from utils import wait_click_for_element_by_selector
 
+
 class Player(Component):
     CLOSE = ".js-close-video"
     FULLSCREEN = ".js-fullscreen"
