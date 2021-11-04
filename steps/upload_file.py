@@ -10,10 +10,23 @@ class UploadFile(DefaultSteps):
 
     def upload_file(self, file_path):
         self.page.open()
-        self.page.click_on_close_notion()
+        try:
+            self.page.click_on_close_notion()
+        except:
+            pass
         self.page.click_on_upload()
         self.page.upload_file(file_path)
-        # self.page.click_on_create_new_doc()
+
+    def upload_files(self, files):
+        self.page.open()
+        try:
+            self.page.click_on_close_notion()
+        except:
+            pass
+        self.page.click_on_upload()
+        for file in files:
+            self.page.upload_file(file)
+            time.sleep(1)
 
     def error_exists(self):
         return self.page.check_error_exists()
