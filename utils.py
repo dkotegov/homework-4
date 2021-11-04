@@ -1,6 +1,7 @@
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 
 def wait_for_element_by(driver, selector, by):
@@ -22,3 +23,11 @@ def wait_for_url(driver, url):
     return WebDriverWait(driver, 10, 0.1).until(
         expected_conditions.url_to_be(url)
     )
+
+
+def is_visible(driver, selector):
+    try:
+        wait_for_element_by_selector(driver, selector)
+    except TimeoutException:
+        return False
+    return True
