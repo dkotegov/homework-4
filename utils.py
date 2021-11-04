@@ -10,9 +10,12 @@ def wait_for_element_by(driver, selector, by):
 
 
 def wait_for_element_by_selector(driver, selector):
-    return WebDriverWait(driver, 10, 0.1).until(
-        expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, selector))
-    )
+    return wait_for_element_by(driver, selector, By.CSS_SELECTOR)
+
+
+def wait_click_for_element_by_selector(driver, selector):
+    wait_for_element_by_selector(driver, selector)
+    driver.find_element_by_css_selector(selector).click()
 
 
 def wait_for_url(driver, url):

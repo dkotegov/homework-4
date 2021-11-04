@@ -1,32 +1,31 @@
+import utils
 from pages.default import Page
-
-from utils import wait_for_element_by_selector
 
 
 class MainPage(Page):
     PATH = ''
-    NAVBAR_PROFILE = "a.item__dropdown-profile[href*='/profile']"
-    NAVBAR_FAVOURITES = "a.item__dropdown-profile[href*='/favourite']"
-    NAVBAR_LOGOUT = 'div.item__dropdown-profile.js-logout-page'
-    NAVBAR_DROPDOWN = 'div.dropdown-profile'
 
-    def show_navbar(self):
-        wait_for_element_by_selector(self.driver, self.NAVBAR_DROPDOWN)
-        self.driver.find_element_by_css_selector(self.NAVBAR_DROPDOWN).click()
+    MOVIE_CARD = 'div.item__film-card'
+    MOVIE_CARD_TITLE = 'div.item__film-card__title'
+    MOVIE_CARD_WATCH_BUTTON = 'div.item__button-title'
 
-    def click_on_navbar(self, selector):
-        self.show_navbar()
-        wait_for_element_by_selector(self.driver, selector)
-        self.driver.find_element_by_css_selector(selector).click()
+    TOP_CARD_RIGHT_SLIDER = 'img.js-slider-right-FilmCard'
 
-    def click_on_logout(self):
-        self.click_on_navbar(self.NAVBAR_LOGOUT)
+    def click_on_first_card(self):
+        utils.wait_click_for_element_by_selector(self.driver, self.MOVIE_CARD)
 
-    def click_on_profile(self):
-        self.click_on_navbar(self.NAVBAR_PROFILE)
+    def click_on_first_card_watch_button(self):
+        utils.wait_click_for_element_by_selector(self.driver, self.MOVIE_CARD_WATCH_BUTTON)
 
-    def click_on_favourites(self):
-        self.click_on_navbar(self.NAVBAR_FAVOURITES)
+    def get_first_card_id_and_type(self):
+        first_card_href = utils.wait_for_element_by_selector(self.driver, self.MOVIE_CARD).get_attribute('href')
+        first_card_split = list(filter(len, first_card_href.split('/')))
+        first_card_type, first_card_id = first_card_split[-2:]
+        return first_card_id, first_card_type
 
-    def check_dropdown(self):
-        return len(self.driver.find_elements_by_css_selector(self.NAVBAR_DROPDOWN)) == 0
+    def get_visible_card_titles(self):
+        elements = filter(lambda x: x.isDisplayed(), self.driver.find_elements_by_css_selector(self.MOVIE_CARD_TITLE))
+        return [element.text for element in elements]
+
+    def click_scroll_button(self):
+        utils.wait_click_for_element_by_selector(self.driver, self.TOP_CARD_RIGHT_SLIDER)

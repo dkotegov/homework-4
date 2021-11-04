@@ -1,3 +1,4 @@
+import utils
 from pages.main import MainPage
 from tests.default_authorized import TestAuthorized
 
@@ -8,5 +9,6 @@ class GoToFavouritesTest(TestAuthorized):
     def test(self):
         main_page = MainPage(self.driver)
         main_page.open()
-        main_page.click_on_favourites()
+        main_page.set_navbar()
+        main_page.navbar.click_on_favourites()
         self.assertEqual(self.driver.current_url, BASE_URL + 'favourite')
