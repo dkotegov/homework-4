@@ -15,7 +15,7 @@ if __name__ == '__main__':
         # unittest.makeSuite(CreateNewFolderPopupTests),
         # unittest.makeSuite(HoverOverFileTests),
         # unittest.makeSuite(FileDropDownMenuTests),
-        unittest.makeSuite(HeadTests),
+        unittest.makeSuite(ToolbarTests),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

@@ -27,18 +27,11 @@ class ToolbarTests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    # def test_upload_normal_file(self):
-    #     file_path = '/Users/ivankovalenko/PycharmProjects/qa/homework-4/all_keys.txt'
-    #     self.steps.upload_file(file_path)
-    #     self.assertEqual(self.steps.error_exists(), False, '')
-    #
-    # def test_upload_big_file(self):
-    #     # file_path = '/Users/ivankovalenko/Downloads/GMT20211014-151110_Recording_3840x2160.mp4'
-    #     file_path = '/Users/ivankovalenko/PycharmProjects/qa/homework-4/test.txt'
-    #     self.steps.upload_file(file_path)
-    #     self.assertEqual(self.steps.error_exists(), True, '')
-
     def test_select_all(self):
         self.steps.select_all()
-        time.sleep(5)
+        self.assertEqual(self.steps.all_items_selected(), True, '')
+
+    def test_download_all(self):
+        self.steps.download_all()
+        time.sleep(1)
         # self.assertEqual(len(self.driver.window_handles), 2, 'page with editing new table not opened')

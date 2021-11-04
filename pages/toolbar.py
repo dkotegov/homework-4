@@ -23,6 +23,7 @@ class ToolbarPage(Page):
 
     FILE_BLOCK = 'div[class*="DataListItemThumb__root"]'
     FILE_SELECTED_BLOCK = 'div[class*="DataListItemThumb__root_selected"]'
+    DOWNLOAD = 'div[data-name="download"]'
 
     def click_on_close_notion(self):
         self.driver.find_element_by_css_selector(self.CLOSE_NOTION).click()
@@ -33,5 +34,8 @@ class ToolbarPage(Page):
     def all_items_selected(self):
         return len(self.driver.find_elements_by_css_selector(self.FILE_BLOCK)) == \
                len(self.driver.find_elements_by_css_selector(self.FILE_SELECTED_BLOCK))
+
+    def click_on_download(self):
+        self.driver.find_element_by_css_selector(self.DOWNLOAD).click()
 
 
