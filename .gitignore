@@ -62,3 +62,7 @@ target/
 .ipynb_checkpoints
 
 .idea
+.DS_Store
+chromedriver
+selenium-*
+geckodriver
