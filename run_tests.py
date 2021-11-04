@@ -5,7 +5,8 @@ from cases.create_new_folder_popup import CreateNewFolderPopupTests
 from cases.hover_over_file import HoverOverFileTests
 from cases.file_dropdown_menu import FileDropDownMenuTests
 from cases.upload_file import UploadFileTests
-from cases.file_preview import PreviewFileTests
+from cases.toolbar import ToolbarTests
+from cases.head import HeadTests
 
 
 if __name__ == '__main__':
@@ -14,7 +15,7 @@ if __name__ == '__main__':
         # unittest.makeSuite(CreateNewFolderPopupTests),
         # unittest.makeSuite(HoverOverFileTests),
         # unittest.makeSuite(FileDropDownMenuTests),
-        unittest.makeSuite(UploadFileTests),
+        unittest.makeSuite(HeadTests),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

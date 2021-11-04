@@ -9,10 +9,10 @@ from selenium.webdriver.remote.file_detector import UselessFileDetector
 from selenium.webdriver.support.ui import WebDriverWait
 
 from steps.default import DefaultSteps
-from steps.upload_file import UploadFile
+from steps.toolbar import Toolbar
 
 
-class UploadFileTests(unittest.TestCase):
+class ToolbarTests(unittest.TestCase):
     def setUp(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
@@ -22,11 +22,9 @@ class UploadFileTests(unittest.TestCase):
         )
         self.driver.implicitly_wait(10)
         DefaultSteps(self.driver).authorize()
-        self.steps = UploadFile(self.driver)
-        # self.steps.remove_all_files()
+        self.steps = Toolbar(self.driver)
 
     def tearDown(self):
-        self.steps.remove_all_files()
         self.driver.quit()
 
     # def test_upload_normal_file(self):
@@ -40,6 +38,7 @@ class UploadFileTests(unittest.TestCase):
     #     self.steps.upload_file(file_path)
     #     self.assertEqual(self.steps.error_exists(), True, '')
 
-    def test_remove_the_restriction_link(self):
-        self.steps.click_remove_the_restriction()
-        self.assertEqual(len(self.driver.window_handles), 2, 'page with editing new table not opened')
+    def test_select_all(self):
+        self.steps.select_all()
+        time.sleep(5)
+        # self.assertEqual(len(self.driver.window_handles), 2, 'page with editing new table not opened')
