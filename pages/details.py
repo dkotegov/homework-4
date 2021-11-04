@@ -1,4 +1,5 @@
 from pages.default import Page
+from components.player import Player
 from utils import wait_for_element_by_selector
 
 
@@ -82,3 +83,6 @@ class DetailsPage(Page):
 
     def get_rating(self):
         return wait_for_element_by_selector(self.driver, self.RATING).text
+
+    def set_player(self):
+        self.player = Player(self.driver)
