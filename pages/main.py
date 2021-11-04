@@ -1,3 +1,5 @@
+import time
+
 import utils
 from pages.default import Page
 
@@ -12,6 +14,7 @@ class MainPage(Page):
     MOVIE_CARD_WATCH_BUTTON = 'div.item__button-title'
 
     TOP_CARD_RIGHT_SLIDER = 'img.js-slider-right-FilmCard'
+    TOP_CARD_LEFT_SLIDER = 'img.js-slider-left-FilmCard'
 
     def wait_for_container(self):
         utils.wait_for_element_by_selector(self.driver, self.CONTAINER)
@@ -34,3 +37,20 @@ class MainPage(Page):
 
     def click_right_scroll(self):
         utils.wait_click_for_element_by_selector(self.driver, self.TOP_CARD_RIGHT_SLIDER)
+
+    def is_right_scroll_visible(self):
+        utils.is_visible(self.driver, self.TOP_CARD_RIGHT_SLIDER)
+
+    def click_right_scroll_until_visible(self):
+        while self.is_right_scroll_visible():
+            self.click_right_scroll()
+
+    def click_left_scroll(self):
+        utils.wait_click_for_element_by_selector(self.driver, self.TOP_CARD_LEFT_SLIDER)
+
+    def is_left_scroll_visible(self):
+        utils.is_visible(self.driver, self.TOP_CARD_LEFT_SLIDER)
+
+    def click_left_scroll_until_visible(self):
+        while self.is_left_scroll_visible():
+            self.click_left_scroll()
