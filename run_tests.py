@@ -17,6 +17,9 @@ from tests.details.tests_with_auth.transit_to_profile_page_test import TransitTo
 from tests.details.tests_with_auth.details_buttons_tests import OpenPlayerTest, AddToFavouritesTest,\
     RemoveFromFavouritesTest, LikeMovieTest, DislikeMovieTest
 from tests.profile.click_on_sub_btn import ClickOnSubscriptionBtnTest
+from tests.profile.change_to_invalid_avatar_test import ChangeToInvalidAvatarTest
+from tests.profile.correct_update_profile_tests import ChangeToValidAvatarTest, ChangeToValidEmailTest, \
+    ChangeToValidLoginTest, ChangeToValidLoginAndEmailTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -36,7 +39,12 @@ if __name__ == '__main__':
         # unittest.makeSuite(RemoveFromFavouritesTest),
         # unittest.makeSuite(LikeMovieTest),
         # unittest.makeSuite(DislikeMovieTest),
-        unittest.makeSuite(ClickOnSubscriptionBtnTest)
+        # unittest.makeSuite(ClickOnSubscriptionBtnTest),
+        # unittest.makeSuite(ChangeToInvalidAvatarTest),
+        # unittest.makeSuite(ChangeToValidAvatarTest),
+        # unittest.makeSuite(ChangeToValidEmailTest),
+        # unittest.makeSuite(ChangeToValidLoginTest),
+        unittest.makeSuite(ChangeToValidLoginAndEmailTest)
     ))
 
     result = unittest.TextTestRunner().run(suite)
