@@ -7,7 +7,4 @@ class NotOpenedTest(Test):
         favourites_page = FavouritesPage(self.driver)
         favourites_page.open()
 
-        self.assertEqual(
-            False,
-            favourites_page.is_has_favourites()
-        )
+        self.assertFalse(favourites_page.is_has_favourites())

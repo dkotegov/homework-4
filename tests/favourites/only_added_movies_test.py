@@ -4,6 +4,7 @@ from tests.default_authorized import TestAuthorized
 
 import constants
 
+
 class OnlyAddedMoviesTest(TestAuthorized):
     def tearDown(self):
         details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)

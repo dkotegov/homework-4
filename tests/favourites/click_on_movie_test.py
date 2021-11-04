@@ -16,11 +16,11 @@ class ClickOnMovieTest(TestAuthorized):
         details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)
         details_page.open()
         details_page.add_to_favourites()
+        id_of_movie = details_page.get_movie_id()
         
         favourites_page = FavouritesPage(self.driver)
         favourites_page.open()
-        
-        id_of_movie = details_page.get_movie_id()
+
         favourites_page.click_on_first_movie()
 
         self.assertEqual(
