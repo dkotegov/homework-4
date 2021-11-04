@@ -8,6 +8,14 @@ class ProfileForm(Component):
     LOGIN = '#login'
     EMAIL = '#email'
     SUBMIT = '.input-wrapper__button'
+    LOGIN_ERROR = '#loginError'
+    EMAIL_ERROR = '#emailError'
+
+    def get_login_error(self):
+        return wait_for_element_by_selector(self.driver, self.LOGIN_ERROR).text
+
+    def get_email_error(self):
+        return wait_for_element_by_selector(self.driver, self.EMAIL_ERROR).text
 
     def get_login(self):
         return wait_for_element_by_selector(self.driver, self.LOGIN).get_attribute('value')

@@ -20,6 +20,9 @@ from tests.profile.click_on_sub_btn import ClickOnSubscriptionBtnTest
 from tests.profile.change_to_invalid_avatar_test import ChangeToInvalidAvatarTest
 from tests.profile.correct_update_profile_tests import ChangeToValidAvatarTest, ChangeToValidEmailTest, \
     ChangeToValidLoginTest, ChangeToValidLoginAndEmailTest
+from tests.profile.error_update_profile_tests import ChangeToInvalidLoginTest, ChangeToEmptyLoginTest, \
+    ChangeToInvalidEmailTest, ChangeToEmptyEmailTest, ChangeToInvalidEmailAndLoginTest, \
+    ChangeToInvalidLoginAndValidEmailTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
@@ -29,11 +32,11 @@ if __name__ == '__main__':
         # unittest.makeSuite(ClickOnMovieGenreTest),
         # unittest.makeSuite(LoginTest),
         # unittest.makeSuite(LogoutTest),
-        # unittest.makeSuite(GoToProfileTest)
-        # unittest.makeSuite(GoToFavouritesTest)
-        # unittest.makeSuite(TransitToAuthTest)
-        # unittest.makeSuite(ClickOnActorNameTest)
-        # unittest.makeSuite(TransitToProfileTest)
+        # unittest.makeSuite(GoToProfileTest),
+        # unittest.makeSuite(GoToFavouritesTest),
+        # unittest.makeSuite(TransitToAuthTest),
+        # unittest.makeSuite(ClickOnActorNameTest),
+        # unittest.makeSuite(TransitToProfileTest),
         # unittest.makeSuite(OpenPlayerTest),
         # unittest.makeSuite(AddToFavouritesTest),
         # unittest.makeSuite(RemoveFromFavouritesTest),
@@ -44,7 +47,13 @@ if __name__ == '__main__':
         # unittest.makeSuite(ChangeToValidAvatarTest),
         # unittest.makeSuite(ChangeToValidEmailTest),
         # unittest.makeSuite(ChangeToValidLoginTest),
-        unittest.makeSuite(ChangeToValidLoginAndEmailTest)
+        # unittest.makeSuite(ChangeToValidLoginAndEmailTest),
+        # unittest.makeSuite(ChangeToInvalidLoginTest),
+        # unittest.makeSuite(ChangeToEmptyLoginTest),
+        # unittest.makeSuite(ChangeToEmptyEmailTest),
+        # unittest.makeSuite(ChangeToInvalidEmailTest),
+        # unittest.makeSuite(ChangeToInvalidEmailAndLoginTest),
+        unittest.makeSuite(ChangeToInvalidLoginAndValidEmailTest),
     ))
 
     result = unittest.TextTestRunner().run(suite)
