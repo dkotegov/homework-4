@@ -1,3 +1,5 @@
+from random import randrange
+
 from selenium.webdriver.common.by import By
 
 from helpers.component import Component
@@ -14,8 +16,9 @@ class ProductCard(Component):
         return len(self.helpers.get_elements(self.PRODUCT_CARD))
 
     def get_product_id(self):
-        element = self.helpers.get_element(self.PRODUCT_CARD)
-        return element.get_attribute("data-card-id")
+        elements = self.helpers.get_elements(self.PRODUCT_CARD)
+        index = randrange(len(elements)) - 1
+        return elements[index].get_attribute("data-card-id")
 
     def click_product(self, product_id):
         element = self.helpers.get_element(self.PRODUCT_CARD_ID.format(product_id), self.helpers.SELECTOR.XPATH)

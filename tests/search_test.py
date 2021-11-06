@@ -73,17 +73,19 @@ class SearchTest(Test):
         product_page.change_path(product_id)
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
+    def testLikeProductNotAuth(self):
+        """Проверка, что без авторизации лайк поставить нельзя"""
+        product_id = self.search.search_products.get_product_id()
+
+        self.search.search_products.click_like_product(product_id)
+        self.assertTrue(self.search.login.is_opened(), "Не открылась авторизация")
+
     def testLikeProduct(self):
         """
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
         product_id = self.search.search_products.get_product_id()
-
-        self.search.search_products.click_like_product(product_id)
-        self.assertTrue(self.search.login.is_opened(), "Не открылась авторизация")
-        self.search.login.click_close()
-
         self.search.login.auth()
 
         self.search.search_products.click_like_product(product_id)

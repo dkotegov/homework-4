@@ -22,17 +22,19 @@ class SellerProductsTest(Test):
         product_page.change_path(product_id)
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
+    def testLikeProductNotAuth(self):
+        """Проверка, что без авторизации лайк поставить нельзя"""
+        product_id = self.seller_products_page.product_card.get_product_id()
+
+        self.seller_products_page.product_card.click_like_product(product_id)
+        self.assertTrue(self.seller_products_page.login.is_opened(), "Не открылась авторизация")
+
     def testLikeProduct(self):
         """
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
         product_id = self.seller_products_page.product_card.get_product_id()
-
-        self.seller_products_page.product_card.click_like_product(product_id)
-        self.assertTrue(self.seller_products_page.login.is_opened(), "Не открылась авторизация")
-        self.seller_products_page.login.click_close()
-
         self.seller_products_page.login.auth()
 
         self.seller_products_page.product_card.click_like_product(product_id)
