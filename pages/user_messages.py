@@ -1,3 +1,5 @@
+from random import randrange
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
@@ -17,8 +19,9 @@ class ChatsBlock(Component):
     MESSAGE_TEXT = "//div[@class=\"user-message-block-inner\"]/span[text()='{}']"
 
     def get_chat_id(self):
-        element = self.helpers.get_element(self.MESSAGE_CARD)
-        return element.get_attribute("data-chat-id")
+        elements = self.helpers.get_elements(self.MESSAGE_CARD)
+        index = randrange(len(elements)) - 1
+        return elements[index].get_attribute("data-chat-id")
 
     def click_message_card(self, chat_id):
         self.helpers.click_element(self.MESSAGE_CARD_ID.format(chat_id), self.helpers.SELECTOR.XPATH)

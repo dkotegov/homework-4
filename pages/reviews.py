@@ -1,4 +1,5 @@
 import time
+from random import randrange
 
 from selenium.webdriver.common.by import By
 
@@ -20,8 +21,9 @@ class ReviewBlock(Component):
     STAR_ACTIVE = ".star-active"
 
     def get_review_id(self):
-        element = self.helpers.get_element(self.REVIEW_CARD)
-        return element.get_attribute("data-review-id")
+        elements = self.helpers.get_elements(self.REVIEW_CARD)
+        index = randrange(len(elements)) - 1
+        return elements[index].get_attribute("data-review-id")
 
     def is_contains_review(self, review_id):
         return self.helpers.is_contains(self.REVIEW_CARD_ID.format(review_id), self.helpers.SELECTOR.XPATH)

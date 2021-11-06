@@ -6,7 +6,7 @@ from pages import MainPage
 from pages.user_settings import UserSettingsPage
 
 
-class SettingsTest(Test):
+class UserSettingsTest(Test):
     def setUp(self):
         super().setUp()
         self.main_page = MainPage(driver=self.driver)

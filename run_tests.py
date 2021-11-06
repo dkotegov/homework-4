@@ -6,7 +6,7 @@ import unittest
 from tests import ProductTest, SellerProductsTest, SearchTest, UserProductsTest, \
     HeaderTest, FooterTest, ThemeTest, RegistrationTest, LoginTest, MainTest, \
     UserMessagesTest, UserReviewsTest, UserAwaitReviewsTest, UserFavoritesTest, \
-    SettingsTest, CreateProductTest, \
+    UserSettingsTest, CreateProductTest, \
     UserSideBarTest, SellerSideBarTest
 
 if __name__ == '__main__':
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         unittest.makeSuite(UserFavoritesTest),
         unittest.makeSuite(UserSideBarTest),
         unittest.makeSuite(SellerSideBarTest),
-        unittest.makeSuite(SettingsTest),
+        unittest.makeSuite(UserSettingsTest),
         unittest.makeSuite(CreateProductTest),
     ))
 

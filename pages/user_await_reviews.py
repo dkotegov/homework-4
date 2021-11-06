@@ -1,3 +1,5 @@
+from random import randrange
+
 from helpers import Page, Component
 from components import ReviewPopup, Login
 
@@ -9,8 +11,9 @@ class AwaitReviewBlock(Component):
     # у нас у карточек нет своего id, но есть product_Id
     # Он уникальный для карточки на странице
     def get_card_id(self):
-        element = self.helpers.get_element(self.AWAIT_REVIEW_CARD)
-        return element.get_attribute("data-product-id")
+        elements = self.helpers.get_elements(self.AWAIT_REVIEW_CARD)
+        index = randrange(len(elements)) - 1
+        return elements[index].get_attribute("data-product-id")
 
     def is_contains_card(self, card_id):
         return self.helpers.is_contains(self.AWAIT_REVIEW_CARD_ID.format(card_id), self.helpers.SELECTOR.XPATH)
