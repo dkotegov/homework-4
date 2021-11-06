@@ -70,16 +70,16 @@ class RegistrationForm(Component):
     def is_error_email(self):
         return self.helpers.is_contains_class(self.EMAIL, self.ERROR)
 
-    def is_error(self):
+    def is_error_form(self):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.REGISTRATION_ERROR)))
         return self.helpers.is_contains(self.REGISTRATION_ERROR)
 
     def enter_submit(self):
-        self.helpers.click_button(self.SUBMIT)
+        self.helpers.click_element(self.SUBMIT)
 
 
 class RegistrationPage(Page):
-    PATH = "signup"
+    PATH = "/signup"
 
     @property
     def form(self):

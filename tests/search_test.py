@@ -64,27 +64,30 @@ class SearchTest(Test):
 
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
-        product = ProductPage(driver=self.driver)
+        product_page = ProductPage(driver=self.driver)
 
-        product_id = self.search.search_products.click_product()
+        product_id = self.search.search_products.get_product_id()
+        self.search.search_products.click_product(product_id)
 
         url = self.driver.current_url
-        product.change_path(product_id)
-        self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
+        product_page.change_path(product_id)
+        self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
     def testLikeProduct(self):
         """
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        self.search.search_products.like_product()
+        product_id = self.search.search_products.get_product_id()
+
+        self.search.search_products.click_like_product(product_id)
         self.assertTrue(self.search.login.is_opened(), "Не открылась авторизация")
         self.search.login.click_close()
 
         self.search.login.auth()
 
-        index = self.search.search_products.like_product()
-        self.assertTrue(self.search.search_products.check_like_product(), "Не удалось поставить лайк")
+        self.search.search_products.click_like_product(product_id)
+        self.assertTrue(self.search.search_products.is_product_liked(product_id), "Не удалось поставить лайк")
 
-        self.search.search_products.remove_like_product(index)
-        self.assertFalse(self.search.search_products.check_remove_like_product(index), "Не удалось убрать лайк")
+        self.search.search_products.click_like_product(product_id)
+        self.assertFalse(self.search.search_products.is_product_liked(product_id), "Не удалось убрать лайк")

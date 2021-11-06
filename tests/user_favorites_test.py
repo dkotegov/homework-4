@@ -1,53 +1,67 @@
 from helpers import Test
 
-from pages import UserFavoritesPage, RegistrationPage, SellerProductsPage, ProductPage
+from pages import UserFavoritesPage, MainPage, RegistrationPage, SellerProductsPage, ProductPage
 
 
 class UserFavoritesTest(Test):
     def setUp(self):
         super().setUp()
-        self.favorites = UserFavoritesPage(driver=self.driver)
-        self.products = SellerProductsPage(driver=self.driver)
-        self.favorites.open()
+        self.favorites_page = UserFavoritesPage(driver=self.driver)
 
-    def testRedirectToRegPage(self):
+    def __auth__(self):
+        main_page = MainPage(driver=self.driver)
+
+        main_page.open()
+        main_page.login.auth()
+        self.favorites_page.open()
+
+    def testRedirectToRegistrationPage(self):
         """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
-        registration = RegistrationPage(driver=self.driver)
+        registration_page = RegistrationPage(driver=self.driver)
+
+        self.favorites_page.open()
 
         url = self.driver.current_url
-        self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")
+        self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
-    def testFavoriteProductOpen(self):
+    def testRedirectToRegistrationPageLogOut(self):
+        """Открытие страницы регистрации при после выхода из профиля"""
+        registration_page = RegistrationPage(driver=self.driver)
+
+        self.__auth__()
+        self.favorites_page.login.logout()
+
+        url = self.driver.current_url
+        self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
+
+    def testClickProduct(self):
         """Карточка объявления. Открытие страницы объявления при нажатии в любое место карточки, кроме “сердечка”"""
-        product = ProductPage(driver=self.driver)
+        product_page = ProductPage(driver=self.driver)
 
-        self.favorites.login.auth()
-        self.products.open()
+        self.__auth__()
+        product_id = self.favorites_page.product_card.get_product_id()
 
-        self.products.product_card.like_product()
-        self.favorites.open()
-
-        product_id = self.favorites.favorite_products.click_product()
+        self.favorites_page.product_card.click_product(product_id)
 
         url = self.driver.current_url
-        product.change_path(product_id)
-        self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
-
-        self.favorites.open()
-        self.favorites.favorite_products.remove_like_product(0)
+        product_page.change_path(product_id)
+        self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
     def testFavoriteProductDelete(self):
         """Иконка “Сердечко” на карточке товара. При нажатии товар пропадает со страницы “Избранное”"""
-        self.favorites.login.auth()
-        self.products.open()
+        seller_products_page = SellerProductsPage(driver=self.driver)
 
-        self.products.product_card.like_product()
-        self.favorites.open()
+        self.__auth__()
+        seller_products_page.open()
+        product_id = seller_products_page.product_card.get_product_id()
+        seller_products_page.product_card.click_like_product(product_id)
 
-        before_remove = self.favorites.favorite_products.count_products()
+        self.favorites_page.open()
 
-        self.favorites.favorite_products.remove_like_product(0)
-        self.favorites.open()
+        before_remove_product = self.favorites_page.product_card.count_products()
 
-        after_remove = self.favorites.favorite_products.count_products()
-        self.assertEqual(before_remove - 1, after_remove, "Товар остался в избранном")
+        self.favorites_page.product_card.click_like_product(product_id)
+        self.favorites_page.open()
+
+        after_remove_product = self.favorites_page.product_card.count_products()
+        self.assertEqual(before_remove_product - 1, after_remove_product, "Товар остался в избранном")

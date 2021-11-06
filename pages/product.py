@@ -29,19 +29,19 @@ class InfoCard(Component):
     EDIT = ".info-card-btn__change"
 
     def click_on_seller_name(self):
-        self.helpers.click_button(self.SELLER_NAME)
+        self.helpers.click_element(self.SELLER_NAME)
 
     def click_on_seller_img(self):
-        self.helpers.click_button(self.SELLER_IMAGE)
+        self.helpers.click_element(self.SELLER_IMAGE)
 
     def click_on_seller_rate(self):
-        self.helpers.click_button(self.SELLER_RATING)
+        self.helpers.click_element(self.SELLER_RATING)
 
     def click_phone(self):
-        self.helpers.click_button(self.PHONE)
+        self.helpers.click_element(self.PHONE)
 
     def click_edit(self):
-        self.helpers.click_button(self.EDIT)
+        self.helpers.click_element(self.EDIT)
 
     def get_phone(self):
         phone = self.helpers.get_element(self.PHONE)
@@ -50,14 +50,14 @@ class InfoCard(Component):
         return phone.get_attribute("value")
 
     def click_message(self):
-        self.helpers.click_button(self.MESSAGE)
+        self.helpers.click_element(self.MESSAGE)
 
 
 class ProductPage(Page):
-    PATH = "product/48"
+    PATH = "/product/48"
 
     def change_path(self, path):
-        self.PATH = "product/" + path
+        self.PATH = "/product/" + path
 
     @property
     def login(self):

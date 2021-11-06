@@ -1,39 +1,31 @@
-from random import randrange
+from selenium.webdriver.common.by import By
 
 from helpers.component import Component
 
 
 class ProductCard(Component):
-    PRODUCTS = ".product-card"
-    PRODUCT_LIKE = ".product-card__like"
-    PRODUCT_LIKED = "product-card__like_liked"
-    LIKED = ".product-card__like_liked"
+    PRODUCT_CARD = '.product-card'
+    PRODUCT_CARD_ID = '//div[@data-card-id={}]'
+    INFO = '.product-card-info'
+    LIKE = ".product-card__like"
+    LIKED = "product-card__like_liked"
 
-    def click_product(self):
-        products = self.helpers.get_elements(self.PRODUCTS)
-        index = randrange(len(products))
-        product_id = products[index].get_attribute("data-card-id")
-        products[index].click()
-        return product_id
+    def count_products(self):
+        return len(self.helpers.get_elements(self.PRODUCT_CARD))
 
-    def like_product(self):
-        products = self.helpers.get_elements(self.PRODUCT_LIKE)
-        index = randrange(5)
-        products[index].click()
-        return index
+    def get_product_id(self):
+        element = self.helpers.get_element(self.PRODUCT_CARD)
+        return element.get_attribute("data-card-id")
 
-    def remove_like_product(self, index):
-        products = self.helpers.get_elements(self.PRODUCT_LIKE)
-        products[index].click()
-        return index
+    def click_product(self, product_id):
+        element = self.helpers.get_element(self.PRODUCT_CARD_ID.format(product_id), self.helpers.SELECTOR.XPATH)
+        element.find_element(By.CSS_SELECTOR, self.INFO).click()
 
-    def check_like_product(self):
-        liked = self.helpers.get_element(self.LIKED)
-        return self.helpers.is_element_contains_class(liked, self.PRODUCT_LIKED)
+    def click_like_product(self, product_id):
+        element = self.helpers.get_element(self.PRODUCT_CARD_ID.format(product_id), self.helpers.SELECTOR.XPATH)
+        element.find_element(By.CSS_SELECTOR, self.LIKE).click()
 
-    def check_remove_like_product(self, index):
-        products = self.helpers.get_elements(self.PRODUCT_LIKE)
-        liked = products[index]
-        while self.helpers.is_element_contains_class(liked, self.PRODUCT_LIKED):
-            continue
-        return False
+    def is_product_liked(self, product_id):
+        element = self.helpers.get_element(self.PRODUCT_CARD_ID.format(product_id), self.helpers.SELECTOR.XPATH)
+        like = element.find_element(By.CSS_SELECTOR, self.LIKE)
+        return self.helpers.is_element_contains_class(like, self.LIKED)

@@ -22,22 +22,22 @@ class PromotionForm(Component):
     TYPE = "#promotion-type"
 
     def enter_purchase(self):
-        self.helpers.click_button(self.PURCHASE)
+        self.helpers.click_element(self.PURCHASE)
 
     def get_purchase_error(self):
         return self.helpers.get_element(self.ERROR).text
 
     def enter_base_tariff(self):
-        self.helpers.click_button(self.BASE_TARIFF)
+        self.helpers.click_element(self.BASE_TARIFF)
 
     def enter_no_tariff(self):
-        self.helpers.click_button(self.NO_TARIFF)
+        self.helpers.click_element(self.NO_TARIFF)
 
     def enter_improved_tariff(self):
-        self.helpers.click_button(self.IMPROVED_TARIFF)
+        self.helpers.click_element(self.IMPROVED_TARIFF)
 
     def enter_advanced_tariff(self):
-        self.helpers.click_button(self.ADVANCED_TARIFF)
+        self.helpers.click_element(self.ADVANCED_TARIFF)
 
     def is_base_checked(self):
         return self.helpers.is_contains_class(self.BLOCK_BASE, self.CHECKED_TARIFF)
@@ -59,7 +59,7 @@ class PromotionForm(Component):
 
 
 class PromotionPage(Page):
-    PATH = "promotion"
+    PATH = "/promotion"
     
     @property
     def form(self):

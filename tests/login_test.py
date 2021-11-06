@@ -8,28 +8,24 @@ from pages import MainPage, RegistrationPage
 class LoginTest(Test):
     def setUp(self):
         super().setUp()
-        self.main = MainPage(driver=self.driver)
-        self.main.open()
+        self.main_page = MainPage(driver=self.driver)
+        self.main_page.open()
 
     def testCloseAuth(self):
         """Проверка, что при попап открывается и закрывается"""
-        self.main.login.open_auth()
-        self.assertTrue(self.main.login.is_opened(), "Не открылась авторизация")
-        self.main.login.click_close()
-        self.assertFalse(self.main.login.is_opened(), "Не закрылась авторизация")
+        self.main_page.login.open_auth()
+        self.main_page.login.click_close()
+        self.assertFalse(self.main_page.login.is_opened(), "Не закрылась авторизация")
 
-        self.main.login.open_auth()
-        self.assertTrue(self.main.login.is_opened(), "Не открылась авторизация")
-        self.main.login.click_outside()
-        self.assertFalse(self.main.login.is_opened(), "Не закрылась авторизация")
+        self.main_page.login.open_auth()
+        self.main_page.login.click_outside()
+        self.assertFalse(self.main_page.login.is_opened(), "Не закрылась авторизация")
 
     def __test_telephone__(self, test):
-        self.main.login.clear_telephone_value()
-        self.main.login.input_telephone_value(test)
-        self.main.login.enter_submit()
-        # Не понятно как проверять ошибку. У нас по submit вылезает стандартная браузерная ошибка
-        # Делаю проверку на то, что окно не закрылось. После авторизации попап должен закрыться
-        self.assertTrue(self.main.login.is_opened(), "Закрылась авторизация")
+        self.main_page.login.clear_telephone_value()
+        self.main_page.login.input_telephone_value(test)
+        self.main_page.login.enter_submit()
+        self.assertTrue(self.main_page.login.is_error_telephone(), "Нет ошибки")
 
     def testErrorTelephoneInput(self):
         # авторизация с пустым телефоном
@@ -37,18 +33,16 @@ class LoginTest(Test):
         # авторизация с телефоном, где меньше 10
         test2 = "111111111"
 
-        self.main.login.open_auth()
+        self.main_page.login.open_auth()
 
         self.__test_telephone__(test1)
         self.__test_telephone__(test2)
 
     def __test_password__(self, test):
-        self.main.login.clear_password_value()
-        self.main.login.input_password_value(test)
-        self.main.login.enter_submit()
-        # Не понятно как проверять ошибку. У нас по submit вылезает стандартная браузерная ошибка
-        # Делаю проверку на то, что окно не закрылось. После авторизации попап должен закрыться
-        self.assertTrue(self.main.login.is_opened(), "Закрылась авторизация")
+        self.main_page.login.clear_password_value()
+        self.main_page.login.input_password_value(test)
+        self.main_page.login.enter_submit()
+        self.assertTrue(self.main_page.login.is_error_password(), "Нет ошибки")
 
     def testErrorPasswordInput(self):
         # авторизация с пустым паролем
@@ -56,29 +50,29 @@ class LoginTest(Test):
         # авторизация с телефоном, где меньше 10
         test2 = "Qwerty12"
 
-        self.main.login.open_auth()
+        self.main_page.login.open_auth()
 
         self.__test_password__(test1)
         self.__test_password__(test2)
 
     def testClickRegistration(self):
         """Проверка, что при нажатии кнопки "Создайте аккаунт" открывается страница регистрации"""
-        registration = RegistrationPage(driver=self.driver)
+        registration_page = RegistrationPage(driver=self.driver)
 
-        self.main.login.open_auth()
-        self.main.login.click_registration()
+        self.main_page.login.open_auth()
+        self.main_page.login.click_registration()
 
         url = self.driver.current_url
-        self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")
+        self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
     def __test_login__(self, telephone, password):
-        self.main.login.clear_telephone_value()
-        self.main.login.input_telephone_value(telephone)
-        self.main.login.clear_password_value()
-        self.main.login.input_password_value(password)
+        self.main_page.login.clear_telephone_value()
+        self.main_page.login.input_telephone_value(telephone)
+        self.main_page.login.clear_password_value()
+        self.main_page.login.input_password_value(password)
 
-        self.main.login.enter_submit()
-        self.assertTrue(self.main.login.is_error(), "Пользователь авторизовался")
+        self.main_page.login.enter_submit()
+        self.assertTrue(self.main_page.login.is_error_form(), "Пользователь авторизовался")
 
     def testErrorLogin(self):
         """Проверка ошибочной авторизации"""
@@ -90,7 +84,7 @@ class LoginTest(Test):
         telephone2 = os.environ.get("LOGIN")
         password2 = os.environ.get("PASSWORD") + "1"
 
-        self.main.login.open_auth()
+        self.main_page.login.open_auth()
 
         self.__test_login__(telephone1, password1)
         self.__test_login__(telephone2, password2)
@@ -100,9 +94,9 @@ class LoginTest(Test):
         telephone = os.environ.get("LOGIN")
         password = os.environ.get("PASSWORD")
 
-        self.main.login.open_auth()
-        self.main.login.input_telephone_value(telephone)
-        self.main.login.input_password_value(password)
+        self.main_page.login.open_auth()
+        self.main_page.login.input_telephone_value(telephone)
+        self.main_page.login.input_password_value(password)
 
-        self.main.login.enter_submit()
-        self.assertTrue(self.main.login.is_logined(), "Пользователь не авторизовался")
+        self.main_page.login.enter_submit()
+        self.assertTrue(self.main_page.login.is_logined(), "Пользователь не авторизовался")

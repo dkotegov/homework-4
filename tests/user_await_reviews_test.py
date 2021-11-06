@@ -1,54 +1,68 @@
 from helpers import Test
 
-from pages import UserAwaitReviewsPage, RegistrationPage
+from pages import UserAwaitReviewsPage, MainPage, RegistrationPage
 
 
 class UserAwaitReviewsTest(Test):
     def setUp(self):
         super().setUp()
-        self.await_reviews = UserAwaitReviewsPage(driver=self.driver)
-        self.await_reviews.open()
+        self.await_reviews_page = UserAwaitReviewsPage(driver=self.driver)
 
-    def testRedirectToRegPage(self):
+    def __auth__(self):
+        main = MainPage(driver=self.driver)
+
+        main.open()
+        main.login.auth()
+        self.await_reviews_page.open()
+
+    def testRedirectToRegistrationPage(self):
         """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
         registration = RegistrationPage(driver=self.driver)
+
+        self.await_reviews_page.open()
 
         url = self.driver.current_url
         self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")
 
-    def testOpeningPopup(self):
-        """Плитка с ожидающим отзывом. Открытие попапа оценки пользователя при выборе продавца для оценки"""
-        self.await_reviews.login.auth()
-        self.await_reviews.open()
+    def testRedirectToRegistrationPageLogOut(self):
+        """Открытие страницы регистрации при после выхода из профиля"""
+        registration_page = RegistrationPage(driver=self.driver)
 
-        self.await_reviews.await_review_block.click_card()
-        self.assertTrue(self.await_reviews.review_popup.is_popup_opened(), "Не открылся попап")
+        self.__auth__()
+        self.await_reviews_page.login.logout()
+
+        url = self.driver.current_url
+        self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
     def testClosePopupCorrect(self):
         """Попап для отзыва. Возможность оставить отзыв не пропадет при закрытии попапа"""
-        self.await_reviews.login.auth()
-        self.await_reviews.open()
+        self.__auth__()
 
-        before_click = self.await_reviews.await_review_block.count_cards()
+        card_id = self.await_reviews_page.await_review_block.get_card_id()
 
-        self.await_reviews.await_review_block.click_card()
-        self.await_reviews.review_popup.click_close()
-        self.assertEqual(before_click, self.await_reviews.await_review_block.count_cards(), "Товар пропал")
+        self.await_reviews_page.await_review_block.click_card(card_id)
+        self.await_reviews_page.review_popup.click_close()
+
+        self.assertTrue(self.await_reviews_page.await_review_block.is_contains_card(card_id), "Пользователь пропал")
 
     def testSkipButton(self):
         """Попап для отзывов. Закрытие попапа при нажатии кнопки “Пропустить”"""
-        self.await_reviews.login.auth()
-        self.await_reviews.open()
+        self.__auth__()
 
-        self.await_reviews.await_review_block.click_card()
-        self.await_reviews.review_popup.click_skip()
-        self.assertFalse(self.await_reviews.review_popup.is_popup_opened(), "Не закрылся попап")
+        card_id = self.await_reviews_page.await_review_block.get_card_id()
+
+        self.await_reviews_page.await_review_block.click_card(card_id)
+        self.await_reviews_page.review_popup.click_skip()
+
+        self.assertFalse(self.await_reviews_page.review_popup.is_popup_opened(), "Не закрылся попап")
 
     def testRateWithoutRating(self):
         """Попап для отзыва. Ошибка, если не поставить оценку и нажать кнопку “Оценить”"""
-        self.await_reviews.login.auth()
-        self.await_reviews.open()
+        self.__auth__()
 
-        self.await_reviews.await_review_block.click_card()
-        self.await_reviews.review_popup.click_rate()
-        self.assertTrue(self.await_reviews.review_popup.is_error(), "Нет ошибки")
+        card_id = self.await_reviews_page.await_review_block.get_card_id()
+
+        self.await_reviews_page.await_review_block.click_card(card_id)
+        self.await_reviews_page.review_popup.click_rate()
+
+        self.assertTrue(self.await_reviews_page.review_popup.is_error_form(), "Нет ошибки")

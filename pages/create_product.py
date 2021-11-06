@@ -17,7 +17,7 @@ class CreateProductForm(Component):
     MAP_POINT = ".ymaps-2-1-79-suggest-item-0"
 
     def enter_address(self):
-        self.helpers.click_button(self.MAP_POINT)
+        self.helpers.click_element(self.MAP_POINT)
 
     def upload_photo(self, path):
         photo = self.helpers.get_element(self.PHOTO)
@@ -63,11 +63,11 @@ class CreateProductForm(Component):
         return self.helpers.get_element(self.SUBMIT_ERROR).text
 
     def enter_submit(self):
-        self.helpers.click_button(self.SUBMIT)
+        self.helpers.click_element(self.SUBMIT)
 
 
 class CreateProductPage(Page):
-    PATH = "product/create"
+    PATH = "/product/create"
 
     @property
     def form(self):

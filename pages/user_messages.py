@@ -6,58 +6,62 @@ from components import Login
 
 
 class ChatsBlock(Component):
-    CHAT = "#chat-message"
-
-    MESSAGE_CARD = ".one-chat-inner"
+    MESSAGE_CARD = ".one-chat"
+    MESSAGE_CARD_ID = "//div[@data-chat-id={}]"
 
     PRODUCT_TITLE = ".chat-message-head-info-product"
     USER_TITLE = ".chat-message-head-info-user"
     PRODUCT_AVATAR = ".chat-message-head-avatar__href"
     SEND_BUTTON = ".chat-message-send-form__sbm"
     MESSAGE_BOX = ".chat-message-send-form__msg"
+    MESSAGE_TEXT = "//div[@class=\"user-message-block-inner\"]/span[text()='{}']"
 
-    MESSAGE = ".user-message"
+    def get_chat_id(self):
+        element = self.helpers.get_element(self.MESSAGE_CARD)
+        return element.get_attribute("data-chat-id")
 
-    def is_chat_opened(self):
-        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.CHAT)))
-        return self.helpers.is_contains(self.CHAT)
+    def click_message_card(self, chat_id):
+        self.helpers.click_element(self.MESSAGE_CARD_ID.format(chat_id), self.helpers.SELECTOR.XPATH)
 
-    def click_message_card(self):
-        self.helpers.get_elements(self.MESSAGE_CARD)[0].click()
+    def wait_message(self, message):
+        self.helpers.wait(until=EC.presence_of_element_located((By.XPATH, self.MESSAGE_TEXT.format(message))))
 
-    def click_product_name(self):
-        product_title = self.helpers.get_element(self.PRODUCT_TITLE)
-        product_url = product_title.get_attribute("href")
-        product_title.click()
-        return product_url
-
-    def click_user_name(self):
-        user_name = self.helpers.get_element(self.USER_TITLE)
-        user_url = user_name.get_attribute("href")
-        user_name.click()
-        return user_url
-
-    def click_product_avatar(self):
-        product_avatar = self.helpers.get_element(self.PRODUCT_AVATAR)
-        product_url = product_avatar.get_attribute("href")
-        product_avatar.click()
-        return product_url
+    def is_contains_message(self, message):
+        return self.helpers.is_contains(self.MESSAGE_TEXT.format(message), self.helpers.SELECTOR.XPATH)
 
     def send_message(self, text):
         self.helpers.input_value(self.MESSAGE_BOX, text)
-        self.helpers.click_button(self.SEND_BUTTON)
+        self.helpers.click_element(self.SEND_BUTTON)
 
-    def count_messages(self):
-        return len(self.helpers.get_elements(self.MESSAGE))
+    def get_product_name_url(self):
+        element = self.helpers.get_element(self.PRODUCT_TITLE)
+        return element.get_attribute("href")
+
+    def click_product_name(self):
+        self.helpers.click_element(self.PRODUCT_TITLE)
+
+    def get_product_avatar_url(self):
+        element = self.helpers.get_element(self.PRODUCT_AVATAR)
+        return element.get_attribute("href")
+
+    def get_user_name_url(self):
+        element = self.helpers.get_element(self.USER_TITLE)
+        return element.get_attribute("href")
+
+    def click_product_avatar(self):
+        self.helpers.click_element(self.PRODUCT_AVATAR)
+
+    def click_user_name(self):
+        self.helpers.click_element(self.USER_TITLE)
 
 
 class UserMessagesPage(Page):
-    PATH = "user/chats"
+    PATH = "/user/chats"
 
     TITLE = ".chat-message-head-info-user__name"
 
     def change_path(self, path):
-        self.PATH = "user/chat/" + path
+        self.PATH = "/user/chat/" + path
 
     def page_exist(self):
         return self.helpers.get_element(self.TITLE) is not None

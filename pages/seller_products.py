@@ -1,9 +1,9 @@
 from helpers import Page
-from components import ProductCard, Login, SideBar
+from components import ProductCard, Login, SellerSideBar
 
 
 class SellerProductsPage(Page):
-    PATH = "user/1/ad"
+    PATH = "/user/1/ad"
 
     @property
     def product_card(self):
@@ -15,4 +15,4 @@ class SellerProductsPage(Page):
 
     @property
     def side_bar(self):
-        return SideBar(self.driver)
+        return SellerSideBar(self.driver)

@@ -38,13 +38,17 @@ class Helpers:
         elif by == SELECTOR.XPATH:
             return self.__find_element__(selector, By.XPATH, wait)
 
+        raise Exception("wrong by")
+
     def get_elements(self, selector, by=SELECTOR.CSS, wait=True):
         if by == SELECTOR.CSS:
             return self.__find_elements__(selector, By.CSS_SELECTOR, wait)
         elif by == SELECTOR.XPATH:
             return self.__find_elements__(selector, By.XPATH, wait)
 
-    def click_button(self, selector, by=SELECTOR.CSS):
+        raise Exception("wrong by")
+
+    def click_element(self, selector, by=SELECTOR.CSS):
         element = self.get_element(selector, by)
         element.click()
 

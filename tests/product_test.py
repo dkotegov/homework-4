@@ -110,7 +110,9 @@ class ProductTest(Test):
         self.product.login.auth()
         user_products_page.open()
 
-        product_id = user_products_page.product_card.click_product()
+        product_id = user_products_page.product_card.get_product_id()
+
+        user_products_page.product_card.click_product(product_id)
         edit_page.change_path(product_id)
         self.product.info_card.click_edit()
 
