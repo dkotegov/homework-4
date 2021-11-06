@@ -14,8 +14,8 @@ class ReviewBlock(Component):
 
     REVIEW_CARD = ".one-review"
     REVIEW_CARD_ID = "//div[@data-review-id={}]"
-    PRODUCT_TITLE = ".one-review-head-info__product"
-    USER_TITLE = ".one-review-head-info__user"
+    PRODUCT_TITLE = "{}//a[@class=\"one-review-head-info__product\"]".format(REVIEW_CARD_ID)
+    USER_TITLE = "{}//a[@class=\"one-review-head-info__user\"]".format(REVIEW_CARD_ID)
 
     DATE = ".one-review-head-stat__date"
     STARS = ".one-review-head-stat__rate"
@@ -30,24 +30,18 @@ class ReviewBlock(Component):
         return self.helpers.is_contains(self.REVIEW_CARD_ID.format(review_id), self.helpers.SELECTOR.XPATH)
 
     def get_product_name_url(self, review_id):
-        element = self.helpers.get_element(self.REVIEW_CARD_ID.format(review_id), self.helpers.SELECTOR.XPATH)
-        product_title = element.find_element(By.CSS_SELECTOR, self.PRODUCT_TITLE)
-        return product_title.get_attribute("href")
+        element = self.helpers.get_element(self.PRODUCT_TITLE.format(review_id), self.helpers.SELECTOR.XPATH)
+        return element.get_attribute("href")
 
     def click_product_name(self, review_id):
-        element = self.helpers.get_element(self.REVIEW_CARD_ID.format(review_id), self.helpers.SELECTOR.XPATH)
-        product_title = element.find_element(By.CSS_SELECTOR, self.PRODUCT_TITLE)
-        product_title.click()
+        self.helpers.click_element(self.PRODUCT_TITLE.format(review_id), self.helpers.SELECTOR.XPATH)
 
     def get_user_name_url(self, review_id):
-        element = self.helpers.get_element(self.REVIEW_CARD_ID.format(review_id), self.helpers.SELECTOR.XPATH)
-        user_title = element.find_element(By.CSS_SELECTOR, self.USER_TITLE)
-        return user_title.get_attribute("href")
+        element = self.helpers.get_element(self.USER_TITLE.format(review_id), self.helpers.SELECTOR.XPATH)
+        return element.get_attribute("href")
 
     def click_user_name(self, review_id):
-        element = self.helpers.get_element(self.REVIEW_CARD_ID.format(review_id), self.helpers.SELECTOR.XPATH)
-        user_title = element.find_element(By.CSS_SELECTOR, self.USER_TITLE)
-        user_title.click()
+        self.helpers.click_element(self.USER_TITLE.format(review_id), self.helpers.SELECTOR.XPATH)
 
     def set_sort_by_date(self):
         self.helpers.click_element(self.SORT_BY_DATE, self.helpers.SELECTOR.XPATH)

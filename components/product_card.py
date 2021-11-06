@@ -1,15 +1,13 @@
 from random import randrange
 
-from selenium.webdriver.common.by import By
-
 from helpers.component import Component
 
 
 class ProductCard(Component):
-    PRODUCT_CARD = '.product-card'
-    PRODUCT_CARD_ID = '//div[@data-card-id={}]'
-    INFO = '.product-card-info'
-    LIKE = ".product-card__like"
+    PRODUCT_CARD = ".product-card"
+    PRODUCT_CARD_ID = "//div[@data-card-id={}]"
+    INFO = "{}//div[@class=\"product-card-info\"]".format(PRODUCT_CARD_ID)
+    LIKE = "{}//*[@class=\"product-card__like\"]".format(PRODUCT_CARD_ID)
     LIKED = "product-card__like_liked"
 
     def count_products(self):
@@ -21,14 +19,10 @@ class ProductCard(Component):
         return elements[index].get_attribute("data-card-id")
 
     def click_product(self, product_id):
-        element = self.helpers.get_element(self.PRODUCT_CARD_ID.format(product_id), self.helpers.SELECTOR.XPATH)
-        element.find_element(By.CSS_SELECTOR, self.INFO).click()
+        self.helpers.click_element(self.INFO.format(product_id), self.helpers.SELECTOR.XPATH)
 
     def click_like_product(self, product_id):
-        element = self.helpers.get_element(self.PRODUCT_CARD_ID.format(product_id), self.helpers.SELECTOR.XPATH)
-        element.find_element(By.CSS_SELECTOR, self.LIKE).click()
+        self.helpers.click_element(self.LIKE.format(product_id), self.helpers.SELECTOR.XPATH)
 
     def is_product_liked(self, product_id):
-        element = self.helpers.get_element(self.PRODUCT_CARD_ID.format(product_id), self.helpers.SELECTOR.XPATH)
-        like = element.find_element(By.CSS_SELECTOR, self.LIKE)
-        return self.helpers.is_element_contains_class(like, self.LIKED)
+        return self.helpers.is_contains(self.LIKE.format(product_id), self.LIKED, self.helpers.SELECTOR.XPATH)
