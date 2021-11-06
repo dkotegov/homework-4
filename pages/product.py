@@ -1,5 +1,6 @@
 from random import randrange
 
+from consts import DEFAULT_PRODUCT
 from helpers import Page, Component
 from components import Login
 
@@ -54,7 +55,7 @@ class InfoCard(Component):
 
 
 class ProductPage(Page):
-    PATH = "/product/48"
+    PATH = "/product/{}".format(DEFAULT_PRODUCT)
 
     def change_path(self, path):
         self.PATH = "/product/" + path

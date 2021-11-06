@@ -1,3 +1,4 @@
+from consts import TEST_USER
 from helpers import Test
 
 from pages import SellerProductsPage, AchievementsPage, ReviewsPage
@@ -7,6 +8,7 @@ class SellerSideBarTest(Test):
     def setUp(self):
         super().setUp()
         self.seller_products_page = SellerProductsPage(driver=self.driver)
+        self.seller_products_page.change_path(TEST_USER)
         self.seller_products_page.open()
 
     def testClickProduct(self):
@@ -22,21 +24,19 @@ class SellerSideBarTest(Test):
     def testClickAchievements(self):
         """Кнопка “Достижения” в боковом меню. Переход на страницу достижений при нажатии"""
         achievements_page = AchievementsPage(driver=self.driver)
-        user_id = "1"
 
         self.seller_products_page.side_bar.click_achievements()
 
         url = self.driver.current_url
-        achievements_page.change_path(user_id)
+        achievements_page.change_path(TEST_USER)
         self.assertTrue(achievements_page.is_compare_url(url), "Не открылась страница достижений")
 
     def testClickReviews(self):
         """Кнопка “Отзывы” в боковом меню. Переход на страницу отзывов при нажатии"""
         reviews_page = ReviewsPage(driver=self.driver)
-        user_id = "1"
 
         self.seller_products_page.side_bar.click_reviews()
 
         url = self.driver.current_url
-        reviews_page.change_path(user_id)
+        reviews_page.change_path(TEST_USER)
         self.assertTrue(reviews_page.is_compare_url(url), "Не открылась страница отзывов")

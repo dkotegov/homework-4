@@ -11,7 +11,7 @@ from .login_test import LoginTest
 from .main_test import MainTest
 
 from .user_messages_test import UserMessagesTest
-from .user_reviews_test import UserReviewsTest
+from .reviews_test import ReviewsTest
 from .user_await_reviews_test import UserAwaitReviewsTest
 from .user_favorites_test import UserFavoritesTest
 

@@ -1,5 +1,4 @@
-import os
-
+from consts import TEST_USER
 from helpers import Test
 
 from pages import ReviewsPage, UserAwaitReviewsPage, AchievementsPage, UserSettingsPage, \
@@ -56,23 +55,21 @@ class UserSideBarTest(Test):
     def testClickAchievements(self):
         """Кнопка “Достижения” в боковом меню. Переход на страницу Достижения при нажатии"""
         achievements_page = AchievementsPage(driver=self.driver)
-        user_id = os.environ.get("USER_ID")
 
         self.settings_page.side_bar.click_achievements()
 
         url = self.driver.current_url
-        achievements_page.change_path(user_id)
+        achievements_page.change_path(TEST_USER)
         self.assertTrue(achievements_page.is_compare_url(url), "Не открылась страница достижений")
 
     def testClickReviews(self):
         """Кнопка “Отзывы” в боковом меню. Переход на страницу Отзывы при нажатии"""
         reviews_page = ReviewsPage(driver=self.driver)
-        user_id = os.environ.get("USER_ID")
 
         self.settings_page.side_bar.click_reviews()
 
         url = self.driver.current_url
-        reviews_page.change_path(user_id)
+        reviews_page.change_path(TEST_USER)
         self.assertTrue(reviews_page.is_compare_url(url), "Не открылась страница отзывов")
 
     def testClickAwaitReviews(self):

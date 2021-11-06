@@ -1,3 +1,4 @@
+from consts import TEST_USER
 from helpers import Test
 
 from pages import SellerProductsPage, ProductPage
@@ -7,6 +8,7 @@ class SellerProductsTest(Test):
     def setUp(self):
         super().setUp()
         self.seller_products_page = SellerProductsPage(driver=self.driver)
+        self.seller_products_page.change_path(TEST_USER)
         self.seller_products_page.open()
 
     def testClickProduct(self):

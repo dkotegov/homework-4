@@ -1,3 +1,4 @@
+from consts import PRODUCT, VK_ERROR_PRODUCT
 from helpers import Test
 
 from pages import ProductPage, ProductEditPage, SellerProductsPage, UserProductsPage, UserMessagesPage
@@ -7,6 +8,7 @@ class ProductTest(Test):
     def setUp(self):
         super().setUp()
         self.product = ProductPage(driver=self.driver)
+        self.product.change_path(PRODUCT)
         self.product.open()
 
     def testFirstImgSrcEqualPreview(self):
@@ -75,11 +77,9 @@ class ProductTest(Test):
     def testFailToShowPhoneAuthVK(self):
         """Ошибка данных, при нажатии на кнопку "Показать номер" автора зарегистрированного с помощью ВК, без номера
         телефона """
-        product_id = "103"
-
         self.product.login.auth()
 
-        self.product.change_path(product_id)
+        self.product.change_path(VK_ERROR_PRODUCT)
         self.product.open()
 
         self.product.info_card.click_phone()
