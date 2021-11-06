@@ -6,32 +6,35 @@ from pages import SellerProductsPage, ProductPage
 class SellerProductsTest(Test):
     def setUp(self):
         super().setUp()
-        self.seller_products = SellerProductsPage(driver=self.driver)
-        self.seller_products.open()
+        self.seller_products_page = SellerProductsPage(driver=self.driver)
+        self.seller_products_page.open()
 
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
-        product = ProductPage(driver=self.driver)
+        product_page = ProductPage(driver=self.driver)
 
-        product_id = self.seller_products.product_card.click_product()
+        product_id = self.seller_products_page.product_card.get_product_id()
+        self.seller_products_page.product_card.click_product(product_id)
 
         url = self.driver.current_url
-        product.change_path(product_id)
-        self.assertTrue(product.is_compare_url(url), "Не открылась страница товара")
+        product_page.change_path(product_id)
+        self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
     def testLikeProduct(self):
         """
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        self.seller_products.product_card.like_product()
-        self.assertTrue(self.seller_products.login.is_opened(), "Не открылась авторизация")
-        self.seller_products.login.click_close()
+        product_id = self.seller_products_page.product_card.get_product_id()
 
-        self.seller_products.login.auth()
+        self.seller_products_page.product_card.click_like_product(product_id)
+        self.assertTrue(self.seller_products_page.login.is_opened(), "Не открылась авторизация")
+        self.seller_products_page.login.click_close()
 
-        index = self.seller_products.product_card.like_product()
-        self.assertTrue(self.seller_products.product_card.check_like_product(), "Не удалось поставить лайк")
+        self.seller_products_page.login.auth()
 
-        self.seller_products.product_card.remove_like_product(index)
-        self.assertFalse(self.seller_products.product_card.check_remove_like_product(index), "Не удалось убрать лайк")
+        self.seller_products_page.product_card.click_like_product(product_id)
+        self.assertTrue(self.seller_products_page.product_card.is_product_liked(product_id), "Не удалось поставить лайк")
+
+        self.seller_products_page.product_card.click_like_product(product_id)
+        self.assertFalse(self.seller_products_page.product_card.is_product_liked(product_id), "Не удалось убрать лайк")

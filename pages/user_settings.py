@@ -1,5 +1,5 @@
 from helpers import Page, Component
-from components import Login, SideBar
+from components import Login, UserSideBar
 
 
 class UserThemeForm(Component):
@@ -16,10 +16,10 @@ class UserThemeForm(Component):
             return "dark"
 
     def change_theme_light(self):
-        self.helpers.click_button(self.THEME_LIGHT)
+        self.helpers.click_element(self.THEME_LIGHT)
 
     def change_theme_dark(self):
-        self.helpers.click_button(self.THEME_DARK)
+        self.helpers.click_element(self.THEME_DARK)
 
 
 class UserChangePasswordForm(Component):
@@ -64,10 +64,10 @@ class UserChangePasswordForm(Component):
         return self.helpers.get_element(self.PWD_CHANGE_ERROR).text
 
     def enter_pwd_submit(self):
-        self.helpers.click_button(self.PASSWORD_SUBMIT)
+        self.helpers.click_element(self.PASSWORD_SUBMIT)
 
     def enter_pwd_reset(self):
-        self.helpers.click_button(self.PASSWORD_RESET)
+        self.helpers.click_element(self.PASSWORD_RESET)
 
 
 class UserSettingsForm(Component):
@@ -125,14 +125,14 @@ class UserSettingsForm(Component):
         return self.helpers.get_element(self.INFO_CHANGE_ERROR).text
 
     def enter_info_submit(self):
-        self.helpers.click_button(self.INFO_SUBMIT)
+        self.helpers.click_element(self.INFO_SUBMIT)
 
     def enter_info_edit(self):
-        self.helpers.click_button(self.INFO_EDIT)
+        self.helpers.click_element(self.INFO_EDIT)
         
         
 class UserSettingsPage(Page):
-    PATH = "user/profile"
+    PATH = "/user/profile"
 
     @property
     def login(self):
@@ -140,7 +140,7 @@ class UserSettingsPage(Page):
 
     @property
     def side_bar(self):
-        return SideBar(self.driver)
+        return UserSideBar(self.driver)
 
     @property
     def form(self):

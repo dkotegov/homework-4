@@ -2,7 +2,7 @@ from helpers.helpers import Helpers
 
 
 class Page(object):
-    BASE_URL = "https://ykoya.ru/"
+    BASE_URL = "https://ykoya.ru"
     PATH = ""
 
     def __init__(self, driver):

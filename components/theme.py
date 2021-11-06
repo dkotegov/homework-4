@@ -14,4 +14,4 @@ class Theme(Component):
             return "dark"
 
     def change_theme(self):
-        self.helpers.click_button(self.THEME)
+        self.helpers.click_element(self.THEME)

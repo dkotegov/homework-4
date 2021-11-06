@@ -7,96 +7,83 @@ from pages import MainPage, SearchPage, RegistrationPage, CreateProductPage, Use
 class FooterTest(Test):
     def setUp(self):
         super().setUp()
-        self.main = MainPage(driver=self.driver)
-        self.main.open()
-
-    def testClickLogo(self):
-        """Проверка, что при нажатии на логотип открывается главная страница"""
-        main = MainPage(driver=self.driver)
-
-        self.main.footer.click_logo()
-
-        url = self.driver.current_url
-        self.assertTrue(main.is_compare_url(url), "Не открылась главная страница")
+        self.main_page = MainPage(driver=self.driver)
+        self.main_page.open()
 
     def testClickCreate(self):
         """Проверка, что при нажатии на кнопку "Разместить объявление" открывается страница создания товара"""
-        create_product = CreateProductPage(driver=self.driver)
+        create_product_page = CreateProductPage(driver=self.driver)
 
-        self.main.footer.click_create()
-        self.assertTrue(self.main.login.is_opened(), "Не открылась авторизация")
-        self.main.login.click_close()
+        self.main_page.footer.click_create()
+        self.assertTrue(self.main_page.login.is_opened(), "Не открылась авторизация")
+        self.main_page.login.click_close()
 
-        self.main.login.auth()
-
-        self.main.footer.click_create()
+        self.main_page.login.auth()
+        self.main_page.footer.click_create()
 
         url = self.driver.current_url
-        self.assertTrue(create_product.is_compare_url(url), "Не открылась страница создания товара")
+        self.assertTrue(create_product_page.is_compare_url(url), "Не открылась страница создания товара")
 
     def testClickSearch(self):
         """Проверка, что при нажатии на кнопку "Поиск" открывается страница поиска"""
-        search = SearchPage(driver=self.driver)
+        search_page = SearchPage(driver=self.driver)
 
-        self.main.footer.click_search()
+        self.main_page.footer.click_search()
 
         url = self.driver.current_url
-        self.assertTrue(search.is_compare_url(url), "Не открылась страница поиска")
+        self.assertTrue(search_page.is_compare_url(url), "Не открылась страница поиска")
 
     def testClickSettings(self):
         """Проверка, что при нажатии на кнопку "Настройки" открывается страница настроек"""
-        settings = UserSettingsPage(driver=self.driver)
+        settings_page = UserSettingsPage(driver=self.driver)
 
-        self.main.login.auth()
-
-        self.main.footer.click_settings()
+        self.main_page.login.auth()
+        self.main_page.footer.click_settings()
 
         url = self.driver.current_url
-        self.assertTrue(settings.is_compare_url(url), "Не открылась страница настроек")
+        self.assertTrue(settings_page.is_compare_url(url), "Не открылась страница настроек")
 
-    def testClickAd(self):
+    def testClickProducts(self):
         """Проверка, что при нажатии на кнопку "Мои объявления" открывается страница моих объявлений"""
-        ad = UserProductsPage(driver=self.driver)
+        user_products_page = UserProductsPage(driver=self.driver)
 
-        self.main.login.auth()
-
-        self.main.footer.click_ad()
+        self.main_page.login.auth()
+        self.main_page.footer.click_products()
 
         url = self.driver.current_url
-        self.assertTrue(ad.is_compare_url(url), "Не открылась страница моих объявлений")
+        self.assertTrue(user_products_page.is_compare_url(url), "Не открылась страница моих объявлений")
 
-    def testClickChats(self):
+    def testClickMessages(self):
         """Проверка, что при нажатии на кнопку "Мои сообщения" открывается страница чатов"""
-        chats = UserMessagesPage(driver=self.driver)
+        messages_page = UserMessagesPage(driver=self.driver)
 
-        self.main.login.auth()
-
-        self.main.footer.click_chats()
+        self.main_page.login.auth()
+        self.main_page.footer.click_messages()
 
         url = self.driver.current_url
-        self.assertTrue(chats.is_compare_url(url), "Не открылась страница чатов")
+        self.assertTrue(messages_page.is_compare_url(url), "Не открылась страница чатов")
 
     def testClickFavorite(self):
         """Проверка, что при нажатии на кнопку "Избранное" открывается страница избранных товаров"""
-        favorites = UserFavoritesPage(driver=self.driver)
+        favorites_page = UserFavoritesPage(driver=self.driver)
 
-        self.main.login.auth()
-
-        self.main.footer.click_favorites()
+        self.main_page.login.auth()
+        self.main_page.footer.click_favorites()
 
         url = self.driver.current_url
-        self.assertTrue(favorites.is_compare_url(url), "Не открылась страница избранных товаров")
+        self.assertTrue(favorites_page.is_compare_url(url), "Не открылась страница избранных товаров")
 
     def testClickRegistration(self):
         """Проверка, что при нажатии на кнопку "Регистрация" открывается страница регистрации"""
-        registration = RegistrationPage(driver=self.driver)
+        registration_page = RegistrationPage(driver=self.driver)
 
-        self.main.footer.click_registration()
+        self.main_page.footer.click_registration()
 
         url = self.driver.current_url
-        self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")
+        self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
     def testClickAuth(self):
         """Проверка, что при нажатии на кнопку "Авторизация" открывается попап авторизации"""
-        self.main.footer.click_auth()
-        self.assertTrue(self.main.login.is_opened(), "Не открылась авторизация")
+        self.main_page.footer.click_auth()
+
+        self.assertTrue(self.main_page.login.is_opened(), "Не открылась авторизация")

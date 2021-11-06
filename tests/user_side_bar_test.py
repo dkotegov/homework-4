@@ -9,75 +9,77 @@ from pages import ReviewsPage, UserAwaitReviewsPage, AchievementsPage, UserSetti
 class UserSideBarTest(Test):
     def setUp(self):
         super().setUp()
-        self.main_page = MainPage(driver=self.driver)
-        self.main_page.open()
-        self.main_page.login.auth()
-        self.settings = UserSettingsPage(driver=self.driver)
-        self.settings.open()
+        self.settings_page = UserSettingsPage(driver=self.driver)
+        main_page = MainPage(driver=self.driver)
+
+        main_page.open()
+        main_page.login.auth()
+        self.settings_page.open()
 
     def testClickSettings(self):
         """Кнопка “Настройки” в боковом меню. Переход на страницу Настройки при нажатии"""
-        settings = UserSettingsPage(driver=self.driver)
+        products_page = UserProductsPage(driver=self.driver)
 
-        self.settings.side_bar.click_my_settings()
+        products_page.open()
+        products_page.side_bar.click_settings()
 
         url = self.driver.current_url
-        self.assertTrue(settings.is_compare_url(url), "Не открылась страница настройки")
+        self.assertTrue(self.settings_page.is_compare_url(url), "Не открылась страница настройки")
 
     def testClickMyProducts(self):
         """Кнопка “Мои объявления” в боковом меню. Переход на страницу Мои объявления при нажатии"""
-        products = UserProductsPage(driver=self.driver)
+        user_products_page = UserProductsPage(driver=self.driver)
 
-        self.settings.side_bar.click_my_products()
+        self.settings_page.side_bar.click_products()
 
         url = self.driver.current_url
-        self.assertTrue(products.is_compare_url(url), "Не открылась страница объявлений")
+        self.assertTrue(user_products_page.is_compare_url(url), "Не открылась страница объявлений")
 
     def testClickMessages(self):
         """Кнопка “Мои сообщения” в боковом меню. Переход на страницу Мои сообщения при нажатии"""
-        messages = UserMessagesPage(driver=self.driver)
+        messages_page = UserMessagesPage(driver=self.driver)
 
-        self.settings.side_bar.click_my_messages()
+        self.settings_page.side_bar.click_messages()
 
         url = self.driver.current_url
-        self.assertTrue(messages.is_compare_url(url), "Не открылась страница сообщений")
+        self.assertTrue(messages_page.is_compare_url(url), "Не открылась страница сообщений")
 
     def testClickFavorites(self):
         """Кнопка “Избранное” в боковом меню. Переход на страницу Избранное при нажатии"""
-        favorites = UserFavoritesPage(driver=self.driver)
+        favorites_page = UserFavoritesPage(driver=self.driver)
 
-        self.settings.side_bar.click_my_favorites()
+        self.settings_page.side_bar.click_favorites()
 
         url = self.driver.current_url
-        self.assertTrue(favorites.is_compare_url(url), "Не открылась страница избранного")
+        self.assertTrue(favorites_page.is_compare_url(url), "Не открылась страница избранного")
 
     def testClickAchievements(self):
         """Кнопка “Достижения” в боковом меню. Переход на страницу Достижения при нажатии"""
-        achievements = AchievementsPage(driver=self.driver)
+        achievements_page = AchievementsPage(driver=self.driver)
         user_id = os.environ.get("USER_ID")
 
-        self.settings.side_bar.click_achievements()
+        self.settings_page.side_bar.click_achievements()
 
         url = self.driver.current_url
-        achievements.change_path(user_id)
-        self.assertTrue(achievements.is_compare_url(url), "Не открылась страница достижений")
+        achievements_page.change_path(user_id)
+        self.assertTrue(achievements_page.is_compare_url(url), "Не открылась страница достижений")
 
     def testClickReviews(self):
         """Кнопка “Отзывы” в боковом меню. Переход на страницу Отзывы при нажатии"""
-        reviews = ReviewsPage(driver=self.driver)
+        reviews_page = ReviewsPage(driver=self.driver)
         user_id = os.environ.get("USER_ID")
 
-        self.settings.side_bar.click_reviews()
+        self.settings_page.side_bar.click_reviews()
 
         url = self.driver.current_url
-        reviews.change_path(user_id)
-        self.assertTrue(reviews.is_compare_url(url), "Не открылась страница отзывов")
+        reviews_page.change_path(user_id)
+        self.assertTrue(reviews_page.is_compare_url(url), "Не открылась страница отзывов")
 
     def testClickAwaitReviews(self):
         """Кнопка “Ожидает отзывы” в боковом меню. Переход на страницу ожидает отзывы при нажатии"""
-        reviews = UserAwaitReviewsPage(driver=self.driver)
+        await_review_page = UserAwaitReviewsPage(driver=self.driver)
 
-        self.settings.side_bar.click_my_review_awaits()
+        self.settings_page.side_bar.click_review_awaits()
 
         url = self.driver.current_url
-        self.assertTrue(reviews.is_compare_url(url), "Не открылась страница ожидающих отзывов")
+        self.assertTrue(await_review_page.is_compare_url(url), "Не открылась страница ожидающих отзывов")

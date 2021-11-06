@@ -3,7 +3,7 @@ import time
 from selenium.webdriver.support.select import Select
 
 from helpers import Page, Component
-from components import Login, ProductCard
+from components import Login, ProductCard, Header, Footer
 
 
 class SearchProducts(ProductCard):
@@ -50,9 +50,24 @@ class SearchSettings(Component):
 
 
 class SearchPage(Page):
-    PATH = "search"
+    PATH = "/search"
 
     SORT = ".search-items__sort"
+
+    def change_path(self, path):
+        self.PATH = "/search/" + path
+
+    @property
+    def header(self):
+        return Header(self.driver)
+
+    @property
+    def footer(self):
+        return Footer(self.driver)
+
+    @property
+    def login(self):
+        return Login(self.driver)
 
     @property
     def search_products(self):
@@ -61,13 +76,6 @@ class SearchPage(Page):
     @property
     def search_settings(self):
         return SearchSettings(self.driver)
-
-    @property
-    def login(self):
-        return Login(self.driver)
-
-    def change_path(self, path):
-        self.PATH = "search/" + path
 
     def change_sort_name(self):
         self.search_products.save_products_amount()

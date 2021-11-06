@@ -8,24 +8,30 @@ from helpers import Component
 
 class Login(Component):
     OUTSIDE = ".auth"
+
     POPUP = ".auth-content"
-    TITLE = ".auth-content-inner__title"
-    LOGIN = ".auth-content-form__tel"
-    PASSWORD = ".auth-content-form__password"
-    SUBMIT = ".auth-content-form__button"
-    REGISTRATION_BUTTON = ".auth-content-form-registration__link"
     CLOSE_BUTTON = ".auth-content-inner__close"
+    TELEPHONE_INPUT = ".auth-content-form__tel"
+    PASSWORD_INPUT = ".auth-content-form__password"
+    SUBMIT_BUTTON = ".auth-content-form__button"
+    REGISTRATION_BUTTON = ".auth-content-form-registration__link"
 
     LOGIN_BUTTON = ".header-right__account"
     LOGINED = ".header-right-avatar__img"
-    LOGOUT = "[data-action = \"logoutClick\"]"
+    LOGOUT_BUTTON = "[data-action = \"logoutClick\"]"
     AUTH_ERROR = "#auth-error"
 
+    def open_auth(self):
+        self.helpers.click_element(self.LOGIN_BUTTON)
+
+    def is_opened(self):
+        return self.helpers.is_contains(self.POPUP)
+
     def click_registration(self):
-        self.helpers.click_button(self.REGISTRATION_BUTTON)
+        self.helpers.click_element(self.REGISTRATION_BUTTON)
 
     def click_close(self):
-        self.helpers.click_button(self.CLOSE_BUTTON)
+        self.helpers.click_element(self.CLOSE_BUTTON)
 
     def click_outside(self):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.OUTSIDE)))
@@ -35,30 +41,32 @@ class Login(Component):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
         return self.helpers.is_contains(self.LOGINED)
 
-    def is_error(self):
+    def input_telephone_value(self, text):
+        self.helpers.input_value(self.TELEPHONE_INPUT, text)
+
+    def clear_telephone_value(self):
+        self.helpers.clear_input(self.TELEPHONE_INPUT)
+
+    def is_error_telephone(self):
+        element = self.helpers.get_element(self.TELEPHONE_INPUT)
+        return element.get_attribute("validationMessage") is not None
+
+    def input_password_value(self, text):
+        self.helpers.input_value(self.PASSWORD_INPUT, text)
+
+    def clear_password_value(self):
+        self.helpers.clear_input(self.PASSWORD_INPUT)
+
+    def is_error_password(self):
+        element = self.helpers.get_element(self.PASSWORD_INPUT)
+        return element.get_attribute("validationMessage") is not None
+
+    def is_error_form(self):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.AUTH_ERROR)))
         return self.helpers.is_contains(self.AUTH_ERROR)
 
-    def open_auth(self):
-        self.helpers.click_button(self.LOGIN_BUTTON)
-
-    def is_opened(self):
-        return self.helpers.is_contains(self.POPUP)
-
-    def input_telephone_value(self, text):
-        self.helpers.input_value(self.LOGIN, text)
-
-    def clear_telephone_value(self):
-        self.helpers.clear_input(self.LOGIN)
-
-    def input_password_value(self, text):
-        self.helpers.input_value(self.PASSWORD, text)
-
-    def clear_password_value(self):
-        self.helpers.clear_input(self.PASSWORD)
-
     def enter_submit(self):
-        self.helpers.click_button(self.SUBMIT)
+        self.helpers.click_element(self.SUBMIT_BUTTON)
 
     def auth(self):
         login = os.environ.get("LOGIN")
@@ -74,7 +82,7 @@ class Login(Component):
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGINED)))
 
     def logout(self):
-        self.helpers.click_button(self.LOGINED)
-        self.helpers.click_button(self.LOGOUT)
+        self.helpers.click_element(self.LOGINED)
+        self.helpers.click_element(self.LOGOUT_BUTTON)
 
         self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.LOGIN_BUTTON)))

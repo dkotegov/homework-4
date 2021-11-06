@@ -10,7 +10,7 @@ class Search(Component):
     CATEGORY = ".search-category__title"
 
     def click_search(self):
-        self.helpers.click_button(self.SEARCH)
+        self.helpers.click_element(self.SEARCH)
 
     def input_search_value(self, text):
         self.helpers.input_value(self.SEARCH_INPUT, text)
@@ -27,7 +27,7 @@ class Search(Component):
 
 
 class MainPage(Page):
-    PATH = ""
+    PATH = "/"
 
     @property
     def header(self):
