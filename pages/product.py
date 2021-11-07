@@ -8,7 +8,7 @@ from components import Login
 class Photos(Component):
     PREVIEW = ".slider-preview__picture"
     SLIDER_IMG = ".slider-carousel img"
-    SLIDER_SELECTED_IMG = '.slider-carousel img[style = \'padding-top: 1vh; padding-bottom: 1vh; opacity: 1;\']'
+    SLIDER_SELECTED_IMG = ".slider-carousel img[style = \'padding-top: 1vh; padding-bottom: 1vh; opacity: 1;\']"
 
     def selected_img_src_from_slider(self):
         return self.helpers.get_element(self.SLIDER_SELECTED_IMG).get_attribute("src")
@@ -18,7 +18,8 @@ class Photos(Component):
 
     def click_different_preview(self):
         images = self.helpers.get_elements(self.SLIDER_IMG)
-        images[randrange(len(images))].click()
+        if len(images) != 1:
+            images[randrange(1, len(images))].click()
 
 
 class InfoCard(Component):

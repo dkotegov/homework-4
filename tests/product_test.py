@@ -8,69 +8,77 @@ class ProductTest(Test):
     def setUp(self):
         super().setUp()
         self.product = ProductPage(driver=self.driver)
+        self.seller_products_page = SellerProductsPage(driver=self.driver)
         self.product.open()
 
-    def testFirstImgSrcEqualPreview(self):
+    def testFirstImgEqualPreview(self):
         """Проверить, что при открытии страницы первая картинка слайдера совпадает с превью товара"""
+        slider_image = self.product.photos.selected_img_src_from_slider()
+        preview_img = self.product.photos.preview_img_src()
         self.assertEqual(
-            self.product.photos.selected_img_src_from_slider(),
-            self.product.photos.preview_img_src(),
+            slider_image,
+            preview_img,
             "Первая картинка слайдера не совпадает с превью товара")
 
     def testChangePreview(self):
         """Проверить, что по нажатию на картинку из слайдера изменяется превью товара"""
         self.product.photos.click_different_preview()
+        slider_image = self.product.photos.selected_img_src_from_slider()
+        preview_img = self.product.photos.preview_img_src()
         self.assertEqual(
-            self.product.photos.selected_img_src_from_slider(),
-            self.product.photos.preview_img_src(),
+            slider_image,
+            preview_img,
             "Выбранная картинка слайдера не совпадает с превью товара")
 
-    def testOpenAllItemsBySellerName(self):
+    def testRedirectToAdsByClickSellerName(self):
         """Успешный редирект на страницу всех объявлений при нажатии на имя"""
-        seller_products = SellerProductsPage(driver=self.driver)
 
         self.product.info_card.click_on_seller_name()
 
-        url = self.driver.current_url
-        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
+        url = ""
+        if self.seller_products_page.page_exist():
+            url = self.driver.current_url
+        self.assertTrue(self.seller_products_page.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
-    def testOpenAllItemsBySellerImg(self):
+    def testRedirectToAdsByClickSellerImg(self):
         """Успешный редирект на страницу всех объявлений при нажатии на фото"""
-        seller_products = SellerProductsPage(driver=self.driver)
 
         self.product.info_card.click_on_seller_img()
 
-        url = self.driver.current_url
-        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
+        url = ""
+        if self.seller_products_page.page_exist():
+            url = self.driver.current_url
+        self.assertTrue(self.seller_products_page.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
-    def testOpenAllItemsBySellerRate(self):
+    def testRedirectToAdsByClickSellerRate(self):
         """Успешный редирект на страницу всех объявлений при нажатии на оценку"""
-        seller_products = SellerProductsPage(driver=self.driver)
 
         self.product.info_card.click_on_seller_rate()
 
-        url = self.driver.current_url
-        self.assertTrue(seller_products.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
+        url = ""
+        if self.seller_products_page.page_exist():
+            url = self.driver.current_url
+        self.assertTrue(self.seller_products_page.is_compare_url(url), "Ошибка редиректа на страницу всех объявлений")
 
     def testFailToShowPhoneNotAuth(self):
         """Для неавторизованного пользователя: Ошибка доступа к телефону при нажатии на кнопку "Показать номер\""""
         self.product.info_card.click_phone()
         self.assertTrue(self.product.login.is_opened(), "Не появляется панель логина")
 
-    def tesToShowPhoneAuth(self):
+    def testToShowPhoneAuth(self):
         """Проверить изменение текста на кнопке "Показать номер" на номер телефона при нажатии на кнопку "Показать
         номер" у автора с действительным номером телефона """
-        tel_regex = r"((?:\+\d{2}[-\.\s]??|\d{4}[-\.\s]??)?(?:\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[" \
-                    r"-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})) "
+        tel_expected = "+71234567890"
 
         self.product.login.auth()
 
         self.product.open()
 
         self.product.info_card.click_phone()
-        self.assertRegex(
-            self.product.info_card.get_phone(),
-            tel_regex,
+        tel_current = self.product.info_card.get_phone()
+        self.assertEqual(
+            tel_current,
+            tel_expected,
             "Появился не номер телефона")
 
     def testFailToShowPhoneAuthVK(self):
@@ -87,12 +95,12 @@ class ProductTest(Test):
             "Нет телефона",
             "Появилась не надпись \"Нет телефона\"")
 
-    def testFailToRedirectMasNotAuth(self):
+    def testFailToChatNotAuth(self):
         """Для неавторизованного пользователя: Ошибка доступа к переписке при нажатии на кнопку "Написать сообщение\""""
         self.product.info_card.click_message()
         self.assertTrue(self.product.login.is_opened(), "Не появляется панель логина")
 
-    def testToRedirectMasAuth(self):
+    def testRedirectToMsgByClickWriteMsgBtn(self):
         """Успешный редирект на страницу переписки при нажатии на кнопку \"Написать сообщение\""""
         message = UserMessagesPage(driver=self.driver)
 
@@ -115,5 +123,7 @@ class ProductTest(Test):
         edit_page.change_path(product_id)
         self.product.info_card.click_edit()
 
-        url = self.driver.current_url
+        url = ""
+        if edit_page.page_exist():
+            url = self.driver.current_url
         self.assertTrue(edit_page.is_compare_url(url), "Ошибка редиректа на страницу редактирования")
