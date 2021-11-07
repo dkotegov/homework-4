@@ -54,6 +54,11 @@ class SearchPage(Page):
 
     SORT = ".search-items__sort"
 
+    PAGE = ".search-filter"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
+
     def change_path(self, path):
         self.PATH = "/search/" + path
 

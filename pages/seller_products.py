@@ -6,6 +6,11 @@ from components import ProductCard, Login, SellerSideBar
 class SellerProductsPage(Page):
     PATH = "/user/{}/ad".format(SELLER_USER)
 
+    PAGE = ".product-table"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
+
     def change_path(self, path):
         self.PATH = "/user/" + path + "/ad"
 

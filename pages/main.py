@@ -29,6 +29,11 @@ class Search(Component):
 class MainPage(Page):
     PATH = "/"
 
+    PAGE = ".search"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
+
     @property
     def header(self):
         return Header(self.driver)

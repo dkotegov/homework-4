@@ -22,6 +22,14 @@ class Helpers:
             who = self.driver
         return WebDriverWait(who, timeout, step).until(until)
 
+    def __get_selenium_by__(self, by):
+        if by == SELECTOR.CSS:
+            return By.CSS_SELECTOR
+        elif by == SELECTOR.XPATH:
+            return By.XPATH
+
+        raise Exception("wrong by")
+
     def __find_element__(self, selector, by, wait):
         if wait:
             self.wait(until=EC.presence_of_element_located((by, selector)))
@@ -33,22 +41,13 @@ class Helpers:
         return self.driver.find_elements(by, selector)
 
     def get_element(self, selector, by=SELECTOR.CSS, wait=True):
-        if by == SELECTOR.CSS:
-            return self.__find_element__(selector, By.CSS_SELECTOR, wait)
-        elif by == SELECTOR.XPATH:
-            return self.__find_element__(selector, By.XPATH, wait)
-
-        raise Exception("wrong by")
+        return self.__find_element__(selector, self.__get_selenium_by__(by), wait)
 
     def get_elements(self, selector, by=SELECTOR.CSS, wait=True):
-        if by == SELECTOR.CSS:
-            return self.__find_elements__(selector, By.CSS_SELECTOR, wait)
-        elif by == SELECTOR.XPATH:
-            return self.__find_elements__(selector, By.XPATH, wait)
-
-        raise Exception("wrong by")
+        return self.__find_elements__(selector, self.__get_selenium_by__(by), wait)
 
     def click_element(self, selector, by=SELECTOR.CSS):
+        self.wait(until=EC.element_to_be_clickable((self.__get_selenium_by__(by), selector)))
         element = self.get_element(selector, by)
         element.click()
 

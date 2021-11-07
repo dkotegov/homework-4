@@ -71,6 +71,11 @@ class ReviewBlock(Component):
 class ReviewsPage(Page):
     PATH = "/user/{}/reviews".format(TEST_USER)
 
+    PAGE = ".reviews"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
+
     def change_path(self, path):
         self.PATH = "/user/" + path + "/reviews"
 

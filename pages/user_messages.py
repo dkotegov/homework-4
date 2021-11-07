@@ -61,13 +61,16 @@ class ChatsBlock(Component):
 class UserMessagesPage(Page):
     PATH = "/user/chats"
 
-    TITLE = ".chat-message-head-info-user__name"
+    PAGE = ".chats"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
 
     def change_path(self, path):
         self.PATH = "/user/chat/" + path
 
     def page_exist(self):
-        return self.helpers.get_element(self.TITLE) is not None
+        return self.helpers.get_element(self.PAGE) is not None
 
     @property
     def login(self):

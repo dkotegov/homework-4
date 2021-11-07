@@ -60,6 +60,11 @@ class PromotionForm(Component):
 
 class PromotionPage(Page):
     PATH = "/promotion"
+
+    PAGE = ".promotion"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
     
     @property
     def form(self):

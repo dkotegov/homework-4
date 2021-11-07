@@ -30,13 +30,14 @@ class HeaderTest(Test):
         url = self.driver.current_url
         self.assertTrue(search_page.is_compare_url(url), "Не открылась страница поиска")
 
+    def testClickCreateNotAuth(self):
+        """Проверка, что при нажатии на кнопку "Разместить объявление" открывается авторизация, без авторизации"""
+        self.main_page.footer.click_create()
+        self.assertTrue(self.main_page.login.is_opened(), "Не открылась авторизация")
+
     def testClickCreate(self):
         """Проверка, что при нажатии на кнопку "Разместить объявление" открывается страница создания товара"""
         create_product_page = CreateProductPage(driver=self.driver)
-
-        self.main_page.header.click_create()
-        self.assertTrue(self.main_page.login.is_opened(), "Не открылась авторизация")
-        self.main_page.login.click_close()
 
         self.main_page.login.auth()
         self.main_page.header.click_create()
@@ -49,7 +50,6 @@ class HeaderTest(Test):
         settings_page = UserSettingsPage(driver=self.driver)
 
         self.main_page.login.auth()
-
         self.main_page.header.click_dropdown()
         self.main_page.header.click_settings()
 
@@ -61,7 +61,6 @@ class HeaderTest(Test):
         user_products_page = UserProductsPage(driver=self.driver)
 
         self.main_page.login.auth()
-
         self.main_page.header.click_dropdown()
         self.main_page.header.click_products()
 
@@ -73,7 +72,6 @@ class HeaderTest(Test):
         messages_page = UserMessagesPage(driver=self.driver)
 
         self.main_page.login.auth()
-
         self.main_page.header.click_dropdown()
         self.main_page.header.click_messages()
 
@@ -85,7 +83,6 @@ class HeaderTest(Test):
         favorites_page = UserFavoritesPage(driver=self.driver)
 
         self.main_page.login.auth()
-
         self.main_page.header.click_dropdown()
         self.main_page.header.click_favorites()
 
@@ -97,7 +94,6 @@ class HeaderTest(Test):
         achievements_page = AchievementsPage(driver=self.driver)
 
         self.main_page.login.auth()
-
         self.main_page.header.click_dropdown()
         self.main_page.header.click_achievements()
 
@@ -110,7 +106,6 @@ class HeaderTest(Test):
         reviews_page = ReviewsPage(driver=self.driver)
 
         self.main_page.login.auth()
-
         self.main_page.header.click_dropdown()
         self.main_page.header.click_reviews()
 

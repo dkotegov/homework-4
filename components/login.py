@@ -42,20 +42,16 @@ class Login(Component):
         return self.helpers.is_contains(self.LOGINED)
 
     def input_telephone_value(self, text):
-        self.helpers.input_value(self.TELEPHONE_INPUT, text)
-
-    def clear_telephone_value(self):
         self.helpers.clear_input(self.TELEPHONE_INPUT)
+        self.helpers.input_value(self.TELEPHONE_INPUT, text)
 
     def is_error_telephone(self):
         element = self.helpers.get_element(self.TELEPHONE_INPUT)
         return element.get_attribute("validationMessage") is not None
 
     def input_password_value(self, text):
-        self.helpers.input_value(self.PASSWORD_INPUT, text)
-
-    def clear_password_value(self):
         self.helpers.clear_input(self.PASSWORD_INPUT)
+        self.helpers.input_value(self.PASSWORD_INPUT, text)
 
     def is_error_password(self):
         element = self.helpers.get_element(self.PASSWORD_INPUT)

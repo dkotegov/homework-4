@@ -19,7 +19,7 @@ class UserAwaitReviewsTest(Test):
         """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
         registration = RegistrationPage(driver=self.driver)
 
-        self.await_reviews_page.open()
+        self.await_reviews_page.open(wait=False)
 
         url = self.driver.current_url
         self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")

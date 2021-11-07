@@ -7,17 +7,19 @@ class UserFavoritesTest(Test):
     def setUp(self):
         super().setUp()
         self.favorites_page = UserFavoritesPage(driver=self.driver)
-        self.main_page = MainPage(self.driver)
 
     def __auth__(self):
-        self.main_page.open()
-        self.main_page.login.auth()
+        main_page = MainPage(self.driver)
+
+        main_page.open()
+        main_page.login.auth()
+        self.favorites_page.open()
 
     def testRedirectToRegistrationPage(self):
         """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
         registration_page = RegistrationPage(driver=self.driver)
 
-        self.favorites_page.open()
+        self.favorites_page.open(wait=False)
 
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
@@ -27,7 +29,6 @@ class UserFavoritesTest(Test):
         registration_page = RegistrationPage(driver=self.driver)
 
         self.__auth__()
-        self.favorites_page.open()
         self.favorites_page.login.logout()
 
         url = self.driver.current_url
@@ -38,7 +39,6 @@ class UserFavoritesTest(Test):
         product_page = ProductPage(driver=self.driver)
 
         self.__auth__()
-        self.favorites_page.open()
 
         product_id = self.favorites_page.product_card.get_product_id()
         self.favorites_page.product_card.click_product(product_id)
@@ -48,9 +48,11 @@ class UserFavoritesTest(Test):
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
     def __add_favorite_product__(self):
-        self.main_page.open()
-        product_id = self.main_page.product_card.get_product_id()
-        self.main_page.product_card.click_like_product(product_id)
+        main_page = MainPage(self.driver)
+
+        main_page.open()
+        product_id = main_page.product_card.get_product_id()
+        main_page.product_card.click_like_product(product_id)
         return product_id
 
     def testFavoriteProductDelete(self):

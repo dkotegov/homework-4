@@ -25,6 +25,11 @@ class AwaitReviewBlock(Component):
 class UserAwaitReviewsPage(Page):
     PATH = "/user/review/await"
 
+    PAGE = ".await-review-list"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
+
     @property
     def login(self):
         return Login(self.driver)
