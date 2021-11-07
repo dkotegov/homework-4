@@ -22,6 +22,7 @@ class UserSideBarTest(Test):
         products_page.open()
         products_page.side_bar.click_settings()
 
+        self.settings_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(self.settings_page.is_compare_url(url), "Не открылась страница настройки")
 
@@ -31,6 +32,7 @@ class UserSideBarTest(Test):
 
         self.settings_page.side_bar.click_products()
 
+        user_products_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(user_products_page.is_compare_url(url), "Не открылась страница объявлений")
 
@@ -40,6 +42,7 @@ class UserSideBarTest(Test):
 
         self.settings_page.side_bar.click_messages()
 
+        messages_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(messages_page.is_compare_url(url), "Не открылась страница сообщений")
 
@@ -49,6 +52,7 @@ class UserSideBarTest(Test):
 
         self.settings_page.side_bar.click_favorites()
 
+        favorites_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(favorites_page.is_compare_url(url), "Не открылась страница избранного")
 
@@ -58,6 +62,7 @@ class UserSideBarTest(Test):
 
         self.settings_page.side_bar.click_achievements()
 
+        achievements_page.wait_page()
         url = self.driver.current_url
         achievements_page.change_path(TEST_USER)
         self.assertTrue(achievements_page.is_compare_url(url), "Не открылась страница достижений")
@@ -68,6 +73,7 @@ class UserSideBarTest(Test):
 
         self.settings_page.side_bar.click_reviews()
 
+        reviews_page.wait_page()
         url = self.driver.current_url
         reviews_page.change_path(TEST_USER)
         self.assertTrue(reviews_page.is_compare_url(url), "Не открылась страница отзывов")
@@ -78,5 +84,6 @@ class UserSideBarTest(Test):
 
         self.settings_page.side_bar.click_review_awaits()
 
+        await_review_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(await_review_page.is_compare_url(url), "Не открылась страница ожидающих отзывов")

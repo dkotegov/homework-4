@@ -9,20 +9,21 @@ class UserAwaitReviewsTest(Test):
         self.await_reviews_page = UserAwaitReviewsPage(driver=self.driver)
 
     def __auth__(self):
-        main = MainPage(driver=self.driver)
+        main_page = MainPage(driver=self.driver)
 
-        main.open()
-        main.login.auth()
+        main_page.open()
+        main_page.login.auth()
         self.await_reviews_page.open()
 
     def testRedirectToRegistrationPage(self):
         """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
-        registration = RegistrationPage(driver=self.driver)
+        registration_page = RegistrationPage(driver=self.driver)
 
         self.await_reviews_page.open(wait=False)
 
+        registration_page.wait_page()
         url = self.driver.current_url
-        self.assertTrue(registration.is_compare_url(url), "Не открылась страница регистрации")
+        self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
     def testRedirectToRegistrationPageLogOut(self):
         """Открытие страницы регистрации при после выхода из профиля"""
@@ -31,13 +32,13 @@ class UserAwaitReviewsTest(Test):
         self.__auth__()
         self.await_reviews_page.login.logout()
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
     def testClosePopupCorrect(self):
         """Попап для отзыва. Возможность оставить отзыв не пропадет при закрытии попапа"""
         self.__auth__()
-
         card_id = self.await_reviews_page.await_review_block.get_card_id()
 
         self.await_reviews_page.await_review_block.click_card(card_id)
@@ -48,7 +49,6 @@ class UserAwaitReviewsTest(Test):
     def testSkipButton(self):
         """Попап для отзывов. Закрытие попапа при нажатии кнопки “Пропустить”"""
         self.__auth__()
-
         card_id = self.await_reviews_page.await_review_block.get_card_id()
 
         self.await_reviews_page.await_review_block.click_card(card_id)
@@ -59,7 +59,6 @@ class UserAwaitReviewsTest(Test):
     def testRateWithoutRating(self):
         """Попап для отзыва. Ошибка, если не поставить оценку и нажать кнопку “Оценить”"""
         self.__auth__()
-
         card_id = self.await_reviews_page.await_review_block.get_card_id()
 
         self.await_reviews_page.await_review_block.click_card(card_id)

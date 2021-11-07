@@ -21,6 +21,7 @@ class UserFavoritesTest(Test):
 
         self.favorites_page.open(wait=False)
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
@@ -31,6 +32,7 @@ class UserFavoritesTest(Test):
         self.__auth__()
         self.favorites_page.login.logout()
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
@@ -43,6 +45,7 @@ class UserFavoritesTest(Test):
         product_id = self.favorites_page.product_card.get_product_id()
         self.favorites_page.product_card.click_product(product_id)
 
+        product_page.wait_page()
         url = self.driver.current_url
         product_page.change_path(product_id)
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")

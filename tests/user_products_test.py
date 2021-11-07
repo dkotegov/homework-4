@@ -21,6 +21,7 @@ class UserProductsTest(Test):
 
         self.user_products_page.open(wait=False)
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
@@ -31,6 +32,7 @@ class UserProductsTest(Test):
         self.__auth__()
         self.user_products_page.login.logout()
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
@@ -44,6 +46,7 @@ class UserProductsTest(Test):
 
         self.user_products_page.product_card.click_product(product_id)
 
+        product_page.wait_page()
         url = self.driver.current_url
         product_page.change_path(product_id)
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
