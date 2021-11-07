@@ -99,6 +99,7 @@ class SearchTest(Test):
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
+        self.__auth__()
         product_id = self.search.search_products.get_product_id()
 
         self.search.search_products.click_like_product(product_id)
