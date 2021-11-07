@@ -1,6 +1,6 @@
 from helpers import Test
 
-from pages import ReviewsPage
+from pages import ReviewsPage, ProductPage, SellerProductsPage
 
 
 class ReviewsTest(Test):
@@ -11,21 +11,26 @@ class ReviewsTest(Test):
 
     def testRedirectToProductPage(self):
         """Заголовок отзыва. Переход на страницу товара при нажатии на название"""
-        review_id = self.reviews_page.review_block.get_review_id()
+        product_page = ProductPage(self.driver)
 
+        review_id = self.reviews_page.review_block.get_review_id()
         product_url = self.reviews_page.review_block.get_product_name_url(review_id)
         self.reviews_page.review_block.click_product_name(review_id)
 
+        product_page.wait_page()
         url = self.driver.current_url
         self.assertEqual(url, product_url, "Не открылась страница товара")
 
     def testRedirectToUserPage(self):
         """Заголовок отзыва. Переход на страницу пользователя при нажатии на название"""
+        seller_products_page = SellerProductsPage(self.driver)
+
         review_id = self.reviews_page.review_block.get_review_id()
 
         user_url = self.reviews_page.review_block.get_user_name_url(review_id)
         self.reviews_page.review_block.click_user_name(review_id)
 
+        seller_products_page.wait_page()
         url = self.driver.current_url
         self.assertEqual(url, user_url, "Не открылась страница пользователя")
     

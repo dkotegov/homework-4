@@ -18,6 +18,7 @@ class SellerSideBarTest(Test):
         achievements_page.open()
         achievements_page.side_bar.click_products()
 
+        self.seller_products_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(self.seller_products_page.is_compare_url(url), "Не открылась страница всех объявлений")
 
@@ -27,6 +28,7 @@ class SellerSideBarTest(Test):
 
         self.seller_products_page.side_bar.click_achievements()
 
+        achievements_page.wait_page()
         url = self.driver.current_url
         achievements_page.change_path(SELLER_USER)
         self.assertTrue(achievements_page.is_compare_url(url), "Не открылась страница достижений")
@@ -37,6 +39,7 @@ class SellerSideBarTest(Test):
 
         self.seller_products_page.side_bar.click_reviews()
 
+        reviews_page.wait_page()
         url = self.driver.current_url
         reviews_page.change_path(SELLER_USER)
         self.assertTrue(reviews_page.is_compare_url(url), "Не открылась страница отзывов")

@@ -23,11 +23,9 @@ class SellerProductsTest(Test):
         product_id = self.seller_products_page.product_card.get_product_id()
         self.seller_products_page.product_card.click_product(product_id)
 
+        product_page.wait_page()
+        url = self.driver.current_url
         product_page.change_path(product_id)
-        url = ""
-        if product_page.page_exist():
-            url = self.driver.current_url
-
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
     def testLikeProductNotAuth(self):

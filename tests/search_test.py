@@ -79,7 +79,6 @@ class SearchTest(Test):
         list_not_sorted, list_sorted = fill_amount_list_and_sort_last_list(products, reverse=False)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по возрастанию цены")
 
-
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
         product_page = ProductPage(driver=self.driver)
@@ -91,14 +90,12 @@ class SearchTest(Test):
         product_page.change_path(product_id)
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
-    @unittest.skip("demonstrating skipping")
     def testLikeProductNotAuth(self):
         """Проверка, что без авторизации лайк поставить нельзя"""
         product_id = self.search_page.search_products.get_product_id()
 
         self.search_page.search_products.click_like_product(product_id)
         self.assertTrue(self.search_page.login.is_opened(), "Не открылась авторизация")
-
 
     def testLikeProduct(self):
         """

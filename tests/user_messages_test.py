@@ -2,7 +2,7 @@ import datetime
 
 from helpers import Test
 
-from pages import UserMessagesPage, MainPage, RegistrationPage
+from pages import UserMessagesPage, MainPage, RegistrationPage, ProductPage, SellerProductsPage
 
 
 class UserMessagesTest(Test):
@@ -23,6 +23,7 @@ class UserMessagesTest(Test):
 
         self.messages_page.open(wait=False)
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
@@ -33,45 +34,52 @@ class UserMessagesTest(Test):
         self.__auth__()
         self.messages_page.login.logout()
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
     def testRedirectToProductPageByName(self):
         """Меню истории сообщений - верхняя часть. Открытие страницы товара при нажатие на нижнюю надпись красного цвета"""
-        self.__auth__()
+        product_page = ProductPage(self.driver)
 
+        self.__auth__()
         chat_id = self.messages_page.chats_block.get_chat_id()
 
         self.messages_page.chats_block.click_message_card(chat_id)
         product_url = self.messages_page.chats_block.get_product_name_url()
         self.messages_page.chats_block.click_product_name()
 
+        product_page.wait_page()
         url = self.driver.current_url
         self.assertEqual(url, product_url, "Не открылась страница товара")
 
     def testRedirectToProductPageByAvatar(self):
         """Меню истории сообщений - верхняя часть. Открытие объявления при нажатии на аватарку"""
-        self.__auth__()
+        product_page = ProductPage(self.driver)
 
+        self.__auth__()
         chat_id = self.messages_page.chats_block.get_chat_id()
 
         self.messages_page.chats_block.click_message_card(chat_id)
         product_url = self.messages_page.chats_block.get_product_avatar_url()
         self.messages_page.chats_block.click_product_avatar()
 
+        product_page.wait_page()
         url = self.driver.current_url
         self.assertEqual(url, product_url, "Не открылась страница товара")
 
     def testRedirectToUserPage(self):
         """Меню истории сообщений - верхняя часть. Открытие профиля человека при нажатие на верхнюю надпись черного цвета"""
-        self.__auth__()
+        seller_products_page = SellerProductsPage(self.driver)
 
+        self.__auth__()
         chat_id = self.messages_page.chats_block.get_chat_id()
 
         self.messages_page.chats_block.click_message_card(chat_id)
         user_url = self.messages_page.chats_block.get_user_name_url()
         self.messages_page.chats_block.click_user_name()
 
+        seller_products_page.wait_page()
         url = self.driver.current_url
         self.assertEqual(url, user_url, "Не открылась страница пользователя")
 
@@ -80,7 +88,6 @@ class UserMessagesTest(Test):
         message = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         self.__auth__()
-
         chat_id = self.messages_page.chats_block.get_chat_id()
 
         self.messages_page.chats_block.click_message_card(chat_id)

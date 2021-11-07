@@ -101,7 +101,7 @@ class UserSettingsTest(Test):
         self.__test_password__(test5)
         self.__test_password__(test6)
 
-    def __test__confirm_password__(self, test, confirm_test):
+    def __test_confirm_password__(self, test, confirm_test):
         old_password = os.environ.get("PASSWORD")
 
         self.settings.pwd_form.input_password_value(test)
@@ -117,7 +117,7 @@ class UserSettingsTest(Test):
         test_password = "Qwerty12"
         test_confirm_password = "Qwerty11"
 
-        self.__test__confirm_password__(test_password, test_confirm_password)
+        self.__test_confirm_password__(test_password, test_confirm_password)
 
     def testChangeTheme(self):
         """Проверка смены темы"""
@@ -139,7 +139,7 @@ class UserSettingsTest(Test):
         self.assertEqual(theme_0, theme_2, "Разные темы")
         self.assertNotEqual(theme_1, theme_2, "Одинаковые темы")
 
-    def __test__change_password__(self, old, new, confirm):
+    def __test_change_password__(self, old, new, confirm):
         self.settings.pwd_form.input_password_value(new)
         self.settings.pwd_form.input_confirm_password_value(confirm)
         self.settings.pwd_form.input_old_password_value(old)
@@ -158,4 +158,4 @@ class UserSettingsTest(Test):
         new_pwd = "Qwertyyy12344"
         conf_pwd = "Qwertyyy12344"
 
-        self.__test__change_password__(old_pwd, new_pwd, conf_pwd)
+        self.__test_change_password__(old_pwd, new_pwd, conf_pwd)
