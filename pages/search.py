@@ -36,11 +36,25 @@ class SearchSettings(Component):
         return from_a.get_attribute('value'), to_a.get_attribute('value')
 
 
-class SearchPage(Page):
-    PATH = "/search"
-
+class SearchSort(Component):
     SORT = ".search-items__sort"
 
+    def change_sort_name(self):
+        self.__change_sort__('По имени')
+
+    def change_sort_amount_down(self):
+        self.__change_sort__('По убыванию цены')
+
+    def change_sort_amount_up(self):
+        self.__change_sort__('По возрастанию цены')
+
+    def __change_sort__(self, param):
+        sort = Select(self.helpers.get_element(self.SORT))
+        sort.select_by_visible_text(param)
+
+
+class SearchPage(Page):
+    PATH = "/search"
     PAGE = ".search-filter"
 
     def wait_page(self):
@@ -69,15 +83,6 @@ class SearchPage(Page):
     def search_settings(self):
         return SearchSettings(self.driver)
 
-    def change_sort_name(self):
-        self.__change_sort__('По имени')
-
-    def change_sort_amount_down(self):
-        self.__change_sort__('По убыванию цены')
-
-    def change_sort_amount_up(self):
-        self.__change_sort__('По возрастанию цены')
-
-    def __change_sort__(self, param):
-        sort = Select(self.helpers.get_element(self.SORT))
-        sort.select_by_visible_text(param)
+    @property
+    def search_sort(self):
+        return SearchSort(self.driver)

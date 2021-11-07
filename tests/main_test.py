@@ -17,6 +17,7 @@ class MainTest(Test):
         self.main_page.search.input_search_value(text)
         self.main_page.search.click_search()
 
+        search_page.wait_page()
         url = self.driver.current_url
         search_page.change_path(text)
         self.assertTrue(search_page.is_compare_url(url), "Не открылась страница поиска")
@@ -29,18 +30,20 @@ class MainTest(Test):
         self.main_page.search.input_search_value(text)
         self.main_page.search.enter_search()
 
+        search_page.wait_page()
         url = self.driver.current_url
         search_page.change_path(text)
         self.assertTrue(search_page.is_compare_url(url), "Не открылась страница поиска")
 
     def testClickCategory(self):
         """Проверка, что при нажатии на категорию открывается страница поиска"""
-        search = SearchPage(driver=self.driver)
+        search_page = SearchPage(driver=self.driver)
 
         self.main_page.search.click_category()
 
+        search_page.wait_page()
         url = self.driver.current_url
-        self.assertTrue(search.is_compare_url(url), "Не открылась страница поиска")
+        self.assertTrue(search_page.is_compare_url(url), "Не открылась страница поиска")
 
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
@@ -49,6 +52,7 @@ class MainTest(Test):
         product_id = self.main_page.product_card.get_product_id()
         self.main_page.product_card.click_product(product_id)
 
+        product_page.wait_page()
         url = self.driver.current_url
         product_page.change_path(product_id)
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")

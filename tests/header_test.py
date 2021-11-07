@@ -18,6 +18,7 @@ class HeaderTest(Test):
         search_page.open()
         search_page.header.click_logo()
 
+        self.main_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(self.main_page.is_compare_url(url), "Не открылась главная страница")
 
@@ -27,6 +28,7 @@ class HeaderTest(Test):
 
         self.main_page.header.click_search()
 
+        search_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(search_page.is_compare_url(url), "Не открылась страница поиска")
 
@@ -42,6 +44,7 @@ class HeaderTest(Test):
         self.main_page.login.auth()
         self.main_page.header.click_create()
 
+        create_product_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(create_product_page.is_compare_url(url), "Не открылась страница создания товара")
 
@@ -53,6 +56,7 @@ class HeaderTest(Test):
         self.main_page.header.click_dropdown()
         self.main_page.header.click_settings()
 
+        settings_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(settings_page.is_compare_url(url), "Не открылась страница настроек")
 
@@ -64,6 +68,7 @@ class HeaderTest(Test):
         self.main_page.header.click_dropdown()
         self.main_page.header.click_products()
 
+        user_products_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(user_products_page.is_compare_url(url), "Не открылась страница моих объявлений")
 
@@ -75,6 +80,7 @@ class HeaderTest(Test):
         self.main_page.header.click_dropdown()
         self.main_page.header.click_messages()
 
+        messages_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(messages_page.is_compare_url(url), "Не открылась страница чатов")
 
@@ -86,6 +92,7 @@ class HeaderTest(Test):
         self.main_page.header.click_dropdown()
         self.main_page.header.click_favorites()
 
+        favorites_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(favorites_page.is_compare_url(url), "Не открылась страница избранных товаров")
 
@@ -97,6 +104,7 @@ class HeaderTest(Test):
         self.main_page.header.click_dropdown()
         self.main_page.header.click_achievements()
 
+        achievements_page.wait_page()
         url = self.driver.current_url
         achievements_page.change_path(TEST_USER)
         self.assertTrue(achievements_page.is_compare_url(url), "Не открылась страница достижений")
@@ -109,6 +117,7 @@ class HeaderTest(Test):
         self.main_page.header.click_dropdown()
         self.main_page.header.click_reviews()
 
+        reviews_page.wait_page()
         url = self.driver.current_url
         reviews_page.change_path(TEST_USER)
         self.assertTrue(reviews_page.is_compare_url(url), "Не открылась страница отзывов")
