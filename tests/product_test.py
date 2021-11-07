@@ -114,6 +114,6 @@ class ProductTest(Test):
         edit_page.change_path(product_id)
         self.product_page.info_card.click_edit()
 
-        self.seller_products_page.wait_page()
+        edit_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(edit_page.is_compare_url(url), "Ошибка редиректа на страницу редактирования")
