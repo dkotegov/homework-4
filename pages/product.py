@@ -3,15 +3,16 @@ from random import randrange
 from consts import TEST_PRODUCT
 from helpers import Page, Component
 from components import Login
+from helpers.helpers import SELECTOR
 
 
 class Photos(Component):
     PREVIEW = ".slider-preview__picture"
     SLIDER_IMG = ".slider-carousel img"
-    SLIDER_SELECTED_IMG = ".slider-carousel img[style = \'padding-top: 1vh; padding-bottom: 1vh; opacity: 1;\']"
+    SLIDER_SELECTED_IMG = "//img[contains(@style,'opacity: 1')]"
 
     def selected_img_src_from_slider(self):
-        return self.helpers.get_element(self.SLIDER_SELECTED_IMG).get_attribute("src")
+        return self.helpers.get_element(self.SLIDER_SELECTED_IMG, by=SELECTOR.XPATH).get_attribute("src")
 
     def preview_img_src(self):
         return self.helpers.get_element(self.PREVIEW).get_attribute("src")

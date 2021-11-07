@@ -11,36 +11,46 @@ class SearchTest(Test):
         self.search = SearchPage(driver=self.driver)
         self.search.open()
 
-    def testInputAmount(self):
+    def testMaxLenDigitsInputAmount(self):
+        """Поля "Цена от, ₽" и “до”
+                        Запрет ввода в поля чисел больше, чем 10 цифр в блоке с фильтрами
+        """
+        expected = ("1 000 000 000", "1 000 000 000")
+
+        test_value = "10000000000000"
+
+        self.search.search_settings.enter_amount(test_value, test_value)
+        res = self.search.search_settings.get_amounts()
+        self.assertTupleEqual(expected, res, "Некорректный результат")
+
+    def testLettersErrorInputAmount(self):
         """Поля "Цена от, ₽" и “до”
                         Запрет ввода в поля символов отличных от цифр в блоке с фильтрами
-                        Запрет ввода в поля чисел больше, чем 10 знаков в блоке с фильтрами
         """
-        expected_1 = ("1 000", "1 000")
-        expected_2 = ("", "")
-        expected_3 = ("1 000 000 000", "1 000 000 000")
+        expected = ("", "")
+        test_value = "incorrect"
 
-        test_value_1 = "1000"
-        test_value_2 = "incorrect"
-        test_value_3 = "10000000000000"
-
-        res_good = self.search.search_settings.enter_amount(test_value_1)
-        self.assertTupleEqual(expected_1, res_good, "Некорректный результат")
+        self.search.search_settings.enter_amount(test_value, test_value)
+        res_bad = self.search.search_settings.get_amounts()
+        self.assertTupleEqual(expected, res_bad, "Некорректный результат")
         self.search.search_settings.clear_amount()
 
-        res_bad = self.search.search_settings.enter_amount(test_value_2)
-        self.assertTupleEqual(expected_2, res_bad, "Некорректный результат")
-        self.search.search_settings.clear_amount()
+    def testSuccessInputAmount(self):
+        """
+            Корректный ввод в поля "Цена от, ₽" и “до”
+        """
+        expected = ("1 000", "1 000")
+        test_value = "1000"
 
-        res_bad = self.search.search_settings.enter_amount(test_value_3)
-        self.assertTupleEqual(expected_3, res_bad, "Некорректный результат")
+        self.search.search_settings.enter_amount(test_value, test_value)
+        res_good = self.search.search_settings.get_amounts()
+        self.assertTupleEqual(expected, res_good, "Некорректный результат")
 
     def testSearchSortName(self):
         """Проверить, что при нажатии на "По имени" из списка “Сортировка по”, объявления выдаются в алфавитном
         порядке """
         self.search.change_sort_name()
         products = self.search.search_products.get_all_name_products()
-
         list_not_sorted, list_sorted = fill_name_list_and_sort_last_list(products)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по алфавиту")
 
