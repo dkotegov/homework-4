@@ -27,9 +27,10 @@ class InfoCard(Component):
     SELLER_NAME = ".info-card__name"
     SELLER_IMAGE = ".info-card__image"
     SELLER_RATING = ".info-card-rating"
-    PHONE = ".info-card-btn__number"
+    PHONE_BTN = ".info-card-btn__number"
     MESSAGE = ".info-card-btn__massage"
     EDIT = ".info-card-btn__change"
+    PHONE_NUMBER = "//input[@data-action = \"numberClick\"][@value != \"Показать номер\"]"
 
     def click_on_seller_name(self):
         self.helpers.click_element(self.SELLER_NAME)
@@ -41,15 +42,13 @@ class InfoCard(Component):
         self.helpers.click_element(self.SELLER_RATING)
 
     def click_phone(self):
-        self.helpers.click_element(self.PHONE)
+        self.helpers.click_element(self.PHONE_BTN)
 
     def click_edit(self):
         self.helpers.click_element(self.EDIT)
 
     def get_phone(self):
-        phone = self.helpers.get_element(self.PHONE)
-        while phone.get_attribute("value") == "Показать номер":
-            continue
+        phone = self.helpers.get_element(self.PHONE_NUMBER, by=SELECTOR.XPATH)
         return phone.get_attribute("value")
 
     def click_message(self):
