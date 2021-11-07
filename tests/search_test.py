@@ -1,3 +1,5 @@
+import unittest
+
 from helpers import Test
 
 from utils import fill_name_list_and_sort_last_list, fill_amount_list_and_sort_last_list
@@ -15,6 +17,7 @@ class SearchTest(Test):
         self.search.login.auth()
         self.search.open()
 
+
     def testMaxLenDigitsInputAmount(self):
         """Поля "Цена от, ₽" и “до”
                         Запрет ввода в поля чисел больше, чем 10 цифр в блоке с фильтрами
@@ -26,6 +29,7 @@ class SearchTest(Test):
         self.search.search_settings.enter_amount(test_value, test_value)
         res = self.search.search_settings.get_amounts()
         self.assertTupleEqual(expected, res, "Некорректный результат")
+
 
     def testLettersErrorInputAmount(self):
         """Поля "Цена от, ₽" и “до”
@@ -54,7 +58,8 @@ class SearchTest(Test):
         """Проверить, что при нажатии на "По имени" из списка “Сортировка по”, объявления выдаются в алфавитном
         порядке """
         self.search.change_sort_name()
-        products = self.search.search_products.get_all_name_products()
+        products = self.search.search_products.get_sorted_name_products()
+        print(products)
         list_not_sorted, list_sorted = fill_name_list_and_sort_last_list(products)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по алфавиту")
 
@@ -62,7 +67,8 @@ class SearchTest(Test):
         """Проверить, что при нажатии на "По убыванию цены" из списка “Сортировка по”, объявления выдаются от
         наибольшей цены к наименьшей """
         self.search.change_sort_amount_down()
-        products = self.search.search_products.get_all_amount_products()
+        products = self.search.search_products.get_sorted_amount_down_products()
+        print(products)
 
         list_not_sorted, list_sorted = fill_amount_list_and_sort_last_list(products, reverse=True)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по убыванию цены")
@@ -71,10 +77,12 @@ class SearchTest(Test):
         """Проверить, что при нажатии на "По возрастанию цены" из списка “Сортировка по”, объявления выдаются от
         наименьшей цены к наибольшей """
         self.search.change_sort_amount_up()
-        products = self.search.search_products.get_all_amount_products()
+        products = self.search.search_products.get_sorted_amount_up_products()
+        print(products)
 
         list_not_sorted, list_sorted = fill_amount_list_and_sort_last_list(products, reverse=False)
         self.assertListEqual(list_not_sorted, list_sorted, "Список упорядочен не по возрастанию цены")
+
 
     def testClickProduct(self):
         """Проверка, что при нажатии на товар открывается страница товара"""
@@ -87,12 +95,14 @@ class SearchTest(Test):
         product_page.change_path(product_id)
         self.assertTrue(product_page.is_compare_url(url), "Не открылась страница товара")
 
+    @unittest.skip("demonstrating skipping")
     def testLikeProductNotAuth(self):
         """Проверка, что без авторизации лайк поставить нельзя"""
         product_id = self.search.search_products.get_product_id()
 
         self.search.search_products.click_like_product(product_id)
         self.assertTrue(self.search.login.is_opened(), "Не открылась авторизация")
+
 
     def testLikeProduct(self):
         """
