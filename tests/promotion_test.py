@@ -1,7 +1,12 @@
+from urllib.parse import urlparse
+
 from consts import TEST_PRODUCT
 from helpers import Test
 
 from pages import PromotionPage, ProductPage, MainPage
+
+# Для продвижения мы используем ЮMoney, поэтому не можем протестировать его работу
+# Мы тестируем страницу без самого продвижения
 
 
 class PromotionTest(Test):
@@ -78,4 +83,17 @@ class PromotionTest(Test):
         url = self.driver.current_url
         product.change_path(TEST_PRODUCT)
         self.assertTrue(product.is_compare_url(url), "Не открылась страница продукта")
+
+    def testTariffRedirect(self):
+        """Проверка, что при выборе продвижения редиректит на страницу юmoney"""
+        money_domain = "yoomoney.ru"
+
+        self.__open_page__()
+
+        self.promote.form.enter_base_tariff()
+        self.promote.form.enter_purchase()
+
+        url = self.driver.current_url
+        domain = urlparse(url).netloc
+        self.assertEqual(domain, money_domain, "Не открылась страница оплаты")
 
