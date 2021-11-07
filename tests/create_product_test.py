@@ -16,8 +16,8 @@ class CreateProductTest(Test):
         self.create.open()
 
     def __test_name__(self, test):
-        self.create.form.clear_name_value()
         self.create.form.input_name_value(test)
+
         self.create.form.enter_submit()
         self.assertTrue(self.create.form.is_error_name(), "Нет ошибки")
 
@@ -33,8 +33,8 @@ class CreateProductTest(Test):
         self.__test_name__(test2)
 
     def __test_price__(self, test):
-        self.create.form.clear_price_value()
         self.create.form.input_price_value(test)
+
         self.create.form.enter_submit()
         self.assertTrue(self.create.form.is_error_price(), "Нет ошибки")
 
@@ -46,8 +46,8 @@ class CreateProductTest(Test):
         self.__test_price__(test1)
 
     def __test_description__(self, test):
-        self.create.form.clear_description_value()
         self.create.form.input_description_value(test)
+
         self.create.form.enter_submit()
         self.assertTrue(self.create.form.is_error_description(), "Нет ошибки")
 
@@ -65,8 +65,8 @@ class CreateProductTest(Test):
         self.__test_description__(test3)
 
     def __test_address__(self, test):
-        self.create.form.clear_address_value()
         self.create.form.input_address_value(test)
+
         self.create.form.enter_submit()
         self.assertTrue(self.create.form.is_error_address(), "Нет ошибки")
 

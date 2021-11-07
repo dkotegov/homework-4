@@ -64,6 +64,10 @@ class Helpers:
         element = self.get_element(selector, by)
         element.send_keys(Keys.ENTER)
 
+    def upload_file(self, selector, file_path, by=SELECTOR.CSS):
+        element = self.get_element(selector, by)
+        element.send_keys(file_path)
+
     def is_contains(self, selector, by=SELECTOR.CSS):
         try:
             return self.get_element(selector, by, wait=False) is not None
