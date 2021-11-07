@@ -8,20 +8,9 @@ def natural_sort(l):
 
 
 def fill_amount_list_and_sort_last_list(products, reverse):
-    list_not_sorted = []
-    list_sorted = []
-    for item in products:
-        list_not_sorted.append(int(item.text[0:-1].replace(" ", "")))
-        list_sorted.append(int(item.text[0:-1].replace(" ", "")))
-    list_sorted = sorted(list_sorted, reverse=reverse)
-    return list_not_sorted, list_sorted
+    return list(map(lambda x: int(x.text[0:-1].replace(" ", "")), products)), \
+           sorted(map(lambda x: int(x.text[0:-1].replace(" ", "")), products), reverse=reverse)
 
 
 def fill_name_list_and_sort_last_list(products):
-    list_not_sorted = []
-    list_sorted = []
-    for item in products:
-        list_not_sorted.append(item.text)
-        list_sorted.append(item.text)
-    list_sorted = natural_sort(list_sorted)
-    return list_not_sorted, list_sorted
+    return list(map(lambda x: x.text, products)), natural_sort(list(map(lambda x: x.text, products)))

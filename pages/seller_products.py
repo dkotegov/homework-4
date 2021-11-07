@@ -5,6 +5,7 @@ from components import ProductCard, Login, SellerSideBar
 
 class SellerProductsPage(Page):
     PATH = "/user/{}/ad".format(SELLER_USER)
+    TITLE = ".product-table__title"
 
     PAGE = ".product-table"
 
@@ -13,6 +14,9 @@ class SellerProductsPage(Page):
 
     def change_path(self, path):
         self.PATH = "/user/" + path + "/ad"
+
+    def page_exist(self):
+        return self.helpers.get_element(self.TITLE) is not None
 
     @property
     def product_card(self):
