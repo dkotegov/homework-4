@@ -1,4 +1,4 @@
-from consts import TEST_USER
+from consts import SELLER_USER
 from helpers import Test
 
 from pages import SellerProductsPage, AchievementsPage, ReviewsPage
@@ -13,7 +13,7 @@ class SellerSideBarTest(Test):
     def testClickProduct(self):
         """Кнопка “Все объявления” в боковом меню. Переход на страницу всех объявлений продавца"""
         achievements_page = AchievementsPage(driver=self.driver)
-        achievements_page.change_path(TEST_USER)
+        achievements_page.change_path(SELLER_USER)
 
         achievements_page.open()
         achievements_page.side_bar.click_products()
@@ -28,7 +28,7 @@ class SellerSideBarTest(Test):
         self.seller_products_page.side_bar.click_achievements()
 
         url = self.driver.current_url
-        achievements_page.change_path(TEST_USER)
+        achievements_page.change_path(SELLER_USER)
         self.assertTrue(achievements_page.is_compare_url(url), "Не открылась страница достижений")
 
     def testClickReviews(self):
@@ -38,5 +38,5 @@ class SellerSideBarTest(Test):
         self.seller_products_page.side_bar.click_reviews()
 
         url = self.driver.current_url
-        reviews_page.change_path(TEST_USER)
+        reviews_page.change_path(SELLER_USER)
         self.assertTrue(reviews_page.is_compare_url(url), "Не открылась страница отзывов")
