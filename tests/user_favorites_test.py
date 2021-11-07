@@ -63,9 +63,7 @@ class UserFavoritesTest(Test):
         before_remove_product = self.favorites_page.product_card.count_products()
 
         self.favorites_page.product_card.click_like_product(product_id)
-
-        # непонятно на что вещать wait, поэтому делаем перезагрузку страницы, чтобы товар точно пропал
-        self.favorites_page.open()
+        self.favorites_page.product_card.wait_product_disappeared(product_id)
 
         after_remove_product = self.favorites_page.product_card.count_products()
         self.assertEqual(before_remove_product - 1, after_remove_product, "Товар остался в избранном")

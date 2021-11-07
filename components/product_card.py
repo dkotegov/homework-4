@@ -27,6 +27,7 @@ class ProductCard(Component):
         self.helpers.click_element(self.INFO.format(product_id), self.helpers.SELECTOR.XPATH)
 
     def click_like_product(self, product_id):
+        self.helpers.wait(until=EC.element_to_be_clickable((By.XPATH, self.LIKE.format(product_id))))
         self.helpers.click_element(self.LIKE.format(product_id), self.helpers.SELECTOR.XPATH)
 
     def is_product_liked(self, product_id):
@@ -37,3 +38,6 @@ class ProductCard(Component):
 
     def wait_not_liked(self, product_id):
         self.helpers.wait(until=EC.element_to_be_clickable((By.XPATH, self.NOT_LIKED_ELEMENT.format(product_id))))
+
+    def wait_product_disappeared(self, product_id):
+        self.helpers.wait(until=EC.invisibility_of_element_located((By.XPATH, self.PRODUCT_CARD_ID.format(product_id))))
