@@ -85,11 +85,14 @@ class SearchTest(Test):
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        product_id = self.search.search_products.get_product_id()
         self.search.login.auth()
 
+        product_id = self.search.search_products.get_product_id()
+
         self.search.search_products.click_like_product(product_id)
+        self.search.search_products.wait_liked(product_id)
         self.assertTrue(self.search.search_products.is_product_liked(product_id), "Не удалось поставить лайк")
 
         self.search.search_products.click_like_product(product_id)
+        self.search.search_products.wait_not_liked(product_id)
         self.assertFalse(self.search.search_products.is_product_liked(product_id), "Не удалось убрать лайк")

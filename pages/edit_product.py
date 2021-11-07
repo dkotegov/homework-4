@@ -1,9 +1,9 @@
-from consts import DEFAULT_PRODUCT
+from consts import TEST_PRODUCT
 from helpers import Page
 
 
 class ProductEditPage(Page):
-    PATH = "/product/{}/edit".format(DEFAULT_PRODUCT)
+    PATH = "/product/{}/edit".format(TEST_PRODUCT)
 
     def change_path(self, path):
         self.PATH = "/product/" + path + "/edit"

@@ -81,6 +81,10 @@ class RegistrationForm(Component):
 class RegistrationPage(Page):
     PATH = "/signup"
 
+    def delete_user(self, user_id):
+        url = self.BASE_URL + self.BACK_URL + "/user/{}/delete".format(user_id)
+        self.helpers.fetch(url)
+
     @property
     def form(self):
         return RegistrationForm(self.driver)

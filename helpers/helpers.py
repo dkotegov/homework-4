@@ -76,3 +76,7 @@ class Helpers:
     def is_contains_class(self, selector, search_class, by=SELECTOR.CSS):
         element = self.get_element(selector, by)
         return self.is_element_contains_class(element, search_class)
+
+    def fetch(self, url, method="POST"):
+        fetch = "fetch(\"{}\", ".format(url) + "{\"method\": " + "\"{}\"".format(method) + "})"
+        self.driver.execute_script(fetch)

@@ -1,4 +1,3 @@
-from consts import TEST_USER
 from helpers import Test
 
 from pages import ReviewsPage
@@ -8,7 +7,6 @@ class ReviewsTest(Test):
     def setUp(self):
         super().setUp()
         self.reviews_page = ReviewsPage(driver=self.driver)
-        self.reviews_page.change_path(TEST_USER)
         self.reviews_page.open()
 
     def testRedirectToProductPage(self):

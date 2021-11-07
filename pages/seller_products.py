@@ -1,10 +1,10 @@
-from consts import DEFAULT_USER
+from consts import SELLER_USER
 from helpers import Page
 from components import ProductCard, Login, SellerSideBar
 
 
 class SellerProductsPage(Page):
-    PATH = "/user/{}/ad".format(DEFAULT_USER)
+    PATH = "/user/{}/ad".format(SELLER_USER)
 
     def change_path(self, path):
         self.PATH = "/user/" + path + "/ad"

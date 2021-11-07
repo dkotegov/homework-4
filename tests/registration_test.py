@@ -2,7 +2,7 @@ import os
 
 from helpers import Test
 
-from pages.registration import RegistrationPage
+from pages import RegistrationPage, UserSettingsPage, MainPage
 
 
 class RegistrationTest(Test):
@@ -142,3 +142,35 @@ class RegistrationTest(Test):
         self.registration_page.form.enter_submit()
 
         self.assertTrue(self.registration_page.form.is_error_form(), "Нет ошибки")
+
+    def __get_user_id__(self):
+        settings = UserSettingsPage(self.driver)
+
+        settings.open()
+        settings.side_bar.click_achievements()
+
+        url = self.driver.current_url
+        return url.split("/")[-2]
+
+    def testSuccessRegistration(self):
+        """Проверка успешной регистрации"""
+        main_page = MainPage(self.driver)
+
+        name = "name"
+        surname = "surname"
+        telephone = "1671263263"
+        password = "Qwerty12"
+        confirm_password = "Qwerty12"
+
+        self.registration_page.form.input_name_value(name)
+        self.registration_page.form.input_surname_value(surname)
+        self.registration_page.form.input_telephone_value(telephone)
+        self.registration_page.form.input_password_value(password)
+        self.registration_page.form.input_confirm_password_value(confirm_password)
+        self.registration_page.form.enter_submit()
+
+        self.assertTrue(main_page.login.is_logined(), "Пользователь не зарегистрирован")
+
+        # удаляем пользователя после регистрации
+        user_id = self.__get_user_id__()
+        self.registration_page.delete_user(user_id)

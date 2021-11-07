@@ -1,4 +1,4 @@
-from consts import PRODUCT, VK_ERROR_PRODUCT
+from consts import VK_ERROR_PRODUCT
 from helpers import Test
 
 from pages import ProductPage, ProductEditPage, SellerProductsPage, UserProductsPage, UserMessagesPage
@@ -8,7 +8,6 @@ class ProductTest(Test):
     def setUp(self):
         super().setUp()
         self.product = ProductPage(driver=self.driver)
-        self.product.change_path(PRODUCT)
         self.product.open()
 
     def testFirstImgSrcEqualPreview(self):

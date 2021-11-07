@@ -3,7 +3,7 @@ from random import randrange
 
 from selenium.webdriver.common.by import By
 
-from consts import DEFAULT_USER
+from consts import TEST_USER
 from helpers import Page, Component
 from components import Login
 
@@ -69,7 +69,7 @@ class ReviewBlock(Component):
 
 
 class ReviewsPage(Page):
-    PATH = "/user/{}/reviews".format(DEFAULT_USER)
+    PATH = "/user/{}/reviews".format(TEST_USER)
 
     def change_path(self, path):
         self.PATH = "/user/" + path + "/reviews"

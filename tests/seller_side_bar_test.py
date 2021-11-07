@@ -8,12 +8,12 @@ class SellerSideBarTest(Test):
     def setUp(self):
         super().setUp()
         self.seller_products_page = SellerProductsPage(driver=self.driver)
-        self.seller_products_page.change_path(TEST_USER)
         self.seller_products_page.open()
 
     def testClickProduct(self):
         """Кнопка “Все объявления” в боковом меню. Переход на страницу всех объявлений продавца"""
         achievements_page = AchievementsPage(driver=self.driver)
+        achievements_page.change_path(TEST_USER)
 
         achievements_page.open()
         achievements_page.side_bar.click_products()

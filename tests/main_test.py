@@ -65,11 +65,14 @@ class MainTest(Test):
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        product_id = self.main_page.product_card.get_product_id()
         self.main_page.login.auth()
 
+        product_id = self.main_page.product_card.get_product_id()
+
         self.main_page.product_card.click_like_product(product_id)
+        self.main_page.product_card.wait_liked(product_id)
         self.assertTrue(self.main_page.product_card.is_product_liked(product_id), "Не удалось поставить лайк")
 
         self.main_page.product_card.click_like_product(product_id)
+        self.main_page.product_card.wait_not_liked(product_id)
         self.assertFalse(self.main_page.product_card.is_product_liked(product_id), "Не удалось убрать лайк")

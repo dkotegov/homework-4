@@ -3,6 +3,7 @@ from helpers.helpers import Helpers
 
 class Page(object):
     BASE_URL = "https://ykoya.ru"
+    BACK_URL = "/api/v1"
     PATH = ""
 
     def __init__(self, driver):
