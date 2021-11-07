@@ -21,7 +21,7 @@ class UserMessagesTest(Test):
         """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
         registration_page = RegistrationPage(driver=self.driver)
 
-        self.messages_page.open()
+        self.messages_page.open(wait=False)
 
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")

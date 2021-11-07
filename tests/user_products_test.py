@@ -16,17 +16,16 @@ class UserProductsTest(Test):
         self.user_products_page.open()
 
     def testRedirectToRegistrationPage(self):
-        """Успешный редирект на страницу регистрации при переходе по ссылке https://ykoya.ru/user/ad
-        неавторизованного пользователя """
+        """Открытие страницы регистрации при переходе по ссылке не авторизированного пользователя"""
         registration_page = RegistrationPage(driver=self.driver)
 
-        self.user_products_page.open()
+        self.user_products_page.open(wait=False)
 
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
     def testRedirectToRegistrationPageLogOut(self):
-        """Успешный редирект на страницу регистрации при выходе из профиля """
+        """Открытие страницы регистрации при после выхода из профиля"""
         registration_page = RegistrationPage(driver=self.driver)
 
         self.__auth__()
@@ -42,6 +41,7 @@ class UserProductsTest(Test):
         self.__auth__()
 
         product_id = self.user_products_page.product_card.get_product_id()
+
         self.user_products_page.product_card.click_product(product_id)
 
         url = self.driver.current_url

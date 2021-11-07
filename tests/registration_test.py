@@ -186,7 +186,6 @@ class RegistrationTest(Test):
         self.__delete_user__()
 
         self.registration_page.open()
-        self.registration_page.wait_page()
         self.__input_registration(name, surname, telephone, password, confirm_password, email, date, sex_1)
         self.registration_page.form.enter_submit()
         self.assertTrue(main_page.login.is_logined(), "Пользователь не зарегистрирован")
@@ -194,7 +193,6 @@ class RegistrationTest(Test):
         self.__delete_user__()
 
         self.registration_page.open()
-        self.registration_page.wait_page()
         self.__input_registration(name, surname, telephone, password, confirm_password, email, date, sex_2)
         self.registration_page.form.enter_submit()
         self.assertTrue(main_page.login.is_logined(), "Пользователь не зарегистрирован")

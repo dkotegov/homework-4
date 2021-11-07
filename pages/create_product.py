@@ -59,6 +59,11 @@ class CreateProductForm(Component):
 class CreateProductPage(Page):
     PATH = "/product/create"
 
+    PAGE = ".board"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
+
     def delete_product(self, product_id):
         url = self.BASE_URL + self.BACK_URL + "/product/delete/{}".format(product_id)
         self.helpers.fetch(url)

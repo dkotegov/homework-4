@@ -11,6 +11,7 @@ class UserSettingsTest(Test):
         super().setUp()
         self.settings = UserSettingsPage(driver=self.driver)
         main_page = MainPage(driver=self.driver)
+
         main_page.open()
         main_page.login.auth()
         self.settings.open()

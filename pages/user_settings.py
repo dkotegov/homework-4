@@ -125,6 +125,11 @@ class UserSettingsForm(Component):
 class UserSettingsPage(Page):
     PATH = "/user/profile"
 
+    PAGE = ".settings"
+
+    def wait_page(self):
+        self.__wait_page__(self.PAGE)
+
     @property
     def login(self):
         return Login(self.driver)
