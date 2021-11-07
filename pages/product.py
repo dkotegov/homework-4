@@ -57,10 +57,6 @@ class InfoCard(Component):
 
 class ProductPage(Page):
     PATH = "/product/{}".format(TEST_PRODUCT)
-    TITLE = ".board-title__product-name"
-
-    def page_exist(self):
-        return self.helpers.get_element(self.TITLE) is not None
 
     PAGE = ".board"
 
