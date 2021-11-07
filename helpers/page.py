@@ -27,6 +27,9 @@ class Page(object):
         if wait:
             self.wait_page()
 
+    def refresh(self):
+        self.driver.refresh()
+
     def wait_page(self):
         raise Exception("release method")
 

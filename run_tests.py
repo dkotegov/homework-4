@@ -6,7 +6,7 @@ import unittest
 from tests import ProductTest, SellerProductsTest, SearchTest, UserProductsTest, \
     HeaderTest, FooterTest, ThemeTest, RegistrationTest, LoginTest, MainTest, \
     UserMessagesTest, ReviewsTest, UserAwaitReviewsTest, UserFavoritesTest, \
-    UserSettingsTest, CreateProductTest, \
+    UserSettingsTest, CreateProductTest, PromotionTest, \
     UserSideBarTest, SellerSideBarTest
 
 if __name__ == '__main__':
@@ -31,6 +31,7 @@ if __name__ == '__main__':
         unittest.makeSuite(SellerSideBarTest),
         unittest.makeSuite(UserSettingsTest),
         unittest.makeSuite(CreateProductTest),
+        unittest.makeSuite(PromotionTest),
     ))
 
     unittest.TextTestRunner().run(suite)
