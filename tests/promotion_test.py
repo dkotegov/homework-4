@@ -80,6 +80,7 @@ class PromotionTest(Test):
         self.promote.form.enter_no_tariff()
         self.promote.form.enter_purchase()
 
+        product.wait_page()
         url = self.driver.current_url
         product_id = self.driver.current_url.split('/')[-1]
         product.change_path(product_id)
