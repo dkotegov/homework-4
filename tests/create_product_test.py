@@ -1,18 +1,17 @@
 from helpers import Test
 
-from pages.create_product import CreateProductPage
-from pages.promotion import PromotionPage
 from utils import get_file_text
-
-import time
+from pages import CreateProductPage, MainPage
 
 
 class CreateProductTest(Test):
     def setUp(self):
         super().setUp()
         self.create = CreateProductPage(driver=self.driver)
-        self.create.open()
-        self.create.login.auth()
+        main_page = MainPage(driver=self.driver)
+
+        main_page.open()
+        main_page.login.auth()
         self.create.open()
 
     def __test_name__(self, test):

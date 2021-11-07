@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import unittest
 
 from tests import ProductTest, SellerProductsTest, SearchTest, RegistrationTest, MainTest, \
-    ReviewsTest, UserFavoritesTest, UserSettingsTest, CreateProductTest
+    ReviewsTest, UserFavoritesTest, CreateProductTest
 
 if __name__ == '__main__':
     load_dotenv(".env")
@@ -17,7 +17,6 @@ if __name__ == '__main__':
         unittest.makeSuite(MainTest),
         unittest.makeSuite(ReviewsTest),
         unittest.makeSuite(UserFavoritesTest),
-        unittest.makeSuite(UserSettingsTest),
         unittest.makeSuite(CreateProductTest),
     ))
 
