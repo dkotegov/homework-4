@@ -18,5 +18,8 @@ class Page(object):
         self.driver.maximize_window()
         self.driver.get(url)
 
+    def wait_page(self):
+        raise Exception("release method")
+
     def is_compare_url(self, url):
         return self.BASE_URL + self.PATH == url

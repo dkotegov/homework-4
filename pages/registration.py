@@ -84,6 +84,11 @@ class RegistrationForm(Component):
 class RegistrationPage(Page):
     PATH = "/signup"
 
+    BOARD = ".board"
+
+    def wait_page(self):
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.BOARD)))
+
     def delete_user(self, user_id):
         url = self.BASE_URL + self.BACK_URL + "/user/{}/delete".format(user_id)
         self.helpers.fetch(url)
