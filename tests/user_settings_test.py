@@ -3,7 +3,7 @@ import os
 from helpers import Test
 from pages import MainPage
 
-from pages.user_settings import UserSettingsPage
+from pages import UserSettingsPage
 
 
 class UserSettingsTest(Test):

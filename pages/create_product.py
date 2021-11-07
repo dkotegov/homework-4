@@ -69,6 +69,10 @@ class CreateProductForm(Component):
 class CreateProductPage(Page):
     PATH = "/product/create"
 
+    def delete_product(self, product_id):
+        url = self.BASE_URL + self.BACK_URL + "/product/delete/{}".format(product_id)
+        self.helpers.fetch(url)
+
     @property
     def form(self):
         return CreateProductForm(self.driver)
