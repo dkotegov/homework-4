@@ -10,13 +10,14 @@ class FooterTest(Test):
         self.main_page = MainPage(driver=self.driver)
         self.main_page.open()
 
+    def testClickCreateNotAuth(self):
+        """Проверка, что при нажатии на кнопку "Разместить объявление" открывается авторизация, без авторизации"""
+        self.main_page.footer.click_create()
+        self.assertTrue(self.main_page.login.is_opened(), "Не открылась авторизация")
+
     def testClickCreate(self):
         """Проверка, что при нажатии на кнопку "Разместить объявление" открывается страница создания товара"""
         create_product_page = CreateProductPage(driver=self.driver)
-
-        self.main_page.footer.click_create()
-        self.assertTrue(self.main_page.login.is_opened(), "Не открылась авторизация")
-        self.main_page.login.click_close()
 
         self.main_page.login.auth()
         self.main_page.footer.click_create()
@@ -85,5 +86,4 @@ class FooterTest(Test):
     def testClickAuth(self):
         """Проверка, что при нажатии на кнопку "Авторизация" открывается попап авторизации"""
         self.main_page.footer.click_auth()
-
         self.assertTrue(self.main_page.login.is_opened(), "Не открылась авторизация")

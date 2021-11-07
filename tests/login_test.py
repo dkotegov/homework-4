@@ -22,8 +22,8 @@ class LoginTest(Test):
         self.assertFalse(self.main_page.login.is_opened(), "Не закрылась авторизация")
 
     def __test_telephone__(self, test):
-        self.main_page.login.clear_telephone_value()
         self.main_page.login.input_telephone_value(test)
+
         self.main_page.login.enter_submit()
         self.assertTrue(self.main_page.login.is_error_telephone(), "Нет ошибки")
 
@@ -39,8 +39,8 @@ class LoginTest(Test):
         self.__test_telephone__(test2)
 
     def __test_password__(self, test):
-        self.main_page.login.clear_password_value()
         self.main_page.login.input_password_value(test)
+
         self.main_page.login.enter_submit()
         self.assertTrue(self.main_page.login.is_error_password(), "Нет ошибки")
 
@@ -66,9 +66,7 @@ class LoginTest(Test):
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
     def __test_login__(self, telephone, password):
-        self.main_page.login.clear_telephone_value()
         self.main_page.login.input_telephone_value(telephone)
-        self.main_page.login.clear_password_value()
         self.main_page.login.input_password_value(password)
 
         self.main_page.login.enter_submit()
