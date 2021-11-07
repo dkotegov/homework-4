@@ -22,6 +22,7 @@ class FooterTest(Test):
         self.main_page.login.auth()
         self.main_page.footer.click_create()
 
+        create_product_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(create_product_page.is_compare_url(url), "Не открылась страница создания товара")
 
@@ -31,6 +32,7 @@ class FooterTest(Test):
 
         self.main_page.footer.click_search()
 
+        search_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(search_page.is_compare_url(url), "Не открылась страница поиска")
 
@@ -41,6 +43,7 @@ class FooterTest(Test):
         self.main_page.login.auth()
         self.main_page.footer.click_settings()
 
+        settings_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(settings_page.is_compare_url(url), "Не открылась страница настроек")
 
@@ -51,6 +54,7 @@ class FooterTest(Test):
         self.main_page.login.auth()
         self.main_page.footer.click_products()
 
+        user_products_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(user_products_page.is_compare_url(url), "Не открылась страница моих объявлений")
 
@@ -61,6 +65,7 @@ class FooterTest(Test):
         self.main_page.login.auth()
         self.main_page.footer.click_messages()
 
+        messages_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(messages_page.is_compare_url(url), "Не открылась страница чатов")
 
@@ -71,6 +76,7 @@ class FooterTest(Test):
         self.main_page.login.auth()
         self.main_page.footer.click_favorites()
 
+        favorites_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(favorites_page.is_compare_url(url), "Не открылась страница избранных товаров")
 
@@ -80,6 +86,7 @@ class FooterTest(Test):
 
         self.main_page.footer.click_registration()
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 

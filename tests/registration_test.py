@@ -155,14 +155,16 @@ class RegistrationTest(Test):
         self.assertTrue(self.registration_page.form.is_error_form(), "Нет ошибки")
 
     def __delete_user__(self):
-        settings = UserSettingsPage(self.driver)
+        settings_page = UserSettingsPage(self.driver)
 
-        settings.open()
-        settings.side_bar.click_achievements()
+        settings_page.open()
+
+        settings_page.side_bar.click_achievements()
 
         url = self.driver.current_url
         user_id = url.split("/")[-2]
 
+        settings_page.login.logout()
         self.registration_page.delete_user(user_id)
 
     def testSuccessRegistration(self):

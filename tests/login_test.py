@@ -62,6 +62,7 @@ class LoginTest(Test):
         self.main_page.login.open_auth()
         self.main_page.login.click_registration()
 
+        registration_page.wait_page()
         url = self.driver.current_url
         self.assertTrue(registration_page.is_compare_url(url), "Не открылась страница регистрации")
 
