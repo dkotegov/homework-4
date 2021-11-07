@@ -9,10 +9,10 @@ from pages.user_settings import UserSettingsPage
 class UserSettingsTest(Test):
     def setUp(self):
         super().setUp()
-        self.main_page = MainPage(driver=self.driver)
-        self.main_page.open()
-        self.main_page.login.auth()
         self.settings = UserSettingsPage(driver=self.driver)
+        main_page = MainPage(driver=self.driver)
+        main_page.open()
+        main_page.login.auth()
         self.settings.open()
 
     def __test_name__(self, test):
