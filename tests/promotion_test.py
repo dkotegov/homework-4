@@ -61,7 +61,7 @@ class PromotionTest(Test):
         self.assertTrue(self.promote.form.is_advanced_checked(), "Нет ошибки")
 
     def testNoTariffChecked(self):
-        """Проверка выбора тарифа продвинутого"""
+        """Проверка без выбора тарифа"""
         self.__open_page__()
 
         self.promote.form.enter_no_tariff()
