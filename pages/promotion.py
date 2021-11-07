@@ -65,7 +65,11 @@ class PromotionPage(Page):
 
     def wait_page(self):
         self.__wait_page__(self.PAGE)
-    
+
+    def send_state(self, product_id):
+        script = "window.history.pushState({" + "\"id\": \"{}\"".format(product_id) + "}, \"\", " + "\"{}\")".format(self.PATH)
+        self.driver.execute_script(script)
+
     @property
     def form(self):
         return PromotionForm(self.driver)
