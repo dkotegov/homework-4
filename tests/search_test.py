@@ -11,6 +11,10 @@ class SearchTest(Test):
         self.search = SearchPage(driver=self.driver)
         self.search.open()
 
+    def __auth__(self):
+        self.search.login.auth()
+        self.search.open()
+
     def testMaxLenDigitsInputAmount(self):
         """Поля "Цена от, ₽" и “до”
                         Запрет ввода в поля чисел больше, чем 10 цифр в блоке с фильтрами
@@ -95,8 +99,6 @@ class SearchTest(Test):
             Лайк товара при нажатии кнопки "лайк",
             Снятие лайка с товара при нажатии кнопки "дизлайк"
         """
-        self.search.login.auth()
-
         product_id = self.search.search_products.get_product_id()
 
         self.search.search_products.click_like_product(product_id)

@@ -11,6 +11,10 @@ class ProductTest(Test):
         self.seller_products_page = SellerProductsPage(driver=self.driver)
         self.product.open()
 
+    def __auth__(self):
+        self.product.login.auth()
+        self.product.open()
+
     def testFirstImgEqualPreview(self):
         """Проверить, что при открытии страницы первая картинка слайдера совпадает с превью товара"""
         slider_image = self.product.photos.selected_img_src_from_slider()
@@ -69,11 +73,7 @@ class ProductTest(Test):
         """Проверить изменение текста на кнопке "Показать номер" на номер телефона при нажатии на кнопку "Показать
         номер" у автора с действительным номером телефона """
         tel_expected = "+71234567890"
-
-        self.product.login.auth()
-
-        self.product.open()
-
+        self.__auth__()
         self.product.info_card.click_phone()
         tel_current = self.product.info_card.get_phone()
         self.assertEqual(
@@ -84,11 +84,8 @@ class ProductTest(Test):
     def testFailToShowPhoneAuthVK(self):
         """Ошибка данных, при нажатии на кнопку "Показать номер" автора зарегистрированного с помощью ВК, без номера
         телефона """
-        self.product.login.auth()
-
         self.product.change_path(VK_ERROR_PRODUCT)
-        self.product.open()
-
+        self.__auth__()
         self.product.info_card.click_phone()
         self.assertEqual(
             self.product.info_card.get_phone(),
@@ -103,9 +100,7 @@ class ProductTest(Test):
     def testRedirectToMsgByClickWriteMsgBtn(self):
         """Успешный редирект на страницу переписки при нажатии на кнопку \"Написать сообщение\""""
         message = UserMessagesPage(driver=self.driver)
-
-        self.product.login.auth()
-
+        self.__auth__()
         self.product.info_card.click_message()
         self.assertTrue(message.page_exist(), "Не появляется страница диалога")
 
@@ -113,8 +108,7 @@ class ProductTest(Test):
         """Успешный редирект на страницу редактирования при нажатии кнопки \"Редактировать\""""
         edit_page = ProductEditPage(driver=self.driver)
         user_products_page = UserProductsPage(driver=self.driver)
-
-        self.product.login.auth()
+        self.__auth__()
         user_products_page.open()
 
         product_id = user_products_page.product_card.get_product_id()
