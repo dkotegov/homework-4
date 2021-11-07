@@ -3,17 +3,22 @@ from components import Login, UserSideBar
 
 
 class UserThemeForm(Component):
+    HTML = "html"
+
+    LIGHT = "light"
+    DARK = "dark"
+
     THEME_LIGHT = "#light-theme"
     THEME_DARK = "#dark-theme"
 
     def get_theme(self):
-        html = self.helpers.get_element("html")
+        html = self.helpers.get_element(self.HTML)
 
         if self.helpers.is_element_contains_class(html, "theme-light"):
-            return "light"
+            return self.LIGHT
 
         elif self.helpers.is_element_contains_class(html, "theme-dark"):
-            return "dark"
+            return self.DARK
 
     def change_theme_light(self):
         self.helpers.click_element(self.THEME_LIGHT)
@@ -34,28 +39,22 @@ class UserChangePasswordForm(Component):
     PWD_CHANGE_ERROR = "#settings-password-error"
 
     def input_password_value(self, text):
-        self.helpers.input_value(self.PASSWORD, text)
-
-    def clear_password_value(self):
         self.helpers.clear_input(self.PASSWORD)
+        self.helpers.input_value(self.PASSWORD, text)
 
     def is_error_password(self):
         return self.helpers.is_contains_class(self.PASSWORD, self.ERROR)
 
     def input_confirm_password_value(self, text):
-        self.helpers.input_value(self.CONFIRM_PASSWORD, text)
-
-    def clear_confirm_password_value(self):
         self.helpers.clear_input(self.CONFIRM_PASSWORD)
+        self.helpers.input_value(self.CONFIRM_PASSWORD, text)
 
     def is_error_confirm_password(self):
         return self.helpers.is_contains_class(self.CONFIRM_PASSWORD, self.ERROR)
 
     def input_old_password_value(self, text):
-        self.helpers.input_value(self.OLD_PASSWORD, text)
-
-    def clear_old_password_value(self):
         self.helpers.clear_input(self.OLD_PASSWORD)
+        self.helpers.input_value(self.OLD_PASSWORD, text)
 
     def is_error_old_password(self):
         return self.helpers.is_contains_class(self.OLD_PASSWORD, self.ERROR)
@@ -86,37 +85,29 @@ class UserSettingsForm(Component):
     INFO_EDIT = "#settings-edit"
 
     def input_name_value(self, text):
-        self.helpers.input_value(self.NAME, text)
-
-    def clear_name_value(self):
         self.helpers.clear_input(self.NAME)
+        self.helpers.input_value(self.NAME, text)
 
     def is_error_name(self):
         return self.helpers.is_contains_class(self.NAME, self.ERROR)
 
     def input_surname_value(self, text):
-        self.helpers.input_value(self.SURNAME, text)
-
-    def clear_surname_value(self):
         self.helpers.clear_input(self.SURNAME)
+        self.helpers.input_value(self.SURNAME, text)
 
     def is_error_surname(self):
         return self.helpers.is_contains_class(self.SURNAME, self.ERROR)
 
     def input_telephone_value(self, text):
-        self.helpers.input_value(self.TELEPHONE, text)
-
-    def clear_telephone_value(self):
         self.helpers.clear_input(self.TELEPHONE)
+        self.helpers.input_value(self.TELEPHONE, text)
 
     def is_error_telephone(self):
         return self.helpers.is_contains_class(self.TELEPHONE, self.ERROR)
 
     def input_email_value(self, text):
-        self.helpers.input_value(self.EMAIL, text)
-
-    def clear_email_value(self):
         self.helpers.clear_input(self.EMAIL)
+        self.helpers.input_value(self.EMAIL, text)
 
     def is_error_email(self):
         return self.helpers.is_contains_class(self.EMAIL, self.ERROR)

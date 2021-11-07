@@ -16,8 +16,8 @@ class UserSettingsTest(Test):
         self.settings.open()
 
     def __test_name__(self, test):
-        self.settings.form.clear_name_value()
         self.settings.form.input_name_value(test)
+
         self.settings.form.enter_info_submit()
         self.assertTrue(self.settings.form.is_error_name(), "Нет ошибки")
 
@@ -33,8 +33,8 @@ class UserSettingsTest(Test):
         self.__test_name__(test2)
 
     def __test_surname__(self, test):
-        self.settings.form.clear_surname_value()
         self.settings.form.input_surname_value(test)
+
         self.settings.form.enter_info_submit()
         self.assertTrue(self.settings.form.is_error_surname(), "Нет ошибки")
 
@@ -50,8 +50,8 @@ class UserSettingsTest(Test):
         self.__test_surname__(test2)
 
     def __test_email__(self, test):
-        self.settings.form.clear_email_value()
         self.settings.form.input_email_value(test)
+
         self.settings.form.enter_info_submit()
         self.assertTrue(self.settings.form.is_error_email(), "Нет ошибки")
 
@@ -74,11 +74,10 @@ class UserSettingsTest(Test):
 
     def __test_password__(self, test):
         old_password = os.environ.get("PASSWORD")
-        self.settings.pwd_form.clear_password_value()
-        self.settings.pwd_form.input_password_value(test)
 
-        self.settings.pwd_form.clear_old_password_value()
+        self.settings.pwd_form.input_password_value(test)
         self.settings.pwd_form.input_old_password_value(old_password)
+
         self.settings.pwd_form.enter_pwd_submit()
         self.assertTrue(self.settings.pwd_form.is_error_password(), "Нет ошибки")
 
@@ -104,13 +103,10 @@ class UserSettingsTest(Test):
     def __test__confirm_password__(self, test, confirm_test):
         old_password = os.environ.get("PASSWORD")
 
-        self.settings.pwd_form.clear_password_value()
         self.settings.pwd_form.input_password_value(test)
-        self.settings.pwd_form.clear_confirm_password_value()
         self.settings.pwd_form.input_confirm_password_value(confirm_test)
-
-        self.settings.pwd_form.clear_old_password_value()
         self.settings.pwd_form.input_old_password_value(old_password)
+
         self.settings.pwd_form.enter_pwd_submit()
         self.assertTrue(self.settings.pwd_form.is_error_confirm_password(), "Нет ошибки")
 
@@ -143,20 +139,14 @@ class UserSettingsTest(Test):
         self.assertNotEqual(theme_1, theme_2, "Одинаковые темы")
 
     def __test__change_password__(self, old, new, confirm):
-        self.settings.pwd_form.clear_password_value()
         self.settings.pwd_form.input_password_value(new)
-        self.settings.pwd_form.clear_confirm_password_value()
         self.settings.pwd_form.input_confirm_password_value(confirm)
-        self.settings.pwd_form.clear_old_password_value()
         self.settings.pwd_form.input_old_password_value(old)
 
         self.assertEqual(self.settings.pwd_form.get_pwd_change_error(), '', "Нет ошибки")
 
-        self.settings.pwd_form.clear_password_value()
         self.settings.pwd_form.input_password_value(old)
-        self.settings.pwd_form.clear_confirm_password_value()
         self.settings.pwd_form.input_confirm_password_value(old)
-        self.settings.pwd_form.clear_old_password_value()
         self.settings.pwd_form.input_old_password_value(new)
 
         self.assertEqual(self.settings.pwd_form.get_pwd_change_error(), '', "Нет ошибки")

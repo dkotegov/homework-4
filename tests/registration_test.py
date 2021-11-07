@@ -11,9 +11,25 @@ class RegistrationTest(Test):
         self.registration_page = RegistrationPage(driver=self.driver)
         self.registration_page.open()
 
+    def __input_registration(self, name, surname, telephone, password, confirm_password, email=None, date=None, sex=None):
+        self.registration_page.form.input_name_value(name)
+        self.registration_page.form.input_surname_value(surname)
+        self.registration_page.form.input_telephone_value(telephone)
+        self.registration_page.form.input_password_value(password)
+        self.registration_page.form.input_confirm_password_value(confirm_password)
+
+        if email:
+            self.registration_page.form.input_email_value(email)
+
+        if date:
+            self.registration_page.form.input_date_value(date)
+
+        if sex:
+            self.registration_page.form.input_sex_value(sex)
+
     def __test_name__(self, test):
-        self.registration_page.form.clear_name_value()
         self.registration_page.form.input_name_value(test)
+
         self.registration_page.form.enter_submit()
         self.assertTrue(self.registration_page.form.is_error_name(), "Нет ошибки")
 
@@ -28,8 +44,8 @@ class RegistrationTest(Test):
         self.__test_name__(test2)
 
     def __test_surname__(self, test):
-        self.registration_page.form.clear_surname_value()
         self.registration_page.form.input_surname_value(test)
+
         self.registration_page.form.enter_submit()
         self.assertTrue(self.registration_page.form.is_error_surname(), "Нет ошибки")
 
@@ -44,8 +60,8 @@ class RegistrationTest(Test):
         self.__test_surname__(test2)
 
     def __test_telephone__(self, test):
-        self.registration_page.form.clear_telephone_value()
         self.registration_page.form.input_telephone_value(test)
+
         self.registration_page.form.enter_submit()
         self.assertTrue(self.registration_page.form.is_error_telephone(), "Нет ошибки")
 
@@ -60,8 +76,8 @@ class RegistrationTest(Test):
         self.__test_telephone__(test2)
 
     def __test_password__(self, test):
-        self.registration_page.form.clear_password_value()
         self.registration_page.form.input_password_value(test)
+
         self.registration_page.form.enter_submit()
         self.assertTrue(self.registration_page.form.is_error_password(), "Нет ошибки")
 
@@ -88,9 +104,8 @@ class RegistrationTest(Test):
         self.__test_password__(test6)
 
     def __test__confirm_password__(self, test, confirm_test):
-        self.registration_page.form.clear_password_value()
         self.registration_page.form.input_password_value(test)
-        self.registration_page.form.clear_confirm_password_value()
+
         self.registration_page.form.input_confirm_password_value(confirm_test)
 
         self.registration_page.form.enter_submit()
@@ -105,8 +120,8 @@ class RegistrationTest(Test):
         self.__test__confirm_password__(test_password, test_confirm_password)
 
     def __test_email__(self, test):
-        self.registration_page.form.clear_email_value()
         self.registration_page.form.input_email_value(test)
+
         self.registration_page.form.enter_submit()
         self.assertTrue(self.registration_page.form.is_error_email(), "Нет ошибки")
 
@@ -134,23 +149,21 @@ class RegistrationTest(Test):
         password = "Qwerty12"
         confirm_password = "Qwerty12"
 
-        self.registration_page.form.input_name_value(name)
-        self.registration_page.form.input_surname_value(surname)
-        self.registration_page.form.input_telephone_value(telephone)
-        self.registration_page.form.input_password_value(password)
-        self.registration_page.form.input_confirm_password_value(confirm_password)
-        self.registration_page.form.enter_submit()
+        self.__input_registration(name, surname, telephone, password, confirm_password)
 
+        self.registration_page.form.enter_submit()
         self.assertTrue(self.registration_page.form.is_error_form(), "Нет ошибки")
 
-    def __get_user_id__(self):
+    def __delete_user__(self):
         settings = UserSettingsPage(self.driver)
 
         settings.open()
         settings.side_bar.click_achievements()
 
         url = self.driver.current_url
-        return url.split("/")[-2]
+        user_id = url.split("/")[-2]
+
+        self.registration_page.delete_user(user_id)
 
     def testSuccessRegistration(self):
         """Проверка успешной регистрации"""
@@ -161,16 +174,27 @@ class RegistrationTest(Test):
         telephone = "1671263263"
         password = "Qwerty12"
         confirm_password = "Qwerty12"
+        email = "test@test.ru"
+        date = "01.01.2021"
+        sex_1 = "Женский"
+        sex_2 = "Мужской"
 
-        self.registration_page.form.input_name_value(name)
-        self.registration_page.form.input_surname_value(surname)
-        self.registration_page.form.input_telephone_value(telephone)
-        self.registration_page.form.input_password_value(password)
-        self.registration_page.form.input_confirm_password_value(confirm_password)
+        self.__input_registration(name, surname, telephone, password, confirm_password)
         self.registration_page.form.enter_submit()
-
         self.assertTrue(main_page.login.is_logined(), "Пользователь не зарегистрирован")
-
         # удаляем пользователя после регистрации
-        user_id = self.__get_user_id__()
-        self.registration_page.delete_user(user_id)
+        self.__delete_user__()
+
+        self.registration_page.open()
+        self.__input_registration(name, surname, telephone, password, confirm_password, email, date, sex_1)
+        self.registration_page.form.enter_submit()
+        self.assertTrue(main_page.login.is_logined(), "Пользователь не зарегистрирован")
+        # удаляем пользователя после регистрации
+        self.__delete_user__()
+
+        self.registration_page.open()
+        self.__input_registration(name, surname, telephone, password, confirm_password, email, date, sex_2)
+        self.registration_page.form.enter_submit()
+        self.assertTrue(main_page.login.is_logined(), "Пользователь не зарегистрирован")
+        # удаляем пользователя после регистрации
+        self.__delete_user__()
