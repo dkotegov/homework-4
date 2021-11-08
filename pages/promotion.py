@@ -1,3 +1,6 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+
 from helpers import Page, Component
 from components import Login
 
@@ -17,15 +20,14 @@ class PromotionForm(Component):
     CHECKED_TARIFF = "tariffs-block_checked"
     UNCHECKED_TARIFF = "tariffs-block_unchecked"
 
-    PURCHASE = ".promotion-button__purchase"
+    SUBMIT = ".promotion-button__purchase"
 
-    TYPE = "#promotion-type"
+    def enter_submit(self):
+        self.helpers.click_element(self.SUBMIT)
 
-    def enter_purchase(self):
-        self.helpers.click_element(self.PURCHASE)
-
-    def get_purchase_error(self):
-        return self.helpers.get_element(self.ERROR).text
+    def is_submit_error(self):
+        self.helpers.wait(until=EC.presence_of_element_located((By.CSS_SELECTOR, self.ERROR)))
+        return self.helpers.is_contains(self.ERROR)
 
     def enter_base_tariff(self):
         self.helpers.click_element(self.BASE_TARIFF)
