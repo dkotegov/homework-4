@@ -10,10 +10,9 @@ class UserSettingsTest(Test):
     def setUp(self):
         super().setUp()
         self.settings = UserSettingsPage(driver=self.driver)
-        main_page = MainPage(driver=self.driver)
-
-        main_page.open()
-        main_page.login.auth()
+        self.main_page = MainPage(driver=self.driver)
+        self.main_page.open()
+        self.main_page.login.auth()
         self.settings.open()
 
     def __test_name__(self, test):
@@ -143,14 +142,8 @@ class UserSettingsTest(Test):
         self.settings.pwd_form.input_password_value(new)
         self.settings.pwd_form.input_confirm_password_value(confirm)
         self.settings.pwd_form.input_old_password_value(old)
-
-        self.assertEqual(self.settings.pwd_form.get_pwd_change_error(), '', "Нет ошибки")
-
-        self.settings.pwd_form.input_password_value(old)
-        self.settings.pwd_form.input_confirm_password_value(old)
-        self.settings.pwd_form.input_old_password_value(new)
-
-        self.assertEqual(self.settings.pwd_form.get_pwd_change_error(), '', "Нет ошибки")
+        self.assertEqual(self.settings.pwd_form.get_pwd_change_error(), '', "Появилась ошибка")
+        self.settings.pwd_form.enter_pwd_submit()
 
     def testPasswordChange(self):
         """Проверка успешной смены пароля"""
@@ -158,4 +151,44 @@ class UserSettingsTest(Test):
         new_pwd = "Qwertyyy12344"
         conf_pwd = "Qwertyyy12344"
 
-        self.__test_change_password__(old_pwd, new_pwd, conf_pwd)
+        self.__test_change_password__(new_pwd, new_pwd, conf_pwd)
+        self.settings.login.logout()
+        self.main_page.open()
+        self.main_page.wait_page()
+        self.settings.login.auth(password=new_pwd)
+        self.settings.open()
+        self.__test_change_password__(old_pwd, old_pwd, old_pwd)
+        self.settings.login.logout()
+
+    def testEditUserData(self):
+        """Проверка успешного изменения данных"""
+
+        new_email = "test@test.com"
+        new_name = "QQQQ"
+        new_surname = "AAAA"
+        new_sex = "Мужской"
+
+        old_email = "tehnopark@tehnopark.com"
+        old_name = "Park"
+        old_surname = "Tehno"
+        old_sex = "Женский"
+
+        self.settings.form.enter_info_edit()
+        self.settings.form.input_email_value(new_email)
+        self.settings.form.input_name_value(new_name)
+        self.settings.form.input_surname_value(new_surname)
+        self.settings.form.input_sex_value(new_sex)
+        self.settings.form.enter_info_submit()
+        self.settings.open()
+        self.settings.wait_page()
+        self.assertEqual(new_email, self.settings.form.get_email())
+        self.assertEqual(new_name, self.settings.form.get_name())
+        self.assertEqual(new_surname, self.settings.form.get_surname())
+        self.assertEqual(new_sex, self.settings.form.get_sex())
+
+        self.settings.form.enter_info_edit()
+        self.settings.form.input_email_value(old_email)
+        self.settings.form.input_name_value(old_name)
+        self.settings.form.input_surname_value(old_surname)
+        self.settings.form.input_sex_value(old_sex)
+        self.settings.form.enter_info_submit()
