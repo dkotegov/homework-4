@@ -157,7 +157,7 @@ class UserSettingsTest(Test):
         self.main_page.wait_page()
         self.settings.login.auth(password=new_pwd)
         self.settings.open()
-        self.__test_change_password__(old_pwd, old_pwd, old_pwd)
+        self.__test_change_password__(new_pwd, old_pwd, old_pwd)
         self.settings.login.logout()
 
     def testEditUserData(self):
