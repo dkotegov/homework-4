@@ -64,13 +64,12 @@ class Login(Component):
     def enter_submit(self):
         self.helpers.click_element(self.SUBMIT_BUTTON)
 
-    def auth(self, login="", password=""):
-        if login == "":
+    def auth(self, login=None, password=None):
+        if login is None:
             login = os.environ.get("LOGIN")
-        if password == "":
+        if password is None:
             password = os.environ.get("PASSWORD")
 
-        print(login, password)
         self.open_auth()
 
         self.input_telephone_value(login)
