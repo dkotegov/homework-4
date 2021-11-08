@@ -64,9 +64,11 @@ class Login(Component):
     def enter_submit(self):
         self.helpers.click_element(self.SUBMIT_BUTTON)
 
-    def auth(self):
-        login = os.environ.get("LOGIN")
-        password = os.environ.get("PASSWORD")
+    def auth(self, login=None, password=None):
+        if login is None:
+            login = os.environ.get("LOGIN")
+        if password is None:
+            password = os.environ.get("PASSWORD")
 
         self.open_auth()
 
