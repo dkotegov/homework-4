@@ -156,6 +156,7 @@ class UserSettingsTest(Test):
         self.main_page.open()
         self.main_page.wait_page()
         self.settings.login.auth(password=new_pwd)
+        self.assertTrue(self.settings.login.is_logined(), "Пользователь не вошел в систему")
         self.settings.open()
         self.__test_change_password__(new_pwd, old_pwd, old_pwd)
         self.settings.login.logout()
