@@ -55,4 +55,3 @@ class HoverOverFilePage(Page):
         os.chdir(os.environ.get('DOWNLOAD_FOLDER'))
         files = sorted(os.listdir(os.getcwd()), key=os.path.getmtime)
         return files.count(self.FILE_NAME) != 0
-

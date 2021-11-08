@@ -10,18 +10,21 @@ class CreateNewFolderPopup(DefaultSteps):
 
     def create_new_folder(self):
         self.page.open()
+        self.page.close_bubble()
         self.page.click_on_create_new()
         self.page.click_on_create_new_folder()
         self.page.click_on_submit()
 
     def create_new_shared_folder(self):
         self.page.open()
+        self.page.close_bubble()
         self.page.click_on_create_new()
         self.page.click_on_create_new_folder()
         self.page.click_on_submit_shared()
 
     def create_new_folder_empty_name(self):
         self.page.open()
+        self.page.close_bubble()
         self.page.click_on_create_new()
         self.page.click_on_create_new_folder()
         self.page.remove_input()
@@ -29,6 +32,7 @@ class CreateNewFolderPopup(DefaultSteps):
 
     def create_new_shared_folder_empty_name(self):
         self.page.open()
+        self.page.close_bubble()
         self.page.click_on_create_new()
         self.page.click_on_create_new_folder()
         self.page.remove_input()
@@ -36,6 +40,7 @@ class CreateNewFolderPopup(DefaultSteps):
 
     def create_new_folder_long_name(self):
         self.page.open()
+        self.page.close_bubble()
         self.page.click_on_create_new()
         self.page.click_on_create_new_folder()
         self.page.long_input()
@@ -43,6 +48,7 @@ class CreateNewFolderPopup(DefaultSteps):
 
     def create_new_shared_folder_long_name(self):
         self.page.open()
+        self.page.close_bubble()
         self.page.click_on_create_new()
         self.page.click_on_create_new_folder()
         self.page.long_input()

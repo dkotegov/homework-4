@@ -9,7 +9,8 @@ class ToolbarSortFiles(DefaultSteps):
         self.page = ToolbarSortFilesPage(driver)
 
     def sort_by_alphabet_asc(self):
-        self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        # self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        self.page.open()
         self.page.click_sort_dropdown()
         self.page.click_sort_date() # We do this because alphabetic order may be already installed
 
@@ -17,7 +18,8 @@ class ToolbarSortFiles(DefaultSteps):
         self.page.click_sort_alphabetic()
 
     def sort_by_alphabet_desc(self):
-        self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        # self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        self.page.open()
         self.page.click_sort_dropdown()
         self.page.click_sort_date()  # We do this because alphabetic order may be already installed
 
@@ -27,7 +29,8 @@ class ToolbarSortFiles(DefaultSteps):
         self.page.click_sort_alphabetic()
 
     def sort_by_size_asc(self):
-        self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        # self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        self.page.open()
         self.page.click_sort_dropdown()
         self.page.click_sort_date()  # We do this because size order may be already installed
 
@@ -35,7 +38,8 @@ class ToolbarSortFiles(DefaultSteps):
         self.page.click_sort_size()
 
     def sort_by_size_desc(self):
-        self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        # self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        self.page.open()
         self.page.click_sort_dropdown()
         self.page.click_sort_date()  # We do this because size order may be already installed
 
@@ -45,7 +49,8 @@ class ToolbarSortFiles(DefaultSteps):
         self.page.click_sort_size()
 
     def sort_by_date_asc(self):
-        self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        # self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        self.page.open()
         self.page.click_sort_dropdown()
         self.page.click_sort_alphabetic()  # We do this because date order may be already installed
 
@@ -53,7 +58,8 @@ class ToolbarSortFiles(DefaultSteps):
         self.page.click_sort_date()
 
     def sort_by_date_desc(self):
-        self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        # self.page.open_alternative(self.page.PATH + '/' + self.page.SORT_DIR)
+        self.page.open()
         self.page.click_sort_dropdown()
         self.page.click_sort_alphabetic()  # We do this because date order may be already installed
 

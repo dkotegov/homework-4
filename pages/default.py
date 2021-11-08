@@ -16,6 +16,7 @@ class Page(object):
     SUBMIT = 'div[id="react-modals"] button[data-name="confirm"]'
     COUNTER = 'span[class*="Toolbar__count"]'
     FILES = 'a[data-id^="/"]'
+    CLOSE_BUBBLE = 'div[class*="Bubble__close"]'
     FAV_FILES = []
     ALL_FILES = []
 
@@ -67,10 +68,16 @@ class Page(object):
         self.driver.find_element_by_css_selector(self.SUBMIT).click()
 
     def get_amount_of_files(self):
-        return self.driver.find_element_by_css_selector(self.COUNTER).text
+        try:
+            return self.driver.find_element_by_css_selector(self.COUNTER).text
+        except Exception:
+            return 0
 
     def switch_to_nth_tab(self, n):
         self.driver.switch_to.window(self.driver.window_handles[n])
+
+    def close_current_tab(self):
+        self.driver.close()
 
     def get_favorites(self):
         self.FAV_FILES = []
@@ -85,5 +92,11 @@ class Page(object):
         try:
             for file_elem in self.driver.find_elements_by_css_selector(self.FILES):
                 self.ALL_FILES.append(file_elem.get_attribute('data-id'))
+        except Exception:
+            return
+
+    def close_bubble(self):
+        try:
+            self.driver.find_element_by_css_selector(self.CLOSE_BUBBLE).click()
         except Exception:
             return

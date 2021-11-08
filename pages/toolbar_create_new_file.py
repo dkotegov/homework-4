@@ -16,7 +16,6 @@ class ToolbarCreateNewFilePage(Page):
     TABLE = 'div[data-name="createXlsx"]'
     PRESENTATION = 'div[data-name="createPptx"]'
     MODAL = 'div[data-qa-modal]'
-    CLOSE_BUBBLE = 'div[class*="Bubble__close"]'
 
     def click_create(self):
         self.driver.find_element_by_css_selector(self.CREATE).click()
@@ -40,5 +39,3 @@ class ToolbarCreateNewFilePage(Page):
         except Exception:
             return False
 
-    def close_bubble(self):
-        self.driver.find_element_by_css_selector(self.CLOSE_BUBBLE).click()

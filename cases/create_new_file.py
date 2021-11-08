@@ -10,7 +10,8 @@ from steps.create_new_file import CreateNewFile
 
 
 class CreateNewFileTests(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -20,9 +21,15 @@ class CreateNewFileTests(unittest.TestCase):
         DefaultSteps(self.driver).authorize()
         self.steps = CreateNewFile(self.driver)
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         self.steps.remove_all_files()
         self.driver.quit()
+
+    def tearDown(self):
+        self.steps.switch_to_nth_tab(1)
+        self.steps.close_current_tab()
+        self.steps.switch_to_nth_tab(0)
 
     def test_create_new_doc(self):
         self.steps.create_new_doc()

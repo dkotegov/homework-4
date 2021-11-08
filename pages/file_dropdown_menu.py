@@ -53,7 +53,6 @@ class FileDropDownMenuPage(Page):
 
     def check_item_in_favorites(self):
         for file_elem in self.driver.find_elements_by_css_selector(self.FILES):
-            print (self.SELECTED_FILE_NAME, file_elem.get_attribute('data-id'))
             if file_elem.get_attribute('data-id') == self.SELECTED_FILE_NAME:
                 return True
         return False

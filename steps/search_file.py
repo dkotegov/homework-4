@@ -13,6 +13,7 @@ class SearchFile(DefaultSteps):
         self.page.click_on_close_notion()
         self.page.click_on_upload()
         self.page.upload_file(os.getcwd() + '/assets/' + filename)
+        self.page.wait_popup_to_close()
 
     def search_empty_string(self):
         self.page.open()

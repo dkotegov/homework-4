@@ -13,7 +13,8 @@ from steps.toolbar import Toolbar
 
 
 class ToolbarTests(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         chrome_options = ChromeOptions()
         chrome_options.add_argument("--disable-notifications")
@@ -27,14 +28,10 @@ class ToolbarTests(unittest.TestCase):
         DefaultSteps(self.driver).authorize()
         self.steps = Toolbar(self.driver)
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         self.driver.quit()
 
     def test_select_all(self):
         self.steps.select_all()
         self.assertEqual(self.steps.all_items_selected(), True, '')
-
-    # def test_download_all(self):
-    #     self.steps.download_all()
-    #     time.sleep(1)
-    #     # self.assertEqual(len(self.driver.window_handles), 2, 'page with editing new table not opened')

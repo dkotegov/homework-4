@@ -13,7 +13,8 @@ from steps.head import Head
 
 
 class HeadTests(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -24,7 +25,8 @@ class HeadTests(unittest.TestCase):
         DefaultSteps(self.driver).authorize()
         self.steps = Head(self.driver)
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         self.driver.quit()
 
     def test_logo(self):

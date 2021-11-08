@@ -13,7 +13,8 @@ from steps.upload_file import UploadFile
 
 
 class UploadFileTests(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -23,22 +24,11 @@ class UploadFileTests(unittest.TestCase):
         self.driver.implicitly_wait(10)
         DefaultSteps(self.driver).authorize()
         self.steps = UploadFile(self.driver)
-        # self.steps.remove_all_files()
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         self.steps.remove_all_files()
         self.driver.quit()
-
-    # def test_upload_normal_file(self):
-    #     file_path = '/Users/ivankovalenko/PycharmProjects/qa/homework-4/all_keys.txt'
-    #     self.steps.upload_file(file_path)
-    #     self.assertEqual(self.steps.error_exists(), False, '')
-    #
-    # def test_upload_big_file(self):
-    #     # file_path = '/Users/ivankovalenko/Downloads/GMT20211014-151110_Recording_3840x2160.mp4'
-    #     file_path = '/Users/ivankovalenko/PycharmProjects/qa/homework-4/test.txt'
-    #     self.steps.upload_file(file_path)
-    #     self.assertEqual(self.steps.error_exists(), True, '')
 
     def test_remove_the_restriction_link(self):
         self.steps.click_remove_the_restriction()

@@ -10,7 +10,8 @@ from steps.create_new_folder_popup import CreateNewFolderPopup
 
 
 class CreateNewFolderPopupTests(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -20,7 +21,8 @@ class CreateNewFolderPopupTests(unittest.TestCase):
         DefaultSteps(self.driver).authorize()
         self.steps = CreateNewFolderPopup(self.driver)
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         self.driver.quit()
 
     def test_create_new_folder(self):

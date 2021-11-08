@@ -13,7 +13,8 @@ class SearchFileTests(unittest.TestCase):
     TEST_NONEXISTENT_FILENAME = 'kek'
     TEST_SEARCH_FILE_TYPE = 'Документы'
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         browser = os.environ.get('BROWSER', 'CHROME')
         self.driver = Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
@@ -25,7 +26,8 @@ class SearchFileTests(unittest.TestCase):
         self.steps.load_test_file(self.TEST_FILENAME)
         self.search_types = ['Музыка', 'Видео', 'Документы', 'Файлы PDF', 'Таблицы', 'Презентации', 'Архивы', 'Папки']
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         self.steps.remove_all_files()
         self.driver.quit()
 

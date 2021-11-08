@@ -6,6 +6,9 @@ from selenium.common.exceptions import NoSuchElementException
 
 from pages.default import Page
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class SearchFilePage(Page):
@@ -22,6 +25,7 @@ class SearchFilePage(Page):
     UPLOAD_FILE = 'div[data-name="upload"]'
     CLOSE_NOTION = 'div[class*="Bubble__close"]'
     INPUT_FILE = 'input[type=file]'
+    UPLOAD_FILE_POPUP = 'div[data-qa-modal="upload-dlg"]'
 
     def click_on_search_button(self):
         self.driver.find_element_by_css_selector(self.SEARCH_FILE).click()
@@ -48,10 +52,20 @@ class SearchFilePage(Page):
         self.driver.find_element_by_css_selector(self.UPLOAD_FILE).click()
 
     def click_on_close_notion(self):
-        self.driver.find_element_by_css_selector(self.CLOSE_NOTION).click()
+        try:
+            self.driver.find_element_by_css_selector(self.CLOSE_NOTION).click()
+        except Exception:
+            return
 
     def upload_file(self, file_path):
         self.driver.find_element_by_css_selector(self.INPUT_FILE).send_keys(file_path)
+
+    def wait_popup_to_close(self):
+        try:
+            WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, self.UPLOAD_FILE_POPUP)))
+        except Exception as e:
+            return
+
 
     def check_selected_type(self, search_type):
         try:

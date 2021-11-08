@@ -14,10 +14,6 @@ class CreateNewFilePage(Page):
     CREATE_NEW_TABLE = 'div[data-name="createCell"]'
     CREATE_NEW_PRES = 'div[data-name="createPpt"]'
 
-
-    # ALL_FILES = 'div[data-name = "/"]'
-    # CREATE_FOLDER = 'div[data-name = "/${process.env.CREATE_FOLDER}"]'
-
     def click_on_create_new(self):
         self.driver.find_element_by_css_selector(self.CREATE_NEW).click()
 
