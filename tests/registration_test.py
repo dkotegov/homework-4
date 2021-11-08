@@ -11,7 +11,7 @@ class RegistrationTest(Test):
         self.registration_page = RegistrationPage(driver=self.driver)
         self.registration_page.open()
 
-    def __input_registration(self, name, surname, telephone, password, confirm_password, email=None, date=None, sex=None):
+    def __input_registration(self, name, surname, telephone, password, confirm_password, email=None, sex=None):
         self.registration_page.form.input_name_value(name)
         self.registration_page.form.input_surname_value(surname)
         self.registration_page.form.input_telephone_value(telephone)
@@ -20,9 +20,6 @@ class RegistrationTest(Test):
 
         if email:
             self.registration_page.form.input_email_value(email)
-
-        if date:
-            self.registration_page.form.input_date_value(date)
 
         if sex:
             self.registration_page.form.input_sex_value(sex)
@@ -177,7 +174,6 @@ class RegistrationTest(Test):
         password = "Qwerty12"
         confirm_password = "Qwerty12"
         email = "test@test.ru"
-        date = "01.01.2021"
         sex_1 = "Женский"
         sex_2 = "Мужской"
 
@@ -188,14 +184,14 @@ class RegistrationTest(Test):
         self.__delete_user__()
 
         self.registration_page.open()
-        self.__input_registration(name, surname, telephone, password, confirm_password, email, date, sex_1)
+        self.__input_registration(name, surname, telephone, password, confirm_password, email, sex_1)
         self.registration_page.form.enter_submit()
         self.assertTrue(main_page.login.is_logined(), "Пользователь не зарегистрирован")
         # удаляем пользователя после регистрации
         self.__delete_user__()
 
         self.registration_page.open()
-        self.__input_registration(name, surname, telephone, password, confirm_password, email, date, sex_2)
+        self.__input_registration(name, surname, telephone, password, confirm_password, email, sex_2)
         self.registration_page.form.enter_submit()
         self.assertTrue(main_page.login.is_logined(), "Пользователь не зарегистрирован")
         # удаляем пользователя после регистрации

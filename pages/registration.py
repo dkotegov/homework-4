@@ -60,13 +60,6 @@ class RegistrationForm(Component):
     def is_error_email(self):
         return self.helpers.is_contains_class(self.EMAIL, self.ERROR)
 
-    def input_date_value(self, text):
-        self.helpers.clear_input(self.DATE)
-        self.helpers.input_value(self.DATE, text)
-
-    def is_error_date(self):
-        return self.helpers.is_contains_class(self.DATE, self.ERROR)
-
     def input_sex_value(self, text):
         self.helpers.input_value(self.SEX, text)
 
