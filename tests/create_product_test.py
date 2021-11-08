@@ -1,6 +1,7 @@
+from utils import get_file_text
+
 from helpers import Test
 
-from utils import get_file_text
 from pages import CreateProductPage, MainPage
 
 # У нас нет теста на успешное создание товара, потому что мы используем Яндекс Апи

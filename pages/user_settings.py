@@ -1,6 +1,5 @@
 from helpers import Page, Component
 from components import Login, UserSideBar
-from helpers.helpers import SELECTOR
 
 
 class UserThemeForm(Component):
@@ -142,7 +141,7 @@ class UserSettingsForm(Component):
         return self.helpers.get_element(self.DATE).get_attribute("value")
 
     def get_sex(self):
-        return self.helpers.get_element(self.SEX_OPTION, SELECTOR.XPATH).text
+        return self.helpers.get_element(self.SEX_OPTION, self.helpers.SELECTOR.XPATH).text
 
 
 class UserSettingsPage(Page):

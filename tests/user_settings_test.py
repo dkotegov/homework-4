@@ -1,9 +1,8 @@
 import os
 
 from helpers import Test
-from pages import MainPage
 
-from pages import UserSettingsPage
+from pages import UserSettingsPage, MainPage
 
 
 class UserSettingsTest(Test):

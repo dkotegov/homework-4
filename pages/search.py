@@ -1,7 +1,7 @@
 from selenium.webdriver.support.select import Select
+
 from helpers import Page, Component
 from components import Login, ProductCard, Header, Footer
-from helpers.helpers import SELECTOR
 
 
 class SearchProducts(ProductCard):
@@ -9,13 +9,13 @@ class SearchProducts(ProductCard):
     SORT_NAME = "//div[@data-sort=\"{}\"]//span[@class=\"product-card-info__name\"]"
 
     def get_sorted_name_products(self):
-        return self.helpers.get_elements(self.SORT_NAME.format("По имени"), SELECTOR.XPATH)
+        return self.helpers.get_elements(self.SORT_NAME.format("По имени"), self.helpers.SELECTOR.XPATH)
 
     def get_sorted_amount_up_products(self):
-        return self.helpers.get_elements(self.SORT_AMOUNT.format("По возрастанию цены"), SELECTOR.XPATH)
+        return self.helpers.get_elements(self.SORT_AMOUNT.format("По возрастанию цены"), self.helpers.SELECTOR.XPATH)
 
     def get_sorted_amount_down_products(self):
-        return self.helpers.get_elements(self.SORT_AMOUNT.format("По убыванию цены"), SELECTOR.XPATH)
+        return self.helpers.get_elements(self.SORT_AMOUNT.format("По убыванию цены"), self.helpers.SELECTOR.XPATH)
 
 
 class SearchSettings(Component):
@@ -55,6 +55,7 @@ class SearchSort(Component):
 
 class SearchPage(Page):
     PATH = "/search"
+
     PAGE = ".search-filter"
 
     def wait_page(self):

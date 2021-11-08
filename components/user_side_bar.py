@@ -1,4 +1,4 @@
-from helpers.component import Component
+from helpers import Component
 
 
 class UserSideBar(Component):

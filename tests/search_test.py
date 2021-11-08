@@ -1,8 +1,5 @@
-import unittest
-
-from helpers import Test
-
 from utils import fill_name_list_and_sort_last_list, fill_amount_list_and_sort_last_list
+from helpers import Test
 
 from pages import SearchPage, ProductPage
 
