@@ -1,7 +1,7 @@
 from selenium.webdriver.support.select import Select
 
 from helpers import Page, Component
-from components import Login, ProductCard, Header, Footer
+from components import Login, ProductCard, Header
 
 
 class SearchProducts(ProductCard):
@@ -67,10 +67,6 @@ class SearchPage(Page):
     @property
     def header(self):
         return Header(self.driver)
-
-    @property
-    def footer(self):
-        return Footer(self.driver)
 
     @property
     def login(self):

@@ -1,3 +1,7 @@
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
+
 from helpers import Page, Component
 from components import Login, UserSideBar
 
@@ -72,8 +76,6 @@ class UserChangePasswordForm(Component):
 class UserSettingsForm(Component):
     ERROR = "input-error"
 
-    INFO_CHANGE_ERROR = "#settings-error"
-
     NAME = "#settings-name"
     SURNAME = "#settings-surname"
     TELEPHONE = "#settings-phone"
@@ -112,9 +114,6 @@ class UserSettingsForm(Component):
     def is_error_email(self):
         return self.helpers.is_contains_class(self.EMAIL, self.ERROR)
 
-    def get_info_change_error(self):
-        return self.helpers.get_element(self.INFO_CHANGE_ERROR).text
-
     def enter_info_submit(self):
         self.helpers.click_element(self.INFO_SUBMIT)
 
@@ -136,9 +135,6 @@ class UserSettingsForm(Component):
 
     def get_email(self):
         return self.helpers.get_element(self.EMAIL).get_attribute("value")
-
-    def get_date(self):
-        return self.helpers.get_element(self.DATE).get_attribute("value")
 
     def get_sex(self):
         return self.helpers.get_element(self.SEX_OPTION, self.helpers.SELECTOR.XPATH).text

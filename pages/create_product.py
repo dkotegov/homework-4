@@ -1,5 +1,4 @@
 from helpers import Page, Component
-from components import Login
 
 
 class CreateProductForm(Component):
@@ -10,10 +9,7 @@ class CreateProductForm(Component):
     PRICE = "#priceInput"
     DESCRIPTION = "#textareaInput"
     ADDRESS = "#addressInput"
-    PHOTO = "#file-upload0"
     SUBMIT = "#submitProduct"
-
-    MAP_POINT = ".ymaps-2-1-79-suggest-item-0"
 
     def input_name_value(self, text):
         self.helpers.clear_input(self.NAME)
@@ -43,12 +39,6 @@ class CreateProductForm(Component):
     def is_error_address(self):
         return self.helpers.is_contains_class(self.ADDRESS, self.ERROR)
 
-    def enter_address(self):
-        self.helpers.click_element(self.MAP_POINT)
-
-    def upload_photo(self, path):
-        self.helpers.upload_file(self.PHOTO, path)
-
     def get_submit_error(self):
         return self.helpers.get_element(self.SUBMIT_ERROR).text
 
@@ -71,7 +61,3 @@ class CreateProductPage(Page):
     @property
     def form(self):
         return CreateProductForm(self.driver)
-
-    @property
-    def login(self):
-        return Login(self.driver)

@@ -12,67 +12,67 @@ from pages import PromotionPage, ProductPage, MainPage
 class PromotionTest(Test):
     def setUp(self):
         super().setUp()
-        self.promote = PromotionPage(driver=self.driver)
+        self.promotion_page = PromotionPage(driver=self.driver)
         main_page = MainPage(driver=self.driver)
 
         main_page.open()
         main_page.login.auth()
 
     def __open_page__(self):
-        self.promote.send_state(TEST_PRODUCT)
-        self.promote.refresh()
+        self.promotion_page.send_state(TEST_PRODUCT)
+        self.promotion_page.refresh()
 
     def testErrorSubmit(self):
         """Проверка перехода без выбора тарифа"""
         self.__open_page__()
 
-        self.promote.form.enter_submit()
+        self.promotion_page.form.enter_submit()
 
-        self.assertTrue(self.promote.form.is_submit_error(), "Нет ошибки выбора тарифа")
+        self.assertTrue(self.promotion_page.form.is_submit_error(), "Нет ошибки выбора тарифа")
 
     def testBaseTariffChecked(self):
         """Проверка выбора тарифа базового"""
         self.__open_page__()
 
-        self.promote.form.enter_advanced_tariff()
-        self.promote.form.enter_base_tariff()
+        self.promotion_page.form.enter_advanced_tariff()
+        self.promotion_page.form.enter_base_tariff()
 
-        self.assertTrue(self.promote.form.is_base_checked(), "Нет выделения тарифа")
-        self.assertTrue(self.promote.form.is_improved_unchecked(), "Есть выделение тарифа")
-        self.assertTrue(self.promote.form.is_advanced_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_base_checked(), "Нет выделения тарифа")
+        self.assertTrue(self.promotion_page.form.is_improved_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_advanced_unchecked(), "Есть выделение тарифа")
 
     def testImprovedTariffChecked(self):
         """Проверка выбора тарифа улучшенного"""
         self.__open_page__()
 
-        self.promote.form.enter_base_tariff()
-        self.promote.form.enter_improved_tariff()
+        self.promotion_page.form.enter_base_tariff()
+        self.promotion_page.form.enter_improved_tariff()
 
-        self.assertTrue(self.promote.form.is_improved_checked(), "Нет выделения тарифа")
-        self.assertTrue(self.promote.form.is_base_unchecked(), "Есть выделение тарифа")
-        self.assertTrue(self.promote.form.is_advanced_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_improved_checked(), "Нет выделения тарифа")
+        self.assertTrue(self.promotion_page.form.is_base_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_advanced_unchecked(), "Есть выделение тарифа")
 
     def testAdvancedTariffChecked(self):
         """Проверка выбора тарифа продвинутого"""
         self.__open_page__()
 
-        self.promote.form.enter_improved_tariff()
-        self.promote.form.enter_advanced_tariff()
+        self.promotion_page.form.enter_improved_tariff()
+        self.promotion_page.form.enter_advanced_tariff()
 
-        self.assertTrue(self.promote.form.is_advanced_checked(), "Нет выделения тарифа")
-        self.assertTrue(self.promote.form.is_base_unchecked(), "Есть выделение тарифа")
-        self.assertTrue(self.promote.form.is_improved_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_advanced_checked(), "Нет выделения тарифа")
+        self.assertTrue(self.promotion_page.form.is_base_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_improved_unchecked(), "Есть выделение тарифа")
 
     def testNoTariffChecked(self):
         """Проверка без выбора тарифа"""
         self.__open_page__()
 
-        self.promote.form.enter_base_tariff()
-        self.promote.form.enter_no_tariff()
+        self.promotion_page.form.enter_base_tariff()
+        self.promotion_page.form.enter_no_tariff()
 
-        self.assertTrue(self.promote.form.is_base_unchecked(), "Есть выделение тарифа")
-        self.assertTrue(self.promote.form.is_improved_unchecked(), "Есть выделение тарифа")
-        self.assertTrue(self.promote.form.is_advanced_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_base_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_improved_unchecked(), "Есть выделение тарифа")
+        self.assertTrue(self.promotion_page.form.is_advanced_unchecked(), "Есть выделение тарифа")
 
     def testNoTariffRedirect(self):
         """Проверка, что при выборе без продвижения редиректит на страницу товара"""
@@ -80,8 +80,8 @@ class PromotionTest(Test):
 
         self.__open_page__()
 
-        self.promote.form.enter_no_tariff()
-        self.promote.form.enter_submit()
+        self.promotion_page.form.enter_no_tariff()
+        self.promotion_page.form.enter_submit()
 
         product.wait_page()
         url = self.driver.current_url
@@ -94,8 +94,8 @@ class PromotionTest(Test):
 
         self.__open_page__()
 
-        self.promote.form.enter_base_tariff()
-        self.promote.form.enter_submit()
+        self.promotion_page.form.enter_base_tariff()
+        self.promotion_page.form.enter_submit()
 
         url = self.driver.current_url
         domain = urlparse(url).netloc

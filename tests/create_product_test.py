@@ -11,18 +11,18 @@ from pages import CreateProductPage, MainPage
 class CreateProductTest(Test):
     def setUp(self):
         super().setUp()
-        self.create = CreateProductPage(driver=self.driver)
+        self.create_page = CreateProductPage(driver=self.driver)
         main_page = MainPage(driver=self.driver)
 
         main_page.open()
         main_page.login.auth()
-        self.create.open()
+        self.create_page.open()
 
     def __test_name__(self, test):
-        self.create.form.input_name_value(test)
+        self.create_page.form.input_name_value(test)
 
-        self.create.form.enter_submit()
-        self.assertTrue(self.create.form.is_error_name(), "Нет ошибки")
+        self.create_page.form.enter_submit()
+        self.assertTrue(self.create_page.form.is_error_name(), "Нет ошибки")
 
     def testErrorNameInput(self):
         """Проверка создания продукта с неправильными данными названия"""
@@ -36,10 +36,10 @@ class CreateProductTest(Test):
         self.__test_name__(test2)
 
     def __test_price__(self, test):
-        self.create.form.input_price_value(test)
+        self.create_page.form.input_price_value(test)
 
-        self.create.form.enter_submit()
-        self.assertTrue(self.create.form.is_error_price(), "Нет ошибки")
+        self.create_page.form.enter_submit()
+        self.assertTrue(self.create_page.form.is_error_price(), "Нет ошибки")
 
     def testErrorPriceInput(self):
         """Проверка создания с неправильными данными цены"""
@@ -49,10 +49,10 @@ class CreateProductTest(Test):
         self.__test_price__(test1)
 
     def __test_description__(self, test):
-        self.create.form.input_description_value(test)
+        self.create_page.form.input_description_value(test)
 
-        self.create.form.enter_submit()
-        self.assertTrue(self.create.form.is_error_description(), "Нет ошибки")
+        self.create_page.form.enter_submit()
+        self.assertTrue(self.create_page.form.is_error_description(), "Нет ошибки")
 
     def testErrorDescriptionInput(self):
         """Проверка создания с неправильными данными описания"""
@@ -68,10 +68,10 @@ class CreateProductTest(Test):
         self.__test_description__(test3)
 
     def __test_address__(self, test):
-        self.create.form.input_address_value(test)
+        self.create_page.form.input_address_value(test)
 
-        self.create.form.enter_submit()
-        self.assertTrue(self.create.form.is_error_address(), "Нет ошибки")
+        self.create_page.form.enter_submit()
+        self.assertTrue(self.create_page.form.is_error_address(), "Нет ошибки")
 
     def testErrorAddressInput(self):
         """Проверка сохранения с неправильными данными адрес"""

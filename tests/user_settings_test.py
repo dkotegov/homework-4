@@ -8,24 +8,24 @@ from pages import UserSettingsPage, MainPage
 class UserSettingsTest(Test):
     def setUp(self):
         super().setUp()
-        self.settings = UserSettingsPage(driver=self.driver)
+        self.settings_page = UserSettingsPage(driver=self.driver)
         self.main_page = MainPage(driver=self.driver)
 
         self.main_page.open()
         self.main_page.login.auth()
-        self.settings.open()
+        self.settings_page.open()
 
     def __input_settings__(self, name, surname, email, sex):
-        self.settings.form.input_name_value(name)
-        self.settings.form.input_surname_value(surname)
-        self.settings.form.input_email_value(email)
-        self.settings.form.input_sex_value(sex)
+        self.settings_page.form.input_name_value(name)
+        self.settings_page.form.input_surname_value(surname)
+        self.settings_page.form.input_email_value(email)
+        self.settings_page.form.input_sex_value(sex)
 
     def __test_name__(self, test):
-        self.settings.form.input_name_value(test)
+        self.settings_page.form.input_name_value(test)
 
-        self.settings.form.enter_info_submit()
-        self.assertTrue(self.settings.form.is_error_name(), "Нет ошибки")
+        self.settings_page.form.enter_info_submit()
+        self.assertTrue(self.settings_page.form.is_error_name(), "Нет ошибки")
 
     def testErrorNameInput(self):
         """Проверка сохранения с неправильными данными имени"""
@@ -34,15 +34,15 @@ class UserSettingsTest(Test):
         # сохранение с именем, где больше 30 символов
         test2 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
-        self.settings.form.enter_info_edit()
+        self.settings_page.form.enter_info_edit()
         self.__test_name__(test1)
         self.__test_name__(test2)
 
     def __test_surname__(self, test):
-        self.settings.form.input_surname_value(test)
+        self.settings_page.form.input_surname_value(test)
 
-        self.settings.form.enter_info_submit()
-        self.assertTrue(self.settings.form.is_error_surname(), "Нет ошибки")
+        self.settings_page.form.enter_info_submit()
+        self.assertTrue(self.settings_page.form.is_error_surname(), "Нет ошибки")
 
     def testErrorSurnameInput(self):
         """Проверка сохранения с неправильными данными фамилии"""
@@ -51,15 +51,15 @@ class UserSettingsTest(Test):
         # сохранение с фамилией, где больше 30 символов
         test2 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
-        self.settings.form.enter_info_edit()
+        self.settings_page.form.enter_info_edit()
         self.__test_surname__(test1)
         self.__test_surname__(test2)
 
     def __test_email__(self, test):
-        self.settings.form.input_email_value(test)
+        self.settings_page.form.input_email_value(test)
 
-        self.settings.form.enter_info_submit()
-        self.assertTrue(self.settings.form.is_error_email(), "Нет ошибки")
+        self.settings_page.form.enter_info_submit()
+        self.assertTrue(self.settings_page.form.is_error_email(), "Нет ошибки")
 
     def testErrorEmailInput(self):
         """Проверка регистрации с неправильными данными почты"""
@@ -72,7 +72,7 @@ class UserSettingsTest(Test):
         # регистрация, когда в почте нет .domen
         test4 = "test@test"
 
-        self.settings.form.enter_info_edit()
+        self.settings_page.form.enter_info_edit()
         self.__test_email__(test1)
         self.__test_email__(test2)
         self.__test_email__(test3)
@@ -81,11 +81,11 @@ class UserSettingsTest(Test):
     def __test_password__(self, test):
         old_password = os.environ.get("PASSWORD")
 
-        self.settings.pwd_form.input_password_value(test)
-        self.settings.pwd_form.input_old_password_value(old_password)
+        self.settings_page.pwd_form.input_password_value(test)
+        self.settings_page.pwd_form.input_old_password_value(old_password)
 
-        self.settings.pwd_form.enter_pwd_submit()
-        self.assertTrue(self.settings.pwd_form.is_error_password(), "Нет ошибки")
+        self.settings_page.pwd_form.enter_pwd_submit()
+        self.assertTrue(self.settings_page.pwd_form.is_error_password(), "Нет ошибки")
 
     def testErrorPasswordInput(self):
         """Проверка сохранения с неправильными данными пароля"""
@@ -109,12 +109,12 @@ class UserSettingsTest(Test):
     def __test_confirm_password__(self, test, confirm_test):
         old_password = os.environ.get("PASSWORD")
 
-        self.settings.pwd_form.input_password_value(test)
-        self.settings.pwd_form.input_confirm_password_value(confirm_test)
-        self.settings.pwd_form.input_old_password_value(old_password)
+        self.settings_page.pwd_form.input_password_value(test)
+        self.settings_page.pwd_form.input_confirm_password_value(confirm_test)
+        self.settings_page.pwd_form.input_old_password_value(old_password)
 
-        self.settings.pwd_form.enter_pwd_submit()
-        self.assertTrue(self.settings.pwd_form.is_error_confirm_password(), "Нет ошибки")
+        self.settings_page.pwd_form.enter_pwd_submit()
+        self.assertTrue(self.settings_page.pwd_form.is_error_confirm_password(), "Нет ошибки")
 
     def testErrorConfirmPasswordInput(self):
         """Проверка сохранения с неправильными данными пароля и подтверждения пароля"""
@@ -126,30 +126,30 @@ class UserSettingsTest(Test):
 
     def testChangeTheme(self):
         """Проверка смены темы"""
-        theme_0 = self.settings.theme_form.get_theme()
+        theme_0 = self.settings_page.theme_form.get_theme()
         if theme_0 == "dark":
-            self.settings.theme_form.change_theme_light()
+            self.settings_page.theme_form.change_theme_light()
         else:
-            self.settings.theme_form.change_theme_dark()
+            self.settings_page.theme_form.change_theme_dark()
 
-        theme_1 = self.settings.theme_form.get_theme()
+        theme_1 = self.settings_page.theme_form.get_theme()
         self.assertNotEqual(theme_0, theme_1, "Одинаковые темы")
 
         if theme_1 == "dark":
-            self.settings.theme_form.change_theme_light()
+            self.settings_page.theme_form.change_theme_light()
         else:
-            self.settings.theme_form.change_theme_dark()
+            self.settings_page.theme_form.change_theme_dark()
 
-        theme_2 = self.settings.theme_form.get_theme()
+        theme_2 = self.settings_page.theme_form.get_theme()
         self.assertEqual(theme_0, theme_2, "Разные темы")
         self.assertNotEqual(theme_1, theme_2, "Одинаковые темы")
 
     def __test_change_password__(self, old, new, confirm):
-        self.settings.pwd_form.input_password_value(new)
-        self.settings.pwd_form.input_confirm_password_value(confirm)
-        self.settings.pwd_form.input_old_password_value(old)
-        self.assertEqual(self.settings.pwd_form.get_pwd_change_error(), '', "Появилась ошибка")
-        self.settings.pwd_form.enter_pwd_submit()
+        self.settings_page.pwd_form.input_password_value(new)
+        self.settings_page.pwd_form.input_confirm_password_value(confirm)
+        self.settings_page.pwd_form.input_old_password_value(old)
+        self.assertEqual(self.settings_page.pwd_form.get_pwd_change_error(), '', "Появилась ошибка")
+        self.settings_page.pwd_form.enter_pwd_submit()
 
     def testPasswordChange(self):
         """Проверка успешной смены пароля"""
@@ -159,12 +159,12 @@ class UserSettingsTest(Test):
 
         self.__test_change_password__(new_pwd, new_pwd, conf_pwd)
 
-        self.settings.login.logout()
+        self.settings_page.login.logout()
         self.main_page.open()
         self.main_page.login.auth(password=new_pwd)
-        self.assertTrue(self.settings.login.is_logined(), "Пользователь не вошел в систему")
+        self.assertTrue(self.settings_page.login.is_logined(), "Пользователь не вошел в систему")
 
-        self.settings.open()
+        self.settings_page.open()
         self.__test_change_password__(new_pwd, old_pwd, old_pwd)
 
     def testEditUserData(self):
@@ -179,17 +179,17 @@ class UserSettingsTest(Test):
         old_email = "tehnopark@tehnopark.com"
         old_sex = "Женский"
 
-        self.settings.form.enter_info_edit()
+        self.settings_page.form.enter_info_edit()
         self.__input_settings__(new_name, new_surname, new_email, new_sex)
-        self.settings.form.enter_info_submit()
+        self.settings_page.form.enter_info_submit()
 
-        self.settings.open()
+        self.settings_page.open()
 
-        self.assertEqual(new_email, self.settings.form.get_email(), 'поля не совпадают')
-        self.assertEqual(new_name, self.settings.form.get_name(), 'поля не совпадают')
-        self.assertEqual(new_surname, self.settings.form.get_surname(), 'поля не совпадают')
-        self.assertEqual(new_sex, self.settings.form.get_sex(), 'поля не совпадают')
+        self.assertEqual(new_email, self.settings_page.form.get_email(), 'поля не совпадают')
+        self.assertEqual(new_name, self.settings_page.form.get_name(), 'поля не совпадают')
+        self.assertEqual(new_surname, self.settings_page.form.get_surname(), 'поля не совпадают')
+        self.assertEqual(new_sex, self.settings_page.form.get_sex(), 'поля не совпадают')
 
-        self.settings.form.enter_info_edit()
+        self.settings_page.form.enter_info_edit()
         self.__input_settings__(old_name, old_surname, old_email, old_sex)
-        self.settings.form.enter_info_submit()
+        self.settings_page.form.enter_info_submit()

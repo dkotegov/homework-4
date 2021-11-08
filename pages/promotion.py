@@ -2,7 +2,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from helpers import Page, Component
-from components import Login
 
 
 class PromotionForm(Component):
@@ -75,7 +74,3 @@ class PromotionPage(Page):
     @property
     def form(self):
         return PromotionForm(self.driver)
-
-    @property
-    def login(self):
-        return Login(self.driver)
