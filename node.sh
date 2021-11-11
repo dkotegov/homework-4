@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
-java -Dwebdriver.chrome.driver="./chromedriver" \
-    -Dwebdriver.gecko.driver="./geckodriver" \
+ARCH=""
+
+if [ "$(uname)" = "Linux" ]; then
+    ARCH="linux"
+fi
+
+if [ "$(uname)" = "Darwin" ]; then
+    ARCH="mac_m1"
+fi
+
+java -Dwebdriver.chrome.driver="./drivers/chromedriver_$ARCH" \
+    -Dwebdriver.gecko.driver="./drivers/geckodriver_$ARCH" \
     -jar selenium-server-standalone-3.141.59.jar \
     -role node \
     -hub http://127.0.0.1:4444/grid/register \
