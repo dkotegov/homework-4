@@ -9,9 +9,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import TimeoutException
 
+import settings as s
+
 
 class BasePage:
-    BASE_URL = 'https://mail.liokor.ru'
+    BASE_URL = s.BASE_URL
     PATH = '/'
 
     def __init__(self, driver: Remote, base_css_sel=''):
@@ -23,6 +25,9 @@ class BasePage:
         self.driver.maximize_window()
 
     def is_opened(self):
+        if not self.base_css_sel:
+            raise Exception('base_css_sel is empty, unable to check if page is opened')
+
         try:
             self.locate_el(self.base_css_sel)
             return True
@@ -58,22 +63,12 @@ class BasePage:
         waiter = WebDriverWait(self.driver, wait)
         return waiter.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_sel)))
 
-    @staticmethod
-    def enter_file_path(clickf, path):
-        old_width = pyautogui.getActiveWindow().width
-
-        clickf()
-
-        new_width = old_width
-        while old_width == new_width:
-            # conditional waiting for appearance of a file selection window
-            new_width = pyautogui.getActiveWindow().width
-            pyautogui.sleep(0.1)
-
-        pyautogui.write(path, 0.01)
-        # Enter not pressed on Windows without this delay
-        pyautogui.sleep(0.5)
-        pyautogui.press('enter')
+    def close_browser_dialogue(self):
+        active_window = pyautogui.getActiveWindow()
+        while self.driver.get_window_size()['width'] == active_window.width:
+            time.sleep(0.05)
+            active_window = pyautogui.getActiveWindow()
+        active_window.close()
 
     def click(self, css_sel):
         self.locate_el(css_sel).click()

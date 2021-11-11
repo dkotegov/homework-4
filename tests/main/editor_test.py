@@ -143,8 +143,13 @@ class EditorTest(BaseTest):
         self.page.clickDialogue(DEFAULT_DIALOGUE)
         self.page.setMessageBody("")
 
-        clickf = self.page.clickRedactorPhoto
-        self.page.enter_file_path(clickf, os.path.join(os.getcwd(), "images", "good_image.jpg"))
+        image_path = os.path.join(os.getcwd(), "images", "good_image.jpg")
+        self.page.clickRedactorPhoto()
+
+        avatar_input = self.page.locate_hidden_el('#filesImageInput')
+        avatar_input.send_keys(image_path)
+
+        self.page.close_browser_dialogue()
 
         self.assertTrue(self.page.is_popup_success(), "Image not loaded")
         self.assertTrue(self.page.getMessageBody().startswith(target_start), "Bad image markdown format")

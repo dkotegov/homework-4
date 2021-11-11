@@ -187,7 +187,6 @@ class MainPage(BasePage):
         return self.locate_el(self.MESSAGE_INPUT_BODY).get_attribute('value')
 
     def isLastMessageYours(self):
-        # return self.locate_el(self.MESSAGE_LAST_ANY).get_attribute('class').find('right-block') != -1
         return self.locate_el(self.MESSAGE_LAST_YOUR).is_displayed()
 
     def getLastYourMessageTitle(self):

@@ -52,4 +52,4 @@ class AuthTest(BaseTest):
     def test_signup_btn(self):
         self.page.click_signup_btn()
 
-        self.assertEqual(SignupPage(self.driver).is_opened(), True)
+        self.assertTrue(SignupPage(self.driver).is_opened())

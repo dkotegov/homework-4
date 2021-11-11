@@ -1,6 +1,8 @@
 import os
 from random import randrange
 
+import pyautogui
+
 from pages.profile_page import ProfilePage
 from pages.auth_page import AuthPage
 from pages.change_password_page import ChangePasswordPage
@@ -28,8 +30,15 @@ class ProfileTest(BaseTest):
         self.driver.delete_all_cookies()
 
     def test_good_avatar(self):
-        clickf = self.page.click_avatar
-        self.page.enter_file_path(clickf, os.path.join(os.getcwd(), 'images', 'good_avatar.png'))
+        self.page.click_avatar()
+        avatar_input = self.page.locate_hidden_el('#filesImageInput')
+
+        avatar_path = os.path.join(os.getcwd(), 'images', 'good_avatar.png')
+        avatar_input.send_keys(avatar_path)
+
+        # closing file select dialog
+        # this won't work on macOS
+        self.page.close_browser_dialogue()
 
         self.assertTrue('success' in self.page.get_popup().get_attribute('class'))
 

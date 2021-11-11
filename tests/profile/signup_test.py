@@ -24,7 +24,7 @@ class SignupTest(BaseTest):
     def tearDown(self) -> None:
         self.driver.delete_all_cookies()
 
-    def generate_random_username(self):
+    def _generate_random_username(self):
         return self.GOOD_USERNAME_TEMPLATE.format(randrange(0, 4000000000))
 
     def test_empty_username(self):
@@ -46,7 +46,7 @@ class SignupTest(BaseTest):
         self.assertNotEqual(len(err), 0)
 
     def test_empty_password(self):
-        self.page.set_username(self.generate_random_username())
+        self.page.set_username(self._generate_random_username())
         self.page.set_password('')
         self.page.set_password_confirm(self.GOOD_PASSWORD)
         self.page.click_signup_btn()
@@ -55,7 +55,7 @@ class SignupTest(BaseTest):
         self.assertNotEqual(len(err), 0)
 
     def test_bad_password(self):
-        self.page.set_username(self.generate_random_username())
+        self.page.set_username(self._generate_random_username())
         self.page.set_password(self.BAD_PASSWORD)
         self.page.set_password_confirm(self.BAD_PASSWORD)
         self.page.click_signup_btn()
@@ -64,7 +64,7 @@ class SignupTest(BaseTest):
         self.assertNotEqual(len(err), 0)
 
     def test_bad_email(self):
-        self.page.set_username(self.generate_random_username())
+        self.page.set_username(self._generate_random_username())
         self.page.set_password(self.GOOD_PASSWORD)
         self.page.set_password_confirm(self.GOOD_PASSWORD)
         self.page.set_email(self.BAD_EMAIL)
@@ -74,7 +74,7 @@ class SignupTest(BaseTest):
         self.assertNotEqual(len(err), 0)
 
     def test_success_signup(self):
-        username = self.generate_random_username()
+        username = self._generate_random_username()
 
         self.page.set_username(username)
         self.page.set_password(self.GOOD_PASSWORD)
