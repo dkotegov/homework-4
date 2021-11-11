@@ -22,9 +22,20 @@ class AuthTest(unittest.TestCase):
         # todo: logout?
         self.driver.quit()
 
-    def test_success(self):
+    def test_auth_success(self):
         self.auth_page.set_login(self.LOGIN)
         self.auth_page.set_password(self.PASSWORD)
         self.auth_page.submit()
+        self.auth_page.wait_until_login()
         username = self.auth_page.navbar.get_username()
         self.assertEqual(self.USERNAME, username)
+
+    def test_go_to_sighup_success(self):
+        self.auth_page.go_to_registration()
+        url = self.driver.current_url
+        self.assertEqual(url, "https://delivery-borscht.ru/signup")
+
+    def test_go_to_restaurant_auth_success(self):
+        self.auth_page.go_to_restaurant_auth()
+        url = self.driver.current_url
+        self.assertEqual(url, "https://delivery-borscht.ru/restaurants/signin")
