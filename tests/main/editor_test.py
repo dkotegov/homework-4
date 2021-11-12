@@ -95,7 +95,7 @@ class EditorTest(BaseTest):
 
         self.page.clickDialogue(DEFAULT_DIALOGUE)
         self.page.setMessageBody(source)
-        self.page.selectLinesInMessageInput(1, 0)
+        self.page.editorSelectAll()
         self.page.clickRedactorH3()
 
         self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
@@ -144,12 +144,7 @@ class EditorTest(BaseTest):
         self.page.setMessageBody("")
 
         image_path = os.path.join(os.getcwd(), "images", "good_image.jpg")
-        self.page.clickRedactorPhoto()
-
-        avatar_input = self.page.locate_hidden_el('#filesImageInput')
-        avatar_input.send_keys(image_path)
-
-        self.page.close_browser_dialogue()
+        self.page.send_file(self.page.clickRedactorPhoto, image_path)
 
         self.assertTrue(self.page.is_popup_success(), "Image not loaded")
         self.assertTrue(self.page.getMessageBody().startswith(target_start), "Bad image markdown format")

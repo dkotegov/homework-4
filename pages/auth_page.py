@@ -23,12 +23,14 @@ class AuthPage(BasePage):
         self.set_password(password)
         self.click_login_btn()
         if 'error' in self.get_popup().get_attribute('class'):
+            # todo: remove second click after backend fix
             # sometimes backend returns 500 error
             self.click_login_btn()
 
         # we need to wait for login to succeed
         main_page = MainPage(self.driver)
-        return main_page.get_authenticated_user_email()
+        if not main_page.is_opened():
+            raise Exception('Unable to authenticate user!')
 
     def set_username(self, username=s.USERNAME):
         self.set_field(self.USERNAME_INPUT, username)

@@ -8,17 +8,28 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.keys import Keys
 
 import settings as s
 
 
 class BasePage:
+    WAIT_TIME = 3.0
+
     BASE_URL = s.BASE_URL
     PATH = '/'
+
+    FILE_INPUT = '#filesImageInput'
 
     def __init__(self, driver: Remote, base_css_sel=''):
         self.driver = driver
         self.base_css_sel = base_css_sel
+
+    def wait_until(self, cond_f, wait: float = None):
+        if wait is None:
+            wait = self.WAIT_TIME
+        waiter = WebDriverWait(self.driver, wait)
+        return waiter.until(cond_f)
 
     def open(self):
         self.driver.get(self.BASE_URL + self.PATH)
@@ -34,6 +45,16 @@ class BasePage:
         except TimeoutException:
             return False
 
+    def send_file(self, open_click, path):
+        open_click()
+
+        avatar_input = self.locate_hidden_el(self.FILE_INPUT)
+        avatar_input.send_keys(path)
+
+        # closing file select dialog
+        # this probably won't work on macOS
+        self.close_browser_dialogue()
+
     def set_field(self, locator, value, delay: float = None):
         el = self.locate_el(locator)
         el.clear()
@@ -43,6 +64,12 @@ class BasePage:
             for key in list(value):
                 el.send_keys(key)
                 time.sleep(delay)
+
+    def select_all(self, el: WebElement):
+        if self.driver.capabilities.get('platformName', 'windows') == 'windows':
+            el.send_keys(Keys.CONTROL + 'a')
+        else:
+            el.send_keys(Keys.COMMAND + 'a')
 
     def get_popup(self):
         return self.locate_el('.popup-message:last-child')
@@ -56,26 +83,24 @@ class BasePage:
         return 'error' in self.get_popup().get_attribute('class')
 
     def locate_el(self, css_sel, wait: float = 3.0) -> WebElement:
-        waiter = WebDriverWait(self.driver, wait)
-        return waiter.until(EC.visibility_of_element_located((By.CSS_SELECTOR, css_sel)))
+        return self.wait_until(EC.visibility_of_element_located((By.CSS_SELECTOR, css_sel)), wait)
 
     def locate_hidden_el(self, css_sel, wait: float = 3.0) -> WebElement:
-        waiter = WebDriverWait(self.driver, wait)
-        return waiter.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_sel)))
+        return self.wait_until(EC.presence_of_element_located((By.CSS_SELECTOR, css_sel)), wait)
 
     def close_browser_dialogue(self):
-        active_window = pyautogui.getActiveWindow()
-        while self.driver.get_window_size()['width'] == active_window.width:
-            time.sleep(0.05)
+        # waits for active window to change and returns it
+        def window_changed(driver):
             active_window = pyautogui.getActiveWindow()
-        active_window.close()
+            if driver.get_window_size()['width'] == active_window.width:
+                return False
+            return active_window
+
+        dialogue_window = self.wait_until(window_changed)
+        dialogue_window.close()
 
     def click(self, css_sel):
         self.locate_el(css_sel).click()
-
-    def locate_hidden_el(self, css_sel, wait: float = 3.0) -> WebElement:
-        waiter = WebDriverWait(self.driver, wait)
-        return waiter.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_sel)))
 
     def click_hidden(self, css_sel):
         el = self.locate_hidden_el(css_sel)

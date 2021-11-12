@@ -1,8 +1,6 @@
-import time
-
-import selenium.common.exceptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import StaleElementReferenceException
 
 from pages.base_page import BasePage
 
@@ -27,6 +25,7 @@ class MainPage(BasePage):
     FOLDER_BTN_CREATE = '.new-folder-button'
     FOLDER_BTN_EXPAND = '.folders-button'
     FOLDER_CURRENT_TITLE = '#dialogues-listing-divider > div'
+    FOLDER_NAME_INPUT = 'input[placeholder="Название папки"]'
 
     DIALOGUE_ANY = '#dialogues-listing > li:not(.folder)'
     DIALOGUE_BY_NAME = '#dialogues-listing li[data=\"%s\"]:not(.folder)'
@@ -80,14 +79,21 @@ class MainPage(BasePage):
     def clickRenameFolder(self, folderName):
         self.click_hidden(self.FOLDER_BTN_RENAME_BY_NAME % folderName)
 
+    def renameFolder(self, folderName, newName):
+        self.clickRenameFolder(folderName)
+
+        el = self.locate_el(self.FOLDER_NAME_INPUT)
+        el.clear()
+
+        # todo: remove second click when bug would be fixed
+        # empty folder name should not be permitted
+        # bug: folder edit becomes inactive after clear
+        self.clickRenameFolder(folderName)
+        el.send_keys(newName)
+        el.send_keys(Keys.ENTER)
+
     def clickCreateFolder(self):
         self.click(self.FOLDER_BTN_CREATE)
-
-    def setFolderTitle(self, folderName, newTitle):
-        el = self.locate_el(self.FOLDER_INPUT_TITLE_BY_NAME % folderName)
-        el.send_keys(Keys.CONTROL + 'a')
-        el.send_keys(newTitle)
-        el.send_keys(Keys.ENTER)
 
     def getFolderTitle(self, folderName):
         return self.locate_el(self.FOLDER_INPUT_TITLE_BY_NAME % folderName).get_attribute("value")
@@ -96,10 +102,10 @@ class MainPage(BasePage):
         return len(self.locate_el(self.LISTING).find_elements(By.CLASS_NAME, "folder"))
 
     def isFoldersExpanded(self):
-        return self.locate_el(self.FOLDER_ANY).is_displayed()
+        return self.driver.find_elements(By.CSS_SELECTOR, self.FOLDER_ANY)
 
-    def isFolderExists(self, folderName):
-        return self.locate_el(self.FOLDER_BY_NAME % folderName).is_displayed()
+    def isFolderExists(self, folderName) -> bool:
+        return bool(self.locate_el(self.FOLDER_BY_NAME % folderName))
 
     # -------- Dialogues --------
     def clickDialogue(self, dialogueName):
@@ -109,7 +115,9 @@ class MainPage(BasePage):
         self.click(self.DIALOGUE_BTN_ADD)
 
     def setFindDialogue(self, value, delay: float = 0.005):
+        # todo: remove delay when frontend bug would be fixed
         # we need delay to prevent frontend bug with search bar
+        # bug when N dialogues appears if not delay, where N = amount of characters entered
         self.set_field(self.DIALOGUE_INPUT_FIND, value, delay)
 
     def clickDeleteDialogue(self, dialogueName):
@@ -150,21 +158,7 @@ class MainPage(BasePage):
     def editorSelectAll(self):
         el = self.locate_el(self.MESSAGE_INPUT_BODY)
         el.click()
-        el.send_keys(Keys.CONTROL + 'a')
-
-    def selectTextInMessageInput(self, start, length):
-        el = self.locate_el(self.MESSAGE_INPUT_BODY)
-        el.click()
-        el.send_keys(Keys.CONTROL + Keys.HOME)
-        el.send_keys(Keys.ARROW_RIGHT * start)
-        el.send_keys(Keys.SHIFT + Keys.ARROW_RIGHT * length)
-
-    def selectLinesInMessageInput(self, start, length):
-        el = self.locate_el(self.MESSAGE_INPUT_BODY)
-        el.click()
-        el.send_keys(Keys.CONTROL + Keys.HOME)
-        el.send_keys(Keys.ARROW_DOWN * start)
-        el.send_keys(Keys.SHIFT + Keys.ARROW_DOWN * length)
+        self.select_all(el)
 
     def clickDeleteLastMessage(self, your: bool = None):
         if your is None:
@@ -185,6 +179,9 @@ class MainPage(BasePage):
 
     def getMessageBody(self):
         return self.locate_el(self.MESSAGE_INPUT_BODY).get_attribute('value')
+
+    def getLastMessage(self):
+        return self.locate_el(self.MESSAGE_LAST_ANY)
 
     def isLastMessageYours(self):
         return self.locate_el(self.MESSAGE_LAST_YOUR).is_displayed()
@@ -242,12 +239,9 @@ class MainPage(BasePage):
     def submitOverlay(self):
         el = self.locate_el(self.OVERLAY_SUBMIT)
         el.click()
-        # waiting for submit form to disappear
         try:
-            while el.is_displayed():
-                time.sleep(0.05)
-        except selenium.common.exceptions.StaleElementReferenceException:
-            # already hidden
+            self.wait_until(lambda d: not el.is_displayed())
+        except StaleElementReferenceException:
             pass
 
     def fillOverlay(self, value):
@@ -258,7 +252,10 @@ class MainPage(BasePage):
         return self.locate_el(self.SELF_USERNAME).text
 
     def delete_all_folders(self):
-        self.expandFolders()
+        if not self.isFoldersExpanded():
+            self.expandFolders()
+        self.wait_until(lambda d: self.isFoldersExpanded())
+
         folders = self.driver.find_elements(By.CSS_SELECTOR, self.FOLDER_ALL)
         for folder in folders:
             name = folder.get_attribute('data')
@@ -268,8 +265,7 @@ class MainPage(BasePage):
 
         self.expandFolders()
         # waiting for expanded folders to close
-        while self.driver.find_elements(By.CSS_SELECTOR, self.FOLDER_ANY):
-            time.sleep(0.01)
+        self.wait_until(lambda d: not self.isFoldersExpanded())
 
     def delete_all_dialogues(self):
         # waiting for dialogues to load
@@ -282,5 +278,5 @@ class MainPage(BasePage):
                 if name != self.BASE_DIALOGUE_NAME:
                     self.clickDeleteDialogue(name)
                     self.submitOverlay()
-            except selenium.common.exceptions.StaleElementReferenceException:
+            except StaleElementReferenceException:
                 pass

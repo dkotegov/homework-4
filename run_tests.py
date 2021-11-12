@@ -11,6 +11,7 @@ from tests.main.dialogues_test import DialoguesTest
 from tests.main.folders_test import FoldersTest
 
 if __name__ == '__main__':
+    # the folders test is the slowest
     suite = unittest.TestSuite((
         unittest.makeSuite(AuthTest),
         unittest.makeSuite(ProfileTest),
@@ -20,6 +21,6 @@ if __name__ == '__main__':
         unittest.makeSuite(MessagesTest),
         unittest.makeSuite(EditorTest),
         unittest.makeSuite(DialoguesTest),
-        unittest.makeSuite(FoldersTest)
+        # unittest.makeSuite(FoldersTest)
     ))
     result = unittest.TextTestRunner().run(suite)

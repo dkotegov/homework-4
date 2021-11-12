@@ -15,11 +15,15 @@ class ProfilePage(BasePage):
     BACK_BTN = '.back-btn'
 
     AVATAR_COVER = '#avatarChange'
+    AVATAR_IMAGE = '#avatarImage'
 
     EMAIL_ERROR = '#reserveEmailErrorText'
 
     def __init__(self, driver):
         super().__init__(driver, 'div.profile')
+
+    def get_avatar_url(self):
+        return self.locate_el(self.AVATAR_IMAGE).get_attribute('src')
 
     def set_email(self, email):
         self.set_field(self.EMAIL_INPUT, email)

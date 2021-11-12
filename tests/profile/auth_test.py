@@ -1,3 +1,4 @@
+from pages.main_page import MainPage
 from pages.auth_page import AuthPage
 from pages.signup_page import SignupPage
 
@@ -15,7 +16,10 @@ class AuthTest(BaseTest):
         self.driver.delete_all_cookies()
 
     def test_auth(self):
-        auth_email = self.page.auth()
+        self.page.auth()
+
+        main_page = MainPage(self.driver)
+        auth_email = main_page.get_authenticated_user_email()
 
         actual_username = auth_email.split('@')[0].lower()
         expected_username = s.USERNAME.lower()
@@ -38,7 +42,18 @@ class AuthTest(BaseTest):
 
         self.assertNotEqual(len(err), 0)
 
-    def test_incorrect_username_or_password_error(self):
+    def test_incorrect_username_error(self):
+        self.page.set_username(s.USERNAME + '[]!@%$___---1342')
+        self.page.set_password(s.PASSWORD)
+        self.page.click_login_btn()
+
+        username_error = self.page.get_username_error()
+        password_error = self.page.get_password_error()
+
+        self.assertNotEqual(len(username_error), 0)
+        self.assertNotEqual(len(password_error), 0)
+
+    def test_incorrect_password_error(self):
         self.page.set_username(s.USERNAME)
         self.page.set_password(s.PASSWORD + 'wolf')
         self.page.click_login_btn()
