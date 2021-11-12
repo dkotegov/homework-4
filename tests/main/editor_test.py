@@ -20,6 +20,8 @@ class EditorTest(BaseTest):
         cls.page = MainPage(cls.driver)
         cls.page.driver.maximize_window()
 
+        cls.page.open()
+
     def tearDown(self):
         self.page.setMessageBody('')
 
