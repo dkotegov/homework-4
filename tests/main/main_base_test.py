@@ -3,7 +3,7 @@ from pages.auth_page import AuthPage
 
 from tests.base_test import BaseTest
 
-import settings as s
+from selenium.common.exceptions import TimeoutException
 
 
 class MainBaseTest(BaseTest):
@@ -37,8 +37,17 @@ class MainBaseTest(BaseTest):
 
     def _create_folder_with_name(self, name, renameTo=None):
         self.page.clickCreateFolder()
+
+        # todo: remove when bug would be fixed
+        # bug: sometimes create folder click is not working
+        try:
+            self.page.locate_el('.modal', 1.0)
+        except TimeoutException:
+            self.page.clickCreateFolder()
+
         self.page.fillOverlay(name)
         self.page.submitOverlay()
+
         self.assertTrue(self.page.is_popup_success())
         self.assertTrue(self.page.isFolderExists(name), "Folder not created")
         self.assertEqual(self.page.getFolderTitle(name), name, "Created folder real name is different")

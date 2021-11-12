@@ -28,6 +28,9 @@ class ProfileTest(BaseTest):
         self.driver.delete_all_cookies()
 
     def test_good_avatar(self):
+        if not self.page.is_windows():
+            return
+
         old_avatar_url = self.page.get_avatar_url()
 
         avatar_path = os.path.join(os.getcwd(), 'images', 'good_avatar.png')

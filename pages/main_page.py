@@ -68,7 +68,14 @@ class MainPage(BasePage):
 
     # --------- Folders ---------
     def expandFolders(self):
-        self.click(self.FOLDER_BTN_EXPAND)
+        if not self.isFoldersExpanded():
+            self.click(self.FOLDER_BTN_EXPAND)
+            self.wait_until(lambda e: self.isFoldersExpanded())
+
+    def hideFolders(self):
+        if self.isFoldersExpanded():
+            self.click(self.FOLDER_BTN_EXPAND)
+            self.wait_until(lambda e: not self.isFoldersExpanded())
 
     def clickFolder(self, folderName):
         self.click(self.FOLDER_BY_NAME % folderName)
@@ -81,7 +88,6 @@ class MainPage(BasePage):
 
     def renameFolder(self, folderName, newName):
         self.clickRenameFolder(folderName)
-
         el = self.locate_el(self.FOLDER_NAME_INPUT)
         el.clear()
 
@@ -252,9 +258,7 @@ class MainPage(BasePage):
         return self.locate_el(self.SELF_USERNAME).text
 
     def delete_all_folders(self):
-        if not self.isFoldersExpanded():
-            self.expandFolders()
-        self.wait_until(lambda d: self.isFoldersExpanded())
+        self.expandFolders()
 
         folders = self.driver.find_elements(By.CSS_SELECTOR, self.FOLDER_ALL)
         for folder in folders:
@@ -263,9 +267,7 @@ class MainPage(BasePage):
                 self.clickDeleteFolder(name)
                 self.submitOverlay()
 
-        self.expandFolders()
-        # waiting for expanded folders to close
-        self.wait_until(lambda d: not self.isFoldersExpanded())
+        self.hideFolders()
 
     def delete_all_dialogues(self):
         # waiting for dialogues to load

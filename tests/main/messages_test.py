@@ -66,7 +66,7 @@ class MessagesTest(MainBaseTest):
         self.page.submitOverlay()
 
         self.assertTrue(self.page.is_popup_success())
-        self.assertEqual(self.page.getMessagesCount(), 0, "Message wasn't deleted")
+        self.page.wait_until(lambda d: self.page.getMessagesCount() == 0)
 
     def test_message_body_saved_after_refresh(self):
         mail = _randomMail(15)

@@ -138,6 +138,9 @@ class EditorTest(BaseTest):
         self.assertEqual(self.page.getMessageBody(), target, "Message body unexpected")
 
     def test_editor_photo_positive(self):
+        if not self.page.is_windows():
+            return
+
         target_start = "![image](https://mail.liokor.ru/api/media/files/"
 
         self.page.clickDialogue(DEFAULT_DIALOGUE)

@@ -65,8 +65,11 @@ class BasePage:
                 el.send_keys(key)
                 time.sleep(delay)
 
+    def is_windows(self):
+        return self.driver.capabilities.get('platformName', 'windows') == 'windows'
+
     def select_all(self, el: WebElement):
-        if self.driver.capabilities.get('platformName', 'windows') == 'windows':
+        if self.is_windows():
             el.send_keys(Keys.CONTROL + 'a')
         else:
             el.send_keys(Keys.COMMAND + 'a')
