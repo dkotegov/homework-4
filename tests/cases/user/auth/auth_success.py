@@ -1,7 +1,7 @@
 import os
 import unittest
-from selenium.webdriver import DesiredCapabilities, Remote
 
+from selenium.webdriver import DesiredCapabilities, Remote
 from tests.pages.auth_customer import CustomerAuthPage
 
 
@@ -39,3 +39,5 @@ class AuthTest(unittest.TestCase):
         self.auth_page.go_to_restaurant_auth()
         url = self.driver.current_url
         self.assertEqual(url, "https://delivery-borscht.ru/restaurants/signin")
+
+    # def test_password_quotes_arent_cut(self):
