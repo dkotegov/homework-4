@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 
 from helpers import Page, Component
 from components import Login, UserSideBar
+from helpers.helpers import SELECTOR
 
 
 class UserThemeForm(Component):
@@ -80,8 +81,13 @@ class UserSettingsForm(Component):
     SURNAME = "#settings-surname"
     TELEPHONE = "#settings-phone"
     EMAIL = "#settings-email"
-    DATE = "#settings-birthday"
     SEX = "#settings-gender"
+
+    NAME_RO = "//input[@id=\"settings-name\"][@readonly]"
+    SURNAME_RO = "//input[@id=\"settings-surname\"][@readonly]"
+    TELEPHONE_RO = "//input[@id=\"settings-phone\"][@readonly]"
+    EMAIL_RO = "//input[@id=\"settings-email\"][@readonly]"
+
     SEX_OPTION = "//option[@selected=\"true\"]"
     INFO_SUBMIT = "#settings-button-save"
     INFO_EDIT = "#settings-edit"
@@ -120,21 +126,17 @@ class UserSettingsForm(Component):
     def enter_info_edit(self):
         self.helpers.click_element(self.INFO_EDIT)
 
-    def input_date_value(self, text):
-        self.helpers.clear_input(self.DATE)
-        self.helpers.input_value(self.DATE, text)
-
     def input_sex_value(self, text):
         self.helpers.input_value(self.SEX, text)
 
     def get_name(self):
-        return self.helpers.get_element(self.NAME).get_attribute("value")
+        return self.helpers.get_element(self.NAME_RO, by=SELECTOR.XPATH).get_attribute("value")
 
     def get_surname(self):
-        return self.helpers.get_element(self.SURNAME).get_attribute("value")
+        return self.helpers.get_element(self.SURNAME_RO, by=SELECTOR.XPATH).get_attribute("value")
 
     def get_email(self):
-        return self.helpers.get_element(self.EMAIL).get_attribute("value")
+        return self.helpers.get_element(self.EMAIL_RO, by=SELECTOR.XPATH).get_attribute("value")
 
     def get_sex(self):
         return self.helpers.get_element(self.SEX_OPTION, self.helpers.SELECTOR.XPATH).text

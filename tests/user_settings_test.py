@@ -183,8 +183,6 @@ class UserSettingsTest(Test):
         self.__input_settings__(new_name, new_surname, new_email, new_sex)
         self.settings_page.form.enter_info_submit()
 
-        self.settings_page.open()
-
         self.assertEqual(new_email, self.settings_page.form.get_email(), 'поля не совпадают')
         self.assertEqual(new_name, self.settings_page.form.get_name(), 'поля не совпадают')
         self.assertEqual(new_surname, self.settings_page.form.get_surname(), 'поля не совпадают')

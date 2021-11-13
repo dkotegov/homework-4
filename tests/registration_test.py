@@ -170,7 +170,7 @@ class RegistrationTest(Test):
 
         name = "name"
         surname = "surname"
-        telephone = "1671263263"
+        telephone = "1678263963"
         password = "Qwerty12"
         confirm_password = "Qwerty12"
         email = "test@test.ru"
