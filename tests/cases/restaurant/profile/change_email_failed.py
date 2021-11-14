@@ -1,10 +1,10 @@
 import unittest
 from tests.default_setup import default_setup
-from tests.pages.user.profile import UserProfilePage
-from tests.steps.auth_user import auth_setup
+from tests.pages.restaurant.profile import RestaurantProfilePage
+from tests.steps.auth_restaurant import auth_setup
 
 
-class ChangeUserEmailFailedTests(unittest.TestCase):
+class ChangeRestaurantEmailFailedTests(unittest.TestCase):
     email_more25 = "arkadiyarkadiyarkadiya@mail.ru"
     email_empty = ""
     email_incorrect = "oleg"
@@ -15,7 +15,7 @@ class ChangeUserEmailFailedTests(unittest.TestCase):
     def setUp(self):
         default_setup(self)
         auth_setup(self)
-        self.profile_page = UserProfilePage(self.driver)
+        self.profile_page = RestaurantProfilePage(self.driver)
         self.profile_page.open()
 
     def tearDown(self):
@@ -23,7 +23,7 @@ class ChangeUserEmailFailedTests(unittest.TestCase):
         self.driver.quit()
 
     def set_start_email(self):
-        self.profile_page.set_email(self.USER_LOGIN)
+        self.profile_page.set_email(self.RESTAURANT_LOGIN)
         self.profile_page.click_save()
 
     def test_change_email_more25(self):

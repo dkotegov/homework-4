@@ -1,10 +1,10 @@
 import unittest
 from tests.default_setup import default_setup
-from tests.pages.user.profile import ProfilePage
+from tests.pages.user.profile import UserProfilePage
 from tests.steps.auth_user import auth_setup
 
 
-class ChangeNameFailedTests(unittest.TestCase):
+class ChangeUserNameFailedTests(unittest.TestCase):
     name_more25 = "arkadiyarkadiyarkadiyarkadiyar"
     name_empty = ""
     expected_error_more = "Имя: Поле должно содержать меньше 25 символов"
@@ -13,7 +13,7 @@ class ChangeNameFailedTests(unittest.TestCase):
     def setUp(self):
         default_setup(self)
         auth_setup(self)
-        self.profile_page = ProfilePage(self.driver)
+        self.profile_page = UserProfilePage(self.driver)
         self.profile_page.open()
 
     def tearDown(self):
