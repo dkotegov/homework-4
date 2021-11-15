@@ -1,3 +1,4 @@
+import utils
 from components.default import Component
 
 from utils import wait_for_element_by_selector
@@ -14,6 +15,9 @@ class NavBar(Component):
     MAIN = 'header .header-form li a[href*=\"/\"]'
     LOGO = 'header .header a.header_logo'
     LOGIN = '.header-form__profile__link'
+
+    def has_dropdown(self):
+        return utils.is_visible(self.driver, self.DROPDOWN)
 
     def _show_dropdown(self):
         wait_for_element_by_selector(self.driver, self.DROPDOWN)
