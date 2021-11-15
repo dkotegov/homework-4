@@ -14,7 +14,7 @@ from tests.navbar.go_to_favourites_test import GoToFavouritesTest
 from tests.details.tests_without_auth.transit_to_auth_page_test import TransitToAuthTest
 from tests.details.tests_without_auth.click_on_actor_name_test import ClickOnActorNameTest
 from tests.details.tests_with_auth.transit_to_profile_page_test import TransitToProfileTest
-from tests.details.tests_with_auth.details_buttons_tests import OpenPlayerTest, AddToFavouritesTest,\
+from tests.details.tests_with_auth.details_buttons_tests import OpenPlayerTest, AddToFavouritesTest, \
     RemoveFromFavouritesTest, LikeMovieTest, DislikeMovieTest
 from tests.profile.click_on_sub_btn import ClickOnSubscriptionBtnTest
 from tests.profile.change_to_invalid_avatar_test import ChangeToInvalidAvatarTest
@@ -34,52 +34,81 @@ from tests.search_popup.enter_letter_test import EnterLetterTest
 from tests.search_popup.find_movie_test import FindMovieTest
 from tests.search_popup.find_actor_test import FindActorTest
 
+from tests.login.empty_fields_login_test import EmptyFieldsLoginTest
+from tests.login.go_to_signup_test import GoToSignupTest
+from tests.login.invalid_email_login_test import InvalidEmailLoginTest
+
+from tests.navbar.go_to_movies_test import GoToMoviesTest
+from tests.navbar.go_to_series_test import GoToSeriesTest
+from tests.navbar.go_to_main_test import GoToMainTest
+
+from tests.main.horizontal_scroll_tests import HorizontalScrollRightTest, HorizontalScrollLeftTest
+from tests.main.click_on_card_test import ClickOnCardTest
+from tests.main.click_on_watch_button_test import ClickOnWatchButtonTest
+
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        # unittest.makeSuite(ClickOnSeriesTest),
-        # unittest.makeSuite(ClickOnGenreTest),
-        # unittest.makeSuite(ClickOnMovieTest),
-        # unittest.makeSuite(ClickOnMovieGenreTest),
-        # unittest.makeSuite(LoginTest),
-        # unittest.makeSuite(LogoutTest),
-        # unittest.makeSuite(GoToProfileTest),
-        # unittest.makeSuite(GoToFavouritesTest),
-        # unittest.makeSuite(TransitToAuthTest),
-        # unittest.makeSuite(ClickOnActorNameTest),
-        # unittest.makeSuite(TransitToProfileTest),
-        # unittest.makeSuite(OpenPlayerTest),
-        # unittest.makeSuite(AddToFavouritesTest),
-        # unittest.makeSuite(RemoveFromFavouritesTest),
-        # unittest.makeSuite(LikeMovieTest),
-        # unittest.makeSuite(DislikeMovieTest),
-        # unittest.makeSuite(ClickOnSubscriptionBtnTest),
-        # unittest.makeSuite(ChangeToInvalidAvatarTest),
-        # unittest.makeSuite(ChangeToValidAvatarTest),
-        # unittest.makeSuite(ChangeToValidEmailTest),
-        # unittest.makeSuite(ChangeToValidLoginTest),
-        # unittest.makeSuite(ChangeToValidLoginAndEmailTest),
-        # unittest.makeSuite(ChangeToInvalidLoginTest),
-        # unittest.makeSuite(ChangeToEmptyLoginTest),
-        # unittest.makeSuite(ChangeToEmptyEmailTest),
-        # unittest.makeSuite(ChangeToInvalidEmailTest),
-        # unittest.makeSuite(ChangeToInvalidEmailAndLoginTest),
-        # unittest.makeSuite(ChangeToInvalidLoginAndValidEmailTest),
-        # unittest.makeSuite(TransitToLoginPageTest),
-        # unittest.makeSuite(SignUpWithEmptyFieldsTest),
-        # unittest.makeSuite(SignUpWithInvalidLoginTest),
-        # unittest.makeSuite(SignUpWithNumericLoginTest),
-        # unittest.makeSuite(SignUpWithInvalidEmailTest),
-        # unittest.makeSuite(SignUpWithLetterLoginTest),
-        # unittest.makeSuite(SignUpWithSmallPasswordTest),
-        # unittest.makeSuite(SignUpWithBigPasswordTest),
-        # unittest.makeSuite(SignUpWithDifferentPasswordsTest),
-        # unittest.makeSuite(SignUpWithAllInvalidFieldsTest),
-        # unittest.makeSuite(SignUpAlreadySignupedTest),
-        # unittest.makeSuite(SignUpTest),
-        # unittest.makeSuite(ClosePopupTest),
-        # unittest.makeSuite(EnterLetterTest),
-        # unittest.makeSuite(FindMovieTest),
-        unittest.makeSuite(FindActorTest)
+        unittest.makeSuite(ClickOnSeriesTest),
+        unittest.makeSuite(ClickOnGenreTest),
+        unittest.makeSuite(ClickOnMovieTest),
+        unittest.makeSuite(ClickOnMovieGenreTest),
+
+        # login
+        unittest.makeSuite(LoginTest),
+        unittest.makeSuite(EmptyFieldsLoginTest),
+        unittest.makeSuite(GoToSignupTest),
+        unittest.makeSuite(InvalidEmailLoginTest),
+        # unittest.makeSuite(WrongCredsLoginTest), # bug
+        # unittest.makeSuite(WrongPasswordLoginTest), # bug
+        # navbar
+        unittest.makeSuite(GoToMoviesTest),
+        unittest.makeSuite(GoToSeriesTest),
+        unittest.makeSuite(GoToProfileTest),
+        unittest.makeSuite(GoToFavouritesTest),
+        unittest.makeSuite(GoToMainTest),
+        unittest.makeSuite(LogoutTest),
+        # main
+        unittest.makeSuite(HorizontalScrollRightTest),
+        unittest.makeSuite(HorizontalScrollLeftTest),
+        unittest.makeSuite(ClickOnCardTest),
+        unittest.makeSuite(ClickOnWatchButtonTest),
+
+        unittest.makeSuite(TransitToAuthTest),
+        unittest.makeSuite(ClickOnActorNameTest),
+        unittest.makeSuite(TransitToProfileTest),
+        unittest.makeSuite(OpenPlayerTest),
+        unittest.makeSuite(AddToFavouritesTest),
+        unittest.makeSuite(RemoveFromFavouritesTest),
+        unittest.makeSuite(LikeMovieTest),
+        unittest.makeSuite(DislikeMovieTest),
+        unittest.makeSuite(ClickOnSubscriptionBtnTest),
+        unittest.makeSuite(ChangeToInvalidAvatarTest),
+        unittest.makeSuite(ChangeToValidAvatarTest),
+        unittest.makeSuite(ChangeToValidEmailTest),
+        unittest.makeSuite(ChangeToValidLoginTest),
+        unittest.makeSuite(ChangeToValidLoginAndEmailTest),
+        unittest.makeSuite(ChangeToInvalidLoginTest),
+        unittest.makeSuite(ChangeToEmptyLoginTest),
+        unittest.makeSuite(ChangeToEmptyEmailTest),
+        unittest.makeSuite(ChangeToInvalidEmailTest),
+        unittest.makeSuite(ChangeToInvalidEmailAndLoginTest),
+        unittest.makeSuite(ChangeToInvalidLoginAndValidEmailTest),
+        unittest.makeSuite(TransitToLoginPageTest),
+        unittest.makeSuite(SignUpWithEmptyFieldsTest),
+        unittest.makeSuite(SignUpWithInvalidLoginTest),
+        unittest.makeSuite(SignUpWithNumericLoginTest),
+        unittest.makeSuite(SignUpWithInvalidEmailTest),
+        unittest.makeSuite(SignUpWithLetterLoginTest),
+        unittest.makeSuite(SignUpWithSmallPasswordTest),
+        unittest.makeSuite(SignUpWithBigPasswordTest),
+        unittest.makeSuite(SignUpWithDifferentPasswordsTest),
+        unittest.makeSuite(SignUpWithAllInvalidFieldsTest),
+        unittest.makeSuite(SignUpAlreadySignupedTest),
+        unittest.makeSuite(SignUpTest),
+        unittest.makeSuite(ClosePopupTest),
+        unittest.makeSuite(EnterLetterTest),
+        unittest.makeSuite(FindMovieTest),
+        unittest.makeSuite(FindActorTest),
     ))
 
     result = unittest.TextTestRunner().run(suite)
