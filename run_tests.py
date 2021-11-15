@@ -11,7 +11,7 @@ from tests.series.click_on_series_test import ClickOnSeriesTest
 from tests.details.tests_without_auth.transit_to_auth_page_test import TransitToAuthTest
 from tests.details.tests_without_auth.click_on_actor_name_test import ClickOnActorNameTest
 from tests.details.tests_with_auth.transit_to_profile_page_test import TransitToProfileTest
-from tests.details.tests_with_auth.details_buttons_tests import OpenPlayerTest, AddToFavouritesTest,\
+from tests.details.tests_with_auth.details_buttons_tests import OpenPlayerTest, AddToFavouritesTest, \
     RemoveFromFavouritesTest, LikeMovieTest, DislikeMovieTest
 from tests.profile.click_on_sub_btn import ClickOnSubscriptionBtnTest
 from tests.profile.change_to_invalid_avatar_test import ChangeToInvalidAvatarTest
@@ -55,16 +55,46 @@ from tests.login.invalid_email_login_test import InvalidEmailLoginTest
 from tests.login.wrong_creds_login_test import WrongCredsLoginTest
 from tests.login.wrong_password_login_test import WrongPasswordLoginTest
 
+from tests.login.empty_fields_login_test import EmptyFieldsLoginTest
+from tests.login.go_to_signup_test import GoToSignupTest
+from tests.login.invalid_email_login_test import InvalidEmailLoginTest
+
+from tests.navbar.go_to_movies_test import GoToMoviesTest
+from tests.navbar.go_to_series_test import GoToSeriesTest
+from tests.navbar.go_to_main_test import GoToMainTest
+
+from tests.main.horizontal_scroll_tests import HorizontalScrollRightTest, HorizontalScrollLeftTest
+from tests.main.click_on_card_test import ClickOnCardTest
+from tests.main.click_on_watch_button_test import ClickOnWatchButtonTest
+
 if __name__ == '__main__':
     suite = unittest.TestSuite((
         unittest.makeSuite(ClickOnSeriesTest),
         unittest.makeSuite(ClickOnGenreTest),
         unittest.makeSuite(ClickOnMovieTest),
-        unittest.makeSuite(ClickOnMovieGenreTest),
+        unittest.makeSuite(ClickOnMovieGenreTest)
         unittest.makeSuite(LoginTest),
         unittest.makeSuite(LogoutTest),
         unittest.makeSuite(GoToProfileTest),
+    # login
+        unittest.makeSuite(LoginTest),
+        unittest.makeSuite(EmptyFieldsLoginTest),
+        unittest.makeSuite(GoToSignupTest),
+        unittest.makeSuite(InvalidEmailLoginTest),
+        # unittest.makeSuite(WrongCredsLoginTest), # bug
+        # unittest.makeSuite(WrongPasswordLoginTest), # bug
+        # navbar
+        unittest.makeSuite(GoToMoviesTest),
+        unittest.makeSuite(GoToSeriesTest),
+        unittest.makeSuite(GoToProfileTest),
         unittest.makeSuite(GoToFavouritesTest),
+        unittest.makeSuite(GoToMainTest),
+        unittest.makeSuite(LogoutTest),
+        # main
+        unittest.makeSuite(HorizontalScrollRightTest),
+        unittest.makeSuite(HorizontalScrollLeftTest),
+        unittest.makeSuite(ClickOnCardTest),
+        unittest.makeSuite(ClickOnWatchButtonTest),
         unittest.makeSuite(TransitToAuthTest),
         unittest.makeSuite(ClickOnActorNameTest),
         unittest.makeSuite(TransitToProfileTest),
@@ -125,6 +155,7 @@ if __name__ == '__main__':
         unittest.makeSuite(WrongPasswordLoginTest),
         unittest.makeSuite(ClickOnMovieActorTest)
     ))
+
 
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

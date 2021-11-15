@@ -10,4 +10,4 @@ class LogoutTest(TestAuthorized):
         main_page.set_navbar()
         main_page.navbar.click_on_logout()
         main_page.open()
-        self.assertTrue(main_page.navbar.is_visible_login())git
+        self.assertTrue(main_page.navbar.is_visible_login())
