@@ -9,16 +9,20 @@ from tests.cases.restaurant.auth.auth_success import RestaurantAuthTest
 from tests.cases.restaurant.auth.auth_failed import RestaurantAuthFailedTest
 from tests.cases.user.registration.registration_success import RegistrationTest
 from tests.cases.user.registration.registration_failed import RegistrationFailedTest
+from tests.cases.restaurant.registration.registration_success import RestaurantRegistrationTest
+from tests.cases.restaurant.registration.registration_failed import RestaurantRegistrationFailedTest
 
 if __name__ == '__main__':
     suite = unittest.TestSuite((
-        # unittest.makeSuite(AddDishToBasketTest),
-        # unittest.makeSuite(AuthTest),
-        # unittest.makeSuite(AuthFailedTest),
-        # unittest.makeSuite(RestaurantAuthTest),
-        # unittest.makeSuite(RestaurantAuthFailedTest),
-        # unittest.makeSuite(RegistrationTest),
+        unittest.makeSuite(AddDishToBasketTest),
+        unittest.makeSuite(AuthTest),
+        unittest.makeSuite(AuthFailedTest),
+        unittest.makeSuite(RestaurantAuthTest),
+        unittest.makeSuite(RestaurantAuthFailedTest),
+        unittest.makeSuite(RegistrationTest),
         unittest.makeSuite(RegistrationFailedTest),
+        unittest.makeSuite(RestaurantRegistrationTest),
+        unittest.makeSuite(RestaurantRegistrationFailedTest),
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
