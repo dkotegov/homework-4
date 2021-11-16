@@ -15,7 +15,7 @@ class ChangeToInvalidAvatarTest(TestAuthorized):
         profile_page.upload_new_avatar(self.PATH_OF_INVALID_AVATAR)
         profile_page.save_avatar()
 
-        profile_page.wait_for_avatar_src(self.PATH_OF_DEFAULT_AVATAR)
+        profile_page.open()
 
         self.assertEqual(
             self.PATH_OF_DEFAULT_AVATAR,

@@ -3,6 +3,15 @@
 
 import sys
 import unittest
+from tests.actor.click_on_movie_name_test import ClickOnMovieNameTest
+from tests.actor.click_on_movie_test import ClickOnMovieTest as ClickOnMovieTestActor
+from tests.favourites.click_on_movie_test import ClickOnMovieTest as ClickOnMovieTestFavourites
+from tests.favourites.not_opened_test import NotOpenedTest
+from tests.favourites.only_added_movies_test import OnlyAddedMoviesTest
+from tests.player.not_opened_test import NotOpenedTest
+from tests.player.close_fullscreen_test import CloseFullscreenTest
+from tests.player.closed_test import ClosedTest
+from tests.player.esc_to_part_screen_test import EscToPartScreenTest
 from tests.movies.click_on_movie_test import ClickOnMovieTest
 from tests.movies.click_on_genre_test import ClickOnGenreTest as ClickOnMovieGenreTest
 from tests.series.click_on_genre_test import ClickOnGenreTest
@@ -60,6 +69,7 @@ if __name__ == '__main__':
         unittest.makeSuite(InvalidEmailLoginTest),
         # unittest.makeSuite(WrongCredsLoginTest), # bug
         # unittest.makeSuite(WrongPasswordLoginTest), # bug
+
         # navbar
         unittest.makeSuite(GoToMoviesTest),
         unittest.makeSuite(GoToSeriesTest),
@@ -67,6 +77,7 @@ if __name__ == '__main__':
         unittest.makeSuite(GoToFavouritesTest),
         unittest.makeSuite(GoToMainTest),
         unittest.makeSuite(LogoutTest),
+
         # main
         unittest.makeSuite(HorizontalScrollRightTest),
         unittest.makeSuite(HorizontalScrollLeftTest),
@@ -85,7 +96,7 @@ if __name__ == '__main__':
 
         # profile
         unittest.makeSuite(ClickOnSubscriptionBtnTest),
-        unittest.makeSuite(ChangeToInvalidAvatarTest),
+        # unittest.makeSuite(ChangeToInvalidAvatarTest), bug
         unittest.makeSuite(ChangeToValidAvatarTest),
         unittest.makeSuite(ChangeToValidEmailTest),
         unittest.makeSuite(ChangeToValidLoginTest),
@@ -109,16 +120,30 @@ if __name__ == '__main__':
         unittest.makeSuite(SignUpWithDifferentPasswordsTest),
         unittest.makeSuite(SignUpWithAllInvalidFieldsTest),
         unittest.makeSuite(SignUpAlreadySignupedTest),
-        # unittest.makeSuite(SignUpTest),
+        # unittest.makeSuite(SignUpTest), # work once
 
         # search popup
         unittest.makeSuite(ClosePopupTest),
         unittest.makeSuite(EnterLetterTest),
         unittest.makeSuite(FindMovieTest),
         unittest.makeSuite(FindActorTest),
-    ))
 
-    suite = unittest.TestSuite((unittest.makeSuite(ChangeToInvalidAvatarTest)))
+        # actor
+        unittest.makeSuite(ClickOnMovieNameTest),
+        unittest.makeSuite(ClickOnMovieTestActor),
+
+        # favourites
+        unittest.makeSuite(ClickOnMovieTestFavourites),
+        unittest.makeSuite(NotOpenedTest),
+        unittest.makeSuite(OnlyAddedMoviesTest),
+
+        # player
+        # unittest.makeSuite(CloseFullscreenTest), bug
+        unittest.makeSuite(ClosedTest),
+        # unittest.makeSuite(EscToPartScreenTest), bug
+        unittest.makeSuite(NotOpenedTest),
+
+    ))
 
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())

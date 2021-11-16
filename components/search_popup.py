@@ -21,7 +21,8 @@ class SearchPopup(Component):
     def search(self, search_string):
         search = utils.wait_for_element_by_selector(self.driver, self.SEARCH)
         search.clear()
-        search.send_keys(search_string)
+        for letter in search_string:
+            search.send_keys(letter)
 
     def click_on_founded_item(self):
         utils.wait_for_element_by_selector(self.driver, self.TITLE_SEARCH_ITEM).click()
