@@ -9,6 +9,7 @@ class ProfilePage(Page):
     TITLE = '.title-wrapper__title'
     SUBSCRIPTION_BTN = '.subscription__button'
     AVATAR = '.input-wrapper__img'
+    NAMED_AVATAR = 'img[src=\'%s\''
     INPUT_FOR_AVATAR = '#file'
     UPLOAD_AVATAR_BTN = 'label.input-wrapper__input'
     SAVE_AVATAR_BTN = '.input-wrapper__button'
@@ -29,6 +30,9 @@ class ProfilePage(Page):
     def get_current_avatar(self):
         return wait_for_element_by_selector(self.driver, self.AVATAR).get_attribute(self.SRC)
 
+    def wait_for_avatar_src(self, src):
+        wait_for_element_by_selector(self.driver, self.NAMED_AVATAR % src)
+
     def upload_new_avatar(self, path):
         wait_for_element_by_selector(self.driver, self.UPLOAD_AVATAR_BTN)
         self.driver.find_element_by_css_selector(self.INPUT_FOR_AVATAR).send_keys(path)
@@ -36,4 +40,3 @@ class ProfilePage(Page):
     def save_avatar(self):
         wait_for_element_by_selector(self.driver, self.SAVE_AVATAR_BTN).click()
         wait_for_element_by_selector(self.driver, self.SAVE_AVATAR_BTN)
-

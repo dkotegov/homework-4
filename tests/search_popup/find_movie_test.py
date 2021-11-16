@@ -14,7 +14,7 @@ class FindMovieTest(Test):
         search_popup = SearchPopup(self.driver)
         search_popup.open()
         search_popup.search(self.MOVIE_TITLE)
-        search_popup.click_on_founded_item()
+        search_popup.click_on_named_founded_item(self.MOVIE_TITLE)
 
         details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)
 

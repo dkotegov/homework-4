@@ -11,7 +11,7 @@ class LoginPage(Page):
     TITLE_OF_PAGE = '.content__title'
     SIGNUP_LINK = 'a.have-acc__href'
 
-    EMAIL_ERROR = 'div#emailError'
+    EMAIL_ERROR = 'div.error#emailError'
     PASSWORD_ERROR = 'div#passwordError'
 
     def auth(self):
@@ -30,7 +30,6 @@ class LoginPage(Page):
         form.set_password(password)
         form.submit()
         main_page = MainPage(self.driver)
-        main_page.wait_for_container()
 
     def get_title_of_page(self):
         return utils.wait_for_element_by_selector(self.driver, self.TITLE_OF_PAGE).text

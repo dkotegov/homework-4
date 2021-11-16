@@ -26,6 +26,9 @@ class SearchPopup(Component):
     def click_on_founded_item(self):
         utils.wait_for_element_by_selector(self.driver, self.TITLE_SEARCH_ITEM).click()
 
+    def click_on_named_founded_item(self, text):
+        utils.wait_for_element_by(self.driver, text, By.LINK_TEXT).click()
+
     def count_found_items(self):
         return len(utils.wait_for_element_by_selector(self.driver, self.SEARCH_RESULT)
                    .find_elements_by_css_selector(self.SEARCH_ITEM))
