@@ -8,6 +8,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 class CustomerAuthPage(Page):
     PATH = '/signin'
+    ADDRESS_INPUT = '//input[@id="js__map-add-address"]'
+    ADDRESS_SUBMIT_BUTTON = '//button[@id="js__add-new-address__btn"]'
     LOGIN_INPUT = '//input[@name="login"]'
     PASSWORD_INPUT = '//input[@name="password"]'
     SUBMIT_BUTTON = '//input[@value="Войти"]'

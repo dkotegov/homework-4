@@ -3,7 +3,7 @@ import unittest
 
 from faker import Faker
 from selenium.webdriver import DesiredCapabilities, Remote
-from tests.pages.registration_customer import CustomerRegistrationPage
+from tests.pages.user.registration import CustomerRegistrationPage
 
 
 class RegistrationFailedTest(unittest.TestCase):
@@ -26,7 +26,7 @@ class RegistrationFailedTest(unittest.TestCase):
         self.faker = Faker()
         self.registration_page = CustomerRegistrationPage(self.driver)
         self.registration_page.open()
-        self.EXISTING_EMAIL = os.environ['LOGIN']
+        self.EXISTING_EMAIL = os.environ['USER_LOGIN']
         self.EXISTING_PHONE = os.environ['PHONE']
         self.PASSWORD = os.environ['PASSWORD']
         self.NOT_EXISTING_EMAIL = "qwerty098@mail.ru"

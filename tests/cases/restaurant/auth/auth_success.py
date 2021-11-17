@@ -2,7 +2,7 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from tests.pages.auth_restaurant import RestaurantAuthPage
+from tests.pages.restaurant.auth import RestaurantAuthPage
 
 
 class RestaurantAuthTest(unittest.TestCase):
@@ -14,8 +14,8 @@ class RestaurantAuthTest(unittest.TestCase):
         )
         self.auth_page = RestaurantAuthPage(self.driver)
         self.auth_page.open()
-        self.USERNAME = os.environ['USERNAME_RESTAURANT']
-        self.LOGIN = os.environ['LOGIN_RESTAURANT']
+        self.USERNAME = os.environ['RESTAURANT_USERNAME']
+        self.LOGIN = os.environ['RESTAURANT_LOGIN']
         self.PASSWORD = os.environ['PASSWORD']
 
     def tearDown(self):

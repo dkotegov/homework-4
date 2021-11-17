@@ -3,7 +3,12 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 
 def default_setup(t):
-    browser = os.environ.get('BROWSER', 'CHROME')
+    t.USER_LOGIN = os.environ['USER_LOGIN']
+    t.USER_PASSWORD = os.environ['PASSWORD']
+    t.RESTAURANT_LOGIN = os.environ['RESTAURANT_LOGIN']
+    t.RESTAURANT_PASSWORD = os.environ['PASSWORD']
+
+    browser = os.environ.get('BROWSER', 'FIREFOX')
 
     t.driver = Remote(
         command_executor='http://127.0.0.1:4444/wd/hub',

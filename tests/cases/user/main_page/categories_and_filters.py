@@ -2,7 +2,7 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from tests.pages.main import MainPage
+from tests.pages.user.main import MainPage
 
 
 class CategoriesAndFiltersTest(unittest.TestCase):

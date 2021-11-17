@@ -2,7 +2,7 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from tests.pages.auth_customer import CustomerAuthPage
+from tests.pages.user.auth import CustomerAuthPage
 
 
 class AuthTest(unittest.TestCase):
@@ -15,7 +15,7 @@ class AuthTest(unittest.TestCase):
         self.auth_page = CustomerAuthPage(self.driver)
         self.auth_page.open()
         self.USERNAME = os.environ['USERNAME']
-        self.LOGIN = os.environ['LOGIN']
+        self.LOGIN = os.environ['USER_LOGIN']
         self.PASSWORD = os.environ['PASSWORD']
 
     def tearDown(self):

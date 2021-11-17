@@ -2,7 +2,7 @@ import os
 import unittest
 
 from selenium.webdriver import DesiredCapabilities, Remote
-from tests.pages.auth_customer import CustomerAuthPage
+from tests.pages.user.auth import CustomerAuthPage
 
 
 class AuthFailedTest(unittest.TestCase):
@@ -20,7 +20,7 @@ class AuthFailedTest(unittest.TestCase):
         )
         self.auth_page = CustomerAuthPage(self.driver)
         self.auth_page.open()
-        self.EXISTING_LOGIN = os.environ['LOGIN']
+        self.EXISTING_LOGIN = os.environ['USER_LOGIN']
         self.PASSWORD = os.environ['PASSWORD']
         self.NOT_EXISTING_LOGIN = "qwerty098@mail.ru"
         self.WRONG_PASSWORD = "QWE231"

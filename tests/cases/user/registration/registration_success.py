@@ -3,7 +3,7 @@ import unittest
 
 from faker import Faker
 from selenium.webdriver import DesiredCapabilities, Remote
-from tests.pages.registration_customer import CustomerRegistrationPage
+from tests.pages.user.registration import CustomerRegistrationPage
 
 
 class RegistrationTest(unittest.TestCase):

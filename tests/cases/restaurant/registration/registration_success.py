@@ -3,7 +3,7 @@ import unittest
 
 from faker import Faker
 from selenium.webdriver import DesiredCapabilities, Remote
-from tests.pages.registration_restaurant import RestaurantRegistrationPage
+from tests.pages.restaurant.registration import RestaurantRegistrationPage
 
 
 class RestaurantRegistrationTest(unittest.TestCase):
@@ -16,7 +16,7 @@ class RestaurantRegistrationTest(unittest.TestCase):
         self.auth_page = RestaurantRegistrationPage(self.driver)
         self.auth_page.open()
         self.EXISTING_EMAIL = os.environ['USERNAME']
-        self.EXISTING_PHONE = os.environ['USERNAME_RESTAURANT']
+        self.EXISTING_PHONE = os.environ['RESTAURANT_USERNAME']
         self.PASSWORD = '111111'
         self.ADDRESS = 'Испания, Мадрид'
         self.RADIUS = 1
