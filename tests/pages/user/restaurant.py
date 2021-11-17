@@ -1,7 +1,4 @@
 from tests.pages.base import Page
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
 from components.navbar import NavbarComponent
 
 
@@ -10,6 +7,7 @@ class RestaurantPage(Page):
     Стриница ресторана
     """
 
+    RESTAURANT_NAME = '//span[@class="store-title__name"]'
     DISH_NAME = '//span[@class="card__name"]'
     DISH_ADD = '//button[@data-foodaddbuttonid]'
     DISH_INCREASE = '//button[@data-foodplusbuttonid]'
@@ -33,6 +31,9 @@ class RestaurantPage(Page):
     def navbar(self):
         return NavbarComponent(self.driver)
 
+    def get_restaurant_name(self):
+        return self.driver.find_element_by_xpath(self.RESTAURANT_NAME).text
+
     def get_number_dish_in_menu(self):
         return len(self.driver.find_elements_by_xpath(self.DISH_NAME))
 
@@ -45,9 +46,10 @@ class RestaurantPage(Page):
     def get_basket_dishes(self):
         elements = self.driver.find_elements_by_xpath(self.BASKET_DISH_INFO)
         dishes = []
-        for element in elements:
-            name = element.find_elements_by_xpath(self.BASKET_DISH_NAME)[0].text
-            count = element.find_elements_by_xpath(self.BASKET_DISH_COUNT)[0].text
+        for i in range(len(elements)):
+            elements = self.driver.find_elements_by_xpath(self.BASKET_DISH_INFO)
+            name = elements[i].find_elements_by_xpath(self.BASKET_DISH_NAME)[0].text
+            count = elements[i].find_elements_by_xpath(self.BASKET_DISH_COUNT)[0].text
             dishes.append({'name': name, 'count': count})
         return dishes
 
@@ -62,9 +64,6 @@ class RestaurantPage(Page):
 
     def refresh_page(self):
         self.driver.refresh()
-
-    def close_address(self):
-        self.driver.find_element_by_xpath(self.CLOSE_ADDRESS).click()
 
     def go_to_checkout(self):
         self.driver.find_element_by_xpath(self.CHECKOUT_BUTTON).click()

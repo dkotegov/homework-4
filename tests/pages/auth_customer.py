@@ -3,10 +3,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from components.navbar import NavbarComponent
+from selenium.common.exceptions import NoSuchElementException
 
 
 class CustomerAuthPage(Page):
     PATH = '/signin'
+    ADDRESS_INPUT = '//input[@id="js__map-add-address"]'
+    ADDRESS_SUBMIT_BUTTON = '//button[@id="js__add-new-address__btn"]'
     LOGIN_INPUT = '//input[@name="login"]'
     PASSWORD_INPUT = '//input[@name="password"]'
     SUBMIT_BUTTON = '//input[@value="Войти"]'
@@ -34,3 +37,17 @@ class CustomerAuthPage(Page):
 
     def go_to_restaurant_auth(self):
         self.driver.find_element_by_xpath(self.RESTAURANT_AUTH_BUTTON).click()
+
+    def set_address(self, address):
+        try:
+            elem = self.driver.find_element_by_xpath(self.ADDRESS_INPUT)
+            elem.clear()
+            elem.send_keys(address)
+        except NoSuchElementException:
+            return
+
+    def submit_address(self):
+        try:
+            self.driver.find_element_by_xpath(self.ADDRESS_SUBMIT_BUTTON).click()
+        except NoSuchElementException:
+            return

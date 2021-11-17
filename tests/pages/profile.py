@@ -20,6 +20,7 @@ class ProfilePage(Page):
     ERROR_CUR_PASSWORD = '//p[@id="password_currentError"]'
     ERROR_NEW_PASSWORD = '//p[@id="passwordError"]'
     ERROR_REPEAT_PASSWORD = '//p[@id="password_repeatError"]'
+    ERROR_MAIN = '//p[@id="serverError"]'
 
     def __init__(self, driver):
         self.PATH = 'profile/edits'
@@ -59,6 +60,9 @@ class ProfilePage(Page):
 
     def click_save(self):
         self.driver.find_element_by_xpath(self.SAVE).click()
+
+    def get_main_error(self):
+        return self.driver.find_element_by_xpath(self.ERROR_MAIN).text
 
     def get_phone_error(self):
         return self.driver.find_element_by_xpath(self.ERROR_PHONE).text

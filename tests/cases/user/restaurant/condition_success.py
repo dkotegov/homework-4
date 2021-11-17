@@ -1,5 +1,4 @@
 import unittest
-import time
 
 from tests.default_setup import default_setup
 from tests.pages.user.restaurant import RestaurantPage
@@ -14,7 +13,6 @@ class ConditionSuccessTest(unittest.TestCase):
         auth_setup(self)
         self.restaurant_page = RestaurantPage(self.driver, self.restaurant_number)
         self.restaurant_page.open()
-        self.restaurant_page.close_address()
 
     def tearDown(self):
         self.driver.quit()

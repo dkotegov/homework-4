@@ -8,7 +8,7 @@ def default_setup(t):
     t.RESTAURANT_LOGIN = os.environ['RESTAURANT_LOGIN']
     t.RESTAURANT_PASSWORD = os.environ['RESTAURANT_PASSWORD']
 
-    browser = os.environ.get('BROWSER', 'CHROME')
+    browser = os.environ.get('BROWSER', 'FIREFOX')
 
     t.driver = Remote(
         command_executor='http://127.0.0.1:4444/wd/hub',
