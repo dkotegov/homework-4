@@ -42,3 +42,9 @@ class ChangePasswordPage(BasePage):
 
     def get_confirm_password_error(self):
         return self.locate_el(self.CONFIRM_PASSWORD_ERROR).text
+
+    def change_password(self, old, new):
+        self.set_old_password(old)
+        self.set_new_password(new)
+        self.set_confirm_password(new)
+        self.click_change_btn()
