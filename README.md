@@ -2,7 +2,7 @@
 
 URL: https://mail.liokor.ru
 
-### WARNING: Tests were checked only on Windows
+### WARNING: if running on macOS file uploads won't be checked
 ### WARNING: Don't interact with OS while tests are running, because avatar path will be typed to the native file selection window at some point
 
 ## HowTo Run:

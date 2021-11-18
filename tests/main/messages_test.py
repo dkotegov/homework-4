@@ -83,7 +83,9 @@ class MessagesTest(MainBaseTest):
         self._create_dialogue_with_name(mail)
         body = "Message body\nWith one string break."
         self.page.setMessageBody(body)
+
         self.page.clickDialogue(DEFAULT_DIALOGUE)
-        self.assertEqual(self.page.getMessageBody(), "", "Can't checkout to default dialogue")
+        self.page.wait_until(lambda d: self.page.getMessageBody() == "")
+
         self.page.clickDialogue(mail)
-        self.assertEqual(self.page.getMessageBody(), body, "Message body was not loaded")
+        self.page.wait_until(lambda d: self.page.getMessageBody() == body)

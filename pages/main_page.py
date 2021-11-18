@@ -120,11 +120,8 @@ class MainPage(BasePage):
     def clickCreateDialogue(self):
         self.click(self.DIALOGUE_BTN_ADD)
 
-    def setFindDialogue(self, value, delay: float = 0.005):
-        # todo: remove delay when frontend bug would be fixed
-        # we need delay to prevent frontend bug with search bar
-        # bug when N dialogues appears if not delay, where N = amount of characters entered
-        self.set_field(self.DIALOGUE_INPUT_FIND, value, delay)
+    def setFindDialogue(self, value):
+        self.set_field(self.DIALOGUE_INPUT_FIND, value)
 
     def clickDeleteDialogue(self, dialogueName):
         self.click_hidden(self.DIALOGUE_BTN_DELETE_BY_NAME % dialogueName)
@@ -270,6 +267,7 @@ class MainPage(BasePage):
         self.hideFolders()
 
     def delete_all_dialogues(self):
+        self.setFindDialogue('')
         # waiting for dialogues to load
         self.locate_el(self.DIALOGUE_ANY)
 

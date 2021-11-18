@@ -14,7 +14,7 @@ import settings as s
 
 
 class BasePage:
-    WAIT_TIME = 3.0
+    WAIT_TIME = 1.5
 
     BASE_URL = s.BASE_URL
     PATH = '/'
@@ -55,15 +55,14 @@ class BasePage:
         # this probably won't work on macOS
         self.close_browser_dialogue()
 
-    def set_field(self, locator, value, delay: float = None):
+    def set_field(self, locator, value):
         el = self.locate_el(locator)
         el.clear()
-        if not delay:
+        if value:
             el.send_keys(value)
         else:
-            for key in list(value):
-                el.send_keys(key)
-                time.sleep(delay)
+            # clear() not triggering "input" event
+            el.send_keys('w' + Keys.BACKSPACE)
 
     def is_windows(self):
         return self.driver.capabilities.get('platformName', 'windows') == 'windows'

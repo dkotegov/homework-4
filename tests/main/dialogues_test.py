@@ -16,13 +16,12 @@ class DialoguesTest(MainBaseTest):
         cls.page.delete_all_dialogues()
 
     def tearDown(self) -> None:
-        # todo: remove refresh when duping bug would be fixed
         self.driver.refresh()
         self.page.delete_all_dialogues()
 
     def test_open_dialogue(self):
         self.page.clickDialogue(DEFAULT_DIALOGUE)
-        self.assertTrue(self.page.isDialogueOpened(DEFAULT_DIALOGUE), "Dialogue not opened")
+        self.page.wait_until(lambda d: self.page.isDialogueOpened(DEFAULT_DIALOGUE))
 
     def test_create_dialogue_positive(self):
         self._create_dialogue_with_name(_randomMail(15))
@@ -37,7 +36,8 @@ class DialoguesTest(MainBaseTest):
         self._create_dialogue_with_name("Здесь_дают_*three_hundred_bucks*@mail.ru")
 
     def test_create_dialogue_negative_incorrect_email(self):
-        self._create_dialogue_with_name_negative(_randomMail(15, "leo.o"))
+        incorrect_email = _randomMail(15, "leo.o")
+        self._create_dialogue_with_name_negative(incorrect_email)
 
     def test_create_dialogue_negative_spaces_in_name(self):
         mail = _randomMail(15)
@@ -61,26 +61,26 @@ class DialoguesTest(MainBaseTest):
         for name in dialoguesNames:
             self._create_dialogue_with_name(name)
 
-        # todo: remove refresh when bug with searching new dialogues would be fixed
-        self.driver.refresh()
+        self.page.setFindDialogue("no")
+        self.page.wait_until(lambda d: self.page.getDialoguesCount() == 2)
 
-        self.page.setFindDialogue("no", 0.1)
-        self.assertEqual(self.page.getDialoguesCount(), 2)
+        self.page.setFindDialogue("yandex")
+        self.page.wait_until(lambda d: self.page.getDialoguesCount() == 2)
 
-        self.page.setFindDialogue("yandex", 0.1)
-        self.assertEqual(self.page.getDialoguesCount(), 2)
+        self.page.setFindDialogue("way")
+        self.page.wait_until(lambda d: self.page.getDialoguesCount() == 3)
 
-        self.page.setFindDialogue("way", 0.1)
-        self.assertEqual(self.page.getDialoguesCount(), 3)
-
-        self.page.setFindDialogue("liokor", 0.1)
-        self.assertEqual(self.page.getDialoguesCount(), 1)
+        self.page.setFindDialogue("liokor")
+        self.page.wait_until(lambda d: self.page.getDialoguesCount() == 1)
 
     def test_create_many_dialogues(self):
-        dialoguesNames = [_randomMail(15) for _ in range(7)]
+        oldAmount = self.page.getDialoguesCount()
+        dialoguesAmount = 7
+        dialoguesNames = [_randomMail(15) for _ in range(dialoguesAmount)]
         for name in dialoguesNames:
             self._create_dialogue_with_name(name)
-        self.driver.refresh()
+
+        self.page.wait_until(lambda d: self.page.getDialoguesCount() == oldAmount + dialoguesAmount)
 
         self.page.clickDialogue(dialoguesNames[-1])
         self.assertTrue(self.page.isDialogueOpened(dialoguesNames[-1]), "Can't open last dialogue")
@@ -88,7 +88,7 @@ class DialoguesTest(MainBaseTest):
     def test_open_previous_dialogue_after_refresh(self):
         mail = _randomMail(15)
         self._create_dialogue_with_name(mail)
-        self.driver.refresh()
+
         self.assertTrue(self.page.isDialogueOpened(mail), "Dialogue not opened")
 
     def _test_dialogue_image(self, mail, expectedUrl):
