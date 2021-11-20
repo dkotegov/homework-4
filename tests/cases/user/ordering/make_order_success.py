@@ -21,35 +21,41 @@ class MakeOrderSuccessTest(unittest.TestCase):
 
         self.ordering_page = OrderingPage(self.driver, self.restaurant_id)
         self.ordering_page.open()
+        self.ordering_page.wait_page_load()
 
     def tearDown(self):
         self.driver.quit()
 
     def test_make_order_success(self):
         self.ordering_page.click_submit()
+        self.ordering_page.wait_until_order_load()
         url = self.driver.current_url
         self.assertEqual(url, "https://delivery-borscht.ru/profile/orders")
 
     def test_make_order_updating_phone_success(self):
         self.ordering_page.set_phone(self.new_phone)
         self.ordering_page.click_submit()
+        self.ordering_page.wait_until_order_load()
         url = self.driver.current_url
         self.assertEqual(url, "https://delivery-borscht.ru/profile/orders")
 
     def test_make_order_with_comment_success(self):
         self.ordering_page.set_comment(self.comment)
         self.ordering_page.click_submit()
+        self.ordering_page.wait_until_order_load()
         url = self.driver.current_url
         self.assertEqual(url, "https://delivery-borscht.ru/profile/orders")
 
     def test_make_order_with_comment_empty_success(self):
         self.ordering_page.set_comment(self.comment_empty)
         self.ordering_page.click_submit()
+        self.ordering_page.wait_until_order_load()
         url = self.driver.current_url
         self.assertEqual(url, "https://delivery-borscht.ru/profile/orders")
 
     def test_make_order_with_comment_quotes_success(self):
         self.ordering_page.set_comment(self.comment_quotes)
         self.ordering_page.click_submit()
+        self.ordering_page.wait_until_order_load()
         url = self.driver.current_url
         self.assertEqual(url, "https://delivery-borscht.ru/profile/orders")

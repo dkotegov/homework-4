@@ -1,4 +1,7 @@
 from tests.pages.base import Page
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.by import By
 
 
 class RestaurantMenuPage(Page):
@@ -7,7 +10,8 @@ class RestaurantMenuPage(Page):
     """
 
     """ Section """
-    SECTION_NAME = '//h3[@class="section-container__name"]'
+    SECTIONS_NAME = '//h3[@class="section-container__name"]'
+    SECTION_NAME = '//h3[@class="section-container__name" and contains(text(),"{}")]'
     BUTTON_ADD_SECTION = '//span[@class="menu-container__btn"]'
     BUTTON_EDIT_SECTION = '//h3[contains(text(),"{}") and @class="section-container__name"]/../' \
                             'div/img[@class="card__header-icon icon-edit"]'
@@ -26,6 +30,7 @@ class RestaurantMenuPage(Page):
     INPUT_DISH_WEIGHT = '//input[@name="weight"]'
     BUTTON_SAVE_DISH = '//input[@type="submit"]'
     SECTION_DISHES_NAME = '//span[@class="card__name"]'
+    DISH_NAME = '//span[@class="card__name" and contains(text(),"{}")]'
     BUTTON_EDIT_DISH = '//span[contains(text(),"{}") and @class="card__name"]/../' \
                       'div/img[@class="card__header-icon icon-edit"]'
     BUTTON_OPEN_CONFIRM_DELETE_DISH = '//span[contains(text(),"{}") and @class="card__name"]/../' \
@@ -58,10 +63,10 @@ class RestaurantMenuPage(Page):
         self.driver.find_element_by_xpath(self.BUTTON_SAVE_SECTION).click()
 
     def get_all_sections_name(self):
-        elements = self.driver.find_elements_by_xpath(self.SECTION_NAME)
+        elements = self.driver.find_elements_by_xpath(self.SECTIONS_NAME)
         sections = []
         for i in range(len(elements)):
-            elements = self.driver.find_elements_by_xpath(self.SECTION_NAME)  # need to become stable
+            elements = self.driver.find_elements_by_xpath(self.SECTIONS_NAME)  # need to become stable
             sections.append(elements[i].text)
         return sections
 
@@ -73,6 +78,10 @@ class RestaurantMenuPage(Page):
 
     def get_section_name_error(self):
         return self.driver.find_element_by_xpath(self.ERROR_SECTION_NAME).text
+
+    def wait_until_section_load(self, name):
+        WebDriverWait(self.driver, 2)\
+            .until(expected_conditions.presence_of_element_located((By.XPATH, self.SECTION_NAME.format(name))))
 
     """ DISH """
     def open_new_dish_form_in_section(self, section_name):
@@ -129,3 +138,7 @@ class RestaurantMenuPage(Page):
 
     def get_dish_weight_error(self):
         return self.driver.find_element_by_xpath(self.ERROR_DISH_WEIGHT).text
+
+    def wait_until_dish_load(self, name):
+        WebDriverWait(self.driver, 2)\
+            .until(expected_conditions.presence_of_element_located((By.XPATH, self.DISH_NAME.format(name))))

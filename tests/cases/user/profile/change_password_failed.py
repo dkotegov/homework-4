@@ -24,14 +24,6 @@ class ChangeUserPasswordFailedTests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_change_password_wrong_old(self):
-        self.profile_page.set_current_password(self.wrong_cur_password)
-        self.profile_page.set_new_password(self.new_password)
-        self.profile_page.set_repeat_password(self.new_password)
-        self.profile_page.click_save()
-        error_msg = self.profile_page.get_cur_pass_error()
-        self.assertEqual(error_msg, self.expected_error_wrong_old_password)
-
     def test_change_password_different_new(self):
         self.profile_page.set_current_password(self.cur_password)
         self.profile_page.set_new_password(self.new_password)
@@ -44,14 +36,6 @@ class ChangeUserPasswordFailedTests(unittest.TestCase):
         self.profile_page.set_current_password(self.cur_password)
         self.profile_page.set_new_password(self.password_less6)
         self.profile_page.set_repeat_password(self.password_less6)
-        self.profile_page.click_save()
-        error_msg = self.profile_page.get_new_pass_error()
-        self.assertEqual(error_msg, self.expected_error_less_or_more_password)
-
-    def test_change_password_new_more25(self):
-        self.profile_page.set_current_password(self.cur_password)
-        self.profile_page.set_new_password(self.password_more25)
-        self.profile_page.set_repeat_password(self.password_more25)
         self.profile_page.click_save()
         error_msg = self.profile_page.get_new_pass_error()
         self.assertEqual(error_msg, self.expected_error_less_or_more_password)

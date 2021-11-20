@@ -26,12 +26,6 @@ class ChangeRestaurantEmailFailedTests(unittest.TestCase):
         self.profile_page.set_email(self.RESTAURANT_LOGIN)
         self.profile_page.click_save()
 
-    def test_change_email_more25(self):
-        self.profile_page.set_email(self.email_more25)
-        self.profile_page.click_save()
-        error_msg = self.profile_page.get_email_error()
-        self.assertEqual(error_msg, self.expected_error_more)
-
     def test_change_email_empty(self):
         self.profile_page.set_email(self.email_empty)
         self.profile_page.click_save()

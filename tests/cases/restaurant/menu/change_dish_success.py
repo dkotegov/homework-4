@@ -36,9 +36,12 @@ class ChangeDishSuccessTest(unittest.TestCase):
         self.set_default_values()
         self.menu_page.set_dish_name(first_dish_name)
         self.menu_page.save_dish()
+        self.menu_page.wait_until_dish_load(first_dish_name)
+
         self.menu_page.open_dish_form_in_section(first_dish_name)
         self.menu_page.set_dish_name(second_dish_name)
         self.menu_page.save_dish()
+        self.menu_page.wait_until_dish_load(second_dish_name)
 
         dishes_name = self.menu_page.get_all_dishes_name()
         self.assertIn(second_dish_name, dishes_name)

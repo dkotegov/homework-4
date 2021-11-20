@@ -20,12 +20,6 @@ class ChangeRestaurantCostFailedTests(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_change_cost_more25(self):
-        self.profile_page.set_cost(self.cost_more25)
-        self.profile_page.click_save()
-        error_msg = self.profile_page.get_cost_error()
-        self.assertEqual(error_msg, self.expected_error_more)
-
     def test_change_cost_empty(self):
         self.profile_page.set_cost(self.cost_empty)
         self.profile_page.click_save()

@@ -21,8 +21,9 @@ class ChangeSectionSuccessTest(unittest.TestCase):
     def test_add_new_section(self):
         section_name = self.fake.name()
         self.menu_page.open_new_section_form()
-        self.menu_page.input_section_name(section_name)
+        self.menu_page.set_section_name(section_name)
         self.menu_page.save_section()
+        self.menu_page.wait_until_section_load(section_name)
         sections = self.menu_page.get_all_sections_name()
         self.assertIn(section_name, sections)
 
@@ -42,9 +43,13 @@ class ChangeSectionSuccessTest(unittest.TestCase):
         self.menu_page.open_new_section_form()
         self.menu_page.set_section_name(section_name)
         self.menu_page.save_section()
+        self.menu_page.wait_until_section_load(section_name)
+
         self.menu_page.open_section_form(section_name)
         self.menu_page.set_section_name(change_section_name)
         self.menu_page.save_section()
+        self.menu_page.wait_until_section_load(change_section_name)
+
         sections = self.menu_page.get_all_sections_name()
         self.assertIn(change_section_name, sections)
         self.assertNotIn(section_name, sections)

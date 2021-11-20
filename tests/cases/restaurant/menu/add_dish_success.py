@@ -35,16 +35,7 @@ class AddDishSuccessTest(unittest.TestCase):
         self.set_default_values()
         self.menu_page.set_dish_name(dish_name)
         self.menu_page.save_dish()
-
-        dishes_name = self.menu_page.get_all_dishes_name()
-        self.assertIn(dish_name, dishes_name)
-
-    def test_add_dish_quotes_in_name(self):
-        dish_name = '"' + self.fake.first_name() + '"'
-        self.menu_page.open_new_dish_form_in_section(self.section_name)
-        self.set_default_values()
-        self.menu_page.set_dish_name(dish_name)
-        self.menu_page.save_dish()
+        self.menu_page.wait_until_dish_load(dish_name)
 
         dishes_name = self.menu_page.get_all_dishes_name()
         self.assertIn(dish_name, dishes_name)

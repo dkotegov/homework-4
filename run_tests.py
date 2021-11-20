@@ -10,7 +10,6 @@ from tests.cases.user.profile.change_name_failed import ChangeUserNameFailedTest
 from tests.cases.user.profile.change_email_failed import ChangeUserEmailFailedTests
 from tests.cases.user.profile.change_phone_failed import ChangeUserPhoneFailedTests
 from tests.cases.user.profile.change_data_success import ChangeUserDataSuccessTests
-from tests.cases.user.profile.change_avatar_success import ChangeUserAvatarSuccessTests
 from tests.cases.restaurant.profile.change_password_failed import ChangeRestaurantPasswordFailedTests
 from tests.cases.restaurant.profile.change_cost_failed import ChangeRestaurantCostFailedTests
 from tests.cases.restaurant.profile.change_email_failed import ChangeRestaurantEmailFailedTests
@@ -56,13 +55,11 @@ if __name__ == '__main__':
         unittest.makeSuite(NavbarTest),
         unittest.makeSuite(AddDishToBasketSuccessTest),
         unittest.makeSuite(ConditionSuccessTest),
-        unittest.makeSuite(AuthTest),
         unittest.makeSuite(ChangeUserPasswordFailedTests),
         unittest.makeSuite(ChangeUserNameFailedTests),
         unittest.makeSuite(ChangeUserEmailFailedTests),
         unittest.makeSuite(ChangeUserPhoneFailedTests),
         unittest.makeSuite(ChangeUserDataSuccessTests),
-        unittest.makeSuite(ChangeUserAvatarSuccessTests),
         unittest.makeSuite(ChangeRestaurantPhoneFailedTests),
         unittest.makeSuite(ChangeRestaurantPasswordFailedTests),
         unittest.makeSuite(ChangeRestaurantEmailFailedTests),

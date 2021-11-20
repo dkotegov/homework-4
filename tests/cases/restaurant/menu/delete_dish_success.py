@@ -35,6 +35,8 @@ class DeleteDishSuccessTest(unittest.TestCase):
         self.set_default_values()
         self.menu_page.set_dish_name(dish_name)
         self.menu_page.save_dish()
+        self.menu_page.wait_until_dish_load(dish_name)
+
         self.menu_page.open_delete_dish_confirm(dish_name)
         self.menu_page.delete_dish_in_confirm()
 

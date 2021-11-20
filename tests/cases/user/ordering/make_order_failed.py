@@ -9,6 +9,7 @@ from tests.steps.create_basket import create_basket_setup
 class MakeOrderFailedTest(unittest.TestCase):
     error_empty_phone = 'Телефон: Поле должно быть заполнено'
     error_incorrect_phone = 'Телефон: Введите настоящий номер телефона'
+    error_address = 'Наш сервер говорит "Вы должны находиться в зоне доставки ресторана"'
     phone_empty = ""
     phone_incorrect = "3458"
 
@@ -23,6 +24,7 @@ class MakeOrderFailedTest(unittest.TestCase):
 
         self.ordering_page = OrderingPage(self.driver, self.restaurant_id)
         self.ordering_page.open()
+        self.ordering_page.wait_page_load()
 
     def tearDown(self):
         self.driver.quit()
@@ -31,6 +33,7 @@ class MakeOrderFailedTest(unittest.TestCase):
         self.restaurants_name = create_basket_setup(self, self.restaurant_is_no_not_zone)
         self.ordering_page = OrderingPage(self.driver, self.restaurant_is_no_not_zone)
         self.ordering_page.open()
+        self.ordering_page.wait_page_load()
 
         self.ordering_page.click_submit()
         error = self.ordering_page.get_main_error()
