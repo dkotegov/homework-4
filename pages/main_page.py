@@ -62,6 +62,8 @@ class MainPage(BasePage):
 
     OVERLAY_INPUT = '.modal input'
     OVERLAY_SUBMIT = '.modal .submit'
+    OVERLAY_NO = '.modal button.close'
+    OVERLAY_CROSS = '.modal span.close'
 
     def __init__(self, driver):
         super().__init__(driver, '#messages-page')
@@ -186,6 +188,12 @@ class MainPage(BasePage):
     def getLastMessage(self):
         return self.locate_el(self.MESSAGE_LAST_ANY)
 
+    def getLastMessageTitle(self):
+        return self.locate_el(self.MESSAGE_TITLE % self.MESSAGE_LAST_ANY).text
+
+    def getLastMessageBody(self):
+        return self.locate_el(self.MESSAGE_BODY % self.MESSAGE_LAST_ANY).text
+
     def isLastMessageYours(self):
         return self.locate_el(self.MESSAGE_LAST_YOUR).is_displayed()
 
@@ -239,13 +247,23 @@ class MainPage(BasePage):
         self.click(self.REDACTOR_PHOTO)
 
     # --------- Overlay ----------
-    def submitOverlay(self):
-        el = self.locate_el(self.OVERLAY_SUBMIT)
+    def _overlayClick(self, locator: str):
+        el = self.locate_el(locator)
         el.click()
         try:
             self.wait_until(lambda d: not el.is_displayed())
         except StaleElementReferenceException:
             pass
+
+
+    def submitOverlay(self):
+        self._overlayClick(self.OVERLAY_SUBMIT)
+
+    def discardOverlayByNo(self):
+        self._overlayClick(self.OVERLAY_NO)
+
+    def discardOverlayByCross(self):
+        self._overlayClick(self.OVERLAY_CROSS)
 
     def fillOverlay(self, value):
         self.set_field(self.OVERLAY_INPUT, value)
@@ -266,6 +284,10 @@ class MainPage(BasePage):
 
         self.hideFolders()
 
+    def delete_dialogue(self, name):
+        self.clickDeleteDialogue(name)
+        self.submitOverlay()
+
     def delete_all_dialogues(self):
         self.setFindDialogue('')
         # waiting for dialogues to load
@@ -276,7 +298,6 @@ class MainPage(BasePage):
             try:
                 name = dialogue.get_attribute('data')
                 if name != self.BASE_DIALOGUE_NAME:
-                    self.clickDeleteDialogue(name)
-                    self.submitOverlay()
+                    self.delete_dialogue(name)
             except StaleElementReferenceException:
                 pass

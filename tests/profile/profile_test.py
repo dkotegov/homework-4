@@ -36,11 +36,10 @@ class ProfileTest(BaseTest):
         avatar_path = os.path.join(os.getcwd(), 'images', 'good_avatar.png')
         self.page.send_file(self.page.click_avatar, avatar_path)
 
-        new_avatar_dataurl = self.page.get_avatar_url()
-
         self.assertTrue('success' in self.page.get_popup().get_attribute('class'))
 
         self.page.wait_until(lambda d: self.page.get_avatar_url() != old_avatar_url)
+        new_avatar_dataurl = self.page.get_avatar_url()
         self.assertNotEqual(old_avatar_url, new_avatar_dataurl)
 
         # avatar image initially changes to dataurl and only after refresh - to real url

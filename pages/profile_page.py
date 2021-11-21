@@ -22,6 +22,10 @@ class ProfilePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver, 'div.profile')
 
+    def logout(self):
+        self.open()
+        self.click_logout_btn()
+
     def get_avatar_url(self):
         return self.locate_el(self.AVATAR_IMAGE).get_attribute('src')
 

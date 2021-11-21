@@ -1,3 +1,6 @@
+from pages.profile_page import ProfilePage
+from pages.auth_page import AuthPage
+
 from tests.main.main_base_test import MainBaseTest
 
 from utils.random_strings import _randomString, _randomMail
@@ -89,3 +92,41 @@ class MessagesTest(MainBaseTest):
 
         self.page.clickDialogue(mail)
         self.page.wait_until(lambda d: self.page.getMessageBody() == body)
+
+    def test_send_and_receive_message(self):
+        profile_page = ProfilePage(self.driver)
+        auth_page = AuthPage(self.driver)
+
+        first_user = s.USERNAME2 + '@liokor.ru'
+        title = 'WOLF'
+        message = 'Hello, I am wolf!'
+
+        second_user = s.USERNAME + '@liokor.ru'
+        reply_message = 'WOW! Well.. Hewwo?'
+
+        profile_page.logout()
+        auth_page.auth(s.USERNAME2, s.PASSWORD2)
+        self.page.delete_all_dialogues()
+
+        self._create_dialogue_with_name(second_user)
+        self._send_message(title, message)
+
+        profile_page.logout()
+        auth_page.auth()
+
+        self.page.clickDialogue(first_user)
+
+        self.assertEqual(self.page.getLastMessageTitle(), title)
+        self.assertEqual(self.page.getLastMessageBody(), message)
+        self.assertEqual(self.page.getMessageTitle(), 'Re: {}'.format(title))
+
+        self._send_message(None, reply_message)
+
+        profile_page.logout()
+        auth_page.auth(s.USERNAME2, s.PASSWORD2)
+
+        self.page.clickDialogue(second_user)
+
+        self.assertEqual(self.page.getLastMessageTitle(), 'Re: {}'.format(title))
+        self.assertEqual(self.page.getLastMessageBody(), reply_message)
+        self.assertEqual(self.page.getMessageTitle(), 'Re: {}'.format(title))

@@ -68,55 +68,55 @@ class FoldersTest(MainBaseTest):
         self.page.expandFolders()
         self._create_folder_with_name("old_name", "Здесь лежит *three hundred bucks*")
 
-    # def test_create_many_folders(self):
-    #     folders_count = 7
-    #     foldersNames = [_randomString(15) for _ in range(folders_count)]
-    #     self.page.expandFolders()
-    #     for name in foldersNames:
-    #         self._create_folder_with_name(name)
-    #
-    #     self.assertTrue(self.page.getFoldersCount(), folders_count)
-    #     self.assertTrue(self.page.isFoldersExpanded(), "Can't expand folders")
-    #     self.assertTrue(self.page.isFolderExists(foldersNames[-1]), "Can't open last folder")
-    #
-    # def test_add_dialogue_to_folder(self):
-    #     mail = _randomMail(15)
-    #     folder = _randomString(15)
-    #
-    #     self._create_dialogue_with_name(mail)
-    #     self.page.expandFolders()
-    #     self._create_folder_with_name(folder)
-    #
-    #     self.page.dragAndDropDialogueToFolder(mail, folder)
-    #     self.assertTrue(self.page.is_popup_success())
-    #
-    #     self.assertEqual(self.page.getDialoguesCount(), 1, "Dialogue wasn't moved to folder")
-    #     self.page.clickFolder(folder)
-    #     self.assertTrue(self.page.isDialogueExists(mail), "Dialogue wasn't moved to folder")
-    #
-    # def test_move_dialogues_from_deleted_folder(self):
-    #     dialoguesNames = [_randomMail(15) for _ in range(3)]
-    #     for name in dialoguesNames:
-    #         self._create_dialogue_with_name(name)
-    #
-    #     folder = _randomString(15)
-    #     self.page.expandFolders()
-    #     self._create_folder_with_name(folder)
-    #
-    #     self.page.dragAndDropDialogueToFolder(dialoguesNames[0], folder)
-    #     self.page.dragAndDropDialogueToFolder(dialoguesNames[1], folder)
-    #
-    #     self.driver.refresh()
-    #
-    #     self.page.expandFolders()
-    #     self.assertEqual(self.page.getDialoguesCount(), 2, "Dialogues weren't moved to folder")
-    #
-    #     self.page.clickFolder(folder)
-    #     self.assertTrue(self.page.isDialogueExists(dialoguesNames[0]), "Dialogue wasn't moved to folder")
-    #     self.assertTrue(self.page.isDialogueExists(dialoguesNames[1]), "Dialogue wasn't moved to folder"
-    #                                                                    "")
-    #     self.page.clickFolder(DEFAULT_FOLDER)
-    #     self.page.clickDeleteFolder(folder)
-    #     self.page.submitOverlay()
-    #
-    #     self.assertEqual(self.page.getDialoguesCount(), 4, "Dialogues weren't moved to default folder back")
+    def test_create_many_folders(self):
+        folders_count = 7
+        foldersNames = [_randomString(15) for _ in range(folders_count)]
+        self.page.expandFolders()
+        for name in foldersNames:
+            self._create_folder_with_name(name)
+
+        self.assertTrue(self.page.getFoldersCount(), folders_count)
+        self.assertTrue(self.page.isFoldersExpanded(), "Can't expand folders")
+        self.assertTrue(self.page.isFolderExists(foldersNames[-1]), "Can't open last folder")
+
+    def test_add_dialogue_to_folder(self):
+        mail = _randomMail(15)
+        folder = _randomString(15)
+
+        self._create_dialogue_with_name(mail)
+        self.page.expandFolders()
+        self._create_folder_with_name(folder)
+
+        self.page.dragAndDropDialogueToFolder(mail, folder)
+        self.assertTrue(self.page.is_popup_success())
+
+        self.assertEqual(self.page.getDialoguesCount(), 1, "Dialogue wasn't moved to folder")
+        self.page.clickFolder(folder)
+        self.assertTrue(self.page.isDialogueExists(mail), "Dialogue wasn't moved to folder")
+
+    def test_move_dialogues_from_deleted_folder(self):
+        dialoguesNames = [_randomMail(15) for _ in range(3)]
+        for name in dialoguesNames:
+            self._create_dialogue_with_name(name)
+
+        folder = _randomString(15)
+        self.page.expandFolders()
+        self._create_folder_with_name(folder)
+
+        self.page.dragAndDropDialogueToFolder(dialoguesNames[0], folder)
+        self.page.dragAndDropDialogueToFolder(dialoguesNames[1], folder)
+
+        self.driver.refresh()
+
+        self.page.expandFolders()
+        self.assertEqual(self.page.getDialoguesCount(), 2, "Dialogues weren't moved to folder")
+
+        self.page.clickFolder(folder)
+        self.assertTrue(self.page.isDialogueExists(dialoguesNames[0]), "Dialogue wasn't moved to folder")
+        self.assertTrue(self.page.isDialogueExists(dialoguesNames[1]), "Dialogue wasn't moved to folder"
+                                                                       "")
+        self.page.clickFolder(DEFAULT_FOLDER)
+        self.page.clickDeleteFolder(folder)
+        self.page.submitOverlay()
+
+        self.page.wait_until(lambda d: self.page.getDialoguesCount() == 4)

@@ -67,3 +67,4 @@ class MainBaseTest(BaseTest):
             self.page.setMessageBody(body)
 
         self.page.sendMessageByKeyboard()
+        self.assertTrue(self.page.is_popup_success())
