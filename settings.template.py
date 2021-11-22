@@ -11,3 +11,4 @@ PASSWORD = ''
 
 # user who will receive test messages
 USERNAME2 = ''
+PASSWORD2 = ''
