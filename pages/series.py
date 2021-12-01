@@ -1,9 +1,6 @@
 from pages.default import Page
 
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-
+from utils import wait_click_for_element_by_selector, wait_for_element_by_selector
 
 class SeriesPage(Page):
     PATH = 'series/'
@@ -15,24 +12,14 @@ class SeriesPage(Page):
     GENRE_NAME = 'data-genre'
 
     def click_on_first_genre(self):
-        WebDriverWait(self.driver, 10, 0.1).until(
-            expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, self.FIRST_GENRE_CARD))
-        )
-        self.driver.find_element_by_css_selector(self.FIRST_GENRE_CARD).click()
+        wait_click_for_element_by_selector(self.driver, self.FIRST_GENRE_CARD)
 
     def get_name_of_first_genre(self):
-        return WebDriverWait(self.driver, 10, 0.1).until(
-            expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, self.FIRST_GENRE_CARD))
-        ).get_attribute(self.GENRE_NAME)
+        return wait_for_element_by_selector(self.driver, self.FIRST_GENRE_CARD).get_attribute(self.GENRE_NAME)
 
     def click_on_first_movie(self):
-        WebDriverWait(self.driver, 10, 0.1).until(
-            expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, self.FIRST_MOVIE_CARD))
-        )
-        self.driver.find_element_by_css_selector(self.FIRST_MOVIE_CARD).click()
+        wait_click_for_element_by_selector(self.driver, self.FIRST_MOVIE_CARD)
 
     def get_title_of_first_movie(self):
-        return WebDriverWait(self.driver, 10, 0.1).until(
-            expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, self.TITLE_OF_FIRST_MOVIE))
-        ).text
+        return wait_for_element_by_selector(self.driver, self.TITLE_OF_FIRST_MOVIE).text
 
