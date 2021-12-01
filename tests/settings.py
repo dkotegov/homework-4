@@ -128,10 +128,13 @@ class SettingsTestSuite(BaseTest):
         wait_for_visible(self.driver, login.USER_NAME_HEADER)
 
         settings.open()
+        old_src = settings.avatar_img_src
         settings.change_avatar('avatar_wrong.txt')
         hint = settings.avatar_error_hint
+        new_src = settings.avatar_img_src
 
         self.assertEqual('Некорректный формат картинки! Используйте png или jpeg', hint)
+        self.assertNotEqual(old_src, new_src)
 
     def test_upload_avatar_exceeds_size(self):
         login = LoginPage(self.driver)
@@ -143,7 +146,10 @@ class SettingsTestSuite(BaseTest):
         wait_for_visible(self.driver, login.USER_NAME_HEADER)
 
         settings.open()
+        old_src = settings.avatar_img_src
         settings.change_avatar('heavy_image.jpg')
         hint = settings.avatar_error_hint
+        new_src = settings.avatar_img_src
 
         self.assertEqual('Размер файла не должен превышать 5MB!', hint)
+        self.assertNotEqual(old_src, new_src)

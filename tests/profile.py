@@ -73,3 +73,5 @@ class ProfileTestSuite(BaseTest):
 
         self.assertEqual(profile.follow_button.text.lower(), 'подписаться')
         self.assertEqual(new_followers - old_followers, 1)
+
+    # TODO: отмена создания плейлиста, "Просмотрено", "Рецензий"
