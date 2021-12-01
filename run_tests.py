@@ -3,6 +3,7 @@
 
 import sys
 import unittest
+from dotenv import load_dotenv
 from tests.actor.click_on_movie_name_test import ClickOnMovieNameTest
 from tests.actor.click_on_movie_test import ClickOnMovieTest as ClickOnMovieTestActor
 from tests.favourites.click_on_movie_test import ClickOnMovieTest as ClickOnMovieTestFavourites
@@ -56,6 +57,7 @@ from tests.main.click_on_card_test import ClickOnCardTest
 from tests.main.click_on_watch_button_test import ClickOnWatchButtonTest
 
 if __name__ == '__main__':
+    load_dotenv()
     suite = unittest.TestSuite((
         unittest.makeSuite(ClickOnSeriesTest),
         unittest.makeSuite(ClickOnGenreTest),
