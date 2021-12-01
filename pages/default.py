@@ -9,6 +9,9 @@ class DefaultPage:
         self.driver.get(self.url)
         self.driver.maximize_window()
 
+    def reload(self):
+        self.driver.execute_script("location.reload()")
+
 
 class Component:
     def __init__(self, driver):

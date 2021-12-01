@@ -4,6 +4,8 @@ from pages.settings import SettingsPage
 from tests.base import BaseTest
 from os import environ
 
+from utils.helpers import wait_for_visible
+
 
 class SettingsTestSuite(BaseTest):
     def test_empty_email(self):
@@ -12,6 +14,8 @@ class SettingsTestSuite(BaseTest):
 
         login.open()
         login.sign_in()
+
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
 
         settings.open()
         settings.change_info(email='')
@@ -26,6 +30,8 @@ class SettingsTestSuite(BaseTest):
         login.open()
         login.sign_in()
 
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
+
         settings.open()
         settings.change_info(password='1234567890', confirm_password='1234567890')
         settings.submit_change_info()
@@ -38,6 +44,8 @@ class SettingsTestSuite(BaseTest):
 
         login.open()
         login.sign_in()
+
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
 
         settings.open()
         settings.change_info(password='abcdefghij', confirm_password='abcdefghij')
@@ -52,6 +60,8 @@ class SettingsTestSuite(BaseTest):
         login.open()
         login.sign_in()
 
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
+
         settings.open()
         settings.change_info(password='newpassword1', confirm_password='newpassword2')
         settings.submit_change_info()
@@ -65,9 +75,13 @@ class SettingsTestSuite(BaseTest):
         login.open()
         login.sign_in()
 
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
+
         settings.open()
         settings.change_info(email='newemail@mail.ru')
         settings.submit_change_info()
+
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
 
         try:
             self.assertEqual(f'{settings.ROOT_URL}/user/{environ["LOGIN"]}', self.driver.current_url)
@@ -84,6 +98,8 @@ class SettingsTestSuite(BaseTest):
         login.open()
         login.sign_in()
 
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
+
         settings.open()
         old_src = settings.avatar_img_src
         settings.change_avatar('new_avatar.png')
@@ -94,6 +110,7 @@ class SettingsTestSuite(BaseTest):
             self.assertNotEqual(old_src, new_src)
             profile = ProfilePage(self.driver)
             profile.open()
+            wait_for_visible(self.driver, login.USER_NAME_HEADER)
             self.assertEqual(new_src, profile.avatar_img_src)
         finally:
             # reverting changes made
@@ -108,6 +125,8 @@ class SettingsTestSuite(BaseTest):
         login.open()
         login.sign_in()
 
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
+
         settings.open()
         settings.change_avatar('avatar_wrong.txt')
         hint = settings.avatar_error_hint
@@ -120,6 +139,8 @@ class SettingsTestSuite(BaseTest):
 
         login.open()
         login.sign_in()
+
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
 
         settings.open()
         settings.change_avatar('heavy_image.jpg')
