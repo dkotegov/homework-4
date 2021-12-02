@@ -4,57 +4,37 @@
 import sys
 import unittest
 from dotenv import load_dotenv
-from tests.actor.click_on_movie_name_test import ClickOnMovieNameTest
-from tests.actor.click_on_movie_test import ClickOnMovieTest as ClickOnMovieTestActor
-from tests.favourites.click_on_movie_test import ClickOnMovieTest as ClickOnMovieTestFavourites
-from tests.favourites.not_opened_test import NotOpenedTest
-from tests.favourites.only_added_movies_test import OnlyAddedMoviesTest
-from tests.player.not_opened_test import NotOpenedTest
-from tests.player.close_fullscreen_test import CloseFullscreenTest
-from tests.player.closed_test import ClosedTest
-from tests.player.esc_to_part_screen_test import EscToPartScreenTest
-from tests.movies.click_on_movie_test import ClickOnMovieTest
-from tests.movies.click_on_genre_test import ClickOnGenreTest as ClickOnMovieGenreTest
-from tests.series.click_on_genre_test import ClickOnGenreTest
-from tests.series.click_on_series_test import ClickOnSeriesTest
-from tests.login.login_test import LoginTest
-from tests.navbar.logout_test import LogoutTest
-from tests.navbar.go_to_profile_test import GoToProfileTest
-from tests.navbar.go_to_favourites_test import GoToFavouritesTest
-from tests.details.tests_without_auth.transit_to_auth_page_test import TransitToAuthTest
-from tests.details.tests_without_auth.click_on_actor_name_test import ClickOnActorNameTest
-from tests.details.tests_with_auth.transit_to_profile_page_test import TransitToProfileTest
-from tests.details.tests_with_auth.details_buttons_tests import OpenPlayerTest, AddToFavouritesTest, \
-    RemoveFromFavouritesTest, LikeMovieTest, DislikeMovieTest
-from tests.profile.click_on_sub_btn import ClickOnSubscriptionBtnTest
-from tests.profile.change_to_invalid_avatar_test import ChangeToInvalidAvatarTest
-from tests.profile.correct_update_profile_tests import ChangeToValidAvatarTest, ChangeToValidEmailTest, \
-    ChangeToValidLoginTest, ChangeToValidLoginAndEmailTest
-from tests.profile.error_update_profile_tests import ChangeToInvalidLoginTest, ChangeToEmptyLoginTest, \
+from tests.actor_test import ClickOnMovieNameTest
+from tests.favourites_test import ClickOnMovieTest as ClickOnMovieTestFavourites, OnlyAddedMoviesTest
+from tests.player_test import NotOpenedTest, ClosedTest
+
+from tests.movies_test import ClickOnMovieTest, ClickOnMovieGenreTest
+
+from tests.series_test import ClickOnGenreTest, ClickOnSeriesTest
+
+from tests.navbar_test import LogoutTest, GoToProfileTest, GoToFavouritesTest
+
+from tests.details_test import TransitToAuthTest, ClickOnActorNameTest, TransitToProfileTest, OpenPlayerTest, \
+    AddToFavouritesTest, RemoveFromFavouritesTest, LikeMovieTest, DislikeMovieTest
+
+from tests.profile_test import ClickOnSubscriptionBtnTest, ChangeToValidAvatarTest, ChangeToValidEmailTest, \
+    ChangeToValidLoginTest, ChangeToValidLoginAndEmailTest, ChangeToInvalidLoginTest, ChangeToEmptyLoginTest, \
     ChangeToInvalidEmailTest, ChangeToEmptyEmailTest, ChangeToInvalidEmailAndLoginTest, \
     ChangeToInvalidLoginAndValidEmailTest
-from tests.signup.transit_to_login_page_test import TransitToLoginPageTest
-from tests.signup.signup_with_errors_test import SignUpWithEmptyFieldsTest, SignUpWithInvalidLoginTest, \
+
+from tests.signup_test import TransitToLoginPageTest, SignUpWithEmptyFieldsTest, SignUpWithInvalidLoginTest, \
     SignUpWithNumericLoginTest, SignUpWithInvalidEmailTest, SignUpWithSmallPasswordTest, SignUpWithLetterLoginTest, \
     SignUpWithBigPasswordTest, SignUpWithDifferentPasswordsTest, SignUpWithAllInvalidFieldsTest, \
     SignUpAlreadySignupedTest
-from tests.signup.signup_test import SignUpTest
-from tests.search_popup.close_popup_test import ClosePopupTest
-from tests.search_popup.enter_letter_test import EnterLetterTest
-from tests.search_popup.find_movie_test import FindMovieTest
-from tests.search_popup.find_actor_test import FindActorTest
 
-from tests.login.empty_fields_login_test import EmptyFieldsLoginTest
-from tests.login.go_to_signup_test import GoToSignupTest
-from tests.login.invalid_email_login_test import InvalidEmailLoginTest
+from tests.search_popup_test import ClosePopupTest, EnterLetterTest, FindMovieTest, FindActorTest
 
-from tests.navbar.go_to_movies_test import GoToMoviesTest
-from tests.navbar.go_to_series_test import GoToSeriesTest
-from tests.navbar.go_to_main_test import GoToMainTest
+from tests.login_test import EmptyFieldsLoginTest, GoToSignupTest, InvalidEmailLoginTest, LoginTest
 
-from tests.main.horizontal_scroll_tests import HorizontalScrollRightTest, HorizontalScrollLeftTest
-from tests.main.click_on_card_test import ClickOnCardTest
-from tests.main.click_on_watch_button_test import ClickOnWatchButtonTest
+from tests.navbar_test import GoToMoviesTest, GoToSeriesTest, GoToMainTest
+
+from tests.main_test import HorizontalScrollRightTest, HorizontalScrollLeftTest, ClickOnCardTest, \
+    ClickOnWatchButtonTest
 
 if __name__ == '__main__':
     load_dotenv()
@@ -122,7 +102,7 @@ if __name__ == '__main__':
         unittest.makeSuite(SignUpWithDifferentPasswordsTest),
         unittest.makeSuite(SignUpWithAllInvalidFieldsTest),
         unittest.makeSuite(SignUpAlreadySignupedTest),
-        # unittest.makeSuite(SignUpTest), # work once
+        # unittest.makeSuite(SignUpTest), # работет, но активируем, когда будет сделано удаление аккаунта
 
         # search popup
         unittest.makeSuite(ClosePopupTest),
@@ -131,8 +111,8 @@ if __name__ == '__main__':
         unittest.makeSuite(FindActorTest),
 
         # actor
+        unittest.makeSuite(ClickOnMovieTest),
         unittest.makeSuite(ClickOnMovieNameTest),
-        unittest.makeSuite(ClickOnMovieTestActor),
 
         # favourites
         unittest.makeSuite(ClickOnMovieTestFavourites),
@@ -140,9 +120,9 @@ if __name__ == '__main__':
         unittest.makeSuite(OnlyAddedMoviesTest),
 
         # player
-        # unittest.makeSuite(CloseFullscreenTest), bug
+        # unittest.makeSuite(CloseFullscreenTest) # баг, починим в таска RED-...
         unittest.makeSuite(ClosedTest),
-        # unittest.makeSuite(EscToPartScreenTest), bug
+        # unittest.makeSuite(EscToPartScreenTest) # баг, починим в таска RED-...
         unittest.makeSuite(NotOpenedTest),
 
     ))

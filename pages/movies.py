@@ -20,7 +20,7 @@ class MoviesPage(Page):
         wait_click_for_element_by_selector(self.driver, self.FIRST_GENRE_CARD)
 
     def get_name_of_first_genre(self):
-        return wait_click_for_element_by_selector(self.driver, self.FIRST_GENRE_CARD).get_attribute(self.GENRE_NAME)
+        return wait_for_element_by_selector(self.driver, self.FIRST_GENRE_CARD).get_attribute(self.GENRE_NAME)
 
     def click_on_first_movie(self):
         wait_click_for_element_by_selector(self.driver, self.FIRST_MOVIE_CARD)

@@ -1,9 +1,46 @@
 import os
 
-import constants
 from pages.signup import SignupPage
+from pages.profile import ProfilePage
+from pages.main import MainPage
+from pages.login import LoginPage
 from components.signup_form import SignupForm
+from components.profile_form import ProfileForm
 from tests.default import Test
+import constants
+
+
+class SignUpTest(Test):
+    VALID_LOGIN = constants.VALID_SIGNUP_LOGIN
+    VALID_EMAIL = constants.VALID_SIGNUP_EMAIL
+
+    def test(self):
+        signup_page = SignupPage(self.driver)
+        signup_page.open()
+
+        signup_form = SignupForm(self.driver)
+        signup_form.set_login(self.VALID_LOGIN)
+        signup_form.set_email(self.VALID_EMAIL)
+        signup_form.set_password(os.environ['PASSWORD'])
+        signup_form.set_confirm_password(os.environ['PASSWORD'])
+        signup_form.submit()
+
+        main_page = MainPage(self.driver)
+        main_page.wait_for_container()
+
+        profile_page = ProfilePage(self.driver)
+        profile_form = ProfileForm(self.driver)
+        profile_page.open()
+
+        self.assertEqual(
+            self.VALID_EMAIL,
+            profile_form.get_email()
+        )
+
+        self.assertEqual(
+            self.VALID_LOGIN,
+            profile_form.get_login()
+        )
 
 
 class SignUpWithEmptyFieldsTest(Test):
@@ -36,8 +73,8 @@ class SignUpWithEmptyFieldsTest(Test):
 
 
 class SignUpWithInvalidLoginTest(Test):
-    INVALID_LOGIN = 'Никитосич'
-    VALID_EMAIL = 'newemail@mail.ru'
+    INVALID_LOGIN = constants.INVALID_CYRILIC_SIGNUP_LOGIN
+    VALID_EMAIL = constants.VALID_SIGNUP_EMAIL
 
     def test(self):
         signup_page = SignupPage(self.driver)
@@ -57,8 +94,8 @@ class SignUpWithInvalidLoginTest(Test):
 
 
 class SignUpWithNumericLoginTest(Test):
-    INVALID_LOGIN = '1234'
-    VALID_EMAIL = 'newemail@mail.ru'
+    INVALID_LOGIN = constants.INVALID_NUMERIC_SIGNUP_LOGIN
+    VALID_EMAIL = constants.VALID_SIGNUP_EMAIL
 
     def test(self):
         signup_page = SignupPage(self.driver)
@@ -78,7 +115,7 @@ class SignUpWithNumericLoginTest(Test):
 
 
 class SignUpWithLetterLoginTest(Test):
-    INVALID_LOGIN = 'q'
+    INVALID_LOGIN = constants.INVALID_LETTER_SIGNUP_LOGIN
     VALID_EMAIL = 'newemail@mail.ru'
 
     def test(self):
@@ -99,8 +136,8 @@ class SignUpWithLetterLoginTest(Test):
 
 
 class SignUpWithInvalidEmailTest(Test):
-    VALID_LOGIN = 'qwerrt123'
-    INVALID_EMAIL = 'newem$$ail@mail.ru'
+    VALID_LOGIN = constants.VALID_SIGNUP_LOGIN
+    INVALID_EMAIL = constants.INVALID_SIGNUP_EMAIL
 
     def test(self):
         signup_page = SignupPage(self.driver)
@@ -120,9 +157,9 @@ class SignUpWithInvalidEmailTest(Test):
 
 
 class SignUpWithSmallPasswordTest(Test):
-    VALID_LOGIN = 'qwerrt123'
-    VALID_EMAIL = 'newemail@mail.ru'
-    SMALL_PASSWORD = 'small'
+    VALID_LOGIN = constants.VALID_SIGNUP_LOGIN
+    VALID_EMAIL = constants.VALID_SIGNUP_EMAIL
+    SMALL_PASSWORD = constants.SMALL_SIGNUP_PASSWORD
 
     def test(self):
         signup_page = SignupPage(self.driver)
@@ -142,9 +179,9 @@ class SignUpWithSmallPasswordTest(Test):
 
 
 class SignUpWithBigPasswordTest(Test):
-    VALID_LOGIN = 'newlogin'
-    VALID_EMAIL = 'newemail@mail.ru'
-    BIG_PASSWORD = 'qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm'
+    VALID_LOGIN = constants.VALID_SIGNUP_LOGIN
+    VALID_EMAIL = constants.VALID_SIGNUP_EMAIL
+    BIG_PASSWORD = constants.BIG_SIGNUP_PASSWORD
 
     def test(self):
         signup_page = SignupPage(self.driver)
@@ -164,10 +201,10 @@ class SignUpWithBigPasswordTest(Test):
 
 
 class SignUpWithDifferentPasswordsTest(Test):
-    VALID_LOGIN = 'newlogin'
-    VALID_EMAIL = 'newemail@mail.ru'
-    PASSWORD = 'qwerty123'
-    CONFIRM_PASSWORD = 'qwerty1234'
+    VALID_LOGIN = constants.VALID_SIGNUP_LOGIN
+    VALID_EMAIL = constants.VALID_SIGNUP_EMAIL
+    PASSWORD = constants.SIGNUP_PASSWORD
+    CONFIRM_PASSWORD = constants.SIGNUP_CONFIRM_PASSWORD
 
     def test(self):
         signup_page = SignupPage(self.driver)
@@ -187,10 +224,10 @@ class SignUpWithDifferentPasswordsTest(Test):
 
 
 class SignUpWithAllInvalidFieldsTest(Test):
-    INVALID_LOGIN = 'newlogin@@'
-    INVALID_EMAIL = 'newemai$$l@mail.ru'
-    INVALID_PASSWORD = '1'
-    CONFIRM_INVALID_PASSWORD = '2'
+    INVALID_LOGIN = constants.INVALID_SIGNUP_LOGIN
+    INVALID_EMAIL = constants.INVALID_SIGNUP_EMAIL
+    INVALID_PASSWORD = constants.INVALID_SIGNUP_PASSWORD
+    CONFIRM_INVALID_PASSWORD = constants.CONFIRM_INVALID_SIGNUP_PASSWORD
 
     def test(self):
         signup_page = SignupPage(self.driver)
@@ -210,7 +247,7 @@ class SignUpWithAllInvalidFieldsTest(Test):
 
 
 class SignUpAlreadySignupedTest(Test):
-    VALID_LOGIN = 'newlogin'
+    VALID_LOGIN = constants.VALID_SIGNUP_LOGIN
 
     def test(self):
         signup_page = SignupPage(self.driver)
@@ -228,3 +265,18 @@ class SignUpAlreadySignupedTest(Test):
             self.driver.current_url
         )
 
+
+class TransitToLoginPageTest(Test):
+    def test(self):
+        signup_page = SignupPage(self.driver)
+        signup_page.open()
+
+        signup_page.click_on_login_page_link()
+
+        login_page = LoginPage(self.driver)
+        title_of_page = login_page.get_title_of_page()
+
+        self.assertEqual(
+            title_of_page,
+            constants.TITLE_OF_LOGIN_PAGE
+        )

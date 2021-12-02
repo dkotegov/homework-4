@@ -4,6 +4,7 @@ import utils
 from pages.default import Page
 from pages.main import MainPage
 from components.login_form import LoginForm
+from selenium.common.exceptions import TimeoutException
 
 
 class LoginPage(Page):
@@ -17,8 +18,8 @@ class LoginPage(Page):
     def auth(self):
         self.open()
         form = LoginForm(self.driver)
-        form.set_login(os.environ['LOGIN'])
-        form.set_password(os.environ['PASSWORD'])
+        form.set_login(os.environ.get('LOGIN'))
+        form.set_password(os.environ.get('PASSWORD'))
         form.submit()
         main_page = MainPage(self.driver)
         main_page.wait_for_container()
@@ -42,7 +43,10 @@ class LoginPage(Page):
         form.submit()
 
     def has_email_error(self):
-        utils.wait_for_element_by_selector(self.driver, self.EMAIL_ERROR)
+        try:
+            utils.wait_for_element_by_selector(self.driver, self.EMAIL_ERROR)
+        except TimeoutException:
+            return False
         return True
 
     def has_password_error(self):

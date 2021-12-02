@@ -4,10 +4,45 @@ from selenium.webdriver import DesiredCapabilities, Remote
 
 from pages.details import DetailsPage
 from pages.favourites import FavouritesPage
+from pages.profile import ProfilePage
+from pages.actor import ActorPage
 from tests.default_authorized import TestAuthorized
+from tests.default import Test
 
 import constants
 from pages.login import LoginPage
+
+
+class ClickOnActorNameTest(Test):
+    def test(self):
+        details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)
+        details_page.open()
+
+        actor_name = details_page.get_name_of_last_actor()
+        details_page.click_on_last_actor()
+
+        actor_page = ActorPage(self.driver, constants.ID_OF_ACTOR)
+
+        self.assertEqual(
+            actor_name,
+            actor_page.get_name_of_actor()
+        )
+
+
+class TransitToAuthTest(Test):
+    def test(self):
+        details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)
+        details_page.open()
+
+        details_page.transit_by_stub()
+
+        login_page = LoginPage(self.driver)
+        title_of_page = login_page.get_title_of_page()
+
+        self.assertEqual(
+            title_of_page,
+            constants.TITLE_OF_LOGIN_PAGE
+        )
 
 
 class OpenPlayerTest(TestAuthorized):
@@ -18,6 +53,22 @@ class OpenPlayerTest(TestAuthorized):
         details_page.open_player()
 
         self.assertTrue(details_page.is_player_opened())
+
+
+class TransitToProfileTest(TestAuthorized):
+    def test(self):
+        details_page = DetailsPage(self.driver, constants.ID_OF_PAID_MOVIE)
+        details_page.open()
+
+        details_page.transit_by_stub()
+
+        profile_page = ProfilePage(self.driver)
+        title_of_page = profile_page.get_title_of_page()
+
+        self.assertEqual(
+            title_of_page,
+            constants.TITLE_OF_PROFILE_PAGE
+        )
 
 
 class AddToFavouritesTest(TestAuthorized):
@@ -76,14 +127,7 @@ class LikeMovieTest(TestAuthorized):
     is_disliked = False
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
-        auth_page = LoginPage(self.driver)
-        auth_page.open()
-        auth_page.auth()
+        super().setUp()
 
         details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)
         details_page.open()
@@ -121,14 +165,7 @@ class DislikeMovieTest(TestAuthorized):
     is_disliked = False
 
     def setUp(self):
-        browser = os.environ.get('BROWSER', 'CHROME')
-        self.driver = Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=getattr(DesiredCapabilities, browser).copy()
-        )
-        auth_page = LoginPage(self.driver)
-        auth_page.open()
-        auth_page.auth()
+        super().setUp()
 
         details_page = DetailsPage(self.driver, constants.ID_OF_MOVIE)
         details_page.open()

@@ -1,10 +1,11 @@
 import urllib.parse
 
+import constants
 from components.navbar import NavBar
 
 
 class Page(object):
-    BASE_URL = 'https://redioteka.com/'
+    BASE_URL = constants.REDIOTEKA_BASE_URL
     PATH = ''
 
     def __init__(self, driver):
