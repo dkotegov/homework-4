@@ -22,6 +22,22 @@ class ProfileTestSuite(BaseTest):
     #     self.assertEqual(len(new_playlists) - len(old_playlists), 1)
     #     self.assertEqual(new_playlists[-1], playlist_name.upper())
 
+    def test_cancel_create_playlist(self):
+        login = LoginPage(self.driver)
+        profile = ProfilePage(self.driver)
+
+        login.open()
+        login.sign_in()
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
+
+        profile.open()
+        playlist_name = 'New Playlist'
+        old_len = len(profile.playlists)
+        profile.cancel_create_playlist(playlist_name)
+
+        self.assertEqual(len(profile.playlists), old_len)
+        self.assertFalse(if_element_exists(self.driver, profile.create_playlist_form))
+
     def test_no_follow_for_unauthorized(self):
         profile = ProfilePage(self.driver, 'IlyaAfimin')
 
@@ -60,6 +76,7 @@ class ProfileTestSuite(BaseTest):
         wait_for_visible(self.driver, login.USER_NAME_HEADER)
 
         profile.open()
+        old_followers = profile.followers
         profile.toggle_follow()
         try:
             self.assertEqual(profile.follow_button.text.lower(), 'отписаться')
@@ -69,9 +86,6 @@ class ProfileTestSuite(BaseTest):
 
         new_followers = profile.followers
         profile.toggle_follow()
-        old_followers = profile.followers
 
         self.assertEqual(profile.follow_button.text.lower(), 'подписаться')
         self.assertEqual(new_followers - old_followers, 1)
-
-    # TODO: отмена создания плейлиста, "Просмотрено", "Рецензий"

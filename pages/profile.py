@@ -29,6 +29,10 @@ class ProfilePage(DefaultPage):
         return self.playlists_list_component.get_playlists()
 
     @property
+    def create_playlist_form(self):
+        return self.create_playlist_component.CREATE_PLAYLIST_INPUT
+
+    @property
     def avatar_img_src(self):
         wait_for_visible(self.driver, self.AVATAR_IMG)
         return self.driver.find_elements_by_css_selector(self.AVATAR_IMG)[0].get_attribute('src')
@@ -38,6 +42,11 @@ class ProfilePage(DefaultPage):
         self.create_playlist_component.fill_create_playlist_input(playlist_name)
         self.create_playlist_component.submit_create_playlist()
 
+    def cancel_create_playlist(self, playlist_name):
+        self.create_playlist_component.start_create_playlist()
+        self.create_playlist_component.fill_create_playlist_input(playlist_name)
+        self.create_playlist_component.cancel_create_playlist()
+
     def toggle_follow(self):
         self.follow_button.click()
 
@@ -46,6 +55,7 @@ class CreatePlaylist(Component):
     CREATE_PLAYLIST_BUTTON = '#create-playlist-button'
     CREATE_PLAYLIST_INPUT = '#input-create-playlist'
     CREATE_PLAYLIST_SUBMIT = '#submit-create-playlist'
+    CREATE_PLAYLIST_CANCEL = '#cancel-create-playlist'
 
     def start_create_playlist(self):
         wait_for_visible(self.driver, self.CREATE_PLAYLIST_BUTTON)
@@ -59,6 +69,10 @@ class CreatePlaylist(Component):
     def submit_create_playlist(self):
         wait_for_visible(self.driver, self.CREATE_PLAYLIST_SUBMIT)
         self.driver.find_element_by_css_selector(self.CREATE_PLAYLIST_SUBMIT).click()
+
+    def cancel_create_playlist(self):
+        wait_for_visible(self.driver, self.CREATE_PLAYLIST_CANCEL)
+        self.driver.find_element_by_css_selector(self.CREATE_PLAYLIST_CANCEL).click()
 
 
 class PlaylistsList(Component):
