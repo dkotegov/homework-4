@@ -1,5 +1,6 @@
-from pages.default import DefaultPage
-from utils.helpers import wait_for_visible
+from pages.default import DefaultPage, Component
+from utils.helpers import wait_for_visible, if_element_exists
+from selenium.webdriver.support.ui import Select
 
 
 class MoviePage(DefaultPage):
@@ -11,6 +12,7 @@ class MoviePage(DefaultPage):
 
     def __init__(self, driver, movie_id):
         super().__init__(driver, f'/movie/{movie_id}')
+        self.review_box = ReviewBox(self.driver)
 
     def get_first_reviewer_username(self):
         wait_for_visible(self.driver, self.REVIEW_USER_LINK)
@@ -42,3 +44,49 @@ class MoviePage(DefaultPage):
     def delete_rating(self):
         wait_for_visible(self.driver, self.DELETE_RATING)
         self.driver.find_element_by_css_selector(self.DELETE_RATING).click()
+
+
+class ReviewBox(Component):
+    REVIEW_CONTAINER = '#user-review-container'
+    REVIEW_VALIDATION_HINT = '#validation-hint-review'
+    REVIEW_HEADING_INPUT = '#review-heading-input'
+    REVIEW_TEXT_INPUT = '#review-text-input'
+    REVIEW_TYPE_SELECT = '#select-type'
+    SUBMIT_REVIEW = '#review-button'
+    EDIT_REVIEW = '#edit-button'
+    DELETE_REVIEW = '#delete-button'
+
+    @property
+    def validation_hint(self):
+        wait_for_visible(self.driver, self.REVIEW_VALIDATION_HINT)
+        return self.driver.find_element_by_css_selector(self.REVIEW_VALIDATION_HINT).text
+
+    def if_review_container_exists(self):
+        return if_element_exists(self.driver, self.REVIEW_CONTAINER)
+
+    def fill_review(self, title, content, review_type):
+        self.fill_review_title(title)
+        self.fill_review_content(content)
+        self.select_review_type(review_type)
+
+    def submit_review(self):
+        wait_for_visible(self.driver, self.SUBMIT_REVIEW)
+        self.driver.find_element_by_css_selector(self.SUBMIT_REVIEW).click()
+
+    def fill_review_title(self, title):
+        wait_for_visible(self.driver, self.REVIEW_HEADING_INPUT)
+        self.driver.find_element_by_css_selector(self.REVIEW_HEADING_INPUT).send_keys(title)
+
+    def fill_review_content(self, content):
+        wait_for_visible(self.driver, self.REVIEW_TEXT_INPUT)
+        self.driver.find_element_by_css_selector(self.REVIEW_TEXT_INPUT).send_keys(content)
+
+    def select_review_type(self, review_type):
+        wait_for_visible(self.driver, self.REVIEW_TYPE_SELECT)
+        select = Select(self.driver.find_element_by_css_selector(self.REVIEW_TYPE_SELECT))
+        if review_type:
+            select.select_by_value(review_type)
+
+    def delete_review(self):
+        wait_for_visible(self.driver, self.DELETE_REVIEW)
+        self.driver.find_element_by_css_selector(self.DELETE_REVIEW).click()
