@@ -12,6 +12,10 @@ class MainPage(DefaultPage):
     MOVIE_RATING = '.right__movie-rating'
     MOVIE_CARD_TITLE = '.center__movie-link'
     MOVIE_CARD_POSTER = '.movie-card-img'
+    SEARCH_INPUT = '#search-input'
+    SEARCH_BUTTON = '#search-button'
+    SEARCH_CARD_ITEM_TYPE = '.search-card__item-type'
+    SEARCH_CARD_TEXT = '.search-card__link'
 
     def __init__(self, driver):
         super().__init__(driver, '/')
@@ -64,3 +68,16 @@ class MainPage(DefaultPage):
         wait_for_visible(self.driver, self.MOVIE_CARD_POSTER)
         self.driver.find_element_by_css_selector(self.MOVIE_CARD_POSTER).click()
         wait_for_visible(self.driver, self.MOVIE_TITLE)
+
+    def search(self, query):
+        wait_for_visible(self.driver, self.SEARCH_INPUT)
+        self.driver.find_element_by_css_selector(self.SEARCH_INPUT).send_keys(query)
+        self.driver.find_element_by_css_selector(self.SEARCH_BUTTON).click()
+
+    def get_first_search_card_item_type(self):
+        wait_for_visible(self.driver, self.SEARCH_CARD_ITEM_TYPE)
+        return self.driver.find_element_by_css_selector(self.SEARCH_CARD_ITEM_TYPE).text
+
+    def get_first_search_card_content(self):
+        wait_for_visible(self.driver, self.SEARCH_CARD_TEXT)
+        return self.driver.find_element_by_css_selector(self.SEARCH_CARD_TEXT).text
