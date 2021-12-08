@@ -29,6 +29,10 @@ class MoviePage(DefaultPage):
         wait_for_visible(self.driver, self.MOVIE_RATING)
         return self.driver.find_element_by_css_selector(self.MOVIE_RATING).text
 
+    @staticmethod
+    def rating_to_int(movie_rating_text):
+        return int(movie_rating_text.split()[2].split('/')[0])
+
     def rate_movie(self, rating):
         selector = self.RATING_STAR.format(rating)
         wait_for_visible(self.driver, selector)
