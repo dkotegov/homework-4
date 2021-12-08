@@ -19,10 +19,10 @@ class FeedTestSuite(BaseTest):
         feed = FeedPage(self.driver)
         feed.open()
         feed.reload()
-        username = feed.first_card_username.text
-        feed.go_to_profile_via_avatar()
 
         try:
+            username = feed.first_card_username.text
+            feed.go_to_profile_via_avatar()
             self.assertEqual(username, feed.username_from_profile)
         finally:
             profile.open()
@@ -41,10 +41,10 @@ class FeedTestSuite(BaseTest):
         feed = FeedPage(self.driver)
         feed.open()
         feed.reload()
-        username = feed.first_card_username.text
-        feed.go_to_profile_via_username()
 
         try:
+            username = feed.first_card_username.text
+            feed.go_to_profile_via_username()
             self.assertEqual(username, feed.username_from_profile)
         finally:
             profile.open()
@@ -62,10 +62,10 @@ class FeedTestSuite(BaseTest):
         feed = FeedPage(self.driver)
         feed.open()
         feed.reload()
-        movie_title = feed.first_card_movie_title
-        feed.go_to_movie_page()
 
         try:
+            movie_title = feed.first_card_movie_title
+            feed.go_to_movie_page()
             self.assertEqual(movie_title, feed.movie_title_from_page)
         finally:
             profile.open()

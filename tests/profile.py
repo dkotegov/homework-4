@@ -5,22 +5,22 @@ from tests.base import BaseTest
 
 
 class ProfileTestSuite(BaseTest):
-    # def test_create_playlist(self):
-    #     login = LoginPage(self.driver)
-    #     profile = ProfilePage(self.driver)
-    #
-    #     login.open()
-    #     login.sign_in()
-    #     wait_for_visible(self.driver, login.USER_NAME_HEADER)
-    #
-    #     profile.open()
-    #     playlist_name = 'New Playlist'
-    #     old_playlists = profile.playlists
-    #     profile.create_playlist(playlist_name)
-    #     new_playlists = profile.playlists
-    #
-    #     self.assertEqual(len(new_playlists) - len(old_playlists), 1)
-    #     self.assertEqual(new_playlists[-1], playlist_name.upper())
+    def test_create_playlist(self):
+        login = LoginPage(self.driver)
+        profile = ProfilePage(self.driver)
+
+        login.open()
+        login.sign_in()
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
+
+        profile.open()
+        playlist_name = 'New Playlist'
+        old_playlists = profile.playlists
+        profile.create_playlist(playlist_name)
+        new_playlists = profile.playlists
+
+        self.assertEqual(len(new_playlists) - len(old_playlists), 1)
+        self.assertEqual(new_playlists[-1], playlist_name.upper())
 
     def test_cancel_create_playlist(self):
         login = LoginPage(self.driver)

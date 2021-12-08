@@ -12,12 +12,12 @@ from tests.signup import SignupTestSuite
 
 def main():
     suite = unittest.TestSuite((
-        # unittest.makeSuite(LoginTestSuite),
-        # unittest.makeSuite(SignupTestSuite),
-        # unittest.makeSuite(ProfileTestSuite),
-        # unittest.makeSuite(FeedTestSuite),
-        # unittest.makeSuite(SettingsTestSuite),
-        # unittest.makeSuite(MainPageTestSuite),
+        unittest.makeSuite(LoginTestSuite),
+        unittest.makeSuite(SignupTestSuite),
+        unittest.makeSuite(ProfileTestSuite),
+        unittest.makeSuite(FeedTestSuite),
+        unittest.makeSuite(SettingsTestSuite),
+        unittest.makeSuite(MainPageTestSuite),
         unittest.makeSuite(MovieTestSuite)
     ))
     result = unittest.TextTestRunner().run(suite)
