@@ -49,7 +49,6 @@ class LoginTestSuite(BaseTest):
 
         self.assertEqual(environ.get('LOGIN', ''), login_page.get_username_from_profile())
 
-
     def test_transition_to_sign_up_from_form(self):
         page = LoginPage(self.driver)
 

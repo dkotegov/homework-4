@@ -4,6 +4,7 @@ import sys
 from tests.feed import FeedTestSuite
 from tests.login import LoginTestSuite
 from tests.main_page import MainPageTestSuite
+from tests.movie import MovieTestSuite
 from tests.profile import ProfileTestSuite
 from tests.settings import SettingsTestSuite
 from tests.signup import SignupTestSuite
@@ -16,7 +17,8 @@ def main():
         # unittest.makeSuite(ProfileTestSuite),
         # unittest.makeSuite(FeedTestSuite),
         # unittest.makeSuite(SettingsTestSuite),
-        unittest.makeSuite(MainPageTestSuite)
+        # unittest.makeSuite(MainPageTestSuite),
+        unittest.makeSuite(MovieTestSuite)
     ))
     result = unittest.TextTestRunner().run(suite)
     sys.exit(not result.wasSuccessful())
