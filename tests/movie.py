@@ -145,5 +145,39 @@ class MovieTestSuite(BaseTest):
         try:
             self.assertTrue(if_element_exists(self.driver, movie.review_box.EDIT_REVIEW))
             self.assertTrue(if_element_exists(self.driver, movie.review_box.DELETE_REVIEW))
+            self.assertEqual(movie.review_box.your_review_title, 'title')
+            self.assertEqual(movie.review_box.your_review_content, 'content')
+        finally:
+            movie.review_box.delete_review()
+
+    def test_edit_review(self):
+        login = LoginPage(self.driver)
+        login.open()
+        login.sign_in()
+        wait_for_visible(self.driver, login.USER_NAME_HEADER)
+
+        movie = MoviePage(self.driver, 26)
+        movie.open()
+        movie.review_box.fill_review('title', 'content', 'positive')
+        movie.review_box.submit_review()
+        wait_for_visible(self.driver, movie.review_box.EDIT_REVIEW)
+
+        try:
+            self.assertTrue(if_element_exists(self.driver, movie.review_box.EDIT_REVIEW))
+            self.assertTrue(if_element_exists(self.driver, movie.review_box.DELETE_REVIEW))
+            self.assertEqual(movie.review_box.your_review_title, 'title')
+            self.assertEqual(movie.review_box.your_review_content, 'content')
+        except:
+            movie.review_box.delete_review()
+
+        movie.review_box.edit_review(' 1', ' new', 'negative')
+        movie.review_box.submit_review()
+        wait_for_visible(self.driver, movie.review_box.EDIT_REVIEW)
+
+        try:
+            self.assertTrue(if_element_exists(self.driver, movie.review_box.EDIT_REVIEW))
+            self.assertTrue(if_element_exists(self.driver, movie.review_box.DELETE_REVIEW))
+            self.assertEqual(movie.review_box.your_review_title, 'title 1')
+            self.assertEqual(movie.review_box.your_review_content, 'content new')
         finally:
             movie.review_box.delete_review()

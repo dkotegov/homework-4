@@ -55,16 +55,35 @@ class ReviewBox(Component):
     SUBMIT_REVIEW = '#review-button'
     EDIT_REVIEW = '#edit-button'
     DELETE_REVIEW = '#delete-button'
+    YOUR_REVIEW_TITLE = '.your-review__review-body .review-body__title'
+    YOUR_REVIEW_CONTENT = '.your-review__review-body .review-body__content'
 
     @property
     def validation_hint(self):
         wait_for_visible(self.driver, self.REVIEW_VALIDATION_HINT)
         return self.driver.find_element_by_css_selector(self.REVIEW_VALIDATION_HINT).text
 
+    @property
+    def your_review_title(self):
+        wait_for_visible(self.driver, self.YOUR_REVIEW_TITLE)
+        return self.driver.find_element_by_css_selector(self.YOUR_REVIEW_TITLE).text
+
+    @property
+    def your_review_content(self):
+        wait_for_visible(self.driver, self.YOUR_REVIEW_CONTENT)
+        return self.driver.find_element_by_css_selector(self.YOUR_REVIEW_CONTENT).text
+
     def if_review_container_exists(self):
         return if_element_exists(self.driver, self.REVIEW_CONTAINER)
 
     def fill_review(self, title, content, review_type):
+        self.fill_review_title(title)
+        self.fill_review_content(content)
+        self.select_review_type(review_type)
+
+    def edit_review(self, title, content, review_type):
+        wait_for_visible(self.driver, self.EDIT_REVIEW)
+        self.driver.find_element_by_css_selector(self.EDIT_REVIEW).click()
         self.fill_review_title(title)
         self.fill_review_content(content)
         self.select_review_type(review_type)
